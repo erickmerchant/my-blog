@@ -1,7 +1,6 @@
 'use strict';
 
 var gulp = require('gulp');
-var chalk = require('chalk');
 var gulputil = require('gulp-util');
 var sass = require('gulp-sass');
 var concat = require('gulp-concat');
