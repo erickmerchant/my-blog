@@ -1,0 +1,26 @@
+host: http://erickmerchant.com
+author: Erick Merchant
+banner: Erick Merchant
+sub_banner: On Development
+menu:
+    -
+        -
+            text: Home
+            icon: home
+            url: /
+    -
+        -
+            text: GitHub
+            icon: github
+            url: http://github.com/erickmerchant/
+            target: _blank
+        -
+            text: Twitter
+            icon: twitter
+            url: http://twitter.com/erickmerchant/
+            target: _blank
+css:
+    - "http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700"
+    - /assets/site.css
+js:
+    - /assets/site.js

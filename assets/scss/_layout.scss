@@ -1,0 +1,64 @@
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Basic Application Layout
+//
+///////////////////////////////////////////////////////////////////////////////
+
+body {
+    margin: 0;
+}
+
+// [role="banner"] {
+//
+//   @include media($full-view) {
+//
+//       > div {
+//           max-width: em(960 / 4.5 * 1.5);
+//           margin: 0 auto;
+//       }
+//   }
+// }
+
+.content {
+
+    @include outer-container;
+    @include pad(.5em);
+
+    > div {
+      @include row(block, RTL);
+    }
+}
+
+[role="main"] {
+    margin-top: 0.5em;
+}
+
+@include media($full-view) {
+
+    [role="main"], [role="navigation"] {
+        margin-top: 0.5em;
+    }
+
+    [role="navigation"] {
+        @include span-columns(4);
+    }
+
+    [role="main"] {
+
+        @include span-columns(8);
+    }
+
+    [role="contentinfo"] {
+
+        @include span-columns(12);
+    }
+
+    [role="main"], [role="contentinfo"] {
+        @include omega();
+
+        > * {
+            margin-left: $base-border-radius;
+            margin-right: $base-border-radius;
+        }
+    }
+}

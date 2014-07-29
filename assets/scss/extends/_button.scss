@@ -1,0 +1,55 @@
+%button {
+  display: inline-block;
+  padding: 0.3666em 1.1em;
+  margin-bottom: 0;
+  font-size: $base-font-size;
+  line-height: $base-line-height;
+  text-align: center;
+  vertical-align: middle;
+  background: darken(#fCFCFC, 7%);
+  border: 1px solid darken($base-border-color, 7%);
+  border-bottom-color: darken($base-border-color, 17%);
+  border-radius: $base-border-radius;
+  color: $base-font-color;
+  text-shadow: 0 1px 1px rgba(255,255,255,.75);
+
+  // Hover/focus state
+  &:hover:not(:disabled),
+  &:focus:not(:disabled) {
+    color: $base-font-color;
+    text-decoration: none;
+    @include transition(background-position 0.1s linear);
+  }
+
+  &:active:not(:disabled) {
+    color: $base-font-color;
+    outline: 0;
+  }
+
+  cursor: pointer;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);
+
+  &:active {
+    box-shadow: inset 0 1px 2px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05);
+  }
+
+  &:focus {
+    outline: thin dotted #333;
+  }
+}
+
+%button-disabled {
+  @extend %button;
+
+  cursor: default;
+  opacity: 0.7;
+  box-shadow: none;
+
+  &:active {
+    box-shadow: none;
+  }
+
+  &:focus {
+    outline: 0;
+  }
+}
