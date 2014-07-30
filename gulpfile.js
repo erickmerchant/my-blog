@@ -18,7 +18,13 @@ var imageresize = require('gulp-image-resize');
 var tap = require('gulp-tap');
 var Q = require('q');
 
-gulp.task('default', ['base', 'scss', 'images', 'js', 'geomicons-sprite', 'geomicons-defs', 'site', 'uncss', 'htmlmin']);
+var default_deps = ['base', 'scss', 'images', 'js', 'geomicons-sprite', 'geomicons-defs', 'site'];
+
+if(!gulputil.env.dev) {
+    default_deps.push('uncss', 'htmlmin');
+}
+
+gulp.task('default', default_deps);
 
 gulp.task('base', function(){
 
@@ -59,9 +65,14 @@ gulp.task('js', function () {
             'assets/js/ender.min.js',
             'assets/js/site.js'
         ])
-        .pipe(concat("site.js"))
-        .pipe(uglify({preserveComments: 'some'}))
-        .pipe(gulp.dest('site/assets'));
+        .pipe(concat("site.js"));
+
+    if(!gulputil.env.dev) {
+
+        stream.pipe(uglify({preserveComments: 'some'}))
+    }
+
+    stream.pipe(gulp.dest('site/assets'));
 
     return stream;
 });
