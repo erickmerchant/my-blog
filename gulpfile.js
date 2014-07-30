@@ -188,25 +188,23 @@ gulp.task('uncss', ['htmlmin', 'scss'], function (cb) {
 
 });
 
-gulp.task('watch', function () {
+gulp.task('watch', ['uncss'], function () {
+
+    gulp.watch('base/**', ['base']);
+    gulp.watch('content/uploads/*.jpg', ['images']);
+    gulp.watch('assets/js/**.js', ['js']);
+    gulp.watch('assets/geomicons/**/**.svg', ['geomicons-sprite', 'geomicons-defs']);
 
     if(!gulputil.env.dev) {
-        
-        gulp.watch('base/**', ['base']);
+
         gulp.watch('assets/scss/**.scss', ['scss', 'uncss']);
-        gulp.watch('content/uploads/*.jpg', ['images']);
-        gulp.watch('assets/js/**.js', ['js']);
-        gulp.watch('assets/geomicons/**/**.svg', ['geomicons-sprite', 'geomicons-defs']);
         gulp.watch('templates/**/**.html', ['site', 'htmlmin', 'uncss']);
         gulp.watch('content/**', ['site', 'htmlmin', 'uncss']);
+
     }
     else {
 
-        gulp.watch('base/**', ['base']);
         gulp.watch('assets/scss/**.scss', ['scss']);
-        gulp.watch('content/uploads/*.jpg', ['images']);
-        gulp.watch('assets/js/**.js', ['js']);
-        gulp.watch('assets/geomicons/**/**.svg', ['geomicons-sprite', 'geomicons-defs']);
         gulp.watch('templates/**/**.html', ['site']);
         gulp.watch('content/**', ['site']);
     }
