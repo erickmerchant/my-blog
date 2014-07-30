@@ -139,7 +139,7 @@ gulp.task('site', function(cb){
 
     site.before(defaults(site, './content/defaults.yml'));
 
-    return site.run();
+    return site.build();
 });
 
 gulp.task('htmlmin', ['site'], function () {
