@@ -18,13 +18,19 @@ var imageresize = require('gulp-image-resize');
 var tap = require('gulp-tap');
 var Q = require('q');
 
-var default_deps = ['base', 'scss', 'images', 'js', 'geomicons-sprite', 'geomicons-defs', 'site'];
+var default_task_deps = ['base', 'scss', 'images', 'js', 'geomicons-sprite', 'geomicons-defs', 'site'];
 
 if(!gulputil.env.dev) {
-    default_deps.push('uncss', 'htmlmin');
+
+    default_task_deps.push('uncss', 'htmlmin');
 }
 
-gulp.task('default', default_deps);
+if(gulputil.env.watch) {
+
+    default_task_deps.push('watch');
+}
+
+gulp.task('default', default_task_deps);
 
 gulp.task('base', function(){
 
@@ -182,14 +188,26 @@ gulp.task('uncss', ['htmlmin', 'scss'], function (cb) {
 
 });
 
-// if(gulputil.env.watch) {
-//
-//     default_task_deps.push('watch');
-// }
-//
-// gulp.task('watch', function () {
-//
-//     gulp.watch('assets/scss/**', ['scss']);
-//     gulp.watch('assets/geomicons/*.svg', ['geomicons-sprite', 'geomicons-defs']);
-//     gulp.watch('assets/js/**', ['js']);
-// });
+gulp.task('watch', function () {
+
+    if(!gulputil.env.dev) {
+        
+        gulp.watch('base/**', ['base']);
+        gulp.watch('assets/scss/**.scss', ['scss', 'uncss']);
+        gulp.watch('content/uploads/*.jpg', ['images']);
+        gulp.watch('assets/js/**.js', ['js']);
+        gulp.watch('assets/geomicons/**/**.svg', ['geomicons-sprite', 'geomicons-defs']);
+        gulp.watch('templates/**/**.html', ['site', 'htmlmin', 'uncss']);
+        gulp.watch('content/**', ['site', 'htmlmin', 'uncss']);
+    }
+    else {
+
+        gulp.watch('base/**', ['base']);
+        gulp.watch('assets/scss/**.scss', ['scss']);
+        gulp.watch('content/uploads/*.jpg', ['images']);
+        gulp.watch('assets/js/**.js', ['js']);
+        gulp.watch('assets/geomicons/**/**.svg', ['geomicons-sprite', 'geomicons-defs']);
+        gulp.watch('templates/**/**.html', ['site']);
+        gulp.watch('content/**', ['site']);
+    }
+});
