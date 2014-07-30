@@ -115,8 +115,8 @@ gulp.task('site', function(cb){
         }
     });
 
-    site.route('home', {
-        route: '/',
+    site.route('/', {
+        name: 'home',
         template: 'post.html',
         content: 'posts/*',
         middleware: function(pages, next) {
@@ -128,8 +128,8 @@ gulp.task('site', function(cb){
         }
     });
 
-    site.route('post', {
-        route: '/posts/{slug}/',
+    site.route('/posts/{slug}/', {
+        name: 'post',
         template: 'post.html',
         content: 'posts/*',
         middleware: pager
