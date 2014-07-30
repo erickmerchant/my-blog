@@ -116,13 +116,9 @@ gulp.task('site', function(cb){
     });
 
     site.route('home', {
-
         route: '/',
-
         template: 'post.html',
-
         content: 'posts/*',
-
         middleware: function(pages, next) {
 
             pager(pages, function(pages){
@@ -133,13 +129,9 @@ gulp.task('site', function(cb){
     });
 
     site.route('post', {
-
         route: '/posts/{slug}/',
-
         template: 'post.html',
-
         content: 'posts/*',
-
         middleware: pager
     });
 
