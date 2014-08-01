@@ -117,44 +117,41 @@ gulp.task('geomicons-defs', function() {
 gulp.task('site', function(cb){
 
     var site = require('./lib/site.js');
-    var defaults = require('./lib/middleware/defaults.js');
-    var pager = require('./lib/middleware/pager.js');
+    var defaults = require('./lib/plugins/defaults.js');
+    var content = require('./lib/plugins/content.js');
+    var pager = require('./lib/plugins/pager.js');
     var marked_converter = require('./lib/converters/marked.js');
     var nunjucks = require('nunjucks');
     var _ = require('lodash');
 
     pager = pager();
 
-    site = site({
-        nunjucks: nunjucks.configure('./templates/', { autoescape: true }),
-        converters: {
-            md: marked_converter()
-        }
+    content.configure('./content/', {
+        converters: { md: marked_converter() },
+        date_formats: [ "YYYY-MM-DD" ]
     });
 
-    site.route('/', {
-        name: 'home',
-        template: 'post.html',
-        content: 'posts/*',
-        middleware: function(pages, next) {
+    site = site('./site/', nunjucks.configure('./templates/', { autoescape: true }));
 
-            pager(pages, function(pages){
+    site.route('/')
+        .alias('home')
+        .use(content('posts/*'))
+        .use(pager)
+        .use(function(pages, next) {
 
-                next([_.last(pages)]);
-            });
-        }
-    });
+            next([_.last(pages)]);
+        })
+        .render('post.html');
 
-    site.route('/posts/{slug}/', {
-        name: 'post',
-        template: 'post.html',
-        content: 'posts/*',
-        middleware: pager
-    });
+    site.route('/posts/{slug}/')
+        .alias('post')
+        .use(content('posts/*'))
+        .use(pager)
+        .render('post.html');
 
-    site.route('404', { content: '404.md', template: '404.html' });
+    site.route('404').use(content('404.md')).render('404.html');
 
-    site.before(defaults(site, './content/defaults.yml'));
+    site.after(defaults(site, './content/defaults.yml'));
 
     return site.build();
 });
