@@ -55,7 +55,8 @@ gulp.task('images', function () {
         .pipe(gulp.dest('site/uploads'))
         .pipe(imageresize({
             width : 688,
-            height : 0
+            height : 0,
+            imageMagick: true
         }))
         .pipe(gulp.dest('site/uploads/thumbnails'));
 
