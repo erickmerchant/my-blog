@@ -18,7 +18,7 @@ var imageresize = require('gulp-image-resize');
 var tap = require('gulp-tap');
 var Q = require('q');
 
-var default_task_deps = ['base', 'scss', 'images', 'js', 'geomicons-sprite', 'geomicons-defs', 'site'];
+var default_task_deps = ['base', 'scss', 'images', 'js', 'geomicons', 'site'];
 
 if(!gulputil.env.dev) {
 
@@ -82,6 +82,8 @@ gulp.task('js', function () {
 
     return stream;
 });
+
+gulp.task('geomicons', ['geomicons-sprite', 'geomicons-defs']);
 
 gulp.task('geomicons-sprite', function() {
 
@@ -190,7 +192,7 @@ gulp.task('watch', ['uncss'], function () {
     gulp.watch('base/**', ['base']);
     gulp.watch('content/uploads/*.jpg', ['images']);
     gulp.watch('assets/js/**.js', ['js']);
-    gulp.watch('assets/geomicons/**/**.svg', ['geomicons-sprite', 'geomicons-defs']);
+    gulp.watch('assets/geomicons/**/**.svg', ['geomicons']);
 
     if(!gulputil.env.dev) {
 
