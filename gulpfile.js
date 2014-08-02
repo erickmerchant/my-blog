@@ -16,6 +16,7 @@ var autoprefixer = require('gulp-autoprefixer');
 var htmlmin = require('gulp-htmlmin');
 var imageresize = require('gulp-image-resize');
 var tap = require('gulp-tap');
+var changed = require('gulp-changed');
 var Q = require('q');
 
 var default_task_deps = ['base', 'scss', 'images', 'js', 'geomicons', 'site'];
@@ -52,6 +53,7 @@ gulp.task('scss', function () {
 gulp.task('images', function () {
 
     var stream = gulp.src('content/uploads/*.jpg')
+        .pipe(changed('site/uploads'))
         .pipe(gulp.dest('site/uploads'))
         .pipe(imageresize({
             width : 688,

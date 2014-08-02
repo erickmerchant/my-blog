@@ -4,6 +4,7 @@
     "glob": "^4.0.4",
     "gulp": "~3.8.0",
     "gulp-autoprefixer": "0.0.8",
+    "gulp-changed": "^0.4.1",
     "gulp-cheerio": "^0.3.2",
     "gulp-cleanhtml": "0.0.2",
     "gulp-concat": "^2.2.0",
