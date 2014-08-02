@@ -243,7 +243,7 @@ gulp.task('serve', function () {
                         response.writeHead(err.status, err.headers);
                     }
 
-                    message = '[' + chalk.red(response.statusCode) + ']';
+                    message = '[' + chalk.red(err.status) + ']';
                 }
                 else {
 
