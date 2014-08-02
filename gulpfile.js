@@ -190,7 +190,7 @@ gulp.task('uncss', ['htmlmin', 'scss'], function (cb) {
 
 });
 
-gulp.task('watch', ['uncss'], function () {
+gulp.task('watch', function () {
 
     gulp.watch('base/**', ['base']);
     gulp.watch('content/uploads/*.jpg', ['images']);
