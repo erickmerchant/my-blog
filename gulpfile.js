@@ -162,7 +162,31 @@ gulp.task('site', function(cb){
         .use(pager)
         .render('post.html');
 
-    site.route('404').use(content('404.md')).render('404.html');
+    site.route('/posts/')
+        .use(content('posts.md'))
+        .use(function(pages, next) {
+
+            var posts = content('posts/*');
+
+            posts([], function(posts){
+
+                _.map(posts, function(v, k){
+
+                    var page = v.page;
+
+                    page.year_month = page.date.format('MMMM YYYY');
+
+                    posts[k] = page;
+                });
+
+                pages[0].page.posts = posts;
+
+                next(pages);
+            });
+        })
+        .render('posts.html');
+
+    site.route('/404').use(content('404.md')).render('404.html');
 
     site.after(defaults(site, './content/defaults.yml'));
 

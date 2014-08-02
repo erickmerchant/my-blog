@@ -8,6 +8,10 @@ menu:
             text: Home
             icon: home
             url: /
+        -
+            text: Archives
+            icon: calendar
+            url: /posts/
     -
         -
             text: GitHub

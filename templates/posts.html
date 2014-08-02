@@ -1,0 +1,20 @@
+{% extends 'index.html' %}
+
+{% block main %}
+    <section>
+        <h1>{{ page.title }}</h1>
+        {% for year_month, posts in page.posts|groupby('year_month') %}
+            <section>
+                <h2><i class="geomicon" data-id="calendar"></i> {{ year_month }}</h2>
+                {% for post in posts %}
+                    <article itemscope itemtype="http://schema.org/BlogPosting">
+                        <header>
+                            <h3 itemprop="name"><a href="{{ route('post', post) }}" itemprop="url">{{ post.title }}</a></h3>
+                        </header>
+                        <p itemprop="description">{{ post.summary }}</p>
+                    </article>
+                {% endfor %}
+            </section>
+        {% endfor %}
+    </section>
+{% endblock %}
