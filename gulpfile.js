@@ -18,6 +18,9 @@ var imageresize = require('gulp-image-resize');
 var tap = require('gulp-tap');
 var changed = require('gulp-changed');
 var Q = require('q');
+var node_static = require('node-static');
+var chalk = require('chalk');
+var moment = require('moment');
 
 var default_task_deps = ['base', 'scss', 'images', 'js', 'geomicons', 'site'];
 
@@ -29,6 +32,11 @@ if(!gulputil.env.dev) {
 if(gulputil.env.watch) {
 
     default_task_deps.push('watch');
+}
+
+if(gulputil.env.serve) {
+
+    default_task_deps.push('serve');
 }
 
 gulp.task('default', default_task_deps);
@@ -210,4 +218,46 @@ gulp.task('watch', function () {
         gulp.watch('templates/**/**.html', ['site']);
         gulp.watch('content/**', ['site']);
     }
+});
+
+gulp.task('serve', function () {
+
+    var server = new node_static.Server('./site/');
+
+    require('http').createServer(function (request, response) {
+        request.addListener('end', function () {
+            server.serve(request, response, function (err, result) {
+
+                var message;
+                var end = true
+
+                if (err) {
+
+                    if(err.status === 404) {
+
+                        end = false;
+
+                        server.serveFile('404.html', 404, {}, request, response);
+                    }
+                    else {
+                        response.writeHead(err.status, err.headers);
+                    }
+
+                    message = '[' + chalk.red(response.statusCode) + ']';
+                }
+                else {
+
+                    message = '[' + chalk.green(response.statusCode) + ']';
+                }
+
+                console.log('[' + chalk.gray(moment().format('HH:mm:ss')) + '] ' + message + ' serving ' + request.url);
+
+                if(end) {
+
+                    response.end();
+                }
+            });
+        }).resume();
+
+    }).listen(8080);
 });
