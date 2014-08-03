@@ -8,7 +8,7 @@ body {
     margin: 0;
 }
 
-.content {
+.cols {
 
     @include outer-container;
     @include pad(.5em);
@@ -18,36 +18,23 @@ body {
     }
 }
 
-[role="main"] {
+.col-1 {
     margin-top: 0.5em;
 }
 
 @include media($full-view) {
 
-    [role="main"], [role="navigation"] {
+    .col-1, .col-2 {
         margin-top: 0.5em;
     }
 
-    [role="navigation"] {
+    .col-1 {
         @include span-columns(4);
     }
 
-    [role="main"] {
+    .col-2 {
 
         @include span-columns(8);
-    }
-
-    [role="contentinfo"] {
-
-        @include span-columns(12);
-    }
-
-    [role="main"], [role="contentinfo"] {
         @include omega();
-
-        > * {
-            margin-left: $base-border-radius;
-            margin-right: $base-border-radius;
-        }
     }
 }
