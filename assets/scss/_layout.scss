@@ -8,17 +8,6 @@ body {
     margin: 0;
 }
 
-// [role="banner"] {
-//
-//   @include media($full-view) {
-//
-//       > div {
-//           max-width: em(960 / 4.5 * 1.5);
-//           margin: 0 auto;
-//       }
-//   }
-// }
-
 .content {
 
     @include outer-container;
