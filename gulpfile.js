@@ -179,7 +179,7 @@ gulp.task('site', function(cb){
                     posts[k] = page;
                 });
 
-                pages[0].page.posts = posts;
+                pages[0].page.posts = posts.reverse();
 
                 next(pages);
             });
