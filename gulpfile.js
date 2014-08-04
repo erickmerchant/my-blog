@@ -1,7 +1,7 @@
 'use strict';
 
 var gulp = require('gulp');
-var gulputil = require('gulp-util');
+var yargs = require('yargs');
 var sass = require('gulp-sass');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
@@ -24,17 +24,17 @@ var moment = require('moment');
 
 var default_task_deps = ['base', 'scss', 'images', 'js', 'geomicons', 'site'];
 
-if(!gulputil.env.dev) {
+if(!yargs.argv.dev) {
 
     default_task_deps.push('uncss', 'htmlmin');
 }
 
-if(gulputil.env.watch) {
+if(yargs.argv.watch) {
 
     default_task_deps.push('watch');
 }
 
-if(gulputil.env.serve) {
+if(yargs.argv.serve) {
 
     default_task_deps.push('serve');
 }
@@ -84,7 +84,7 @@ gulp.task('js', function () {
         ])
         .pipe(concat("site.js"));
 
-    if(!gulputil.env.dev) {
+    if(!yargs.argv.dev) {
 
         stream.pipe(uglify({preserveComments: 'some'}))
     }
@@ -229,7 +229,7 @@ gulp.task('watch', function () {
     gulp.watch('assets/js/**.js', ['js']);
     gulp.watch('assets/geomicons/**/**.svg', ['geomicons']);
 
-    if(!gulputil.env.dev) {
+    if(!yargs.argv.dev) {
 
         gulp.watch('assets/scss/**.scss', ['scss', 'uncss']);
         gulp.watch('templates/**/**.html', ['site', 'htmlmin', 'uncss']);
