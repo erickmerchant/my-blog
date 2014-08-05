@@ -11,7 +11,7 @@ var footer = require('gulp-footer');
 var header = require('gulp-header');
 var uncss = require('gulp-uncss');
 var glob = require('glob');
-var mincss = require('gulp-minify-css');
+var minifycss = require('gulp-minify-css');
 var autoprefixer = require('gulp-autoprefixer');
 var htmlmin = require('gulp-htmlmin');
 var imageresize = require('gulp-image-resize');
@@ -206,7 +206,7 @@ gulp.task('uncss', ['htmlmin', 'scss'], function (cb) {
 
         gulp.src('site/assets/site.css')
             .pipe(uncss({html: files, ignore: ignore}))
-            .pipe(mincss())
+            .pipe(minifycss())
             .pipe(gulp.dest('site/assets'))
             .pipe(tap(function(){ cb(); }))
         ;
