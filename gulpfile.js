@@ -178,7 +178,7 @@ gulp.task('site', function(cb){
         })
         .render('posts.html');
 
-    site.route('/404').use(content('404.md')).render('404.html');
+    site.route('/404.html').use(content('404.md')).render('404.html');
 
     site.after(defaults(site, './content/defaults.yml'));
 
