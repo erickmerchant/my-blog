@@ -136,7 +136,11 @@ gulp.task('site', function(cb){
         date_formats: [ "YYYY-MM-DD" ]
     });
 
-    site = site('./site/', nunjucks.configure('./templates/', { autoescape: true }));
+    nunjucks.configure('./templates/', { autoescape: true })
+
+    site = site('./site/');
+
+    site.engine(nunjucks.render);
 
     site.route('/')
         .alias('home')
