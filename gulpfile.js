@@ -40,8 +40,10 @@ gulp.task('base', function(){
 
 gulp.task('scss', function () {
 
+    var outputStyle = yargs.argv.dev ? 'nested' : 'compressed';
+
     var stream = gulp.src('assets/scss/site.scss')
-        .pipe(sass())
+        .pipe(sass({outputStyle: outputStyle}))
         .pipe(autoprefixer('> 1%', 'last 2 versions'))
         .pipe(gulp.dest('site/assets'));
 
