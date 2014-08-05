@@ -29,16 +29,6 @@ if(!yargs.argv.dev) {
     default_task_deps.push('uncss', 'htmlmin');
 }
 
-if(yargs.argv.watch) {
-
-    default_task_deps.push('watch');
-}
-
-if(yargs.argv.serve) {
-
-    default_task_deps.push('serve');
-}
-
 gulp.task('default', default_task_deps);
 
 gulp.task('base', function(){
@@ -222,7 +212,7 @@ gulp.task('uncss', ['htmlmin', 'scss'], function (cb) {
 
 });
 
-gulp.task('watch', function () {
+gulp.task('watch', ['default'], function () {
 
     gulp.watch('base/**', ['base']);
     gulp.watch('content/uploads/*.jpg', ['images']);
@@ -244,7 +234,7 @@ gulp.task('watch', function () {
     }
 });
 
-gulp.task('serve', function () {
+gulp.task('serve', ['default'], function () {
 
     var server = new node_static.Server('./site/');
 
