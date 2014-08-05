@@ -141,7 +141,6 @@ gulp.task('site', function(cb){
     site.engine(nunjucks.render);
 
     site.route('/')
-        .alias('home')
         .use(content('posts/*'))
         .use(pager)
         .use(function(pages, next) {
