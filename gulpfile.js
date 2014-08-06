@@ -98,25 +98,6 @@ gulp.task('geomicons', function() {
     return stream;
 });
 
-// gulp.task('geomicons-defs', function() {
-//
-//     var stream = gulp.src('assets/geomicons/enabled/*.svg')
-//         .pipe(cheerio({
-//             run: function($) {
-//                 var $path = $('svg').children('path'), id = $('svg').attr('id');
-//                 $path.attr('id', id);
-//                 $('svg').replaceWith($path[0]);
-//             }
-//         }))
-//         .pipe(concat('geomicons-defs.svg'))
-//         .pipe(header('<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0"><defs>'))
-//         .pipe(footer('</defs></svg>'))
-//         .pipe(cleanhtml())
-//         .pipe(gulp.dest('site/assets'));
-//
-//     return stream;
-// });
-
 gulp.task('site', function(cb){
 
     var site = require('./lib/site.js');
