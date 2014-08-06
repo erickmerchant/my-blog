@@ -241,8 +241,9 @@ gulp.task('serve', ['default'], function () {
         request.addListener('end', function () {
             server.serve(request, response, function (err, result) {
 
-                var message;
-                var end = true
+                var color;
+                var status;
+                var end = true;
 
                 if (err) {
 
@@ -256,14 +257,16 @@ gulp.task('serve', ['default'], function () {
                         response.writeHead(err.status, err.headers);
                     }
 
-                    message = '[' + chalk.red(err.status) + ']';
+                    color = err.status < 500 ? chalk.yellow : chalk.red;
+                    status = err.status;
                 }
                 else {
 
-                    message = '[' + chalk.green(response.statusCode) + ']';
+                    color = chalk.green;
+                    status = response.statusCode;
                 }
 
-                console.log('[' + chalk.gray(moment().format('HH:mm:ss')) + '] ' + message + ' serving ' + request.url);
+                console.log('[' + chalk.gray(moment().format('HH:mm:ss')) + '] [' + color(status) + '] ' + color(request.url));
 
                 if(end) {
 
