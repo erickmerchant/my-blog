@@ -239,7 +239,7 @@ gulp.task('watch', ['default'], function () {
     }
 });
 
-gulp.task('serve', ['default'], function () {
+gulp.task('serve', function () {
 
     var server = new node_static.Server('./site/');
 
@@ -253,11 +253,12 @@ gulp.task('serve', ['default'], function () {
 
                 if (err) {
 
-                    if(err.status === 404) {
+                    if(err.status === 404 && fs.existsSync('./site/404.html')) {
 
                         end = false;
 
                         server.serveFile('404.html', 404, {}, request, response);
+
                     }
                     else {
                         response.writeHead(err.status, err.headers);
