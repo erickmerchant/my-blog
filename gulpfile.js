@@ -26,7 +26,7 @@ var fs = require('fs');
 var trimmer = require('trimmer');
 var mkdirp = require('mkdirp');
 var path = require('path');
-var date_formats = [ "YYYY-MM-DD" ];
+var date_formats = [ "YYYY-MM-DD", "YYYY-MM-DD-X" ];
 
 var default_task_deps = ['base', 'scss', 'images', 'js', 'geomicons', 'site'];
 
