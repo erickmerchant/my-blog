@@ -3,7 +3,7 @@
 {% block meta %}
     <title>{{ page.title }} | Posts</title>
     <meta name="description" content="{{ page.summary }}">
-    <link rel="canonical" href="{{ host + route('post', page) }}">
+    <link rel="canonical" href="{{ host + route(routename|default('post'), page) }}">
 {% endblock %}
 
 {% block main %}
@@ -18,20 +18,20 @@
         <footer>
             <p class="share">
                 <span>Share with:</span>
-                <a href="https://twitter.com/intent/tweet?url={{ host + route('post', page)|urlencode }}&amp;text={{ page.title|urlencode }}" target="_blank"><i class="geomicon" data-id="twitter"></i> Twitter</a>
+                <a href="https://twitter.com/intent/tweet?url={{ host + route(routename|default('post'), page)|urlencode }}&amp;text={{ page.title|urlencode }}" target="_blank"><i class="geomicon" data-id="twitter"></i> Twitter</a>
             </p>
         </footer>
     </article>
     {% if page.previous or page.next %}
         <nav class="pagination">
             {% if page.previous %}
-                <a rel="prev" href="{{ route('post', page.previous) }}"><i class="geomicon" data-id="chevron-left"></i> Older</a>
+                <a rel="prev" href="{{ route(routename|default('post'), page.previous) }}"><i class="geomicon" data-id="chevron-left"></i> Older</a>
             {% else %}
                 <span><i class="geomicon" data-id="chevron-left"></i> Older</span>
             {% endif %}
 
             {% if page.next %}
-                <a rel="next" href="{{ route('post', page.next) }}">Newer <i class="geomicon" data-id="chevron-right"></i></a>
+                <a rel="next" href="{{ route(routename|default('post'), page.next) }}">Newer <i class="geomicon" data-id="chevron-right"></i></a>
             {% else %}
                 <span>Newer <i class="geomicon" data-id="chevron-right"></i></span>
             {% endif %}
