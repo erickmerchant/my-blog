@@ -21,7 +21,7 @@ var Q = require('q');
 var node_static = require('node-static');
 var chalk = require('chalk');
 var moment = require('moment');
-var slugify = require('slugify');
+var slug = require('slug');
 var fs = require('fs');
 var trimmer = require('trimmer');
 var mkdirp = require('mkdirp');
@@ -302,7 +302,7 @@ gulp.task('make', function (cb) {
         return;
     }
 
-    file = slugify(argh.argv.title).toLowerCase();
+    file = slug(argh.argv.title).toLowerCase();
 
     if(argh.argv.date) {
 
@@ -421,7 +421,7 @@ gulp.task('move', function (cb) {
 
     if(argh.argv.title) {
 
-        slug = slugify(argh.argv.title).toLowerCase();
+        slug = slug(argh.argv.title).toLowerCase();
     }
 
     newFile = newFile + slug + ext;
