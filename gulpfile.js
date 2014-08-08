@@ -26,44 +26,46 @@ var fs = require('fs');
 var trimmer = require('trimmer');
 var mkdirp = require('mkdirp');
 var path = require('path');
-var date_formats = [ "YYYY-MM-DD", "YYYY-MM-DD-X" ];
+var date_formats = ["YYYY-MM-DD", "YYYY-MM-DD-X"];
 
 var default_task_deps = ['base', 'scss', 'images', 'js', 'geomicons', 'site'];
 
-if(!argh.argv.dev) {
+if (!argh.argv.dev) {
 
     default_task_deps.push('uncss', 'htmlmin');
 }
 
 gulp.task('default', default_task_deps);
 
-gulp.task('base', function(){
+gulp.task('base', function() {
 
     var stream = gulp.src('base/**').pipe(gulp.dest('site'));
 
     return stream;
 });
 
-gulp.task('scss', function () {
+gulp.task('scss', function() {
 
     var outputStyle = argh.argv.dev ? 'nested' : 'compressed';
 
     var stream = gulp.src('assets/scss/site.scss')
-        .pipe(sass({outputStyle: outputStyle}))
+        .pipe(sass({
+            outputStyle: outputStyle
+        }))
         .pipe(autoprefixer('> 1%', 'last 2 versions'))
         .pipe(gulp.dest('site/assets'));
 
     return stream;
 });
 
-gulp.task('images', function () {
+gulp.task('images', function() {
 
     var stream = gulp.src('content/uploads/*.jpg')
         .pipe(changed('site/uploads'))
         .pipe(gulp.dest('site/uploads'))
         .pipe(imageresize({
-            width : 688,
-            height : 0,
+            width: 688,
+            height: 0,
             imageMagick: true
         }))
         .pipe(gulp.dest('site/uploads/thumbnails'));
@@ -71,20 +73,22 @@ gulp.task('images', function () {
     return stream;
 });
 
-gulp.task('js', function () {
+gulp.task('js', function() {
 
     var stream = gulp.src([
-            'assets/js/prism.js',
-            'assets/js/turbolinks.min.js',
-            'assets/js/geomicons.min.js',
-            'assets/js/ender.min.js',
-            'assets/js/site.js'
-        ])
+        'assets/js/prism.js',
+        'assets/js/turbolinks.min.js',
+        'assets/js/geomicons.min.js',
+        'assets/js/ender.min.js',
+        'assets/js/site.js'
+    ])
         .pipe(concat("site.js"));
 
-    if(!argh.argv.dev) {
+    if (!argh.argv.dev) {
 
-        stream.pipe(uglify({preserveComments: 'some'}))
+        stream.pipe(uglify({
+            preserveComments: 'some'
+        }))
     }
 
     stream.pipe(gulp.dest('site/assets'));
@@ -104,7 +108,7 @@ gulp.task('geomicons', function() {
     return stream;
 });
 
-gulp.task('site', function(cb){
+gulp.task('site', function(cb) {
 
     var site = require('./lib/site.js');
     var defaults = require('./lib/plugins/defaults.js');
@@ -117,11 +121,15 @@ gulp.task('site', function(cb){
     pager = pager();
 
     content.configure('./content/', {
-        converters: { md: marked_converter() },
+        converters: {
+            md: marked_converter()
+        },
         date_formats: date_formats
     });
 
-    nunjucks.configure('./templates/', { autoescape: true })
+    nunjucks.configure('./templates/', {
+        autoescape: true
+    })
 
     site = site('./site/');
 
@@ -148,13 +156,14 @@ gulp.task('site', function(cb){
 
             var posts = content('posts/*');
 
-            posts([], function(posts){
+            posts([], function(posts) {
 
-                _.map(posts, function(v, k){
+                _.map(posts, function(v, k) {
 
                     var page = v.page;
 
-                    page.year_month = page.date.format('MMMM YYYY');
+                    page.year_month = page.date.format(
+                        'MMMM YYYY');
 
                     posts[k] = page;
                 });
@@ -188,16 +197,18 @@ gulp.task('site', function(cb){
     return site.build();
 });
 
-gulp.task('htmlmin', ['site'], function () {
+gulp.task('htmlmin', ['site'], function() {
 
     var stream = gulp.src('site/**/**.html')
-        .pipe(htmlmin({collapseWhitespace: true}))
+        .pipe(htmlmin({
+            collapseWhitespace: true
+        }))
         .pipe(gulp.dest('site'));
 
     return stream;
 });
 
-gulp.task('uncss', ['htmlmin', 'scss'], function (cb) {
+gulp.task('uncss', ['htmlmin', 'scss'], function(cb) {
 
     var ignore = [
         /\.token.*/,
@@ -205,33 +216,36 @@ gulp.task('uncss', ['htmlmin', 'scss'], function (cb) {
         /\.namespace.*/
     ];
 
-    glob('site/**/**.html', function(err, files){
+    glob('site/**/**.html', function(err, files) {
 
         gulp.src('site/assets/site.css')
-            .pipe(uncss({html: files, ignore: ignore}))
+            .pipe(uncss({
+                html: files,
+                ignore: ignore
+            }))
             .pipe(minifycss())
             .pipe(gulp.dest('site/assets'))
-            .pipe(tap(function(){ cb(); }))
-        ;
+            .pipe(tap(function() {
+                cb();
+            }));
     });
 
 });
 
-gulp.task('watch', ['default'], function () {
+gulp.task('watch', ['default'], function() {
 
     gulp.watch('base/**', ['base']);
     gulp.watch('content/uploads/*.jpg', ['images']);
     gulp.watch('assets/js/**.js', ['js']);
     gulp.watch('assets/geomicons/**/**.svg', ['geomicons']);
 
-    if(!argh.argv.dev) {
+    if (!argh.argv.dev) {
 
         gulp.watch('assets/scss/**.scss', ['scss', 'uncss']);
         gulp.watch('templates/**/**.html', ['site', 'htmlmin', 'uncss']);
         gulp.watch('content/**', ['site', 'htmlmin', 'uncss']);
 
-    }
-    else {
+    } else {
 
         gulp.watch('assets/scss/**.scss', ['scss']);
         gulp.watch('templates/**/**.html', ['site']);
@@ -239,13 +253,13 @@ gulp.task('watch', ['default'], function () {
     }
 });
 
-gulp.task('serve', function () {
+gulp.task('serve', function() {
 
     var server = new node_static.Server('./site/');
 
-    require('http').createServer(function (request, response) {
-        request.addListener('end', function () {
-            server.serve(request, response, function (err, result) {
+    require('http').createServer(function(request, response) {
+        request.addListener('end', function() {
+            server.serve(request, response, function(err, result) {
 
                 var color;
                 var status;
@@ -253,29 +267,32 @@ gulp.task('serve', function () {
 
                 if (err) {
 
-                    if(err.status === 404 && fs.existsSync('./site/404.html')) {
+                    if (err.status === 404 && fs.existsSync(
+                        './site/404.html')) {
 
                         end = false;
 
-                        server.serveFile('404.html', 404, {}, request, response);
+                        server.serveFile('404.html', 404, {},
+                            request, response);
 
-                    }
-                    else {
+                    } else {
                         response.writeHead(err.status, err.headers);
                     }
 
-                    color = err.status < 500 ? chalk.yellow : chalk.red;
+                    color = err.status < 500 ? chalk.yellow :
+                        chalk.red;
                     status = err.status;
-                }
-                else {
+                } else {
 
                     color = chalk.green;
                     status = response.statusCode;
                 }
 
-                console.log('[' + chalk.gray(moment().format('HH:mm:ss')) + '] [' + color(status) + '] ' + color(request.url));
+                console.log('[' + chalk.gray(moment().format(
+                        'HH:mm:ss')) + '] [' + color(status) +
+                    '] ' + color(request.url));
 
-                if(end) {
+                if (end) {
 
                     response.end();
                 }
@@ -286,14 +303,14 @@ gulp.task('serve', function () {
     }).listen(8080);
 });
 
-gulp.task('make', function (cb) {
+gulp.task('make', function(cb) {
 
     var file;
     var format;
     var ext = 'md';
     var content;
 
-    if(!argh.argv.title) {
+    if (!argh.argv.title) {
 
         console.error(chalk.red('You must provide a title.'));
 
@@ -304,11 +321,11 @@ gulp.task('make', function (cb) {
 
     file = slug(argh.argv.title).toLowerCase();
 
-    if(argh.argv.date) {
+    if (argh.argv.date) {
 
         format = argh.argv.date;
 
-        if(format === true) {
+        if (format === true) {
 
             format = "YYYY-MM-DD";
         }
@@ -316,16 +333,16 @@ gulp.task('make', function (cb) {
         file = moment().format(format) + '.' + file;
     }
 
-    if(argh.argv.ext) {
+    if (argh.argv.ext) {
 
-        ext =  argh.argv.ext;
+        ext = argh.argv.ext;
     }
 
     file = file + '.' + ext;
 
-    if(argh.argv.in) {
+    if (argh.argv. in ) {
 
-        file = trimmer(argh.argv.in, '/') + '/' + file;
+        file = trimmer(argh.argv. in , '/') + '/' + file;
     }
 
     content = "---\ntitle: \"" + argh.argv.title + "\"\n---";
@@ -336,7 +353,7 @@ gulp.task('make', function (cb) {
 
         if (err) throw err;
 
-        fs.writeFile( file, content, function(err) {
+        fs.writeFile(file, content, function(err) {
 
             if (err) throw err;
 
@@ -347,7 +364,7 @@ gulp.task('make', function (cb) {
     });
 });
 
-gulp.task('move', function (cb) {
+gulp.task('move', function(cb) {
 
     var file;
 
@@ -363,9 +380,10 @@ gulp.task('move', function (cb) {
 
     var format
 
-    if(!argh.argv.file || !argh.argv.to) {
+    if (!argh.argv.file || !argh.argv.to) {
 
-        console.error(chalk.red('You must provide a file to move and where to move it to.'));
+        console.error(chalk.red(
+            'You must provide a file to move and where to move it to.'));
 
         cb();
 
@@ -380,9 +398,9 @@ gulp.task('move', function (cb) {
 
     slug = path.basename(file, ext);
 
-    if(parts.length >= 2) {
+    if (parts.length >= 2) {
 
-        if(moment(parts[0], date_formats).isValid()) {
+        if (moment(parts[0], date_formats).isValid()) {
 
             date = parts[0];
 
@@ -390,36 +408,35 @@ gulp.task('move', function (cb) {
         }
     }
 
-    if(argh.argv.date) {
+    if (argh.argv.date) {
 
         format = argh.argv.date;
 
-        if(format === true) {
+        if (format === true) {
 
             format = "YYYY-MM-DD";
         }
 
-        if(!date) {
+        if (!date) {
 
             date = moment().format(format);
-        }
-        else {
+        } else {
 
             date = moment(date).format(format);
         }
     }
 
-    if(argh.argv.date === false && date) {
+    if (argh.argv.date === false && date) {
 
         date = false;
     }
 
-    if(date) {
+    if (date) {
 
         newFile = date + '.';
     }
 
-    if(argh.argv.title) {
+    if (argh.argv.title) {
 
         slug = slug(argh.argv.title).toLowerCase();
     }
@@ -434,11 +451,12 @@ gulp.task('move', function (cb) {
 
         if (err) throw err;
 
-        fs.rename( file, newFile, function(err) {
+        fs.rename(file, newFile, function(err) {
 
             if (err) throw err;
 
-            console.log(chalk.green(file + ' moved to ' + newFile + '.'));
+            console.log(chalk.green(file + ' moved to ' + newFile +
+                '.'));
 
             cb();
         });
