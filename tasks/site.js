@@ -1,16 +1,17 @@
 'use strict';
 
 var gulp = require('gulp');
-var site = require('../lib/site.js');
-var defaults = require('../lib/plugins/defaults.js');
-var content = require('../lib/plugins/content.js');
-var pager = require('../lib/plugins/pager.js');
-var marked_converter = require('../lib/converters/marked.js');
-var nunjucks = require('nunjucks');
 var _ = require('lodash');
 var date_formats = ["YYYY-MM-DD", "YYYY-MM-DD-X"];
 
 gulp.task('site', function (cb) {
+
+    var site = require('../lib/site.js');
+    var defaults = require('../lib/plugins/defaults.js');
+    var content = require('../lib/plugins/content.js');
+    var pager = require('../lib/plugins/pager.js');
+    var marked_converter = require('../lib/converters/marked.js');
+    var nunjucks = require('nunjucks');
 
     pager = pager();
 
