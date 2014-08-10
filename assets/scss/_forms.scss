@@ -18,8 +18,8 @@ input,
 label,
 select {
   display: block;
-  font-family: $form-font-family;
-  font-size: $form-font-size;
+  // font-family: $form-font-family;
+  // font-size: $form-font-size;
 }
 
 label {
@@ -43,8 +43,8 @@ textarea,
   border-radius: $form-border-radius;
   border: 1px solid $form-border-color;
   box-shadow: $form-box-shadow;
-  font-family: $form-font-family;
-  font-size: $form-font-size;
+  // font-family: $form-font-family;
+  // font-size: $form-font-size;
   margin-bottom: $base-line-height / 2;
   padding: ($base-line-height / 2) ($base-line-height / 2);
   width: 100%;
