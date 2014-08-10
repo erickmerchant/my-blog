@@ -2,37 +2,30 @@
 
 var gulp = require('gulp');
 var _ = require('lodash');
+var nunjucks = require('nunjucks');
+var lib = require('../lib/');
 var date_formats = ["YYYY-MM-DD", "YYYY-MM-DD-X"];
+
+lib.plugins.content.configure('./content/', {
+    converters: {
+        md: lib.converters.marked()
+    },
+    date_formats: date_formats
+});
+
+nunjucks.configure('./templates/', {
+    autoescape: true
+});
 
 gulp.task('site', function (cb) {
 
-    var site = require('../lib/site.js');
-    var defaults = require('../lib/plugins/defaults.js');
-    var content = require('../lib/plugins/content.js');
-    var pager = require('../lib/plugins/pager.js');
-    var marked_converter = require('../lib/converters/marked.js');
-    var nunjucks = require('nunjucks');
-
-    pager = pager();
-
-    content.configure('./content/', {
-        converters: {
-            md: marked_converter()
-        },
-        date_formats: date_formats
-    });
-
-    nunjucks.configure('./templates/', {
-        autoescape: true
-    })
-
-    site = site('./site/');
+    var site = lib.site('./site/');
 
     site.engine(nunjucks.render);
 
     site.route('/')
-        .use(content('posts/*'))
-        .use(pager)
+        .use(lib.plugins.content('posts/*'))
+        .use(lib.plugins.pager())
         .use(function (pages, next) {
 
             next([_.last(pages)]);
@@ -41,15 +34,15 @@ gulp.task('site', function (cb) {
 
     site.route('/posts/{slug}/')
         .alias('post')
-        .use(content('posts/*'))
-        .use(pager)
+        .use(lib.plugins.content('posts/*'))
+        .use(lib.plugins.pager())
         .render('post.html');
 
     site.route('/posts/')
-        .use(content('posts.md'))
+        .use(lib.plugins.content('posts.md'))
         .use(function (pages, next) {
 
-            var posts = content('posts/*');
+            var posts = lib.plugins.content('posts/*');
 
             posts([], function (posts) {
 
@@ -72,22 +65,24 @@ gulp.task('site', function (cb) {
 
     site.route('/drafts/{slug}/')
         .alias('draft')
-        .use(content('drafts/*'))
-        .use(pager)
+        .use(lib.plugins.content('drafts/*'))
+        .use(lib.plugins.pager())
         .render('draft.html');
 
     site.route('/drafts/')
-        .use(content('drafts/*'))
-        .use(pager)
+        .use(lib.plugins.content('drafts/*'))
+        .use(lib.plugins.pager())
         .use(function (pages, next) {
 
             next([_.last(pages)]);
         })
         .render('draft.html');
 
-    site.route('/404.html').use(content('404.md')).render('404.html');
+    site.route('/404.html')
+        .use(lib.plugins.content('404.md'))
+        .render('404.html');
 
-    site.after(defaults(site, './content/defaults.yml'));
+    site.after(lib.plugins.defaults(site, './content/defaults.yml'));
 
     return site.build();
 });
