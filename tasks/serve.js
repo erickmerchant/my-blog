@@ -6,13 +6,13 @@ var chalk = require('chalk');
 var moment = require('moment');
 var fs = require('fs');
 
-gulp.task('serve', function() {
+gulp.task('serve', function () {
 
     var server = new node_static.Server('./site/');
 
-    require('http').createServer(function(request, response) {
-        request.addListener('end', function() {
-            server.serve(request, response, function(err, result) {
+    require('http').createServer(function (request, response) {
+        request.addListener('end', function () {
+            server.serve(request, response, function (err, result) {
 
                 var color;
                 var status;
@@ -32,13 +32,28 @@ gulp.task('serve', function() {
                         response.writeHead(err.status, err.headers);
                     }
 
-                    color = err.status < 500 ? chalk.yellow :
-                        chalk.red;
                     status = err.status;
-                } else {
 
-                    color = chalk.green;
+                } else {
                     status = response.statusCode;
+                }
+
+                switch (true) {
+                case status >= 500:
+                    color = chalk.red;
+                    break;
+                case status >= 400:
+                    color = chalk.yellow;
+                    break;
+                case status >= 300:
+                    color = chalk.cyan;
+                    break;
+                case status >= 200:
+                    color = chalk.green;
+                    break;
+                case status >= 100:
+                    color = chalk.magenta;
+                    break;
                 }
 
                 console.log('[' + chalk.gray(moment().format(
