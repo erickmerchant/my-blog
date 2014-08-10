@@ -1,3 +1,5 @@
+{% import 'macros/geomicons.html' as geomicons %}
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -25,7 +27,7 @@
                     </form>
                     {% for links in menu %}
                         {% for link in links %}
-                            <a{% if link.target %} target="{{ link.target }}"{% endif %} href="{{ link.url }}">{% if link.icon %}<i class="geomicon" data-id="{{ link.icon }}"></i> {% endif %}{{ link.text }}</a>
+                            <a{% if link.target %} target="{{ link.target }}"{% endif %} href="{{ link.url }}">{% if link.icon %}{{ geomicons.icon(link.icon) }} {% endif %}{{ link.text }}</a>
                         {% endfor %}
                         {% if not loop.last %}
                             <div class="divider"></div>

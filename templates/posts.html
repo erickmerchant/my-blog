@@ -1,11 +1,13 @@
 {% extends 'index.html' %}
 
+{% import 'macros/geomicons.html' as icon %}
+
 {% block main %}
     <section>
         <h1>{{ page.title }}</h1>
         {% for year_month, posts in page.posts|groupby('year_month') %}
             <section>
-                <h2><i class="geomicon" data-id="calendar"></i> {{ year_month }}</h2>
+                <h2>{{ geomicons.icon('calendar') }} {{ year_month }}</h2>
                 {% for post in posts %}
                     <article itemscope itemtype="http://schema.org/BlogPosting">
                         <header>
