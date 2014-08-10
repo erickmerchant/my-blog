@@ -9,7 +9,7 @@
                 {% for post in posts %}
                     <article itemscope itemtype="http://schema.org/BlogPosting">
                         <header>
-                            <h3 itemprop="name"><a href="{{ route('post', post) }}" itemprop="url">{{ post.title }}</a></h3>
+                            <h3 itemprop="name"><a href="{{ route(routename|default('post'), post) }}" itemprop="url">{{ post.title }}</a></h3>
                         </header>
                         <p itemprop="description">{{ post.summary }}</p>
                     </article>
