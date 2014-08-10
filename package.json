@@ -7,7 +7,6 @@
     "gulp": "~3.8.0",
     "gulp-autoprefixer": "0.0.8",
     "gulp-changed": "^0.4.1",
-    "gulp-cheerio": "^0.3.2",
     "gulp-cleanhtml": "0.0.2",
     "gulp-concat": "^2.2.0",
     "gulp-footer": "^1.0.5",
@@ -28,6 +27,7 @@
     "node-static": "^0.7.4",
     "nunjucks": "^1.0.5",
     "q": "^1.0.1",
+    "require-dir": "^0.1.0",
     "slug": "^0.5.0",
     "trimmer": "0.0.3"
   }
