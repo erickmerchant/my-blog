@@ -10,7 +10,7 @@ var trimmer = require('trimmer');
 var mkdirp = require('mkdirp');
 var path = require('path');
 
-gulp.task('make', function(cb) {
+gulp.task('make', function (cb) {
 
     var file;
     var format;
@@ -56,11 +56,11 @@ gulp.task('make', function(cb) {
 
     var directory = path.dirname(file);
 
-    mkdirp(directory, function(err) {
+    mkdirp(directory, function (err) {
 
         if (err) throw err;
 
-        fs.writeFile(file, content, function(err) {
+        fs.writeFile(file, content, function (err) {
 
             if (err) throw err;
 

@@ -5,7 +5,7 @@ var argh = require('argh');
 var sass = require('gulp-sass');
 var autoprefixer = require('gulp-autoprefixer');
 
-gulp.task('scss', function() {
+gulp.task('scss', function () {
 
     var outputStyle = argh.argv.dev ? 'nested' : 'compressed';
 

@@ -4,7 +4,7 @@ var gulp = require('gulp');
 var imageresize = require('gulp-image-resize');
 var changed = require('gulp-changed');
 
-gulp.task('images', function() {
+gulp.task('images', function () {
 
     var stream = gulp.src('content/uploads/*.jpg')
         .pipe(changed('site/uploads'))

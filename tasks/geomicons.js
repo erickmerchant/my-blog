@@ -6,7 +6,7 @@ var cleanhtml = require('gulp-cleanhtml');
 var footer = require('gulp-footer');
 var header = require('gulp-header');
 
-gulp.task('geomicons', function() {
+gulp.task('geomicons', function () {
 
     var stream = gulp.src('assets/geomicons/enabled/*.svg')
         .pipe(concat('geomicons.svg'))

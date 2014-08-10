@@ -3,7 +3,7 @@
 var gulp = require('gulp');
 var argh = require('argh');
 
-gulp.task('watch', ['default'], function() {
+gulp.task('watch', ['default'], function () {
 
     gulp.watch('base/**', ['base']);
     gulp.watch('content/uploads/*.jpg', ['images']);

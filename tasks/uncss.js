@@ -6,7 +6,7 @@ var minifycss = require('gulp-minify-css');
 var tap = require('gulp-tap');
 var glob = require('glob');
 
-gulp.task('uncss', ['htmlmin', 'scss'], function(cb) {
+gulp.task('uncss', ['htmlmin', 'scss'], function (cb) {
 
     var ignore = [
         /\.token.*/,
@@ -14,7 +14,7 @@ gulp.task('uncss', ['htmlmin', 'scss'], function(cb) {
         /\.namespace.*/
     ];
 
-    glob('site/**/**.html', function(err, files) {
+    glob('site/**/**.html', function (err, files) {
 
         gulp.src('site/assets/site.css')
             .pipe(uncss({
@@ -23,7 +23,7 @@ gulp.task('uncss', ['htmlmin', 'scss'], function(cb) {
             }))
             .pipe(minifycss())
             .pipe(gulp.dest('site/assets'))
-            .pipe(tap(function() {
+            .pipe(tap(function () {
                 cb();
             }));
     });

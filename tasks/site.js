@@ -10,7 +10,7 @@ var nunjucks = require('nunjucks');
 var _ = require('lodash');
 var date_formats = ["YYYY-MM-DD", "YYYY-MM-DD-X"];
 
-gulp.task('site', function(cb) {
+gulp.task('site', function (cb) {
 
     pager = pager();
 
@@ -32,7 +32,7 @@ gulp.task('site', function(cb) {
     site.route('/')
         .use(content('posts/*'))
         .use(pager)
-        .use(function(pages, next) {
+        .use(function (pages, next) {
 
             next([_.last(pages)]);
         })
@@ -46,13 +46,13 @@ gulp.task('site', function(cb) {
 
     site.route('/posts/')
         .use(content('posts.md'))
-        .use(function(pages, next) {
+        .use(function (pages, next) {
 
             var posts = content('posts/*');
 
-            posts([], function(posts) {
+            posts([], function (posts) {
 
-                _.map(posts, function(v, k) {
+                _.map(posts, function (v, k) {
 
                     var page = v.page;
 
@@ -78,7 +78,7 @@ gulp.task('site', function(cb) {
     site.route('/drafts/')
         .use(content('drafts/*'))
         .use(pager)
-        .use(function(pages, next) {
+        .use(function (pages, next) {
 
             next([_.last(pages)]);
         })

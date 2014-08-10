@@ -11,7 +11,7 @@ var mkdirp = require('mkdirp');
 var path = require('path');
 var date_formats = ["YYYY-MM-DD", "YYYY-MM-DD-X"];
 
-gulp.task('move', function(cb) {
+gulp.task('move', function (cb) {
 
     var file;
 
@@ -94,11 +94,11 @@ gulp.task('move', function(cb) {
 
     var directory = path.dirname(newFile);
 
-    mkdirp(directory, function(err) {
+    mkdirp(directory, function (err) {
 
         if (err) throw err;
 
-        fs.rename(file, newFile, function(err) {
+        fs.rename(file, newFile, function (err) {
 
             if (err) throw err;
 
