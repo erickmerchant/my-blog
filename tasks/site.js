@@ -4,7 +4,7 @@ var gulp = require('gulp');
 var _ = require('lodash');
 var nunjucks = require('nunjucks');
 var lib = require('../lib/');
-var date_formats = ["YYYY-MM-DD", "YYYY-MM-DD-X"];
+var date_formats = ["YYYY-MM-DD", "YYYY-MM-DD-HHmmss"];
 
 lib.plugins.content.configure('./content/', {
     converters: {

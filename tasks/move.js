@@ -9,7 +9,7 @@ var fs = require('fs');
 var trimmer = require('trimmer');
 var mkdirp = require('mkdirp');
 var path = require('path');
-var date_formats = ["YYYY-MM-DD", "YYYY-MM-DD-X"];
+var date_formats = ["YYYY-MM-DD", "YYYY-MM-DD-HHmmss"];
 
 gulp.task('move', function (cb) {
 
@@ -49,7 +49,7 @@ gulp.task('move', function (cb) {
 
         if (moment(parts[0], date_formats).isValid()) {
 
-            date = parts[0];
+            date = moment(parts[0], date_formats);
 
             slug = parts.slice(1).join('.');
         }
@@ -67,6 +67,7 @@ gulp.task('move', function (cb) {
         if (!date) {
 
             date = moment().format(format);
+
         } else {
 
             date = moment(date).format(format);
