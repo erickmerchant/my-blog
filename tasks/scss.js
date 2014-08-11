@@ -4,12 +4,13 @@ var gulp = require('gulp');
 var argh = require('argh');
 var sass = require('gulp-sass');
 var autoprefixer = require('gulp-autoprefixer');
+var scss_files = require('./settings.json').scss_files;
 
 gulp.task('scss', function () {
 
     var outputStyle = argh.argv.dev ? 'nested' : 'compressed';
 
-    var stream = gulp.src('assets/scss/site.scss')
+    var stream = gulp.src(scss_files)
         .pipe(sass({
             outputStyle: outputStyle
         }))

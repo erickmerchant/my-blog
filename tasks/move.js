@@ -9,7 +9,7 @@ var fs = require('fs');
 var trimmer = require('trimmer');
 var mkdirp = require('mkdirp');
 var path = require('path');
-var date_formats = ["YYYY-MM-DD", "YYYY-MM-DD-HHmmss"];
+var date_formats = require('./settings.json').date_formats;
 
 gulp.task('move', function (cb) {
 

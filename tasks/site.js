@@ -4,7 +4,7 @@ var gulp = require('gulp');
 var _ = require('lodash');
 var nunjucks = require('nunjucks');
 var engine = require('static-engine');
-var date_formats = ["YYYY-MM-DD", "YYYY-MM-DD-HHmmss"];
+var date_formats = require('./settings.json').date_formats;
 
 engine.plugins.content.configure('./content/', {
     converters: {
