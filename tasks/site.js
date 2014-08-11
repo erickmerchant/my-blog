@@ -3,12 +3,12 @@
 var gulp = require('gulp');
 var _ = require('lodash');
 var nunjucks = require('nunjucks');
-var lib = require('../lib/');
+var engine = require('static-engine');
 var date_formats = ["YYYY-MM-DD", "YYYY-MM-DD-HHmmss"];
 
-lib.plugins.content.configure('./content/', {
+engine.plugins.content.configure('./content/', {
     converters: {
-        md: lib.converters.marked()
+        md: engine.converters.marked()
     },
     date_formats: date_formats
 });
@@ -19,13 +19,13 @@ nunjucks.configure('./templates/', {
 
 gulp.task('site', function (cb) {
 
-    var site = lib.site('./site/');
+    var site = engine.site('./site/');
 
     site.engine(nunjucks.render);
 
     site.route('/')
-        .use(lib.plugins.content('posts/*'))
-        .use(lib.plugins.pager())
+        .use(engine.plugins.content('posts/*'))
+        .use(engine.plugins.pager())
         .use(function (pages, next) {
 
             next([_.last(pages)]);
@@ -34,15 +34,15 @@ gulp.task('site', function (cb) {
 
     site.route('/posts/{slug}/')
         .alias('post')
-        .use(lib.plugins.content('posts/*'))
-        .use(lib.plugins.pager())
+        .use(engine.plugins.content('posts/*'))
+        .use(engine.plugins.pager())
         .render('post.html');
 
     site.route('/posts/')
-        .use(lib.plugins.content('posts.md'))
+        .use(engine.plugins.content('posts.md'))
         .use(function (pages, next) {
 
-            var posts = lib.plugins.content('posts/*');
+            var posts = engine.plugins.content('posts/*');
 
             posts([], function (posts) {
 
@@ -65,13 +65,13 @@ gulp.task('site', function (cb) {
 
     site.route('/drafts/{slug}/')
         .alias('draft')
-        .use(lib.plugins.content('drafts/*'))
-        .use(lib.plugins.pager())
+        .use(engine.plugins.content('drafts/*'))
+        .use(engine.plugins.pager())
         .render('draft.html');
 
     site.route('/drafts/')
-        .use(lib.plugins.content('drafts/*'))
-        .use(lib.plugins.pager())
+        .use(engine.plugins.content('drafts/*'))
+        .use(engine.plugins.pager())
         .use(function (pages, next) {
 
             next([_.last(pages)]);
@@ -79,10 +79,10 @@ gulp.task('site', function (cb) {
         .render('draft.html');
 
     site.route('/404.html')
-        .use(lib.plugins.content('404.md'))
+        .use(engine.plugins.content('404.md'))
         .render('404.html');
 
-    site.after(lib.plugins.defaults(site, './content/defaults.yml'));
+    site.after(engine.plugins.defaults(site, './content/defaults.yml'));
 
     return site.build();
 });
