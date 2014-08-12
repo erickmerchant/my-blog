@@ -25,7 +25,7 @@
     "nunjucks": "^1.0.5",
     "require-dir": "^0.1.0",
     "slug": "^0.5.0",
-    "static-engine": "0.0.1",
+    "static-engine": "0.0.2",
     "trimmer": "0.0.3"
   }
 }
