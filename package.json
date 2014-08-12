@@ -1,5 +1,5 @@
 {
-  "name": "node-static-site-generator",
+  "name": "erickmerchat.com-source",
   "dependencies": {
     "argh": "^0.1.3",
     "chalk": "^0.5.1",
