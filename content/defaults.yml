@@ -4,25 +4,23 @@ banner: Erick Merchant
 sub_banner: On Development
 menu:
     -
-        -
-            text: Home
-            icon: home
-            url: /
-        -
-            text: Archives
-            icon: calendar
-            url: /posts/
+        text: Home
+        icon: home
+        url: /
     -
-        -
-            text: GitHub
-            icon: github
-            url: http://github.com/erickmerchant/
-            target: _blank
-        -
-            text: Twitter
-            icon: twitter
-            url: http://twitter.com/erickmerchant/
-            target: _blank
+        text: Archives
+        icon: calendar
+        url: /posts/
+    -
+        text: GitHub
+        icon: github
+        url: http://github.com/erickmerchant/
+        target: _blank
+    -
+        text: Twitter
+        icon: twitter
+        url: http://twitter.com/erickmerchant/
+        target: _blank
 css:
     - "http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700"
     - /assets/site.css

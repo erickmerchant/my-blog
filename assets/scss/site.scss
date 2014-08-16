@@ -1,21 +1,140 @@
 @import "normalize";
-@import "print";
+// @import "print";
 
 /*!
  * site.css
 */
 @import "bourbon/bourbon";
-@import "grid-settings";
+@import 'base/grid-settings';
 @import "neat/neat";
-@import "variables";
-@import "typography";
-@import "forms";
-@import "tables";
-@import "lists";
-@import "extends/button";
-@import "extends/well";
-@import "layout";
-@import "theme";
-
+@import "base/base";
 @import "geomicons";
 @import "prism";
+
+.column-a {
+    background: $dark-gray;
+    padding: .5em;
+
+    @include transition(padding $transition-duration $transition-timing-function);
+
+    @include media($medium-screen-up) {
+        padding: .5em 2em;
+    }
+
+    @include media($large-screen-up) {
+        width: 22em;
+        height: 100%;
+        padding: 2em 0 0 2em;
+        position: fixed;
+        top: 0;
+        left: 0;
+        overflow: auto;
+    }
+}
+
+.column-b {
+    @include outer-container;
+    @include pad(.5em);
+    max-width: em(608);
+
+    @include media($large-screen-up) {
+        margin-left: 34.5%;
+        margin-top: 1.75em;
+    }
+}
+
+[role="banner"] {
+    font-size: $base-font-size * 2.25;
+    font-weight: bold;
+    color: white;
+
+    span {
+        display: block;
+        font-size: $base-font-size * .5;
+    }
+}
+
+[role="navigation"] {
+    margin-top: 2em;
+    padding: 0 2em 0 0;
+    text-align: center;
+
+    a {
+        @extend %button;
+        text-align: left;
+        background: $dark-gray;
+        border: 1px solid white;
+        color: white;
+        display: inline-block;
+        margin: 0 .5em 1em 0;
+        font-weight: normal;
+
+        &:hover {
+            background: $dark-gray;
+        }
+
+        & .geomicon {
+            fill: white;
+            margin-right: .25em;
+        }
+
+        @include media($large-screen-up) {
+            display: block;
+        }
+    }
+}
+
+[itemprop="text"] {
+    @include clearfix;
+
+    ul {
+        @extend %default-ul;
+    }
+
+    ol {
+        @extend %default-ol;
+    }
+
+    img {
+        // padding: 4px;
+        // border: 1px solid $medium-gray;
+        // border-radius: $base-border-radius;
+        box-shadow: 0 1px 3px rgba(0,0,0,.055);
+        margin: 1em 0;
+    }
+}
+
+.info, .share {
+    margin-top: -.2em;
+}
+
+.pagination {
+    text-align: center;
+
+    a {
+        @extend %button;
+        margin: 0 .5em;
+
+        & .geomicon {
+            fill: white;
+        }
+    }
+
+    span {
+        @extend %button;
+        margin: 0 .5em;
+        background: $light-gray;
+
+        &:hover {
+            background: $light-gray;
+        }
+
+        & .geomicon {
+            fill: white;
+        }
+    }
+}
+
+[role="contentinfo"] {
+    margin-top: 1em;
+}

@@ -15,35 +15,24 @@
         {% endfor %}
     </head>
     <body>
-        <header role="banner">
-            <div>{{ banner }} <span>{{ sub_banner }}</span></div>
-        </header>
-        <div class="cols">
-            <div class="col-1">
-                <nav role="navigation">
-                    <form role="search" name="search" method="GET" action="http://google.com/search">
-                        <input type="hidden" name="q" value="site:{{ host }}">
-                        <input type="text" placeholder="Search..." name="q">
-                    </form>
-                    {% for links in menu %}
-                        {% for link in links %}
-                            <a{% if link.target %} target="{{ link.target }}"{% endif %} href="{{ link.url }}">{% if link.icon %}{{ geomicons.icon(link.icon) }} {% endif %}{{ link.text }}</a>
-                        {% endfor %}
-                        {% if not loop.last %}
-                            <div class="divider"></div>
-                        {% endif %}
-                    {% endfor %}
-                </nav>
-            </div>
-            <div class="col-2">
-                <main role="main">
-                    {% block main %}
-                    {% endblock %}
-                </main>
-                <footer role="contentinfo">
-                    <small>Copyright &copy; {{ now.format('YYYY') }} by {{ author }} &bull; Built with <a href="https://github.com/erickmerchant/erickmerchant.com-source">gulp and other node packages</a></small>
-                </footer>
-            </div>
+        <div class="column-a">
+            <header role="banner">
+                <div>{{ banner }} <span>{{ sub_banner }}</span></div>
+            </header>
+            <nav role="navigation">
+                {% for link in menu %}
+                    <a{% if link.target %} target="{{ link.target }}"{% endif %} href="{{ link.url }}">{% if link.icon %}{{ geomicons.icon(link.icon) }} {% endif %}{{ link.text }}</a>
+                {% endfor %}
+            </nav>
+        </div>
+        <div class="column-b">
+            <main role="main">
+                {% block main %}
+                {% endblock %}
+            </main>
+            <footer role="contentinfo">
+                <small>Copyright &copy; {{ now.format('YYYY') }} by {{ author }} &bull; Built with <a href="https://github.com/erickmerchant/erickmerchant.com-source">gulp and other node packages</a></small>
+            </footer>
         </div>
         {% for url in js %}
             <script data-turbolinks-eval="false" async src="{{ url }}"></script>
