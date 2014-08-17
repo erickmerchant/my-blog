@@ -13,18 +13,18 @@
 
 .column-a {
     background: $dark-gray;
-    padding: .5em;
+    @include pad(.5em);
 
     @include transition(padding $transition-duration $transition-timing-function);
 
     @include media($medium-screen-up) {
-        padding: .5em 2em;
+        padding: .5em 1em;
     }
 
     @include media($large-screen-up) {
         width: 22em;
         height: 100%;
-        padding: 2em 0 0 2em;
+        padding: 1em;
         position: fixed;
         top: 0;
         left: 0;
@@ -39,34 +39,27 @@
 
     @include media($large-screen-up) {
         margin-left: 34.5%;
-        margin-top: 1.75em;
+        margin-top: .5em;
     }
 }
 
 [role="banner"] {
-    font-size: $base-font-size * 2.25;
     font-weight: bold;
     color: white;
-
-    span {
-        display: block;
-        font-size: $base-font-size * .5;
-    }
 }
 
 [role="navigation"] {
     margin-top: 2em;
-    padding: 0 2em 0 0;
     text-align: center;
 
     a {
         @extend %button;
+        display: block;
         text-align: left;
         background: $dark-gray;
         border: 1px solid white;
         color: white;
-        display: inline-block;
-        margin: 0 .5em 1em 0;
+        margin: .5em .125em;
         font-weight: normal;
 
         &:hover {
@@ -78,8 +71,8 @@
             margin-right: .25em;
         }
 
-        @include media($large-screen-up) {
-            display: block;
+        @include media($medium-screen-only) {
+            display: inline-block;
         }
     }
 }
@@ -102,10 +95,6 @@
         box-shadow: 0 1px 3px rgba(0,0,0,.055);
         margin: 1em 0;
     }
-}
-
-.info, .share {
-    margin-top: -.2em;
 }
 
 .pagination {
