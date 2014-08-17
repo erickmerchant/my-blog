@@ -53,26 +53,23 @@
     text-align: center;
 
     a {
-        @extend %button;
-        display: block;
         text-align: left;
-        background: $dark-gray;
-        border: 1px solid white;
         color: white;
-        margin: .5em .125em;
-        font-weight: normal;
+        display: inline-block;
+        margin: .5em;
 
         &:hover {
-            background: $dark-gray;
+            color: white;
         }
 
         & .geomicon {
             fill: white;
-            margin-right: .25em;
+            margin-left: .5em;
         }
 
-        @include media($medium-screen-only) {
-            display: inline-block;
+        @include media($large-screen-up) {
+            display: block;
+            margin: 1em 0;
         }
     }
 }
