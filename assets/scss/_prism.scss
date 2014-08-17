@@ -5,8 +5,20 @@
  * @author Lea Verou
  */
 
-code,
 pre {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+	background: #f5f4f4;
+}
+
+/* Inline code */
+:not(pre) > code {
+	font-family: $base-font-family;
+	color: $medium-gray;
+}
+
+pre code {
 	color: black;
 	text-shadow: 0 1px white;
 	font-family: Consolas, Monaco, 'Andale Mono', monospace;
@@ -19,35 +31,15 @@ pre {
 	hyphens: none;
 }
 
-pre::selection, pre ::selection,
-code::selection, code ::selection {
+pre::selection code, pre code::selection, pre code ::selection {
 	text-shadow: none;
 	background: #b3d4fc;
 }
 
 @media print {
-	code,
-	pre {
+	pre code {
 		text-shadow: none;
 	}
-}
-
-/* Code blocks */
-pre {
-	padding: 1em;
-	margin: .5em 0;
-	overflow: auto;
-}
-
-:not(pre) > code,
-pre {
-	background: #f5f4f4;
-}
-
-/* Inline code */
-:not(pre) > code {
-	padding: .1em;
-	border-radius: .3em;
 }
 
 .token.comment,
