@@ -104,10 +104,6 @@
     a {
         @extend %button;
         margin: 0 .5em;
-
-        & .geomicon {
-            fill: white;
-        }
     }
 
     span {
@@ -117,10 +113,6 @@
 
         &:hover {
             background: $light-gray;
-        }
-
-        & .geomicon {
-            fill: white;
         }
     }
 }

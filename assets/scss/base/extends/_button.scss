@@ -13,5 +13,13 @@
   &:hover {
     background-color: $hover-button-color;
     color: white;
+
+    & .geomicon {
+        fill: white;
+    }
+  }
+
+  & .geomicon {
+      fill: white;
   }
 }
