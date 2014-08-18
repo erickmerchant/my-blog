@@ -15,7 +15,7 @@ pre {
 /* Inline code */
 :not(pre) > code {
 	font-family: $base-font-family;
-	color: $medium-gray;
+	font-style: italic;
 }
 
 pre code {
