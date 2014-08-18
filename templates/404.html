@@ -6,7 +6,7 @@
         <p>{{ page.content|safe }}</p>
         <form role="search" name="search" method="GET" action="http://google.com/search">
             <input type="hidden" name="q" value="site:{{ host }}">
-            <button type="submit">Submit</button>
+            <button type="submit">{{ geomicons.icon('search') }} Submit</button>
             <input type="text" placeholder="Search..." name="q">
         </form>
     </section>
