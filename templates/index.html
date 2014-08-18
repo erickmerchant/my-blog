@@ -31,7 +31,7 @@
                 {% endblock %}
             </main>
             <footer role="contentinfo">
-                <small>Copyright &copy; {{ now.format('YYYY') }} by {{ author }} &bull; Built with <a href="https://github.com/erickmerchant/erickmerchant.com-source">gulp and other node packages</a></small>
+                <small>Copyright &copy; {{ now.format('YYYY') }} by {{ author }} &bull; {{ footer|safe }}</small>
             </footer>
         </div>
         {% for url in js %}
