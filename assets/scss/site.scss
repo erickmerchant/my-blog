@@ -124,15 +124,19 @@
 [role="search"] {
 
     @include clearfix();
+    text-align: center;
 
-    [type="text"] {
-        float: left;
-        width: 65%
-    }
+    @include media($medium-screen-up) {
 
-    [type="submit"] {
-        float: left;
-        width: 25%;
-        margin-right: 1em;
+        [type="text"] {
+            float: right;
+            width: 64%;
+        }
+
+        [type="submit"] {
+            float: right;
+            width: 31%;
+            margin-right: 1em;
+        }
     }
 }
