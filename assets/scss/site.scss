@@ -44,8 +44,15 @@
 }
 
 [role="banner"] {
-    font-weight: bold;
-    color: $light-gray;
+    color: white;
+
+    h1 {
+        font-weight: 800;
+    }
+
+    p {
+        font-weight: bold;
+    }
 }
 
 [role="navigation"] {
@@ -68,7 +75,7 @@
 
         & .geomicon {
             fill: white;
-            margin-left: .5em;
+            margin-right: .25em;
         }
 
         @include media($large-screen-up) {
