@@ -15,7 +15,7 @@
     background: $dark-gray;
     @include pad(.5em);
 
-    @include transition(padding $transition-duration $transition-timing-function);
+    // @include transition(padding $transition-duration $transition-timing-function);
 
     @include media($medium-screen-up) {
         padding: .5em 1em;
@@ -45,12 +45,16 @@
 
 [role="banner"] {
     font-weight: bold;
-    color: white;
+    color: $light-gray;
 }
 
 [role="navigation"] {
-    margin-top: 2em;
+    margin-top: 1em;
     text-align: center;
+
+    @include media($large-screen-up) {
+        margin-top: 3em;
+    }
 
     a {
         text-align: left;
@@ -90,7 +94,7 @@
         // border: 1px solid $medium-gray;
         // border-radius: $base-border-radius;
         box-shadow: 0 1px 3px rgba(0,0,0,.055);
-        margin: 1em 0;
+        margin: 1em 0 0 0;
     }
 }
 
