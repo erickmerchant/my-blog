@@ -2,7 +2,7 @@
 // @import "print";
 
 /*!
- * site.css
+ * bitters.css
 */
 @import "bourbon/bourbon";
 @import 'base/grid-settings';
@@ -11,6 +11,9 @@
 @import "geomicons";
 @import "prism";
 
+/*!
+ * site.css
+*/
 .column-a {
     background: $dark-gray;
     @include pad(.5em);
