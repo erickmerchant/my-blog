@@ -14,6 +14,10 @@
 /*!
  * site.css
 */
+html {
+    overflow-y: scroll;
+}
+
 .column-a {
     background: $dark-gray;
     @include pad(.5em);
@@ -25,7 +29,7 @@
     }
 
     @include media($large-screen-up) {
-        width: 22em;
+        width: 30%;
         height: 100%;
         padding: 1em;
         position: fixed;
@@ -41,7 +45,7 @@
     max-width: em(608);
 
     @include media($large-screen-up) {
-        margin-left: 34.5%;
+        margin-left: 35%;
         margin-top: .5em;
     }
 }
