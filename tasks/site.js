@@ -23,9 +23,7 @@ nunjucks.configure('./templates/', {
 
 gulp.task('site', function (cb) {
 
-    var site = engine.site('./site/');
-
-    site.engine(nunjucks.render);
+    var site = engine.site('./site/', nunjucks.render);
 
     site.route('/')
         .use(content('posts/*'))
