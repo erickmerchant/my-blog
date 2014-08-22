@@ -2,7 +2,6 @@
     "date_formats": ["YYYY-MM-DD", "YYYY-MM-DD-HHmmss"],
     "js_files": [
         "assets/js/prism.js",
-        "assets/js/geomicons.min.js",
         "assets/js/site.js"
     ],
     "scss_files": ["assets/scss/site.scss"]
