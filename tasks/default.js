@@ -3,7 +3,7 @@
 var gulp = require('gulp');
 var argh = require('argh');
 
-var default_task_deps = ['base', 'scss', 'images', 'js', 'geomicons', 'site'];
+var default_task_deps = ['base', 'scss', 'images', 'js', 'geomicons-append', 'site'];
 
 if (!argh.argv.dev) {
 

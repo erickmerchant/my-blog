@@ -8,7 +8,7 @@ gulp.task('watch', ['default'], function () {
     gulp.watch('base/**', ['base']);
     gulp.watch('content/uploads/*.jpg', ['images']);
     gulp.watch('assets/js/**/**.js', ['js']);
-    gulp.watch('assets/geomicons/**/**.svg', ['geomicons']);
+    gulp.watch('assets/geomicons/**/**.svg', ['geomicons-append']);
 
     if (!argh.argv.dev) {
 
