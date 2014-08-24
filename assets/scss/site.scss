@@ -22,8 +22,6 @@ html {
     background: $dark-gray;
     @include pad(.5em);
 
-    // @include transition(padding $transition-duration $transition-timing-function);
-
     @include media($medium-screen-up) {
         padding: .5em 1em;
     }
