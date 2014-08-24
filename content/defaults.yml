@@ -24,7 +24,7 @@ menu:
 footer: >
     Source can be found <a href="https://github.com/erickmerchant/erickmerchant.com-source">here</a>. &bull; Built with gulp, static-engine, other node packages, and other things. &bull; Theme inspired heavily by <a href="http://hyde.getpoole.com/">Hyde</a>.
 css:
-    - "http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,800,700"
+    - "http://fonts.googleapis.com/css?family=Bitter:700"
     - /assets/site.css
 js:
     - /assets/site.js
