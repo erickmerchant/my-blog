@@ -16,14 +16,16 @@
     </head>
     <body>
         <div class="column-a">
-            <header role="banner">
-                <h1>{{ banner }}</h1><p>{{ sub_banner }}</p>
-            </header>
-            <nav role="navigation">
-                {% for link in menu %}
-                    <a{% if link.target %} target="{{ link.target }}"{% endif %} href="{{ link.url }}">{% if link.icon %}{{ geomicons.icon(link.icon) }} {% endif %}{{ link.text }}</a>
-                {% endfor %}
-            </nav>
+            <div>
+                <header role="banner">
+                    <h1>{{ banner }}</h1><p>{{ sub_banner }}</p>
+                </header>
+                <nav role="navigation">
+                    {% for link in menu %}
+                        <a{% if link.target %} target="{{ link.target }}"{% endif %} href="{{ link.url }}">{% if link.icon %}{{ geomicons.icon(link.icon) }} {% endif %}{{ link.text }}</a>
+                    {% endfor %}
+                </nav>
+            </div>
         </div>
         <div class="column-b">
             <main role="main">
