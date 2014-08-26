@@ -15,12 +15,10 @@ menu:
         text: GitHub
         icon: github
         url: http://github.com/erickmerchant/
-        target: _blank
     -
         text: Twitter
         icon: twitter
         url: http://twitter.com/erickmerchant/
-        target: _blank
 footer: >
     Source can be found <a href="https://github.com/erickmerchant/erickmerchant.com-source">here</a>. &bull; Built with gulp, static-engine, other node packages, and other things. &bull; Theme inspired heavily by <a href="http://hyde.getpoole.com/">Hyde</a>.
 css:
