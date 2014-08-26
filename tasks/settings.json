@@ -5,13 +5,13 @@
         "assets/js/site.js"
     ],
     "scss_files": ["assets/scss/site.scss"],
-    "geomicons": [
-        "calendar",
-        "chevron-left",
-        "chevron-right",
-        "github",
-        "home",
-        "search",
-        "twitter"
+    "icon_files": [
+        "bower_components/geomicons-open/icons/calendar.svg",
+        "bower_components/geomicons-open/icons/chevron-left.svg",
+        "bower_components/geomicons-open/icons/chevron-right.svg",
+        "bower_components/geomicons-open/icons/github.svg",
+        "bower_components/geomicons-open/icons/home.svg",
+        "bower_components/geomicons-open/icons/search.svg",
+        "bower_components/geomicons-open/icons/twitter.svg"
     ]
 }

@@ -8,17 +8,11 @@ var footer = require('gulp-footer');
 var header = require('gulp-header');
 var fs = require('fs');
 var Q = require('q');
-var _ = require('lodash');
-var geomicons = require('./settings.json').geomicons;
+var icon_files = require('./settings.json').icon_files;
 
 gulp.task('geomicons', function () {
 
-    geomicons = _.map(geomicons, function(val){
-
-        return 'bower_components/geomicons-open/icons/' + val + '.svg';
-    });
-
-    var stream = gulp.src(geomicons)
+    var stream = gulp.src(icon_files)
         .pipe(cheerio(function ($) {
             var $path = $('svg').children('path');
             var id = $('svg').attr('id');
