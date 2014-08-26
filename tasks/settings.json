@@ -1,7 +1,14 @@
 {
     "date_formats": ["YYYY-MM-DD", "YYYY-MM-DD-HHmmss"],
     "js_files": [
-        "assets/js/prism.js",
+        "bower_components/prism/components/prism-core.js",
+        "bower_components/prism/components/prism-markup.js",
+        "bower_components/prism/components/prism-twig.js",
+        "bower_components/prism/components/prism-css.js",
+        "bower_components/prism/components/prism-clike.js",
+        "bower_components/prism/components/prism-javascript.js",
+        "bower_components/prism/components/prism-php.js",
+        "bower_components/prism/components/prism-scss.js",
         "assets/js/site.js"
     ],
     "scss_files": ["assets/scss/site.scss"],

@@ -14,6 +14,7 @@
     "tests"
   ],
   "dependencies": {
-    "geomicons-open": "git://github.com/jxnblk/geomicons-open.git#~0.0.1"
+    "geomicons-open": "git://github.com/jxnblk/geomicons-open.git#~0.0.1",
+    "prism": "gh-pages"
   }
 }
