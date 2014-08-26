@@ -1,0 +1,19 @@
+{
+  "name": "erickmerchant.com-source",
+  "version": "0.0.0",
+  "homepage": "https://github.com/erickmerchant/erickmerchant.com-source",
+  "authors": [
+    "Erick Merchant <erickmerchant@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "geomicons-open": "git://github.com/jxnblk/geomicons-open.git#~0.0.1"
+  }
+}

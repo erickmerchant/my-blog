@@ -4,5 +4,14 @@
         "assets/js/prism.js",
         "assets/js/site.js"
     ],
-    "scss_files": ["assets/scss/site.scss"]
+    "scss_files": ["assets/scss/site.scss"],
+    "geomicons": [
+        "calendar",
+        "chevron-left",
+        "chevron-right",
+        "github",
+        "home",
+        "search",
+        "twitter"
+    ]
 }
