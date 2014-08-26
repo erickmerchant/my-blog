@@ -1,4 +1,5 @@
 .DS_Store
-/site
-node_modules
 /content/drafts
+/site
+bower_components
+node_modules
