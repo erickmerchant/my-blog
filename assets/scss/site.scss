@@ -25,32 +25,12 @@ BMjkcwl0ElkcwqYzwOUMTEcii9MZ4HfeIAlJ/OGGywt0BsQ4CVMNfQEATxgs1NYh
 +awAAAAASUVORK5CYII="), linear-gradient(180deg, lighten($dark-gray, 1), darken($dark-gray, 10)), center no-repeat lighten($dark-gray, 1) scroll);
 
     @include pad(.5em);
-
-    @include media($medium-screen-up) {
-        padding: .5em 1em;
-    }
-
-    @include media($large-screen-up) {
-        width: 30%;
-        height: 100%;
-        padding: 1em;
-        position: fixed;
-        top: 0;
-        left: 0;
-        overflow: auto;
-    }
-
 }
 
 .column-b {
     @include outer-container;
     @include pad(.5em);
     max-width: em(608);
-
-    @include media($large-screen-up) {
-        margin-left: 35%;
-        margin-top: .5em;
-    }
 }
 
 [role="banner"] {
@@ -69,10 +49,6 @@ BMjkcwl0ElkcwqYzwOUMTEcii9MZ4HfeIAlJ/OGGywt0BsQ4CVMNfQEATxgs1NYh
     margin-top: 1em;
     text-align: center;
 
-    @include media($large-screen-up) {
-        margin-top: 3em;
-    }
-
     a {
         text-align: left;
         color: white;
@@ -86,11 +62,6 @@ BMjkcwl0ElkcwqYzwOUMTEcii9MZ4HfeIAlJ/OGGywt0BsQ4CVMNfQEATxgs1NYh
         & .geomicon {
             fill: white;
             margin-right: .25em;
-        }
-
-        @include media($large-screen-up) {
-            display: block;
-            margin: 1em 0;
         }
     }
 }
@@ -142,8 +113,15 @@ BMjkcwl0ElkcwqYzwOUMTEcii9MZ4HfeIAlJ/OGGywt0BsQ4CVMNfQEATxgs1NYh
 
     @include clearfix();
     text-align: center;
+}
 
-    @include media($medium-screen-up) {
+@include media($medium-screen-up) {
+
+    .column-a {
+        padding: .5em 1em;
+    }
+
+    [role="search"] {
 
         [type="text"] {
             float: right;
@@ -154,6 +132,33 @@ BMjkcwl0ElkcwqYzwOUMTEcii9MZ4HfeIAlJ/OGGywt0BsQ4CVMNfQEATxgs1NYh
             float: right;
             width: 31%;
             margin-right: 1em;
+        }
+    }
+}
+
+@include media($large-screen-up) {
+
+    .column-a {
+        width: 30%;
+        height: 100%;
+        padding: 1em;
+        position: fixed;
+        top: 0;
+        left: 0;
+        overflow: auto;
+    }
+
+    .column-b {
+        margin-left: 35%;
+        margin-top: .5em;
+    }
+
+    [role="navigation"] {
+        margin-top: 3em;
+
+        a {
+            display: block;
+            margin: 1em 0;
         }
     }
 }
