@@ -35,8 +35,8 @@
             </footer>
         </div>
         {% for url in js %}
-            <script data-turbolinks-eval="false" async src="{{ url }}"></script>
+            <script async src="{{ url }}"></script>
         {% endfor %}
-        <!--[if lt IE 9]><script data-turbolinks-eval="false" src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.2/html5shiv.js"></script><![endif]-->
+        <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.2/html5shiv.js"></script><![endif]-->
     </body>
 </html>
