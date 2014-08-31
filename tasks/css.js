@@ -11,7 +11,7 @@ var minifycss = require('gulp-minify-css');
 var tap = require('gulp-tap');
 var glob = require('glob');
 
-gulp.task('scss', function () {
+gulp.task('css', function () {
 
     var outputStyle = argh.argv.dev ? 'nested' : 'compressed';
 
@@ -25,7 +25,7 @@ gulp.task('scss', function () {
     return stream;
 });
 
-gulp.task('uncss', ['htmlmin', 'scss'], function (cb) {
+gulp.task('css-prod', ['css', 'html-prod'], function (cb) {
 
     var ignore = [
         /\.token.*/,

@@ -23,7 +23,7 @@ nunjucks.configure('./templates/', {
     autoescape: true
 });
 
-gulp.task('site', function (cb) {
+gulp.task('html', function (cb) {
 
     var site = engine.site('./site/', nunjucks.render);
 
@@ -91,7 +91,7 @@ gulp.task('site', function (cb) {
     return site.build();
 });
 
-gulp.task('htmlmin', ['geomicons-append'], function () {
+gulp.task('html-prod', ['html', 'icons'], function () {
 
     var stream = gulp.src('site/**/**.html')
         .pipe(htmlmin({
