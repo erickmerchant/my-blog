@@ -1,10 +1,29 @@
 'use strict';
 
 var gulp = require('gulp');
+var argh = require('argh');
+var sass = require('gulp-sass');
+var autoprefixer = require('gulp-autoprefixer');
+var scss_files = require('./settings.json').scss_files;
+var gulp = require('gulp');
 var uncss = require('gulp-uncss');
 var minifycss = require('gulp-minify-css');
 var tap = require('gulp-tap');
 var glob = require('glob');
+
+gulp.task('scss', function () {
+
+    var outputStyle = argh.argv.dev ? 'nested' : 'compressed';
+
+    var stream = gulp.src(scss_files)
+        .pipe(sass({
+            outputStyle: outputStyle
+        }))
+        .pipe(autoprefixer('> 1%', 'last 2 versions'))
+        .pipe(gulp.dest('site/assets'));
+
+    return stream;
+});
 
 gulp.task('uncss', ['htmlmin', 'scss'], function (cb) {
 

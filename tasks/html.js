@@ -9,6 +9,8 @@ var defaults = engine.plugins.defaults;
 var pager = engine.plugins.pager;
 var marked = engine.converters.marked;
 var date_formats = require('./settings.json').date_formats;
+var gulp = require('gulp');
+var htmlmin = require('gulp-htmlmin');
 
 content.configure('./content/', {
     converters: {
@@ -87,4 +89,15 @@ gulp.task('site', function (cb) {
     site.after(defaults(site, './content/defaults.yml'));
 
     return site.build();
+});
+
+gulp.task('htmlmin', ['geomicons-append'], function () {
+
+    var stream = gulp.src('site/**/**.html')
+        .pipe(htmlmin({
+            collapseWhitespace: true
+        }))
+        .pipe(gulp.dest('site'));
+
+    return stream;
 });
