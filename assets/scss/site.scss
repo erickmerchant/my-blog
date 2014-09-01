@@ -71,7 +71,9 @@ BMjkcwl0ElkcwqYzwOUMTEcii9MZ4HfeIAlJ/OGGywt0BsQ4CVMNfQEATxgs1NYh
 
     img {
         box-shadow: 0 1px 3px rgba(0,0,0,.055);
-        margin: 1em 0 0 0;
+        border: 1px solid $light-gray;
+        padding: .125em;
+        margin: 1em 0;
     }
 }
 
