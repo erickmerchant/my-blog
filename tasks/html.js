@@ -52,7 +52,7 @@ gulp.task('html', function (cb) {
 
                 _.map(posts, function (v, k) {
 
-                    var page = v.page;
+                    var page = v;
 
                     page.year_month = page.date.format(
                         'MMMM YYYY');
@@ -60,7 +60,7 @@ gulp.task('html', function (cb) {
                     posts[k] = page;
                 });
 
-                pages[0].page.posts = posts.reverse();
+                pages[0].posts = posts.reverse();
 
                 next(pages);
             });

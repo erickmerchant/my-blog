@@ -7,8 +7,8 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         {% block meta %}
-            <title>{{ page.title }}</title>
-            <meta name="description" content="{{ page.summary }}">
+            <title>{{ title }}</title>
+            <meta name="description" content="{{ summary }}">
         {% endblock %}
         {% for url in css %}
             <link href="{{ url }}" type="text/css" rel="stylesheet">
