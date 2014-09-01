@@ -7,6 +7,7 @@ var engine = require('static-engine');
 var content = engine.plugins.content;
 var defaults = engine.plugins.defaults;
 var pager = engine.plugins.pager;
+var last = engine.plugins.last;
 var marked = engine.converters.marked;
 var date_formats = require('./settings.json').date_formats;
 var gulp = require('gulp');
@@ -30,10 +31,7 @@ gulp.task('html', function (cb) {
     site.route('/')
         .use(content('posts/*'))
         .use(pager())
-        .use(function (pages, next) {
-
-            next([_.last(pages)]);
-        })
+        .use(last())
         .render('post.html');
 
     site.route('/posts/{slug}/')
@@ -56,10 +54,7 @@ gulp.task('html', function (cb) {
     site.route('/drafts/')
         .use(content('drafts/*'))
         .use(pager())
-        .use(function (pages, next) {
-
-            next([_.last(pages)]);
-        })
+        .use(last())
         .render('draft.html');
 
     site.route('/404.html')
