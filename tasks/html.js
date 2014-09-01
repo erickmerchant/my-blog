@@ -44,27 +44,7 @@ gulp.task('html', function (cb) {
 
     site.route('/posts/')
         .use(content('posts.md'))
-        .use(function (pages, next) {
-
-            var posts = content('posts/*');
-
-            posts([], function (posts) {
-
-                _.map(posts, function (v, k) {
-
-                    var page = v;
-
-                    page.year_month = page.date.format(
-                        'MMMM YYYY');
-
-                    posts[k] = page;
-                });
-
-                pages[0].posts = posts.reverse();
-
-                next(pages);
-            });
-        })
+        .use(content.collection('posts', 'posts/*'))
         .render('posts.html');
 
     site.route('/drafts/{slug}/')

@@ -3,18 +3,24 @@
 {% block main %}
     <section>
         <h1>{{ title }}</h1>
-        {% for year_month, posts in posts|groupby('year_month') %}
-            <section>
-                <h2>{{ geomicons.icon('calendar') }} {{ year_month }}</h2>
-                {% for post in posts %}
-                    <article itemscope itemtype="http://schema.org/BlogPosting">
-                        <header>
-                            <h3 itemprop="name"><a href="{{ route(routename|default('post'), {slug: post.slug}) }}" itemprop="url">{{ post.title }}</a></h3>
-                        </header>
-                        <p itemprop="description">{{ post.summary }}</p>
-                    </article>
-                {% endfor %}
-            </section>
+        {% for post in posts %}
+            {% if post.date.format('MMMM YYYY') != year_month %}
+                {% set year_month = post.date.format('MMMM YYYY') %}
+                {% if not loop.first %}
+                    </section>
+                {% endif %}
+                <section>
+                    <h2>{{ geomicons.icon('calendar') }} {{ year_month }}</h2>
+            {% endif %}
+            <article itemscope itemtype="http://schema.org/BlogPosting">
+                <header>
+                    <h3 itemprop="name"><a href="{{ route(routename|default('post'), {slug: post.slug}) }}" itemprop="url">{{ post.title }}</a></h3>
+                </header>
+                <p itemprop="description">{{ post.summary }}</p>
+            </article>
+            {% if loop.last %}
+                </section>
+            {% endif %}
         {% endfor %}
     </section>
 {% endblock %}
