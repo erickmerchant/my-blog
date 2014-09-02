@@ -10,13 +10,13 @@
     <article itemscope itemtype="http://schema.org/BlogPosting">
         <header>
             <h1 itemprop="name">{{ title }}</h1>
-            <p class="info">
+            <p>
                 <time itemprop="datePublished" datetime="{{ date.format("YYYY-MM-DD") }}">{{ geomicons.icon('calendar') }} {{ date.format("MMMM D, YYYY") }}</time>
             </p>
         </header>
         <div itemprop="text">{{ content|safe }}</div>
         <footer>
-            <p class="share">
+            <p>
                 <span>Share with:</span>
                 <a href="https://twitter.com/intent/tweet?url={{ host + route(routename|default('post'), {slug: slug})|urlencode }}&amp;text={{ title|urlencode }}" target="_blank">{{ geomicons.icon('twitter') }} Twitter</a>
             </p>
