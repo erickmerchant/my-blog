@@ -9,7 +9,7 @@
         "bower_components/prism/components/prism-javascript.js",
         "bower_components/prism/components/prism-php.js",
         "bower_components/prism/components/prism-scss.js",
-        "bower_components/prism/components/prism-apacheconf.js",
+        "assets/js/prism-apacheconf.js",
         "assets/js/site.js"
     ],
     "scss_files": ["assets/scss/site.scss"],
