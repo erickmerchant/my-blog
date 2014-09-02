@@ -106,7 +106,7 @@ html {
 @include media($medium-screen-up) {
 
     .column-a, .column-b {
-        padding: 1em .5em;
+        padding: 1em;
     }
 
     [role="search"] {
