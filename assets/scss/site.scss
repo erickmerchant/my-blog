@@ -20,7 +20,8 @@ html {
 
 .column-a {
     background: $dark-gray;
-    @include background(url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABsAAAAPCAQAAAC/mnxTAAAANUlEQVQoU2N4JskABMjkcwl0ElkcwqYzwOUMTEcii9MZ4HfeIAlJ/OGGywt0BsQ4CVMNfQEATxgs1NYh+awAAAAASUVORK5CYII="), linear-gradient(180deg, lighten($dark-gray, 1), darken($dark-gray, 10)), center no-repeat lighten($dark-gray, 1) scroll);
+    @include background-image( linear-gradient(darken($dark-gray, 2.5%) 2px, transparent 2px), linear-gradient(90deg, darken($dark-gray, 2.5%) 2px, transparent 2px) );
+    background-size: .25em .25em, .25em .25em;
 
     @include pad(.5em);
 }
