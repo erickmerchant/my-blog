@@ -19,8 +19,8 @@ html {
 }
 
 .column-a {
-    background: $dark-gray;
-    @include background-image( linear-gradient(darken($dark-gray, 2.5%) 2px, transparent 2px), linear-gradient(90deg, darken($dark-gray, 2.5%) 2px, transparent 2px) );
+    background-color: darken($dark-gray, 2.5%);
+    @include background-image( linear-gradient($dark-gray 2px, transparent 2px), linear-gradient(90deg, $dark-gray 2px, transparent 2px) );
     background-size: .25em .25em, .25em .25em;
 
     @include pad(.5em);
