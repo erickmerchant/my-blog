@@ -20,7 +20,6 @@ pre {
 
 pre code {
 	color: black;
-	text-shadow: 0 1px white;
 	font-family: Consolas, Monaco, 'Andale Mono', monospace;
 	direction: ltr;
 	text-align: left;
@@ -29,17 +28,6 @@ pre code {
 	word-break: normal;
 	tab-size: 4;
 	hyphens: none;
-}
-
-pre::selection code, pre code::selection, pre code ::selection {
-	text-shadow: none;
-	background: #b3d4fc;
-}
-
-@media print {
-	pre code {
-		text-shadow: none;
-	}
 }
 
 .token.comment,
