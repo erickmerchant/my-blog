@@ -43,7 +43,7 @@ gulp.task('icons', ['icons-geomicons', 'html'], function (cb) {
 
         geomicon_deferred.promise.then(function(data){
 
-            $('body').append(data);
+            $('body script').last().before(data);
 
             done();
         });
