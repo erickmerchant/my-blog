@@ -7,7 +7,7 @@ var engine = require('static-engine');
 var content = engine.plugins.content;
 var defaults = engine.plugins.defaults;
 var pager = engine.plugins.pager;
-var last = engine.plugins.last;
+var first = engine.plugins.first;
 var marked = engine.converters.marked;
 var date_formats = require('./settings.json').date_formats;
 var gulp = require('gulp');
@@ -31,7 +31,7 @@ gulp.task('html', function (cb) {
     site.route('/')
         .use(content('posts/*'))
         .use(pager())
-        .use(last())
+        .use(first())
         .render('post.html');
 
     site.route('/posts/{slug}/')

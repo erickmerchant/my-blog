@@ -27,7 +27,7 @@
     "q": "^1.0.1",
     "require-dir": "^0.1.0",
     "slug": "^0.5.0",
-    "static-engine": "^0.2.0",
+    "static-engine": "^0.3.0",
     "trimmer": "0.0.3"
   }
 }
