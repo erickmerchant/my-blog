@@ -45,18 +45,6 @@ gulp.task('html', function (cb) {
         .use(content.collection('posts', 'posts/*'))
         .render('posts.html');
 
-    site.route('/drafts/{slug}/')
-        .alias('draft')
-        .use(content('drafts/*'))
-        .use(pager())
-        .render('draft.html');
-
-    site.route('/drafts/')
-        .use(content('drafts/*'))
-        .use(pager())
-        .use(last())
-        .render('draft.html');
-
     site.route('/404.html')
         .use(content('404.md'))
         .render('404.html');

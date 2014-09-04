@@ -14,7 +14,7 @@
             {% endif %}
             <article itemscope itemtype="http://schema.org/BlogPosting">
                 <header>
-                    <h3 itemprop="name"><a href="{{ route(routename|default('post'), {slug: post.slug}) }}" itemprop="url">{{ post.title }}</a></h3>
+                    <h3 itemprop="name"><a href="{{ route('post', {slug: post.slug}) }}" itemprop="url">{{ post.title }}</a></h3>
                 </header>
                 <p itemprop="description">{{ post.summary }}</p>
             </article>

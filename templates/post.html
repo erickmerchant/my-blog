@@ -3,7 +3,7 @@
 {% block meta %}
     <title>{{ title }} | Posts</title>
     <meta name="description" content="{{ summary }}">
-    <link rel="canonical" href="{{ host + route(routename|default('post'), {slug: slug}) }}">
+    <link rel="canonical" href="{{ host + route('post', {slug: slug}) }}">
 {% endblock %}
 
 {% block main %}
@@ -18,20 +18,20 @@
         <footer>
             <p>
                 <span>Share with:</span>
-                <a href="https://twitter.com/intent/tweet?url={{ host + route(routename|default('post'), {slug: slug})|urlencode }}&amp;text={{ title|urlencode }}" target="_blank">{{ geomicons.icon('twitter') }} Twitter</a>
+                <a href="https://twitter.com/intent/tweet?url={{ host + route('post', {slug: slug})|urlencode }}&amp;text={{ title|urlencode }}" target="_blank">{{ geomicons.icon('twitter') }} Twitter</a>
             </p>
         </footer>
     </article>
     {% if previous or next %}
         <nav class="pagination">
             {% if previous %}
-                <a rel="prev" href="{{ route(routename|default('post'), {slug: previous.slug}) }}">{{ geomicons.icon('chevron-left') }} Older</a>
+                <a rel="prev" href="{{ route('post', {slug: previous.slug}) }}">{{ geomicons.icon('chevron-left') }} Older</a>
             {% else %}
                 <span>{{ geomicons.icon('chevron-left') }} Older</span>
             {% endif %}
 
             {% if next %}
-                <a rel="next" href="{{ route(routename|default('post'), {slug: next.slug}) }}">Newer {{ geomicons.icon('chevron-right') }}</a>
+                <a rel="next" href="{{ route('post', {slug: next.slug}) }}">Newer {{ geomicons.icon('chevron-right') }}</a>
             {% else %}
                 <span>Newer {{ geomicons.icon('chevron-right') }}</span>
             {% endif %}
