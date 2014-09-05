@@ -8,6 +8,7 @@ var content = engine.plugins.content;
 var defaults = engine.plugins.defaults;
 var pager = engine.plugins.pager;
 var first = engine.plugins.first;
+var collection = engine.plugins.collection;
 var marked = engine.converters.marked;
 var date_formats = require('./settings.json').date_formats;
 var gulp = require('gulp');
@@ -42,7 +43,7 @@ gulp.task('html', function (cb) {
 
     site.route('/posts/')
         .use(content('posts.md'))
-        .use(content.collection('posts', 'posts/*'))
+        .use(collection('posts', content('posts/*')))
         .render('posts.html');
 
     site.route('/404.html')
