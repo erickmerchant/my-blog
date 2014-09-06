@@ -41,7 +41,7 @@ h6 {
   font-size: $base-font-size;
 }
 
-@include media($medium-screen-up) {
+@include  breakpoint(medium-screen-up) {
 
     h1 {
       font-size: $base-font-size * 2.25; // 16 * 2.25 = 36px
@@ -73,7 +73,7 @@ p {
 }
 
 a {
-  @include transition(color 0.1s linear);
+  transition: color 0.1s linear;
   color: $base-link-color;
   text-decoration: none;
 

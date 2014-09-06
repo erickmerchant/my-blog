@@ -27,10 +27,9 @@ label {
 }
 
 textarea,
-#{$all-text-inputs},
+input[type=text],
 select[multiple=multiple] {
-  @include box-sizing(border-box);
-  @include transition(border-color);
+  transition: border-color 0.1s linear;
   background-color: white;
   border-radius: $form-border-radius;
   border: 1px solid $form-border-color;
@@ -57,7 +56,7 @@ textarea {
 }
 
 input[type="search"] {
-  @include appearance(none);
+  appearance: none;
 }
 
 input[type="checkbox"], input[type="radio"] {

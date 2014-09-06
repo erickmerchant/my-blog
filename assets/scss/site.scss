@@ -4,31 +4,43 @@
 /*!
  * bitters.css
 */
-@import "bourbon/bourbon";
-@import 'base/grid-settings';
-@import "neat/neat";
-@import "base/base";
+
+@import "functions";
+@import "mixins";
+@import "variables";
+@import "placeholders";
+
+@import "typography";
+@import "forms";
+@import "tables";
+@import "lists";
+@import "buttons";
+
 @import "geomicons";
 @import "prism";
 
 /*!
  * site.css
 */
+
+* {
+    box-sizing: border-box;
+}
+
 html {
     overflow-y: scroll;
 }
 
 .column-a {
     background-color: darken($dark-gray, 2.5%);
-    @include background-image( linear-gradient($dark-gray 2px, transparent 2px), linear-gradient(90deg, $dark-gray 2px, transparent 2px) );
+    background-image: linear-gradient($dark-gray 2px, transparent 2px), linear-gradient(90deg, $dark-gray 2px, transparent 2px);
     background-size: .25em .25em, .25em .25em;
-
-    @include pad(.5em);
+    padding: .5em;
 }
 
 .column-b {
-    @include outer-container;
-    @include pad(.5em);
+    margin: 0 auto;
+    padding: .5em;
     max-width: em(608);
 }
 
@@ -58,7 +70,7 @@ html {
 }
 
 [itemprop="text"] {
-    @include clearfix;
+    @extend %clearfix;
 
     ul {
         @extend %default-ul;
@@ -100,11 +112,11 @@ html {
 
 [role="search"] {
 
-    @include clearfix();
+    @extend %clearfix;
     text-align: center;
 }
 
-@include media($medium-screen-up) {
+@include breakpoint(medium-screen-up) {
 
     .column-a, .column-b {
         padding: 1em;
@@ -125,7 +137,7 @@ html {
     }
 }
 
-@include media($large-screen-up) {
+@include breakpoint(large-screen-up) {
 
     .column-a {
         width: 30%;
