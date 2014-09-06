@@ -8,14 +8,16 @@
         @content;
     }
   }
-  @else if $point == medium-screen-up {
+
+  @if $point == medium-screen-up {
 
     @media (min-width: $medium-screen) {
 
         @content;
     }
   }
-  @else if $point == large-screen-up {
+  
+  @if $point == large-screen-up {
 
     @media (min-width: $large-screen) {
 
