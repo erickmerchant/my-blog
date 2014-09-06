@@ -13,14 +13,6 @@
   &:hover {
     background-color: $hover-button-color;
     color: white;
-
-    & svg {
-        fill: white;
-    }
-  }
-
-  & svg {
-      fill: white;
   }
 }
 

@@ -17,16 +17,7 @@ svg {
   width: 1em; /* 1 */
   height: 1em;
   vertical-align: -0.125em; /* 2 */
-  color: $base-font-color;
-
-  a & {
-      fill: $base-link-color;
-  }
-
-  a:hover &, a:active &, a:focus & {
-
-      fill: $hover-link-color;
-  }
+  fill: currentColor;
 }
 
 
