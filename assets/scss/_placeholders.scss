@@ -24,6 +24,15 @@
   }
 }
 
+%button-disabled {
+
+  background-color: $disabled-button-color;
+
+  &:hover {
+    background-color: $disabled-button-color;
+  }
+}
+
 %clearfix {
   &:after {
     content:"";

@@ -90,11 +90,7 @@ html {
     }
 
     span {
-        background: $light-gray;
-
-        &:hover {
-            background: $light-gray;
-        }
+        @extend %button-disabled;
     }
 }
 
