@@ -31,8 +31,8 @@ html {
 }
 
 .column-a {
-    background-color: darken($dark-gray, 2.5%);
-    background-image: linear-gradient($dark-gray 2px, transparent 2px), linear-gradient(90deg, $dark-gray 2px, transparent 2px);
+    background-color: darken($dark-background-color, 2.5%);
+    background-image: linear-gradient($dark-background-color 2px, transparent 2px), linear-gradient(90deg, $dark-background-color 2px, transparent 2px);
     background-size: .25em .25em, .25em .25em;
     padding: .5em;
 }
