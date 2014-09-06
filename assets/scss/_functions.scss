@@ -1,4 +1,4 @@
-@function em($pxval) {
+@function em($pxval, $base: 16) {
 
-  @return ($pxval / 16) * 1em;
+  @return ($pxval / $base) * 1em;
 }
