@@ -72,14 +72,6 @@ html {
 [itemprop="text"] {
     @extend %clearfix;
 
-    ul {
-        @extend %default-ul;
-    }
-
-    ol {
-        @extend %default-ol;
-    }
-
     img {
         box-shadow: 0 1px 3px rgba(0,0,0,.055);
         border: 1px solid $light-gray;
