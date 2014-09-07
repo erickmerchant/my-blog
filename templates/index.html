@@ -10,9 +10,8 @@
             <title>{{ title }}</title>
             <meta name="description" content="{{ summary }}">
         {% endblock %}
-        {% for url in css %}
-            <link href="{{ url }}" type="text/css" rel="stylesheet">
-        {% endfor %}
+        <link href="http://fonts.googleapis.com/css?family=Bitter:700" type="text/css" rel="stylesheet">
+        <link href="/assets/site.css" type="text/css" rel="stylesheet">
     </head>
     <body>
         <div class="column-a">
@@ -34,9 +33,7 @@
                 <small>Copyright &copy; {{ now.format('YYYY') }} by {{ author }} &bull; {{ footer|safe }}</small>
             </footer>
         </div>
-        {% for url in js %}
-            <script async src="{{ url }}"></script>
-        {% endfor %}
+        <script async src="/assets/site.js"></script>
         <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.2/html5shiv.js"></script><![endif]-->
     </body>
 </html>
