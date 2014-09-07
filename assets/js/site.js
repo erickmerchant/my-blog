@@ -1,4 +1,2 @@
-/*!
- * site.js
-*/
+/*! site.js */
 Prism.highlightAll();

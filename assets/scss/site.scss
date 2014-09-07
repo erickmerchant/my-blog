@@ -1,26 +1,12 @@
 @import "normalize";
 // @import "print";
 
-/*!
- * bitters.css
-*/
-
-@import "functions";
-@import "mixins";
-@import "variables";
-@import "placeholders";
-
-@import "typography";
-@import "forms";
-@import "tables";
-@import "lists";
+@import "base";
 
 @import "geomicons";
 @import "prism";
 
-/*!
- * site.css
-*/
+/*! site.css */
 
 * {
     box-sizing: border-box;
