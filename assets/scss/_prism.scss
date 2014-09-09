@@ -9,7 +9,7 @@ pre {
 	padding: 1em;
 	margin: .5em 0;
 	overflow: auto;
-	background: #f5f4f4;
+	background: #f5f4f3;
 	border-radius: $base-border-radius;
 }
 
@@ -20,7 +20,7 @@ pre {
 }
 
 pre code {
-	color: black;
+	color: lighten($base-font-color, 20);
 	font-family: Consolas, Monaco, 'Andale Mono', monospace;
 	direction: ltr;
 	text-align: left;
