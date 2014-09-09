@@ -16,7 +16,7 @@
         @content;
     }
   }
-  
+
   @if $point == large-screen-up {
 
     @media (min-width: $large-screen) {
