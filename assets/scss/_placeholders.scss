@@ -19,6 +19,7 @@
 %button-disabled {
 
   background-color: $disabled-button-color;
+  cursor: not-allowed;
 
   &:hover {
     background-color: $disabled-button-color;
