@@ -7,18 +7,17 @@
             {% if post.date.format('MMMM YYYY') != year_month %}
                 {% set year_month = post.date.format('MMMM YYYY') %}
                 {% if not loop.first %}
+                        </dl>
                     </section>
                 {% endif %}
                 <section>
                     <h2>{{ geomicons.icon('calendar') }} {{ year_month }}</h2>
+                    <dl>
             {% endif %}
-            <article itemscope itemtype="http://schema.org/BlogPosting">
-                <header>
-                    <h3 itemprop="name"><a href="{{ route('post', {slug: post.slug}) }}" itemprop="url">{{ post.title }}</a></h3>
-                </header>
-                <p itemprop="description">{{ post.summary }}</p>
-            </article>
+            <dt><a href="{{ route('post', {slug: post.slug}) }}">{{ post.title }}</a></dt>
+            <dd>{{ post.summary }}</dd>
             {% if loop.last %}
+                    </dl>
                 </section>
             {% endif %}
         {% endfor %}
