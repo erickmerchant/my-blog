@@ -33,6 +33,10 @@ html {
     color: white;
 }
 
+.sub-banner {
+    @extend %semi-bold;
+}
+
 [role="navigation"] {
     margin-top: 1em;
     text-align: center;
@@ -42,6 +46,8 @@ html {
         color: white;
         display: inline-block;
         margin: .5em;
+
+        @extend %semi-bold;
 
         &:hover {
             color: white;
@@ -63,6 +69,14 @@ html {
         padding: .125em;
         margin: 1em 0;
     }
+}
+
+.date {
+    @extend %semi-bold;
+}
+
+.share {
+    @extend %semi-bold;
 }
 
 .pagination {
