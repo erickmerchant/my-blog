@@ -10,7 +10,7 @@ var fs = require('fs');
 var Q = require('q');
 var icon_files = require('./settings.json').icon_files;
 
-gulp.task('icons-geomicons', function () {
+gulp.task('icons', function () {
 
     var stream = gulp.src(icon_files)
         .pipe(cheerio(function ($) {
@@ -30,7 +30,7 @@ gulp.task('icons-geomicons', function () {
     return stream;
 });
 
-gulp.task('icons', ['icons-geomicons', 'html'], function (cb) {
+gulp.task('icons-append', ['icons', 'html'], function (cb) {
 
     var geomicon_deferred = Q.defer();
 

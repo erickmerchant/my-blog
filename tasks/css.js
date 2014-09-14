@@ -25,7 +25,7 @@ gulp.task('css', function () {
     return stream;
 });
 
-gulp.task('css-prod', ['css', 'html-prod'], function (cb) {
+gulp.task('css-minify', ['css', 'html-minify'], function (cb) {
 
     var ignore = [
         /\.token.*/,

@@ -55,7 +55,7 @@ gulp.task('html', function (cb) {
     return site.build();
 });
 
-gulp.task('html-prod', ['html', 'icons'], function () {
+gulp.task('html-minify', ['html', 'icons-append'], function () {
 
     var stream = gulp.src('site/**/**.html')
         .pipe(htmlmin({
