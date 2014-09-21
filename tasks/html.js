@@ -4,12 +4,12 @@ var gulp = require('gulp');
 var _ = require('lodash');
 var nunjucks = require('nunjucks');
 var engine = require('static-engine');
-var content = engine.plugins.content;
-var defaults = engine.plugins.defaults;
-var pager = engine.plugins.pager;
-var first = engine.plugins.first;
-var collection = engine.plugins.collection;
-var marked = engine.converters.marked;
+var content = require('static-engine-content');
+var defaults = require('static-engine-defaults');
+var pager = require('static-engine-pager');
+var first = require('static-engine-first');
+var collection = require('static-engine-collection');
+var marked = require('static-engine-converter-marked');
 var date_formats = require('./settings.json').date_formats;
 var gulp = require('gulp');
 var htmlmin = require('gulp-htmlmin');
@@ -27,7 +27,7 @@ nunjucks.configure('./templates/', {
 
 gulp.task('html', function (cb) {
 
-    var site = engine.site('./site/', nunjucks.render);
+    var site = engine('./site/', nunjucks.render);
 
     site.route('/')
         .use(content('posts/*'))
