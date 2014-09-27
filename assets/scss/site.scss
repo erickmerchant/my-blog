@@ -139,11 +139,14 @@ html {
     }
 
     [role="navigation"] {
+
+        @extend %clearfix;
         margin-top: 3em;
 
         a {
-            display: block;
-            margin: 1em 0;
+            float: left;
+            clear: left;
+            margin: 0 0 1em 0;
         }
     }
 }
