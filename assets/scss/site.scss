@@ -17,9 +17,9 @@ html {
 }
 
 .column-a {
-    background-color: darken($alt-background-color, 2.5%);
-    background-image: linear-gradient($alt-background-color 2px, transparent 2px), linear-gradient(90deg, $alt-background-color 2px, transparent 2px);
-    background-size: .25em .25em, .25em .25em;
+    background-color: $alt-background-color;
+    // background-image: linear-gradient($alt-background-color 2px, transparent 2px), linear-gradient(90deg, $alt-background-color 2px, transparent 2px);
+    // background-size: .25em .25em, .25em .25em;
     padding: .5em;
 }
 
