@@ -12,7 +12,11 @@
         "assets/js/prism-apacheconf.js",
         "assets/js/site.js"
     ],
-    "scss_files": ["assets/scss/site.scss"],
+    "css_files": [
+        "bower_components/normalize.css/normalize.css",
+        "bower_components/prism/themes/prism.css",
+        "assets/css/site.css"
+    ],
     "icon_files": [
         "bower_components/geomicons-open/icons/calendar.svg",
         "bower_components/geomicons-open/icons/chevron-left.svg",

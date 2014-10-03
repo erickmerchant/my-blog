@@ -11,29 +11,29 @@
         <header>
             <h1 itemprop="name">{{ title }}</h1>
             <p>
-                <time itemprop="datePublished" datetime="{{ date.format("YYYY-MM-DD") }}" class="date">{{ geomicons.icon('calendar') }} {{ date.format("MMMM D, YYYY") }}</time>
+                <time itemprop="datePublished" datetime="{{ date.format("YYYY-MM-DD") }}">{{ geomicons.icon('calendar') }} {{ date.format("MMMM D, YYYY") }}</time>
             </p>
         </header>
         <div itemprop="text">{{ content|safe }}</div>
         <footer>
             <p>
                 <span>Share with:</span>
-                <a href="https://twitter.com/intent/tweet?url={{ host + route('post', {slug: slug})|urlencode }}&amp;text={{ title|urlencode }}" class="share" target="_blank">{{ geomicons.icon('twitter') }} Twitter</a>
+                <a href="https://twitter.com/intent/tweet?url={{ host + route('post', {slug: slug})|urlencode }}&amp;text={{ title|urlencode }}" target="_blank">{{ geomicons.icon('twitter') }} Twitter</a>
             </p>
         </footer>
     </article>
     {% if previous or next %}
-        <nav class="pagination">
+        <nav class="center p2">
             {% if previous %}
-                <a rel="prev" href="{{ route('post', {slug: previous.slug}) }}">{{ geomicons.icon('chevron-left') }} Older</a>
+                <a class="button m1 py1 button-blue" rel="prev" href="{{ route('post', {slug: previous.slug}) }}">{{ geomicons.icon('chevron-left') }} Older</a>
             {% else %}
-                <span>{{ geomicons.icon('chevron-left') }} Older</span>
+                <span class="button m1 py1 button-gray button-disabled">{{ geomicons.icon('chevron-left') }} Older</span>
             {% endif %}
 
             {% if next %}
-                <a rel="next" href="{{ route('post', {slug: next.slug}) }}">Newer {{ geomicons.icon('chevron-right') }}</a>
+                <a class="button m1 py1 button-blue" rel="next" href="{{ route('post', {slug: next.slug}) }}">Newer {{ geomicons.icon('chevron-right') }}</a>
             {% else %}
-                <span>Newer {{ geomicons.icon('chevron-right') }}</span>
+                <span class="button m1 py1 button-gray button-disabled">Newer {{ geomicons.icon('chevron-right') }}</span>
             {% endif %}
         </nav>
     {% endif %}

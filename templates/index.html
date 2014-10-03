@@ -14,25 +14,19 @@
         <link href="/assets/site.css" type="text/css" rel="stylesheet">
     </head>
     <body>
-        <div class="column-a">
-            <header role="banner">
-                <h1>{{ banner }}</h1><p class="sub-banner">{{ sub_banner }}</p>
-            </header>
-            <nav role="navigation">
-                {% for link in menu %}
-                    <a{% if link.target %} target="{{ link.target }}"{% endif %} href="{{ link.url }}">{% if link.icon %}{{ geomicons.icon(link.icon) }} {% endif %}{{ link.text }}</a>
-                {% endfor %}
-            </nav>
-        </div>
-        <div class="column-b">
-            <main role="main">
-                {% block main %}
-                {% endblock %}
-            </main>
-            <footer role="contentinfo">
-                <small>Copyright &copy; {{ now.format('YYYY') }} by {{ author }} &bull; {{ footer|safe }}</small>
-            </footer>
-        </div>
+        <nav class="bg-dark-gray p1 white center top-nav" role="navigation">
+            <a class="inline-block p1 white" href="/">{{ banner }}</a>
+            {% for link in menu %}
+                <a class="inline-block p1 white"{% if link.target %} target="{{ link.target }}"{% endif %} href="{{ link.url }}">{% if link.icon %}{{ geomicons.icon(link.icon) }} {% endif %}{{ link.text }}</a>
+            {% endfor %}
+        </nav>
+        <main class="container px1" role="main">
+            {% block main %}
+            {% endblock %}
+        </main>
+        <footer class="p1 center" role="contentinfo">
+            <small>Copyright &copy; {{ now.format('YYYY') }} by {{ author }} &bull; {{ footer|safe }}</small>
+        </footer>
         <script async src="/assets/site.js"></script>
         <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.2/html5shiv.js"></script><![endif]-->
     </body>

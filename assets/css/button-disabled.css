@@ -1,0 +1,9 @@
+.button-disabled {
+    cursor: default;
+}
+
+.button-disabled:hover,
+.button-disabled:active {
+    opacity: 1;
+    box-shadow: none;
+}

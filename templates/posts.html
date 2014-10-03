@@ -15,7 +15,7 @@
                     <dl>
             {% endif %}
             <dt><a href="{{ route('post', {slug: post.slug}) }}">{{ post.title }}</a></dt>
-            <dd>{{ post.summary }}</dd>
+            <dd class="mb1">{{ post.summary }}</dd>
             {% if loop.last %}
                     </dl>
                 </section>

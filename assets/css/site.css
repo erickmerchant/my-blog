@@ -1,0 +1,61 @@
+
+* {
+    box-sizing: border-box;
+}
+
+@import "basscss-base";
+@import "basscss-utilities";
+@import "basscss-grid";
+@import "basscss-table-object";
+@import "basscss-color-basic";
+@import "./button-disabled.css";
+@import "./icons.css";
+
+:root {
+  --font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --heading-font-weight: 800;
+  --container-width: 40em;
+  --ui-padding-x: 1.25rem;
+}
+
+blockquote {
+    border-left: 1px solid #c3c9c9;
+}
+
+blockquote, blockquote p {
+    font-size: 1rem;
+}
+
+cite:before {
+    content: '\2014 \00A0';
+}
+
+pre {
+    overflow: auto;
+    padding: 1rem;
+}
+
+pre code {
+    white-space: pre-wrap;
+}
+
+img {
+    border-style: solid;
+    border-width: 1px;
+    border-color: #c3c9c9;
+    margin: .5rem 0;
+    padding: .25rem;
+    border-radius: 3px;
+}
+
+dt {
+    font-weight: bold;
+}
+
+dd {
+    margin-left: 0;
+}
+
+.top-nav {
+    font-weight: bold;
+}

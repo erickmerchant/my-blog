@@ -13,13 +13,13 @@ gulp.task('watch', ['default'], function () {
 
     if (!argh.argv.dev) {
 
-        gulp.watch('assets/scss/**/**.scss', ['css-minify']);
+        gulp.watch('assets/css/**/**.css', ['css-minify']);
         gulp.watch('templates/**/**.html', ['html-minify', 'css-minify']);
         gulp.watch('content/**', ['html-minify', 'css-minify']);
 
     } else {
 
-        gulp.watch('assets/scss/**/**.scss', ['css']);
+        gulp.watch('assets/css/**/**.css', ['css']);
         gulp.watch('templates/**/**.html', ['html']);
         gulp.watch('content/**', ['html']);
     }

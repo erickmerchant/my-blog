@@ -1,0 +1,14 @@
+/*
+ * Geomicons Open
+ *
+ * http://jxnblk.github.io/geomicons-open
+ * Base icon styles
+ *
+ */
+
+.icon {
+  width: 1em; /* 1 */
+  height: 1em;
+  vertical-align: -0.125em; /* 2 */
+  fill: currentColor;
+}

@@ -1,25 +1,22 @@
 'use strict';
 
 var gulp = require('gulp');
-var argh = require('argh');
-var sass = require('gulp-sass');
 var autoprefixer = require('gulp-autoprefixer');
-var scss_files = require('./settings.json').scss_files;
 var gulp = require('gulp');
 var uncss = require('gulp-uncss');
 var minifycss = require('gulp-minify-css');
 var tap = require('gulp-tap');
 var glob = require('glob');
+var basswork = require('gulp-basswork');
+var css_files = require('./settings.json').css_files;
+var concat = require('gulp-concat');
 
 gulp.task('css', function () {
 
-    var outputStyle = argh.argv.dev ? 'nested' : 'compressed';
-
-    var stream = gulp.src(scss_files)
-        .pipe(sass({
-            outputStyle: outputStyle
-        }))
+    var stream = gulp.src(css_files)
+        .pipe(basswork())
         .pipe(autoprefixer('> 1%', 'last 2 versions'))
+        .pipe(concat("site.css"))
         .pipe(gulp.dest('site/assets'));
 
     return stream;
