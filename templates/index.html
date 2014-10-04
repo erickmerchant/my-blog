@@ -15,7 +15,7 @@
     </head>
     <body>
         <nav class="border-bottom bg-dark-gray h3 semi-bold p2 center" role="navigation">
-            <a class="m1 inline-block white" href="/">{{ banner }}</a>
+            <a class="m1 extra-bold inline-block white" href="/">{{ banner }}</a>
             {% for link in menu %}
                 <a class="m1 inline-block white" {% if link.target %} target="{{ link.target }}"{% endif %} href="{{ link.url }}">{% if link.icon %}{{ geomicons.icon(link.icon) }} {% endif %}{{ link.text }}</a>
             {% endfor %}

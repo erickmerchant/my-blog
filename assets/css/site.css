@@ -60,3 +60,7 @@ dd {
 .semi-bold {
     font-weight: 600;
 }
+
+.extra-bold {
+    font-weight: 800;
+}
