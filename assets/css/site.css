@@ -1,21 +1,22 @@
-
-* {
-    box-sizing: border-box;
-}
-
 @import "basscss-base";
 @import "basscss-utilities";
 @import "basscss-grid";
 @import "basscss-table-object";
 @import "basscss-color-basic";
+@import "./responsive-headings.css";
 @import "./button-disabled.css";
 @import "./icons.css";
 
 :root {
-  --font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  --heading-font-weight: 800;
-  --container-width: 40em;
-  --ui-padding-x: 1.25rem;
+    --font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --heading-font-weight: 800;
+    --container-width: 40em;
+    --h1: 1.375rem;
+    --h2: 1.25rem;
+    --h3: 1.125rem;
+    --h4: 1rem;
+    --h5: .875rem;
+    --h6: .75rem;
 }
 
 blockquote {
@@ -56,6 +57,11 @@ dd {
     margin-left: 0;
 }
 
-.top-nav {
-    font-weight: bold;
+.nav a {
+    border-bottom: 2px solid transparent;
+}
+
+.nav a:hover {
+    text-decoration: none;
+    border-bottom: 2px solid white;
 }

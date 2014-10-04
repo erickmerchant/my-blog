@@ -14,13 +14,13 @@
         <link href="/assets/site.css" type="text/css" rel="stylesheet">
     </head>
     <body>
-        <nav class="bg-dark-gray p1 white center top-nav" role="navigation">
+        <nav class="h3 bg-dark-gray p1 white center bold nav" role="navigation">
             <a class="inline-block p1 white" href="/">{{ banner }}</a>
             {% for link in menu %}
                 <a class="inline-block p1 white"{% if link.target %} target="{{ link.target }}"{% endif %} href="{{ link.url }}">{% if link.icon %}{{ geomicons.icon(link.icon) }} {% endif %}{{ link.text }}</a>
             {% endfor %}
         </nav>
-        <main class="container px1" role="main">
+        <main class="container px2" role="main">
             {% block main %}
             {% endblock %}
         </main>
