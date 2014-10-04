@@ -56,12 +56,3 @@ dt {
 dd {
     margin-left: 0;
 }
-
-.nav a {
-    border-bottom: 2px solid transparent;
-}
-
-.nav a:hover {
-    text-decoration: none;
-    border-bottom: 2px solid white;
-}
