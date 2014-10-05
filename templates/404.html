@@ -1,13 +1,13 @@
 {% extends 'index.html' %}
 
 {% block main %}
-    <section>
+    <section class="center">
         <h1>{{ title }}</h1>
         <p>{{ content|safe }}</p>
         <form role="search" name="search" method="GET" action="http://google.com/search">
             <input type="hidden" name="q" value="site:{{ host }}">
-            <input type="text" placeholder="Search..." name="q">
-            <button type="submit">{{ geomicons.icon('search') }} Submit</button>
+            <input type="text" placeholder="Search..." name="q" class="field-light">
+            <button type="submit" class="button button-blue">{{ geomicons.icon('search') }} Submit</button>
         </form>
     </section>
 {% endblock %}
