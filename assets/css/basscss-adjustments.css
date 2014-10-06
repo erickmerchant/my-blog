@@ -1,0 +1,41 @@
+blockquote {
+    border-left: 1px solid #c3c9c9;
+}
+
+blockquote, blockquote p {
+    font-size: 1rem;
+}
+
+cite:before {
+    content: '\2014 \00A0';
+}
+
+pre {
+    overflow: auto;
+    padding: 1rem;
+}
+
+pre code {
+    white-space: pre-wrap;
+}
+
+img {
+    border-style: solid;
+    border-width: 1px;
+    border-color: #c3c9c9;
+    margin: .5rem 0;
+    padding: .25rem;
+    border-radius: 3px;
+}
+
+dt {
+    font-weight: bold;
+}
+
+dd {
+    margin-left: 0;
+}
+
+input {
+    inherit: .field-light;
+}
