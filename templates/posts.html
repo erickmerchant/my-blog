@@ -10,12 +10,12 @@
                         </dl>
                     </section>
                 {% endif %}
-                <section>
+                <section class="posts">
                     <h2>{{ geomicons.icon('calendar') }} {{ year_month }}</h2>
                     <dl>
             {% endif %}
             <dt><a href="{{ route('post', {slug: post.slug}) }}">{{ post.title }}</a></dt>
-            <dd class="mb1">{{ post.summary }}</dd>
+            <dd>{{ post.summary }}</dd>
             {% if loop.last %}
                     </dl>
                 </section>

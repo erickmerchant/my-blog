@@ -14,17 +14,17 @@
         <link href="/assets/site.css" type="text/css" rel="stylesheet">
     </head>
     <body>
-        <nav class="border-bottom bg-dark-gray h3 semi-bold p2 center" role="navigation">
-            <a class="no-underline m1 extra-bold inline-block white" href="/">{{ banner }}</a>
+        <nav class="nav" role="navigation">
+            <a class="ultra-bold" href="/">{{ banner }}</a>
             {% for link in menu %}
-                <a class="no-underline m1 inline-block white" {% if link.target %} target="{{ link.target }}"{% endif %} href="{{ link.url }}">{% if link.icon %}{{ geomicons.icon(link.icon) }} {% endif %}{{ link.text }}</a>
+                <a {% if link.target %} target="{{ link.target }}"{% endif %} href="{{ link.url }}">{% if link.icon %}{{ geomicons.icon(link.icon) }} {% endif %}{{ link.text }}</a>
             {% endfor %}
         </nav>
-        <main class="container px2" role="main">
+        <main class="main" role="main">
             {% block main %}
             {% endblock %}
         </main>
-        <footer class="p1 center" role="contentinfo">
+        <footer class="copyright" role="contentinfo">
             <small>Copyright &copy; {{ now.format('YYYY') }} by {{ author }} &bull; {{ footer|safe }}</small>
         </footer>
         <script async src="/assets/site.js"></script>

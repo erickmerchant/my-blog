@@ -61,10 +61,58 @@ dd {
     font-weight: 600;
 }
 
-.extra-bold {
+.ultra-bold {
     font-weight: 800;
 }
 
 .no-underline:hover {
     text-decoration: none;
+}
+
+.nav {
+    inherit: .border-bottom, .bg-dark-gray, .h3, .semi-bold, .p2, .center;
+}
+
+.nav a {
+    inherit: .no-underline, .m1, .inline-block, .white;
+}
+
+.main {
+    inherit: .container, .px2;
+}
+
+.copyright {
+    inherit: .p1, .center;
+}
+
+.pagination {
+    inherit: .center, .p2;
+}
+
+.pagination .link {
+    inherit: .button, .m1, .py1;
+}
+
+.pagination a {
+    inherit: .button-blue;
+}
+
+.pagination span {
+    inherit: .button-gray, .button-disabled;
+}
+
+.posts dd {
+    inherit: .mb1;
+}
+
+.unfound {
+    inherit: .center;
+}
+
+.unfound input {
+    inherit: .field-light;
+}
+
+.unfound button {
+    inherit: .button, .button-blue;
 }
