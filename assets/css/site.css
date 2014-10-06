@@ -21,16 +21,16 @@
     --h6: .75rem;
 }
 
-.no-underline:hover {
-    text-decoration: none;
-}
-
 .nav {
     inherit: .border-bottom, .bg-dark-gray, .h3, .semi-bold, .p2, .center;
 }
 
 .nav a {
-    inherit: .no-underline, .m1, .inline-block, .white;
+    inherit: .m1, .inline-block, .white;
+}
+
+.nav a:hover {
+    text-decoration: none;
 }
 
 .main {
