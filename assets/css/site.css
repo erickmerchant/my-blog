@@ -45,8 +45,8 @@
     inherit: .center, .p2;
 }
 
-.pagination .link {
-    inherit: .button, .m1, .py1;
+.pagination .button {
+    inherit: .m1;
 }
 
 .pagination a {
@@ -65,10 +65,6 @@
     inherit: .center;
 }
 
-.unfound input {
-    inherit: .field-light;
-}
-
-.unfound button {
-    inherit: .button, .button-blue;
+.unfound .button {
+    inherit: .button-blue;
 }
