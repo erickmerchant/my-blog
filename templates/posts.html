@@ -1,7 +1,7 @@
 {% extends 'index.html' %}
 
 {% block main %}
-    <section>
+    <section class="posts">
         <h1>{{ title }}</h1>
         {% for post in posts %}
             {% if post.date.format('MMMM YYYY') != year_month %}
@@ -10,7 +10,7 @@
                         </dl>
                     </section>
                 {% endif %}
-                <section class="posts">
+                <section>
                     <h2>{{ geomicons.icon('calendar') }} {{ year_month }}</h2>
                     <dl>
             {% endif %}

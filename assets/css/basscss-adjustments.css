@@ -19,23 +19,10 @@ pre code {
     white-space: pre-wrap;
 }
 
-img {
-    border-style: solid;
-    border-width: 1px;
-    border-color: #c3c9c9;
-    margin: .5rem 0;
-    padding: .25rem;
-    border-radius: 3px;
-}
-
 dt {
     font-weight: bold;
 }
 
 dd {
     margin-left: 0;
-}
-
-input {
-    inherit: .field-light;
 }
