@@ -63,12 +63,12 @@
 }
 
 .post img {
+    border-width: var(--border-width);
+    border-color: var(--border-color);
+    border-radius: var(--border-radius);
+    margin: var(--space-1) 0;
+    padding: var(--space-1);
     border-style: solid;
-    border-width: 1px;
-    border-color: #c3c9c9;
-    margin: .5rem 0;
-    padding: .25rem;
-    border-radius: 3px;
 }
 
 .unfound {
