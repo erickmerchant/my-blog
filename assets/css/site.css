@@ -23,7 +23,7 @@
 }
 
 .nav {
-    inherit: .border-bottom, .bg-dark-gray, .h3, .semi-bold, .p2, .center;
+    inherit: .bg-dark-gray, .h3, .semi-bold, .p2, .center;
 }
 
 .nav a {
