@@ -14,8 +14,7 @@
     ],
     "css_files": [
         "bower_components/normalize.css/normalize.css",
-        "assets/css/site.css",
-        "bower_components/prism/themes/prism.css"
+        "assets/css/site.css"
     ],
     "icon_files": [
         "bower_components/geomicons-open/icons/calendar.svg",

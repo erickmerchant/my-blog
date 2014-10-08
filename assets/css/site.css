@@ -8,6 +8,7 @@
 @import "./button-disabled.css";
 @import "./bolds.css";
 @import "./icons.css";
+@import "./prism.css";
 
 :root {
     --font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;

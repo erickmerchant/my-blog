@@ -40,7 +40,9 @@ gulp.task('css-minify', ['css', 'html-minify'], function (cb) {
     var ignore = [
         /\.token.*/,
         /\.style.*/,
-        /\.namespace.*/
+        /\.namespace.*/,
+        /code\[class\*\=\"language\-\"\]/,
+        /pre\[class\*="language-"\]/
     ];
 
     glob('site/**/**.html', function (err, files) {
