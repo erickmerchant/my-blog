@@ -1,3 +1,7 @@
+* {
+    box-sizing: border-box;
+}
+
 blockquote {
     border-left: 1px solid #c3c9c9;
 }
