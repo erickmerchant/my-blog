@@ -6,7 +6,7 @@ var argh = require('argh');
 gulp.task('watch', ['default'], function () {
 
     gulp.watch('base/**', ['base']);
-    gulp.watch('content/uploads/*.jpg', ['images']);
+    gulp.watch('content/uploads/*.jpg', ['images', 'images-minify']);
     gulp.watch('assets/js/**/**.js', ['js']);
     gulp.watch('bower_components/prism/components/**/**.js', ['js']);
     gulp.watch('bower_components/geomicons-open/**/**.svg', ['icons-append']);
