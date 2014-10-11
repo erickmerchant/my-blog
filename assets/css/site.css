@@ -58,6 +58,10 @@
     inherit: .button-gray, .button-disabled;
 }
 
+.post header time {
+    inherit: .h3, .semi-bold;
+}
+
 .posts dd {
     inherit: .mb1;
 }
