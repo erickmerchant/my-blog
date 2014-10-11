@@ -62,6 +62,10 @@
     inherit: .h3, .semi-bold;
 }
 
+.posts dt {
+    inherit: .h3;
+}
+
 .posts dd {
     inherit: .mb1;
 }
