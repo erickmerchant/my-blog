@@ -39,7 +39,7 @@
 }
 
 .copyright {
-    inherit: .p1, .center;
+    inherit: .p1, .center, .mid-gray;
 }
 
 .pagination {
