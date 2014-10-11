@@ -63,12 +63,7 @@
 }
 
 .post img {
-    border-width: var(--border-width);
-    border-color: var(--border-color);
-    border-radius: var(--border-radius);
-    margin: var(--space-1) 0;
-    padding: var(--space-1);
-    border-style: solid;
+    inherit: .border, .mt1, .mb1, .p1, .rounded;
 }
 
 .unfound {
