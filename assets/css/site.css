@@ -47,7 +47,7 @@
 }
 
 .pagination .button {
-    inherit: .m1;
+    inherit: .m1, .h3;
 }
 
 .pagination a {
@@ -71,5 +71,9 @@
 }
 
 .unfound .button {
-    inherit: .button-blue;
+    inherit: .button-blue, .h3;
+}
+
+.unfound .field-light {
+    inherit: .h3;
 }
