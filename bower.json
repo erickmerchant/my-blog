@@ -15,6 +15,7 @@
   ],
   "dependencies": {
     "geomicons-open": "git://github.com/jxnblk/geomicons-open.git#~0.2.0",
-    "prism": "gh-pages"
+    "prism": "gh-pages",
+    "normalize.css": "~3.0.2"
   }
 }
