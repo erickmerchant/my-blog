@@ -47,7 +47,7 @@
 }
 
 .pagination .button {
-    inherit: .m1, .h3;
+    inherit: .m1;
 }
 
 .pagination a {
