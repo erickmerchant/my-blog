@@ -39,7 +39,7 @@
     "static-engine-collection": "^1.0.0",
     "static-engine-content": "^1.0.0",
     "static-engine-converter-marked": "^1.0.0",
-    "static-engine-defaults": "^1.0.0",
+    "static-engine-defaults": "^2.0.0",
     "static-engine-first": "^1.0.0",
     "static-engine-pager": "^1.0.0",
     "trimmer": "^1.0.0"
