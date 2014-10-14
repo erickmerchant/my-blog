@@ -32,11 +32,11 @@
 }
 
 .pagination {
-    inherit: .center, .p2;
+    inherit: .center;
 }
 
 .pagination .button {
-    inherit: .m1;
+    inherit: .button-big, .mt1, .mb1;
 }
 
 .pagination a {
@@ -45,6 +45,10 @@
 
 .pagination span {
     inherit: .button-gray, .button-disabled;
+}
+
+.pagination .button:first-child {
+    inherit: .mr1;
 }
 
 .post header time {
