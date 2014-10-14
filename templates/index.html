@@ -23,6 +23,7 @@
         <main class="main" role="main">
             {% block main %}
             {% endblock %}
+            {% include 'includes/pagination.html' %}
         </main>
         <footer class="copyright" role="contentinfo">
             <small>Copyright &copy; {{ now.format('YYYY') }} by {{ author }} &bull; {{ footer|safe }}</small>

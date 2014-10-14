@@ -1,0 +1,15 @@
+{% if previous or next %}
+    <nav class="pagination">
+        {% if previous %}
+            <a class="button" rel="prev" href="{{ route('post', {slug: previous.slug}) }}">{{ geomicons.icon('chevron-left') }} Older</a>
+        {% else %}
+            <span class="button">{{ geomicons.icon('chevron-left') }} Older</span>
+        {% endif %}
+
+        {% if next %}
+            <a class="button" rel="next" href="{{ route('post', {slug: next.slug}) }}">Newer {{ geomicons.icon('chevron-right') }}</a>
+        {% else %}
+            <span class="button">Newer {{ geomicons.icon('chevron-right') }}</span>
+        {% endif %}
+    </nav>
+{% endif %}
