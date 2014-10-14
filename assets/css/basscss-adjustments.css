@@ -3,7 +3,7 @@
 }
 
 blockquote {
-    border-left: 1px solid #c3c9c9;
+    border-left: var(--border-width) solid var(--border-color);
 }
 
 blockquote, blockquote p {
