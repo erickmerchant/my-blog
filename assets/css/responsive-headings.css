@@ -1,0 +1,14 @@
+@media (--breakpoint-sm) {
+
+    h1, .h1 {
+        font-size: var(--h1);
+    }
+
+    h2, .h2 {
+        font-size: var(--h2);
+    }
+
+    h3, .h3 {
+        font-size: var(--h3);
+    }
+}
