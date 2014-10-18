@@ -1,28 +1,28 @@
 {
     "date_formats": ["YYYY-MM-DD", "YYYY-MM-DD-HHmmss"],
     "js_files": [
-        "bower_components/prism/components/prism-core.js",
-        "bower_components/prism/components/prism-markup.js",
-        "bower_components/prism/components/prism-twig.js",
-        "bower_components/prism/components/prism-css.js",
-        "bower_components/prism/components/prism-clike.js",
-        "bower_components/prism/components/prism-javascript.js",
-        "bower_components/prism/components/prism-php.js",
-        "bower_components/prism/components/prism-scss.js",
+        "node_modules/prismjs/components/prism-core.js",
+        "node_modules/prismjs/components/prism-markup.js",
+        "node_modules/prismjs/components/prism-twig.js",
+        "node_modules/prismjs/components/prism-css.js",
+        "node_modules/prismjs/components/prism-clike.js",
+        "node_modules/prismjs/components/prism-javascript.js",
+        "node_modules/prismjs/components/prism-php.js",
+        "node_modules/prismjs/components/prism-scss.js",
         "assets/js/prism-apacheconf.js",
         "assets/js/site.js"
     ],
     "css_files": [
-        "bower_components/normalize.css/normalize.css",
+        "node_modules/normalize.css/normalize.css",
         "assets/css/site.css"
     ],
     "icon_files": [
-        "bower_components/geomicons-open/icons/calendar.svg",
-        "bower_components/geomicons-open/icons/chevron-left.svg",
-        "bower_components/geomicons-open/icons/chevron-right.svg",
-        "bower_components/geomicons-open/icons/github.svg",
-        "bower_components/geomicons-open/icons/home.svg",
-        "bower_components/geomicons-open/icons/search.svg",
-        "bower_components/geomicons-open/icons/twitter.svg"
+        "node_modules/geomicons-open/icons/calendar.svg",
+        "node_modules/geomicons-open/icons/chevron-left.svg",
+        "node_modules/geomicons-open/icons/chevron-right.svg",
+        "node_modules/geomicons-open/icons/github.svg",
+        "node_modules/geomicons-open/icons/home.svg",
+        "node_modules/geomicons-open/icons/search.svg",
+        "node_modules/geomicons-open/icons/twitter.svg"
     ]
 }
