@@ -1,6 +1,7 @@
 {
     "date_formats": ["YYYY-MM-DD", "YYYY-MM-DD-HHmmss"],
     "js_files": [
+        "node_modules/fastclick/lib/fastclick.js",
         "node_modules/prismjs/components/prism-core.js",
         "node_modules/prismjs/components/prism-markup.js",
         "node_modules/prismjs/components/prism-twig.js",
