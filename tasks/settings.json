@@ -13,7 +13,6 @@
         "assets/js/site.js"
     ],
     "css_files": [
-        "node_modules/normalize.css/normalize.css",
         "assets/css/site.css"
     ],
     "icon_files": [
