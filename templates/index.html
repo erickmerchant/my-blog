@@ -15,9 +15,9 @@
     </head>
     <body>
         <nav class="bg-dark-gray h3 semi-bold p2 center" role="navigation">
-            <a class="button-nav-light button button-narrow white" href="/">{{ banner }}</a>
+            <a class="button-nav-dark button button-narrow" href="/">{{ banner }}</a>
             {% for link in menu %}
-                <a class="button-nav-light button button-narrow white"{% if link.target %} target="{{ link.target }}"{% endif %} href="{{ link.url }}">{% if link.icon %}{{ geomicons.icon(link.icon) }} {% endif %}{{ link.text }}</a>
+                <a class="button-nav-dark button button-narrow"{% if link.target %} target="{{ link.target }}"{% endif %} href="{{ link.url }}">{% if link.icon %}{{ geomicons.icon(link.icon) }} {% endif %}{{ link.text }}</a>
             {% endfor %}
         </nav>
         <main class="container px2" role="main">
