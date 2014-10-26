@@ -1,4 +1,5 @@
 {
+    "build_directory": "./site/",
     "date_formats": ["YYYY-MM-DD", "YYYY-MM-DD-HHmmss"],
     "js_files": [
         "node_modules/fastclick/lib/fastclick.js",

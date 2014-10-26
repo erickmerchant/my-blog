@@ -15,6 +15,7 @@ var vars = require('rework-vars');
 var colors = require('rework-plugin-colors');
 var argv = require('argh').argv;
 var stream_to_promise = require('stream-to-promise');
+var build_directory = require('./settings.json').build_directory;
 
 gulp.task('css', (argv.dev ? [] : ['html']), function (cb) {
 
@@ -27,8 +28,8 @@ gulp.task('css', (argv.dev ? [] : ['html']), function (cb) {
             colors()
         ))
         .pipe(autoprefixer('> 1%', 'last 2 versions'))
-        .pipe(concat("site.css"))
-        .pipe(gulp.dest('site/assets'));
+        .pipe(concat("index.css"))
+        .pipe(gulp.dest(build_directory));
 
     stream_to_promise(stream).then(function(){
 
@@ -46,15 +47,15 @@ gulp.task('css', (argv.dev ? [] : ['html']), function (cb) {
                 /pre\[class\*="language-"\]/
             ];
 
-            glob('site/**/**.html', function (err, files) {
+            glob(build_directory + '**/**.html', function (err, files) {
 
-                var stream = gulp.src('site/assets/site.css')
+                var stream = gulp.src(build_directory + 'index.css')
                     .pipe(uncss({
                         html: files,
                         ignore: ignore
                     }))
                     .pipe(minifycss())
-                    .pipe(gulp.dest('site/assets'));
+                    .pipe(gulp.dest(build_directory));
 
                 stream_to_promise(stream).then(function() { cb(); });
             });

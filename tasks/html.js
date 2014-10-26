@@ -14,6 +14,7 @@ var gulp = require('gulp');
 var htmlmin = require('gulp-htmlmin');
 var argv = require('argh').argv;
 var stream_to_promise = require('stream-to-promise');
+var build_directory = require('./settings.json').build_directory;
 
 content.configure('./content/', {
     converters: {
@@ -28,7 +29,7 @@ nunjucks.configure('./templates/', {
 
 gulp.task('html', ['icons'], function (cb) {
 
-    var site = engine('./site/', nunjucks.render);
+    var site = engine(build_directory, nunjucks.render);
 
     site.route('/')
         .use(content('posts/*'))
@@ -61,11 +62,11 @@ gulp.task('html', ['icons'], function (cb) {
         }
         else {
 
-            var stream = gulp.src('site/**/**.html')
+            var stream = gulp.src(build_directory + '**/**.html')
                 .pipe(htmlmin({
                     collapseWhitespace: true
                 }))
-                .pipe(gulp.dest('site'));
+                .pipe(gulp.dest(build_directory));
 
             stream_to_promise(stream).then(function() { cb(); });
         }

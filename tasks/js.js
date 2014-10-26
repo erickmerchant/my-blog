@@ -5,11 +5,12 @@ var argh = require('argh');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var js_files = require('./settings.json').js_files;
+var build_directory = require('./settings.json').build_directory;
 
 gulp.task('js', function() {
 
     var stream = gulp.src(js_files)
-        .pipe(concat("site.js"));
+        .pipe(concat("index.js"));
 
     if (!argh.argv.dev) {
 
@@ -18,7 +19,7 @@ gulp.task('js', function() {
         }))
     }
 
-    stream.pipe(gulp.dest('site/assets'));
+    stream.pipe(gulp.dest(build_directory));
 
     return stream;
 });

@@ -6,11 +6,12 @@ var changed = require('gulp-changed');
 var imagemin = require('gulp-imagemin');
 var argv = require('argh').argv;
 var merge = require('merge-stream');
+var build_directory = require('./settings.json').build_directory;
 
 gulp.task('images', function () {
 
     var uploads = gulp.src('content/uploads/*.jpg')
-        .pipe(changed('site/uploads'));
+        .pipe(changed(build_directory + 'uploads'));
 
     if(!argv.dev) {
 
@@ -19,10 +20,10 @@ gulp.task('images', function () {
         }));
     }
 
-    uploads.pipe(gulp.dest('site/uploads'));
+    uploads.pipe(gulp.dest(build_directory + 'uploads'));
 
     var thumbnails = gulp.src('content/uploads/*.jpg')
-        .pipe(changed('site/uploads'))
+        .pipe(changed(build_directory + 'uploads'))
         .pipe(imageresize({
             width: 608,
             height: 0,
@@ -36,7 +37,7 @@ gulp.task('images', function () {
         }));
     }
 
-    thumbnails.pipe(gulp.dest('site/uploads/thumbnails'));
+    thumbnails.pipe(gulp.dest(build_directory + 'uploads/thumbnails'));
 
     return merge(uploads, thumbnails);
 });

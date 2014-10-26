@@ -5,10 +5,11 @@ var node_static = require('node-static');
 var chalk = require('chalk');
 var moment = require('moment');
 var fs = require('fs');
+var build_directory = require('./settings.json').build_directory;
 
 gulp.task('serve', function () {
 
-    var server = new node_static.Server('./site/');
+    var server = new node_static.Server(build_directory);
 
     require('http').createServer(function (request, response) {
         request.addListener('end', function () {
@@ -21,7 +22,7 @@ gulp.task('serve', function () {
                 if (err) {
 
                     if (err.status === 404 && fs.existsSync(
-                        './site/404.html')) {
+                        build_directory + '404.html')) {
 
                         end = false;
 
