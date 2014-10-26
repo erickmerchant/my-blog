@@ -13,8 +13,8 @@ var marked = require('static-engine-converter-marked');
 var date_formats = require('./settings.json').date_formats;
 var gulp = require('gulp');
 var htmlmin = require('gulp-htmlmin');
-var tap = require('gulp-tap');
 var argv = require('argh').argv;
+var stream_to_promise = require('stream-to-promise');
 
 content.configure('./content/', {
     converters: {
@@ -28,13 +28,6 @@ nunjucks.configure('./templates/', {
 });
 
 gulp.task('html', ['icons'], function (cb) {
-
-    var cb_once = function () {
-
-        cb();
-
-        cb_once = function() {};
-    };
 
     var site = engine('./site/', nunjucks.render);
 
@@ -69,14 +62,13 @@ gulp.task('html', ['icons'], function (cb) {
         }
         else {
 
-            gulp.src('site/**/**.html')
+            var stream = gulp.src('site/**/**.html')
                 .pipe(htmlmin({
                     collapseWhitespace: true
                 }))
-                .pipe(gulp.dest('site'))
-                .pipe(tap(function () {
-                    cb_once();
-                }));
+                .pipe(gulp.dest('site'));
+
+            stream_to_promise(stream).then(function() { cb(); });
         }
     });
 });

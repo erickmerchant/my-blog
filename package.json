@@ -46,6 +46,7 @@
     "static-engine-defaults": "^2.0.0",
     "static-engine-first": "^1.0.0",
     "static-engine-pager": "^1.0.0",
+    "stream-to-promise": "^1.0.4",
     "trimmer": "^1.0.0"
   }
 }
