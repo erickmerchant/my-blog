@@ -1,5 +1,6 @@
 .DS_Store
 /content/drafts
 /site
+temp
 bower_components
 node_modules

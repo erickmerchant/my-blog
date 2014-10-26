@@ -13,6 +13,8 @@ var marked = require('static-engine-converter-marked');
 var date_formats = require('./settings.json').date_formats;
 var gulp = require('gulp');
 var htmlmin = require('gulp-htmlmin');
+var tap = require('gulp-tap');
+var argv = require('argh').argv;
 
 content.configure('./content/', {
     converters: {
@@ -25,7 +27,14 @@ nunjucks.configure('./templates/', {
     autoescape: true
 });
 
-gulp.task('html', function (cb) {
+gulp.task('html', ['icons'], function (cb) {
+
+    var cb_once = function () {
+
+        cb();
+
+        cb_once = function() {};
+    };
 
     var site = engine('./site/', nunjucks.render);
 
@@ -52,16 +61,22 @@ gulp.task('html', function (cb) {
 
     site.after(defaults(site, './content/defaults.yml'));
 
-    return site.build();
-});
+    site.build().then(function(){
 
-gulp.task('html-minify', ['html', 'icons-append'], function () {
+        if(argv.dev) {
 
-    var stream = gulp.src('site/**/**.html')
-        .pipe(htmlmin({
-            collapseWhitespace: true
-        }))
-        .pipe(gulp.dest('site'));
+            cb();
+        }
+        else {
 
-    return stream;
+            gulp.src('site/**/**.html')
+                .pipe(htmlmin({
+                    collapseWhitespace: true
+                }))
+                .pipe(gulp.dest('site'))
+                .pipe(tap(function () {
+                    cb_once();
+                }));
+        }
+    });
 });

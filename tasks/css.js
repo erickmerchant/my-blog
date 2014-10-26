@@ -16,8 +16,9 @@ var npm = require('rework-npm');
 var vars = require('rework-vars');
 var colors = require('rework-plugin-colors');
 var inherit = require('rework-inherit');
+var argv = require('argh').argv;
 
-gulp.task('css', function () {
+gulp.task('css', (argv.dev ? [] : ['html']), function (cb) {
 
     var stream = gulp.src(css_files)
         .pipe(rework(
@@ -25,38 +26,40 @@ gulp.task('css', function () {
             vars(),
             media(),
             calc,
-            colors(),
-            inherit()
+            colors()
         ))
         .pipe(autoprefixer('> 1%', 'last 2 versions'))
         .pipe(concat("site.css"))
-        .pipe(gulp.dest('site/assets'));
+        .pipe(gulp.dest('site/assets'))
+        .pipe(tap(function(){
 
-    return stream;
-});
+            if(argv.dev) {
 
-gulp.task('css-minify', ['css', 'html-minify'], function (cb) {
-
-    var ignore = [
-        /\.token.*/,
-        /\.style.*/,
-        /\.namespace.*/,
-        /code\[class\*\=\"language\-\"\]/,
-        /pre\[class\*="language-"\]/
-    ];
-
-    glob('site/**/**.html', function (err, files) {
-
-        gulp.src('site/assets/site.css')
-            .pipe(uncss({
-                html: files,
-                ignore: ignore
-            }))
-            .pipe(minifycss())
-            .pipe(gulp.dest('site/assets'))
-            .pipe(tap(function () {
                 cb();
-            }));
-    });
+            }
+            else {
 
+                var ignore = [
+                    /\.token.*/,
+                    /\.style.*/,
+                    /\.namespace.*/,
+                    /code\[class\*\=\"language\-\"\]/,
+                    /pre\[class\*="language-"\]/
+                ];
+
+                glob('site/**/**.html', function (err, files) {
+
+                    gulp.src('site/assets/site.css')
+                        .pipe(uncss({
+                            html: files,
+                            ignore: ignore
+                        }))
+                        .pipe(minifycss())
+                        .pipe(gulp.dest('site/assets'))
+                        .pipe(tap(function () {
+                            cb();
+                        }));
+                });
+            }
+        }));
 });
