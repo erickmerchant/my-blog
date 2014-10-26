@@ -24,7 +24,7 @@ gulp.task('images', function () {
     var thumbnails = gulp.src('content/uploads/*.jpg')
         .pipe(changed('site/uploads'))
         .pipe(imageresize({
-            width: 688,
+            width: 608,
             height: 0,
             imageMagick: true
         }));
