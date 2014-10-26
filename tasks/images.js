@@ -5,35 +5,38 @@ var imageresize = require('gulp-image-resize');
 var changed = require('gulp-changed');
 var imagemin = require('gulp-imagemin');
 var argv = require('argh').argv;
+var merge = require('merge-stream');
 
 gulp.task('images', function () {
 
-    var stream = gulp.src('content/uploads/*.jpg')
+    var uploads = gulp.src('content/uploads/*.jpg')
         .pipe(changed('site/uploads'));
 
     if(!argv.dev) {
 
-        stream.pipe(imagemin({
+        uploads = uploads.pipe(imagemin({
             progressive: true
         }));
     }
 
-    stream.pipe(gulp.dest('site/uploads'));
+    uploads.pipe(gulp.dest('site/uploads'));
 
-    stream.pipe(imageresize({
-        width: 688,
-        height: 0,
-        imageMagick: true
-    }));
+    var thumbnails = gulp.src('content/uploads/*.jpg')
+        .pipe(changed('site/uploads'))
+        .pipe(imageresize({
+            width: 688,
+            height: 0,
+            imageMagick: true
+        }));
 
     if(!argv.dev) {
 
-        stream.pipe(imagemin({
+        thumbnails = thumbnails.pipe(imagemin({
             progressive: true
         }));
     }
 
-    stream.pipe(gulp.dest('site/uploads/thumbnails'));
+    thumbnails.pipe(gulp.dest('site/uploads/thumbnails'));
 
-    return stream;
+    return merge(uploads, thumbnails);
 });
