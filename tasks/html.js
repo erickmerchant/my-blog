@@ -1,7 +1,6 @@
 'use strict';
 
 var gulp = require('gulp');
-var _ = require('lodash');
 var nunjucks = require('nunjucks');
 var engine = require('static-engine');
 var content = require('static-engine-content');

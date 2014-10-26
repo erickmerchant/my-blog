@@ -2,7 +2,6 @@
 
 var gulp = require('gulp');
 var autoprefixer = require('gulp-autoprefixer');
-var gulp = require('gulp');
 var uncss = require('gulp-uncss');
 var minifycss = require('gulp-minify-css');
 var tap = require('gulp-tap');
@@ -15,7 +14,6 @@ var media = require('rework-custom-media');
 var npm = require('rework-npm');
 var vars = require('rework-vars');
 var colors = require('rework-plugin-colors');
-var inherit = require('rework-inherit');
 var argv = require('argh').argv;
 
 gulp.task('css', (argv.dev ? [] : ['html']), function (cb) {
