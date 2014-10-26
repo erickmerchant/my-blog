@@ -4,7 +4,6 @@ var gulp = require('gulp');
 var autoprefixer = require('gulp-autoprefixer');
 var uncss = require('gulp-uncss');
 var minifycss = require('gulp-minify-css');
-var tap = require('gulp-tap');
 var glob = require('glob');
 var rework = require('gulp-rework');
 var css_files = require('./settings.json').css_files;
@@ -15,6 +14,7 @@ var npm = require('rework-npm');
 var vars = require('rework-vars');
 var colors = require('rework-plugin-colors');
 var argv = require('argh').argv;
+var stream_to_promise = require('stream-to-promise');
 
 gulp.task('css', (argv.dev ? [] : ['html']), function (cb) {
 
@@ -28,36 +28,36 @@ gulp.task('css', (argv.dev ? [] : ['html']), function (cb) {
         ))
         .pipe(autoprefixer('> 1%', 'last 2 versions'))
         .pipe(concat("site.css"))
-        .pipe(gulp.dest('site/assets'))
-        .pipe(tap(function(){
+        .pipe(gulp.dest('site/assets'));
 
-            if(argv.dev) {
+    stream_to_promise(stream).then(function(){
 
-                cb();
-            }
-            else {
+        if(argv.dev) {
 
-                var ignore = [
-                    /\.token.*/,
-                    /\.style.*/,
-                    /\.namespace.*/,
-                    /code\[class\*\=\"language\-\"\]/,
-                    /pre\[class\*="language-"\]/
-                ];
+            cb();
+        }
+        else {
 
-                glob('site/**/**.html', function (err, files) {
+            var ignore = [
+                /\.token.*/,
+                /\.style.*/,
+                /\.namespace.*/,
+                /code\[class\*\=\"language\-\"\]/,
+                /pre\[class\*="language-"\]/
+            ];
 
-                    gulp.src('site/assets/site.css')
-                        .pipe(uncss({
-                            html: files,
-                            ignore: ignore
-                        }))
-                        .pipe(minifycss())
-                        .pipe(gulp.dest('site/assets'))
-                        .pipe(tap(function () {
-                            cb();
-                        }));
-                });
-            }
-        }));
+            glob('site/**/**.html', function (err, files) {
+
+                var stream = gulp.src('site/assets/site.css')
+                    .pipe(uncss({
+                        html: files,
+                        ignore: ignore
+                    }))
+                    .pipe(minifycss())
+                    .pipe(gulp.dest('site/assets'));
+
+                stream_to_promise(stream).then(function() { cb(); });
+            });
+        }
+    });
 });
