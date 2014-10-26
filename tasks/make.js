@@ -1,7 +1,7 @@
 'use strict';
 
 var gulp = require('gulp');
-var argh = require('argh');
+var argv = require('argh').argv;
 var chalk = require('chalk');
 var moment = require('moment');
 var slug = require('slug');
@@ -17,7 +17,7 @@ gulp.task('make', function (cb) {
     var ext = 'md';
     var content;
 
-    if (!argh.argv.title) {
+    if (!argv.title) {
 
         console.error(chalk.red('You must provide a title.'));
 
@@ -26,11 +26,11 @@ gulp.task('make', function (cb) {
         return;
     }
 
-    file = slug(argh.argv.title).toLowerCase();
+    file = slug(argv.title).toLowerCase();
 
-    if (argh.argv.date) {
+    if (argv.date) {
 
-        format = argh.argv.date;
+        format = argv.date;
 
         if (format === true) {
 
@@ -40,19 +40,19 @@ gulp.task('make', function (cb) {
         file = moment().format(format) + '.' + file;
     }
 
-    if (argh.argv.ext) {
+    if (argv.ext) {
 
-        ext = argh.argv.ext;
+        ext = argv.ext;
     }
 
     file = file + '.' + ext;
 
-    if (argh.argv. in ) {
+    if (argv. in ) {
 
-        file = trimmer(argh.argv. in , '/') + '/' + file;
+        file = trimmer(argv. in , '/') + '/' + file;
     }
 
-    content = "---\ntitle: \"" + argh.argv.title + "\"\n---";
+    content = "---\ntitle: \"" + argv.title + "\"\n---";
 
     var directory = path.dirname(file);
 

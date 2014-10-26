@@ -1,7 +1,7 @@
 'use strict';
 
 var gulp = require('gulp');
-var argh = require('argh');
+var argv = require('argh').argv;
 var chalk = require('chalk');
 var moment = require('moment');
 var slug = require('slug');
@@ -27,7 +27,7 @@ gulp.task('move', function (cb) {
 
     var format
 
-    if (!argh.argv.file || !argh.argv.to) {
+    if (!argv.file || !argv.to) {
 
         console.error(chalk.red(
             'You must provide a file to move and where to move it to.'));
@@ -37,7 +37,7 @@ gulp.task('move', function (cb) {
         return;
     }
 
-    file = trimmer(argh.argv.file, '/');
+    file = trimmer(argv.file, '/');
 
     ext = path.extname(file);
 
@@ -55,9 +55,9 @@ gulp.task('move', function (cb) {
         }
     }
 
-    if (argh.argv.date) {
+    if (argv.date) {
 
-        format = argh.argv.date;
+        format = argv.date;
 
         if (format === true) {
 
@@ -74,7 +74,7 @@ gulp.task('move', function (cb) {
         }
     }
 
-    if (argh.argv.date === false && date) {
+    if (argv.date === false && date) {
 
         date = false;
     }
@@ -84,14 +84,14 @@ gulp.task('move', function (cb) {
         newFile = date + '.';
     }
 
-    if (argh.argv.title) {
+    if (argv.title) {
 
-        slug = slug(argh.argv.title).toLowerCase();
+        slug = slug(argv.title).toLowerCase();
     }
 
     newFile = newFile + slug + ext;
 
-    newFile = trimmer(argh.argv.to, '/') + '/' + newFile;
+    newFile = trimmer(argv.to, '/') + '/' + newFile;
 
     var directory = path.dirname(newFile);
 
