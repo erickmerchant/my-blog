@@ -1,5 +1,6 @@
 {
   "name": "erickmerchat.com-source",
+  "private": "true",
   "dependencies": {
     "basscss": "^4.1.2",
     "fastclick": "^1.0.3",
