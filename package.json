@@ -6,7 +6,7 @@
     "fastclick": "^1.0.3",
     "geomicons-open": "0.0.4",
     "gulp": "~3.8.0",
-    "gulp-tasks": "git://github.com/erickmerchant/gulp-tasks#v2.0.0",
+    "gulp-tasks": "erickmerchant/gulp-tasks",
     "nunjucks": "^1.0.5",
     "prismjs": "git://github.com/leaverou/prism#gh-pages",
     "static-engine": "^2.0.0",
