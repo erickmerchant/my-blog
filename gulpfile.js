@@ -31,6 +31,13 @@ tasks.config({
         "node_modules/geomicons-open/icons/search.svg",
         "node_modules/geomicons-open/icons/twitter.svg"
     ],
+    thumbnails: [
+        {
+            directory: "thumbnails",
+            width: 608,
+            height: 0
+        }
+    ],
     build: function() {
 
         var nunjucks = require('nunjucks');
