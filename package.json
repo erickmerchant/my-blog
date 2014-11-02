@@ -5,7 +5,6 @@
     "basscss": "^4.1.2",
     "fastclick": "^1.0.3",
     "geomicons-open": "0.0.4",
-    "gulp": "~3.8.0",
     "gulp-tasks": "erickmerchant/gulp-tasks",
     "nunjucks": "^1.0.5",
     "prismjs": "git://github.com/leaverou/prism#gh-pages",
