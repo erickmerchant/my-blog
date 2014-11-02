@@ -33,9 +33,7 @@ tasks.config({
     ],
     thumbnails: [
         {
-            directory: "thumbnails",
-            width: 608,
-            height: 0
+            width: 608
         }
     ],
     build: function() {
