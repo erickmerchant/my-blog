@@ -1,11 +1,9 @@
 
 var tasks = require('gulp-tasks');
 var build_directory = "./site/";
-var date_formats = ["YYYY-MM-DD", "YYYY-MM-DD-HHmmss"];
 
 tasks.config({
     build_directory: build_directory,
-    date_formats: date_formats,
     js_files: [
         "node_modules/fastclick/lib/fastclick.js",
         "node_modules/prismjs/components/prism-core.js",
