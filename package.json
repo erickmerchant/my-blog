@@ -10,8 +10,10 @@
     "prismjs": "git://github.com/leaverou/prism#gh-pages",
     "static-engine": "^2.0.0",
     "static-engine-collection": "^2.0.0",
-    "static-engine-content": "^1.0.0",
-    "static-engine-converter-marked": "^1.0.0",
+    "static-engine-content": "^2.0.0",
+    "static-engine-converter-file": "^1.0.0",
+    "static-engine-converter-frontmatter": "^2.0.1",
+    "static-engine-converter-marked": "^2.0.0",
     "static-engine-defaults": "^2.0.0",
     "static-engine-first": "^1.0.0",
     "static-engine-pager": "^1.0.0"

@@ -46,19 +46,19 @@ tasks.config({
         var first = require('static-engine-first');
         var collection = require('static-engine-collection');
         var marked = require('static-engine-converter-marked');
+        var file = require('static-engine-converter-file');
+        var frontmatter = require('static-engine-converter-frontmatter');
         var site = engine(build_directory, nunjucks.render);
 
-        content.configure('./content/', {
-            converters: {
-                md: marked()
-            },
-            date_formats: date_formats
-        });
+        content.configure('./content/', [
+            file(),
+            frontmatter(),
+            marked()
+        ]);
 
         nunjucks.configure('./templates/', {
             autoescape: true
         });
-
 
         site.route('/')
             .use(content('posts/*'))
