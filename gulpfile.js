@@ -65,7 +65,6 @@ tasks.config({
             .render('post.html');
 
         site.route('/posts/{slug}/')
-            .alias('post')
             .use(content('posts/*'))
             .use(pager())
             .render('post.html');
@@ -79,7 +78,7 @@ tasks.config({
             .use(content('404.md'))
             .render('404.html');
 
-        site.after(defaults(site, './content/defaults.yml'));
+        site.after(defaults('./content/defaults.yml'));
 
         return site.build();
     }

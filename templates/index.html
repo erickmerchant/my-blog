@@ -23,10 +23,9 @@
         <main class="container px2" role="main">
             {% block main %}
             {% endblock %}
-            {% include 'includes/pagination.html' %}
         </main>
         <footer class="p1 center mid-gray" role="contentinfo">
-            <small>Copyright &copy; {{ now.format('YYYY') }} by {{ author }} &bull; {{ footer|safe }}</small>
+            <small>Copyright &copy; {{ year }} by {{ author }} &bull; {{ footer|safe }}</small>
         </footer>
         {% include 'temp/icons.svg' %}
         <script async src="/index.js"></script>
