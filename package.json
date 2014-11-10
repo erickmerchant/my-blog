@@ -8,7 +8,7 @@
     "gulp-tasks": "erickmerchant/gulp-tasks",
     "nunjucks": "^1.0.5",
     "prismjs": "git://github.com/leaverou/prism#gh-pages",
-    "static-engine": "^2.0.0",
+    "static-engine": "^3.0.0",
     "static-engine-collection": "^2.0.0",
     "static-engine-content": "^2.0.0",
     "static-engine-converter-file": "^1.0.0",
