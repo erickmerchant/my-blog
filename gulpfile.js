@@ -20,15 +20,7 @@ tasks.config({
     css_files: [
         "css/site.css"
     ],
-    icon_files: [
-        "node_modules/geomicons-open/icons/calendar.svg",
-        "node_modules/geomicons-open/icons/chevron-left.svg",
-        "node_modules/geomicons-open/icons/chevron-right.svg",
-        "node_modules/geomicons-open/icons/github.svg",
-        "node_modules/geomicons-open/icons/home.svg",
-        "node_modules/geomicons-open/icons/search.svg",
-        "node_modules/geomicons-open/icons/twitter.svg"
-    ],
+    icon_files: "node_modules/geomicons-open/icons/*.svg",
     thumbnails: [
         {
             width: 608
