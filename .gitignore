@@ -4,3 +4,4 @@
 temp
 bower_components
 node_modules
+/staging/

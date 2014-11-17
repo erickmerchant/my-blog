@@ -1,6 +1,7 @@
 
 var tasks = require('gulp-tasks');
-var build_directory = "./site/";
+var argv = require('argh').argv;
+var build_directory = argv.dev ? "./staging/" : './site/';
 
 tasks.config({
     directory: build_directory,
