@@ -3,8 +3,8 @@ var tasks = require('gulp-tasks');
 var build_directory = "./site/";
 
 tasks.config({
-    build_directory: build_directory,
-    js_files: [
+    directory: build_directory,
+    js: [
         "node_modules/fastclick/lib/fastclick.js",
         "node_modules/prismjs/components/prism-core.js",
         "node_modules/prismjs/components/prism-markup.js",
@@ -17,10 +17,10 @@ tasks.config({
         "js/prism-apacheconf.js",
         "js/site.js"
     ],
-    css_files: [
+    css: [
         "css/site.css"
     ],
-    icon_files: "node_modules/geomicons-open/icons/*.svg",
+    icons: "node_modules/geomicons-open/icons/*.svg",
     thumbnails: [
         {
             width: 608
