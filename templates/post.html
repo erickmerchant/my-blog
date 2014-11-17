@@ -11,7 +11,7 @@
         <header>
             <h1 itemprop="name">{{ title }}</h1>
             <p>
-                <time class="h3 semi-bold" itemprop="datePublished" datetime="{{ date.format("YYYY-MM-DD") }}">{{ geomicons.icon('calendar') }} {{ date.format("MMMM D, YYYY") }}</time>
+                <time class="h3 bold" itemprop="datePublished" datetime="{{ date.format("YYYY-MM-DD") }}">{{ geomicons.icon('calendar') }} {{ date.format("MMMM D, YYYY") }}</time>
             </p>
         </header>
         <div itemprop="text">{{ content|safe }}</div>
