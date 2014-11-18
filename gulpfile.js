@@ -51,23 +51,23 @@ tasks.config({
             autoescape: true
         });
 
-        site.route('/')
+        site.route('index.html')
             .use(content('posts/*'))
             .use(pager())
             .use(first())
             .render('post.html');
 
-        site.route('/posts/{slug}/')
+        site.route('posts/{slug}/index.html')
             .use(content('posts/*'))
             .use(pager())
             .render('post.html');
 
-        site.route('/posts/')
+        site.route('posts/index.html')
             .use(content('posts.md'))
             .use(collection('posts', content('posts/*')))
             .render('posts.html');
 
-        site.route('/404.html')
+        site.route('404.html')
             .use(content('404.md'))
             .render('404.html');
 
