@@ -22,11 +22,9 @@ tasks.config({
         "css/site.css"
     ],
     icons: "node_modules/geomicons-open/icons/*.svg",
-    thumbnails: [
-        {
-            width: 608
-        }
-    ],
+    images: {
+        thumbnails: [608]
+    },
     build: function() {
 
         var nunjucks = require('nunjucks');
