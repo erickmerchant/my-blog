@@ -4,19 +4,22 @@
   "dependencies": {
     "argh": "^0.1.3",
     "basscss": "^4.1.2",
+    "es6-promise": "^2.0.0",
     "fastclick": "^1.0.3",
     "geomicons-open": "0.0.4",
     "gulp-tasks": "erickmerchant/gulp-tasks",
-    "nunjucks": "^1.0.5",
     "prismjs": "git://github.com/leaverou/prism#gh-pages",
-    "static-engine": "^4.0.0",
-    "static-engine-collection": "^2.0.0",
-    "static-engine-content": "^2.0.0",
-    "static-engine-converter-file": "^1.0.0",
-    "static-engine-converter-frontmatter": "^2.0.1",
-    "static-engine-converter-marked": "^2.0.0",
-    "static-engine-defaults": "^3.0.0",
-    "static-engine-first": "^1.0.0",
-    "static-engine-pager": "^1.0.0"
+    "static-engine": "^5.0.0",
+    "static-engine-collection": "^3.0.0",
+    "static-engine-content": "^3.0.0",
+    "static-engine-converter-file": "^2.0.1",
+    "static-engine-converter-frontmatter": "^3.0.1",
+    "static-engine-converter-marked": "^3.0.0",
+    "static-engine-defaults": "^4.0.0",
+    "static-engine-first": "^2.0.0",
+    "static-engine-pager": "^2.0.0",
+    "static-engine-render": "^1.0.1",
+    "static-engine-renderer-nunjucks": "^1.0.0",
+    "static-engine-sort": "^1.0.0"
   }
 }
