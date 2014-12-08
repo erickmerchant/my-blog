@@ -40,6 +40,7 @@ tasks.config({
         var frontmatter = require('static-engine-converter-frontmatter');
         var render = require('static-engine-render');
         var sort = require('static-engine-sort');
+        var series = require('static-engine-series');
         var posts;
         var defaults;
         var formula = [];
@@ -56,13 +57,12 @@ tasks.config({
             marked()
         ]);
 
-        posts = content('posts/*');
+        posts = series([content('posts/*'), sort.date]);
 
         defaults = defaults('./content/defaults.yml');
 
         formula.push([
             posts,
-            sort.date,
             pager,
             defaults,
             render('posts/{slug}/index.html', nunjucks('post.html')),
@@ -72,7 +72,7 @@ tasks.config({
 
         formula.push([
             content('posts.md'),
-            collection('posts', [posts, sort.date]),
+            collection('posts', [posts]),
             defaults,
             render('posts/index.html', nunjucks('posts.html'))
         ]);

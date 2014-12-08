@@ -20,6 +20,7 @@
     "static-engine-pager": "^2.0.0",
     "static-engine-render": "^1.0.1",
     "static-engine-renderer-nunjucks": "^1.0.0",
+    "static-engine-series": "^1.0.0",
     "static-engine-sort": "^1.0.0"
   }
 }
