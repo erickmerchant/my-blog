@@ -40,7 +40,7 @@ tasks.config({
         var frontmatter = require('static-engine-converter-frontmatter');
         var render = require('static-engine-render');
         var sort = require('static-engine-sort');
-        var series = require('static-engine-series');
+        var compose = require('static-engine/compose');
         var posts;
         var defaults;
         var formula = [];
@@ -57,7 +57,7 @@ tasks.config({
             marked()
         ]);
 
-        posts = series([content('posts/*'), sort.date]);
+        posts = compose([content('posts/*'), sort.date]);
 
         defaults = defaults('./content/defaults.yml');
 
