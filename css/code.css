@@ -1,0 +1,17 @@
+pre {
+    color: var(--lighter-gray);
+    direction: ltr;
+    text-align: left;
+    word-spacing: normal;
+    word-break: normal;
+    tab-size: 4;
+    hyphens: none;
+    padding: var(--space-2);
+    margin: var(--space-1) 0;
+    white-space: pre-wrap;
+    overflow-x: auto;
+}
+
+pre, pre code {
+	background: var(--dark-gray);
+}
