@@ -8,19 +8,11 @@ tasks.config({
     directory: build_directory,
     js: [
         "node_modules/fastclick/lib/fastclick.js",
-        "node_modules/prismjs/components/prism-core.js",
-        "node_modules/prismjs/components/prism-markup.js",
-        "node_modules/prismjs/components/prism-twig.js",
-        "node_modules/prismjs/components/prism-css.js",
-        "node_modules/prismjs/components/prism-clike.js",
-        "node_modules/prismjs/components/prism-javascript.js",
-        "node_modules/prismjs/components/prism-php.js",
-        "node_modules/prismjs/components/prism-scss.js",
-        "js/prism-apacheconf.js",
         "js/site.js"
     ],
     css: [
-        "css/site.css"
+        "css/site.css",
+        "node_modules/highlight.js/styles/monokai_sublime.css"
     ],
     icons: "node_modules/geomicons-open/icons/*.svg",
     images: {
@@ -41,6 +33,7 @@ tasks.config({
         var render = require('static-engine-render');
         var sort = require('static-engine-sort');
         var compose = require('static-engine/compose');
+        var hljs = require('highlight.js');
         var posts;
         var defaults;
         var formula = [];
@@ -54,7 +47,11 @@ tasks.config({
         content.configure('./content/', [
             file,
             frontmatter,
-            marked()
+            marked({
+                highlight: function(code) {
+                    return require('highlight.js').highlightAuto(code).value;
+                }
+            })
         ]);
 
         posts = compose([content('posts/*'), sort.date]);
