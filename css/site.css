@@ -1,6 +1,7 @@
 @import 'basscss';
 @import "./basscss-adjustments.css";
 @import "./responsive-headings.css";
+@import "./responsive-inline-states.css";
 @import "./button-disabled.css";
 @import "./icons.css";
 @import "./code.css";

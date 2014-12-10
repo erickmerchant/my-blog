@@ -16,9 +16,11 @@
     <body>
         <nav class="bg-dark-gray h3 p2 center" role="navigation">
             <a class="button-nav-dark button button-narrow" href="/">{{ banner }}</a>
-            {% for link in menu %}
-                <a class="button-nav-dark button button-narrow"{% if link.target %} target="{{ link.target }}"{% endif %} href="{{ link.url }}">{% if link.icon %}{{ geomicons.icon(link.icon) }} {% endif %}{{ link.text }}</a>
-            {% endfor %}
+            <div class="inline-block">
+                {% for link in menu %}
+                    <a class="button-nav-dark button button-narrow"{% if link.target %} target="{{ link.target }}"{% endif %} href="{{ link.url }}">{% if link.icon %}{{ geomicons.icon(link.icon) }} {% endif %}<span class="md-show-inline">{{ link.text }}</span></a>
+                {% endfor %}
+            </div>
         </nav>
         <main class="container px2" role="main">
             {% block main %}
