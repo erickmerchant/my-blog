@@ -49,7 +49,8 @@ tasks.config({
             frontmatter,
             marked({
                 highlight: function(code) {
-                    return require('highlight.js').highlightAuto(code).value;
+
+                    return hljs.highlightAuto(code).value;
                 }
             })
         ]);
