@@ -4,7 +4,7 @@ var argv = require('argh').argv;
 var build_directory = argv.dev ? "./staging/" : './site/';
 var Promise = require('es6-promise').Promise;
 
-tasks.config({
+tasks({
     directory: build_directory,
     js: [
         "node_modules/fastclick/lib/fastclick.js",
@@ -84,5 +84,3 @@ tasks.config({
         return engine(formula);
     }
 });
-
-tasks();
