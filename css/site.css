@@ -6,7 +6,5 @@
 @import "./code.css";
 
 :root {
-    --font-family: "Open Sans", 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    --heading-font-weight: 800;
     --container-width: 40em;
 }
