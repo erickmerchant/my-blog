@@ -11,6 +11,7 @@ cite:before {
 }
 
 img {
+    box-sizing: border-box;
     border: var(--border-width) solid var(--border-color);
     border-radius: var(--border-radius);
     margin: var(--space-1) 0;

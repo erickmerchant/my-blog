@@ -16,7 +16,7 @@ tasks({
     ],
     icons: "node_modules/geomicons-open/icons/*.svg",
     images: {
-        thumbnails: [608]
+        thumbnails: [626]
     },
     build: function() {
 
