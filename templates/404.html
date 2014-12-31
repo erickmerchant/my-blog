@@ -4,9 +4,9 @@
     <section class="center">
         <h1>{{ title }}</h1>
         <p>{{ content|safe }}</p>
-        <form role="search" name="search" method="GET" action="http://google.com/search">
+        <form role="search" name="search" method="GET" action="http://google.com/search" class="m1">
             <input type="hidden" name="q" value="site:{{ host }}">
-            <input class="field-light h3" type="text" placeholder="Search..." name="q">
+            <input class="mb0 field-light h3" type="text" placeholder="Search..." name="q">
             <button class="button button-blue h3" type="submit">{{ geomicons.icon('search') }} Submit</button>
         </form>
     </section>
