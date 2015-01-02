@@ -10,7 +10,6 @@
     "basscss-ui-utility-groups": "0.0.4",
     "basscss-utility-headings": "0.0.6",
     "es6-promise": "^2.0.0",
-    "fastclick": "^1.0.3",
     "flex-object": "^1.0.4",
     "geomicons-open": "0.0.6",
     "gulp-tasks": "erickmerchant/gulp-tasks",

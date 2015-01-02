@@ -7,8 +7,6 @@ var Promise = require('es6-promise').Promise;
 tasks({
     directory: build_directory,
     js: [
-        "node_modules/fastclick/lib/fastclick.js",
-        "js/site.js"
     ],
     css: [
         "css/site.css",
