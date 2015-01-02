@@ -4,10 +4,14 @@
     <section class="center">
         <h1>{{ title }}</h1>
         <p>{{ content|safe }}</p>
-        <form role="search" name="search" method="GET" action="http://google.com/search" class="m1">
+        <form role="search" name="search" method="GET" action="http://google.com/search" class="m1 clearfix">
             <input type="hidden" name="q" value="site:{{ host }}">
-            <input class="mb0 field-light h3" type="text" placeholder="Search..." name="q">
-            <button class="button button-blue h3" type="submit">{{ geomicons.icon('search') }} Submit</button>
+            <div class="col col-12 sm-col-8">
+                <input class="field-light full-width" type="text" placeholder="Search..." name="q">
+            </div>
+            <div class="col col-12 sm-col-4">
+                <button class="button button-blue" type="submit">{{ geomicons.icon('search') }} Submit</button>
+            </div>
         </form>
     </section>
 {% endblock %}
