@@ -139,7 +139,7 @@ function html(){
 
                     $(this).replaceWith('');
                 }
-            })
+            });
         }))
         .pipe(gulp.dest(config.directory));
 }
