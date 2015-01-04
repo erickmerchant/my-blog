@@ -11,7 +11,7 @@ var config = {
         thumbnails: [626]
     }
 };
-var serve = require('server');
+var serve = require('erickmerchant-server');
 
 function build() {
 
