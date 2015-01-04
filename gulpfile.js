@@ -30,7 +30,6 @@ function build() {
     var compose = require('static-engine/compose');
     var hljs = require('highlight.js');
     var posts;
-    var defaults;
     var formula = [];
 
     nunjucks.configure('./templates/', {
