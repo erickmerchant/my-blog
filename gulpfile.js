@@ -85,7 +85,6 @@ function base(){
 
 function css(){
 
-    var argv = require('argh').argv;
     var autoprefixer = require('gulp-autoprefixer');
     var uncss = require('gulp-uncss');
     var minifycss = require('gulp-minify-css');
@@ -107,15 +106,11 @@ function css(){
             colors()
         ))
         .pipe(autoprefixer('> 1%', 'last 2 versions'))
-        .pipe(concat("index.css"));
-
-    if(!argv.dev) {
-
-        stream = stream.pipe(uncss({
+        .pipe(concat("index.css"))
+        .pipe(uncss({
             html: glob.sync(config.directory + '**/**.html')
         }))
         .pipe(minifycss());
-    }
 
     return stream.pipe(gulp.dest(config.directory));
 }
@@ -176,24 +171,17 @@ function images() {
     var imageresize = require('gulp-image-resize');
     var changed = require('gulp-changed');
     var imagemin = require('gulp-imagemin');
-    var argv = require('argh').argv;
     var merge = require('merge-stream');
     var image;
     var directory;
-
-    var stream = gulp.src('content/uploads/*.jpg')
-    .pipe(changed(config.directory + 'uploads'));
-
     var merged;
 
-    if(!argv.dev) {
-
-        stream = stream.pipe(imagemin({
+    var stream = gulp.src('content/uploads/*.jpg')
+        .pipe(changed(config.directory + 'uploads'))
+        .pipe(imagemin({
             progressive: true
-        }));
-    }
-
-    stream = stream.pipe(gulp.dest(config.directory + 'uploads'));
+        }))
+        .pipe(gulp.dest(config.directory + 'uploads'));
 
     merged = merge(stream);
 
@@ -209,16 +197,11 @@ function images() {
                 width: image[0] || 0,
                 height: image[1] || 0,
                 imageMagick: true
-            }));
-
-        if(!argv.dev) {
-
-            stream = stream.pipe(imagemin({
+            }))
+            .pipe(imagemin({
                 progressive: true
-            }));
-        }
-
-        stream = stream.pipe(gulp.dest(config.directory + 'uploads/' + directory));
+            }))
+            .pipe(gulp.dest(config.directory + 'uploads/' + directory));
 
         merged.add(stream);
     }
