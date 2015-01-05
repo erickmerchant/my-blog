@@ -27,7 +27,7 @@ function build() {
     var frontmatter = require('static-engine-converter-frontmatter');
     var render = require('static-engine-render');
     var sort = require('static-engine-sort');
-    var compose = require('static-engine/compose');
+    var compose = require('static-compose');
     var hljs = require('highlight.js');
     var posts;
     var formula = [];
