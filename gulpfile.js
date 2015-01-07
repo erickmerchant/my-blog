@@ -11,7 +11,6 @@ var config = {
         thumbnails: [626]
     }
 };
-var serve = require('erickmerchant-server');
 
 function build() {
 
@@ -219,4 +218,35 @@ gulp.task('watch', function() {
     gulp.watch(['templates/**/**.html', 'content/**'], gulp.series(build, html, css));
 });
 
-gulp.task('serve', gulp.parallel('default', 'watch', serve(config.directory)));
+gulp.task('serve', gulp.parallel('default', 'watch', function(done){
+
+    var express = require('express');
+    var static = require('express-static');
+    var logger = require('express-log');
+    var fs = require('fs');
+    var path = require('path');
+
+    var app = express();
+
+    app.use(logger());
+
+    app.use(static(config.directory));
+
+    app.use(function(req, res, next){
+        res.status(404);
+
+        if (req.accepts('html') && fs.existsSync(config.directory + '404.html')) {
+            res.sendFile(path.resolve(config.directory, '404.html'));
+
+            return;
+        }
+
+        res.type('txt').send('Not found');
+    });
+
+    var server = app.listen(8080, function(){
+        console.log('server is running at %s', server.address().port);
+    });
+
+    done();
+}));
