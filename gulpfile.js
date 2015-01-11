@@ -12,7 +12,7 @@ var config = {
     }
 };
 
-function build() {
+function pages() {
 
     var nunjucks = require('static-engine-renderer-nunjucks');
     var engine = require('static-engine');
@@ -114,18 +114,41 @@ function css(){
     return stream.pipe(gulp.dest(config.directory));
 }
 
-function html(){
+function optimize(){
 
     var htmlmin = require('gulp-htmlmin');
-    var cheerio = require('gulp-cheerio');
 
     return gulp.src(config.directory + '**/**.html')
         .pipe(htmlmin({
             collapseWhitespace: true
         }))
-        .pipe(cheerio(function ($) {
+        .pipe(gulp.dest(config.directory));
+}
 
+function icons() {
+
+    var cheerio = require('gulp-cheerio');
+    var concat = require('gulp-concat');
+    var tap = require('gulp-tap');
+    var clean = require('gulp-htmlclean');
+
+    return gulp.src(config.icons)
+    .pipe(cheerio(function ($) {
+        var $path = $('svg').children('path');
+        var id = $('svg').attr('id');
+        $path.attr('id', id);
+        $('svg').replaceWith($path[0]);
+    }))
+    .pipe(concat('icons.svg'))
+    .pipe(tap(function(file){
+
+        return gulp.src(config.directory + '**/**.html')
+        .pipe(cheerio(function($){
+
+            var defs = $('<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0"><defs>'+file.contents+'</defs></svg>');
             var uses = [];
+
+            $('body').append(defs);
 
             $('use').each(function(){
 
@@ -140,29 +163,9 @@ function html(){
                 }
             });
         }))
+        .pipe(clean())
         .pipe(gulp.dest(config.directory));
-}
-
-function icons() {
-
-    var cheerio = require('gulp-cheerio');
-    var concat = require('gulp-concat');
-    var footer = require('gulp-footer');
-    var header = require('gulp-header');
-
-    return gulp.src(config.icons)
-        .pipe(cheerio(function ($) {
-            var $path = $('svg').children('path');
-            var id = $('svg').attr('id');
-            $path.attr('id', id);
-            $('svg').replaceWith($path[0]);
-        }))
-        .pipe(concat('icons.svg'))
-        .pipe(header(
-            '<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0"><defs>'
-        ))
-        .pipe(footer('</defs></svg>'))
-        .pipe(gulp.dest('templates/temp'));
+    }));
 }
 
 function images() {
@@ -208,17 +211,16 @@ function images() {
     return merged;
 }
 
-gulp.task('default', gulp.parallel(base, gulp.series(icons, build, html, css), images));
 
-gulp.task('watch', function() {
+function watch() {
 
     gulp.watch('base/**', base);
     gulp.watch('content/uploads/**/**.jpg', images);
     gulp.watch('css/**/**.css', css);
-    gulp.watch(['templates/**/**.html', 'content/**'], gulp.series(build, html, css));
-});
+    gulp.watch(['templates/**/**.html', 'content/**'], gulp.series(pages, optimize, icons, css));
+}
 
-gulp.task('serve', gulp.parallel('default', 'watch', function(done){
+function serve(done){
 
     var express = require('express');
     var static = require('express-static');
@@ -249,4 +251,8 @@ gulp.task('serve', gulp.parallel('default', 'watch', function(done){
     });
 
     done();
-}));
+}
+
+gulp.task('default', gulp.parallel(base, gulp.series(pages, optimize, icons, css), images));
+
+gulp.task('dev', gulp.parallel('default', watch, serve));
