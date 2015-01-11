@@ -1,10 +1,4 @@
 @import 'basscss';
-/* @import 'basscss-background-images'; */
-/* @import 'basscss-ui-utility-button-sizes'; */
-/* @import 'basscss-ui-utility-disclosure-states'; */
-/* @import 'basscss-ui-utility-groups'; */
-/* @import 'basscss-utility-headings'; */
-/* @import 'flex-object'; */
 @import "./basscss-adjustments.css";
 @import "./responsive-utilities.css";
 @import "./icons.css";
