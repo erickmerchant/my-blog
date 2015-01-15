@@ -29,7 +29,7 @@ function pages() {
     var compose = require('static-compose');
     var hljs = require('highlight.js');
     var posts;
-    var formula = [];
+    var post_pages, archive_page, _404_page;
 
     nunjucks.configure('./templates/', {
         autoescape: true
@@ -48,33 +48,33 @@ function pages() {
         })
     ]);
 
-    posts = compose([content('posts/*'), sort.date]);
+    posts = compose(content('posts/*'), sort.date);
 
     defaults = defaults('./content/defaults.yml');
 
-    formula.push([
+    post_pages = [
         posts,
         pager,
         defaults,
         render('posts/{slug}/index.html', nunjucks('post.html')),
         first,
         render('index.html', nunjucks('post.html'))
-    ]);
+    ];
 
-    formula.push([
+    archive_page = [
         content('posts.md'),
-        collection('posts', [posts]),
+        collection('posts', posts),
         defaults,
         render('posts/index.html', nunjucks('posts.html'))
-    ]);
+    ];
 
-    formula.push([
+    _404_page = [
         content('404.md'),
         defaults,
         render('404.html', nunjucks('404.html'))
-    ]);
+    ];
 
-    return engine(formula);
+    return engine(post_pages, archive_page, _404_page);
 }
 
 function base(){
