@@ -7,18 +7,15 @@
             {% if post.date.format('MMMM YYYY') != year_month %}
                 {% set year_month = post.date.format('MMMM YYYY') %}
                 {% if not loop.first %}
-                        </dl>
-                    </section>
+                    </dl>
                 {% endif %}
-                <section>
-                    <h2>{{ geomicons.icon('calendar') }} {{ year_month }}</h2>
-                    <dl>
+                <h2>{{ geomicons.icon('calendar') }} {{ year_month }}</h2>
+                <dl>
             {% endif %}
             <dt class="h3"><a href="/posts/{{ post.slug }}/">{{ post.title }}</a></dt>
             <dd class="mb1">{{ post.summary }}</dd>
             {% if loop.last %}
-                    </dl>
-                </section>
+                </dl>
             {% endif %}
         {% endfor %}
     </section>

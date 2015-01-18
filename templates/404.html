@@ -4,13 +4,11 @@
     <section class="center">
         <h1>{{ title }}</h1>
         <p>{{ content|safe }}</p>
-        <form role="search" name="search" method="GET" action="http://google.com/search" class="m1 clearfix">
+        <form role="search" name="search" method="GET" action="http://google.com/search" class="m1 clearfix center">
             <input type="hidden" name="q" value="site:{{ host }}">
-            <div class="center">
-                <input class="field-light mb0 mt1 col-12 sm-col-6" type="text" placeholder="Search..." name="q">
-                <br class="sm-hide">
-                <button class=" ml1 mt1 button button-blue" type="submit">{{ geomicons.icon('search') }} Submit</button>
-            </div>
+            <input class="field-light mb0 mt1 col-12 sm-col-6" type="text" placeholder="Search..." name="q">
+            <br class="sm-hide">
+            <button class=" ml1 mt1 button button-blue" type="submit">{{ geomicons.icon('search') }} Submit</button>
         </form>
     </section>
 {% endblock %}
