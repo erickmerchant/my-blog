@@ -143,7 +143,7 @@ function icons() {
     .pipe(tap(function(file){
 
         return gulp.src(config.directory + '**/**.html')
-        .pipe(cheerio(function($, done){
+        .pipe(cheerio(function($){
 
             var defs = $('<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0"><defs>'+file.contents+'</defs></svg>');
             var uses = [];
@@ -155,19 +155,17 @@ function icons() {
                 uses.push($(this).attr('xlink:href'));
             });
 
-            uses.forEach(function(v){
+            $('use').each(function(){
 
-                if(uses.filter(function(vv){ return v == vv; }).length == 1) {
+                var el = $(this);
+                var href = el.attr('xlink:href');
+                var index = uses.indexOf(href);
 
-                    $('use').each(function(){
+                if(index == uses.lastIndexOf(href)) {
 
-                        var el = $(this);
+                    el.replaceWith($.html('path'+href));
 
-                        if(el.attr('xlink:href') == v) {
-
-                            el.replaceWith($.html('path'+v));
-                        }
-                    });
+                    uses.splice(index, 1);
                 }
             });
 
@@ -175,13 +173,17 @@ function icons() {
 
                 var el = $(this);
 
-                if(uses.filter(function(v){ return v == '#'+el.attr('id'); }).length < 2) {
+                if(uses.indexOf('#'+el.attr('id')) < 0) {
 
                     el.replaceWith('');
                 }
             });
 
-            done();
+            $('defs').filter(function(){
+
+                return !$(this).find('path').length;
+                
+            }).parent().remove();
         }))
         .pipe(clean())
         .pipe(gulp.dest(config.directory));
