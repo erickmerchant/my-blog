@@ -143,7 +143,7 @@ function icons() {
     .pipe(tap(function(file){
 
         return gulp.src(config.directory + '**/**.html')
-        .pipe(cheerio(function($){
+        .pipe(cheerio(function($, done){
 
             var defs = $('<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0"><defs>'+file.contents+'</defs></svg>');
             var uses = [];
@@ -155,13 +155,33 @@ function icons() {
                 uses.push($(this).attr('xlink:href'));
             });
 
-            $('path[id]').each(function(){
+            uses.forEach(function(v){
 
-                if(uses.indexOf('#'+$(this).attr('id')) < 0) {
+                if(uses.filter(function(vv){ return v == vv; }).length == 1) {
 
-                    $(this).replaceWith('');
+                    $('use').each(function(){
+
+                        var el = $(this);
+
+                        if(el.attr('xlink:href') == v) {
+
+                            el.replaceWith($.html('path'+v));
+                        }
+                    });
                 }
             });
+
+            $('defs path[id]').each(function(){
+
+                var el = $(this);
+
+                if(uses.filter(function(v){ return v == '#'+el.attr('id'); }).length < 2) {
+
+                    el.replaceWith('');
+                }
+            });
+
+            done();
         }))
         .pipe(clean())
         .pipe(gulp.dest(config.directory));
