@@ -182,7 +182,7 @@ function icons() {
             $('defs').filter(function(){
 
                 return !$(this).find('path').length;
-                
+
             }).parent().remove();
         }))
         .pipe(clean())
