@@ -236,10 +236,10 @@ function images() {
 
 function watch() {
 
-    gulp.watch('base/**', base);
-    gulp.watch('content/uploads/**/**.jpg', images);
-    gulp.watch('css/**/**.css', css);
-    gulp.watch(['templates/**/**.html', 'content/**'], gulp.series(pages, optimize, icons, css));
+    gulp.watch('base/**/*', base);
+    gulp.watch('content/uploads/**/*.jpg', images);
+    gulp.watch('css/**/*.css', css);
+    gulp.watch(['templates/**/*.html', 'content/**/*.md'], gulp.series(pages, optimize, icons, css));
 }
 
 function serve(done){
