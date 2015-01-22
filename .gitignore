@@ -1,6 +1,4 @@
 .DS_Store
 /content/drafts
 /site
-bower_components
 node_modules
-/staging/
