@@ -268,7 +268,7 @@ function serve(done){
         res.type('txt').send('Not found');
     });
 
-    var server = app.listen(8080, function(){
+    var server = app.listen(8088, function(){
         console.log('server is running at %s', server.address().port);
     });
 
