@@ -56,7 +56,7 @@ function pages() {
         posts,
         pager,
         defaults,
-        render('posts/{slug}/index.html', nunjucks('post.html')),
+        render('posts/:slug/index.html', nunjucks('post.html')),
         first,
         render('index.html', nunjucks('post.html'))
     ];
