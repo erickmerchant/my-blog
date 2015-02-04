@@ -1,7 +1,6 @@
 'use strict';
 
-var argv = require('argh').argv;
-var args = argv.argv;
+var program = require('commander');
 var chalk = require('chalk');
 var moment = require('moment');
 var mkslug = require('slug');
@@ -9,44 +8,47 @@ var fs = require('fs');
 var trimmer = require('trimmer');
 var mkdirp = require('mkdirp');
 var path = require('path');
-var Promise = require('es6-promise').Promise;
-
+var args;
 var file;
-var format;
-var ext = 'md';
+var title;
 var content;
+
+program
+    .usage('[options] <title>')
+    .description('Make a new piece of content.')
+    .option('--date', 'prepend the date YYYY-MM-DD')
+    .option('--datetime', 'prepend the datetime YYYY-MM-DD-HHmmss')
+    .option('--ext [ext]', 'file extension to use [md]', 'md')
+    .option('--target <target>', 'target directory')
+    .parse(process.argv);
+
+args = program.args;
 
 if (!args[0]) {
 
     console.error(chalk.red('You must provide a title.'));
-
-    return Promise.reject(false);
 }
+else {
 
-return new Promise(function(resolve, reject){
+    title = args[0];
 
     file = mkslug(args[0]).toLowerCase();
 
-    if (argv.date) {
+    if (program.date) {
 
         file = moment().format("YYYY-MM-DD") + '.' + file;
     }
 
-    if (argv.datetime) {
+    if (program.datetime) {
 
         file = moment().format("YYYY-MM-DD-HHmmss") + '.' + file;
     }
 
-    if (argv.ext) {
+    file = file + '.' + program.ext;
 
-        ext = argv.ext;
-    }
+    if (program.target ) {
 
-    file = file + '.' + ext;
-
-    if (argv.in ) {
-
-        file = trimmer(argv.in , '/') + '/' + file;
+        file = trimmer(program.target, '/') + '/' + file;
     }
 
     content = "---\ntitle: \"" + args[0] + "\"\n---";
@@ -55,15 +57,17 @@ return new Promise(function(resolve, reject){
 
     mkdirp(directory, function (err) {
 
-        if (err) throw err;
+        if(err) console.log(err);
+        else
+        {
+            fs.writeFile(file, content, function (err) {
 
-        fs.writeFile(file, content, function (err) {
-
-            if (err) throw err;
-
-            console.log(chalk.green(file + ' saved.'));
-
-            resolve();
-        });
+                if(err) console.log(err);
+                else
+                {
+                    console.log(chalk.green(file + ' saved.'));
+                }
+            });
+        }
     });
-});
+}

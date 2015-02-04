@@ -1,7 +1,6 @@
 'use strict';
 
-var argv = require('argh').argv;
-var args = argv.argv;
+var program = require('commander');
 var chalk = require('chalk');
 var moment = require('moment');
 var mkslug = require('slug');
@@ -10,11 +9,10 @@ var trimmer = require('trimmer');
 var mkdirp = require('mkdirp');
 var path = require('path');
 var date_formats = ["YYYY-MM-DD", "YYYY-MM-DD-HHmmss"];
-var Promise = require('es6-promise').Promise;
-
 var file;
 var newFile;
 var ext;
+var args
 var parts;
 var slug;
 var date;
@@ -22,17 +20,25 @@ var format;
 var destination;
 var directory;
 
+program
+    .usage('[options] <file> <target>')
+    .description('Move content')
+    .option('--title', 'change the title')
+    .option('--date', 'prepend the date YYYY-MM-DD')
+    .option('--datetime', 'prepend the datetime YYYY-MM-DD-HHmmss')
+    .parse(process.argv);
+
+args = program.args;
+
 if (!args[0]) {
 
-    console.error(chalk.red(
-        'You must provide a file to move.'));
-
-    return Promise.reject(false);
+    console.error(chalk.red('You must provide a file to move.'));
 }
-
-return new Promise(function(resolve, reject){
+else {
 
     file = trimmer(args[0], '/');
+
+    destination = args[1] ? trimmer(args[1], '/') : trimmer(path.dirname(file), '/');
 
     ext = path.extname(file);
 
@@ -52,24 +58,22 @@ return new Promise(function(resolve, reject){
         }
     }
 
-    if (argv.title) {
+    if (program.title) {
 
-        slug = mkslug(argv.title).toLowerCase();
+        slug = mkslug(program.title).toLowerCase();
     }
 
     newFile = slug + ext;
 
-    if (argv.date) {
+    if (program.date) {
 
         newFile = date.format("YYYY-MM-DD") + '.' + newFile;
     }
 
-    if (argv.datetime) {
+    if (program.datetime) {
 
         newFile = date.format("YYYY-MM-DD-HHmmss") + '.' + newFile;
     }
-
-    destination = args[1] ? trimmer(args[1], '/') : trimmer(path.dirname(file), '/');
 
     newFile = destination + '/' + newFile;
 
@@ -77,16 +81,17 @@ return new Promise(function(resolve, reject){
 
     mkdirp(directory, function (err) {
 
-        if (err) throw err;
+        if(err) console.log(err);
+        else
+        {
+            fs.rename(file, newFile, function (err) {
 
-        fs.rename(file, newFile, function (err) {
-
-            if (err) throw err;
-
-            console.log(chalk.green(file + ' moved to ' + newFile +
-                '.'));
-
-            resolve(true);
-        });
+                if(err) console.log(err);
+                else
+                {
+                    console.log(chalk.green(file + ' moved to ' + newFile + '.'));
+                }
+            });
+        }
     });
-});
+}
