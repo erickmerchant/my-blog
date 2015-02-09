@@ -86,7 +86,7 @@ function css(){
 
     var autoprefixer = require('gulp-autoprefixer');
     var uncss = require('gulp-uncss');
-    var minifycss = require('gulp-minify-css');
+    var csso = require('gulp-csso');
     var glob = require('glob');
     var rework = require('gulp-rework');
     var concat = require('gulp-concat');
@@ -109,7 +109,7 @@ function css(){
         .pipe(uncss({
             html: glob.sync(config.directory + '**/**.html')
         }))
-        .pipe(minifycss());
+        .pipe(csso());
 
     return stream.pipe(gulp.dest(config.directory));
 }
