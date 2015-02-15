@@ -19,7 +19,7 @@
             <a class="button-nav-dark button" href="/">{{ banner }}</a>
             <div class="inline-block">
                 {% for link in menu %}
-                    <a class="button-nav-dark button"{% if link.target %} target="{{ link.target }}"{% endif %} href="{{ link.url }}">{% if link.icon %}{{ geomicons.icon(link.icon) }} {% endif %}<span class="sm-show-inline">{{ link.text }}</span></a>
+                    <a class="button-nav-dark button" href="{{ link.url }}">{{ geomicons.icon(link.icon) }}<span class="sm-show-inline">{{ link.text }}</span></a>
                 {% endfor %}
             </div>
         </nav>
