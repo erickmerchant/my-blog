@@ -28,6 +28,7 @@ function pages() {
     var sort = require('static-engine-sort');
     var compose = require('static-compose');
     var hljs = require('highlight.js');
+    var cson_parse = require('cson-parser').parse;
     var posts;
     var post_pages, archive_page, _404_page;
 
@@ -39,7 +40,7 @@ function pages() {
 
     content.configure('./content/', [
         file,
-        frontmatter,
+        frontmatter(cson_parse),
         marked({
             highlight: function(code) {
 
@@ -50,7 +51,7 @@ function pages() {
 
     posts = compose(content('posts/*'), sort.date);
 
-    defaults = defaults('./content/defaults.yml');
+    defaults = defaults('./content/defaults.cson', cson_parse);
 
     post_pages = [
         posts,
