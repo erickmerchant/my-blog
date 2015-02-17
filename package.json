@@ -61,7 +61,7 @@
     "rework-vars": "^3.1.1",
     "slug": "^0.8.0",
     "static-compose": "^3.0.0",
-    "static-engine": "^7.0.0",
+    "static-engine": "^8.0.0",
     "static-engine-collection": "^4.0.0",
     "static-engine-content": "^4.0.0",
     "static-engine-converter-file": "^3.0.0",
