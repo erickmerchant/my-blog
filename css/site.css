@@ -19,7 +19,7 @@
 /*@import 'basscss-button-blue-outline';*/
 /*@import 'basscss-button-red';*/
 @import 'basscss-button-gray';
-@import 'basscss-button-light-gray';
+/*@import 'basscss-button-light-gray';*/
 /*@import 'basscss-button-nav-light';*/
 @import 'basscss-button-nav-dark';
 @import 'basscss-colors';
@@ -32,5 +32,6 @@
 @import "./code.css";
 
 :root {
+    --gray: #666;
     --container-width: 40em;
 }
