@@ -12,6 +12,10 @@ pre {
     overflow-x: auto;
 }
 
+code {
+    background: var(--darken-1);
+}
+
 pre, pre code {
 	background: var(--dark-gray);
 }

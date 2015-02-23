@@ -32,6 +32,6 @@
 @import "./code.css";
 
 :root {
-    --gray: #666;
+    --gray: #333;
     --container-width: 40em;
 }
