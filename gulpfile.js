@@ -28,51 +28,50 @@ function pages() {
     var sort = require('static-engine-sort');
     var compose = require('static-compose');
     var hljs = require('highlight.js');
-    var cson_parse = require('cson-parser').parse;
+    var cson = require('cson-parser');
     var posts;
     var post_pages, archive_page, _404_page;
+    var converters;
 
     nunjucks.configure('./templates/', {
         autoescape: true
     });
 
-    render.configure('./site/');
-
-    content.configure('./content/', [
+    converters = [
         file,
-        frontmatter(cson_parse),
+        frontmatter(cson.parse),
         marked({
             highlight: function(code) {
 
                 return hljs.highlightAuto(code).value;
             }
         })
-    ]);
+    ];
 
-    posts = compose(content('posts/*'), sort.date);
+    posts = compose(content('./content/posts/*', converters), sort.date);
 
-    defaults = defaults('./content/defaults.cson', cson_parse);
+    defaults = defaults('./content/defaults.cson', cson.parse);
 
     post_pages = [
         posts,
         pager,
         defaults,
-        render('posts/:slug/index.html', nunjucks('post.html')),
+        render(config.directory + 'posts/:slug/index.html', nunjucks('post.html')),
         first,
-        render('index.html', nunjucks('post.html'))
+        render(config.directory + 'index.html', nunjucks('post.html'))
     ];
 
     archive_page = [
-        content('posts.md'),
+        content('./content/posts.md', converters),
         collection('posts', posts),
         defaults,
-        render('posts/index.html', nunjucks('posts.html'))
+        render(config.directory + 'posts/index.html', nunjucks('posts.html'))
     ];
 
     _404_page = [
-        content('404.md'),
+        content('./content/404.md', converters),
         defaults,
-        render('404.html', nunjucks('404.html'))
+        render(config.directory + '404.html', nunjucks('404.html'))
     ];
 
     return engine(post_pages, archive_page, _404_page);
