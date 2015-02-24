@@ -91,7 +91,7 @@ else {
                 if(err) console.log(err);
                 else
                 {
-                    console.log(chalk.green(file + ' moved to ' + newFile + '.'));
+                    console.log(chalk.green('%s moved to %s.'), file, newFile);
                 }
             });
         }

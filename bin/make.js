@@ -67,7 +67,7 @@ else {
                 if(err) console.log(err);
                 else
                 {
-                    console.log(chalk.green(file + ' saved.'));
+                    console.log(chalk.green('%s saved.'), file);
                 }
             });
         }
