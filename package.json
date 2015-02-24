@@ -29,7 +29,7 @@
     "basscss-utility-responsive-states": "0.0.2",
     "basscss-utility-typography": "0.0.2",
     "basscss-utility-white-space": "0.0.3",
-    "chalk": "^0.5.1",
+    "chalk": "^1.0.0",
     "commander": "^2.6.0",
     "cson-parser": "^1.0.8",
     "express": "^4.10.7",
