@@ -10,6 +10,7 @@ var fs = require('fs');
 var trimmer = require('trimmer');
 var mkdirp = require('mkdirp');
 var path = require('path');
+var cson = require('cson-parser');
 var date_formats = ["YYYY-MM-DD", "YYYY-MM-DD-HHmmss"];
 
 var orig = console.error;
@@ -69,7 +70,7 @@ program
             file = trimmer(options.target, '/') + '/' + file;
         }
 
-        content = "---\ntitle: \"" + title + "\"\n---";
+        content = ["---", cson.stringify({title: title}, null, "  "), '---', ''].join("\n");
 
         var directory = path.dirname(file);
 
