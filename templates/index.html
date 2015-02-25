@@ -15,11 +15,11 @@
         <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.2/html5shiv.js"></script><![endif]-->
     </head>
     <body>
-        <nav class="bg-dark-gray h3 p2 center" role="navigation">
-            <a class="button-nav-dark button" href="/">{{ banner }}</a>
+        <nav class="bg-black h3 p2 center white" role="navigation">
+            <a class="button-transparent button" href="/">{{ banner }}</a>
             <div class="inline-block">
                 {% for link in menu %}
-                    <a class="button-nav-dark button" href="{{ link.url }}">{{ geomicons.icon(link.icon) }}<span class="sm-show-inline">{{ link.text }}</span></a>
+                    <a class="button-transparent button" href="{{ link.url }}">{{ geomicons.icon(link.icon) }}<span class="sm-show-inline">{{ link.text }}</span></a>
                 {% endfor %}
             </div>
         </nav>
@@ -27,7 +27,7 @@
             {% block main %}
             {% endblock %}
         </main>
-        <footer class="h5 mt3 p1 mid-gray center" role="contentinfo">
+        <footer class="h5 mt3 p1 gray center" role="contentinfo">
             <small>Copyright &copy; {{ year }} by {{ author }} &bull; {{ footer|safe }}</small>
         </footer>
     </body>

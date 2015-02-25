@@ -26,16 +26,16 @@
         <nav class="h4 clearfix mt3">
             <div class="col col-6 center">
                 {% if previous %}
-                    <a class="button p2 button-blue" rel="prev" href="/posts/{{ previous.slug }}/">{{ geomicons.icon('chevron-left') }} <span class="sm-show-inline">Older</span></a>
+                    <a class="button p2 bg-blue" rel="prev" href="/posts/{{ previous.slug }}/">{{ geomicons.icon('chevron-left') }} <span class="sm-show-inline">Older</span></a>
                 {% else %}
-                    <span class="button p2 button-gray is-disabled">{{ geomicons.icon('chevron-left') }} <span class="sm-show-inline">Older</span></span>
+                    <span class="button p2 bg-gray is-disabled">{{ geomicons.icon('chevron-left') }} <span class="sm-show-inline">Older</span></span>
                 {% endif %}
             </div>
             <div class="col col-6 center">
                 {% if next %}
-                    <a class="button p2 button-blue" rel="next" href="/posts/{{ next.slug }}/"><span class="sm-show-inline">Newer</span> {{ geomicons.icon('chevron-right') }}</a>
+                    <a class="button p2 bg-blue" rel="next" href="/posts/{{ next.slug }}/"><span class="sm-show-inline">Newer</span> {{ geomicons.icon('chevron-right') }}</a>
                 {% else %}
-                    <span class="button p2 button-gray is-disabled"><span class="sm-show-inline">Newer</span> {{ geomicons.icon('chevron-right') }}</span>
+                    <span class="button p2 bg-gray is-disabled"><span class="sm-show-inline">Newer</span> {{ geomicons.icon('chevron-right') }}</span>
                 {% endif %}
             </div>
         </nav>
