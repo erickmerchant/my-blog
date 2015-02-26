@@ -29,3 +29,14 @@ dd {
 main {
   display: block;
 }
+
+.button.is-disabled:visited,
+.button.is-disabled:hover,
+.button.is-disabled:focus,
+.button.is-disabled:active {
+    box-shadow: none !important;
+}
+
+.button.is-disabled {
+    cursor: default !important;
+}
