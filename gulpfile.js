@@ -8,7 +8,7 @@ var config = {
     ],
     icons: "node_modules/geomicons-open/icons/*.svg",
     images: {
-        thumbnails: [626]
+        thumbnails: [622]
     }
 };
 
