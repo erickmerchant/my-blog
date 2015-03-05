@@ -158,6 +158,15 @@ function combine(done) {
     inline(htmls.shift(), next);
 }
 
+function selectors() {
+
+    var gs = require('gulp-selectors');
+
+    return gulp.src([config.directory + '**/**.html', config.directory + 'index.css'])
+        .pipe(gs.run({ 'css': ['css'], 'html': ['html'] }, { ids: true }))
+        .pipe(gulp.dest(config.directory));
+}
+
 function optimize(){
 
     var htmlmin = require('gulp-htmlmin');
@@ -318,6 +327,6 @@ function serve(done){
     done();
 }
 
-gulp.task('default', gulp.parallel(base, gulp.series(pages, optimize, icons, css, combine), images));
+gulp.task('default', gulp.parallel(base, gulp.series(pages, optimize, icons, css, selectors, combine), images));
 
 gulp.task('dev', gulp.parallel('default', watch, serve));
