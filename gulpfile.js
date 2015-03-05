@@ -290,8 +290,8 @@ function watch() {
 
     gulp.watch('base/**/*', base);
     gulp.watch('content/uploads/**/*.jpg', images);
-    gulp.watch('css/**/*.css', 'default');
-    gulp.watch(['templates/**/*.html', 'content/**/*.md'], gulp.series(pages, optimize, icons, css));
+    gulp.watch('css/**/*.css', gulp.series(pages, optimize, icons, css, selectors, combine));
+    gulp.watch(['templates/**/*.html', 'content/**/*.md'], gulp.series(pages, optimize, icons, css, selectors, combine));
 }
 
 function serve(done){
