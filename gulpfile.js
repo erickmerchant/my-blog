@@ -141,7 +141,7 @@ function combine(done) {
                     }))
                     .pipe(gulp.dest(path.dirname(html)))
                     .pipe(end(next));
-            }))
+            }));
     };
     var next = function(){
 
