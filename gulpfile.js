@@ -1,3 +1,4 @@
+'use strict';
 
 var gulp = require('gulp');
 var config = {
@@ -137,66 +138,49 @@ function optimize(){
 function icons() {
 
     var cheerio = require('gulp-cheerio');
-    var concat = require('gulp-concat');
-    var tap = require('gulp-tap');
-    var clean = require('gulp-htmlclean');
+    var fs = require('fs');
 
-    return gulp.src(config.icons)
-    .pipe(cheerio(function ($) {
-        var $path = $('svg').children('path');
-        var id = $('svg').attr('id');
-        $path.attr('id', id);
-        $('svg').replaceWith($path[0]);
+    return gulp.src(config.directory + '**/**.html')
+    .pipe(cheerio(function($){
+
+        var defs = new Set();
+        var href;
+        var id;
+        var d;
+        var paths;
+
+        $('use').each(function(){
+
+            href = $(this).attr('xlink:href');
+            id = href.substring(1);
+
+            if($('use[xlink\\:href="'+href+'"]').length > 1) {
+
+                defs.add(id);
+            }
+            else {
+
+                d = fs.readFileSync('./node_modules/geomicons-open/src/paths/'+id+'.d', {encoding:'utf8'});
+
+                $(this).replaceWith('<path d="'+d.split("\n").join('')+'"/>');
+            }
+        });
+
+        if(defs.size) {
+
+            paths = [];
+
+            for(id of defs) {
+
+                d = fs.readFileSync('./node_modules/geomicons-open/src/paths/'+id+'.d', {encoding:'utf8'});
+
+                paths.push('<path d="'+d.split("\n").join('')+'" id="'+id+'"/>');
+            }
+
+            $('body').append('<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0"><defs>'+paths.join('')+'</defs></svg>')
+        }
     }))
-    .pipe(concat('icons.svg'))
-    .pipe(tap(function(file){
-
-        return gulp.src(config.directory + '**/**.html')
-        .pipe(cheerio(function($){
-
-            var defs = $('<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0"><defs>'+file.contents+'</defs></svg>');
-            var uses = [];
-
-            $('body').append(defs);
-
-            $('use').each(function(){
-
-                uses.push($(this).attr('xlink:href'));
-            });
-
-            $('use').each(function(){
-
-                var el = $(this);
-                var href = el.attr('xlink:href');
-                var index = uses.indexOf(href);
-
-                if(index == uses.lastIndexOf(href)) {
-
-                    el.replaceWith($.html('path'+href));
-
-                    uses.splice(index, 1);
-                }
-            });
-
-            $('defs path[id]').each(function(){
-
-                var el = $(this);
-
-                if(uses.indexOf('#'+el.attr('id')) < 0) {
-
-                    el.replaceWith('');
-                }
-            });
-
-            $('defs').filter(function(){
-
-                return !$(this).find('path').length;
-
-            }).parent().remove();
-        }))
-        .pipe(clean())
-        .pipe(gulp.dest(config.directory));
-    }));
+    .pipe(gulp.dest(config.directory));
 }
 
 function images() {
@@ -246,14 +230,14 @@ function watch() {
 
     gulp.watch('base/**/*', base);
     gulp.watch('content/uploads/**/*.jpg', images);
-    gulp.watch('css/**/*.css', gulp.series(pages, optimize, icons, css, selectors));
-    gulp.watch(['templates/**/*.html', 'content/**/*.md'], gulp.series(pages, optimize, icons, css, selectors));
+    gulp.watch('css/**/*.css', gulp.series(pages, icons, optimize, css, selectors));
+    gulp.watch(['templates/**/*.html', 'content/**/*.md'], gulp.series(pages, icons, optimize, css, selectors));
 }
 
 function serve(done){
 
     var express = require('express');
-    var static = require('express-static');
+    var _static = require('express-static');
     var logger = require('express-log');
     var fs = require('fs');
     var path = require('path');
@@ -262,7 +246,7 @@ function serve(done){
 
     app.use(logger());
 
-    app.use(static(config.directory));
+    app.use(_static(config.directory));
 
     app.use(function(req, res, next){
         res.status(404);
@@ -283,6 +267,6 @@ function serve(done){
     done();
 }
 
-gulp.task('default', gulp.parallel(base, gulp.series(pages, optimize, icons, css, selectors), images));
+gulp.task('default', gulp.parallel(base, gulp.series(pages, icons, optimize, css, selectors), images));
 
 gulp.task('dev', gulp.parallel('default', watch, serve));
