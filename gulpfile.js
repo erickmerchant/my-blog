@@ -146,8 +146,14 @@ function icons() {
         var defs = new Set();
         var href;
         var id;
-        var d;
         var paths;
+        var get_path = function(id, include_id_attr) {
+
+            var d = fs.readFileSync('./node_modules/geomicons-open/src/paths/'+id+'.d', {encoding:'utf8'});
+            var id_attr = include_id_attr ? ' id="'+id+'"' : '';
+
+            return '<path d="'+d.split("\n").join('')+'"'+id_attr+'/>'
+        };
 
         $('use').each(function(){
 
@@ -160,9 +166,7 @@ function icons() {
             }
             else {
 
-                d = fs.readFileSync('./node_modules/geomicons-open/src/paths/'+id+'.d', {encoding:'utf8'});
-
-                $(this).replaceWith('<path d="'+d.split("\n").join('')+'"/>');
+                $(this).replaceWith(get_path(id));
             }
         });
 
@@ -172,9 +176,7 @@ function icons() {
 
             for(id of defs) {
 
-                d = fs.readFileSync('./node_modules/geomicons-open/src/paths/'+id+'.d', {encoding:'utf8'});
-
-                paths.push('<path d="'+d.split("\n").join('')+'" id="'+id+'"/>');
+                paths.push(get_path(id, true));
             }
 
             $('body').append('<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0"><defs>'+paths.join('')+'</defs></svg>')
