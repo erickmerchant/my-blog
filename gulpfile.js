@@ -1,7 +1,7 @@
 'use strict';
 
+const directory = '../erickmerchant.github.io/';
 var gulp = require('gulp');
-var directory = './site/';
 
 function pages() {
 
@@ -139,12 +139,9 @@ function icons() {
             var href;
             var id;
             var paths;
-            var get_path = function(id, include_id_attr) {
+            var get_path = function(id) {
 
-                var d = fs.readFileSync('./node_modules/geomicons-open/src/paths/'+id+'.d', {encoding:'utf8'});
-                var id_attr = include_id_attr ? ' id="'+id+'"' : '';
-
-                return '<path d="'+d.split("\n").join('')+'"'+id_attr+'/>'
+                return fs.readFileSync('./node_modules/geomicons-open/src/paths/'+id+'.d', {encoding:'utf8'}).split("\n").join('');
             };
 
             $('use').each(function(){
@@ -158,7 +155,7 @@ function icons() {
                 }
                 else {
 
-                    $(this).replaceWith(get_path(id));
+                    $(this).replaceWith('<path d="' + get_path(id) + '"/>');
                 }
             });
 
@@ -168,7 +165,7 @@ function icons() {
 
                 for(id of defs) {
 
-                    paths.push(get_path(id, true));
+                    paths.push('<path d="' + get_path(id) + '" id="' + id + '"/>');
                 }
 
                 $('body').append('<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0"><defs>'+paths.join('')+'</defs></svg>')
