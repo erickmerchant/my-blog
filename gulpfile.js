@@ -1,17 +1,7 @@
 'use strict';
 
 var gulp = require('gulp');
-var config = {
-    directory: './site/',
-    css: [
-        "css/site.css",
-        "node_modules/highlight.js/styles/monokai_sublime.css"
-    ],
-    icons: "node_modules/geomicons-open/icons/*.svg",
-    images: {
-        thumbnails: [622]
-    }
-};
+var directory = './site/';
 
 function pages() {
 
@@ -57,22 +47,22 @@ function pages() {
         posts,
         pager,
         defaults,
-        render(config.directory + 'posts/:slug/index.html', nunjucks('post.html')),
+        render(directory + 'posts/:slug/index.html', nunjucks('post.html')),
         first,
-        render(config.directory + 'index.html', nunjucks('post.html'))
+        render(directory + 'index.html', nunjucks('post.html'))
     ];
 
     archive_page = [
         content('./content/posts.md', converters),
         collection('posts', posts),
         defaults,
-        render(config.directory + 'posts/index.html', nunjucks('posts.html'))
+        render(directory + 'posts/index.html', nunjucks('posts.html'))
     ];
 
     _404_page = [
         content('./content/404.md', converters),
         defaults,
-        render(config.directory + '404.html', nunjucks('404.html'))
+        render(directory + '404.html', nunjucks('404.html'))
     ];
 
     return engine(post_pages, archive_page, _404_page);
@@ -80,7 +70,7 @@ function pages() {
 
 function base(){
 
-    return gulp.src('base/**').pipe(gulp.dest(config.directory));
+    return gulp.src('base/**').pipe(gulp.dest(directory));
 }
 
 function css(){
@@ -97,7 +87,10 @@ function css(){
     var vars = require('rework-vars');
     var colors = require('rework-plugin-colors');
 
-    return gulp.src(config.css)
+    return gulp.src([
+            "css/site.css",
+            "node_modules/highlight.js/styles/monokai_sublime.css"
+        ])
         .pipe(rework(
             npm(),
             vars(),
@@ -108,30 +101,30 @@ function css(){
         .pipe(autoprefixer('> 1%', 'last 2 versions'))
         .pipe(concat("index.css"))
         .pipe(uncss({
-            html: glob.sync(config.directory + '**/**.html')
+            html: glob.sync(directory + '**/**.html')
         }))
         .pipe(csso())
-        .pipe(gulp.dest(config.directory));
+        .pipe(gulp.dest(directory));
 }
 
 function selectors() {
 
     var gs = require('gulp-selectors');
 
-    return gulp.src([config.directory + '**/**.html', config.directory + 'index.css'])
+    return gulp.src([directory + '**/**.html', directory + 'index.css'])
         .pipe(gs.run({ 'css': ['css'], 'html': ['html'] }, { ids: true }))
-        .pipe(gulp.dest(config.directory));
+        .pipe(gulp.dest(directory));
 }
 
 function optimize(){
 
     var htmlmin = require('gulp-htmlmin');
 
-    return gulp.src(config.directory + '**/**.html')
+    return gulp.src(directory + '**/**.html')
         .pipe(htmlmin({
             collapseWhitespace: true
         }))
-        .pipe(gulp.dest(config.directory));
+        .pipe(gulp.dest(directory));
 }
 
 function icons() {
@@ -139,7 +132,7 @@ function icons() {
     var cheerio = require('gulp-cheerio');
     var fs = require('fs');
 
-    return gulp.src(config.directory + '**/**.html')
+    return gulp.src(directory + '**/**.html')
         .pipe(cheerio(function($){
 
             var defs = new Set();
@@ -181,7 +174,7 @@ function icons() {
                 $('body').append('<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0"><defs>'+paths.join('')+'</defs></svg>')
             }
         }))
-        .pipe(gulp.dest(config.directory));
+        .pipe(gulp.dest(directory));
 }
 
 function images() {
@@ -191,38 +184,30 @@ function images() {
     var imagemin = require('gulp-imagemin');
     var merge = require('merge-stream');
     var image;
-    var directory;
     var merged;
 
     var stream = gulp.src('content/uploads/*.jpg')
-        .pipe(changed(config.directory + 'uploads'))
+        .pipe(changed(directory + 'uploads'))
         .pipe(imagemin({
             progressive: true
         }))
-        .pipe(gulp.dest(config.directory + 'uploads'));
+        .pipe(gulp.dest(directory + 'uploads'));
 
     merged = merge(stream);
 
-    for(directory in config.images) {
-
-        image = config.images[directory];
-
-        if(!image[0] && !image[1]) return;
-
-        stream = gulp.src('content/uploads/*.jpg')
-            .pipe(changed(config.directory + 'uploads'))
-            .pipe(imageresize({
-                width: image[0] || 0,
-                height: image[1] || 0,
-                imageMagick: true
-            }))
-            .pipe(imagemin({
-                progressive: true
-            }))
-            .pipe(gulp.dest(config.directory + 'uploads/' + directory));
+    stream = gulp.src('content/uploads/*.jpg')
+        .pipe(changed(directory + 'uploads'))
+        .pipe(imageresize({
+            width: 622,
+            height: 0,
+            imageMagick: true
+        }))
+        .pipe(imagemin({
+            progressive: true
+        }))
+        .pipe(gulp.dest(directory + 'uploads/thumbnails/'));
 
         merged.add(stream);
-    }
 
     return merged;
 }
@@ -247,13 +232,13 @@ function serve(done){
 
     app.use(logger());
 
-    app.use(_static(config.directory));
+    app.use(_static(directory));
 
     app.use(function(req, res, next){
         res.status(404);
 
-        if (req.accepts('html') && fs.existsSync(config.directory + '404.html')) {
-            res.sendFile(path.resolve(config.directory, '404.html'));
+        if (req.accepts('html') && fs.existsSync(directory + '404.html')) {
+            res.sendFile(path.resolve(directory, '404.html'));
 
             return;
         }
