@@ -2,6 +2,7 @@
 
 const directory = '../erickmerchant.github.io/';
 var gulp = require('gulp');
+var main = gulp.series(pages, icons, optimize, css, selectors);
 
 function pages() {
 
@@ -213,8 +214,8 @@ function watch() {
 
     gulp.watch('base/**/*', base);
     gulp.watch('content/uploads/**/*.jpg', images);
-    gulp.watch('css/**/*.css', gulp.series(pages, icons, optimize, css, selectors));
-    gulp.watch(['templates/**/*.html', 'content/**/*.md'], gulp.series(pages, icons, optimize, css, selectors));
+    gulp.watch('css/**/*.css', main);
+    gulp.watch(['templates/**/*.html', 'content/**/*.md'], main);
 }
 
 function serve(done){
@@ -250,6 +251,6 @@ function serve(done){
     done();
 }
 
-gulp.task('default', gulp.parallel(base, gulp.series(pages, icons, optimize, css, selectors), images));
+gulp.task('default', gulp.parallel(base, main, images));
 
 gulp.task('dev', gulp.parallel('default', watch, serve));
