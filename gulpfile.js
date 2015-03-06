@@ -97,7 +97,7 @@ function css(){
     var vars = require('rework-vars');
     var colors = require('rework-plugin-colors');
 
-    var stream = gulp.src(config.css)
+    return gulp.src(config.css)
         .pipe(rework(
             npm(),
             vars(),
@@ -110,9 +110,8 @@ function css(){
         .pipe(uncss({
             html: glob.sync(config.directory + '**/**.html')
         }))
-        .pipe(csso());
-
-    return stream.pipe(gulp.dest(config.directory));
+        .pipe(csso())
+        .pipe(gulp.dest(config.directory));
 }
 
 function selectors() {
