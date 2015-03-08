@@ -18,7 +18,7 @@
         <footer>
             <p>
                 <span>Share with:</span>
-                <a href="https://twitter.com/intent/tweet?url={{ (host + '/posts/' + slug + '/') | urlencode }}&amp;text={{ title|urlencode }}" target="_blank">{{ geomicons.icon('twitter') }} Twitter</a>
+                <a href="https://twitter.com/intent/tweet?url={{ (host + '/posts/' + slug + '/') | url_encode }}&amp;text={{ title|url_encode }}" target="_blank">{{ geomicons.icon('twitter') }} Twitter</a>
             </p>
         </footer>
     </article>

@@ -67,8 +67,8 @@
     "static-engine-first": "^3.0.0",
     "static-engine-pager": "^3.0.0",
     "static-engine-render": "^4.0.0",
-    "static-engine-renderer-nunjucks": "^2.0.0",
     "static-engine-sort": "^2.0.0",
+    "swig": "^1.4.2",
     "trimmer": "^1.0.0"
   }
 }

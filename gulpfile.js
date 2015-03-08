@@ -6,7 +6,7 @@ var main = gulp.series(pages, icons, optimize, css, selectors);
 
 function pages() {
 
-    var nunjucks = require('static-engine-renderer-nunjucks');
+    var swig = require('swig');
     var engine = require('static-engine');
     var content = require('static-engine-content');
     var defaults = require('static-engine-defaults');
@@ -24,10 +24,15 @@ function pages() {
     var posts;
     var post_pages, archive_page, _404_page;
     var converters;
+    var renderer;
 
-    nunjucks.configure('./templates/', {
-        autoescape: true
-    });
+    renderer = function(file) {
+
+        return function(page, done) {
+
+            swig.renderFile('./templates/' + file, page, done);
+        };
+    }
 
     converters = [
         file,
@@ -48,22 +53,22 @@ function pages() {
         posts,
         pager,
         defaults,
-        render(directory + 'posts/:slug/index.html', nunjucks('post.html')),
+        render(directory + 'posts/:slug/index.html', renderer('post.html')),
         first,
-        render(directory + 'index.html', nunjucks('post.html'))
+        render(directory + 'index.html', renderer('post.html'))
     ];
 
     archive_page = [
         content('./content/posts.md', converters),
         collection('posts', posts),
         defaults,
-        render(directory + 'posts/index.html', nunjucks('posts.html'))
+        render(directory + 'posts/index.html', renderer('posts.html'))
     ];
 
     _404_page = [
         content('./content/404.md', converters),
         defaults,
-        render(directory + '404.html', nunjucks('404.html'))
+        render(directory + '404.html', renderer('404.html'))
     ];
 
     return engine(post_pages, archive_page, _404_page);
