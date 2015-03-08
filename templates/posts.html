@@ -12,7 +12,7 @@
                 <h2>{{ geomicons.icon('calendar') }} {{ year_month }}</h2>
                 <dl>
             {% endif %}
-            <dt class="h3"><a href="/posts/{{ post.slug }}/">{{ post.title }}</a></dt>
+            <dt><a href="/posts/{{ post.slug }}/">{{ post.title }}</a></dt>
             <dd class="mb1">{{ post.summary }}</dd>
             {% if loop.last %}
                 </dl>
