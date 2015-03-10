@@ -26,6 +26,8 @@ function pages() {
     var converters;
     var renderer;
 
+    swig.setDefaults({ cache: false });
+
     renderer = function(file) {
 
         return function(page, done) {
