@@ -2,7 +2,7 @@
 
 const directory = '../erickmerchant.github.io/';
 var gulp = require('gulp');
-var main = gulp.series(pages, icons, optimize, css, selectors);
+var html_css_series = gulp.series(pages, icons, minify_html, css, shorten_selectors);
 
 function pages() {
 
@@ -113,16 +113,16 @@ function css(){
         .pipe(gulp.dest(directory));
 }
 
-function selectors() {
+function shorten_selectors() {
 
-    var gs = require('gulp-selectors');
+    var selectors = require('gulp-selectors');
 
     return gulp.src([directory + '**/**.html', directory + 'index.css'])
-        .pipe(gs.run({ 'css': ['css'], 'html': ['html'] }, { ids: true }))
+        .pipe(selectors.run({ 'css': ['css'], 'html': ['html'] }, { ids: true }))
         .pipe(gulp.dest(directory));
 }
 
-function optimize(){
+function minify_html(){
 
     var htmlmin = require('gulp-htmlmin');
 
@@ -219,8 +219,8 @@ function watch() {
 
     gulp.watch('base/**/*', base);
     gulp.watch('content/uploads/**/*.jpg', images);
-    gulp.watch('css/**/*.css', main);
-    gulp.watch(['templates/**/*.html', 'content/**/*.md'], main);
+    gulp.watch('css/**/*.css', html_css_series);
+    gulp.watch(['templates/**/*.html', 'content/**/*.md'], html_css_series);
 }
 
 function serve(done){
@@ -256,6 +256,6 @@ function serve(done){
     done();
 }
 
-gulp.task('default', gulp.parallel(base, main, images));
+gulp.task('default', gulp.parallel(base, html_css_series, images));
 
 gulp.task('dev', gulp.parallel('default', watch, serve));
