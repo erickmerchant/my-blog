@@ -2,7 +2,7 @@
 
 const directory = '../erickmerchant.github.io/';
 var gulp = require('gulp');
-var html_css_series = gulp.series(pages, icons, minify_html, css, shorten_selectors);
+var html_css_series = gulp.series(pages, icons, minify_html, css, shorten_selectors, insert_css);
 
 function pages() {
 
@@ -120,6 +120,50 @@ function shorten_selectors() {
     return gulp.src([directory + '**/**.html', directory + 'index.css'])
         .pipe(selectors.run({ 'css': ['css'], 'html': ['html'] }, { ids: true }))
         .pipe(gulp.dest(directory));
+}
+
+function insert_css(done) {
+
+    var path = require('path');
+    var tap = require('gulp-tap');
+    var csso = require('gulp-csso');
+    var cheerio = require('gulp-cheerio');
+    var glob = require('glob');
+    var htmls = glob.sync(directory + '**/**.html');
+    var uncss = require('gulp-uncss');
+    var end = require('stream-end');
+    var inline = function(html, next) {
+
+        return gulp.src(directory + 'index.css')
+            .pipe(uncss({
+                html: [html]
+            }))
+            .pipe(csso())
+            .pipe(tap(function(file){
+
+                gulp.src([html])
+                    .pipe(cheerio(function($){
+
+                        $('head').append('<style type="text/css">'+file.contents.toString()+'</style>');
+
+                    }))
+                    .pipe(gulp.dest(path.dirname(html)))
+                    .pipe(end(next));
+            }));
+    };
+    var next = function(){
+
+        if(htmls.length) {
+
+            inline(htmls.shift(), next);
+        }
+        else {
+
+            done();
+        }
+    };
+
+    inline(htmls.shift(), next);
 }
 
 function minify_html(){
