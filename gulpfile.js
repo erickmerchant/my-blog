@@ -3,6 +3,21 @@
 const directory = '../erickmerchant.github.io/';
 var gulp = require('gulp');
 var html_css_series = gulp.series(pages, icons, minify_html, css, shorten_selectors, insert_css);
+var default_parallel = gulp.parallel(base, html_css_series, images);
+var optimize = false;
+
+gulp.task('default', gulp.series(toggle_optimize, default_parallel));
+
+gulp.task('dev', gulp.parallel(default_parallel, watch, serve));
+
+gulp.task('preview', gulp.parallel('default', watch, serve));
+
+function toggle_optimize(done) {
+
+    optimize = true;
+
+    done();
+}
 
 function pages() {
 
@@ -18,13 +33,9 @@ function pages() {
     var frontmatter = require('static-engine-converter-frontmatter');
     var render = require('static-engine-render');
     var sort = require('static-engine-sort');
-    var compose = require('static-compose');
     var hljs = require('highlight.js');
     var cson = require('cson-parser');
-    var posts;
-    var post_pages, archive_page, _404_page;
-    var converters;
-    var renderer;
+    var post_pages, archive_page, _404_page, renderer;
 
     swig.setDefaults({ cache: false });
 
@@ -34,25 +45,25 @@ function pages() {
 
             swig.renderFile('./templates/' + file, page, done);
         };
-    }
+    };
 
-    converters = [
-        file,
-        frontmatter(cson.parse),
-        marked({
-            highlight: function(code) {
+    frontmatter = frontmatter(cson.parse);
 
-                return hljs.highlightAuto(code).value;
-            }
-        })
-    ];
+    marked = marked({
+        highlight: function(code) {
 
-    posts = compose(content('./content/posts/*', converters), sort.date);
+            return hljs.highlightAuto(code).value;
+        }
+    });
 
     defaults = defaults('./content/defaults.cson', cson.parse);
 
     post_pages = [
-        posts,
+        content('./content/posts/*'),
+        file,
+        frontmatter,
+        marked,
+        sort.date,
         pager,
         defaults,
         render(directory + 'posts/:slug/index.html', renderer('post.html')),
@@ -61,14 +72,26 @@ function pages() {
     ];
 
     archive_page = [
-        content('./content/posts.md', converters),
-        collection('posts', posts),
+        content('./content/posts.md'),
+        file,
+        frontmatter,
+        marked,
+        collection('posts', [
+            content('./content/posts/*'),
+            file,
+            frontmatter,
+            marked,
+            sort.date
+        ]),
         defaults,
         render(directory + 'posts/index.html', renderer('posts.html'))
     ];
 
     _404_page = [
-        content('./content/404.md', converters),
+        content('./content/404.md'),
+        file,
+        frontmatter,
+        marked,
         defaults,
         render(directory + '404.html', renderer('404.html'))
     ];
@@ -94,6 +117,7 @@ function css(){
     var npm = require('rework-npm');
     var vars = require('rework-vars');
     var colors = require('rework-plugin-colors');
+    var gulpif = require('gulp-if');
 
     return gulp.src([
             "css/site.css",
@@ -108,9 +132,9 @@ function css(){
         ))
         .pipe(autoprefixer('> 1%', 'last 2 versions'))
         .pipe(concat("index.css"))
-        .pipe(uncss({
+        .pipe(gulpif(optimize, uncss({
             html: glob.sync(directory + '**/**.html')
-        }))
+        })))
         .pipe(csso())
         .pipe(gulp.dest(directory));
 }
@@ -118,9 +142,10 @@ function css(){
 function shorten_selectors() {
 
     var selectors = require('gulp-selectors');
+    var gulpif = require('gulp-if');
 
     return gulp.src([directory + '**/**.html', directory + 'index.css'])
-        .pipe(selectors.run({ 'css': ['css'], 'html': ['html'] }, { ids: true }))
+        .pipe(gulpif(optimize, selectors.run({ 'css': ['css'], 'html': ['html'] }, { ids: true })))
         .pipe(gulp.dest(directory));
 }
 
@@ -134,19 +159,20 @@ function insert_css(done) {
     var htmls = glob.sync(directory + '**/**.html');
     var uncss = require('gulp-uncss');
     var end = require('stream-end');
+    var gulpif = require('gulp-if');
     var inline = function(html, next) {
 
         return gulp.src(directory + 'index.css')
-            .pipe(uncss({
+            .pipe(gulpif(optimize, uncss({
                 html: [html]
-            }))
+            })))
             .pipe(csso())
             .pipe(tap(function(file){
 
                 gulp.src([html])
                     .pipe(cheerio(function($){
 
-                        $('head').append('<style type="text/css">'+file.contents.toString()+'</style>');
+                        $('[rel="stylesheet"][href="/index.css"]').replaceWith('<style type="text/css">'+file.contents.toString()+'</style>');
 
                     }))
                     .pipe(gulp.dest(path.dirname(html)))
@@ -165,7 +191,14 @@ function insert_css(done) {
         }
     };
 
-    inline(htmls.shift(), next);
+    if(optimize) {
+
+        inline(htmls.shift(), next);
+    }
+    else {
+
+        done();
+    }
 }
 
 function minify_html(){
@@ -265,8 +298,7 @@ function watch() {
 
     gulp.watch('base/**/*', base);
     gulp.watch('content/uploads/**/*.jpg', images);
-    gulp.watch('css/**/*.css', html_css_series);
-    gulp.watch(['templates/**/*.html', 'content/**/*.md'], html_css_series);
+    gulp.watch(['css/**/*.css', 'templates/**/*.html', 'content/**/*.md'], html_css_series);
 }
 
 function serve(done){
@@ -301,7 +333,3 @@ function serve(done){
 
     done();
 }
-
-gulp.task('default', gulp.parallel(base, html_css_series, images));
-
-gulp.task('dev', gulp.parallel('default', watch, serve));
