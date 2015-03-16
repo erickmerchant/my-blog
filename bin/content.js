@@ -11,7 +11,7 @@ var trimmer = require('trimmer');
 var mkdirp = require('mkdirp');
 var path = require('path');
 var cson = require('cson-parser');
-var date_formats = ["YYYY-MM-DD", "YYYY-MM-DD-HHmmss"];
+var dateFormats = ["YYYY-MM-DD", "YYYY-MM-DD-HHmmss"];
 
 var orig = console.error;
 
@@ -99,7 +99,7 @@ program
     .option('--datetime', 'prepend the datetime YYYY-MM-DD-HHmmss')
     .action(function(file, target, options) {
 
-        var new_file;
+        var newFile;
         var ext;
         var parts;
         var slug;
@@ -121,9 +121,9 @@ program
 
         if (parts.length >= 2) {
 
-            if (moment(parts[0], date_formats).isValid()) {
+            if (moment(parts[0], dateFormats).isValid()) {
 
-                date = moment(parts[0], date_formats);
+                date = moment(parts[0], dateFormats);
 
                 slug = parts.slice(1).join('.');
             }
@@ -134,33 +134,33 @@ program
             slug = mkslug(options.title).toLowerCase();
         }
 
-        new_file = slug + ext;
+        newFile = slug + ext;
 
         if (options.date) {
 
-            new_file = date.format("YYYY-MM-DD") + '.' + new_file;
+            newFile = date.format("YYYY-MM-DD") + '.' + newFile;
         }
 
         if (options.datetime) {
 
-            new_file = date.format("YYYY-MM-DD-HHmmss") + '.' + new_file;
+            newFile = date.format("YYYY-MM-DD-HHmmss") + '.' + newFile;
         }
 
-        new_file = destination + '/' + new_file;
+        newFile = destination + '/' + newFile;
 
-        directory = path.dirname(new_file);
+        directory = path.dirname(newFile);
 
         mkdirp(directory, function (err) {
 
             if(err) console.error(err);
             else
             {
-                fs.rename(file, new_file, function (err) {
+                fs.rename(file, newFile, function (err) {
 
                     if(err) console.error(err);
                     else
                     {
-                        console.success('%s moved to %s.', file, new_file);
+                        console.success('%s moved to %s.', file, newFile);
                     }
                 });
             }

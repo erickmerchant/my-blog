@@ -2,17 +2,17 @@
 
 const directory = '../erickmerchant.github.io/';
 var gulp = require('gulp');
-var html_css_series = gulp.series(pages, icons, minify_html, css, shorten_selectors, insert_css);
-var default_parallel = gulp.parallel(base, html_css_series, images);
+var htmlCSSSeries = gulp.series(pages, icons, minifyHTML, css, shortenSelectors, insertCSS);
+var allParallel = gulp.parallel(base, htmlCSSSeries, images);
 var optimize = false;
 
-gulp.task('default', gulp.series(toggle_optimize, default_parallel));
+gulp.task('default', gulp.series(optimizeOn, allParallel));
 
-gulp.task('dev', gulp.parallel(default_parallel, watch, serve));
+gulp.task('dev', gulp.parallel(allParallel, watch, serve));
 
 gulp.task('preview', gulp.parallel('default', watch, serve));
 
-function toggle_optimize(done) {
+function optimizeOn(done) {
 
     optimize = true;
 
@@ -35,7 +35,7 @@ function pages() {
     var sort = require('static-engine-sort');
     var hljs = require('highlight.js');
     var cson = require('cson-parser');
-    var post_pages, archive_page, _404_page, renderer;
+    var postPages, archivePage, _404Page, renderer;
 
     swig.setDefaults({ cache: false });
 
@@ -58,7 +58,7 @@ function pages() {
 
     defaults = defaults('./content/defaults.cson', cson.parse);
 
-    post_pages = [
+    postPages = [
         content('./content/posts/*'),
         file,
         frontmatter,
@@ -71,7 +71,7 @@ function pages() {
         render(directory + 'index.html', renderer('post.html'))
     ];
 
-    archive_page = [
+    archivePage = [
         content('./content/posts.md'),
         file,
         frontmatter,
@@ -87,7 +87,7 @@ function pages() {
         render(directory + 'posts/index.html', renderer('posts.html'))
     ];
 
-    _404_page = [
+    _404Page = [
         content('./content/404.md'),
         file,
         frontmatter,
@@ -96,7 +96,7 @@ function pages() {
         render(directory + '404.html', renderer('404.html'))
     ];
 
-    return engine(post_pages, archive_page, _404_page);
+    return engine(postPages, archivePage, _404Page);
 }
 
 function base(){
@@ -139,7 +139,7 @@ function css(){
         .pipe(gulp.dest(directory));
 }
 
-function shorten_selectors() {
+function shortenSelectors() {
 
     var selectors = require('gulp-selectors');
     var gulpif = require('gulp-if');
@@ -149,7 +149,7 @@ function shorten_selectors() {
         .pipe(gulp.dest(directory));
 }
 
-function insert_css(done) {
+function insertCSS(done) {
 
     var path = require('path');
     var tap = require('gulp-tap');
@@ -201,7 +201,7 @@ function insert_css(done) {
     }
 }
 
-function minify_html(){
+function minifyHTML(){
 
     var htmlmin = require('gulp-htmlmin');
 
@@ -224,7 +224,7 @@ function icons() {
             var href;
             var id;
             var paths;
-            var get_path = function(id) {
+            var getPath = function(id) {
 
                 return fs.readFileSync('./node_modules/geomicons-open/src/paths/'+id+'.d', {encoding:'utf8'}).split("\n").join('');
             };
@@ -240,7 +240,7 @@ function icons() {
                 }
                 else {
 
-                    $(this).replaceWith('<path d="' + get_path(id) + '"/>');
+                    $(this).replaceWith('<path d="' + getPath(id) + '"/>');
                 }
             });
 
@@ -250,7 +250,7 @@ function icons() {
 
                 for(id of defs) {
 
-                    paths.push('<path d="' + get_path(id) + '" id="' + id + '"/>');
+                    paths.push('<path d="' + getPath(id) + '" id="' + id + '"/>');
                 }
 
                 $('body').append('<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0"><defs>'+paths.join('')+'</defs></svg>')
@@ -298,7 +298,7 @@ function watch() {
 
     gulp.watch('base/**/*', base);
     gulp.watch('content/uploads/**/*.jpg', images);
-    gulp.watch(['css/**/*.css', 'templates/**/*.html', 'content/**/*.md'], html_css_series);
+    gulp.watch(['css/**/*.css', 'templates/**/*.html', 'content/**/*.md'], htmlCSSSeries);
 }
 
 function serve(done){
