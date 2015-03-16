@@ -63,7 +63,7 @@ function pages() {
         file,
         frontmatter,
         marked,
-        sort.date,
+        sort.date.desc,
         pager,
         defaults,
         render(directory + 'posts/:slug/index.html', renderer('post.html')),
@@ -81,7 +81,7 @@ function pages() {
             file,
             frontmatter,
             marked,
-            sort.date
+            sort.date.desc
         ]),
         defaults,
         render(directory + 'posts/index.html', renderer('posts.html'))
