@@ -6,7 +6,7 @@ var htmlCSSSeries = gulp.series(pages, icons, minifyHTML, css, shortenSelectors,
 var allParallel = gulp.parallel(base, htmlCSSSeries, images);
 var optimize = false;
 
-gulp.task('default', gulp.series(optimizeOn, allParallel));
+gulp.task('default', gulp.series(optimizeOn, allParallel, gitStatus));
 
 gulp.task('dev', gulp.parallel(allParallel, watch, serve));
 
@@ -17,6 +17,26 @@ function optimizeOn(done) {
     optimize = true;
 
     done();
+}
+
+function gitStatus(cb) {
+
+    var git = require('gulp-git');
+
+    git.status({args: '--porcelain', cwd: directory, quiet: true}, function (err, out) {
+
+        if (err) {
+
+            throw err;
+        }
+
+        if(out) {
+
+            console.log(out.trimRight());
+        }
+
+        cb();
+    });
 }
 
 function pages() {
