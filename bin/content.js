@@ -11,7 +11,6 @@ var trimmer = require('trimmer');
 var mkdirp = require('mkdirp');
 var path = require('path');
 var cson = require('cson-parser');
-var dateFormats = ["YYYY-MM-DD", "YYYY-MM-DD-HHmmss"];
 
 var orig = console.error;
 
@@ -40,34 +39,26 @@ console.success = function(message) {
 }
 
 program
-    .command('make <title>')
+    .command('make <dir> <title>')
     .description('Make new content.')
-    .option('--date', 'prepend the date YYYY-MM-DD')
-    .option('--datetime', 'prepend the datetime YYYY-MM-DD-HHmmss')
-    .option('--ext [ext]', 'file extension to use [md]', 'md')
-    .option('--target <target>', 'target directory')
-    .action(function(title, options) {
+    .option('--time', 'prepend the unix timestamp')
+    .action(function(dir, title, options) {
 
         var file;
         var content;
 
         file = mkslug(title).toLowerCase();
 
-        if (options.date) {
+        if (options.time) {
 
-            file = moment().format("YYYY-MM-DD") + '.' + file;
+            file = moment().format("x") + '.' + file;
         }
 
-        if (options.datetime) {
+        file = file + '.md';
 
-            file = moment().format("YYYY-MM-DD-HHmmss") + '.' + file;
-        }
+        if (dir) {
 
-        file = file + '.' + options.ext;
-
-        if (options.target ) {
-
-            file = trimmer(options.target, '/') + '/' + file;
+            file = trimmer(dir, '/') + '/' + file;
         }
 
         content = ["---", cson.stringify({title: title}, null, "  "), '---', ''].join("\n");
@@ -92,24 +83,25 @@ program
     });
 
 program
-    .command('move <file> <target>')
+    .command('move <file> <dir>')
     .description('Move content')
     .option('--title', 'change the title')
-    .option('--date', 'prepend the date YYYY-MM-DD')
-    .option('--datetime', 'prepend the datetime YYYY-MM-DD-HHmmss')
-    .action(function(file, target, options) {
+    .option('--time', 'prepend the unix timestamp')
+    .option('--strip', 'remove a unix timestamp if present')
+    .action(function(file, dir, options) {
 
         var newFile;
         var ext;
         var parts;
         var slug;
-        var date;
+        var time;
         var destination;
         var directory;
+        var hasTime = false;
 
         file = trimmer(file, '/');
 
-        destination = target ? trimmer(target, '/') : trimmer(path.dirname(file), '/');
+        destination = dir ? trimmer(dir, '/') : trimmer(path.dirname(file), '/');
 
         ext = path.extname(file);
 
@@ -117,13 +109,15 @@ program
 
         slug = path.basename(file, ext);
 
-        date = moment();
+        time = moment();
 
         if (parts.length >= 2) {
 
-            if (moment(parts[0], dateFormats).isValid()) {
+            if (moment(parts[0], ["x"]).isValid()) {
 
-                date = moment(parts[0], dateFormats);
+                hasTime = true;
+
+                time = moment(parts[0], ["x"]);
 
                 slug = parts.slice(1).join('.');
             }
@@ -136,14 +130,9 @@ program
 
         newFile = slug + ext;
 
-        if (options.date) {
+        if ((options.time || hasTime) && !options.strip) {
 
-            newFile = date.format("YYYY-MM-DD") + '.' + newFile;
-        }
-
-        if (options.datetime) {
-
-            newFile = date.format("YYYY-MM-DD-HHmmss") + '.' + newFile;
+            newFile = time.format("x") + '.' + newFile;
         }
 
         newFile = destination + '/' + newFile;

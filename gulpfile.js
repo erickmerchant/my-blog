@@ -76,6 +76,8 @@ function pages() {
         }
     });
 
+    file = file('x');
+
     defaults = defaults('./content/defaults.cson', cson.parse);
 
     postPages = [
