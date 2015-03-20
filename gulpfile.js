@@ -10,7 +10,7 @@ gulp.task('default', gulp.series(optimizeOn, allParallel, gitStatus));
 
 gulp.task('dev', gulp.parallel(allParallel, watch, serve));
 
-gulp.task('preview', gulp.parallel('default', watch, serve));
+gulp.task('preview', serve);
 
 function optimizeOn(done) {
 
