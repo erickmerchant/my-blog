@@ -56,7 +56,6 @@
     "rework-calc": "^1.1.0",
     "rework-color-function": "^1.2.1",
     "rework-custom-media": "^0.2.0",
-    "rework-namespace": "^0.3.0",
     "rework-npm": "^1.0.0",
     "rework-vars": "^3.1.1",
     "slug": "^0.8.0",
