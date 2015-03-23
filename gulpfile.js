@@ -42,6 +42,7 @@ function gitStatus(cb) {
 function pages() {
 
     var swig = require('swig');
+    var moment = require('moment');
     var engine = require('static-engine');
     var content = require('static-engine-content');
     var defaults = require('static-engine-defaults');
@@ -76,7 +77,12 @@ function pages() {
         }
     });
 
-    file = file('x');
+    file = file('./content/:categories+/:date.:slug.md', {
+        date: function(date) {
+
+            return moment(date, 'x');
+        }
+    });
 
     defaults = defaults('./content/defaults.cson', cson.parse);
 
@@ -95,7 +101,6 @@ function pages() {
 
     archivePage = [
         content('./content/posts.md'),
-        file,
         frontmatter,
         marked,
         collection('posts', [
@@ -111,7 +116,6 @@ function pages() {
 
     _404Page = [
         content('./content/404.md'),
-        file,
         frontmatter,
         marked,
         defaults,
