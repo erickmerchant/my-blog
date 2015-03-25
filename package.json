@@ -24,7 +24,7 @@
     "basscss-utility-layout": "0.0.2",
     "basscss-utility-responsive-states": "0.0.2",
     "basscss-utility-typography": "0.0.2",
-    "basscss-utility-white-space": "0.0.3",
+    "basscss-utility-white-space": "0.0.4",
     "chalk": "^1.0.0",
     "commander": "^2.6.0",
     "cson-parser": "^1.0.8",
