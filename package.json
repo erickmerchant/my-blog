@@ -32,7 +32,7 @@
     "express-log": "^1.0.1",
     "express-static": "^1.0.3",
     "flex-object": "^1.0.5",
-    "geomicons-open": "0.0.6",
+    "geomicons-open": "^1.0.1",
     "glob": "^5.0.0",
     "gulp": "^3.8.10",
     "gulp-autoprefixer": "^2.0.0",
