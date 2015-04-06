@@ -2,7 +2,7 @@
   "name": "erickmerchat.com-source",
   "private": "true",
   "dependencies": {
-    "basscss-background-images": "0.0.5",
+    "basscss-background-images": "0.0.6",
     "basscss-base-buttons": "^1.0.4",
     "basscss-base-forms": "^1.0.5",
     "basscss-base-reset": "0.0.3",
