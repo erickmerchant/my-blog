@@ -156,7 +156,7 @@ function css(){
             calc,
             color
         ))
-        .pipe(autoprefixer('> 5%', 'last 2 versions'))
+        .pipe(autoprefixer({ browsers: ['> 5%', 'last 2 versions'] }))
         .pipe(concat("index.css"))
         .pipe(gulpif(optimize, uncss({
             html: glob.sync(directory + '**/**.html')
