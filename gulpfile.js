@@ -84,6 +84,11 @@ function pages() {
         }
     });
 
+    sort = sort(function(a, b) {
+
+        return b.date.diff(a.date);
+    });
+
     defaults = defaults('./content/defaults.cson', cson.parse);
 
     postPages = [
@@ -91,7 +96,7 @@ function pages() {
         file,
         frontmatter,
         marked,
-        sort.date.desc,
+        sort,
         pager,
         defaults,
         render(directory + 'posts/:slug/index.html', renderer('post.html')),
@@ -108,7 +113,7 @@ function pages() {
             file,
             frontmatter,
             marked,
-            sort.date.desc
+            sort
         ]),
         defaults,
         render(directory + 'posts/index.html', renderer('posts.html'))
