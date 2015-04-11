@@ -1,5 +1,5 @@
 pre {
-  color: var(--light-gray);
+  color: var(--silver);
   direction: ltr;
   text-align: left;
   word-spacing: normal;
@@ -17,5 +17,5 @@ code {
 }
 
 pre, pre code {
-	background: var(--dark-gray);
+	background: var(--black);
 }

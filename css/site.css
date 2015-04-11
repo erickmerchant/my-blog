@@ -8,7 +8,7 @@
 @import 'basscss-utility-white-space';
 @import 'basscss-utility-responsive-states';
 @import 'basscss-positions';
-@import 'basscss-ui-utility-button-sizes';
+@import 'basscss-button-sizes';
 @import 'basscss-grid';
 @import 'flex-object';
 @import 'basscss-color-base';
@@ -30,4 +30,5 @@
 
 :root {
   --container-width: 40em;
+  --form-field-padding-y: 1.5em;
 }
