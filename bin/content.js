@@ -1,159 +1,143 @@
 #!/usr/bin/env node
 
-'use strict';
+'use strict'
 
-var program = require('commander');
-var chalk = require('chalk');
-var moment = require('moment');
-var mkslug = require('slug');
-var fs = require('fs');
-var trimmer = require('trimmer');
-var mkdirp = require('mkdirp');
-var path = require('path');
-var cson = require('cson-parser');
+var program = require('commander')
+var chalk = require('chalk')
+var moment = require('moment')
+var mkslug = require('slug')
+var fs = require('fs')
+var trimmer = require('trimmer')
+var mkdirp = require('mkdirp')
+var path = require('path')
+var cson = require('cson-parser')
 
-var orig = console.error;
+var orig = console.error
 
-console.error = function(error) {
+console.error = function (error) {
+  var args = [].slice.call(arguments)
 
-    var args = [].slice.call(arguments);
+  if (error) {
+    args[0] = chalk.red(error)
+  }
 
-    if(error) {
-
-        args[0] = chalk.red(error);
-    }
-
-    orig.apply(undefined, args);
+  orig.apply(undefined, args)
 }
 
-console.success = function(message) {
+console.success = function (message) {
+  var args = [].slice.call(arguments)
 
-    var args = [].slice.call(arguments);
+  if (message) {
+    args[0] = chalk.green(message)
+  }
 
-    if(message) {
-
-        args[0] = chalk.green(message);
-    }
-
-    console.log.apply(undefined, args);
+  console.log.apply(undefined, args)
 }
 
 program
-    .command('make <dir> <title>')
-    .description('Make new content.')
-    .option('--time', 'prepend the unix timestamp')
-    .action(function(dir, title, options) {
+  .command('make <dir> <title>')
+  .description('Make new content.')
+  .option('--time', 'prepend the unix timestamp')
+  .action(function (dir, title, options) {
+    var file
+    var content
 
-        var file;
-        var content;
+    file = mkslug(title).toLowerCase()
 
-        file = mkslug(title).toLowerCase();
+    if (options.time) {
+      file = moment().format('x') + '.' + file
+    }
 
-        if (options.time) {
+    file = file + '.md'
 
-            file = moment().format("x") + '.' + file;
-        }
+    if (dir) {
+      file = trimmer(dir, '/') + '/' + file
+    }
 
-        file = file + '.md';
+    content = ['---', cson.stringify({title: title}, null, '  '), '---', ''].join('\n')
 
-        if (dir) {
+    var directory = path.dirname(file)
 
-            file = trimmer(dir, '/') + '/' + file;
-        }
-
-        content = ["---", cson.stringify({title: title}, null, "  "), '---', ''].join("\n");
-
-        var directory = path.dirname(file);
-
-        mkdirp(directory, function (err) {
-
-            if(err) console.error(err);
-            else
-            {
-                fs.writeFile(file, content, function (err) {
-
-                    if(err) console.error(err);
-                    else
-                    {
-                        console.success('%s saved.', file);
-                    }
-                });
-            }
-        });
-    });
+    mkdirp(directory, function (err) {
+      if (err) {
+        console.error(err)
+      } else {
+        fs.writeFile(file, content, function (err) {
+          if (err) {
+            console.error(err)
+          } else {
+            console.success('%s saved.', file)
+          }
+        })
+      }
+    })
+  })
 
 program
-    .command('move <file> <dir>')
-    .description('Move content')
-    .option('--title', 'change the title')
-    .option('--time', 'prepend the unix timestamp')
-    .option('--strip', 'remove a unix timestamp if present')
-    .action(function(file, dir, options) {
+  .command('move <file> <dir>')
+  .description('Move content')
+  .option('--title', 'change the title')
+  .option('--time', 'prepend the unix timestamp')
+  .option('--strip', 'remove a unix timestamp if present')
+  .action(function (file, dir, options) {
+    var newFile
+    var ext
+    var parts
+    var slug
+    var time
+    var destination
+    var directory
+    var hasTime = false
 
-        var newFile;
-        var ext;
-        var parts;
-        var slug;
-        var time;
-        var destination;
-        var directory;
-        var hasTime = false;
+    file = trimmer(file, '/')
 
-        file = trimmer(file, '/');
+    destination = dir ? trimmer(dir, '/') : trimmer(path.dirname(file), '/')
 
-        destination = dir ? trimmer(dir, '/') : trimmer(path.dirname(file), '/');
+    ext = path.extname(file)
 
-        ext = path.extname(file);
+    parts = path.basename(file, ext).split('.')
 
-        parts = path.basename(file, ext).split('.');
+    slug = path.basename(file, ext)
 
-        slug = path.basename(file, ext);
+    time = moment()
 
-        time = moment();
+    if (parts.length >= 2) {
+      if (moment(parts[0], ['x']).isValid()) {
+        hasTime = true
 
-        if (parts.length >= 2) {
+        time = moment(parts[0], ['x'])
 
-            if (moment(parts[0], ["x"]).isValid()) {
+        slug = parts.slice(1).join('.')
+      }
+    }
 
-                hasTime = true;
+    if (options.title) {
+      slug = mkslug(options.title).toLowerCase()
+    }
 
-                time = moment(parts[0], ["x"]);
+    newFile = slug + ext
 
-                slug = parts.slice(1).join('.');
-            }
-        }
+    if ((options.time || hasTime) && !options.strip) {
+      newFile = time.format('x') + '.' + newFile
+    }
 
-        if (options.title) {
+    newFile = destination + '/' + newFile
 
-            slug = mkslug(options.title).toLowerCase();
-        }
+    directory = path.dirname(newFile)
 
-        newFile = slug + ext;
+    mkdirp(directory, function (err) {
+      if (err) {
+        console.error(err)
+      } else {
+        fs.rename(file, newFile, function (err) {
+          if (err) {
+            console.error(err)
+          } else {
+            console.success('%s moved to %s.', file, newFile)
+          }
+        })
+      }
+    })
+  })
 
-        if ((options.time || hasTime) && !options.strip) {
-
-            newFile = time.format("x") + '.' + newFile;
-        }
-
-        newFile = destination + '/' + newFile;
-
-        directory = path.dirname(newFile);
-
-        mkdirp(directory, function (err) {
-
-            if(err) console.error(err);
-            else
-            {
-                fs.rename(file, newFile, function (err) {
-
-                    if(err) console.error(err);
-                    else
-                    {
-                        console.success('%s moved to %s.', file, newFile);
-                    }
-                });
-            }
-        });
-    });
-
-program.parse(process.argv);
+program.parse(process.argv)

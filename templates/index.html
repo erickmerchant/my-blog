@@ -8,33 +8,33 @@
 
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        {% block meta %}
-            <title>{{ title }}</title>
-            <meta name="description" content="{{ summary }}">
-        {% endblock %}
-        <link href="/favicon.png" rel="shortcut icon" type="image/png">
-        <link href="/index.css" rel="stylesheet" type="text/css">
-        <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.2/html5shiv.js"></script><![endif]-->
-    </head>
-    <body>
-        <nav class="bg-black h3 p2 center white" role="navigation">
-            <a class="button-transparent button" href="/">{{ banner }}</a>
-            <div class="inline-block">
-                {% for link in menu %}
-                    <a class="button-transparent button" href="{{ link.url }}">{{ geomicons.icon(link.icon) }}<span class="sm-show-inline">{{ link.text }}</span></a>
-                {% endfor %}
-            </div>
-        </nav>
-        <main class="container px2" role="main">
-            {% block main %}
-            {% endblock %}
-        </main>
-        <footer class="p2 muted center" role="contentinfo">
-            <p><small>&copy; {{ author }}, {{ year }}  &bull; {{ footer|safe }}</small></p>
-        </footer>
-    </body>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% block meta %}
+      <title>{{ title }}</title>
+      <meta name="description" content="{{ summary }}">
+    {% endblock %}
+    <link href="/favicon.png" rel="shortcut icon" type="image/png">
+    <link href="/index.css" rel="stylesheet" type="text/css">
+    <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.2/html5shiv.js"></script><![endif]-->
+  </head>
+  <body>
+    <nav class="bg-black h3 p2 center white" role="navigation">
+      <a class="button-transparent button" href="/">{{ banner }}</a>
+      <div class="inline-block">
+        {% for link in menu %}
+          <a class="button-transparent button" href="{{ link.url }}">{{ icon(link.icon) }}<span class="sm-show-inline">{{ link.text }}</span></a>
+        {% endfor %}
+      </div>
+    </nav>
+    <main class="container px2" role="main">
+      {% block main %}
+      {% endblock %}
+    </main>
+    <footer class="p2 muted center" role="contentinfo">
+      <p><small>&copy; {{ author }}, {{ year }}  &bull; {{ footer|safe }}</small></p>
+    </footer>
+  </body>
 </html>

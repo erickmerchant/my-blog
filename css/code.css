@@ -1,19 +1,19 @@
 pre {
-    color: var(--light-gray);
-    direction: ltr;
-    text-align: left;
-    word-spacing: normal;
-    word-break: normal;
-    tab-size: 4;
-    hyphens: none;
-    padding: var(--space-2);
-    margin: var(--space-1) 0;
-    white-space: pre-wrap;
-    overflow-x: auto;
+  color: var(--light-gray);
+  direction: ltr;
+  text-align: left;
+  word-spacing: normal;
+  word-break: normal;
+  tab-size: 4;
+  hyphens: none;
+  padding: var(--space-2);
+  margin: var(--space-1) 0;
+  white-space: pre-wrap;
+  overflow-x: auto;
 }
 
 code {
-    background: var(--darken-1);
+  background: var(--darken-1);
 }
 
 pre, pre code {

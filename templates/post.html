@@ -1,43 +1,43 @@
 {% extends 'index.html' %}
 
 {% block meta %}
-    <title>{{ title }} | Posts</title>
-    <meta name="description" content="{{ summary }}">
-    <link rel="canonical" href="{{ host + '/posts/' + slug }}/">
+  <title>{{ title }} | Posts</title>
+  <meta name="description" content="{{ summary }}">
+  <link rel="canonical" href="{{ host + '/posts/' + slug }}/">
 {% endblock %}
 
 {% block main %}
-    <article itemscope itemtype="http://schema.org/BlogPosting">
-        <header>
-            <h1 itemprop="name">{{ title }}</h1>
-            <p>
-                <time class="h3 bold" itemprop="datePublished" datetime="{{ date.format("YYYY-MM-DD") }}">{{ geomicons.icon('calendar') }} {{ date.format("MMMM D, YYYY") }}</time>
-            </p>
-        </header>
-        <div itemprop="text">{{ content|safe }}</div>
-        <footer>
-            <p>
-                <span>Share with:</span>
-                <a href="https://twitter.com/intent/tweet?url={{ (host + '/posts/' + slug + '/') | url_encode }}&amp;text={{ title|url_encode }}" target="_blank">{{ geomicons.icon('twitter') }} Twitter</a>
-            </p>
-        </footer>
-    </article>
-    {% if previous or next %}
-        <nav class="h4 clearfix mt3">
-            <div class="col col-6 center">
-                {% if previous %}
-                    <a class="button p2 bg-blue" rel="prev" href="/posts/{{ previous.slug }}/">{{ geomicons.icon('chevron-left') }} <span class="sm-show-inline">Older</span></a>
-                {% else %}
-                    <span class="button p2 bg-gray is-disabled">{{ geomicons.icon('chevron-left') }} <span class="sm-show-inline">Older</span></span>
-                {% endif %}
-            </div>
-            <div class="col col-6 center">
-                {% if next %}
-                    <a class="button p2 bg-blue" rel="next" href="/posts/{{ next.slug }}/"><span class="sm-show-inline">Newer</span> {{ geomicons.icon('chevron-right') }}</a>
-                {% else %}
-                    <span class="button p2 bg-gray is-disabled"><span class="sm-show-inline">Newer</span> {{ geomicons.icon('chevron-right') }}</span>
-                {% endif %}
-            </div>
-        </nav>
-    {% endif %}
+  <article itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+      <h1 itemprop="name">{{ title }}</h1>
+      <p>
+        <time class="h3 bold" itemprop="datePublished" datetime="{{ date.format("YYYY-MM-DD") }}">{{ icon('calendar') }} {{ date.format("MMMM D, YYYY") }}</time>
+      </p>
+    </header>
+    <div itemprop="text">{{ content|safe }}</div>
+    <footer>
+      <p>
+        <span>Share with:</span>
+        <a href="https://twitter.com/intent/tweet?url={{ (host + '/posts/' + slug + '/') | url_encode }}&amp;text={{ title|url_encode }}" target="_blank">{{ icon('twitter') }} Twitter</a>
+      </p>
+    </footer>
+  </article>
+  {% if previous or next %}
+    <nav class="h4 clearfix mt3">
+      <div class="col col-6 center">
+        {% if previous %}
+          <a class="button p2 bg-blue" rel="prev" href="/posts/{{ previous.slug }}/">{{ icon('chevron-left') }} <span class="sm-show-inline">Older</span></a>
+        {% else %}
+          <span class="button p2 bg-gray is-disabled">{{ icon('chevron-left') }} <span class="sm-show-inline">Older</span></span>
+        {% endif %}
+      </div>
+      <div class="col col-6 center">
+        {% if next %}
+          <a class="button p2 bg-blue" rel="next" href="/posts/{{ next.slug }}/"><span class="sm-show-inline">Newer</span> {{ icon('chevron-right') }}</a>
+        {% else %}
+          <span class="button p2 bg-gray is-disabled"><span class="sm-show-inline">Newer</span> {{ icon('chevron-right') }}</span>
+        {% endif %}
+      </div>
+    </nav>
+  {% endif %}
 {% endblock %}

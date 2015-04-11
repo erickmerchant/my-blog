@@ -1,29 +1,29 @@
 blockquote {
-    border-left: var(--border-width) solid var(--border-color);
+  border-left: var(--border-width) solid var(--border-color);
 }
 
 blockquote, blockquote p {
-    font-size: 1rem;
+  font-size: 1rem;
 }
 
 cite:before {
-    content: '\2014 \00A0';
+  content: '\2014 \00A0';
 }
 
 img {
-    box-sizing: border-box;
-    border: var(--border-width) solid var(--border-color);
-    border-radius: var(--border-radius);
-    margin: var(--space-1) 0;
-    padding: var(--space-1);
+  box-sizing: border-box;
+  border: var(--border-width) solid var(--border-color);
+  border-radius: var(--border-radius);
+  margin: var(--space-1) 0;
+  padding: var(--space-1);
 }
 
 dt {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 dd {
-    margin-left: 0;
+  margin-left: 0;
 }
 
 main {
@@ -34,9 +34,9 @@ main {
 .button.is-disabled:hover,
 .button.is-disabled:focus,
 .button.is-disabled:active {
-    box-shadow: none !important;
+  box-shadow: none !important;
 }
 
 .button.is-disabled {
-    cursor: default !important;
+  cursor: default !important;
 }
