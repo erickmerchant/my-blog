@@ -4,22 +4,22 @@ year: '2015'
 banner: 'Erick Merchant'
 sub_banner: 'On Development'
 menu: [
-    {
-        text: 'Archives'
-        icon: 'calendar'
-        url: '/posts/'
-    }
-    {
-        text: 'GitHub'
-        icon: 'github'
-        url: 'http://github.com/erickmerchant/'
-    }
-    {
-        text: 'Twitter'
-        icon: 'twitter'
-        url: 'http://twitter.com/erickmerchant/'
-    }
+  {
+    text: 'Archives'
+    icon: 'calendar'
+    url: '/posts/'
+  }
+  {
+    text: 'GitHub'
+    icon: 'github'
+    url: 'http://github.com/erickmerchant/'
+  }
+  {
+    text: 'Twitter'
+    icon: 'twitter'
+    url: 'http://twitter.com/erickmerchant/'
+  }
 ]
 footer: '''
-    Source can be found <a href="https://github.com/erickmerchant/erickmerchant.com-source">here</a>.
+Source can be found <a href="https://github.com/erickmerchant/erickmerchant.com-source">here</a>.
 '''
