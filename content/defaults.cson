@@ -20,6 +20,3 @@ menu: [
     url: 'http://twitter.com/erickmerchant/'
   }
 ]
-footer: '''
-Source can be found <a href="https://github.com/erickmerchant/erickmerchant.com-source">here</a>.
-'''

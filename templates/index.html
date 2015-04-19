@@ -20,7 +20,7 @@
     <link href="/index.css" rel="stylesheet" type="text/css">
     <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.2/html5shiv.js"></script><![endif]-->
   </head>
-  <body>
+  <body class="flex flex-column">
     <nav class="bg-black h3 p2 center white" role="navigation">
       <a class="button-transparent button" href="/">{{ banner }}</a>
       <div class="inline-block">
@@ -29,12 +29,12 @@
         {% endfor %}
       </div>
     </nav>
-    <main class="container px2" role="main">
+    <main class="container px2 flex-auto" role="main">
       {% block main %}
       {% endblock %}
     </main>
-    <footer class="p2 muted center" role="contentinfo">
-      <p><small>&copy; {{ author }}, {{ year }}  &bull; {{ footer|safe }}</small></p>
+    <footer class="p2 mt2 center flex-bottom bg-silver" role="contentinfo">
+      <p><small>&copy; {{ author }}, {{ year }}</small></p>
     </footer>
   </body>
 </html>

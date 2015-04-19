@@ -12,7 +12,7 @@
 /*@import 'basscss-button-sizes';*/
 
 @import 'basscss-grid';
-/*@import 'flex-object';*/
+@import 'flex-object';
 
 @import 'basscss-color-base';
 @import 'basscss-color-forms';
