@@ -29,12 +29,14 @@
         {% endfor %}
       </div>
     </nav>
-    <main class="container px2 flex-auto" role="main">
-      {% block main %}
-      {% endblock %}
-    </main>
-    <footer class="p2 mt2 center flex-bottom bg-silver" role="contentinfo">
-      <p><small>&copy; {{ author }}, {{ year }}</small></p>
+    <div class="flex-auto">
+      <main class="container px2" role="main">
+        {% block main %}
+        {% endblock %}
+      </main>
+    </div>
+    <footer class="p2 mt2 center flex-bottom bg-gray muted h6" role="contentinfo">
+      &copy; {{ author }}, {{ year }}
     </footer>
   </body>
 </html>
