@@ -25,6 +25,7 @@
     "express": "^4.10.7",
     "express-log": "^1.0.1",
     "express-static": "^1.0.3",
+    "flex-object": "^1.1.3",
     "geomicons-open": "^1.0.1",
     "glob": "^5.0.0",
     "gulp": "^3.8.10",
