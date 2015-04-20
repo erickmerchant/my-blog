@@ -35,8 +35,9 @@
         {% endblock %}
       </main>
     </div>
-    <footer class="p2 mt2 center flex-bottom bg-gray muted h6" role="contentinfo">
-      &copy; {{ author }}, {{ year }}
+    <footer class="p2 mt2 clearfix center flex-bottom bg-gray muted h6" role="contentinfo">
+      <span class="p1">&copy; {{ author }}, {{ year }}</span>
+      <a class="button button-transparent" href="https://github.com/erickmerchant/erickmerchant.com-source">{{ icon('github') }} View Source</a>
     </footer>
   </body>
 </html>
