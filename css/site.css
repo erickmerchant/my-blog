@@ -37,3 +37,7 @@
   --container-width: 40em;
   --form-field-padding-y: 1.5em;
 }
+
+.full-view-height {
+  min-height: 100vh;
+}

@@ -20,7 +20,7 @@
     <link href="/index.css" rel="stylesheet" type="text/css">
     <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.2/html5shiv.js"></script><![endif]-->
   </head>
-  <body class="flex flex-column">
+  <body class="flex flex-column full-view-height">
     <nav class="bg-black h3 p2 center white" role="navigation">
       <a class="button-transparent button" href="/">{{ banner }}</a>
       <div class="inline-block">
@@ -35,7 +35,7 @@
         {% endblock %}
       </main>
     </div>
-    <footer class="p2 mt2 clearfix center flex-bottom bg-gray muted h6" role="contentinfo">
+    <footer class="p2 mt2 clearfix center bg-gray muted h6" role="contentinfo">
       <span class="p1">&copy; {{ author }}, {{ year }}</span>
       <a class="button button-transparent" href="https://github.com/erickmerchant/erickmerchant.com-source">{{ icon('github') }} View Source</a>
     </footer>
