@@ -1,8 +1,9 @@
 'use strict'
 
 const directory = '../erickmerchant.github.io/'
+const path = require('path')
 const gulp = require('gulp')
-const htmlCSSSeries = gulp.series(pages, icons, minifyHTML, css, shortenSelectors, insertCSS)
+const htmlCSSSeries = gulp.series(gulp.parallel(gulp.series(pages, icons, minifyHTML), css), insertCSS)
 const allParallel = gulp.parallel(base, htmlCSSSeries, images)
 var optimize = false
 
@@ -53,7 +54,7 @@ function pages () {
 
   function renderer (file) {
     return function (page, done) {
-      swig.renderFile('./templates/' + file, page, done)
+      swig.renderFile(path.join('./templates/', file), page, done)
     }
   }
 
@@ -87,9 +88,9 @@ function pages () {
     sort,
     pager,
     defaults,
-    render(directory + 'posts/:slug/index.html', renderer('post.html')),
+    render(path.join(directory, 'posts/:slug/index.html'), renderer('post.html')),
     first,
-    render(directory + 'index.html', renderer('post.html'))
+    render(path.join(directory, 'index.html'), renderer('post.html'))
   ]
 
   archivePage = [
@@ -104,7 +105,7 @@ function pages () {
       sort
     ]),
     defaults,
-    render(directory + 'posts/index.html', renderer('posts.html'))
+    render(path.join(directory, 'posts/index.html'), renderer('posts.html'))
   ]
 
   _404Page = [
@@ -112,7 +113,7 @@ function pages () {
     frontmatter,
     marked,
     defaults,
-    render(directory + '404.html', renderer('404.html'))
+    render(path.join(directory, '404.html'), renderer('404.html'))
   ]
 
   return engine(postPages, archivePage, _404Page)
@@ -123,81 +124,56 @@ function base () {
 }
 
 function css (done) {
-  const autoprefixer = require('gulp-autoprefixer')
-  const uncss = require('gulp-uncss')
-  const csso = require('gulp-csso')
-  const glob = require('glob')
-  const rework = require('gulp-rework')
+  const cssnext = require('gulp-cssnext')
   const concat = require('gulp-concat')
-  const calc = require('rework-calc')
-  const media = require('rework-custom-media')
-  const npm = require('rework-npm')
-  const vars = require('rework-vars')
-  const color = require('rework-color-function')
-  const gulpif = require('gulp-if')
 
-  glob(directory + '**/**.html', function (err, htmls) {
-    if (err) {
-      done(err)
-    }
-
-    gulp.src([
-        'css/site.css',
-        'node_modules/highlight.js/styles/monokai_sublime.css'
-      ])
-      .pipe(rework(
-        npm(),
-        vars(),
-        media(),
-        calc,
-        color
-      ))
-      .pipe(autoprefixer({ browsers: ['> 5%', 'last 2 versions'] }))
-      .pipe(concat('index.css'))
-      .pipe(gulpif(optimize, uncss({
-        html: htmls
-      })))
-      .pipe(csso())
-      .pipe(gulp.dest(directory))
-      .on('end', done)
-  })
-}
-
-function shortenSelectors () {
-  const selectors = require('gulp-selectors')
-  const gulpif = require('gulp-if')
-
-  return gulp.src([directory + '**/**.html', directory + 'index.css'])
-    .pipe(gulpif(optimize, selectors.run({ 'css': ['css'], 'html': ['html'] }, { ids: true })))
+  gulp.src([
+      'css/site.css',
+      'node_modules/highlight.js/styles/monokai_sublime.css'
+    ])
+    .pipe(cssnext({
+      features: {
+        customProperties: {
+          strict: false
+        },
+        rem: false,
+        pseudoElements: false,
+        colorRgba: false
+      },
+      browsers: ['> 5%', 'last 2 versions']
+    }))
+    .pipe(concat('index.css'))
     .pipe(gulp.dest(directory))
+    .on('end', done)
 }
 
 function insertCSS (done) {
-  const path = require('path')
   const tap = require('gulp-tap')
   const csso = require('gulp-csso')
   const cheerio = require('gulp-cheerio')
   const glob = require('glob')
   const uncss = require('gulp-uncss')
-  const gulpif = require('gulp-if')
 
   if (optimize) {
-    glob(directory + '**/**.html', function (err, htmls) {
+    glob(path.join(directory, '**/**.html'), function (err, htmls) {
       if (err) {
         done(err)
       }
 
       function inline (html, next) {
-        return gulp.src(directory + 'index.css')
-          .pipe(gulpif(optimize, uncss({
+        return gulp.src(path.join(directory, 'index.css'))
+          .pipe(uncss({
             html: [html]
-          })))
+          }))
           .pipe(csso())
           .pipe(tap(function (file) {
+            const selectors = require('gulp-selectors')
+
             gulp.src([html])
               .pipe(cheerio(function ($) {
-                $('[rel="stylesheet"][href="/index.css"]').replaceWith('<style type="text/css">' + file.contents.toString() + '</style>')
+                $('[rel="stylesheet"][href="/index.css"]').replaceWith(`<style type="text/css">${ file.contents.toString() }</style>`)
               }))
+              .pipe(selectors.run({ 'css': ['html'], 'html': ['html'] }, { ids: true }))
               .pipe(gulp.dest(path.dirname(html)))
               .on('end', next)
           }))
@@ -221,7 +197,7 @@ function insertCSS (done) {
 function minifyHTML () {
   const htmlmin = require('gulp-htmlmin')
 
-  return gulp.src(directory + '**/**.html')
+  return gulp.src(path.join(directory, '**/**.html'))
     .pipe(htmlmin({
       collapseWhitespace: true
     }))
@@ -231,7 +207,6 @@ function minifyHTML () {
 function icons (done) {
   const cheerio = require('gulp-cheerio')
   const fs = require('fs')
-  const path = require('path')
   const glob = require('glob')
 
   glob('./node_modules/geomicons-open/src/paths/*.d', function (err, files) {
@@ -254,7 +229,7 @@ function icons (done) {
     Promise.all(files).then(function (keyVals) {
       const map = new Map(keyVals)
 
-      gulp.src(directory + '**/**.html')
+      gulp.src(path.join(directory, '**/**.html'))
         .pipe(cheerio(function ($) {
           const defs = new Set()
 
@@ -262,10 +237,10 @@ function icons (done) {
             const href = $(this).attr('xlink:href')
             const id = href.substring(1)
 
-            if ($('use[xlink\\:href="' + href + '"]').length > 1) {
+            if ($(`use[xlink\\:href="${ href }"]`).length > 1) {
               defs.add(id)
             } else {
-              $(this).replaceWith('<path d="' + map.get(id) + '"/>')
+              $(this).replaceWith(`<path d="${ map.get(id) }"/>`)
             }
           })
 
@@ -273,10 +248,10 @@ function icons (done) {
             let paths = []
 
             for (let id of defs) {
-              paths.push('<path d="' + map.get(id) + '" id="' + id + '"/>')
+              paths.push(`<path d="${ map.get(id) }" id="${ id }"/>`)
             }
 
-            $('body').append('<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0"><defs>' + paths.join('') + '</defs></svg>')
+            $('body').append(`<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0"><defs>${ paths.join('') }</defs></svg>`)
           }
         }))
         .pipe(gulp.dest(directory))
@@ -293,16 +268,16 @@ function images () {
   const merge = require('merge-stream')
   var merged
   var stream = gulp.src('content/uploads/*.jpg')
-    .pipe(changed(directory + 'uploads'))
+    .pipe(changed(path.join(directory, 'uploads')))
     .pipe(imagemin({
       progressive: true
     }))
-    .pipe(gulp.dest(directory + 'uploads'))
+    .pipe(gulp.dest(path.join(directory, 'uploads')))
 
   merged = merge(stream)
 
   stream = gulp.src('content/uploads/*.jpg')
-    .pipe(changed(directory + 'uploads'))
+    .pipe(changed(path.join(directory, 'uploads')))
     .pipe(imageresize({
       width: 622,
       height: 0,
@@ -311,7 +286,7 @@ function images () {
     .pipe(imagemin({
       progressive: true
     }))
-    .pipe(gulp.dest(directory + 'uploads/thumbnails/'))
+    .pipe(gulp.dest(path.join(directory, 'uploads/thumbnails/')))
 
   merged.add(stream)
 
@@ -328,7 +303,6 @@ function serve (done) {
   const express = require('express')
   const _static = require('express-static')
   const logger = require('express-log')
-  const path = require('path')
   const app = express()
 
   app.use(logger())

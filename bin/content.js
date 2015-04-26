@@ -7,7 +7,6 @@ var chalk = require('chalk')
 var moment = require('moment')
 var mkslug = require('slug')
 var fs = require('fs')
-var trimmer = require('trimmer')
 var mkdirp = require('mkdirp')
 var path = require('path')
 var cson = require('cson-parser')
@@ -45,13 +44,13 @@ program
     file = mkslug(title).toLowerCase()
 
     if (options.time) {
-      file = moment().format('x') + '.' + file
+      file = [moment().format('x'), file].join('.')
     }
 
-    file = file + '.md'
+    file += '.md'
 
     if (dir) {
-      file = trimmer(dir, '/') + '/' + file
+      file = path.join(dir, file)
     }
 
     content = ['---', cson.stringify({title: title}, null, '  '), '---', ''].join('\n')
@@ -89,9 +88,7 @@ program
     var directory
     var hasTime = false
 
-    file = trimmer(file, '/')
-
-    destination = dir ? trimmer(dir, '/') : trimmer(path.dirname(file), '/')
+    destination = dir ? dir : path.dirname(file)
 
     ext = path.extname(file)
 
@@ -118,10 +115,10 @@ program
     newFile = slug + ext
 
     if ((options.time || hasTime) && !options.strip) {
-      newFile = time.format('x') + '.' + newFile
+      newFile = [time.format('x'), newFile].join('.')
     }
 
-    newFile = destination + '/' + newFile
+    newFile = path.join(destination, newFile)
 
     directory = path.dirname(newFile)
 
