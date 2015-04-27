@@ -3,20 +3,13 @@
 const directory = '../erickmerchant.github.io/'
 const path = require('path')
 const gulp = require('gulp')
-const htmlCSSSeries = gulp.series(gulp.parallel(gulp.series(pages, icons, minifyHTML), css), insertCSS)
-const allParallel = gulp.parallel(base, htmlCSSSeries, images)
-var optimize = false
+const allParallel = gulp.parallel(base, gulp.series(gulp.parallel(gulp.series(pages, icons, minifyHTML), css), insertCSS), images)
 
-gulp.task('default', gulp.series(optimizeOn, allParallel, gitStatus))
+gulp.task('default', gulp.series(allParallel, gitStatus))
 
 gulp.task('dev', gulp.parallel(allParallel, watch, serve))
 
 gulp.task('preview', serve)
-
-function optimizeOn (done) {
-  optimize = true
-  done()
-}
 
 function gitStatus (cb) {
   const git = require('gulp-git')
@@ -123,11 +116,12 @@ function base () {
   return gulp.src('base/**').pipe(gulp.dest(directory))
 }
 
-function css (done) {
+function css () {
   const cssnext = require('gulp-cssnext')
   const concat = require('gulp-concat')
+  const csso = require('gulp-csso')
 
-  gulp.src([
+  return gulp.src([
       'css/site.css',
       'node_modules/highlight.js/styles/monokai_sublime.css'
     ])
@@ -143,55 +137,78 @@ function css (done) {
       browsers: ['> 5%', 'last 2 versions']
     }))
     .pipe(concat('index.css'))
+    .pipe(csso())
     .pipe(gulp.dest(directory))
-    .on('end', done)
 }
 
 function insertCSS (done) {
-  const tap = require('gulp-tap')
-  const csso = require('gulp-csso')
+  const concat = require('gulp-concat')
   const cheerio = require('gulp-cheerio')
-  const glob = require('glob')
-  const uncss = require('gulp-uncss')
+  const foreach = require('gulp-foreach')
+  const fs = require('fs')
+  const postcss = require('postcss')
+  const byebye = require('css-byebye')
+  const discardEmpty = require('postcss-discard-empty')
+  const minifySelectors = require('postcss-minify-selectors')
+  const mergeRules = require('postcss-merge-rules')
+  const pseudosRegex = /\:?(\:[a-z-]+)/g
 
-  if (optimize) {
-    glob(path.join(directory, '**/**.html'), function (err, htmls) {
+    fs.readFile(path.join(directory, 'index.css'), 'utf-8', function (err, css) {
       if (err) {
         done(err)
       }
 
-      function inline (html, next) {
-        return gulp.src(path.join(directory, 'index.css'))
-          .pipe(uncss({
-            html: [html]
-          }))
-          .pipe(csso())
-          .pipe(tap(function (file) {
-            const selectors = require('gulp-selectors')
+      gulp.src(path.join(directory, '**/**.html'))
+        .pipe(foreach(function (stream, file) {
+          const selectors = require('gulp-selectors')
 
-            gulp.src([html])
-              .pipe(cheerio(function ($) {
-                $('[rel="stylesheet"][href="/index.css"]').replaceWith(`<style type="text/css">${ file.contents.toString() }</style>`)
-              }))
-              .pipe(selectors.run({ 'css': ['html'], 'html': ['html'] }, { ids: true }))
-              .pipe(gulp.dest(path.dirname(html)))
-              .on('end', next)
-          }))
-      }
+          return stream
+            .pipe(cheerio(function ($) {
+              const parsed = postcss.parse(css)
+              var unused = []
+              var output
 
-      function next () {
-        if (htmls.length) {
-          inline(htmls.shift(), next)
-        } else {
-          done()
-        }
-      }
+              function trav (nodes) {
+                nodes.forEach(function (node) {
+                  if (node.selector) {
+                    let selectors = node.selector.split(',')
 
-      inline(htmls.shift(), next)
+                    selectors.forEach(function (selector) {
+                      selector = selector.trim()
+
+                      var _selector = selector.replace(pseudosRegex, function (selector, pseudo) {
+                        return pseudo === ':not' ? selector : ''
+                      })
+
+                      try {
+                        if (_selector && !$(_selector).length) {
+                          unused.push(selector)
+                        }
+                      } catch (e) {
+                        console.error(_selector)
+                      }
+                    })
+                  }
+
+                  if (node.nodes) {
+                    trav(node.nodes)
+                  }
+                })
+              }
+
+              trav(parsed.nodes)
+
+              output = byebye.process(css, { rulesToRemove: unused })
+
+              output = postcss(discardEmpty(), minifySelectors(), mergeRules()).process(output).css
+
+              $('[rel="stylesheet"][href="/index.css"]').replaceWith(`<style type="text/css">${ output }</style>`)
+            }))
+            .pipe(selectors.run({ 'css': ['html'], 'html': ['html'] }, { ids: true }))
+        }))
+        .pipe(gulp.dest(directory))
+        .on('end', done)
     })
-  } else {
-    done()
-  }
 }
 
 function minifyHTML () {
@@ -296,7 +313,8 @@ function images () {
 function watch () {
   gulp.watch('base/**/*', base)
   gulp.watch('content/uploads/**/*.jpg', images)
-  gulp.watch(['css/**/*.css', 'templates/**/*.html', 'content/**/*.md'], htmlCSSSeries)
+  gulp.watch(['css/**/*.css'], gulp.series(gulp.parallel(gulp.series(pages, icons, minifyHTML), css), insertCSS))
+  gulp.watch(['templates/**/*.html', 'content/**/*.md'], gulp.series(pages, icons, minifyHTML, insertCSS))
 }
 
 function serve (done) {
