@@ -142,7 +142,6 @@ function css () {
 }
 
 function insertCSS (done) {
-  const concat = require('gulp-concat')
   const cheerio = require('gulp-cheerio')
   const foreach = require('gulp-foreach')
   const fs = require('fs')
@@ -153,62 +152,62 @@ function insertCSS (done) {
   const mergeRules = require('postcss-merge-rules')
   const pseudosRegex = /\:?(\:[a-z-]+)/g
 
-    fs.readFile(path.join(directory, 'index.css'), 'utf-8', function (err, css) {
-      if (err) {
-        done(err)
-      }
+  fs.readFile(path.join(directory, 'index.css'), 'utf-8', function (err, css) {
+    if (err) {
+      done(err)
+    }
 
-      gulp.src(path.join(directory, '**/**.html'))
-        .pipe(foreach(function (stream, file) {
-          const selectors = require('gulp-selectors')
+    gulp.src(path.join(directory, '**/**.html'))
+      .pipe(foreach(function (stream, file) {
+        const selectors = require('gulp-selectors')
 
-          return stream
-            .pipe(cheerio(function ($) {
-              const parsed = postcss.parse(css)
-              var unused = []
-              var output
+        return stream
+          .pipe(cheerio(function ($) {
+            const parsed = postcss.parse(css)
+            var unused = []
+            var output
 
-              function trav (nodes) {
-                nodes.forEach(function (node) {
-                  if (node.selector) {
-                    let selectors = node.selector.split(',')
+            function trav (nodes) {
+              nodes.forEach(function (node) {
+                if (node.selector) {
+                  let selectors = node.selector.split(',')
 
-                    selectors.forEach(function (selector) {
-                      selector = selector.trim()
+                  selectors.forEach(function (selector) {
+                    selector = selector.trim()
 
-                      var _selector = selector.replace(pseudosRegex, function (selector, pseudo) {
-                        return pseudo === ':not' ? selector : ''
-                      })
-
-                      try {
-                        if (_selector && !$(_selector).length) {
-                          unused.push(selector)
-                        }
-                      } catch (e) {
-                        console.error(_selector)
-                      }
+                    var _selector = selector.replace(pseudosRegex, function (selector, pseudo) {
+                      return pseudo === ':not' ? selector : ''
                     })
-                  }
 
-                  if (node.nodes) {
-                    trav(node.nodes)
-                  }
-                })
-              }
+                    try {
+                      if (_selector && !$(_selector).length) {
+                        unused.push(selector)
+                      }
+                    } catch (e) {
+                      console.error(_selector)
+                    }
+                  })
+                }
 
-              trav(parsed.nodes)
+                if (node.nodes) {
+                  trav(node.nodes)
+                }
+              })
+            }
 
-              output = byebye.process(css, { rulesToRemove: unused })
+            trav(parsed.nodes)
 
-              output = postcss(discardEmpty(), minifySelectors(), mergeRules()).process(output).css
+            output = byebye.process(css, { rulesToRemove: unused })
 
-              $('[rel="stylesheet"][href="/index.css"]').replaceWith(`<style type="text/css">${ output }</style>`)
-            }))
-            .pipe(selectors.run({ 'css': ['html'], 'html': ['html'] }, { ids: true }))
-        }))
-        .pipe(gulp.dest(directory))
-        .on('end', done)
-    })
+            output = postcss(discardEmpty(), minifySelectors(), mergeRules()).process(output).css
+
+            $('[rel="stylesheet"][href="/index.css"]').replaceWith(`<style type="text/css">${ output }</style>`)
+          }))
+          .pipe(selectors.run({ 'css': ['html'], 'html': ['html'] }, { ids: true }))
+      }))
+      .pipe(gulp.dest(directory))
+      .on('end', done)
+  })
 }
 
 function minifyHTML () {
