@@ -157,8 +157,6 @@ function insertCSS (done) {
 
     gulp.src(path.join(directory, '**/**.html'))
       .pipe(foreach(function (stream, file) {
-        const selectors = require('gulp-selectors')
-
         return stream
           .pipe(cheerio(function ($) {
             const parsed = postcss.parse(css)
@@ -202,7 +200,6 @@ function insertCSS (done) {
 
             $('head').append(`<style type="text/css">${ output }</style>`)
           }))
-          .pipe(selectors.run({ 'css': ['html'], 'html': ['html'] }, { ids: true }))
       }))
       .pipe(gulp.dest(directory))
       .on('end', done)
