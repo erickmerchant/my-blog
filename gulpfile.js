@@ -200,7 +200,7 @@ function insertCSS (done) {
 
             output = postcss(discardEmpty(), minifySelectors(), mergeRules()).process(output).css
 
-            $('[rel="stylesheet"][href="/index.css"]').replaceWith(`<style type="text/css">${ output }</style>`)
+            $('head').append(`<style type="text/css">${ output }</style>`)
           }))
           .pipe(selectors.run({ 'css': ['html'], 'html': ['html'] }, { ids: true }))
       }))
