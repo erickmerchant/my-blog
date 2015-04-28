@@ -311,8 +311,7 @@ function images () {
 function watch () {
   gulp.watch('base/**/*', base)
   gulp.watch('content/uploads/**/*.jpg', images)
-  gulp.watch(['css/**/*.css'], gulp.series(gulp.parallel(gulp.series(pages, icons, minifyHTML), css), insertCSS))
-  gulp.watch(['templates/**/*.html', 'content/**/*.md'], gulp.series(pages, icons, minifyHTML, insertCSS))
+  gulp.watch(['css/**/*.css', 'templates/**/*.html', 'content/**/*.md'], gulp.series(gulp.parallel(gulp.series(pages, icons, minifyHTML), css), insertCSS))
 }
 
 function serve (done) {
