@@ -168,23 +168,24 @@ function insertCSS (done) {
             function trav (nodes) {
               nodes.forEach(function (node) {
                 if (node.selector) {
-                  let selectors = node.selector.split(',')
-
-                  selectors.forEach(function (selector) {
-                    selector = selector.trim()
-
-                    var _selector = selector.replace(pseudosRegex, function (selector, pseudo) {
-                      return pseudo === ':not' ? selector : ''
+                  node.selector
+                    .split(',')
+                    .map(function (selector) {
+                      return selector.trim()
                     })
+                    .forEach(function (selector) {
+                      var _selector = selector.replace(pseudosRegex, function (selector, pseudo) {
+                        return pseudo === ':not' ? selector : ''
+                      })
 
-                    try {
-                      if (_selector && !$(_selector).length) {
-                        unused.push(selector)
+                      try {
+                        if (_selector && !$(_selector).length) {
+                          unused.push(selector)
+                        }
+                      } catch (e) {
+                        console.error(_selector)
                       }
-                    } catch (e) {
-                      console.error(_selector)
-                    }
-                  })
+                    })
                 }
 
                 if (node.nodes) {
