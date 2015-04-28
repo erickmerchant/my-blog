@@ -9,8 +9,6 @@ gulp.task('default', gulp.series(allParallel, gitStatus))
 
 gulp.task('dev', gulp.parallel(allParallel, watch, serve))
 
-gulp.task('preview', serve)
-
 function gitStatus (cb) {
   const git = require('gulp-git')
 
