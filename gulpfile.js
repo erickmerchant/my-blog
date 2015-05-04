@@ -37,11 +37,12 @@ function pages () {
   const hljs = require('highlight.js')
   const cson = require('cson-parser')
   var defaults = require('static-engine-defaults')
-  var marked = require('static-engine-converter-marked')
+  var Remarkable = require('remarkable')
   var params = require('static-engine-params')
   var frontmatter = require('static-engine-frontmatter')
   var sort = require('static-engine-sort')
   var postPages, archivePage, _404Page
+  var markdown, remarkable
 
   function renderer (file) {
     return function (page, done) {
@@ -53,11 +54,22 @@ function pages () {
 
   frontmatter = frontmatter(cson.parse)
 
-  marked = marked({
+  remarkable = new Remarkable({
     highlight: function (code) {
       return hljs.highlightAuto(code).value
-    }
+    },
+    langPrefix: 'lang-'
   })
+
+  markdown = function (pages, done) {
+    pages.forEach(function (page) {
+      page.content = remarkable.render(page.content)
+
+      return page
+    })
+
+    done(null, pages)
+  }
 
   params = params('./content/:categories+/:date.:slug.md', {
     date: function (date) {
@@ -75,7 +87,7 @@ function pages () {
     read('./content/posts/*'),
     params,
     frontmatter,
-    marked,
+    markdown,
     sort,
     pager,
     defaults,
@@ -87,12 +99,12 @@ function pages () {
   archivePage = [
     read('./content/posts.md'),
     frontmatter,
-    marked,
+    markdown,
     collection('posts', [
       read('./content/posts/*'),
       params,
       frontmatter,
-      marked,
+      markdown,
       sort
     ]),
     defaults,
@@ -102,7 +114,7 @@ function pages () {
   _404Page = [
     read('./content/404.md'),
     frontmatter,
-    marked,
+    markdown,
     defaults,
     render(path.join(directory, '404.html'), renderer('404.html'))
   ]
