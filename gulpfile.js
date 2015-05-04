@@ -29,7 +29,7 @@ function pages () {
   const swig = require('swig')
   const moment = require('moment')
   const engine = require('static-engine')
-  const content = require('static-engine-content')
+  const read = require('static-engine-read')
   const pager = require('static-engine-pager')
   const first = require('static-engine-first')
   const collection = require('static-engine-collection')
@@ -38,8 +38,8 @@ function pages () {
   const cson = require('cson-parser')
   var defaults = require('static-engine-defaults')
   var marked = require('static-engine-converter-marked')
-  var file = require('static-engine-converter-file')
-  var frontmatter = require('static-engine-converter-frontmatter')
+  var params = require('static-engine-params')
+  var frontmatter = require('static-engine-frontmatter')
   var sort = require('static-engine-sort')
   var postPages, archivePage, _404Page
 
@@ -59,7 +59,7 @@ function pages () {
     }
   })
 
-  file = file('./content/:categories+/:date.:slug.md', {
+  params = params('./content/:categories+/:date.:slug.md', {
     date: function (date) {
       return moment(date, 'x')
     }
@@ -72,8 +72,8 @@ function pages () {
   defaults = defaults('./content/defaults.cson', cson.parse)
 
   postPages = [
-    content('./content/posts/*'),
-    file,
+    read('./content/posts/*'),
+    params,
     frontmatter,
     marked,
     sort,
@@ -85,12 +85,12 @@ function pages () {
   ]
 
   archivePage = [
-    content('./content/posts.md'),
+    read('./content/posts.md'),
     frontmatter,
     marked,
     collection('posts', [
-      content('./content/posts/*'),
-      file,
+      read('./content/posts/*'),
+      params,
       frontmatter,
       marked,
       sort
@@ -100,7 +100,7 @@ function pages () {
   ]
 
   _404Page = [
-    content('./content/404.md'),
+    read('./content/404.md'),
     frontmatter,
     marked,
     defaults,
