@@ -4,6 +4,7 @@
 @import "./responsive-utilities.css";
 @import "./icons.css";
 @import "./code.css";
+@import "highlight.js/styles/monokai_sublime.css";
 
 :root {
   --container-width: 40em;

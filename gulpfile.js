@@ -128,13 +128,9 @@ function base () {
 
 function css () {
   const cssnext = require('gulp-cssnext')
-  const concat = require('gulp-concat')
   const csso = require('gulp-csso')
 
-  return gulp.src([
-      'css/site.css',
-      'node_modules/highlight.js/styles/monokai_sublime.css'
-    ])
+  return gulp.src('css/site.css')
     .pipe(cssnext({
       features: {
         customProperties: {
@@ -146,7 +142,6 @@ function css () {
       },
       browsers: ['> 5%', 'last 2 versions']
     }))
-    .pipe(concat('index.css'))
     .pipe(csso())
     .pipe(gulp.dest(directory))
 }
@@ -162,7 +157,7 @@ function insertCSS (done) {
   const mergeRules = require('postcss-merge-rules')
   const pseudosRegex = /\:?(\:[a-z-]+)/g
 
-  fs.readFile(path.join(directory, 'index.css'), 'utf-8', function (err, css) {
+  fs.readFile(path.join(directory, 'site.css'), 'utf-8', function (err, css) {
     if (err) {
       done(err)
     }
