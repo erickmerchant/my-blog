@@ -26,16 +26,16 @@
     <nav class="h4 clearfix">
       <div class="col col-6 p1">
         {% if previous %}
-          <a class="button bg-blue p2" rel="prev" href="/posts/{{ previous.slug }}/">{{ icon('chevron-left') }} Older</a>
+          <a class="button bg-blue p2" rel="prev" href="/posts/{{ previous.slug }}/">{{ icon('chevronLeft') }} Older</a>
         {% else %}
-          <span class="button bg-silver is-disabled p2">{{ icon('chevron-left') }} Older</span>
+          <span class="button bg-silver is-disabled p2">{{ icon('chevronLeft') }} Older</span>
         {% endif %}
       </div>
       <div class="col col-6 right-align p1">
         {% if next %}
-          <a class="button bg-blue p2" rel="next" href="/posts/{{ next.slug }}/">Newer {{ icon('chevron-right') }}</a>
+          <a class="button bg-blue p2" rel="next" href="/posts/{{ next.slug }}/">Newer {{ icon('chevronRight') }}</a>
         {% else %}
-          <span class="button bg-silver is-disabled p2">Newer {{ icon('chevron-right') }}</span>
+          <span class="button bg-silver is-disabled p2">Newer {{ icon('chevronRight') }}</span>
         {% endif %}
       </div>
     </nav>

@@ -225,59 +225,35 @@ function minifyHTML () {
 
 function icons (done) {
   const cheerio = require('gulp-cheerio')
-  const fs = require('fs')
-  const glob = require('glob')
+  const geomicons = require('geomicons-open/paths')
 
-  glob('./node_modules/geomicons-open/src/paths/*.d', function (err, files) {
-    if (err) {
-      done(err)
-    }
+  gulp.src(path.join(directory, '**/**.html'))
+    .pipe(cheerio(function ($) {
+      const defs = new Set()
 
-    files = files.map(function (file) {
-      return new Promise(function (resolve, reject) {
-        fs.readFile(file, 'utf-8', function (err, content) {
-          if (err) {
-            reject(err)
-          } else {
-            resolve([path.basename(file, '.d'), content.split('\n').join('')])
-          }
-        })
+      $('use').each(function () {
+        const href = $(this).attr('xlink:href')
+        const id = href.substring(1)
+
+        if ($(`use[xlink\\:href="${ href }"]`).length > 1) {
+          defs.add(id)
+        } else {
+          $(this).replaceWith(`<path d="${ geomicons[id] }"/>`)
+        }
       })
-    })
 
-    Promise.all(files).then(function (keyVals) {
-      const map = new Map(keyVals)
+      if (defs.size) {
+        let paths = []
 
-      gulp.src(path.join(directory, '**/**.html'))
-        .pipe(cheerio(function ($) {
-          const defs = new Set()
+        for (let id of defs) {
+          paths.push(`<path d="${ geomicons[id] }" id="${ id }"/>`)
+        }
 
-          $('use').each(function () {
-            const href = $(this).attr('xlink:href')
-            const id = href.substring(1)
-
-            if ($(`use[xlink\\:href="${ href }"]`).length > 1) {
-              defs.add(id)
-            } else {
-              $(this).replaceWith(`<path d="${ map.get(id) }"/>`)
-            }
-          })
-
-          if (defs.size) {
-            let paths = []
-
-            for (let id of defs) {
-              paths.push(`<path d="${ map.get(id) }" id="${ id }"/>`)
-            }
-
-            $('body').append(`<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0"><defs>${ paths.join('') }</defs></svg>`)
-          }
-        }))
-        .pipe(gulp.dest(directory))
-        .on('end', done)
-    })
-    .catch(done)
-  })
+        $('body').append(`<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0"><defs>${ paths.join('') }</defs></svg>`)
+      }
+    }))
+    .pipe(gulp.dest(directory))
+    .on('end', done)
 }
 
 function images () {
