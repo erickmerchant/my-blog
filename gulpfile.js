@@ -3,7 +3,7 @@
 const directory = '../erickmerchant.github.io/'
 const path = require('path')
 const gulp = require('gulp')
-const allParallel = gulp.parallel(base, gulp.series(gulp.parallel(gulp.series(pages, icons, minifyHTML), css), insertCSS), images)
+const allParallel = gulp.parallel(base, gulp.series(gulp.parallel(gulp.series(pages, icons, minifyHTML), css), shortenSelectors, insertCSS), images)
 
 gulp.task('default', gulp.series(allParallel, gitStatus))
 
@@ -128,7 +128,6 @@ function base () {
 
 function css () {
   const cssnext = require('gulp-cssnext')
-  const csso = require('gulp-csso')
 
   return gulp.src('css/site.css')
     .pipe(cssnext({
@@ -142,7 +141,14 @@ function css () {
       },
       browsers: ['> 5%', 'last 2 versions']
     }))
-    .pipe(csso())
+    .pipe(gulp.dest(directory))
+}
+
+function shortenSelectors () {
+  const selectors = require('gulp-selectors')
+
+  return gulp.src([path.join(directory, '**/**.html'), path.join(directory, 'site.css')])
+    .pipe(selectors.run(undefined, {ids: '*'}))
     .pipe(gulp.dest(directory))
 }
 
@@ -152,9 +158,7 @@ function insertCSS (done) {
   const fs = require('fs')
   const postcss = require('postcss')
   const byebye = require('css-byebye')
-  const discardEmpty = require('postcss-discard-empty')
-  const minifySelectors = require('postcss-minify-selectors')
-  const mergeRules = require('postcss-merge-rules')
+  const nano = require('cssnano')
   const pseudosRegex = /\:?(\:[a-z-]+)/g
 
   fs.readFile(path.join(directory, 'site.css'), 'utf-8', function (err, css) {
@@ -203,7 +207,7 @@ function insertCSS (done) {
 
             output = byebye.process(css, { rulesToRemove: unused })
 
-            output = postcss(discardEmpty(), minifySelectors(), mergeRules()).process(output).css
+            output = postcss(nano()).process(output).css
 
             $('head').append(`<style type="text/css">${ output }</style>`)
           }))
@@ -291,7 +295,7 @@ function images () {
 function watch () {
   gulp.watch('base/**/*', base)
   gulp.watch('content/uploads/**/*.jpg', images)
-  gulp.watch(['css/**/*.css', 'templates/**/*.html', 'content/**/*.md'], gulp.series(gulp.parallel(gulp.series(pages, icons, minifyHTML), css), insertCSS))
+  gulp.watch(['css/**/*.css', 'templates/**/*.html', 'content/**/*.md'], gulp.series(gulp.parallel(gulp.series(pages, icons, minifyHTML), css), shortenSelectors, insertCSS))
 }
 
 function serve (done) {
