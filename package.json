@@ -2,6 +2,7 @@
   "name": "erickmerchat.com-source",
   "private": "true",
   "dependencies": {
+    "bach": "^0.4.1",
     "basscss": "^6.0.2",
     "chalk": "^1.0.0",
     "commander": "^2.6.0",
@@ -12,7 +13,6 @@
     "express-log": "^1.0.1",
     "express-static": "^1.0.3",
     "geomicons-open": "^2.0.0",
-    "gulp": "gulpjs/gulp#4.0",
     "gulp-changed": "^1.1.0",
     "gulp-cheerio": "^0.6.2",
     "gulp-cssnext": "^1.0.0",
@@ -27,7 +27,9 @@
     "mkdirp": "^0.5.0",
     "moment": "^2.8.4",
     "postcss": "^4.1.6",
+    "pretty-hrtime": "^1.0.0",
     "remarkable": "^1.6.0",
+    "sergeant": "0.0.1",
     "slug": "^0.9.1",
     "static-engine": "^10.0.0",
     "static-engine-collection": "^5.1.1",
@@ -39,7 +41,8 @@
     "static-engine-read": "^1.0.0",
     "static-engine-render": "^5.0.0",
     "static-engine-sort": "^4.0.0",
-    "swig": "^1.4.2"
+    "swig": "^1.4.2",
+    "vinyl-fs": "^1.0.0"
   },
   "scripts": {
     "test": "standard"

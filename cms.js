@@ -1,13 +1,17 @@
+#!/usr/bin/env node
 'use strict'
 
 const directory = '../erickmerchant.github.io/'
 const path = require('path')
-const gulp = require('gulp')
-const allParallel = gulp.parallel(base, gulp.series(gulp.parallel(gulp.series(pages, icons, minifyHTML), css), shortenSelectors, insertCSS), images)
+const sergeant = require('sergeant')
+const order = require('./lib/order.js')
+const vinylFS = require('vinyl-fs')
+const allParallel = order.parallel(base, order.series(order.parallel(order.series(pages, icons, minifyHTML), css), shortenSelectors, insertCSS), images)
+const app = sergeant('CMS for erickmerchant.com', process.argv.slice(2))
 
-gulp.task('default', gulp.series(allParallel, gitStatus))
+app.command('update', 'Build the site once', {}, order.series(allParallel, gitStatus))
 
-gulp.task('dev', gulp.parallel(allParallel, watch, serve))
+app.command('watch', 'Build the site then watch for changes. Run a server', {}, order.parallel(allParallel, watch, serve))
 
 function gitStatus (cb) {
   const git = require('gulp-git')
@@ -123,13 +127,13 @@ function pages () {
 }
 
 function base () {
-  return gulp.src('base/**').pipe(gulp.dest(directory))
+  return vinylFS.src('base/**').pipe(vinylFS.dest(directory))
 }
 
 function css () {
   const cssnext = require('gulp-cssnext')
 
-  return gulp.src('css/site.css')
+  return vinylFS.src('css/site.css')
     .pipe(cssnext({
       features: {
         customProperties: {
@@ -141,15 +145,15 @@ function css () {
       },
       browsers: ['> 5%', 'last 2 versions']
     }))
-    .pipe(gulp.dest(directory))
+    .pipe(vinylFS.dest(directory))
 }
 
 function shortenSelectors () {
   const selectors = require('gulp-selectors')
 
-  return gulp.src([path.join(directory, '**/**.html'), path.join(directory, 'site.css')])
+  return vinylFS.src([path.join(directory, '**/**.html'), path.join(directory, 'site.css')])
     .pipe(selectors.run(undefined, {ids: '*'}))
-    .pipe(gulp.dest(directory))
+    .pipe(vinylFS.dest(directory))
 }
 
 function insertCSS (done) {
@@ -166,7 +170,7 @@ function insertCSS (done) {
       done(err)
     }
 
-    gulp.src(path.join(directory, '**/**.html'))
+    vinylFS.src(path.join(directory, '**/**.html'))
       .pipe(foreach(function (stream, file) {
         return stream
           .pipe(cheerio(function ($) {
@@ -212,7 +216,7 @@ function insertCSS (done) {
             $('head').append(`<style type="text/css">${ output }</style>`)
           }))
       }))
-      .pipe(gulp.dest(directory))
+      .pipe(vinylFS.dest(directory))
       .on('end', done)
   })
 }
@@ -220,18 +224,18 @@ function insertCSS (done) {
 function minifyHTML () {
   const htmlmin = require('gulp-htmlmin')
 
-  return gulp.src(path.join(directory, '**/**.html'))
+  return vinylFS.src(path.join(directory, '**/**.html'))
     .pipe(htmlmin({
       collapseWhitespace: true
     }))
-    .pipe(gulp.dest(directory))
+    .pipe(vinylFS.dest(directory))
 }
 
 function icons (done) {
   const cheerio = require('gulp-cheerio')
   const geomicons = require('geomicons-open/paths')
 
-  gulp.src(path.join(directory, '**/**.html'))
+  vinylFS.src(path.join(directory, '**/**.html'))
     .pipe(cheerio(function ($) {
       const defs = new Set()
 
@@ -256,7 +260,7 @@ function icons (done) {
         $('body').append(`<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0"><defs>${ paths.join('') }</defs></svg>`)
       }
     }))
-    .pipe(gulp.dest(directory))
+    .pipe(vinylFS.dest(directory))
     .on('end', done)
 }
 
@@ -266,16 +270,16 @@ function images () {
   const imagemin = require('gulp-imagemin')
   const merge = require('merge-stream')
   var merged
-  var stream = gulp.src('content/uploads/*.jpg')
+  var stream = vinylFS.src('content/uploads/*.jpg')
     .pipe(changed(path.join(directory, 'uploads')))
     .pipe(imagemin({
       progressive: true
     }))
-    .pipe(gulp.dest(path.join(directory, 'uploads')))
+    .pipe(vinylFS.dest(path.join(directory, 'uploads')))
 
   merged = merge(stream)
 
-  stream = gulp.src('content/uploads/*.jpg')
+  stream = vinylFS.src('content/uploads/*.jpg')
     .pipe(changed(path.join(directory, 'uploads')))
     .pipe(imageresize({
       width: 622,
@@ -285,7 +289,7 @@ function images () {
     .pipe(imagemin({
       progressive: true
     }))
-    .pipe(gulp.dest(path.join(directory, 'uploads/thumbnails/')))
+    .pipe(vinylFS.dest(path.join(directory, 'uploads/thumbnails/')))
 
   merged.add(stream)
 
@@ -293,9 +297,9 @@ function images () {
 }
 
 function watch () {
-  gulp.watch('base/**/*', base)
-  gulp.watch('content/uploads/**/*.jpg', images)
-  gulp.watch(['css/**/*.css', 'templates/**/*.html', 'content/**/*.md'], gulp.series(gulp.parallel(gulp.series(pages, icons, minifyHTML), css), shortenSelectors, insertCSS))
+  vinylFS.watch('base/**/*', base)
+  vinylFS.watch('content/uploads/**/*.jpg', images)
+  vinylFS.watch(['css/**/*.css', 'templates/**/*.html', 'content/**/*.md'], order.series(order.parallel(order.series(pages, icons, minifyHTML), css), shortenSelectors, insertCSS))
 }
 
 function serve (done) {
@@ -326,3 +330,5 @@ function serve (done) {
 
   done()
 }
+
+app.run()
