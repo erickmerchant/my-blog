@@ -7,14 +7,14 @@
 {% endblock %}
 
 {% block main %}
-  <article itemscope itemtype="http://schema.org/BlogPosting">
+  <article>
     <header>
-      <h1 itemprop="name">{{ title }}</h1>
+      <h1>{{ title }}</h1>
       <p>
-        <time class="h3 bold" itemprop="datePublished" datetime="{{ date.format("YYYY-MM-DD") }}">{{ icon('calendar') }} {{ date.format("MMMM D, YYYY") }}</time>
+        <time class="h3 bold" datetime="{{ date.format("YYYY-MM-DD") }}">{{ icon('calendar') }} {{ date.format("MMMM D, YYYY") }}</time>
       </p>
     </header>
-    <div itemprop="text">{{ content|safe }}</div>
+    <div>{{ content|safe }}</div>
     <footer>
       <p>
         <span>Share with:</span>

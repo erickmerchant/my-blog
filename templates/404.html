@@ -1,14 +1,12 @@
 {% extends 'index.html' %}
 
 {% block main %}
-  <section class="center">
+  <form role="search" action="http://google.com/search" class="m1 clearfix center">
     <h1>{{ title }}</h1>
     <p>{{ content|safe }}</p>
-    <form role="search" name="search" method="GET" action="http://google.com/search" class="m1 clearfix center">
-      <input type="hidden" name="q" value="site:{{ host }}">
-      <input class="field-light m1 col-12 sm-col-6" type="text" placeholder="Search..." name="q">
-      <br class="sm-hide">
-      <button class="m1 button bg-blue p2" type="submit">{{ icon('search') }} Submit</button>
-    </form>
-  </section>
+    <input type="hidden" name="q" value="site:{{ host }}">
+    <input class="field-light m1 col-12 sm-col-6" type="text" placeholder="Search..." name="q">
+    <br class="sm-hide">
+    <button class="m1 button bg-blue p2" type="submit">{{ icon('search') }} Submit</button>
+  </form>
 {% endblock %}
