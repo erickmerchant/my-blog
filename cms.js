@@ -20,18 +20,24 @@ const move = require('./lib/tasks/move.js')
 const allParallel = bach.parallel(base, bach.series(bach.parallel(bach.series(pages, icons, minifyHTML), css), shortenSelectors, insertCSS), images)
 const app = sergeant('CMS for erickmerchant.com')
 
-app.command('update', 'Build the site once', {}, bach.series(allParallel, gitStatus))
+app.command('update', { description: 'Build the site once' }, bach.series(allParallel, gitStatus))
 
-app.command('watch', 'Build the site then watch for changes. Run a server', {}, bach.parallel(allParallel, watch, serve))
+app.command('watch', { description: 'Build the site then watch for changes. Run a server' }, bach.parallel(allParallel, watch, serve))
 
-app.command('make', 'Make new content', {
-  '--time': 'prepend the unix timestamp'
+app.command('make', {
+  description: 'Make new content',
+  options: {
+    '--time': 'prepend the unix timestamp'
+  }
 }, make)
 
-app.command('move', 'Move content', {
-  '--title': 'change the title',
-  '--time': 'prepend the unix timestamp',
-  '--strip': 'remove a unix timestamp if present'
+app.command('move', {
+  description: 'Move content',
+  options: {
+    '--title': 'change the title',
+    '--time': 'prepend the unix timestamp',
+    '--strip': 'remove a unix timestamp if present'
+  }
 }, move)
 
 app.run()
