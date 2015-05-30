@@ -45,6 +45,6 @@
     "test": "standard"
   },
   "devDependencies": {
-    "standard": "^3.5.0"
+    "standard": "^4.0.0"
   }
 }
