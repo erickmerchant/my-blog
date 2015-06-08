@@ -4,6 +4,7 @@
 
 const vinylFS = require('vinyl-fs')
 const sergeant = require('sergeant')
+const chalk = require('chalk')
 const bach = require('./lib/extensions/bach.js')
 const base = require('./lib/tasks/base.js')
 const pages = require('./lib/tasks/pages.js')
@@ -28,6 +29,9 @@ app.command('make', {
   description: 'Make new content',
   options: {
     '--time': 'prepend the unix timestamp'
+  },
+  aliases: {
+    '-t': { time: true }
   }
 }, make)
 
@@ -37,10 +41,21 @@ app.command('move', {
     '--title': 'change the title',
     '--time': 'prepend the unix timestamp',
     '--strip': 'remove a unix timestamp if present'
+  },
+  aliases: {
+    '-t': { time: true }
   }
 }, move)
 
-app.run()
+app.run(function (err, result) {
+  if (err) {
+    console.error(chalk.red(err))
+  } else {
+    if (typeof result === 'string') {
+      console.log(result)
+    }
+  }
+})
 
 function watch () {
   vinylFS.watch('base/**/*', base)
