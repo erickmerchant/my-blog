@@ -10,15 +10,13 @@ const base = require('./lib/tasks/base.js')
 const pages = require('./lib/tasks/pages.js')
 const icons = require('./lib/tasks/icons.js')
 const css = require('./lib/tasks/css.js')
-const insertCSS = require('./lib/tasks/insert-css.js')
 const gitStatus = require('./lib/tasks/git-status.js')
 const minifyHTML = require('./lib/tasks/minify-html.js')
-const shortenSelectors = require('./lib/tasks/shorten-selectors.js')
 const images = require('./lib/tasks/images.js')
 const serve = require('./lib/tasks/serve.js')
 const make = require('./lib/tasks/make.js')
 const move = require('./lib/tasks/move.js')
-const allParallel = bach.parallel(base, bach.series(bach.parallel(bach.series(pages, icons, minifyHTML), css), shortenSelectors, insertCSS), images)
+const allParallel = bach.parallel(base, bach.series(pages, icons, minifyHTML, css), images)
 const app = sergeant('CMS for erickmerchant.com')
 
 app.command('update', { description: 'Build the site once' }, bach.series(allParallel, gitStatus))
@@ -60,5 +58,5 @@ app.run(function (err, result) {
 function watch () {
   vinylFS.watch('base/**/*', base)
   vinylFS.watch('content/uploads/**/*.jpg', images)
-  vinylFS.watch(['css/**/*.css', 'templates/**/*.html', 'content/**/*.md'], bach.series(bach.parallel(bach.series(pages, icons, minifyHTML), css), shortenSelectors, insertCSS))
+  vinylFS.watch(['css/**/*.css', 'templates/**/*.html', 'content/**/*.md'], bach.series(pages, icons, minifyHTML, css))
 }
