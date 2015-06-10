@@ -27,6 +27,7 @@
     "remarkable": "^1.6.0",
     "sergeant": "^5.0.0",
     "slug": "^0.9.1",
+    "smallector": "^1.0.1",
     "static-engine": "^10.0.0",
     "static-engine-collection": "^5.1.1",
     "static-engine-defaults": "^6.0.0",
