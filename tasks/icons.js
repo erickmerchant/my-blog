@@ -34,5 +34,5 @@ module.exports = function icons (done) {
       }
     }))
     .pipe(vinylFS.dest(directory))
-    .on('end', done)
+    .once('end', done)
 }

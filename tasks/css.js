@@ -89,6 +89,6 @@ module.exports = function css (done) {
         $('head').append(`<style type="text/css">${ output }</style>`)
       }))
       .pipe(vinylFS.dest(directory))
-      .on('end', done)
+      .once('end', done)
   })
 }
