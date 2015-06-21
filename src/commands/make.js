@@ -8,7 +8,19 @@ var mkdirp = require('mkdirp')
 var path = require('path')
 var cson = require('cson-parser')
 
-module.exports = function make (dir, title, options, done) {
+module.exports = function (app) {
+  app.command('make', {
+    description: 'Make new content',
+    options: {
+      '--time': 'prepend the unix timestamp'
+    },
+    aliases: {
+      '-t': { time: true }
+    }
+  }, make)
+}
+
+function make (dir, title, options, done) {
   var file
   var content
 

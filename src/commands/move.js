@@ -7,7 +7,21 @@ var fs = require('fs')
 var mkdirp = require('mkdirp')
 var path = require('path')
 
-module.exports = function move (file, dir, options, done) {
+module.exports = function (app) {
+  app.command('move', {
+    description: 'Move content',
+    options: {
+      '--title': 'change the title',
+      '--time': 'prepend the unix timestamp',
+      '--strip': 'remove a unix timestamp if present'
+    },
+    aliases: {
+      '-t': { time: true }
+    }
+  }, move)
+}
+
+function move (file, dir, options, done) {
   var newFile
   var ext
   var parts
