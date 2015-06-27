@@ -3,14 +3,15 @@
 const path = require('path')
 const vinylFS = require('vinyl-fs')
 const directory = require('./directory.js')
+const cheerio = require('gulp-cheerio')
+const geomicons = require('geomicons-open/paths')
 
 module.exports = function icons (done) {
-  const cheerio = require('gulp-cheerio')
-  const geomicons = require('geomicons-open/paths')
 
   vinylFS.src(path.join(directory, '**/**.html'))
     .pipe(cheerio(function ($) {
       const defs = new Set()
+      const paths = []
 
       $('use').each(function () {
         const href = $(this).attr('xlink:href')
@@ -24,8 +25,6 @@ module.exports = function icons (done) {
       })
 
       if (defs.size) {
-        let paths = []
-
         for (let id of defs) {
           paths.push(`<path d="${ geomicons[id] }" id="${ id }"/>`)
         }

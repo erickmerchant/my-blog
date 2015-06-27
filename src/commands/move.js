@@ -1,11 +1,11 @@
 'use strict'
 
-var chalk = require('chalk')
-var moment = require('moment')
-var mkslug = require('slug')
-var fs = require('fs')
-var mkdirp = require('mkdirp')
-var path = require('path')
+const chalk = require('chalk')
+const moment = require('moment')
+const mkslug = require('slug')
+const fs = require('fs')
+const mkdirp = require('mkdirp')
+const path = require('path')
 
 module.exports = function (app) {
   app.command('move', {

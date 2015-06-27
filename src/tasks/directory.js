@@ -1,3 +1,5 @@
+'use strict'
+
 const sergeant = require('sergeant')
 const argv = sergeant.parse()
 

@@ -1,12 +1,12 @@
 'use strict'
 
-var chalk = require('chalk')
-var moment = require('moment')
-var mkslug = require('slug')
-var fs = require('fs')
-var mkdirp = require('mkdirp')
-var path = require('path')
-var cson = require('cson-parser')
+const chalk = require('chalk')
+const moment = require('moment')
+const mkslug = require('slug')
+const fs = require('fs')
+const mkdirp = require('mkdirp')
+const path = require('path')
+const cson = require('cson-parser')
 
 module.exports = function (app) {
   app.command('make', {
@@ -41,9 +41,7 @@ function make (dir, title, options, done) {
 
     content = ['---', cson.stringify({title: title}, null, '  '), '---', ''].join('\n')
 
-    var directory = path.dirname(file)
-
-    mkdirp(directory, function (err) {
+    mkdirp(path.dirname(file), function (err) {
       if (err) {
         done(err)
       } else {

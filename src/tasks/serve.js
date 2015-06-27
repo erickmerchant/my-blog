@@ -1,10 +1,12 @@
+'use strict'
+
 const path = require('path')
 const directory = require('./directory.js')
+const express = require('express')
+const _static = require('express-static')
+const logger = require('express-log')
 
 module.exports = function serve (done) {
-  const express = require('express')
-  const _static = require('express-static')
-  const logger = require('express-log')
   const app = express()
 
   app.use(logger())

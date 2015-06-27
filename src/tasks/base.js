@@ -1,3 +1,5 @@
+'use strict'
+
 const vinylFS = require('vinyl-fs')
 const directory = require('./directory.js')
 

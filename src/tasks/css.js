@@ -1,16 +1,18 @@
+'use strict'
+
 const vinylFS = require('vinyl-fs')
 const path = require('path')
 const directory = require('./directory.js')
+const cheerio = require('gulp-cheerio')
+const Smallector = require('smallector')
+const fs = require('fs')
+const cssnext = require('cssnext')
+const postcss = require('postcss')
+const byebye = require('css-byebye')
+const nano = require('cssnano')
+const pseudosRegex = /\:?(\:[a-z-]+)/g
 
 module.exports = function css (done) {
-  const cheerio = require('gulp-cheerio')
-  const Smallector = require('smallector')
-  const fs = require('fs')
-  const cssnext = require('cssnext')
-  const postcss = require('postcss')
-  const byebye = require('css-byebye')
-  const nano = require('cssnano')
-  const pseudosRegex = /\:?(\:[a-z-]+)/g
 
   fs.readFile('css/site.css', 'utf-8', function (err, css) {
     if (err) {
@@ -34,7 +36,7 @@ module.exports = function css (done) {
     vinylFS.src(path.join(directory, '**/**.html'))
       .pipe(cheerio(function ($) {
         const parsed = postcss.parse(css)
-        var unused = []
+        const unused = []
         var output
 
         function trav (nodes) {
@@ -50,12 +52,8 @@ module.exports = function css (done) {
                     return pseudo === ':not' ? selector : ''
                   })
 
-                  try {
-                    if (_selector && !$(_selector).length) {
-                      unused.push(selector)
-                    }
-                  } catch (e) {
-                    console.error(_selector)
+                  if (_selector && !$(_selector).length) {
+                    unused.push(selector)
                   }
                 })
             }
@@ -73,11 +71,9 @@ module.exports = function css (done) {
         $('[class]').each(function () {
           var classes = $(this).attr('class').split(' ')
 
-          classes.forEach(function (v, k) {
+          classes = classes.map(function (v, k) {
             if (output.map[v]) {
-              classes[k] = output.map[v]
-            } else {
-              delete classes[k]
+              return output.map[v]
             }
           })
 
