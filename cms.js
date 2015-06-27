@@ -3,10 +3,10 @@
 
 const sergeant = require('sergeant')
 const app = sergeant({ description: 'CMS for erickmerchant.com' })
+const commands = ['update', 'watch', 'move', 'make']
 
-require('./src/commands/update.js')(app)
-require('./src/commands/watch.js')(app)
-require('./src/commands/move.js')(app)
-require('./src/commands/make.js')(app)
+commands.forEach(function (command) {
+  require('./src/commands/' + command + '.js')(app)
+})
 
 app.run()
