@@ -1,4 +1,6 @@
 blockquote {
+  margin: 0 var(--space-1);
+  padding: 0 var(--space-2);
   border-left: var(--border-width) solid var(--border-color);
 }
 
