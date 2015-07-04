@@ -12,11 +12,10 @@ module.exports = function (app) {
     description: 'Move content',
     options: {
       '--title': 'change the title',
-      '--time': 'prepend the unix timestamp',
-      '--strip': 'remove a unix timestamp if present'
+      '--time': 'prepend the unix timestamp'
     },
     aliases: {
-      '-t': { time: true }
+      'strip': { time: false }
     }
   }, move)
 }
@@ -60,7 +59,7 @@ function move (file, dir, options, done) {
 
     newFile = slug + ext
 
-    if ((options.time || hasTime) && !options.strip) {
+    if (hasTime && options.time !== false || options.time) {
       newFile = [time.format('x'), newFile].join('.')
     }
 

@@ -13,9 +13,6 @@ module.exports = function (app) {
     description: 'Make new content',
     options: {
       '--time': 'prepend the unix timestamp'
-    },
-    aliases: {
-      '-t': { time: true }
     }
   }, make)
 }
