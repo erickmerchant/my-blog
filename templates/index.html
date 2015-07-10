@@ -7,7 +7,7 @@
 {% endmacro %}
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -20,10 +20,10 @@
   </head>
   <body class="flex flex-column full-view-height">
     <nav class="bg-black h3 p2 center white" role="navigation">
-      <a class="btn" href="/">{{ banner }}</a>
+      <a class="btn btn-lined" href="/">{{ banner }}</a>
       <div class="inline-block">
         {% for link in menu %}
-          <a class="btn" href="{{ link.url }}">{{ icon(link.icon) }}<span class="sm-show-inline">{{ link.text }}</span></a>
+          <a class="btn btn-lined" href="{{ link.url }}">{{ icon(link.icon) }}<span class="sm-show-inline">{{ link.text }}</span></a>
         {% endfor %}
       </div>
     </nav>

@@ -13,3 +13,7 @@
 .full-view-height {
   min-height: 100vh;
 }
+
+.btn-lined:focus {
+  border: var(--border-width) solid currentcolor;
+}
