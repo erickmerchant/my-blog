@@ -1,19 +1,109 @@
 @import 'basscss';
-@import "./basscss-adjustments.css";
-@import "./responsive-utilities.css";
-@import "./icons.css";
-@import "./code.css";
 @import "highlight.js/styles/monokai_sublime.css";
 
-:root {
-  --container-width: 40em;
-  --form-field-padding-y: 1.5em;
+blockquote {
+  margin: 0 var(--space-1);
+  padding: 0 var(--space-2);
+  border-left: var(--border-width) solid var(--border-color);
+}
+
+blockquote, blockquote p {
+  font-size: 1rem;
+}
+
+cite:before {
+  content: '\2014 \00A0';
+}
+
+img {
+  border-radius: var(--border-radius);
+  margin: var(--space-1) 0;
+}
+
+dt {
+  font-weight: bold;
+}
+
+dd {
+  margin-left: 0;
+}
+
+pre {
+  color: var(--silver);
+  direction: ltr;
+  text-align: left;
+  word-spacing: normal;
+  word-break: normal;
+  tab-size: 4;
+  hyphens: none;
+  padding: var(--space-2);
+  margin: var(--space-1) 0;
+  white-space: pre-wrap;
+  overflow-x: auto;
+}
+
+code {
+  background: var(--darken-1);
+}
+
+pre, pre code {
+	background: var(--black);
+}
+
+
+main {
+  display: block;
+}
+
+.sm-show-inline, .md-show-inline, .lg-show-inline {
+  display: none !important
+}
+
+@media (--breakpoint-sm) {
+  .sm-show-inline { display: inline !important }
+}
+@media (--breakpoint-md) {
+  .md-show-inline { display: inline !important }
+}
+
+@media (--breakpoint-lg) {
+  .lg-show-inline { display: inline !important }
 }
 
 .full-view-height {
   min-height: 100vh;
 }
 
-.btn-lined:focus {
-  border: var(--border-width) solid currentcolor;
+.btn:active {
+  box-shadow: 0 0 var(--border-width) 1px currentColor;
+  border-color: currentColor;
+}
+
+.btn:focus {
+  box-shadow: 0 0 var(--border-width) 1px currentColor;
+  border-color: currentColor;
+}
+
+.btn-solid {
+  border-radius: var(--border-radius);
+}
+
+.btn-shadow-blue:active {
+  box-shadow: 0 0 var(--border-width) 1px var(--blue);
+}
+
+.btn-shadow-blue:focus {
+  box-shadow: 0 0 var(--border-width) 1px var(--blue);
+}
+
+.icon {
+  width: 1em; /* 1 */
+  height: 1em;
+  vertical-align: -0.125em; /* 2 */
+  fill: currentColor;
+}
+
+:root {
+  --container-width: 40em;
+  --form-field-padding-y: 1.5em;
 }
