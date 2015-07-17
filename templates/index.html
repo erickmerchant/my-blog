@@ -34,11 +34,11 @@
       </main>
     </div>
     <footer class="mt2 p2 center bg-gray muted h6" role="contentinfo">
-      <span class="p2">&copy; {{ author }}, {{ year }}</span>
       <a class="btn btn-lined" href="https://github.com/erickmerchant/erickmerchant.com-source">{{ icon('github') }} View Source</a>
       {% block action-call %}
         <a class="btn btn-lined" href="https://twitter.com/intent/tweet?url={{ host|url_encode }}&amp;text={{ title|url_encode }}" target="_blank">{{ icon('twitter') }} Tweet</a>
       {% endblock %}
+      <span class="p2 inline-block bold">&copy; {{ author }}, {{ year }}</span>
     </footer>
   </body>
 </html>
