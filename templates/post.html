@@ -15,29 +15,27 @@
       </p>
     </header>
     <div>{{ content|safe }}</div>
-    <footer>
-      <p>
-        <span>Share with:</span>
-        <a href="https://twitter.com/intent/tweet?url={{ (host + '/posts/' + slug + '/') | url_encode }}&amp;text={{ title|url_encode }}" target="_blank">{{ icon('twitter') }} Twitter</a>
-      </p>
-    </footer>
   </article>
   {% if previous or next %}
     <nav class="h4 clearfix mb2">
       <div class="col col-6">
         {% if previous %}
-          <a class="btn blue p2" rel="prev" href="/posts/{{ previous.slug }}/">{{ icon('chevronLeft') }} Older</a>
+          <a class="btn btn-solid btn-lined-blue white bg-blue p2" rel="prev" href="/posts/{{ previous.slug }}/">{{ icon('chevronLeft') }} Older</a>
         {% else %}
-          <span class="btn silver is-disabled p2">{{ icon('chevronLeft') }} Older</span>
+          <span class="btn btn-solid btn-lined-silver white bg-silver is-disabled p2">{{ icon('chevronLeft') }} Older</span>
         {% endif %}
       </div>
       <div class="col col-6 right-align">
         {% if next %}
-          <a class="btn blue p2" rel="next" href="/posts/{{ next.slug }}/">Newer {{ icon('chevronRight') }}</a>
+          <a class="btn btn-solid btn-lined-blue white bg-blue p2" rel="next" href="/posts/{{ next.slug }}/">Newer {{ icon('chevronRight') }}</a>
         {% else %}
-          <span class="btn silver is-disabled p2">Newer {{ icon('chevronRight') }}</span>
+          <span class="btn btn-solid btn-lined-silver white bg-silver is-disabled p2">Newer {{ icon('chevronRight') }}</span>
         {% endif %}
       </div>
     </nav>
   {% endif %}
+{% endblock %}
+
+{% block action-call %}
+  <a class="btn btn-lined" href="https://twitter.com/intent/tweet?url={{ (host + '/posts/' + slug + '/') | url_encode }}&amp;text={{ title|url_encode }}" target="_blank">{{ icon('twitter') }} Tweet</a>
 {% endblock %}

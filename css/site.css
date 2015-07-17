@@ -74,26 +74,23 @@ main {
   min-height: 100vh;
 }
 
-.btn:active {
-  box-shadow: 0 0 var(--border-width) 1px currentColor;
-  border-color: currentColor;
-}
-
-.btn:focus {
-  box-shadow: 0 0 var(--border-width) 1px currentColor;
-  border-color: currentColor;
-}
-
 .btn-solid {
   border-radius: var(--border-radius);
 }
 
-.btn-shadow-blue:active {
-  box-shadow: 0 0 var(--border-width) 1px var(--blue);
+.btn-lined:active, .btn-lined:focus {
+  box-shadow: 0 0 var(--border-width) 1px currentColor;
+  border-color: currentColor;
 }
 
-.btn-shadow-blue:focus {
+.btn-lined-blue:active, .btn-lined-blue:focus {
   box-shadow: 0 0 var(--border-width) 1px var(--blue);
+  border-color: currentColor;
+}
+
+.btn-lined-silver:active, .btn-lined-silver:focus {
+  box-shadow: 0 0 var(--border-width) 1px var(--silver);
+  border-color: currentColor;
 }
 
 .icon {

@@ -20,10 +20,10 @@
   </head>
   <body class="flex flex-column full-view-height">
     <nav class="bg-black h3 p2 center white" role="navigation">
-      <a class="btn" href="/">{{ banner }}</a>
+      <a class="btn btn-lined" href="/">{{ banner }}</a>
       <div class="inline-block">
         {% for link in menu %}
-          <a class="btn" href="{{ link.url }}">{{ icon(link.icon) }}<span class="sm-show-inline">{{ link.text }}</span></a>
+          <a class="btn btn-lined" href="{{ link.url }}">{{ icon(link.icon) }}<span class="sm-show-inline">{{ link.text }}</span></a>
         {% endfor %}
       </div>
     </nav>
@@ -35,7 +35,10 @@
     </div>
     <footer class="mt2 p2 center bg-gray muted h6" role="contentinfo">
       <span class="p2">&copy; {{ author }}, {{ year }}</span>
-      <a class="btn" href="https://github.com/erickmerchant/erickmerchant.com-source">{{ icon('github') }} View Source</a>
+      <a class="btn btn-lined" href="https://github.com/erickmerchant/erickmerchant.com-source">{{ icon('github') }} View Source</a>
+      {% block action-call %}
+        <a class="btn btn-lined" href="https://twitter.com/intent/tweet?url={{ host|url_encode }}&amp;text={{ title|url_encode }}" target="_blank">{{ icon('twitter') }} Tweet</a>
+      {% endblock %}
     </footer>
   </body>
 </html>
