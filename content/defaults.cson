@@ -5,7 +5,7 @@ banner: 'Erick Merchant'
 sub_banner: 'On Development'
 menu: [
   {
-    text: 'Archives'
+    text: 'Posts'
     icon: 'calendar'
     url: '/posts/'
   }
