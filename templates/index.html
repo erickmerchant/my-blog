@@ -33,12 +33,15 @@
         {% endblock %}
       </main>
     </div>
-    <footer class="mt2 p2 center bg-gray muted h6" role="contentinfo">
-      <a class="btn btn-lined" href="https://github.com/erickmerchant/erickmerchant.com-source">{{ icon('github') }} View Source</a>
-      {% block action-call %}
-        <a class="btn btn-lined" href="https://twitter.com/intent/tweet?url={{ host|url_encode }}&amp;text={{ title|url_encode }}" target="_blank">{{ icon('twitter') }} Tweet</a>
-      {% endblock %}
-      <span class="p2 inline-block bold">&copy; {{ author }}, {{ year }}</span>
+    <footer class="mt2 p2 bg-gray muted h6" role="contentinfo">
+      <div class="container center sm-flex flex-center flex-justify">
+        <a class="btn btn-lined" href="https://github.com/erickmerchant/erickmerchant.com-source">{{ icon('github') }} View Source</a>
+        {% block action-call %}
+          <a class="btn btn-lined" href="https://twitter.com/intent/tweet?url={{ host|url_encode }}&amp;text={{ title|url_encode }}" target="_blank">{{ icon('twitter') }} Tweet</a>
+        {% endblock %}
+        <br class="sm-hide">
+        <span class="p2 muted inline-block bold">&copy; {{ author }}, {{ year }}</span>
+      </div>
     </footer>
   </body>
 </html>
