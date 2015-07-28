@@ -1,23 +1,23 @@
-{% extends 'index.html' %}
+@extends index
 
-{% block main %}
-  <h1>{{ title }}</h1>
-  {% for post in posts %}
-    {% if post.date.format('MMMM YYYY') != year_month %}
-      {% set year_month = post.date.format('MMMM YYYY') %}
-      {% if not loop.first %}
+@section main
+  <h1>${ content.title }</h1>
+  @each content.posts post index
+    @if post.date.format('MMMM YYYY') !== year_month
+      @set year_month post.date.format('MMMM YYYY')
+      @if index !== 0
           </dl>
         </section>
-      {% endif %}
+      @
       <section>
-        <h2>{{ icon('calendar') }} {{ year_month }}</h2>
+        <h2>${ icon('calendar') } ${ year_month }</h2>
         <dl>
-    {% endif %}
-    <dt><a href="/posts/{{ post.slug }}/">{{ post.title }}</a></dt>
-    <dd>{{ post.summary }}</dd>
-    {% if loop.last %}
+    @
+    <dt><a href="/posts/${ post.slug }/">${ post.title }</a></dt>
+    <dd>${ post.summary }</dd>
+    @if index === content.posts.length
         </dl>
       </section>
-    {% endif %}
-  {% endfor %}
-{% endblock %}
+    @
+  @
+@

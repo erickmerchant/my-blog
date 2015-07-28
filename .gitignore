@@ -1,3 +1,4 @@
 .DS_Store
 /content/drafts
 node_modules
+/templates/compiled/

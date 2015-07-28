@@ -1,10 +1,10 @@
-{% macro icon(name='') %}
-  {% if name %}
+@partial icon name
+  @if name
     <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-      <use xlink:href="#{{ name }}"></use>
+      <use xlink:href="#${ name }"></use>
     </svg>
-  {% endif %}
-{% endmacro %}
+  @
+@
 
 <!DOCTYPE html>
 <html lang="en">
@@ -12,35 +12,36 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    {% block meta %}
-      <meta name="description" content="{{ summary }}">
-      <title>{{ title }}</title>
-    {% endblock %}
+    @section meta
+      <title>${ content.title }</title>
+    @
     <link href="/favicon.png" rel="shortcut icon" type="image/png">
   </head>
   <body class="flex flex-column full-view-height">
     <nav class="bg-black h3 p2 center white" role="navigation">
-      <a class="btn btn-lined" href="/">{{ banner }}</a>
+      <a class="btn btn-lined" href="/">${ content.banner }</a>
       <div class="inline-block">
-        {% for link in menu %}
-          <a class="btn btn-lined" href="{{ link.url }}">{{ icon(link.icon) }}<span class="sm-show-inline">{{ link.text }}</span></a>
-        {% endfor %}
+        @each content.menu link
+          <a class="btn btn-lined" href="${ link.url }">
+            ${ icon(link.icon) }
+            <span class="sm-show-inline">${ link.text }</span>
+          </a>
+        @
       </div>
     </nav>
     <div class="flex-auto">
       <main class="container px2" role="main">
-        {% block main %}
-        {% endblock %}
+        @yield main
       </main>
     </div>
     <footer class="mt2 p2 bg-gray muted h6" role="contentinfo">
       <div class="container center sm-flex flex-center flex-justify">
-        <a class="btn btn-lined" href="https://github.com/erickmerchant/erickmerchant.com-source">{{ icon('github') }} View Source</a>
-        {% block action-call %}
-          <a class="btn btn-lined" href="https://twitter.com/intent/tweet?url={{ host|url_encode }}&amp;text={{ title|url_encode }}" target="_blank">{{ icon('twitter') }} Tweet</a>
-        {% endblock %}
+        <a class="btn btn-lined" href="https://github.com/erickmerchant/erickmerchant.com-source">${ icon('github') } View Source</a>
+        @section action_call
+          <a class="btn btn-lined" href="https://twitter.com/intent/tweet?url=${ encodeURIComponent(content.host) }&amp;text=${ encodeURIComponent(content.title) }" target="_blank">${ icon('twitter') } Tweet</a>
+        @
         <br class="sm-hide">
-        <span class="p2 muted inline-block bold">&copy; {{ author }}, {{ year }}</span>
+        <span class="p2 muted inline-block bold">&copy; ${ content.author }, ${ content.year }</span>
       </div>
     </footer>
   </body>
