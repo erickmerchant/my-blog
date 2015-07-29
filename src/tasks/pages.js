@@ -20,7 +20,11 @@ module.exports = function pages () {
   const engineSort = require('static-engine-sort')
   const frontmatter = engineFrontmatter(cson.parse)
   const remarkable = new Remarkable({
-    highlight: function (code) {
+    highlight: function (code, lang) {
+      if (lang && hljs.getLanguage(lang)) {
+        return hljs.highlight(lang, code).value
+      }
+
       return hljs.highlightAuto(code).value
     },
     langPrefix: 'lang-'
@@ -82,6 +86,6 @@ module.exports = function pages () {
     defaults,
     render(path.join(directory, '404.html'), renderer('unfound'))
   ]
-  
+
   return engine(postPages, archivePage, _404Page)
 }
