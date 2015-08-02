@@ -3,7 +3,7 @@
 module.exports = function pages () {
   const path = require('path')
   const directory = require('./directory.js')
-  const atlatl = require('atlatl')
+  const atlatl = require('atlatl')('./templates/')
   const moment = require('moment')
   const engine = require('static-engine')
   const read = require('static-engine-read')
@@ -38,10 +38,15 @@ module.exports = function pages () {
 
     done(null, pages)
   }
-  const loader = atlatl('./templates/')
   const renderer = function (name) {
     return function (page, done) {
-      loader(name, page, done)
+      atlatl(name, function (err, template) {
+        if (err) {
+          done(err)
+        } else {
+          done(null, template(page))
+        }
+      })
     }
   }
   const params = engineParams('./content/:categories+/:date.:slug.md', {
