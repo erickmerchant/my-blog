@@ -66,9 +66,9 @@ module.exports = function pages () {
     sort,
     pager,
     defaults,
-    render(path.join(directory, 'posts/:slug/index.html'), renderer('post')),
+    render(path.join(directory, 'posts/:slug/index.html'), renderer('post.html')),
     first,
-    render(path.join(directory, 'index.html'), renderer('post'))
+    render(path.join(directory, 'index.html'), renderer('post.html'))
   ]
   const archivePage = [
     read('./content/posts.md'),
@@ -82,14 +82,14 @@ module.exports = function pages () {
       sort
     ]),
     defaults,
-    render(path.join(directory, 'posts/index.html'), renderer('posts'))
+    render(path.join(directory, 'posts/index.html'), renderer('posts.html'))
   ]
   const _404Page = [
     read('./content/404.md'),
     frontmatter,
     markdown,
     defaults,
-    render(path.join(directory, '404.html'), renderer('unfound'))
+    render(path.join(directory, '404.html'), renderer('unfound.html'))
   ]
 
   return engine(postPages, archivePage, _404Page)
