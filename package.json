@@ -2,7 +2,7 @@
   "name": "erickmerchat.com-source",
   "private": "true",
   "dependencies": {
-    "atlatl": "^0.5.0",
+    "atlatl": "^0.6.0",
     "basscss": "^7.0.0",
     "chalk": "^1.0.0",
     "cson-parser": "^1.0.8",
@@ -44,6 +44,6 @@
     "test": "standard"
   },
   "devDependencies": {
-    "standard": "^4.0.0"
+    "standard": "^5.0.0"
   }
 }
