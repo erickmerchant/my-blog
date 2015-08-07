@@ -13,7 +13,7 @@
         <time class="h3 bold" datetime="${ content.date.format("YYYY-MM-DD") }">${ icon('calendar') } ${ content.date.format("MMMM D, YYYY") }</time>
       </p>
     </header>
-    <div>${ content.content }</div>
+    <div>${ safe(content.content) }</div>
   </article>
   <nav class="h4 clearfix p2">
     <div class="col col-6">
