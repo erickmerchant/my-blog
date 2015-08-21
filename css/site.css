@@ -17,6 +17,8 @@ cite:before {
 
 img {
   border-radius: var(--border-radius);
+  border: var(--border-width) solid var(--border-color);
+  padding: calc(var(--space-1) / 2);
   margin: var(--space-1) 0;
 }
 
