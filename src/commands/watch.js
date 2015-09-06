@@ -18,7 +18,7 @@ module.exports = function (app) {
 function watch (options, done) {
   vinylFS.watch('base/**/*', base)
   vinylFS.watch('content/uploads/**/*.jpg', images)
-  vinylFS.watch(['css/**/*.css', 'templates/**/*.html', 'content/**/*.md', 'content/**/*.cson'], function () {
+  vinylFS.watch(['css/**/*.css', 'templates/**/*.html', '!templates/compiled/*.html', 'content/**/*.md', 'content/**/*.cson'], function () {
     sergeant.series(pages, icons, minifyHTML, css)(options, function () {})
   })
 

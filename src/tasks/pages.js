@@ -40,13 +40,11 @@ module.exports = function pages () {
   }
   const renderer = function (name) {
     return function (page, done) {
-      atlatl(name, function (err, template) {
-        if (err) {
-          done(err)
-        } else {
-          done(null, template(page))
-        }
+      atlatl(name)
+      .then(function (template) {
+        done(null, template(page))
       })
+      .catch(done)
     }
   }
   const params = engineParams('./content/:categories+/:date.:slug.md', {
