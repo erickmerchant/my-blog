@@ -82,7 +82,7 @@ module.exports = function css (done) {
 
         output = postcss(nano()).process(output.compiled).css
 
-        $('head').append(`<style type="text/css">${ output }</style>`)
+        $('head').find('script').first().before(`<style type="text/css">${ output }</style>`)
       }))
       .pipe(vinylFS.dest(directory))
       .once('end', done)
