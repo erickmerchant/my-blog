@@ -7,7 +7,6 @@ const cheerio = require('gulp-cheerio')
 const geomicons = require('geomicons-open/paths')
 
 module.exports = function icons (done) {
-
   vinylFS.src(path.join(directory, '**/**.html'))
     .pipe(cheerio(function ($) {
       const defs = new Set()

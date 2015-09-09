@@ -13,7 +13,6 @@ const nano = require('cssnano')
 const pseudosRegex = /\:?(\:[a-z-]+)/g
 
 module.exports = function css (done) {
-
   fs.readFile('css/site.css', 'utf-8', function (err, css) {
     if (err) {
       done(err)
@@ -34,7 +33,7 @@ module.exports = function css (done) {
     )
 
     vinylFS.src(path.join(directory, '**/**.html'))
-      .pipe(cheerio(function ($) {
+      .pipe(cheerio(function ($, file, done) {
         const parsed = postcss.parse(css)
         const unused = []
         var output
@@ -80,9 +79,11 @@ module.exports = function css (done) {
           $(this).attr('class', classes.join(' ') || null)
         })
 
-        output = postcss(nano()).process(output.compiled).css
+        postcss([nano()]).process(output.compiled).then(function (output) {
+          $('head').find('script').first().before(`<style type="text/css">${ output.css }</style>`)
 
-        $('head').find('script').first().before(`<style type="text/css">${ output }</style>`)
+          done()
+        })
       }))
       .pipe(vinylFS.dest(directory))
       .once('end', done)
