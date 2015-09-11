@@ -2,7 +2,7 @@
 'use strict'
 
 const sergeant = require('sergeant')
-const app = sergeant({ description: 'CMS for erickmerchant.com' })
+const app = sergeant().describe('CMS for erickmerchant.com')
 const commands = ['update', 'watch', 'move', 'make']
 
 commands.forEach(function (command) {

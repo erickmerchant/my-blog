@@ -1,15 +1,20 @@
 'use strict'
 
-const sergeant = require('sergeant')
 const base = require('../tasks/base.js')
 const pages = require('../tasks/pages.js')
 const icons = require('../tasks/icons.js')
 const css = require('../tasks/css.js')
-const gitStatus = require('../tasks/git-status.js')
-const minifyHTML = require('../tasks/minify-html.js')
+const optimize = require('../tasks/optimize.js')
 const images = require('../tasks/images.js')
-const allParallel = sergeant.parallel(base, sergeant.series(pages, icons, minifyHTML, css), images)
 
 module.exports = function (app) {
-  app.command('update', { description: 'Build the site once' }, sergeant.series(allParallel, gitStatus))
+  app.command('update')
+    .describe('Build the site once')
+    .action(function () {
+      return Promise.all([
+        base(),
+        images(),
+        Promise.all([pages(), icons(), css()]).then(optimize)
+      ])
+    })
 }
