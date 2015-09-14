@@ -13,7 +13,7 @@ module.exports = function (app) {
     .option('title', 'change the title')
     .option('time', 'prepend the unix timestamp')
     .alias('strip', { time: false })
-    .action(function (file, dir, options, done) {
+    .action(function (args, options, done) {
       var newFile
       var ext
       var parts
@@ -23,16 +23,16 @@ module.exports = function (app) {
       var directory
       var hasTime = false
 
-      if (!file) {
+      if (!args.file) {
         done(new Error('please provide a file to move'))
       } else {
-        destination = dir ? dir : path.dirname(file)
+        destination = args.dir ? args.dir : path.dirname(args.file)
 
-        ext = path.extname(file)
+        ext = path.extname(args.file)
 
-        parts = path.basename(file, ext).split('.')
+        parts = path.basename(args.file, ext).split('.')
 
-        slug = path.basename(file, ext)
+        slug = path.basename(args.file, ext)
 
         time = moment()
 
@@ -64,11 +64,11 @@ module.exports = function (app) {
           if (err) {
             done(err)
           } else {
-            fs.rename(file, newFile, function (err) {
+            fs.rename(args.file, newFile, function (err) {
               if (err) {
                 done(err)
               } else {
-                console.log(chalk.green('%s moved to %s.'), file, newFile)
+                console.log(chalk.green('%s moved to %s.'), args.file, newFile)
 
                 done()
               }

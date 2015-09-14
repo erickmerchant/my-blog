@@ -12,14 +12,14 @@ module.exports = function (app) {
   app.command('make')
     .describe('Make new content')
     .option('time', 'prepend the unix timestamp')
-    .action(function (dir, title, options, done) {
+    .action(function (args, options, done) {
       var file
       var content
 
-      if (!title || !dir) {
+      if (!args.title || !args.dir) {
         done(new Error('please provide a target dir and title'))
       } else {
-        file = mkslug(title).toLowerCase()
+        file = mkslug(args.title).toLowerCase()
 
         if (options.time) {
           file = [moment().format('x'), file].join('.')
@@ -27,11 +27,11 @@ module.exports = function (app) {
 
         file += '.md'
 
-        if (dir) {
-          file = path.join(dir, file)
+        if (args.dir) {
+          file = path.join(args.dir, file)
         }
 
-        content = ['---', cson.stringify({title: title}, null, '  '), '---', ''].join('\n')
+        content = ['---', cson.stringify({title: args.title}, null, '  '), '---', ''].join('\n')
 
         mkdirp(path.dirname(file), function (err) {
           if (err) {
