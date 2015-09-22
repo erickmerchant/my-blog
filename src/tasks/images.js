@@ -14,7 +14,8 @@ module.exports = function images () {
           progressive: true
         }))
         .pipe(vinylFS.dest(path.join(directory, 'uploads')))
-        .once('end', resolve).on('error', reject)
+        .once('end', resolve)
+        .on('error', reject)
     }),
     new Promise(function (resolve, reject) {
       vinylFS.src('content/uploads/*.jpg')
@@ -25,7 +26,8 @@ module.exports = function images () {
           progressive: true
         }))
         .pipe(vinylFS.dest(path.join(directory, 'uploads/thumbnails/')))
-        .once('end', resolve).on('error', reject)
+        .once('end', resolve)
+        .on('error', reject)
     })
   ])
 }
