@@ -128,7 +128,7 @@ module.exports = function minifyHTML () {
         collapseWhitespace: true
       }))
       .pipe(vinylFS.dest(directory))
-      .once('done', resolve)
+      .once('end', resolve)
       .on('error', reject)
   })
 }
