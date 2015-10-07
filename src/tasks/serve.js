@@ -4,7 +4,7 @@ const path = require('path')
 const directory = require('./directory.js')
 const express = require('express')
 const _static = require('express-static')
-const logger = require('express-log')
+const morgan = require('morgan')
 const portfinder = require('portfinder')
 
 module.exports = function serve () {
@@ -15,7 +15,7 @@ module.exports = function serve () {
       } else {
         const app = express()
 
-        app.use(logger())
+        app.use(morgan('dev'))
 
         app.use(_static(directory))
 
