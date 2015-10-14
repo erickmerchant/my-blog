@@ -105,7 +105,4 @@ main {
 :root {
   --container-width: 40em;
   --form-field-padding-y: 1.5em;
-  --font-family: Roboto, Helvetica, sans-serif;
-  --heading-font-family: "Roboto Slab", Roboto, Helvetica, sans-serif;
-  --monospace-font-family: Hack, Inconsolata, Monaco, Consolas, 'Courier New', Courier;
 }
