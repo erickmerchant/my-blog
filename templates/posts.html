@@ -3,18 +3,18 @@
 @import icon icon.html
 
 @section main
-  <h1>${ content.title }</h1>
+  <h1>${content.title}</h1>
   @each content.posts (post, index)
     @if (!index || post.date.format('MMMM YYYY') !== content.posts[index - 1].date.format('MMMM YYYY'))
       <section>
         <h2>
           @call icon ('calendar')
-          ${ post.date.format('MMMM YYYY') }
+          ${post.date.format('MMMM YYYY')}
         </h2>
         <dl>
     @
-    <dt><a href="/posts/${ post.slug }/">${ post.title }</a></dt>
-    <dd>${ post.summary }</dd>
+    <dt><a href="/posts/${post.slug}/">${post.title}</a></dt>
+    <dd>${post.summary}</dd>
     @if (!content.posts[index + 1] || post.date.format('MMMM YYYY') !== content.posts[index + 1].date.format('MMMM YYYY'))
         </dl>
       </section>

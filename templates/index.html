@@ -7,19 +7,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     @section meta
-      <title>${ content.title }</title>
+      <title>${content.title}</title>
     @
     <link href="/favicon.png" rel="shortcut icon" type="image/png">
     <link href="/site.css" rel="stylesheet" type="text/css">
   </head>
   <body class="flex flex-column full-view-height">
     <nav class="bg-black h3 p2 center white" role="navigation">
-      <a class="btn btn-lined" href="/">${ content.banner }</a>
+      <a class="btn btn-lined" href="/">${content.banner}</a>
       <div class="inline-block">
         @each content.menu (link)
-          <a class="btn btn-lined" href="${ link.url }">
+          <a class="btn btn-lined" href="${link.url}">
             @call icon (link.icon)
-            <span class="sm-show-inline">${ link.text }</span>
+            <span class="sm-show-inline">${link.text}</span>
           </a>
         @
       </div>
@@ -36,13 +36,13 @@
           View Source
         </a>
         @section action_call
-          <a class="btn btn-lined" href="https://twitter.com/intent/tweet?url=${ encodeURIComponent(content.host) }&amp;text=${ encodeURIComponent(content.title) }" target="_blank">
+          <a class="btn btn-lined" href="https://twitter.com/intent/tweet?url=${encodeURIComponent(content.host)}&amp;text=${encodeURIComponent(content.title)}" target="_blank">
             @call icon ('twitter')
             Tweet
           </a>
         @
         <br class="sm-hide">
-        <span class="p2 muted inline-block bold">&copy; ${ content.author }, ${ content.year }</span>
+        <span class="p2 muted inline-block bold">&copy; ${content.author}, ${content.year}</span>
       </div>
     </footer>
   </body>

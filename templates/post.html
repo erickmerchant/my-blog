@@ -1,27 +1,27 @@
 @extends index.html
 
 @section meta
-  <title>${ content.title } | Posts</title>
-  <link rel="canonical" href="${ content.host + '/posts/' + content.slug }/">
+  <title>${content.title} | Posts</title>
+  <link rel="canonical" href="${content.host + '/posts/' + content.slug}/">
 @
 
 @section main
   <article>
     <header>
-      <h1>${ content.title }</h1>
+      <h1>${content.title}</h1>
       <p>
-        <time class="h3 bold" datetime="${ content.date.format("YYYY-MM-DD") }">
+        <time class="h3 bold" datetime="${content.date.format("YYYY-MM-DD")}">
           @call icon ('calendar')
-          ${ content.date.format("MMMM D, YYYY") }
+          ${content.date.format("MMMM D, YYYY")}
         </time>
       </p>
     </header>
-    <div>${ safe(content.content) }</div>
+    <div>${safe(content.content)}</div>
   </article>
   <nav class="h4 clearfix p2">
     <div class="col col-6">
       @if (content.previous)
-        <a class="btn btn-solid btn-lined-blue white bg-blue p2" rel="prev" href="/posts/${ content.previous.slug }/">
+        <a class="btn btn-solid btn-lined-blue white bg-blue p2" rel="prev" href="/posts/${content.previous.slug}/">
           @call icon ('chevronLeft')
           Older
         </a>
@@ -34,7 +34,7 @@
     </div>
     <div class="col col-6 right-align">
       @if (content.next)
-        <a class="btn btn-solid btn-lined-blue white bg-blue p2" rel="next" href="/posts/${ content.next.slug }/">
+        <a class="btn btn-solid btn-lined-blue white bg-blue p2" rel="next" href="/posts/${content.next.slug}/">
           Newer
           @call icon ('chevronRight')
         </a>
@@ -49,7 +49,7 @@
 @
 
 @section action_call
-  <a class="btn btn-lined" href="https://twitter.com/intent/tweet?url=${ encodeURIComponent(content.host + '/posts/' + content.slug + '/') }&amp;text=${ encodeURIComponent(content.title) }" target="_blank">
+  <a class="btn btn-lined" href="https://twitter.com/intent/tweet?url=${encodeURIComponent(content.host + '/posts/' + content.slug + '/')}&amp;text=${encodeURIComponent(content.title)}" target="_blank">
     @call icon ('twitter')
     Tweet
   </a>
