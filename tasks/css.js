@@ -1,11 +1,12 @@
 'use strict'
 
 const fs = require('fs')
+const chokidar = require('chokidar')
 const cssnext = require('cssnext')
 const path = require('path')
 const directory = require('./directory.js')
 
-module.exports = function css () {
+function css () {
   return new Promise(function (resolve, reject) {
     fs.readFile('css/site.css', 'utf-8', function (err, css) {
       if (err) {
@@ -36,3 +37,13 @@ module.exports = function css () {
     })
   })
 }
+
+css.watch = function () {
+  chokidar.watch('css/**/*.css').on('all', function () {
+    css()
+  })
+
+  return css()
+}
+
+module.exports = css

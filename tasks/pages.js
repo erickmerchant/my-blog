@@ -1,23 +1,25 @@
 'use strict'
 
-module.exports = function pages () {
-  const path = require('path')
-  const directory = require('./directory.js')
-  const atlatl = require('atlatl')('./templates/')
-  const moment = require('moment')
-  const engine = require('static-engine')
-  const read = require('static-engine-read')
-  const pager = require('static-engine-pager')
-  const first = require('static-engine-first')
-  const collection = require('static-engine-collection')
-  const render = require('static-engine-render')
-  const hljs = require('highlight.js')
-  const cson = require('cson-parser')
-  const Remarkable = require('remarkable')
-  const engineDefaults = require('static-engine-defaults')
-  const engineParams = require('static-engine-params')
-  const engineFrontmatter = require('static-engine-frontmatter')
-  const engineSort = require('static-engine-sort')
+const path = require('path')
+const chokidar = require('chokidar')
+const directory = require('./directory.js')
+const atlatl = require('atlatl')('./templates/')
+const moment = require('moment')
+const engine = require('static-engine')
+const read = require('static-engine-read')
+const pager = require('static-engine-pager')
+const first = require('static-engine-first')
+const collection = require('static-engine-collection')
+const render = require('static-engine-render')
+const hljs = require('highlight.js')
+const cson = require('cson-parser')
+const Remarkable = require('remarkable')
+const engineDefaults = require('static-engine-defaults')
+const engineParams = require('static-engine-params')
+const engineFrontmatter = require('static-engine-frontmatter')
+const engineSort = require('static-engine-sort')
+
+function pages () {
   const frontmatter = engineFrontmatter(cson.parse)
   const remarkable = new Remarkable({
     highlight: function (code, lang) {
@@ -92,3 +94,13 @@ module.exports = function pages () {
 
   return engine(postPages, archivePage, _404Page)
 }
+
+pages.watch = function () {
+  chokidar.watch(['templates/**/*.html', '!templates/compiled/*.html', 'content/**/*.md', 'content/**/*.cson']).on('all', function () {
+    pages()
+  })
+
+  return pages()
+}
+
+module.exports = pages
