@@ -24,17 +24,17 @@ module.exports = function minifyHTML () {
       return Promise.all([
         fsReadFile(path.join(directory, 'site.css'), fsReadOptions)
         .then(function (css) {
-          return Promise.resolve(postcss.parse(css))
+          return postcss.parse(css)
         }),
         fsReadFile(path.join(directory, 'icons.svg'), fsReadOptions)
         .then(function (icons) {
-          return Promise.resolve(cheerio.load(icons))
+          return cheerio.load(icons)
         })
       ])
       .then(smear(function (css, icons) {
         return fsReadFile(file)
         .then(function (html) {
-          return Promise.resolve(cheerio.load(html))
+          return cheerio.load(html)
         })
         .then(function ($) {
           const unused = []
@@ -59,7 +59,7 @@ module.exports = function minifyHTML () {
           return postcss([nano()]).process(output.compiled).then(function (output) {
             $('head').find('[rel=stylesheet]').replaceWith(`<style type="text/css">${ output.css }</style>`)
 
-            return Promise.resolve($)
+            return $
           })
 
           function trav (nodes) {
@@ -133,7 +133,7 @@ module.exports = function minifyHTML () {
             $('body').append(`<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0"><defs>${ paths.join('') }</defs></svg>`)
           }
 
-          return Promise.resolve($)
+          return $
         })
         .then(function ($) {
           return fsWriteFile(file, htmlMinify($.html(), {

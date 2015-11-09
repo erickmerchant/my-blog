@@ -1,40 +1,32 @@
 'use strict'
 
+const thenify = require('thenify')
 const fs = require('fs')
+const fsReadFile = thenify(fs.readFile)
+const fsWriteFile = thenify(fs.writeFile)
 const chokidar = require('chokidar')
 const cssnext = require('cssnext')
 const path = require('path')
 const directory = require('./directory.js')
 
 function css () {
-  return new Promise(function (resolve, reject) {
-    fs.readFile('css/site.css', 'utf-8', function (err, css) {
-      if (err) {
-        reject(err)
+  return fsReadFile('css/site.css', 'utf-8')
+  .then(function (css) {
+    css = cssnext(
+      css, {
+        from: 'css/site.css',
+        features: {
+          customProperties: {
+            strict: false
+          },
+          rem: false,
+          pseudoElements: false,
+          colorRgba: false
+        }
       }
+    )
 
-      css = cssnext(
-        css, {
-          from: 'css/site.css',
-          features: {
-            customProperties: {
-              strict: false
-            },
-            rem: false,
-            pseudoElements: false,
-            colorRgba: false
-          }
-        }
-      )
-
-      fs.writeFile(path.join(directory, 'site.css'), css, function (err) {
-        if (err) {
-          reject(err)
-        } else {
-          resolve()
-        }
-      })
-    })
+    return fsWriteFile(path.join(directory, 'site.css'), css)
   })
 }
 

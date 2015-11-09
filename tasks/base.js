@@ -1,19 +1,13 @@
 'use strict'
 
-const fs = require('fs-extra')
+const thenify = require('thenify')
+const fsExtra = require('fs-extra')
+const fsCopy = thenify(fsExtra.copy)
 const chokidar = require('chokidar')
 const directory = require('./directory.js')
 
 function base () {
-  return new Promise(function (resolve, reject) {
-    fs.copy('base/', directory, {clobber: true}, function (err) {
-      if (err) {
-        reject(err)
-      } else {
-        resolve()
-      }
-    })
-  })
+  return fsCopy('base/', directory, {clobber: true})
 }
 
 base.watch = function () {

@@ -5,8 +5,11 @@ const app = sergeant().describe('CMS for erickmerchant.com')
 const chalk = require('chalk')
 const moment = require('moment')
 const mkslug = require('slug')
+const thenify = require('thenify')
 const fs = require('fs')
-const mkdirp = require('mkdirp')
+const fsWriteFile = thenify(fs.writeFile)
+const fsRename = thenify(fs.rename)
+const mkdirp = thenify(require('mkdirp'))
 const path = require('path')
 const cson = require('cson-parser')
 const base = require('./tasks/base.js')
@@ -20,43 +23,37 @@ const serve = require('./tasks/serve.js')
 app.command('make')
 .describe('Make new content')
 .option('time', 'prepend the unix timestamp')
-.action(function (args, options, done) {
+.parameter('dir', 'where is it')
+.parameter('title', 'what is it called')
+.action(function (params, options, done) {
   var file
   var content
 
-  if (!args.title || !args.dir) {
-    done(new Error('please provide a target dir and title'))
-  } else {
-    file = mkslug(args.title).toLowerCase()
-
-    if (options.time) {
-      file = [moment().format('x'), file].join('.')
-    }
-
-    file += '.md'
-
-    if (args.dir) {
-      file = path.join(args.dir, file)
-    }
-
-    content = ['---', cson.stringify({title: args.title}, null, '  '), '---', ''].join('\n')
-
-    mkdirp(path.dirname(file), function (err) {
-      if (err) {
-        done(err)
-      } else {
-        fs.writeFile(file, content, function (err) {
-          if (err) {
-            done(err)
-          } else {
-            console.log(chalk.green('%s saved.'), file)
-
-            done()
-          }
-        })
-      }
-    })
+  if (!params.title || !params.dir) {
+    throw new Error('please provide a target dir and title')
   }
+
+  file = mkslug(params.title).toLowerCase()
+
+  if (options.time) {
+    file = [moment().format('x'), file].join('.')
+  }
+
+  file += '.md'
+
+  if (params.dir) {
+    file = path.join(params.dir, file)
+  }
+
+  content = ['---', cson.stringify({title: params.title}, null, '  '), '---', ''].join('\n')
+
+  return mkdirp(path.dirname(file))
+  .then(function () {
+    return fsWriteFile(file, content)
+    .then(function () {
+      console.log(chalk.green('%s saved.'), file)
+    })
+  })
 })
 
 app.command('move')
@@ -64,7 +61,9 @@ app.command('move')
 .option('title', 'change the title')
 .option('time', 'prepend the unix timestamp')
 .alias('strip', { time: false })
-.action(function (args, options, done) {
+.parameter('file', 'the file to move')
+.parameter('dir', 'where to move it to')
+.action(function (params, options, done) {
   var newFile
   var ext
   var parts
@@ -74,59 +73,50 @@ app.command('move')
   var directory
   var hasTime = false
 
-  if (!args.file) {
-    done(new Error('please provide a file to move'))
-  } else {
-    destination = args.dir ? args.dir : path.dirname(args.file)
-
-    ext = path.extname(args.file)
-
-    parts = path.basename(args.file, ext).split('.')
-
-    slug = path.basename(args.file, ext)
-
-    time = moment()
-
-    if (parts.length >= 2) {
-      if (moment(parts[0], ['x']).isValid()) {
-        hasTime = true
-
-        time = moment(parts[0], ['x'])
-
-        slug = parts.slice(1).join('.')
-      }
-    }
-
-    if (options.title) {
-      slug = mkslug(options.title).toLowerCase()
-    }
-
-    newFile = slug + ext
-
-    if (hasTime && options.time !== false || options.time) {
-      newFile = [time.format('x'), newFile].join('.')
-    }
-
-    newFile = path.join(destination, newFile)
-
-    directory = path.dirname(newFile)
-
-    mkdirp(directory, function (err) {
-      if (err) {
-        done(err)
-      } else {
-        fs.rename(args.file, newFile, function (err) {
-          if (err) {
-            done(err)
-          } else {
-            console.log(chalk.green('%s moved to %s.'), args.file, newFile)
-
-            done()
-          }
-        })
-      }
-    })
+  if (!params.file) {
+    throw new Error('please provide a file to move')
   }
+
+  destination = params.dir ? params.dir : path.dirname(params.file)
+
+  ext = path.extname(params.file)
+
+  parts = path.basename(params.file, ext).split('.')
+
+  slug = path.basename(params.file, ext)
+
+  time = moment()
+
+  if (parts.length >= 2) {
+    if (moment(parts[0], ['x']).isValid()) {
+      hasTime = true
+
+      time = moment(parts[0], ['x'])
+
+      slug = parts.slice(1).join('.')
+    }
+  }
+
+  if (options.title) {
+    slug = mkslug(options.title).toLowerCase()
+  }
+
+  newFile = slug + ext
+
+  if (hasTime && options.time !== false || options.time) {
+    newFile = [time.format('x'), newFile].join('.')
+  }
+
+  newFile = path.join(destination, newFile)
+
+  directory = path.dirname(newFile)
+
+  return mkdirp(directory)
+  .then(function () {
+    return fsRename(params.file, newFile, function () {
+      console.log(chalk.green('%s moved to %s.'), params.file, newFile)
+    })
+  })
 })
 
 app.command('update')

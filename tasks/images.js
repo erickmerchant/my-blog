@@ -4,23 +4,20 @@ const path = require('path')
 const chokidar = require('chokidar')
 const directory = require('./directory.js')
 const sharp = require('sharp')
-const glob = require('glob')
-const mkdirp = require('mkdirp')
+const thenify = require('thenify')
+const mkdirp = thenify(require('mkdirp'))
+const glob = thenify(require('glob'))
 
 function images () {
-  return (new Promise(function (resolve, reject) {
-    mkdirp(path.join(directory, 'uploads/thumbnails/'), function (err) {
-      if (err) throw err
-
-      glob('content/uploads/*.jpg', function (err, files) {
-        if (err) throw err
-
-        resolve(Promise.all(files.map(function (file) {
-          return sharp(file).resize(622).progressive().toFile(path.join(directory, 'uploads/thumbnails/', path.basename(file)))
-        })))
-      })
+  return mkdirp(path.join(directory, 'uploads/thumbnails/'))
+  .then(function () {
+    return glob('content/uploads/*.jpg')
+    .then(function (files) {
+      return Promise.all(files.map(function (file) {
+        return sharp(file).resize(622).progressive().toFile(path.join(directory, 'uploads/thumbnails/', path.basename(file)))
+      }))
     })
-  }))
+  })
 }
 
 images.watch = function () {
