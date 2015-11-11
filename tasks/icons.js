@@ -12,7 +12,7 @@ function icons () {
 }
 
 icons.watch = function () {
-  chokidar.watch('base/**/*').on('all', function () {
+  chokidar.watch('node_modules/geomicons-open/dist/geomicons.svg').on('all', function () {
     icons()
   })
 
