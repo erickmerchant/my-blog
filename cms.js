@@ -132,12 +132,10 @@ app.command('update')
 app.command('watch')
 .describe('Build the site then watch for changes. Run a server')
 .action(function () {
-  return Promise.all([
+  Promise.all([
     base.watch(),
     images.watch(),
-    css.watch(),
-    pages.watch(),
-    icons.watch()
+    Promise.all([pages.watch(), icons.watch(), css.watch()])
   ])
   .then(serve)
 })

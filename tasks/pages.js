@@ -96,11 +96,13 @@ function pages () {
 }
 
 pages.watch = function () {
-  chokidar.watch(['templates/**/*.html', '!templates/compiled/*.html', 'content/**/*.md', 'content/**/*.cson']).on('all', function () {
-    pages()
-  })
+  return pages().then(function () {
+    chokidar.watch(['templates/**/*.html', '!templates/compiled/*.html', 'content/**/*.md', 'content/**/*.cson']).on('all', function () {
+      pages().catch(console.error)
+    })
 
-  return pages()
+    return true
+  })
 }
 
 module.exports = pages

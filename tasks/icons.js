@@ -12,11 +12,13 @@ function icons () {
 }
 
 icons.watch = function () {
-  chokidar.watch('node_modules/geomicons-open/dist/geomicons.svg').on('all', function () {
-    icons()
-  })
+  return icons().then(function () {
+    chokidar.watch('node_modules/geomicons-open/dist/geomicons.svg').on('all', function () {
+      icons().catch(console.error)
+    })
 
-  return icons()
+    return true
+  })
 }
 
 module.exports = icons

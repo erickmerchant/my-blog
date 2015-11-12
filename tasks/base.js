@@ -1,21 +1,29 @@
 'use strict'
 
+const path = require('path')
 const thenify = require('thenify')
 const fsExtra = require('fs-extra')
 const fsCopy = thenify(fsExtra.copy)
+const glob = thenify(require('glob'))
 const chokidar = require('chokidar')
 const directory = require('./directory.js')
 
 function base () {
-  return fsCopy('base/', directory, {clobber: true})
+  return glob('base/*').then(function (files) {
+    return Promise.all(files.map(function (file) {
+      return fsCopy(file, path.join(directory, path.basename(file)), {clobber: true})
+    }))
+  })
 }
 
 base.watch = function () {
-  chokidar.watch('base/**/*').on('all', function () {
-    base()
-  })
+  return base().then(function () {
+    chokidar.watch('base/*').on('all', function () {
+      base().catch(console.error)
+    })
 
-  return base()
+    return true
+  })
 }
 
 module.exports = base

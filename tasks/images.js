@@ -21,11 +21,13 @@ function images () {
 }
 
 images.watch = function () {
-  chokidar.watch('content/uploads/**/*.jpg').on('all', function () {
-    images()
-  })
+  return images().then(function () {
+    chokidar.watch('content/uploads/**/*.jpg').on('all', function () {
+      images().catch(console.error)
+    })
 
-  return images()
+    return true
+  })
 }
 
 module.exports = images
