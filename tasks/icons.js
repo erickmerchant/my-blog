@@ -13,7 +13,7 @@ function icons () {
 
 icons.watch = function () {
   return icons().then(function () {
-    chokidar.watch('node_modules/geomicons-open/dist/geomicons.svg').on('all', function () {
+    chokidar.watch('node_modules/geomicons-open/dist/geomicons.svg', {ignoreInitial: true}).on('all', function () {
       icons().catch(console.error)
     })
 

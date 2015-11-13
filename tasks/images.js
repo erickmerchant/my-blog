@@ -22,7 +22,7 @@ function images () {
 
 images.watch = function () {
   return images().then(function () {
-    chokidar.watch('content/uploads/**/*.jpg').on('all', function () {
+    chokidar.watch('content/uploads/**/*.jpg', {ignoreInitial: true}).on('all', function () {
       images().catch(console.error)
     })
 

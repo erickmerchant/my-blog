@@ -18,7 +18,7 @@ function base () {
 
 base.watch = function () {
   return base().then(function () {
-    chokidar.watch('base/*').on('all', function () {
+    chokidar.watch('base/*', {ignoreInitial: true}).on('all', function () {
       base().catch(console.error)
     })
 

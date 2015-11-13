@@ -32,7 +32,7 @@ function css () {
 
 css.watch = function () {
   return css().then(function () {
-    chokidar.watch('css/**/*.css').on('all', function () {
+    chokidar.watch('css/**/*.css', {ignoreInitial: true}).on('all', function () {
       css().catch(console.error)
     })
 
