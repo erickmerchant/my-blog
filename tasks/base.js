@@ -7,13 +7,12 @@ const fsCopy = thenify(fsExtra.copy)
 const glob = thenify(require('glob'))
 const chokidar = require('chokidar')
 const directory = require('./directory.js')
+const map = require('promise-map')
 
 function base () {
-  return glob('base/*').then(function (files) {
-    return Promise.all(files.map(function (file) {
-      return fsCopy(file, path.join(directory, path.basename(file)), {clobber: true})
-    }))
-  })
+  return glob('base/*').then(map(function (file) {
+    return fsCopy(file, path.join(directory, path.basename(file)), {clobber: true})
+  }))
 }
 
 base.watch = function () {
