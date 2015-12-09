@@ -10,9 +10,9 @@
     <header>
       <h1>${content.title}</h1>
       <p>
-        <time class="h3 bold" datetime="${content.date.format("YYYY-MM-DD")}">
+        <time class="h3 bold" datetime="${content.date.tz(content.time_zone).format("YYYY-MM-DD")}">
           @call icon ('calendar')
-          ${content.date.format("MMMM D, YYYY")}
+          ${content.date.tz(content.time_zone).format("MMMM D, YYYY")}
         </time>
       </p>
     </header>

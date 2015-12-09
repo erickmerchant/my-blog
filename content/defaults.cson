@@ -3,6 +3,7 @@ author: 'Erick Merchant'
 year: '2015'
 banner: 'Erick Merchant'
 sub_banner: 'On Development'
+time_zone: 'America/Los_Angeles'
 menu: [
   {
     text: 'Posts'

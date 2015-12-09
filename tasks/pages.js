@@ -4,7 +4,7 @@ const path = require('path')
 const chokidar = require('chokidar')
 const directory = require('./directory.js')
 const atlatl = require('atlatl')('./templates/')
-const moment = require('moment')
+const moment = require('moment-timezone')
 const engine = require('static-engine')
 const read = require('static-engine-read')
 const pager = require('static-engine-pager')
@@ -79,7 +79,8 @@ function pages () {
       params,
       frontmatter,
       markdown,
-      sort
+      sort,
+      defaults
     ]),
     defaults,
     render(path.join(directory, 'posts/index.html'), renderer('posts.html'))

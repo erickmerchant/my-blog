@@ -3,17 +3,17 @@
 @section main
   <h1>${content.title}</h1>
   @each content.posts (post, index)
-    @if (!index || post.date.format('MMMM YYYY') !== content.posts[index - 1].date.format('MMMM YYYY'))
+    @if (!index || post.date.tz(post.time_zone).format('MMMM YYYY') !== content.posts[index - 1].date.tz(content.posts[index - 1].time_zone).format('MMMM YYYY'))
       <section>
         <h2>
           @call icon ('calendar')
-          ${post.date.format('MMMM YYYY')}
+          ${post.date.tz(post.time_zone).format('MMMM YYYY')}
         </h2>
         <dl>
     @
     <dt><a href="/posts/${post.slug}/">${post.title}</a></dt>
     <dd>${post.summary}</dd>
-    @if (!content.posts[index + 1] || post.date.format('MMMM YYYY') !== content.posts[index + 1].date.format('MMMM YYYY'))
+    @if (!content.posts[index + 1] || post.date.tz(post.time_zone).format('MMMM YYYY') !== content.posts[index + 1].date.tz(content.posts[index + 1].time_zone).format('MMMM YYYY'))
         </dl>
       </section>
     @
