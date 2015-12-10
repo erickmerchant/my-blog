@@ -3,7 +3,7 @@
 const path = require('path')
 const chokidar = require('chokidar')
 const directory = require('./directory.js')
-const atlatl = require('atlatl')('./templates/')
+const atlatl = require('atlatl')
 const moment = require('moment-timezone')
 const engine = require('static-engine')
 const read = require('static-engine-read')
@@ -40,9 +40,10 @@ function pages () {
 
     done(null, pages)
   }
+  const templates = atlatl('./templates/')
   const renderer = function (name) {
     return function (page, done) {
-      atlatl(name)
+      templates(name)
       .then(function (template) {
         done(null, template(page))
       })
