@@ -25,27 +25,27 @@ app.command('make')
 .option('time', 'prepend the unix timestamp')
 .parameter('dir', 'where is it')
 .parameter('title', 'what is it called')
-.action(function (params, options, done) {
+.action(function (args) {
   var file
   var content
 
-  if (!params.title || !params.dir) {
+  if (!args.get('title') || !args.get('dir')) {
     throw new Error('please provide a target dir and title')
   }
 
-  file = mkslug(params.title).toLowerCase()
+  file = mkslug(args.get('title')).toLowerCase()
 
-  if (options.time) {
+  if (args.get('time')) {
     file = [moment().format('x'), file].join('.')
   }
 
   file += '.md'
 
-  if (params.dir) {
-    file = path.join(params.dir, file)
+  if (args.get('dir')) {
+    file = path.join(args.get('dir'), file)
   }
 
-  content = ['---', cson.stringify({title: params.title}, null, '  '), '---', ''].join('\n')
+  content = ['---', cson.stringify({title: args.get('title')}, null, '  '), '---', ''].join('\n')
 
   return mkdirp(path.dirname(file))
   .then(function () {
@@ -60,10 +60,9 @@ app.command('move')
 .describe('Move content')
 .option('title', 'change the title')
 .option('time', 'prepend the unix timestamp')
-.alias('strip', { time: false })
 .parameter('file', 'the file to move')
 .parameter('dir', 'where to move it to')
-.action(function (params, options, done) {
+.action(function (args) {
   var newFile
   var ext
   var parts
@@ -73,17 +72,17 @@ app.command('move')
   var directory
   var hasTime = false
 
-  if (!params.file) {
+  if (!args.get('file')) {
     throw new Error('please provide a file to move')
   }
 
-  destination = params.dir ? params.dir : path.dirname(params.file)
+  destination = args.get('dir') ? args.get('dir') : path.dirname(args.get('file'))
 
-  ext = path.extname(params.file)
+  ext = path.extname(args.get('file'))
 
-  parts = path.basename(params.file, ext).split('.')
+  parts = path.basename(args.get('file'), ext).split('.')
 
-  slug = path.basename(params.file, ext)
+  slug = path.basename(args.get('file'), ext)
 
   time = moment()
 
@@ -97,13 +96,13 @@ app.command('move')
     }
   }
 
-  if (options.title) {
-    slug = mkslug(options.title).toLowerCase()
+  if (args.get('title')) {
+    slug = mkslug(args.get('title')).toLowerCase()
   }
 
   newFile = slug + ext
 
-  if (hasTime && options.time !== false || options.time) {
+  if (hasTime && args.get('time') !== false || args.get('time')) {
     newFile = [time.format('x'), newFile].join('.')
   }
 
@@ -113,8 +112,8 @@ app.command('move')
 
   return mkdirp(directory)
   .then(function () {
-    return fsRename(params.file, newFile, function () {
-      console.log(chalk.green('%s moved to %s.'), params.file, newFile)
+    return fsRename(args.get('file'), newFile, function () {
+      console.log(chalk.green('%s moved to %s.'), args.get('file'), newFile)
     })
   })
 })
@@ -142,8 +141,11 @@ app.command('watch')
 
 app.command('preview')
 .describe('Preview the built site')
+.option('test')
 .action(function () {
   serve()
 })
 
-app.run()
+app.run().catch(function (err) {
+  console.error(chalk.red(err.message))
+})
