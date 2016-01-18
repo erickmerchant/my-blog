@@ -26,7 +26,7 @@
     "postcss": "^5.0.1",
     "promise-map": "^1.1.0",
     "remarkable": "^1.6.0",
-    "sergeant": "^9.0.0",
+    "sergeant": "^10.0.0",
     "sharp": "^0.12.0",
     "slug": "^0.9.1",
     "smallector": "^1.0.1",
