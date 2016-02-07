@@ -57,7 +57,7 @@ module.exports = function minifyHTML () {
         })
 
         return postcss([nano()]).process(output.compiled).then(function (output) {
-          $('head').find('[rel=stylesheet]').replaceWith(`<style type="text/css">${ output.css }</style>`)
+          $('head').find('[rel=stylesheet]').replaceWith(`<style type="text/css">${output.css}</style>`)
 
           return $
         })
@@ -97,7 +97,7 @@ module.exports = function minifyHTML () {
             const id = href.substring(href.indexOf('#') + 1)
             const classes = $(this).parent().attr('class')
 
-            if ($(`use[xlink\\:href="${ href }"], use[xlink\\:href="#${ id }"]`).length > 1) {
+            if ($(`use[xlink\\:href="${href}"], use[xlink\\:href="#${id}"]`).length > 1) {
               $(this).attr('xlink:href', '#' + id)
               defs.add(id)
             } else {
@@ -122,7 +122,7 @@ module.exports = function minifyHTML () {
             const children = el.children()
 
             if (children.length > 1) {
-              paths.push(`<g id="${ id }">${ el.html() }</g>`)
+              paths.push(`<g id="${id}">${el.html()}</g>`)
             } else {
               children.attr('id', id)
 
@@ -130,7 +130,7 @@ module.exports = function minifyHTML () {
             }
           }
 
-          $('body').append(`<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0"><defs>${ paths.join('') }</defs></svg>`)
+          $('body').append(`<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0"><defs>${paths.join('')}</defs></svg>`)
         }
 
         return $
