@@ -8,7 +8,7 @@
 @section main
   <article>
     <header>
-      <h1>${content.title}</h1>
+      <h1 class="h1 bold">${content.title}</h1>
       <p>
         <time class="h3 bold" datetime="${content.date.tz(content.time_zone).format("YYYY-MM-DD")}">
           @call icon ('calendar')
@@ -21,12 +21,12 @@
   <nav class="h4 clearfix p2">
     <div class="col col-6">
       @if (content.previous)
-        <a class="btn btn-solid btn-lined-blue white bg-blue p2" rel="prev" href="/posts/${content.previous.slug}/">
+        <a class="rounded btn bg-blue white p2" rel="prev" href="/posts/${content.previous.slug}/">
           @call icon ('chevronLeft')
           Older
         </a>
       @else
-        <span class="btn btn-solid btn-lined-silver white bg-silver is-disabled p2">
+        <span class="rounded btn bg-silver white is-disabled p2">
           @call icon ('chevronLeft')
           Older
         </span>
@@ -34,12 +34,12 @@
     </div>
     <div class="col col-6 right-align">
       @if (content.next)
-        <a class="btn btn-solid btn-lined-blue white bg-blue p2" rel="next" href="/posts/${content.next.slug}/">
+        <a class="rounded btn bg-blue white p2" rel="next" href="/posts/${content.next.slug}/">
           Newer
           @call icon ('chevronRight')
         </a>
       @else
-        <span class="btn btn-solid btn-lined-silver white bg-silver is-disabled p2">
+        <span class="rounded btn bg-silver white is-disabled p2">
           Newer
           @call icon ('chevronRight')
         </span>
@@ -49,7 +49,7 @@
 @
 
 @section action_call
-  <a class="btn btn-lined" href="https://twitter.com/intent/tweet?url=${encodeURIComponent(content.host + '/posts/' + content.slug + '/')}&amp;text=${encodeURIComponent(content.title)}" target="_blank">
+  <a class="btn black p2" href="https://twitter.com/intent/tweet?url=${encodeURIComponent(content.host + '/posts/' + content.slug + '/')}&amp;text=${encodeURIComponent(content.title)}" target="_blank">
     @call icon ('twitter')
     Tweet
   </a>

@@ -2,12 +2,12 @@
 
 @section main
   <form role="search" action="http://google.com/search" class="clearfix center">
-    <h1>${ content.title }</h1>
+    <h1 class="h1 bold">${ content.title }</h1>
     <p>${ safe(content.content) }</p>
     <input type="hidden" name="q" value="site:${ content.host }">
     <input class="field col-12 sm-col-6" type="text" placeholder="Search..." name="q">
     <br class="sm-hide">
-    <button class="m1 btn btn-solid btn-lined-blue white bg-blue p2" type="submit">
+    <button class="rounded btn bg-blue white p2 m1" type="submit">
       @call icon ('search')
       Submit
     </button>

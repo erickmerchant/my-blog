@@ -3,10 +3,12 @@
   "private": "true",
   "dependencies": {
     "atlatl": "^1.0.1",
-    "basscss": "^7.0.0",
+    "basscss": "^8.0.0",
+    "basscss-basic": "^1.0.0",
     "chalk": "^1.0.0",
     "cheerio": "^0.20.0",
     "chokidar": "^1.2.0",
+    "colors.css": "^2.3.0",
     "cson-parser": "^1.0.8",
     "css-byebye": "^1.0.0",
     "cssnano": "^3.0.0",

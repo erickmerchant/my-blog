@@ -14,29 +14,29 @@
   </head>
   <body class="flex flex-column full-view-height">
     <nav class="bg-black h3 p2 center white" role="navigation">
-      <a class="btn btn-lined" href="/">${content.banner}</a>
+      <a class="btn white p1" href="/">${content.banner}</a>
       <div class="inline-block">
         @each content.menu (link)
-          <a class="btn btn-lined" href="${link.url}">
+          <a class="btn white p1" href="${link.url}">
             @call icon (link.icon)
-            <span class="sm-show-inline">${link.text}</span>
+            <span class="xs-hide">${link.text}</span>
           </a>
         @
       </div>
     </nav>
     <div class="flex-auto">
-      <main class="container px2" role="main">
+      <main class="max-width-3 mx-auto px2" role="main">
         @yield main
       </main>
     </div>
     <footer class="mt2 p2 bg-gray muted h6" role="contentinfo">
-      <div class="container center sm-flex flex-center flex-justify">
-        <a class="btn btn-lined" href="https://github.com/erickmerchant/erickmerchant.com-source">
+      <div class="max-width-3 mx-auto center sm-flex items-center justify-center">
+        <a class="btn black p2" href="https://github.com/erickmerchant/erickmerchant.com-source">
           @call icon ('github')
           View Source
         </a>
         @section action_call
-          <a class="btn btn-lined" href="https://twitter.com/intent/tweet?url=${encodeURIComponent(content.host)}&amp;text=${encodeURIComponent(content.title)}" target="_blank">
+          <a class="btn black p2" href="https://twitter.com/intent/tweet?url=${encodeURIComponent(content.host)}&amp;text=${encodeURIComponent(content.title)}" target="_blank">
             @call icon ('twitter')
             Tweet
           </a>

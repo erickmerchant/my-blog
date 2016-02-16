@@ -1,11 +1,11 @@
 @extends index.html
 
 @section main
-  <h1>${content.title}</h1>
+  <h1 class="h1 bold">${content.title}</h1>
   @each content.posts (post, index)
     @if (!index || post.date.tz(post.time_zone).format('MMMM YYYY') !== content.posts[index - 1].date.tz(content.posts[index - 1].time_zone).format('MMMM YYYY'))
       <section>
-        <h2>
+        <h2 class="h2 bold">
           @call icon ('calendar')
           ${post.date.tz(post.time_zone).format('MMMM YYYY')}
         </h2>
