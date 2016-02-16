@@ -40,10 +40,10 @@ function pages () {
 
     done(null, pages)
   }
-  const templates = atlatl('./templates/')
+  const templates = atlatl()
   const renderer = function (name) {
     return function (page, done) {
-      templates(name)
+      templates('./templates/' + name)
       .then(function (template) {
         done(null, template(page))
       })

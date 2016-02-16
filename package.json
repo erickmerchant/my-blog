@@ -2,7 +2,7 @@
   "name": "erickmerchat.com-source",
   "private": "true",
   "dependencies": {
-    "atlatl": "^1.0.1",
+    "atlatl": "^2.0.0",
     "basscss": "^8.0.0",
     "basscss-basic": "^1.0.0",
     "chalk": "^1.0.0",
