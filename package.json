@@ -8,7 +8,7 @@
     "chalk": "^1.0.0",
     "cheerio": "^0.20.0",
     "chokidar": "^1.2.0",
-    "colors.css": "^2.3.0",
+    "colors.css": "^3.0.0",
     "cson-parser": "^1.0.8",
     "css-byebye": "^1.0.0",
     "cssnano": "^3.0.0",

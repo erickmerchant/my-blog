@@ -1,6 +1,6 @@
 @import 'basscss-basic';
 @import 'basscss';
-@import "colors.css/myth/colors.css";
+@import "colors.css/src/colors.css";
 @import "highlight.js/styles/monokai-sublime.css";
 
 a {
