@@ -99,7 +99,7 @@ function pages () {
 
 pages.watch = function () {
   return pages().then(function () {
-    chokidar.watch(['templates/**/*.html', '!templates/compiled/*.html', 'content/**/*.md', 'content/**/*.cson'], {ignoreInitial: true}).on('all', function () {
+    chokidar.watch(['templates/**/*.html', 'content/**/*.md', 'content/**/*.cson'], {ignoreInitial: true}).on('all', function () {
       pages().catch(console.error)
     })
 

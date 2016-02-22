@@ -29,20 +29,20 @@
         @yield main
       </main>
     </div>
-    <footer class="mt2 p2 bg-gray muted h6" role="contentinfo">
+    <footer class="mt2 p2 bg-silver muted h6" role="contentinfo">
       <div class="max-width-3 mx-auto center sm-flex items-center justify-center">
-        <a class="btn black p2" href="https://github.com/erickmerchant/erickmerchant.com-source">
+        <a class="black btn p2" href="https://github.com/erickmerchant/erickmerchant.com-source">
           @call icon ('github')
           View Source
         </a>
         @section action_call
-          <a class="btn black p2" href="https://twitter.com/intent/tweet?url=${encodeURIComponent(content.host)}&amp;text=${encodeURIComponent(content.title)}" target="_blank">
+          <a class="black btn p2" href="https://twitter.com/intent/tweet?url=${encodeURIComponent(content.host)}&amp;text=${encodeURIComponent(content.title)}" target="_blank">
             @call icon ('twitter')
             Tweet
           </a>
         @
         <br class="sm-hide">
-        <span class="p2 muted inline-block bold">&copy; ${content.author}, ${content.year}</span>
+        <span class="black p2 muted inline-block bold">&copy; ${content.author}, ${content.year}</span>
       </div>
     </footer>
   </body>

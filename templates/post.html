@@ -25,7 +25,8 @@
           @call icon ('chevronLeft')
           Older
         </a>
-      @else
+      @
+      @if (!content.previous)
         <span class="rounded btn bg-silver white is-disabled p2">
           @call icon ('chevronLeft')
           Older
@@ -38,7 +39,8 @@
           Newer
           @call icon ('chevronRight')
         </a>
-      @else
+      @
+      @if (!content.next)
         <span class="rounded btn bg-silver white is-disabled p2">
           Newer
           @call icon ('chevronRight')
@@ -49,7 +51,7 @@
 @
 
 @section action_call
-  <a class="btn black p2" href="https://twitter.com/intent/tweet?url=${encodeURIComponent(content.host + '/posts/' + content.slug + '/')}&amp;text=${encodeURIComponent(content.title)}" target="_blank">
+  <a class="black btn p2" href="https://twitter.com/intent/tweet?url=${encodeURIComponent(content.host + '/posts/' + content.slug + '/')}&amp;text=${encodeURIComponent(content.title)}" target="_blank">
     @call icon ('twitter')
     Tweet
   </a>
