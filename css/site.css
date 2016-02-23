@@ -57,7 +57,7 @@ pre {
 }
 
 code {
-  background: var(--silver);
+  background: #EEE;
 }
 
 pre, pre code {
@@ -76,6 +76,7 @@ main {
   width: 1em; /* 1 */
   height: 1em;
   vertical-align: -0.1em; /* 2 */
+  fill: currentcolor;
 }
 
 .btn {
