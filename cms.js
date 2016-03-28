@@ -1,6 +1,7 @@
 'use strict'
 
 const sergeant = require('sergeant')
+const assert = require('assert')
 const app = sergeant().describe('CMS for erickmerchant.com')
 const chalk = require('chalk')
 const moment = require('moment')
@@ -120,30 +121,47 @@ app.command('move')
 
 app.command('update')
 .describe('Build the site once')
-.action(function () {
+.parameter('destination', 'where to build everything')
+.action(function (args) {
+  assert.ok(args.get('destination'))
+  assert.equal(typeof args.get('destination'), 'string')
+
+  var dest = args.get('destination')
+
   return Promise.all([
-    base(),
-    images(),
-    Promise.all([pages(), icons(), css()]).then(optimize)
+    base(dest),
+    images(dest),
+    Promise.all([pages(dest), icons(dest), css(dest)]).then(optimize(dest))
   ])
 })
 
 app.command('watch')
 .describe('Build the site then watch for changes. Run a server')
-.action(function () {
+.parameter('destination', 'where to build everything')
+.action(function (args) {
+  assert.ok(args.get('destination'))
+  assert.equal(typeof args.get('destination'), 'string')
+
+  var dest = args.get('destination')
+
   Promise.all([
-    base.watch(),
-    images.watch(),
-    Promise.all([pages.watch(), icons.watch(), css.watch()])
+    base.watch(dest),
+    images.watch(dest),
+    Promise.all([pages.watch(dest), icons.watch(dest), css.watch(dest)])
   ])
-  .then(serve)
+  .then(serve(dest))
 })
 
 app.command('preview')
 .describe('Preview the built site')
-.option('test')
-.action(function () {
-  serve()
+.parameter('destination', 'where to build everything')
+.action(function (args) {
+  assert.ok(args.get('destination'))
+  assert.equal(typeof args.get('destination'), 'string')
+
+  var dest = args.get('destination')
+
+  serve(dest)()
 })
 
 app.run().catch(function (err) {

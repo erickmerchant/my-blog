@@ -2,7 +2,6 @@
 
 const path = require('path')
 const chokidar = require('chokidar')
-const directory = require('./directory.js')
 const atlatl = require('atlatl')
 const moment = require('moment-timezone')
 const engine = require('static-engine')
@@ -19,7 +18,7 @@ const engineParams = require('static-engine-params')
 const engineFrontmatter = require('static-engine-frontmatter')
 const engineSort = require('static-engine-sort')
 
-function pages () {
+function pages (destination) {
   const frontmatter = engineFrontmatter(cson.parse)
   const remarkable = new Remarkable({
     highlight: function (code, lang) {
@@ -67,9 +66,9 @@ function pages () {
     sort,
     pager,
     defaults,
-    render(path.join(directory, 'posts/:slug/index.html'), renderer('post.html')),
+    render(path.join(destination, 'posts/:slug/index.html'), renderer('post.html')),
     first,
-    render(path.join(directory, 'index.html'), renderer('post.html'))
+    render(path.join(destination, 'index.html'), renderer('post.html'))
   ]
   const archivePage = [
     read('./content/posts.md'),
@@ -84,23 +83,23 @@ function pages () {
       defaults
     ]),
     defaults,
-    render(path.join(directory, 'posts/index.html'), renderer('posts.html'))
+    render(path.join(destination, 'posts/index.html'), renderer('posts.html'))
   ]
   const _404Page = [
     read('./content/404.md'),
     frontmatter,
     markdown,
     defaults,
-    render(path.join(directory, '404.html'), renderer('unfound.html'))
+    render(path.join(destination, '404.html'), renderer('unfound.html'))
   ]
 
   return engine(postPages, archivePage, _404Page)
 }
 
-pages.watch = function () {
-  return pages().then(function () {
+pages.watch = function (destination) {
+  return pages(destination).then(function () {
     chokidar.watch(['templates/**/*.html', 'content/**/*.md', 'content/**/*.cson'], {ignoreInitial: true}).on('all', function () {
-      pages().catch(console.error)
+      pages(destination).catch(console.error)
     })
 
     return true

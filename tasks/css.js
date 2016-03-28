@@ -7,9 +7,8 @@ const fsWriteFile = thenify(fs.writeFile)
 const chokidar = require('chokidar')
 const cssnext = require('cssnext')
 const path = require('path')
-const directory = require('./directory.js')
 
-function css () {
+function css (destination) {
   return fsReadFile('css/site.css', 'utf-8')
   .then(function (css) {
     css = cssnext(
@@ -26,14 +25,14 @@ function css () {
       }
     )
 
-    return fsWriteFile(path.join(directory, 'site.css'), css)
+    return fsWriteFile(path.join(destination, 'site.css'), css)
   })
 }
 
-css.watch = function () {
-  return css().then(function () {
+css.watch = function (destination) {
+  return css(destination).then(function () {
     chokidar.watch('css/**/*.css', {ignoreInitial: true}).on('all', function () {
-      css().catch(console.error)
+      css(destination).catch(console.error)
     })
 
     return true
