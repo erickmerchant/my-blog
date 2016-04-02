@@ -29,7 +29,7 @@
     "promise-map": "^1.1.0",
     "remarkable": "^1.6.0",
     "sergeant": "^10.0.0",
-    "sharp": "^0.13.0",
+    "sharp": "^0.14.0",
     "slug": "^0.9.1",
     "smallector": "^1.0.1",
     "smear": "^1.1.0",
