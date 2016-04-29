@@ -12,7 +12,6 @@
     "cson-parser": "^1.0.8",
     "cssnano": "^3.0.0",
     "express": "^4.10.7",
-    "express-static": "^1.0.3",
     "fs-extra": "^0.30.0",
     "geomicons-open": "^2.0.0",
     "glob": "^7.0.0",

@@ -2,7 +2,6 @@
 
 const path = require('path')
 const express = require('express')
-const _static = require('express-static')
 const morgan = require('morgan')
 const portfinder = require('portfinder')
 
@@ -17,7 +16,7 @@ module.exports = function (destination) {
 
           app.use(morgan('dev'))
 
-          app.use(_static(destination))
+          app.use(express.static(destination))
 
           app.use(function (req, res, next) {
             res.status(404)
