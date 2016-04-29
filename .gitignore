@@ -1,4 +1,5 @@
 .DS_Store
 /content/drafts
+/build
 node_modules
 .atlatl-cache

@@ -13,7 +13,6 @@ const base = require('./tasks/base.js')
 const pages = require('./tasks/pages.js')
 const icons = require('./tasks/icons.js')
 const css = require('./tasks/css.js')
-const optimize = require('./tasks/optimize.js')
 const images = require('./tasks/images.js')
 const serve = require('./tasks/serve.js')
 const fsWriteFile = thenify(fs.writeFile)
@@ -131,7 +130,9 @@ app.command('update')
   return Promise.all([
     base(dest),
     images(dest),
-    Promise.all([pages(dest), icons(dest), css(dest)]).then(optimize(dest))
+    pages(dest),
+    icons(dest),
+    css(dest)
   ])
 })
 
@@ -147,7 +148,9 @@ app.command('watch')
   Promise.all([
     base.watch(dest),
     images.watch(dest),
-    Promise.all([pages.watch(dest), icons.watch(dest), css.watch(dest)])
+    pages.watch(dest),
+    icons.watch(dest),
+    css.watch(dest)
   ])
   .then(serve(dest))
 })

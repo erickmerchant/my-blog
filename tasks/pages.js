@@ -90,7 +90,7 @@ function pages (destination) {
     frontmatter,
     markdown,
     defaults,
-    render(path.join(destination, '404.html'), renderer('unfound.html'))
+    render(path.join(destination, '404.html'), renderer('404.html'))
   ]
 
   return engine(postPages, archivePage, _404Page)
