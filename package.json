@@ -1,6 +1,6 @@
 {
   "name": "erickmerchat.com-source",
-  "private": "true",
+  "private": true,
   "dependencies": {
     "atlatl": "^5.0.0",
     "autoprefixer": "^6.3.6",
@@ -48,6 +48,6 @@
     "test": "standard"
   },
   "devDependencies": {
-    "standard": "^6.0.4"
+    "standard": "^7.0.0"
   }
 }
