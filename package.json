@@ -1,7 +1,7 @@
 {
   "name": "erickmerchat.com-source",
   "private": true,
-  "dependencies": {
+  "devDependencies": {
     "atlatl": "^5.0.0",
     "autoprefixer": "^6.3.6",
     "basscss": "^8.0.0",
@@ -32,6 +32,7 @@
     "sergeant": "^11.0.0",
     "sharp": "^0.14.0",
     "slug": "^0.9.1",
+    "standard": "^7.0.0",
     "static-engine": "^10.0.0",
     "static-engine-collection": "^5.1.1",
     "static-engine-defaults": "^6.0.0",
@@ -46,9 +47,5 @@
   },
   "scripts": {
     "test": "standard"
-  },
-  "devDependencies": {
-    "sergeant": "^11.0.0",
-    "standard": "^7.0.0"
   }
 }

@@ -128,6 +128,7 @@ app.command('update')
   var dest = args.get('destination')
 
   return Promise.all([
+    mkdirp(dest),
     base(dest),
     images(dest),
     pages(dest),
@@ -146,6 +147,7 @@ app.command('watch')
   var dest = args.get('destination')
 
   Promise.all([
+    mkdirp(dest),
     base.watch(dest),
     images.watch(dest),
     pages.watch(dest),
