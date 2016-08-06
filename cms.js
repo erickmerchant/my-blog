@@ -29,19 +29,19 @@ app.command('make')
   var file
   var content
 
-  if (!args.get('title') || !args.get('dir')) {
+  if (!args.has('title') || !args.has('dir')) {
     throw new Error('please provide a target dir and title')
   }
 
   file = mkslug(args.get('title')).toLowerCase()
 
-  if (args.get('time')) {
+  if (args.has('time')) {
     file = [moment().format('x'), file].join('.')
   }
 
   file += '.md'
 
-  if (args.get('dir')) {
+  if (args.has('dir')) {
     file = path.join(args.get('dir'), file)
   }
 
@@ -72,11 +72,11 @@ app.command('move')
   var directory
   var hasTime = false
 
-  if (!args.get('file')) {
+  if (!args.has('file')) {
     throw new Error('please provide a file to move')
   }
 
-  destination = args.get('dir') ? args.get('dir') : path.dirname(args.get('file'))
+  destination = args.has('dir') ? args.get('dir') : path.dirname(args.get('file'))
 
   ext = path.extname(args.get('file'))
 
@@ -96,13 +96,13 @@ app.command('move')
     }
   }
 
-  if (args.get('title')) {
+  if (args.has('title')) {
     slug = mkslug(args.get('title')).toLowerCase()
   }
 
   newFile = slug + ext
 
-  if (hasTime && args.get('time') !== false || args.get('time')) {
+  if (hasTime && args.has('time')) {
     newFile = [time.format('x'), newFile].join('.')
   }
 
