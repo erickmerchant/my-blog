@@ -15,6 +15,7 @@ const icons = require('./tasks/icons.js')
 const css = require('./tasks/css.js')
 const images = require('./tasks/images.js')
 const serve = require('./tasks/serve.js')
+const optimize = require('./tasks/optimize.js')
 const fsWriteFile = thenify(fs.writeFile)
 const fsRename = thenify(fs.rename)
 const mkdirp = thenify(require('mkdirp'))
@@ -122,8 +123,8 @@ app.command('update')
 .describe('Build the site once')
 .parameter('destination', 'where to build everything')
 .action(function (args) {
-  assert.ok(args.get('destination'))
-  assert.equal(typeof args.get('destination'), 'string')
+  assert.ok(args.has('destination'), 'destination is required')
+  assert.equal(typeof args.get('destination'), 'string', 'destination should be a string')
 
   var dest = args.get('destination')
 
@@ -134,15 +135,15 @@ app.command('update')
     pages(dest),
     icons(dest),
     css(dest)
-  ])
+  ]).then(optimize(dest))
 })
 
 app.command('watch')
 .describe('Build the site then watch for changes. Run a server')
 .parameter('destination', 'where to build everything')
 .action(function (args) {
-  assert.ok(args.get('destination'))
-  assert.equal(typeof args.get('destination'), 'string')
+  assert.ok(args.has('destination'), 'destination is required')
+  assert.equal(typeof args.get('destination'), 'string', 'destination should be a string')
 
   var dest = args.get('destination')
 
@@ -161,8 +162,8 @@ app.command('preview')
 .describe('Preview the built site')
 .parameter('destination', 'where to build everything')
 .action(function (args) {
-  assert.ok(args.get('destination'))
-  assert.equal(typeof args.get('destination'), 'string')
+  assert.ok(args.has('destination'), 'destination is required')
+  assert.equal(typeof args.get('destination'), 'string', 'destination should be a string')
 
   var dest = args.get('destination')
 
