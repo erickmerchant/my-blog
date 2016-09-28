@@ -80,8 +80,6 @@ main {
 }
 
 .btn {
-  font-family: inherit;
-  font-size: inherit;
   font-weight: bold;
   text-decoration: none;
   cursor: pointer;
@@ -124,4 +122,10 @@ main {
 
 .field:focus {
   box-shadow: 0 0 0 2px var(--gray);
+}
+
+@media (--breakpoint-sm) {
+  .sm-fixed {
+    @inherit: .fixed;
+  }
 }

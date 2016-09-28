@@ -8,6 +8,7 @@ const chokidar = require('chokidar')
 const postcss = require('postcss')
 const postcssPlugins = [
   require('postcss-import')(),
+  require('postcss-inherit'),
   require('postcss-custom-media')(),
   require('postcss-custom-properties')(),
   require('postcss-calc')(),

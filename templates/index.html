@@ -10,39 +10,45 @@
     <link href="/favicon.png" rel="shortcut icon" type="image/png">
     <link href="/site.css" rel="stylesheet" type="text/css">
   </head>
-  <body class="flex flex-column full-view-height">
-    <nav class="bg-black h3 p2 center white" role="navigation">
-      <a class="btn white p1" href="/">${content.banner}</a>
-      <div class="inline-block">
-        @each content.menu (link)
-          <a class="btn white p1" href="${link.url}">
-            @call icon (link.icon)
-            <span class="xs-hide">${link.text}</span>
-          </a>
-        @
+  <body class="flex flex-column">
+    <div class="col sm-flex full-view-height">
+      <div class="bg-black p2 sm-col-4 flex-auto sm-flex flex-column items-center justify-top center">
+        <div class="sm-fixed top-0">
+          <div class="xs-hide pt4"></div>
+          <a class="white btn p1 bold h2" href="/">${content.banner}</a>
+          @each content.menu (link)
+            <div class="xs-hide pt2"></div>
+            <a class="white btn p1 bold h4" href="${link.url}">
+              @call icon (link.icon)
+              <span class="xs-hide">${link.text}</span>
+            </a>
+          @
+        </div>
       </div>
-    </nav>
-    <div class="flex-auto">
-      <main class="max-width-3 mx-auto px2" role="main">
-        @yield main
-      </main>
+      <div class="sm-col-8 pt2 flex flex-column">
+        <main role="main" class="block flex-auto pb2">
+          <div class="max-width-3 px3">
+            @yield main
+          </div>
+        </main>
+        <footer class="bg-silver block col col-12 mt2 muted h6" role="contentinfo">
+          <div class="p2 max-width-3 mx-auto center sm-flex items-center justify-center">
+            <a class="black btn p1" href="https://github.com/erickmerchant/erickmerchant.com-source">
+              @call icon ('github')
+              View Source
+            </a>
+            @section action_call
+              <a class="black btn p1" href="https://twitter.com/intent/tweet?url=${encodeURIComponent(content.host)}&amp;text=${encodeURIComponent(content.title)}" target="_blank">
+                @call icon ('twitter')
+                Tweet
+              </a>
+            @
+            <br class="sm-hide my1">
+            <span class="black p1 muted inline-block bold">&copy; ${content.author}, ${content.year}</span>
+          </div>
+        </footer>
+      </div>
     </div>
-    <footer class="mt2 p2 bg-silver muted h6" role="contentinfo">
-      <div class="max-width-3 mx-auto center sm-flex items-center justify-center">
-        <a class="black btn p2" href="https://github.com/erickmerchant/erickmerchant.com-source">
-          @call icon ('github')
-          View Source
-        </a>
-        @section action_call
-          <a class="black btn p2" href="https://twitter.com/intent/tweet?url=${encodeURIComponent(content.host)}&amp;text=${encodeURIComponent(content.title)}" target="_blank">
-            @call icon ('twitter')
-            Tweet
-          </a>
-        @
-        <br class="sm-hide">
-        <span class="black p2 muted inline-block bold">&copy; ${content.author}, ${content.year}</span>
-      </div>
-    </footer>
   </body>
 </html>
 
