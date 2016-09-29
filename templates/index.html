@@ -15,10 +15,10 @@
       <div class="bg-black p2 sm-col-4 flex-auto sm-flex flex-column items-center justify-top center">
         <div class="sm-fixed top-0">
           <div class="xs-hide pt4"></div>
-          <a class="white btn p1 bold h2" href="/">${content.banner}</a>
+          <a class="white btn bold p1 bold lg-h1 md-h2 sm-h3" href="/">${content.banner}</a>
           @each content.menu (link)
             <div class="xs-hide pt2"></div>
-            <a class="white btn p1 bold h4" href="${link.url}">
+            <a class="white btn bold p1 bold" href="${link.url}">
               @call icon (link.icon)
               <span class="xs-hide">${link.text}</span>
             </a>
@@ -33,12 +33,12 @@
         </main>
         <footer class="bg-silver block col col-12 mt2 muted h6" role="contentinfo">
           <div class="p2 max-width-3 mx-auto center sm-flex items-center justify-center">
-            <a class="black btn p1" href="https://github.com/erickmerchant/erickmerchant.com-source">
+            <a class="black btn bold p1" href="https://github.com/erickmerchant/erickmerchant.com-source">
               @call icon ('github')
               View Source
             </a>
             @section action_call
-              <a class="black btn p1" href="https://twitter.com/intent/tweet?url=${encodeURIComponent(content.host)}&amp;text=${encodeURIComponent(content.title)}" target="_blank">
+              <a class="black btn bold p1" href="https://twitter.com/intent/tweet?url=${encodeURIComponent(content.host)}&amp;text=${encodeURIComponent(content.title)}" target="_blank">
                 @call icon ('twitter')
                 Tweet
               </a>

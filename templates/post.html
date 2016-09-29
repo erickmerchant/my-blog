@@ -21,13 +21,13 @@
   <nav class="h4 clearfix p2">
     <div class="col col-6">
       @if (content.previous)
-        <a class="rounded btn bg-blue white p2" rel="prev" href="/posts/${content.previous.slug}/">
+        <a class="rounded btn bold bg-blue white p2" rel="prev" href="/posts/${content.previous.slug}/">
           @call icon ('chevronLeft')
           Older
         </a>
       @
       @if (!content.previous)
-        <span class="rounded btn bg-silver white is-disabled p2">
+        <span class="rounded btn bold bg-silver white is-disabled p2">
           @call icon ('chevronLeft')
           Older
         </span>
@@ -35,13 +35,13 @@
     </div>
     <div class="col col-6 right-align">
       @if (content.next)
-        <a class="rounded btn bg-blue white p2" rel="next" href="/posts/${content.next.slug}/">
+        <a class="rounded btn bold bg-blue white p2" rel="next" href="/posts/${content.next.slug}/">
           Newer
           @call icon ('chevronRight')
         </a>
       @
       @if (!content.next)
-        <span class="rounded btn bg-silver white is-disabled p2">
+        <span class="rounded btn bold bg-silver white is-disabled p2">
           Newer
           @call icon ('chevronRight')
         </span>
@@ -51,7 +51,7 @@
 @
 
 @section action_call
-  <a class="black btn p1" href="https://twitter.com/intent/tweet?url=${encodeURIComponent(content.host + '/posts/' + content.slug + '/')}&amp;text=${encodeURIComponent(content.title)}" target="_blank">
+  <a class="black btn bold p1" href="https://twitter.com/intent/tweet?url=${encodeURIComponent(content.host + '/posts/' + content.slug + '/')}&amp;text=${encodeURIComponent(content.title)}" target="_blank">
     @call icon ('twitter')
     Tweet
   </a>

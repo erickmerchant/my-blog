@@ -80,14 +80,8 @@ main {
 }
 
 .btn {
-  font-weight: bold;
   text-decoration: none;
-  cursor: pointer;
-  display: inline-block;
-  line-height: 1.125rem;
-  height: auto;
-  border: 1px solid transparent;
-  vertical-align: middle;
+  border: none;
   -webkit-appearance: none;
 }
 
@@ -96,8 +90,7 @@ main {
 }
 
 .btn:focus {
-  outline: none;
-  box-shadow: 0 0 0 3px currentcolor;
+  opacity: .8;
 }
 
 .btn.is-disabled {
@@ -106,7 +99,6 @@ main {
 
 .btn.is-disabled:hover {
   opacity: 100%;
-  box-shadow: none;
 }
 
 .field {
@@ -127,5 +119,18 @@ main {
 @media (--breakpoint-sm) {
   .sm-fixed {
     @inherit: .fixed;
+  }
+  .sm-h3 {
+    @inherit: .h3;
+  }
+}
+@media (--breakpoint-md) {
+  .md-h2 {
+    @inherit: .h2;
+  }
+}
+@media (--breakpoint-lg) {
+  .lg-h1 {
+    @inherit: .h1;
   }
 }
