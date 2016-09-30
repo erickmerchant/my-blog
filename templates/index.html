@@ -33,18 +33,18 @@
         </main>
         <footer class="bg-silver block col col-12 mt2 muted h6" role="contentinfo">
           <div class="p2 max-width-3 mx-auto center sm-flex items-center justify-center">
-            <a class="black btn bold p1" href="https://github.com/erickmerchant/erickmerchant.com-source">
+            <a class="inline-block black btn bold p1" href="https://github.com/erickmerchant/erickmerchant.com-source">
               @call icon ('github')
               View Source
             </a>
             @section action_call
-              <a class="black btn bold p1" href="https://twitter.com/intent/tweet?url=${encodeURIComponent(content.host)}&amp;text=${encodeURIComponent(content.title)}" target="_blank">
+              <a class="inline-block black btn bold p1" href="https://twitter.com/intent/tweet?url=${encodeURIComponent(content.host)}&amp;text=${encodeURIComponent(content.title)}" target="_blank">
                 @call icon ('twitter')
                 Tweet
               </a>
             @
-            <br class="sm-hide my1">
-            <span class="black p1 muted inline-block bold">&copy; ${content.author}, ${content.year}</span>
+            <br class="sm-hide">
+            <span class="inline-block black p1 muted bold">&copy; ${content.author}, ${content.year}</span>
           </div>
         </footer>
       </div>

@@ -14,7 +14,7 @@ a:hover {
 blockquote {
   margin: 0 var(--space-1);
   padding: 0 var(--space-2);
-  border-left: var(--border-width) solid currentColor;
+  border-left: calc(var(--border-width) * 2) solid var(--silver);
 }
 
 blockquote, blockquote p {
@@ -28,8 +28,8 @@ cite:before {
 img {
   width: 100%;
   border-radius: var(--border-radius);
-  border: var(--border-width) solid currentColor;
-  padding: calc(var(--space-1) / 2);
+  border: var(--border-width) solid var(--silver);
+  padding: var(--space-1);
   margin: var(--space-1) 0;
 }
 
@@ -53,6 +53,7 @@ pre {
   margin: var(--space-1) 0;
   white-space: pre-wrap;
   overflow-x: auto;
+  font-size: inherit;
   font-family: 'Source Code Pro', Consolas, monospace;
 }
 
@@ -61,6 +62,7 @@ code {
 }
 
 pre, pre code {
+  border-radius: var(--border-radius);
 	background: var(--black);
 }
 
@@ -82,7 +84,7 @@ main {
 .btn {
   text-decoration: none;
   border: none;
-  -webkit-appearance: none;
+  appearance: none;
 }
 
 .btn:hover {
