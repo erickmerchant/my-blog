@@ -122,15 +122,22 @@ main {
   .sm-fixed {
     @inherit: .fixed;
   }
+
   .sm-h3 {
     @inherit: .h3;
   }
+
+  .sm-block {
+    @inherit: .block;
+  }
 }
+
 @media (--breakpoint-md) {
   .md-h2 {
     @inherit: .h2;
   }
 }
+
 @media (--breakpoint-lg) {
   .lg-h1 {
     @inherit: .h1;

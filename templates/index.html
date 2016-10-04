@@ -15,12 +15,12 @@
       <div class="bg-black p2 sm-col-4 flex-auto sm-flex flex-column items-center justify-top center">
         <div class="sm-fixed top-0">
           <div class="xs-hide pt4"></div>
-          <a class="white btn bold p1 bold lg-h1 md-h2 sm-h3" href="/">${content.banner}</a>
+          <a class="sm-block white btn bold p1 bold lg-h1 md-h2 sm-h3" href="/">${content.banner}</a>
           @each content.menu (link)
             <div class="xs-hide pt2"></div>
-            <a class="white btn bold p1 bold" href="${link.url}">
+            <a class="sm-block white btn bold p1 bold" href="${link.url}">
               @call icon (link.icon)
-              <span class="xs-hide">${link.text}</span>
+              <span class="sm-show">${link.text}</span>
             </a>
           @
         </div>
