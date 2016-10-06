@@ -8,16 +8,18 @@ a {
 }
 
 a:hover {
-  text-decoration: underline;
+  box-shadow: 0 .1em 0 0 currentColor;
+  text-decoration: none;
 }
 
 blockquote {
   margin: 0 var(--space-1);
   padding: 0 var(--space-2);
   border-left: calc(var(--border-width) * 2) solid var(--silver);
+  font-size: 1rem;
 }
 
-blockquote, blockquote p {
+blockquote p {
   font-size: 1rem;
 }
 
@@ -61,7 +63,12 @@ code {
   background: #EEE;
 }
 
-pre, pre code {
+pre {
+  border-radius: var(--border-radius);
+	background: var(--black);
+}
+
+pre code {
   border-radius: var(--border-radius);
 	background: var(--black);
 }
@@ -85,14 +92,18 @@ main {
   text-decoration: none;
   border: none;
   appearance: none;
+  box-shadow: none;
 }
 
 .btn:hover {
   text-decoration: none;
+  box-shadow: none;
+  outline: none;
 }
 
 .btn:focus {
   opacity: .8;
+  outline: none;
 }
 
 .btn.is-disabled {
@@ -121,6 +132,14 @@ main {
 @media (--breakpoint-sm) {
   .sm-fixed {
     @inherit: .fixed;
+  }
+
+  .sm-mt2 {
+    @inherit: .mt2;
+  }
+
+  .sm-mt4 {
+    @inherit: .mt4;
   }
 
   .sm-h3 {
