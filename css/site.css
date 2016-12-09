@@ -3,6 +3,10 @@
 @import "colors.css/src/colors.css";
 @import "highlight.js/styles/monokai-sublime.css";
 
+main {
+  word-wrap: break-word;
+}
+
 a {
   text-decoration: none;
 }
@@ -28,10 +32,10 @@ cite:before {
 }
 
 img {
+  box-sizing: content-box;
   width: 100%;
   border-radius: var(--border-radius);
   border: var(--border-width) solid var(--silver);
-  padding: var(--space-1);
   margin: var(--space-1) 0;
 }
 

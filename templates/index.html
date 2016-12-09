@@ -15,14 +15,17 @@
       <div class="bg-black sm-col-4 center">
         <div class="sm-fixed top-0 sm-col-4 p2 flex-auto sm-flex flex-column items-center justify-top">
           <span class="sm-col sm-mt4 my1 inline-block"><a class="white bold sm-mt4 m1 lg-h1 md-h2 sm-h3" href="/">${content.banner}</a></span>
-          @each content.menu (link)
-            <span class="sm-col sm-mt2 my1 inline-block">
-              <a class="white bold sm-mt2 m1" href="${link.url}">
-                @call icon (link.icon)
-                <span class="sm-show">${link.text}</span>
-              </a>
-            </span>
-          @
+          <nav class="sm-flex flex-column inline-block">
+            @each content.menu (link)
+              <span class="sm-col sm-mt2 my1 inline-block">
+                <a class="white bold sm-mt2 m1" href="${link.url}">
+                  @call icon (link.icon)
+                  <span class="sm-show">${link.text}</span>
+                </a>
+              </span>
+            @
+          </nav>
+          <img src="/uploads/thumbnails/me.jpg" class="mt4 xs-hide round col-4 fit">
         </div>
       </div>
       <div class="sm-col-8 pt2 flex flex-column">
@@ -32,7 +35,7 @@
           </div>
         </main>
         <footer class="block col col-12 muted h6" role="contentinfo">
-          <div class="p2 max-width-3 mx-auto center sm-flex items-center justify-center">
+          <div class="p2 max-width-3 mx-auto center sm-flex flex-wrap items-center justify-center">
             <a class="inline-block bold m1" href="https://github.com/erickmerchant/erickmerchant.com-source">
               @call icon ('github')
               View Source
@@ -43,7 +46,6 @@
                 Tweet
               </a>
             @
-            <br class="sm-hide">
             <span class="inline-block m1 bold">&copy; ${content.author}, ${content.year}</span>
           </div>
         </footer>
