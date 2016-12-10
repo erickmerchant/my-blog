@@ -134,10 +134,6 @@ main {
 }
 
 @media (--breakpoint-sm) {
-  .sm-fixed {
-    @inherit: .fixed;
-  }
-
   .sm-mt2 {
     @inherit: .mt2;
   }
@@ -152,6 +148,10 @@ main {
 
   .sm-block {
     @inherit: .block;
+  }
+
+  .sm-flex-row {
+    flex-direction: row;
   }
 }
 
