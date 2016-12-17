@@ -134,6 +134,10 @@ main {
 }
 
 @media (--breakpoint-sm) {
+  .sm-fixed {
+    @inherit: .fixed;
+  }
+
   .sm-mt2 {
     @inherit: .mt2;
   }

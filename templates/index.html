@@ -10,35 +10,45 @@
     <link href="/favicon.png" rel="shortcut icon" type="image/png">
     <link href="/site.css" rel="stylesheet" type="text/css">
   </head>
-  <body class="full-view-height flex flex-column sm-flex-row">
-    <nav class="bg-black center p2 sm-col-4 sm-flex flex-column items-center">
-      <span class="sm-mt4 my1 inline-block"><a class="white bold sm-mt4 m1 lg-h1 md-h2 sm-h3" href="/">${content.banner}</a></span>
-      @each content.menu (link)
-        <span class="sm-mt2 my1 inline-block">
-          <a class="white bold sm-mt2 m1" href="${link.url}">
-            @call icon (link.icon)
-            <span class="sm-show">${link.text}</span>
-          </a>
-        </span>
-      @
-    </nav>
-    <div class="sm-col-8 pt2 flex flex-auto flex-column">
-      <main role="main" class="flex-auto max-width-3 px3 pb1">
-        @yield main
-      </main>
-      <footer class="muted h6 p2 mx-auto center" role="contentinfo">
-        <a class="inline-block bold m1" href="https://github.com/erickmerchant/erickmerchant.com-source">
-          @call icon ('github')
-          View Source
-        </a>
-        @section action_call
-          <a class="inline-block bold m1" href="https://twitter.com/intent/tweet?url=${encodeURIComponent(content.host)}&amp;text=${encodeURIComponent(content.title)}" target="_blank">
-            @call icon ('twitter')
-            Tweet
-          </a>
-        @
-        <span class="inline-block m1 bold">&copy; ${content.author}, ${content.year}</span>
-      </footer>
+  <body class="flex flex-column">
+    <div class="col sm-flex full-view-height">
+      <div class="bg-black sm-col-4 center">
+        <div class="sm-fixed top-0 sm-col-4 p2 flex-auto sm-flex flex-column items-center justify-top">
+          <span class="sm-col sm-mt4 my1 inline-block"><a class="white bold sm-mt4 m1 lg-h1 md-h2 sm-h3" href="/">${content.banner}</a></span>
+          <nav class="sm-flex flex-column inline-block">
+            @each content.menu (link)
+              <span class="sm-col sm-mt2 my1 inline-block">
+                <a class="white bold sm-mt2 m1" href="${link.url}">
+                  @call icon (link.icon)
+                  <span class="sm-show">${link.text}</span>
+                </a>
+              </span>
+            @
+          </nav>
+        </div>
+      </div>
+      <div class="sm-col-8 pt2 flex flex-column">
+        <main role="main" class="block flex-auto pb1">
+          <div class="max-width-3 px3">
+            @yield main
+          </div>
+        </main>
+        <footer class="block col col-12 muted h6" role="contentinfo">
+          <div class="p2 max-width-3 mx-auto center sm-flex flex-wrap items-center justify-center">
+            <a class="inline-block bold m1" href="https://github.com/erickmerchant/erickmerchant.com-source">
+              @call icon ('github')
+              View Source
+            </a>
+            @section action_call
+              <a class="inline-block bold m1" href="https://twitter.com/intent/tweet?url=${encodeURIComponent(content.host)}&amp;text=${encodeURIComponent(content.title)}" target="_blank">
+                @call icon ('twitter')
+                Tweet
+              </a>
+            @
+            <span class="inline-block m1 bold">&copy; ${content.author}, ${content.year}</span>
+          </div>
+        </footer>
+      </div>
     </div>
   </body>
 </html>
