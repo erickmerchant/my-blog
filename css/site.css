@@ -1,7 +1,7 @@
 @import 'basscss-basic';
 @import 'basscss';
 @import "colors.css/src/colors.css";
-@import "highlight.js/styles/monokai-sublime.css";
+@import "prismjs/themes/prism.css";
 
 main {
   word-wrap: break-word;
@@ -48,9 +48,6 @@ dd {
 }
 
 pre {
-  color: var(--silver);
-  direction: ltr;
-  text-align: left;
   word-spacing: normal;
   word-break: normal;
   tab-size: 4;
@@ -61,20 +58,12 @@ pre {
   overflow-x: auto;
   font-size: inherit;
   font-family: 'Source Code Pro', Consolas, monospace;
+  background-color: #f5f2f0;
+  border-radius: var(--border-radius);
 }
 
 code {
-  background: #EEE;
-}
-
-pre {
-  border-radius: var(--border-radius);
-	background: var(--black);
-}
-
-pre code {
-  border-radius: var(--border-radius);
-	background: var(--black);
+  background: #f5f2f0;
 }
 
 main {

@@ -5,7 +5,6 @@ const htmlMinify = require('html-minifier').minify
 const cheerio = require('cheerio')
 const Smallector = require('smallector')
 const fs = require('fs')
-const smear = require('smear')
 const thenify = require('thenify')
 const fsReadFile = thenify(fs.readFile)
 const fsWriteFile = thenify(fs.writeFile)
@@ -17,21 +16,22 @@ const nano = require('cssnano')
 const pseudosRegex = /:?(:[a-z-]+)/g
 const map = require('promise-map')
 
-module.exports = function minifyHTML (destination) {
+module.exports = function (destination) {
   return function () {
+    const assetPromise = Promise.all([
+      fsReadFile(path.join(destination, 'site.css'), fsReadOptions),
+      fsReadFile(path.join(destination, 'icons.svg'), fsReadOptions)
+      .then(function (icons) {
+        return cheerio.load(icons)
+      })
+    ])
+
     return glob(path.join(destination, '**/**.html'))
     .then(map(function (file) {
-      return Promise.all([
-        fsReadFile(path.join(destination, 'site.css'), fsReadOptions)
-        .then(function (css) {
-          return postcss.parse(css)
-        }),
-        fsReadFile(path.join(destination, 'icons.svg'), fsReadOptions)
-        .then(function (icons) {
-          return cheerio.load(icons)
-        })
-      ])
-      .then(smear(function (css, icons) {
+      return assetPromise
+      .then(function ([css, icons]) {
+        css = postcss.parse(css)
+
         return fsReadFile(file)
         .then(function (html) {
           return cheerio.load(html)
@@ -42,7 +42,7 @@ module.exports = function minifyHTML (destination) {
 
           trav(css.nodes)
 
-          output = new Smallector(postcss(byebye({ rulesToRemove: unused })).process(css).css, { compress: true })
+          output = new Smallector(postcss(byebye({ rulesToRemove: unused })).process(css).css)
 
           $('[class]').each(function () {
             var classes = $(this).attr('class').split(' ')
@@ -146,7 +146,7 @@ module.exports = function minifyHTML (destination) {
             removeOptionalTags: true
           }))
         })
-      }))
+      })
     }))
   }
 }

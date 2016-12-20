@@ -46,7 +46,7 @@ app.command('make')
     file = path.join(args.get('dir'), file)
   }
 
-  content = ['---', cson.stringify({title: args.get('title')}, null, '  '), '---', ''].join('\n')
+  content = ['---', cson.stringify({title: args.get('title'), summary: ''}, null, '  '), '---', ''].join('\n')
 
   return mkdirp(path.dirname(file))
   .then(function () {

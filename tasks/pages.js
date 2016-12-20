@@ -10,7 +10,7 @@ const pager = require('static-engine-pager')
 const first = require('static-engine-first')
 const collection = require('static-engine-collection')
 const render = require('static-engine-render')
-const hljs = require('highlight.js')
+const prismjs = require('prismjs')
 const cson = require('cson-parser')
 const Remarkable = require('remarkable')
 const engineDefaults = require('static-engine-defaults')
@@ -22,11 +22,11 @@ function pages (destination) {
   const frontmatter = engineFrontmatter(cson.parse)
   const remarkable = new Remarkable({
     highlight: function (code, lang) {
-      if (lang && hljs.getLanguage(lang)) {
-        return hljs.highlight(lang, code).value
+      if (lang && prismjs.languages[lang] != null) {
+        return prismjs.highlight(code, prismjs.languages[lang])
       }
 
-      return hljs.highlightAuto(code).value
+      return code
     },
     langPrefix: 'lang-'
   })

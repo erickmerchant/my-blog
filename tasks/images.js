@@ -13,7 +13,10 @@ function images (destination) {
   .then(function () {
     return glob('content/uploads/*.jpg')
     .then(map(function (file) {
-      return sharp(file).resize(640).quality(80).progressive().toFile(path.join(destination, 'uploads/thumbnails/', path.basename(file)))
+      return sharp(file).resize(640).jpeg({
+        quality: 80,
+        progressive: true
+      }).toFile(path.join(destination, 'uploads/thumbnails/', path.basename(file)))
     }))
   })
 }
