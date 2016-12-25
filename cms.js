@@ -71,7 +71,6 @@ app.command('move')
   var time
   var destination
   var directory
-  var hasTime = false
 
   if (!args.has('file')) {
     throw new Error('please provide a file to move')
@@ -89,8 +88,6 @@ app.command('move')
 
   if (parts.length >= 2) {
     if (moment(parts[0], ['x']).isValid()) {
-      hasTime = true
-
       time = moment(parts[0], ['x'])
 
       slug = parts.slice(1).join('.')
@@ -103,7 +100,7 @@ app.command('move')
 
   newFile = slug + ext
 
-  if (hasTime && args.has('time')) {
+  if (args.has('time')) {
     newFile = [time.format('x'), newFile].join('.')
   }
 
