@@ -32,7 +32,7 @@
     "prismjs": "^1.6.0",
     "promise-map": "^1.1.0",
     "remarkable": "^1.6.0",
-    "sergeant": "^13.0.1",
+    "sergeant": "^14.0.0",
     "sharp": "^0.17.0",
     "slug": "^0.9.1",
     "smallector": "^1.0.3",
