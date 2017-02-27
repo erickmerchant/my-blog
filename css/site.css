@@ -1,74 +1,7 @@
-@import 'basscss-basic';
+@import "./colors.css";
+@import './base.css';
 @import 'basscss';
-@import "colors.css/src/colors.css";
-@import "prismjs/themes/prism.css";
-
-main {
-  word-wrap: break-word;
-}
-
-a {
-  text-decoration: none;
-}
-
-a:hover {
-  box-shadow: 0 .1em 0 0 currentColor;
-  text-decoration: none;
-}
-
-blockquote {
-  margin: 0 var(--space-1);
-  padding: 0 var(--space-2);
-  border-left: calc(var(--border-width) * 2) solid var(--silver);
-  font-size: 1rem;
-}
-
-blockquote p {
-  font-size: 1rem;
-}
-
-cite:before {
-  content: '\2014 \00A0';
-}
-
-img {
-  box-sizing: content-box;
-  width: 100%;
-  border-radius: var(--border-radius);
-  border: var(--border-width) solid var(--silver);
-  margin: var(--space-1) 0;
-}
-
-dt {
-  font-weight: bold;
-}
-
-dd {
-  margin-left: 0;
-}
-
-pre {
-  word-spacing: normal;
-  word-break: normal;
-  tab-size: 4;
-  hyphens: none;
-  padding: var(--space-2);
-  margin: var(--space-1) 0;
-  white-space: pre-wrap;
-  overflow-x: auto;
-  font-size: inherit;
-  font-family: 'Source Code Pro', Consolas, monospace;
-  background-color: #f5f2f0;
-  border-radius: var(--border-radius);
-}
-
-code {
-  background: #f5f2f0;
-}
-
-main {
-  display: block;
-}
+@import "./prism.css";
 
 .full-view-height {
   min-height: 100vh;
@@ -91,11 +24,6 @@ main {
 .btn:hover {
   text-decoration: none;
   box-shadow: none;
-  outline: none;
-}
-
-.btn:focus {
-  opacity: .8;
   outline: none;
 }
 

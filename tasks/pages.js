@@ -92,8 +92,13 @@ function pages (destination) {
     defaults,
     render(path.join(destination, '404.html'), renderer('404.html'))
   ]
+  const styleGuidePage = [
+    function (pages, done) { return done(null, [{title: 'Style Guide'}]) },
+    defaults,
+    render(path.join(destination, 'style-guide.html'), renderer('style-guide.html'))
+  ]
 
-  return engine(postPages, archivePage, _404Page)
+  return engine(postPages, archivePage, _404Page, styleGuidePage)
 }
 
 pages.watch = function (destination) {

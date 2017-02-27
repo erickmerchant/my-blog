@@ -20,25 +20,25 @@
   </article>
   <nav class="h4 clearfix p3 flex flex-wrap justify-around">
     @if (content.previous)
-      <a class="m1 rounded btn bold bg-blue white p2" rel="prev" href="/posts/${content.previous.slug}/">
+      <a class="m1 rounded btn bold background-blue white p2" rel="prev" href="/posts/${content.previous.slug}/">
         @call icon ('chevronLeft')
         <span class="xs-hide">Older</span>
       </a>
     @
     @if (!content.previous)
-      <span class="m1 rounded btn bold bg-silver white is-disabled p2">
+      <span class="m1 rounded btn bold background-gray white is-disabled p2">
         @call icon ('chevronLeft')
         <span class="xs-hide">Older</span>
       </span>
     @
     @if (content.next)
-      <a class="m1 rounded btn bold bg-blue white p2" rel="next" href="/posts/${content.next.slug}/">
+      <a class="m1 rounded btn bold background-blue white p2" rel="next" href="/posts/${content.next.slug}/">
         <span class="xs-hide">Newer</span>
         @call icon ('chevronRight')
       </a>
     @
     @if (!content.next)
-      <span class="m1 rounded btn bold bg-silver white is-disabled p2">
+      <span class="m1 rounded btn bold background-gray white is-disabled p2">
         <span class="xs-hide">Newer</span>
         @call icon ('chevronRight')
       </span>

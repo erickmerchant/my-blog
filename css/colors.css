@@ -1,0 +1,93 @@
+:root {
+  --black: hsl(0, 0%, 12.5%);
+  --dark-gray: hsl(0, 0%, 30%);
+  --gray: hsl(0, 0%, 60%);
+  --light-gray: hsl(0, 0%, 97.5%);
+  --white: hsl(0, 0%, 100%);
+
+  --red: hsl(344, 50%, 60%);
+  --orange: hsl(56, 50%, 60%);
+  --green: hsl(128, 40%, 60%);
+  --blue: hsl(200, 60%, 60%);
+  --purple: hsl(272, 50%, 60%);
+}
+
+.background-black {
+  background-color: var(--black);
+}
+
+.background-dark-gray {
+  background-color: var(--dark-gray);
+}
+
+.background-gray {
+  background-color: var(--gray);
+}
+
+.background-light-gray {
+  background-color: var(--light-gray);
+}
+
+.background-white {
+  background-color: var(--white);
+}
+
+.background-red {
+  background-color: var(--red);
+}
+
+.background-orange {
+  background-color: var(--orange);
+}
+
+.background-green {
+  background-color: var(--green);
+}
+
+.background-blue {
+  background-color: var(--blue);
+}
+
+.background-purple {
+  background-color: var(--purple);
+}
+
+.black {
+  color: var(--black);
+}
+
+.dark-gray {
+  color: var(--dark-gray);
+}
+
+.gray {
+  color: var(--gray);
+}
+
+.light-gray {
+  color: var(--light-gray);
+}
+
+.white {
+  color: var(--white);
+}
+
+.red {
+  color: var(--red);
+}
+
+.orange {
+  color: var(--orange);
+}
+
+.green {
+  color: var(--green);
+}
+
+.blue {
+  color: var(--blue);
+}
+
+.purple {
+  color: var(--purple);
+}
