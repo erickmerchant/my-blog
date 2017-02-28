@@ -80,6 +80,10 @@
   .md-h2 {
     @inherit: .h2;
   }
+
+  .md-mx4 {
+    @inherit: .mx4;
+  }
 }
 
 @media (--breakpoint-lg) {
