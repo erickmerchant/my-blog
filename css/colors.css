@@ -1,6 +1,6 @@
 :root {
   --black: hsl(0, 0%, 12.5%);
-  --dark-gray: hsl(0, 0%, 30%);
+  --dark-gray: hsl(0, 0%, 40%);
   --gray: hsl(0, 0%, 60%);
   --light-gray: hsl(0, 0%, 97.5%);
   --white: hsl(0, 0%, 100%);
@@ -9,6 +9,7 @@
   --orange: hsl(56, 50%, 60%);
   --green: hsl(128, 40%, 60%);
   --blue: hsl(200, 60%, 60%);
+  --dark-blue: hsl(200, 50%, 50%);
   --purple: hsl(272, 50%, 60%);
 }
 
@@ -46,6 +47,10 @@
 
 .background-blue {
   background-color: var(--blue);
+}
+
+.background-dark-blue {
+  background-color: var(--dark-blue);
 }
 
 .background-purple {
@@ -86,6 +91,10 @@
 
 .blue {
   color: var(--blue);
+}
+
+.dark-blue {
+  color: var(--dark-blue);
 }
 
 .purple {

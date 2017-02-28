@@ -10,7 +10,8 @@ const pager = require('static-engine-pager')
 const first = require('static-engine-first')
 const collection = require('static-engine-collection')
 const render = require('static-engine-render')
-const prismjs = require('prismjs')
+const Highlights = require('highlights')
+const escape = require('escape-html')
 const cson = require('cson-parser')
 const Remarkable = require('remarkable')
 const engineDefaults = require('static-engine-defaults')
@@ -18,17 +19,24 @@ const engineParams = require('static-engine-params')
 const engineFrontmatter = require('static-engine-frontmatter')
 const engineSort = require('static-engine-sort')
 
+const highlighter = new Highlights()
+
 function pages (destination) {
   const frontmatter = engineFrontmatter(cson.parse)
   const remarkable = new Remarkable({
     highlight: function (code, lang) {
-      if (lang && prismjs.languages[lang] != null) {
-        return prismjs.highlight(code, prismjs.languages[lang])
+      if (!lang) {
+        return escape(code)
       }
+
+      code = highlighter.highlightSync({
+        fileContents: code.trim(),
+        scopeName: 'source.js'
+      })
 
       return code
     },
-    langPrefix: 'lang-'
+    langPrefix: 'language-'
   })
   const markdown = function (pages, done) {
     pages.forEach(function (page) {
