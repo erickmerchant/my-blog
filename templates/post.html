@@ -20,7 +20,7 @@
   </article>
   <nav class="h4 clearfix p3 flex flex-row flex-wrap content-stretch justify-center">
     @if (content.previous)
-      <a class="flex-auto nowrap m1 md-mx4 rounded btn bold background-dark-blue white p2" rel="prev" href="/posts/${content.previous.slug}/">
+      <a class="flex-auto nowrap m1 md-mx4 rounded btn bold background-blue white p2" rel="prev" href="/posts/${content.previous.slug}/">
         @call icon ('chevronLeft')
         Older
       </a>
@@ -32,7 +32,7 @@
       </span>
     @
     @if (content.next)
-      <a class="flex-auto nowrap right-align m1 md-mx4 rounded btn bold background-dark-blue white p2" rel="next" href="/posts/${content.next.slug}/">
+      <a class="flex-auto nowrap right-align m1 md-mx4 rounded btn bold background-blue white p2" rel="next" href="/posts/${content.next.slug}/">
         Newer
         @call icon ('chevronRight')
       </a>

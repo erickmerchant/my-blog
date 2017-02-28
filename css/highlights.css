@@ -1,31 +1,40 @@
 .editor {
   color: var(--dark-gray);
   padding: var(--space-2) var(--space-3);
+  text-shadow: 0 1px var(--white);
 }
+
 .editor .block {
   display: inline;
 }
+
 .editor .comment,
 .editor .operator,
 .editor .punctuation {
   color: var(--gray);
 }
-.editor .string {
-  color: var(--green);
-}
-.editor .decimal,
-.editor .boolean {
-  color: var(--purple);
-}
+
 .editor .storage {
   color: var(--blue);
 }
+
 .editor .method-call,
 .editor .entity.function,
 .editor .property {
   color: var(--red);
 }
+
 .editor .control,
 .editor .attribute-name {
   color: var(--orange);
+}
+
+.editor .string,
+.editor .regexp {
+  color: var(--green);
+}
+
+.editor .decimal,
+.editor .boolean {
+  color: var(--purple);
 }
