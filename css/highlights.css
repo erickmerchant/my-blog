@@ -14,17 +14,20 @@
   color: var(--gray);
 }
 
-.editor .storage {
+.editor .control,
+.editor .storage,
+.editor .new {
   color: var(--blue);
 }
 
 .editor .method-call,
 .editor .entity.function,
-.editor .property {
+.editor .property,
+.editor .support.constant {
   color: var(--red);
 }
 
-.editor .control,
+.editor .language,
 .editor .attribute-name {
   color: var(--orange);
 }
