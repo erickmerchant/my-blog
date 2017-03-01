@@ -27,10 +27,6 @@
   cursor: default;
 }
 
-.btn.is-disabled:hover {
-  opacity: 100%;
-}
-
 .field {
   font-family: inherit;
   font-size: inherit;
