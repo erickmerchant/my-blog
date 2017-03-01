@@ -36,7 +36,7 @@
     "sharp": "^0.17.0",
     "slug": "^0.9.1",
     "smallector": "^1.0.3",
-    "standard": "^8.0.0",
+    "standard": "^9.0.0",
     "static-engine": "^10.0.0",
     "static-engine-collection": "^5.1.1",
     "static-engine-defaults": "^6.0.0",
