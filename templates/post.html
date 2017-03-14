@@ -20,25 +20,25 @@
   </article>
   <nav class="h4 clearfix p3 flex flex-row flex-wrap content-stretch justify-center">
     @if (content.previous)
-      <a class="flex-auto nowrap m1 md-mx4 rounded btn bold background-blue white p2" rel="prev" href="/posts/${content.previous.slug}/">
+      <a class="flex-auto nowrap m1 md-mx4 rounded center btn bold background-blue white p2" rel="prev" href="/posts/${content.previous.slug}/">
         @call icon ('chevronLeft')
         Older
       </a>
     @
     @if (!content.previous)
-      <span class="flex-auto nowrap m1 md-mx4 rounded btn bold background-gray white is-disabled p2">
+      <span class="flex-auto nowrap m1 md-mx4 rounded center btn bold background-gray white is-disabled p2">
         @call icon ('chevronLeft')
         Older
       </span>
     @
     @if (content.next)
-      <a class="flex-auto nowrap right-align m1 md-mx4 rounded btn bold background-blue white p2" rel="next" href="/posts/${content.next.slug}/">
+      <a class="flex-auto nowrap m1 md-mx4 rounded center btn bold background-blue white p2" rel="next" href="/posts/${content.next.slug}/">
         Newer
         @call icon ('chevronRight')
       </a>
     @
     @if (!content.next)
-      <span class="flex-auto nowrap right-align m1 md-mx4 rounded btn bold background-gray white is-disabled p2">
+      <span class="flex-auto nowrap m1 md-mx4 rounded center btn bold background-gray white is-disabled p2">
         Newer
         @call icon ('chevronRight')
       </span>
