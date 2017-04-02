@@ -1,21 +1,22 @@
 {
-  "name": "erickmerchat.com-source",
+  "name": "erickmerchant.com-source",
   "private": true,
   "devDependencies": {
     "@erickmerchant/assets": "^1.0.0",
-    "@erickmerchant/html": "^1.1.1",
+    "@erickmerchant/html": "^2.0.0",
+    "@erickmerchant/ift": "^2.1.1",
     "basscss": "^8.0.0",
     "basscss-basic": "^1.0.0",
     "chalk": "^1.0.0",
     "cpy-cli": "^1.0.1",
     "geomicons-open": "^2.0.0",
+    "harp": "^0.23.0",
     "imagemin-cli": "^3.0.0",
-    "moment": "^2.11.2",
-    "moment-timezone": "^0.5.0",
+    "lodash.groupby": "^4.6.0",
+    "moment-timezone": "^0.5.11",
     "resize-cli": "0.0.4",
     "slug": "^0.9.1",
     "standard": "^9.0.0",
-    "static-server": "^2.0.4",
     "watch": "^1.0.2"
   },
   "dependencies": {},
@@ -23,12 +24,13 @@
     "test": "standard",
     "cpy-base": "cpy base/* build",
     "cpy-icons": "cpy node_modules/geomicons-open/dist/geomicons.svg build",
-    "resize": "resize uploads/* --max-width 640 -o build/thumbnails",
-    "imagemin": "imagemin build/thumbnails/*",
-    "images": "npm run resize && npm run imagemin",
+    "cpy-images": "cpy uploads/* build/uploads",
+    "resize": "resize build/uploads/* --max-width 640 -o build/uploads/",
+    "imagemin": "imagemin build/uploads/* --out-dir build/uploads/",
+    "images": "npm run cpy-images && npm run resize && npm run imagemin",
     "assets": "assets build",
     "html": "html build",
-    "build": "npm run cpy-base & npm run cpy-icons & npm run images & npm run assets & npm run html",
-    "watch": "watch 'npm run cpy-base' base & cpy-icons & watch 'npm run images' uploads & assets build -w & html build -w & static-server build"
+    "build": "npm run cpy-base && npm run cpy-icons && npm run images && npm run assets && npm run html",
+    "watch": "watch 'npm run cpy-base' base & npm run cpy-icons & watch 'npm run images' uploads & assets build -w --no-min & html build -w --no-min & harp server --port 8000 build"
   }
 }
