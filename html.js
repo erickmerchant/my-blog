@@ -24,7 +24,7 @@ module.exports = ({collection, template}) => {
           timeZone: moment.tz.guess(),
           title: args.title,
           summary: args.summary || '',
-          slug: slug(args.title)
+          slug: slug(args.title.toLowerCase())
         }
       }
     },
