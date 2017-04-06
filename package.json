@@ -3,27 +3,23 @@
   "private": true,
   "devDependencies": {
     "@erickmerchant/assets": "^1.0.0",
+    "@erickmerchant/copy-files": "^1.0.0",
     "@erickmerchant/html": "^2.0.0",
     "@erickmerchant/ift": "^2.1.1",
+    "@erickmerchant/serve-files": "^1.0.0",
     "basscss": "^8.0.0",
     "basscss-basic": "^1.0.0",
     "chalk": "^1.0.0",
-    "cpy-cli": "^1.0.1",
     "geomicons-open": "^2.0.0",
-    "harp": "^0.23.0",
     "lodash.groupby": "^4.6.0",
     "moment-timezone": "^0.5.11",
     "slug": "^0.9.1",
-    "standard": "^10.0.0",
-    "watch": "^1.0.2"
+    "standard": "^10.0.0"
   },
   "dependencies": {},
   "scripts": {
     "test": "standard",
-    "cpy": "cpy base/* node_modules/geomicons-open/dist/geomicons.svg build",
-    "assets": "assets build",
-    "html": "html build",
-    "build": "npm run cpy && npm run assets && npm run html",
-    "watch": "watch 'npm run cpy' base & assets build -w --no-min & html build -w --no-min & harp server --port 8000 build"
+    "build": "copy-files 'base/*' build && copy-files node_modules/geomicons-open/dist/geomicons.svg build && assets build && html build",
+    "watch": "copy-files 'base/*' build -w  & assets build -w --no-min & html build -w --no-min & serve-files build"
   }
 }

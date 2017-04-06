@@ -58,7 +58,7 @@ module.exports = ({collection, template}) => {
       }
     }))
 
-    const posts = content.posts.reverse()
+    const posts = [...content.posts].reverse()
     const groupedPosts = groupby(posts, (post) => post.date.format('MMMM YYYY'))
 
     save('/posts/', layout({
@@ -109,8 +109,10 @@ module.exports = ({collection, template}) => {
               </header>
               <div>${safe(post.content)}</div>
             </article>
-            <nav class="h4 clearfix p3 flex flex-row flex-wrap content-stretch justify-center">
-              ${safe(ift(posts[index + 1], (previous) => html`
+            <nav class="h4 clearfix p2 flex flex-row flex-wrap content-stretch justify-center">
+              ${safe(ift(
+              posts[index + 1],
+              (previous) => html`
                 <a class="flex-auto nowrap m1 md-mx4 rounded center btn bold background-blue white p2" rel="prev" href="/posts/${previous.slug}/">
                   ${icon('chevronLeft')}
                   Older
@@ -121,7 +123,9 @@ module.exports = ({collection, template}) => {
                   Older
                 </span>`
               ))}
-              ${safe(ift(posts[index - 1], (next) => html`
+              ${safe(ift(
+              posts[index - 1],
+              (next) => html`
                 <a class="flex-auto nowrap m1 md-mx4 rounded center btn bold background-blue white p2" rel="next" href="/posts/${next.slug}/">
                   Newer
                   ${icon('chevronRight')}
@@ -180,8 +184,8 @@ module.exports = ({collection, template}) => {
               </div>
             </div>
             <div class="sm-col-8 pt2 flex flex-column">
-              <main role="main" class="block flex-auto pb1">
-                <div class="max-width-3 px3">
+              <main role="main" class="block flex-auto">
+                <div class="mx-auto max-width-3 px3">
                   ${safe(main({title, url}))}
                 </div>
               </main>
