@@ -36,10 +36,10 @@ module.exports = ({collection, template}) => {
     }
   })
 
-  template(({content, html, save, safe}) => {
+  template(({content, html, save, safe, link}) => {
     save('/404', layout({
       title: '404 Not Found',
-      url: `${host}/404.html`,
+      url: `/404.html`,
       main ({title, url}) {
         return html`
         <form role="search" action="http://google.com/search" class="clearfix">
@@ -63,7 +63,7 @@ module.exports = ({collection, template}) => {
 
     save('/posts/', layout({
       title: 'Posts',
-      url: `${host}/posts/`,
+      url: `/posts/`,
       main ({title, url}) {
         return html`
         <h1 class="h1 bold">${title}</h1>
@@ -75,7 +75,7 @@ module.exports = ({collection, template}) => {
             </h2>
             <dl>
               ${safe(groupedPosts[monthYear].map((post) => html`
-                <dt><a href="/posts/${post.slug}/">${post.title}</a></dt>
+                <dt><a href="${link('/posts/:slug', post)}">${post.title}</a></dt>
                 <dd>${post.summary}</dd>`
               ))}
             </dl>
@@ -86,7 +86,7 @@ module.exports = ({collection, template}) => {
 
     if (posts.length > 0) {
       posts.forEach((post, index) => {
-        let url = `/posts/${post.slug}/`
+        let url = link('/posts/:slug', post)
 
         if (index === 0) {
           url = ['/', url]
@@ -94,7 +94,7 @@ module.exports = ({collection, template}) => {
 
         save(url, layout({
           title: `${post.title} | Posts`,
-          url: `${host}/posts/${post.slug}/`,
+          url: link('/posts/:slug', post),
           main ({title, url}) {
             return html`
             <article>
@@ -113,7 +113,7 @@ module.exports = ({collection, template}) => {
               ${safe(ift(
               posts[index + 1],
               (previous) => html`
-                <a class="flex-auto nowrap m1 md-mx4 rounded center btn bold background-blue white p2" rel="prev" href="/posts/${previous.slug}/">
+                <a class="flex-auto nowrap m1 md-mx4 rounded center btn bold background-blue white p2" rel="prev" href="${link('/posts/:slug', previous)}">
                   ${icon('chevronLeft')}
                   Older
                 </a>`,
@@ -126,7 +126,7 @@ module.exports = ({collection, template}) => {
               ${safe(ift(
               posts[index - 1],
               (next) => html`
-                <a class="flex-auto nowrap m1 md-mx4 rounded center btn bold background-blue white p2" rel="next" href="/posts/${next.slug}/">
+                <a class="flex-auto nowrap m1 md-mx4 rounded center btn bold background-blue white p2" rel="next" href="${link('/posts/:slug', next)}">
                   Newer
                   ${icon('chevronRight')}
                 </a>`,
@@ -154,7 +154,7 @@ module.exports = ({collection, template}) => {
           <title>${title}</title>
           <link href="/favicon.png" rel="shortcut icon" type="image/png">
           <link href="/app.css" rel="stylesheet" type="text/css">
-          <link rel="canonical" href="${url}">
+          <link rel="canonical" href="${host}${url}">
         </head>
         <body class="flex flex-column">
           <div class="col sm-flex full-view-height">
