@@ -19,7 +19,7 @@
   "dependencies": {},
   "scripts": {
     "test": "standard",
-    "build": "copy-files 'base/*' build && copy-files node_modules/geomicons-open/dist/geomicons.svg build && assets build && html build",
-    "watch": "copy-files 'base/*' build -w  & assets build -w --no-min & html build -w --no-min & serve-files build"
+    "build": "copy-files node_modules/geomicons-open/dist/geomicons.svg build  && copy-files 'base/*' build && assets build && html build",
+    "watch": "copy-files node_modules/geomicons-open/dist/geomicons.svg build  & copy-files 'base/*' build -w  & assets build -w --no-min & html build -w --no-min & serve-files build"
   }
 }
