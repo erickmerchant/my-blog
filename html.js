@@ -20,11 +20,11 @@ module.exports = ({collection, template}) => {
 
       return (args) => {
         return {
-          time: Date.now(),
-          timeZone: moment.tz.guess(),
           title: args.title,
           summary: args.summary || '',
-          slug: slug(args.title.toLowerCase())
+          time: Date.now(),
+          slug: slug(args.title.toLowerCase()),
+          timeZone: moment.tz.guess()
         }
       }
     },
