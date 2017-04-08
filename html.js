@@ -75,7 +75,7 @@ module.exports = ({collection, template}) => {
             </h2>
             <dl>
               ${safe(groupedPosts[monthYear].map((post) => html`
-                <dt><a href="${link('/posts/:slug', post)}">${post.title}</a></dt>
+                <dt><a href="${link('/posts/:slug/', post)}">${post.title}</a></dt>
                 <dd>${post.summary}</dd>`
               ))}
             </dl>
@@ -86,7 +86,7 @@ module.exports = ({collection, template}) => {
 
     if (posts.length > 0) {
       posts.forEach((post, index) => {
-        let url = link('/posts/:slug', post)
+        let url = link('/posts/:slug/', post)
 
         if (index === 0) {
           url = ['/', url]
@@ -94,7 +94,7 @@ module.exports = ({collection, template}) => {
 
         save(url, layout({
           title: `${post.title} | Posts`,
-          url: link('/posts/:slug', post),
+          url: link('/posts/:slug/', post),
           main ({title, url}) {
             return html`
             <article>
@@ -113,7 +113,7 @@ module.exports = ({collection, template}) => {
               ${safe(ift(
               posts[index + 1],
               (previous) => html`
-                <a class="flex-auto nowrap m1 md-mx4 rounded center btn bold background-blue white p2" rel="prev" href="${link('/posts/:slug', previous)}">
+                <a class="flex-auto nowrap m1 md-mx4 rounded center btn bold background-blue white p2" rel="prev" href="${link('/posts/:slug/', previous)}">
                   ${icon('chevronLeft')}
                   Older
                 </a>`,
@@ -126,7 +126,7 @@ module.exports = ({collection, template}) => {
               ${safe(ift(
               posts[index - 1],
               (next) => html`
-                <a class="flex-auto nowrap m1 md-mx4 rounded center btn bold background-blue white p2" rel="next" href="${link('/posts/:slug', next)}">
+                <a class="flex-auto nowrap m1 md-mx4 rounded center btn bold background-blue white p2" rel="next" href="${link('/posts/:slug/', next)}">
                   Newer
                   ${icon('chevronRight')}
                 </a>`,
