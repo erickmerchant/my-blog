@@ -3,7 +3,7 @@
   "private": true,
   "devDependencies": {
     "@erickmerchant/assets": "^1.0.0",
-    "@erickmerchant/copy-files": "^1.0.0",
+    "@erickmerchant/copy-files": "^1.1.0",
     "@erickmerchant/html": "^2.0.0",
     "@erickmerchant/ift": "^2.1.1",
     "@erickmerchant/serve-files": "^1.0.0",
@@ -19,7 +19,7 @@
   "dependencies": {},
   "scripts": {
     "test": "standard",
-    "build": "copy-files node_modules/geomicons-open/dist/geomicons.svg build  && copy-files 'base/*' build && assets build && html build",
-    "watch": "copy-files node_modules/geomicons-open/dist/geomicons.svg build  & copy-files 'base/*' build -w  & assets build -w --no-min & html build -w --no-min & serve-files build"
+    "build": "copy-files node_modules/geomicons-open/dist/geomicons.svg 'base/*' build  && assets build && html build",
+    "watch": "copy-files node_modules/geomicons-open/dist/geomicons.svg 'base/*' build -w  & assets build -w --no-min & html build -w --no-min & serve-files build"
   }
 }
