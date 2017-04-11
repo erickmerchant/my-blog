@@ -5,10 +5,12 @@ const groupby = require('lodash.groupby')
 const host = 'http://erickmerchant.com'
 
 module.exports = ({collection, template}) => {
-  collection('posts', {
-    singular: 'post',
-    route: 'posts/:time.:slug',
-    create ({parameter, option}) {
+  collection('post', 'posts/:time.:slug', ({field}) => {
+    field('time', (time) => Number(time))
+
+    field('date', (data, post) => moment(new Date(post.time)).tz(post.timeZone))
+
+    return ({parameter, option}) => {
       option('title', {
         description: 'the title',
         required: true
@@ -27,16 +29,10 @@ module.exports = ({collection, template}) => {
           timeZone: moment.tz.guess()
         }
       }
-    },
-    read (object) {
-      object.time = Number(object.time)
-      object.date = moment(new Date(object.time)).tz(object.timeZone)
-
-      return object
     }
   })
 
-  template(({content, html, save, safe, link}) => {
+  return ({fetch, html, save, safe, link}) => {
     save('/404', layout({
       title: '404 Not Found',
       url: `/404.html`,
@@ -58,90 +54,93 @@ module.exports = ({collection, template}) => {
       }
     }))
 
-    const posts = [...content.posts].reverse()
-    const groupedPosts = groupby(posts, (post) => post.date.format('MMMM YYYY'))
+    fetch('posts/:time.:slug', (posts) => {
+      posts = posts.reverse()
 
-    save('/posts/', layout({
-      title: 'Posts',
-      url: `/posts/`,
-      main ({title, url}) {
-        return html`
-        <h1 class="h1 bold">${title}</h1>
-        ${safe(Object.keys(groupedPosts).map((monthYear) => html`
-          <section>
-            <h2 class="h2 bold">
-              ${icon('calendar')}
-              ${monthYear}
-            </h2>
-            <dl>
-              ${safe(groupedPosts[monthYear].map((post) => html`
-                <dt><a href="${link('/posts/:slug/', post)}">${post.title}</a></dt>
-                <dd>${post.summary}</dd>`
-              ))}
-            </dl>
-          </section>`
-        ))}`
-      }
-    }))
+      const groupedPosts = groupby(posts, (post) => post.date.format('MMMM YYYY'))
 
-    if (posts.length > 0) {
-      posts.forEach((post, index) => {
-        let url = link('/posts/:slug/', post)
-
-        if (index === 0) {
-          url = ['/', url]
+      save('/posts/', layout({
+        title: 'Posts',
+        url: `/posts/`,
+        main ({title, url}) {
+          return html`
+          <h1 class="h1 bold">${title}</h1>
+          ${safe(Object.keys(groupedPosts).map((monthYear) => html`
+            <section>
+              <h2 class="h2 bold">
+                ${icon('calendar')}
+                ${monthYear}
+              </h2>
+              <dl>
+                ${safe(groupedPosts[monthYear].map((post) => html`
+                  <dt><a href="${link('/posts/:slug/', post)}">${post.title}</a></dt>
+                  <dd>${post.summary}</dd>`
+                ))}
+              </dl>
+            </section>`
+          ))}`
         }
+      }))
 
-        save(url, layout({
-          title: `${post.title} | Posts`,
-          url: link('/posts/:slug/', post),
-          main ({title, url}) {
-            return html`
-            <article>
-              <header>
-                <h1 class="h1 bold">${post.title}</h1>
-                <p>
-                  <time class="h3 bold" datetime="${post.date.format('YYYY-MM-DD')}">
-                    ${icon('calendar')}
-                    ${post.date.format('MMMM D, YYYY')}
-                  </time>
-                </p>
-              </header>
-              <div>${safe(post.content)}</div>
-            </article>
-            <nav class="h4 clearfix p2 flex flex-row flex-wrap content-stretch justify-center">
-              ${safe(ift(
-              posts[index + 1],
-              (previous) => html`
-                <a class="flex-auto nowrap m1 md-mx4 rounded center btn bold background-blue white p2" rel="prev" href="${link('/posts/:slug/', previous)}">
-                  ${icon('chevronLeft')}
-                  Older
-                </a>`,
-              () => html`
-                <span class="flex-auto nowrap m1 md-mx4 rounded center btn bold background-gray white is-disabled p2">
-                  ${icon('chevronLeft')}
-                  Older
-                </span>`
-              ))}
-              ${safe(ift(
-              posts[index - 1],
-              (next) => html`
-                <a class="flex-auto nowrap m1 md-mx4 rounded center btn bold background-blue white p2" rel="next" href="${link('/posts/:slug/', next)}">
-                  Newer
-                  ${icon('chevronRight')}
-                </a>`,
-              () => html`
-                <span class="flex-auto nowrap m1 md-mx4 rounded center btn bold background-gray white is-disabled p2">
-                  Newer
-                  ${icon('chevronRight')}
-                </span>`
-              ))}
-            </nav>
-            `
+      if (posts.length > 0) {
+        posts.forEach((post, index) => {
+          let url = link('/posts/:slug/', post)
+
+          if (index === 0) {
+            url = ['/', url]
           }
-        }))
-      })
-    }
+
+          save(url, layout({
+            title: `${post.title} | Posts`,
+            url: link('/posts/:slug/', post),
+            main ({title, url}) {
+              return html`
+              <article>
+                <header>
+                  <h1 class="h1 bold">${post.title}</h1>
+                  <p>
+                    <time class="h3 bold" datetime="${post.date.format('YYYY-MM-DD')}">
+                      ${icon('calendar')}
+                      ${post.date.format('MMMM D, YYYY')}
+                    </time>
+                  </p>
+                </header>
+                <div>${safe(post.content)}</div>
+              </article>
+              <nav class="h4 clearfix p2 flex flex-row flex-wrap content-stretch justify-center">
+                ${safe(ift(
+                posts[index + 1],
+                (previous) => html`
+                  <a class="flex-auto nowrap m1 md-mx4 rounded center btn bold background-blue white p2" rel="prev" href="${link('/posts/:slug/', previous)}">
+                    ${icon('chevronLeft')}
+                    Older
+                  </a>`,
+                () => html`
+                  <span class="flex-auto nowrap m1 md-mx4 rounded center btn bold background-gray white is-disabled p2">
+                    ${icon('chevronLeft')}
+                    Older
+                  </span>`
+                ))}
+                ${safe(ift(
+                posts[index - 1],
+                (next) => html`
+                  <a class="flex-auto nowrap m1 md-mx4 rounded center btn bold background-blue white p2" rel="next" href="${link('/posts/:slug/', next)}">
+                    Newer
+                    ${icon('chevronRight')}
+                  </a>`,
+                () => html`
+                  <span class="flex-auto nowrap m1 md-mx4 rounded center btn bold background-gray white is-disabled p2">
+                    Newer
+                    ${icon('chevronRight')}
+                  </span>`
+                ))}
+              </nav>
+              `
+            }
+          }))
+        })
+      }
+    })
 
     function layout ({title, url, main}) {
       return html`
@@ -214,5 +213,5 @@ module.exports = ({collection, template}) => {
         <use xlink:href="/geomicons.svg#${name}"></use>
       </svg>`)
     }
-  })
+  }
 }

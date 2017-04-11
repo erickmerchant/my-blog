@@ -4,7 +4,7 @@
   "devDependencies": {
     "@erickmerchant/assets": "^1.0.0",
     "@erickmerchant/copy-files": "^1.1.0",
-    "@erickmerchant/html": "^2.0.0",
+    "@erickmerchant/html": "^3.0.0",
     "@erickmerchant/ift": "^2.1.1",
     "@erickmerchant/serve-files": "^1.0.0",
     "basscss": "^8.0.0",
