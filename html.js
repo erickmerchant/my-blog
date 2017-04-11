@@ -8,7 +8,7 @@ module.exports = ({collection, template}) => {
   collection('post', 'posts/:time.:slug', ({field}) => {
     field('time', (time) => Number(time))
 
-    field('date', (data, post) => moment(new Date(post.time)).tz(post.timeZone))
+    field('date', (date, post) => moment(new Date(post.time)).tz(post.timeZone))
 
     return ({parameter, option}) => {
       option('title', {
@@ -97,12 +97,12 @@ module.exports = ({collection, template}) => {
               ${safe(ift(
               posts[index + 1],
               (previous) => html`
-                <a class="flex-auto nowrap m1 md-mx4 rounded center btn bold background-blue white p2" rel="prev" href="${link('/posts/:slug/', previous)}">
+                <a class="flex-auto nowrap m1 md-mx4 rounded left-align btn bold background-blue white p2" rel="prev" href="${link('/posts/:slug/', previous)}">
                   ${icon('chevronLeft')}
                   Older
                 </a>`,
               () => html`
-                <span class="flex-auto nowrap m1 md-mx4 rounded center btn bold background-gray white is-disabled p2">
+                <span class="flex-auto nowrap m1 md-mx4 rounded left-align btn bold background-gray white is-disabled p2">
                   ${icon('chevronLeft')}
                   Older
                 </span>`
@@ -110,12 +110,12 @@ module.exports = ({collection, template}) => {
               ${safe(ift(
               posts[index - 1],
               (next) => html`
-                <a class="flex-auto nowrap m1 md-mx4 rounded center btn bold background-blue white p2" rel="next" href="${link('/posts/:slug/', next)}">
+                <a class="flex-auto nowrap m1 md-mx4 rounded right-align btn bold background-blue white p2" rel="next" href="${link('/posts/:slug/', next)}">
                   Newer
                   ${icon('chevronRight')}
                 </a>`,
               () => html`
-                <span class="flex-auto nowrap m1 md-mx4 rounded center btn bold background-gray white is-disabled p2">
+                <span class="flex-auto nowrap m1 md-mx4 rounded right-align btn bold background-gray white is-disabled p2">
                   Newer
                   ${icon('chevronRight')}
                 </span>`
