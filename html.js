@@ -33,54 +33,44 @@ module.exports = ({collection, template}) => {
   })
 
   return ({fetch, html, save, safe, link}) => {
-    save('/404', layout({
-      title: '404 Not Found',
-      url: `/404.html`,
-      main ({title, url}) {
-        return html`
-        <form role="search" action="http://google.com/search" class="clearfix">
-          <h1 class="h1 bold">${title}</h1>
-          <p>That page doesn't exist. It was either moved, removed, or never existed.</p>
-          <div class="center">
-            <input type="hidden" name="q" value="site:${host}">
-            <input class="field col-12 sm-col-6" type="text" placeholder="Search..." name="q">
-            <br class="sm-hide">
-            <button class="rounded btn bold background-blue white p2 m1 h4" type="submit">
-              ${icon('search')}
-              Submit
-            </button>
-          </div>
-        </form>`
-      }
-    }))
+    save('/404', layout('404 Not Found', '/404.html', ({title, url}) => html`
+      <form role="search" action="http://google.com/search" class="clearfix">
+        <h1 class="h1 bold">${title}</h1>
+        <p>That page doesn't exist. It was either moved, removed, or never existed.</p>
+        <div class="center">
+          <input type="hidden" name="q" value="site:${host}">
+          <input class="field col-12 sm-col-6" type="text" placeholder="Search..." name="q">
+          <br class="sm-hide">
+          <button class="rounded btn bold background-blue white p2 m1 h4" type="submit">
+            ${icon('search')}
+            Submit
+          </button>
+        </div>
+      </form>`
+    ))
 
     fetch('posts/:time.:slug', (posts) => {
       posts = posts.reverse()
 
-      const groupedPosts = groupby(posts, (post) => post.date.format('MMMM YYYY'))
+      const grouped = groupby(posts, (post) => post.date.format('MMMM YYYY'))
 
-      save('/posts/', layout({
-        title: 'Posts',
-        url: `/posts/`,
-        main ({title, url}) {
-          return html`
-          <h1 class="h1 bold">${title}</h1>
-          ${safe(Object.keys(groupedPosts).map((monthYear) => html`
-            <section>
-              <h2 class="h2 bold">
-                ${icon('calendar')}
-                ${monthYear}
-              </h2>
-              <dl>
-                ${safe(groupedPosts[monthYear].map((post) => html`
-                  <dt><a href="${link('/posts/:slug/', post)}">${post.title}</a></dt>
-                  <dd>${post.summary}</dd>`
-                ))}
-              </dl>
-            </section>`
-          ))}`
-        }
-      }))
+      save('/posts/', layout('Posts', '/posts/', ({title, url}) => html`
+        <h1 class="h1 bold">${title}</h1>
+        ${safe(Object.keys(grouped).map((monthYear) => html`
+          <section>
+            <h2 class="h2 bold">
+              ${icon('calendar')}
+              ${monthYear}
+            </h2>
+            <dl>
+              ${safe(grouped[monthYear].map((post) => html`
+                <dt><a href="${link('/posts/:slug/', post)}">${post.title}</a></dt>
+                <dd>${post.summary}</dd>`
+              ))}
+            </dl>
+          </section>`
+        ))}`
+      ))
 
       if (posts.length > 0) {
         posts.forEach((post, index) => {
@@ -90,59 +80,54 @@ module.exports = ({collection, template}) => {
             url = ['/', url]
           }
 
-          save(url, layout({
-            title: `${post.title} | Posts`,
-            url: link('/posts/:slug/', post),
-            main ({title, url}) {
-              return html`
-              <article>
-                <header>
-                  <h1 class="h1 bold">${post.title}</h1>
-                  <p>
-                    <time class="h3 bold" datetime="${post.date.format('YYYY-MM-DD')}">
-                      ${icon('calendar')}
-                      ${post.date.format('MMMM D, YYYY')}
-                    </time>
-                  </p>
-                </header>
-                <div>${safe(post.content)}</div>
-              </article>
-              <nav class="h4 clearfix p2 flex flex-row flex-wrap content-stretch justify-center">
-                ${safe(ift(
-                posts[index + 1],
-                (previous) => html`
-                  <a class="flex-auto nowrap m1 md-mx4 rounded center btn bold background-blue white p2" rel="prev" href="${link('/posts/:slug/', previous)}">
-                    ${icon('chevronLeft')}
-                    Older
-                  </a>`,
-                () => html`
-                  <span class="flex-auto nowrap m1 md-mx4 rounded center btn bold background-gray white is-disabled p2">
-                    ${icon('chevronLeft')}
-                    Older
-                  </span>`
-                ))}
-                ${safe(ift(
-                posts[index - 1],
-                (next) => html`
-                  <a class="flex-auto nowrap m1 md-mx4 rounded center btn bold background-blue white p2" rel="next" href="${link('/posts/:slug/', next)}">
-                    Newer
-                    ${icon('chevronRight')}
-                  </a>`,
-                () => html`
-                  <span class="flex-auto nowrap m1 md-mx4 rounded center btn bold background-gray white is-disabled p2">
-                    Newer
-                    ${icon('chevronRight')}
-                  </span>`
-                ))}
-              </nav>
-              `
-            }
-          }))
+          save(url, layout(`${post.title} | Posts`, link('/posts/:slug/', post), ({title, url}) => html`
+            <article>
+              <header>
+                <h1 class="h1 bold">${post.title}</h1>
+                <p>
+                  <time class="h3 bold" datetime="${post.date.format('YYYY-MM-DD')}">
+                    ${icon('calendar')}
+                    ${post.date.format('MMMM D, YYYY')}
+                  </time>
+                </p>
+              </header>
+              <div>${safe(post.content)}</div>
+            </article>
+            <nav class="h4 clearfix p2 flex flex-row flex-wrap content-stretch justify-center">
+              ${safe(ift(
+              posts[index + 1],
+              (previous) => html`
+                <a class="flex-auto nowrap m1 md-mx4 rounded center btn bold background-blue white p2" rel="prev" href="${link('/posts/:slug/', previous)}">
+                  ${icon('chevronLeft')}
+                  Older
+                </a>`,
+              () => html`
+                <span class="flex-auto nowrap m1 md-mx4 rounded center btn bold background-gray white is-disabled p2">
+                  ${icon('chevronLeft')}
+                  Older
+                </span>`
+              ))}
+              ${safe(ift(
+              posts[index - 1],
+              (next) => html`
+                <a class="flex-auto nowrap m1 md-mx4 rounded center btn bold background-blue white p2" rel="next" href="${link('/posts/:slug/', next)}">
+                  Newer
+                  ${icon('chevronRight')}
+                </a>`,
+              () => html`
+                <span class="flex-auto nowrap m1 md-mx4 rounded center btn bold background-gray white is-disabled p2">
+                  Newer
+                  ${icon('chevronRight')}
+                </span>`
+              ))}
+            </nav>
+            `
+          ))
         })
       }
     })
 
-    function layout ({title, url, main}) {
+    function layout (title, url, main) {
       return html`
       <!DOCTYPE html>
       <html lang="en">
