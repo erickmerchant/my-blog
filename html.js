@@ -143,7 +143,7 @@ module.exports = ({collection, template}) => {
         <body class="flex flex-column">
           <div class="col sm-flex full-view-height">
             <div class="background-black sm-col-4 center">
-              <div class="sm-fixed top-0 sm-col-4 p2 flex-auto sm-flex flex-column items-center justify-top">
+              <div class="sm-fixed top-0 bottom-0 sm-col-4 p2 flex-auto sm-flex flex-column items-center justify-top overflow-scroll">
                 <span class="sm-col sm-mt4 my1 inline-block"><a class="white bold sm-mt4 m1 lg-h1 md-h2 sm-h3" href="/">Erick Merchant</a></span>
                 <nav class="sm-flex flex-column inline-block">
                   <span class="sm-col sm-mt2 my1 inline-block">
