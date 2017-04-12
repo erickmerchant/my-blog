@@ -32,7 +32,7 @@ module.exports = ({collection, template}) => {
     }
   })
 
-  return ({fetch, html, save, safe, link}) => {
+  return ({get, html, save, safe, link}) => {
     save('/404', layout('404 Not Found', '/404.html', ({title, url}) => html`
       <form role="search" action="http://google.com/search" class="clearfix">
         <h1 class="h1 bold">${title}</h1>
@@ -49,7 +49,7 @@ module.exports = ({collection, template}) => {
       </form>`
     ))
 
-    fetch('posts/:time.:slug', (posts) => {
+    get('/posts/**/*', (posts) => {
       posts = posts.reverse()
 
       const grouped = groupby(posts, (post) => post.date.format('MMMM YYYY'))
