@@ -47,20 +47,8 @@
     @inherit: .fixed;
   }
 
-  .sm-mt2 {
-    @inherit: .mt2;
-  }
-
-  .sm-mt4 {
-    @inherit: .mt4;
-  }
-
   .sm-h3 {
     @inherit: .h3;
-  }
-
-  .sm-block {
-    @inherit: .block;
   }
 
   .sm-flex-row {
@@ -70,15 +58,23 @@
   .sm-flex-column {
     flex-direction: column;
   }
+
+  .sm-my2 {
+    @inherit: .my2;
+  }
+
+  .sm-mx2 {
+    @inherit: .mx2;
+  }
+
+  .sm-m2 {
+    @inherit: .m2;
+  }
 }
 
 @media (--breakpoint-md) {
   .md-h2 {
     @inherit: .h2;
-  }
-
-  .md-mx4 {
-    @inherit: .mx4;
   }
 }
 

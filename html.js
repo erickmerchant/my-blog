@@ -2,6 +2,7 @@ const slug = require('slug')
 const ift = require('@erickmerchant/ift')('')
 const moment = require('moment-timezone')
 const groupby = require('lodash.groupby')
+const icons = require('geomicons-open')
 const host = 'http://erickmerchant.com'
 
 module.exports = ({collection, template}) => {
@@ -10,6 +11,8 @@ module.exports = ({collection, template}) => {
 
     field('date', (date, post) => moment(new Date(post.time)).tz(post.timeZone))
 
+    field('is-draft', (isDraft) => isDraft != null ? isDraft : false)
+
     return ({parameter, option}) => {
       option('title', {
         description: 'the title',
@@ -17,25 +20,33 @@ module.exports = ({collection, template}) => {
       })
 
       option('summary', {
-        description: 'the summary'
+        description: 'the summary',
+        default: ''
+      })
+
+      option('is-draft', {
+        description: 'is it a draft',
+        type: Boolean,
+        default: true
       })
 
       return (args) => {
         return {
           title: args.title,
-          summary: args.summary || '',
+          summary: args.summary,
           time: Date.now(),
           slug: slug(args.title.toLowerCase()),
-          timeZone: moment.tz.guess()
+          timeZone: moment.tz.guess(),
+          isDraft: args.isDraft
         }
       }
     }
   })
 
-  return ({get, html, save, safe, link}) => {
+  return ({get, html, save, safe, link, dev}) => {
     save('/404', layout('404 Not Found', '/404.html', ({title, url}) => html`
       <form role="search" action="http://google.com/search" class="clearfix">
-        <h1 class="h1 bold">${title}</h1>
+        <h1>${title}</h1>
         <p>That page doesn't exist. It was either moved, removed, or never existed.</p>
         <div class="center">
           <input type="hidden" name="q" value="site:${host}">
@@ -50,15 +61,15 @@ module.exports = ({collection, template}) => {
     ))
 
     get('/posts/**/*', (posts) => {
-      posts = posts.reverse()
+      posts = posts.reverse().filter((post) => dev || !post.isDraft)
 
       const grouped = groupby(posts, (post) => post.date.format('MMMM YYYY'))
 
       save('/posts/', layout('Posts', '/posts/', ({title, url}) => html`
-        <h1 class="h1 bold">${title}</h1>
+        <h1>${title}</h1>
         ${safe(Object.keys(grouped).map((monthYear) => html`
           <section>
-            <h2 class="h2 bold">
+            <h2>
               ${icon('calendar')}
               ${monthYear}
             </h2>
@@ -83,7 +94,7 @@ module.exports = ({collection, template}) => {
           save(url, layout(`${post.title} | Posts`, link('/posts/:slug/', post), ({title, url}) => html`
             <article>
               <header>
-                <h1 class="h1 bold">${post.title}</h1>
+                <h1>${post.title}</h1>
                 <p>
                   <time class="h3 bold" datetime="${post.date.format('YYYY-MM-DD')}">
                     ${icon('calendar')}
@@ -93,16 +104,16 @@ module.exports = ({collection, template}) => {
               </header>
               <div>${safe(post.content)}</div>
             </article>
-            <nav class="h4 clearfix p2 flex flex-row flex-wrap content-stretch justify-center">
+            <nav class="h4 clearfix p2 flex flex-wrap justify-around">
               ${safe(ift(
               posts[index + 1],
               (previous) => html`
-                <a class="flex-auto nowrap m1 md-mx4 rounded left-align btn bold background-blue white p2" rel="prev" href="${link('/posts/:slug/', previous)}">
+                <a class="nowrap m1 rounded left-align btn bold background-blue white p2" rel="prev" href="${link('/posts/:slug/', previous)}">
                   ${icon('chevronLeft')}
                   Older
                 </a>`,
               () => html`
-                <span class="flex-auto nowrap m1 md-mx4 rounded left-align btn bold background-gray white is-disabled p2">
+                <span class="nowrap m1 rounded left-align btn bold background-gray white is-disabled p2">
                   ${icon('chevronLeft')}
                   Older
                 </span>`
@@ -110,12 +121,12 @@ module.exports = ({collection, template}) => {
               ${safe(ift(
               posts[index - 1],
               (next) => html`
-                <a class="flex-auto nowrap m1 md-mx4 rounded right-align btn bold background-blue white p2" rel="next" href="${link('/posts/:slug/', next)}">
+                <a class="nowrap m1 rounded right-align btn bold background-blue white p2" rel="next" href="${link('/posts/:slug/', next)}">
                   Newer
                   ${icon('chevronRight')}
                 </a>`,
               () => html`
-                <span class="flex-auto nowrap m1 md-mx4 rounded right-align btn bold background-gray white is-disabled p2">
+                <span class="nowrap m1 rounded right-align btn bold background-gray white is-disabled p2">
                   Newer
                   ${icon('chevronRight')}
                 </span>`
@@ -141,39 +152,39 @@ module.exports = ({collection, template}) => {
           <link rel="canonical" href="${host}${url}">
         </head>
         <body class="flex flex-column">
-          <div class="col sm-flex full-view-height">
+          <div class="col flex flex-column sm-flex-row full-view-height">
             <div class="background-black sm-col-4 center">
-              <div class="sm-fixed top-0 bottom-0 sm-col-4 p2 flex-auto sm-flex flex-column items-center justify-top overflow-scroll">
-                <span class="sm-col sm-mt4 my1 inline-block"><a class="white bold sm-mt4 m1 lg-h1 md-h2 sm-h3" href="/">Erick Merchant</a></span>
+              <div class="sm-fixed top-0 bottom-0 sm-col-4 p2 flex-auto sm-flex flex-column items-center justify-top overflow-scroll sm-my2">
+                <span class="sm-col my1 inline-block sm-my2"><a class="white bold m1 lg-h1 md-h2 sm-h3" href="/">Erick Merchant</a></span>
                 <nav class="sm-flex flex-column inline-block">
-                  <span class="sm-col sm-mt2 my1 inline-block">
-                    <a class="white bold sm-mt2 m1" href="/posts/">
+                  <span class="sm-col my1 inline-block sm-my2">
+                    <a class="white bold m1" href="/posts/">
                       ${icon('calendar')}
-                      <span class="sm-show">Posts</span>
+                      Posts
                     </a>
                   </span>
-                  <span class="sm-col sm-mt2 my1 inline-block">
-                    <a class="white bold sm-mt2 m1" href="http://github.com/erickmerchant/">
+                  <span class="sm-col my1 inline-block sm-my2">
+                    <a class="white bold m1" href="http://github.com/erickmerchant/">
                       ${icon('github')}
-                      <span class="sm-show">GitHub</span>
+                      GitHub
                     </a>
                   </span>
-                  <span class="sm-col sm-mt2 my1 inline-block">
-                    <a class="white bold sm-mt2 m1" href="http://twitter.com/erickmerchant/">
+                  <span class="sm-col my1 inline-block sm-my2">
+                    <a class="white bold m1" href="http://twitter.com/erickmerchant/">
                       ${icon('twitter')}
-                      <span class="sm-show">Twitter</span>
+                      Twitter
                     </a>
                   </span>
                 </nav>
               </div>
             </div>
-            <div class="sm-col-8 pt2 flex flex-column">
+            <div class="sm-col-8 pt2 flex flex-column flex-auto">
               <main role="main" class="block flex-auto">
                 <div class="mx-auto max-width-3 px3">
                   ${safe(main({title, url}))}
                 </div>
               </main>
-              <footer class="block max-width-3 px3 muted h6" role="contentinfo">
+              <footer class="background-light-gray block px3 muted h6" role="contentinfo">
                 <div class="p2 max-width-3 mx-auto center sm-flex flex-wrap items-center justify-center">
                   <a class="inline-block bold m1" href="https://github.com/erickmerchant/erickmerchant.com-source">
                     ${icon('github')}
@@ -195,7 +206,7 @@ module.exports = ({collection, template}) => {
     function icon (name) {
       return safe(html`
       <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-        <use xlink:href="/geomicons.svg#${name}"></use>
+        <path d="${icons.paths[name]}" />
       </svg>`)
     }
   }
