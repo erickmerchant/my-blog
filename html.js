@@ -3,17 +3,11 @@ const ift = require('@erickmerchant/ift')('')
 const moment = require('moment-timezone')
 const groupby = require('lodash.groupby')
 const icons = require('geomicons-open')
-const host = 'http://erickmerchant.com'
+const host = 'http://erickmerchant.com/'
 
-module.exports = ({collection, template}) => {
-  collection('post', 'posts/:time.:slug', ({field}) => {
-    field('time', (time) => Number(time))
-
-    field('date', (date, post) => moment(new Date(post.time)).tz(post.timeZone))
-
-    field('is-draft', (isDraft) => isDraft != null ? isDraft : false)
-
-    return ({parameter, option}) => {
+module.exports = ({collection}) => {
+  collection('post', ({on, save, remove, read}) => {
+    on('draft', ({parameter, option}) => {
       option('title', {
         description: 'the title',
         required: true
@@ -24,27 +18,40 @@ module.exports = ({collection, template}) => {
         default: ''
       })
 
-      option('is-draft', {
-        description: 'is it a draft',
-        type: Boolean,
-        default: true
+      return (args) => {
+        save('posts/:slug', {
+          title: args.title,
+          summary: args.summary,
+          slug: slug(args.title.toLowerCase()),
+          timeZone: moment.tz.guess()
+        })
+      }
+    })
+
+    on('publish', ({parameter, option}) => {
+      parameter('post', {
+        description: 'the post to publish',
+        required: true
       })
 
       return (args) => {
-        return {
-          title: args.title,
-          summary: args.summary,
-          time: Date.now(),
-          slug: slug(args.title.toLowerCase()),
-          timeZone: moment.tz.guess(),
-          isDraft: args.isDraft
-        }
+        read(args.post, 'posts/:slug', (post) => {
+          save(
+            'posts/:time.:slug',
+            Object.assign(post, {
+              time: Date.now()
+            }),
+            () => {
+              remove(args.post)
+            }
+          )
+        })
       }
-    }
+    })
   })
 
   return ({get, html, save, safe, link, dev}) => {
-    save('/404', layout('404 Not Found', '/404.html', ({title, url}) => html`
+    save('404', layout('404 Not Found', '404.html', ({title, url}) => html`
       <form role="search" action="http://google.com/search" class="clearfix">
         <h1>${title}</h1>
         <p>That page doesn't exist. It was either moved, removed, or never existed.</p>
@@ -60,12 +67,16 @@ module.exports = ({collection, template}) => {
       </form>`
     ))
 
-    get('/posts/**/*', (posts) => {
-      posts = posts.reverse().filter((post) => dev || !post.isDraft)
+    get('posts/:time.:slug', (posts) => {
+      posts = posts.reverse().map((post) => {
+        post.date = moment(new Date(Number(post.time))).tz(post.timeZone)
+
+        return post
+      })
 
       const grouped = groupby(posts, (post) => post.date.format('MMMM YYYY'))
 
-      save('/posts/', layout('Posts', '/posts/', ({title, url}) => html`
+      save('posts/', layout('Posts', 'posts/', ({title, url}) => html`
         <h1>${title}</h1>
         ${safe(Object.keys(grouped).map((monthYear) => html`
           <section>
