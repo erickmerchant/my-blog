@@ -67,7 +67,13 @@ module.exports = ({collection}) => {
       </form>`
     ))
 
-    get('posts/:time.:slug', (posts) => {
+    const routes = ['posts/:time.:slug']
+
+    if (dev) {
+      routes.push('posts/:slug')
+    }
+
+    get(routes, (posts) => {
       posts = posts.reverse().map((post) => {
         post.date = moment(new Date(Number(post.time))).tz(post.timeZone)
 
