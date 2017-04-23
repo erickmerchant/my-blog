@@ -44,11 +44,11 @@
 
 @media (--breakpoint-sm) {
   .sm-fixed {
-    @inherit: .fixed;
+    position: fixed;
   }
 
   .sm-h3 {
-    @inherit: .h3;
+    font-size: var(--h3);
   }
 
   .sm-flex-row {
@@ -60,26 +60,31 @@
   }
 
   .sm-my2 {
-    @inherit: .my2;
+    margin-top: var(--space-2);
+    margin-bottom: var(--space-2);
   }
 
   .sm-mx2 {
-    @inherit: .mx2;
+    margin-right: var(--space-2);
+    margin-left: var(--space-2);
   }
 
   .sm-m2 {
-    @inherit: .m2;
+    margin-top: var(--space-2);
+    margin-bottom: var(--space-2);
+    margin-right: var(--space-2);
+    margin-left: var(--space-2);
   }
 }
 
 @media (--breakpoint-md) {
   .md-h2 {
-    @inherit: .h2;
+    font-size: var(--h2);
   }
 }
 
 @media (--breakpoint-lg) {
   .lg-h1 {
-    @inherit: .h1;
+    font-size: var(--h1);
   }
 }
