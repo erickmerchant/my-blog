@@ -75,7 +75,11 @@ module.exports = ({collection}) => {
 
     get(routes, (posts) => {
       posts = posts.reverse().map((post) => {
-        post.date = moment(new Date(Number(post.time))).tz(post.timeZone)
+        if (post.time) {
+          post.date = moment(new Date(Number(post.time))).tz(post.timeZone)
+        } else {
+          post.date = moment()
+        }
 
         return post
       })
