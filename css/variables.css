@@ -1,0 +1,31 @@
+@custom-media --breakpoint-sm (width < 40em);
+@custom-media --breakpoint-lg (width >= 40em);
+
+:root {
+  --black: hsl(0, 0%, 12.5%);
+  --dark-gray: hsl(0, 0%, 45%);
+  --gray: hsl(0, 0%, 65%);
+  --light-gray: hsl(0, 0%, 97.5%);
+  --white: hsl(0, 0%, 100%);
+
+  --red: hsl(350, 60%, 60%);
+  --orange: hsl(30, 70%, 60%);
+  --green: hsl(140, 50%, 60%);
+  --blue: hsl(200, 70%, 60%);
+  --purple: hsl(310, 60%, 60%);
+
+  --border-radius: 0.125em;
+  --border-width: 0.125em;
+
+  --whitespace-1: 0.5em;
+  --whitespace-2: 1em;
+  --whitespace-3: 2em;
+  --whitespace-4: 4em;
+
+  --heading-1: 2rem;
+  --heading-2: 1.5rem;
+  --heading-3: 1.25rem;
+  --heading-4: 1.125rem;
+  --heading-5: 1rem;
+  --heading-6: 0.875rem;
+}

@@ -3,23 +3,19 @@
 }
 
 body {
-  font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    'Roboto',
-    'Helvetica Neue',
-    Helvetica,
-    sans-serif;
+  font-family: system-ui;
   line-height: 1.5;
   margin: 0;
   color: var(--black);
   background-color: var(--white);
 }
 
+nav, main, section, footer {
+  display: block;
+}
+
 main {
   word-wrap: break-word;
-  display: block;
 }
 
 img {
@@ -30,7 +26,7 @@ img {
   padding: 1em;
   border-radius: var(--border-radius);
   border: var(--border-width) solid var(--gray);
-  margin: var(--space-1) 0;
+  margin: var(--whitespace-1) 0;
 }
 
 svg {
@@ -55,12 +51,12 @@ h4, h5, h6 {
   margin-bottom: .5em;
 }
 
-h1 { font-size: var(--h1); }
-h2 { font-size: var(--h2); }
-h3 { font-size: var(--h3); }
-h4 { font-size: var(--h4); }
-h5 { font-size: var(--h5); }
-h6 { font-size: var(--h6); }
+h1 { font-size: var(--heading-1); }
+h2 { font-size: var(--heading-2); }
+h3 { font-size: var(--heading-3); }
+h4 { font-size: var(--heading-4); }
+h5 { font-size: var(--heading-5); }
+h6 { font-size: var(--heading-6); }
 
 p, ol, ul, blockquote {
   margin-top: 1em;
@@ -92,8 +88,8 @@ pre {
 }
 
 blockquote {
-  margin: 0 var(--space-1);
-  padding: 0 var(--space-2);
+  margin: 0 var(--whitespace-1);
+  padding: 0 var(--whitespace-2);
   border-left: calc(var(--border-width) * 2) solid var(--gray);
   font-size: 1rem;
   font-style: italic;

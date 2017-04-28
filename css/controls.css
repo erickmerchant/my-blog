@@ -1,0 +1,31 @@
+.button {
+  appearance: none;
+  border-radius: var(--border-radius);
+  border: none;
+  box-shadow: none;
+  font-size: 1em;
+  font-weight: bold;
+  padding: var(--whitespace-2);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.button:focus {
+  outline: var(--border-radius) solid inherit;
+}
+
+.button.is-disabled {
+  cursor: default;
+}
+
+.field {
+  border-radius: var(--border-radius);
+  border: var(--border-radius) solid var(--gray);
+  font-family: inherit;
+  font-size: 1em;
+  padding: var(--whitespace-2);
+}
+
+.field:focus {
+  box-shadow: 0 0 0 2px var(--light-gray);
+}

@@ -52,18 +52,9 @@ module.exports = ({collection}) => {
 
   return ({get, html, save, safe, link, dev}) => {
     save('404', layout('404 Not Found', '404.html', ({title, url}) => html`
-      <form role="search" action="http://google.com/search" class="clearfix">
+      <form role="search" action="http://google.com/search">
         <h1>${title}</h1>
         <p>That page doesn't exist. It was either moved, removed, or never existed.</p>
-        <div class="center">
-          <input type="hidden" name="q" value="site:${host}">
-          <input class="field col-12 sm-col-6" type="text" placeholder="Search..." name="q">
-          <br class="sm-hide">
-          <button class="rounded btn bold background-blue white p2 m1 h4" type="submit">
-            ${icon('search')}
-            Submit
-          </button>
-        </div>
       </form>`
     ))
 
@@ -117,7 +108,7 @@ module.exports = ({collection}) => {
               <header>
                 <h1>${post.title}</h1>
                 <p>
-                  <time class="h3 bold" datetime="${post.date.format('YYYY-MM-DD')}">
+                  <time class="bold" datetime="${post.date.format('YYYY-MM-DD')}">
                     ${icon('calendar')}
                     ${post.date.format('MMMM D, YYYY')}
                   </time>
@@ -125,16 +116,16 @@ module.exports = ({collection}) => {
               </header>
               <div>${safe(post.content)}</div>
             </article>
-            <nav class="h4 clearfix p2 flex flex-wrap justify-around">
+            <nav class="flex row justify-around p-2">
               ${safe(ift(
               posts[index + 1],
               (previous) => html`
-                <a class="nowrap m1 rounded left-align btn bold background-blue white p2" rel="prev" href="${link('/posts/:slug/', previous)}">
+                <a class="align-left button background-blue white" rel="prev" href="${link('/posts/:slug/', previous)}">
                   ${icon('chevronLeft')}
                   Older
                 </a>`,
               () => html`
-                <span class="nowrap m1 rounded left-align btn bold background-gray white is-disabled p2">
+                <span class="align-left button background-gray white is-disabled">
                   ${icon('chevronLeft')}
                   Older
                 </span>`
@@ -142,12 +133,12 @@ module.exports = ({collection}) => {
               ${safe(ift(
               posts[index - 1],
               (next) => html`
-                <a class="nowrap m1 rounded right-align btn bold background-blue white p2" rel="next" href="${link('/posts/:slug/', next)}">
+                <a class="align-right button background-blue white" rel="next" href="${link('/posts/:slug/', next)}">
                   Newer
                   ${icon('chevronRight')}
                 </a>`,
               () => html`
-                <span class="nowrap m1 rounded right-align btn bold background-gray white is-disabled p2">
+                <span class="align-right button background-gray white is-disabled">
                   Newer
                   ${icon('chevronRight')}
                 </span>`
@@ -172,26 +163,26 @@ module.exports = ({collection}) => {
           <link href="/app.css" rel="stylesheet" type="text/css">
           <link rel="canonical" href="${host}${url}">
         </head>
-        <body class="flex flex-column">
-          <div class="col flex flex-column sm-flex-row full-view-height">
-            <div class="background-black sm-col-4 center">
-              <div class="sm-fixed top-0 bottom-0 sm-col-4 p2 flex-auto sm-flex flex-column items-center justify-top overflow-scroll sm-my2">
-                <span class="sm-col my1 inline-block sm-my2"><a class="white bold m1 lg-h1 md-h2 sm-h3" href="/">Erick Merchant</a></span>
-                <nav class="sm-flex flex-column inline-block">
-                  <span class="sm-col my1 inline-block sm-my2">
-                    <a class="white bold m1" href="/posts/">
+        <body class="flex column">
+          <div class="flex column lg-row min-h-100vh">
+            <div class="lg-w-1-3 align-center">
+              <div class="lg-fixed lg-y-0 lg-w-1-3 auto lg-flex lg-column items-center justify-start overflow-scroll background-black align-center p-2 lg-p-4-0">
+                <span class="lg-font-size-3vw m-y-1 sm-p-1"><a class="white bold" href="/">Erick Merchant</a></span>
+                <nav class="lg-flex lg-column inline-block">
+                  <span class="m-y-1 sm-p-1">
+                    <a class="white bold" href="/posts/">
                       ${icon('calendar')}
                       Posts
                     </a>
                   </span>
-                  <span class="sm-col my1 inline-block sm-my2">
-                    <a class="white bold m1" href="http://github.com/erickmerchant/">
+                  <span class="m-y-1 sm-p-1">
+                    <a class="white bold" href="http://github.com/erickmerchant/">
                       ${icon('github')}
                       GitHub
                     </a>
                   </span>
-                  <span class="sm-col my1 inline-block sm-my2">
-                    <a class="white bold m1" href="http://twitter.com/erickmerchant/">
+                  <span class="m-y-1 sm-p-1">
+                    <a class="white bold" href="http://twitter.com/erickmerchant/">
                       ${icon('twitter')}
                       Twitter
                     </a>
@@ -199,29 +190,32 @@ module.exports = ({collection}) => {
                 </nav>
               </div>
             </div>
-            <div class="sm-col-8 pt2 flex flex-column flex-auto">
-              <main role="main" class="block flex-auto">
-                <div class="mx-auto max-width-3 px3">
+            <div class="lg-w-2-3 flex column auto">
+              <main class="auto lg-p-2-4 p-1" role="main">
+                <div class="max-w-40rem">
                   ${safe(main({title, url}))}
                 </div>
               </main>
-              <footer class="background-light-gray block px3 muted h6" role="contentinfo">
-                <div class="p2 max-width-3 mx-auto center sm-flex flex-wrap items-center justify-center">
-                  <a class="inline-block bold m1" href="https://github.com/erickmerchant/erickmerchant.com-source">
-                    ${icon('github')}
-                    View Source
-                  </a>
-                  <a class="inline-block bold m1" href="https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&amp;text=${encodeURIComponent(title)}" target="_blank">
-                    ${icon('twitter')}
-                    Tweet
-                  </a>
-                  <span class="inline-block m1 bold">&copy; Erick Merchant, ${(new Date()).getFullYear()}</span>
+              <footer class="background-light-gray align-center p-2 small" role="contentinfo">
+                <div class="flex row wrap items-center justify-around max-w-40rem m-x-auto">
+                  <span class="m-y-1">
+                    <a class="bold" href="https://github.com/erickmerchant/erickmerchant.com-source">
+                      ${icon('github')}
+                      View Source
+                    </a>
+                  </span>
+                  <span class="m-y-1">
+                    <a class="bold" href="https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&amp;text=${encodeURIComponent(title)}" target="_blank">
+                      ${icon('twitter')}
+                      Tweet
+                    </a>
+                  </span>
+                  <span class="bold m-y-1">&copy; Erick Merchant, ${(new Date()).getFullYear()}</span>
                 </div>
               </footer>
             </div>
           </div>
-        </body>
-      </html>`
+        </body>`
     }
 
     function icon (name) {

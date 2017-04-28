@@ -1,6 +1,6 @@
 .editor {
   color: var(--dark-gray);
-  padding: var(--space-2) var(--space-3);
+  padding: var(--whitespace-2) var(--whitespace-3);
   text-shadow: 0 1px var(--white);
 }
 
