@@ -17,7 +17,7 @@
   "dependencies": {},
   "scripts": {
     "test": "standard",
-    "build": "copy-files base/* build  && assets build && html build",
-    "watch": "copy-files base/* build -w  & assets build -w --no-min & html build -w --dev --no-min & serve-files build"
+    "build": "copy-files base/* build && assets build && html build",
+    "watch": "copy-files base/* build -w & assets build -w --no-min & html build -w --dev --no-min & serve-files build"
   }
 }
