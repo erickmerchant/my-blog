@@ -116,7 +116,7 @@ module.exports = ({collection}) => {
               </header>
               <div>${safe(post.content)}</div>
             </article>
-            <nav class="flex row justify-around p-2">
+            <nav class="flex row justify-around padding-2">
               ${safe(ift(
               posts[index + 1],
               (previous) => html`
@@ -164,24 +164,24 @@ module.exports = ({collection}) => {
           <link rel="canonical" href="${host}${url}">
         </head>
         <body class="flex column">
-          <div class="flex column lg-row min-h-100vh">
-            <div class="lg-w-1-3 align-center">
-              <div class="lg-fixed lg-y-0 lg-w-1-3 auto lg-flex lg-column items-center justify-start overflow-scroll background-black align-center p-2 lg-p-4-0">
-                <span class="lg-font-size-3vw m-y-1 sm-p-1"><a class="white bold" href="/">Erick Merchant</a></span>
-                <nav class="lg-flex lg-column inline-block">
-                  <span class="m-y-1 sm-p-1">
+          <div class="flex column min-height-100vh desktop-row">
+            <div class="align-center desktop-columns-1">
+              <div class="auto column items-center justify-start overflow-scroll background-black align-center padding-2 desktop-fixed desktop-top-0 desktop-bottom-0 desktop-columns-1 desktop-flex desktop-padding-top-4">
+                <span class="margin-top-1 margin-bottom-1 mobile-padding-1 desktop-font-size-3vw"><a class="white bold" href="/">Erick Merchant</a></span>
+                <nav class="column inline-block desktop-flex">
+                  <span class="margin-top-1 margin-bottom-1 mobile-padding-1">
                     <a class="white bold" href="/posts/">
                       ${icon('calendar')}
                       Posts
                     </a>
                   </span>
-                  <span class="m-y-1 sm-p-1">
+                  <span class="margin-top-1 margin-bottom-1 mobile-padding-1">
                     <a class="white bold" href="http://github.com/erickmerchant/">
                       ${icon('github')}
                       GitHub
                     </a>
                   </span>
-                  <span class="m-y-1 sm-p-1">
+                  <span class="margin-top-1 margin-bottom-1 mobile-padding-1">
                     <a class="white bold" href="http://twitter.com/erickmerchant/">
                       ${icon('twitter')}
                       Twitter
@@ -190,27 +190,27 @@ module.exports = ({collection}) => {
                 </nav>
               </div>
             </div>
-            <div class="lg-w-2-3 flex column auto">
-              <main class="auto lg-p-2-4 p-1" role="main">
-                <div class="max-w-40rem">
+            <div class="flex column auto desktop-columns-2">
+              <main class="auto padding-1 desktop-padding-top-2 desktop-padding-bottom-2 desktop-padding-right-4 desktop-padding-left-4" role="main">
+                <div class="max-width-40rem">
                   ${safe(main({title, url}))}
                 </div>
               </main>
-              <footer class="background-light-gray align-center p-2 small" role="contentinfo">
-                <div class="flex row wrap items-center justify-around max-w-40rem m-x-auto">
-                  <span class="m-y-1">
+              <footer class="background-light-gray align-center padding-2 small" role="contentinfo">
+                <div class="flex row wrap items-center justify-around max-width-40rem margin-right-auto margin-left-auto">
+                  <span class="margin-top-1 margin-bottom-1">
                     <a class="bold" href="https://github.com/erickmerchant/erickmerchant.com-source">
                       ${icon('github')}
                       View Source
                     </a>
                   </span>
-                  <span class="m-y-1">
+                  <span class="margin-top-1 margin-bottom-1">
                     <a class="bold" href="https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&amp;text=${encodeURIComponent(title)}" target="_blank">
                       ${icon('twitter')}
                       Tweet
                     </a>
                   </span>
-                  <span class="bold m-y-1">&copy; Erick Merchant, ${(new Date()).getFullYear()}</span>
+                  <span class="bold margin-top-1 margin-bottom-1">&copy; Erick Merchant, ${(new Date()).getFullYear()}</span>
                 </div>
               </footer>
             </div>

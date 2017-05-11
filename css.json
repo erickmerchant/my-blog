@@ -1,0 +1,25 @@
+{
+  "breakpoints": {
+    "mobile": [0, 40],
+    "desktop": [40]
+  },
+  "columns": 3,
+  "whitespace": {
+    "1": 0.5,
+    "2": 1,
+    "3": 2,
+    "4": 4
+  },
+  "colors": {
+    "black": "hsl(0, 0%, 12.5%)",
+    "dark-gray": "hsl(0, 0%, 45%)",
+    "gray": "hsl(0, 0%, 65%)",
+    "light-gray": "hsl(0, 0%, 97.5%)",
+    "white": "hsl(0, 0%, 100%)",
+    "red": "hsl(350, 60%, 60%)",
+    "orange": "hsl(30, 70%, 60%)",
+    "green": "hsl(140, 50%, 60%)",
+    "blue": "hsl(200, 70%, 60%)",
+    "purple": "hsl(310, 60%, 60%)"
+  }
+}
