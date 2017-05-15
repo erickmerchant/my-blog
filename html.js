@@ -163,7 +163,7 @@ module.exports = ({collection}) => {
           <link href="/app.css" rel="stylesheet" type="text/css">
           <link rel="canonical" href="${url}">
         </head>
-        <body class="flex column">
+        <body class="flex column border-box">
           <div class="flex column min-height-100vh desktop-row">
             <div class="center desktop-width-1">
               <nav class="auto column items-center justify-start overflow-scroll background-black center padding-2 desktop-fixed desktop-top-0 desktop-bottom-0 desktop-width-1 desktop-flex desktop-padding-top-4">
