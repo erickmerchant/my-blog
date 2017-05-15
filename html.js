@@ -120,12 +120,12 @@ module.exports = ({collection}) => {
               ${safe(ift(
               posts[index + 1],
               (previous) => html`
-                <a class="align-left button background-blue white" rel="prev" href="${link('/posts/:slug/', previous)}">
+                <a class="left button background-blue white" rel="prev" href="${link('/posts/:slug/', previous)}">
                   ${icon('chevronLeft')}
                   Older
                 </a>`,
               () => html`
-                <span class="align-left button background-gray white is-disabled">
+                <span class="left button background-gray white is-disabled">
                   ${icon('chevronLeft')}
                   Older
                 </span>`
@@ -133,12 +133,12 @@ module.exports = ({collection}) => {
               ${safe(ift(
               posts[index - 1],
               (next) => html`
-                <a class="align-right button background-blue white" rel="next" href="${link('/posts/:slug/', next)}">
+                <a class="right button background-blue white" rel="next" href="${link('/posts/:slug/', next)}">
                   Newer
                   ${icon('chevronRight')}
                 </a>`,
               () => html`
-                <span class="align-right button background-gray white is-disabled">
+                <span class="right button background-gray white is-disabled">
                   Newer
                   ${icon('chevronRight')}
                 </span>`
@@ -165,52 +165,50 @@ module.exports = ({collection}) => {
         </head>
         <body class="flex column">
           <div class="flex column min-height-100vh desktop-row">
-            <div class="align-center desktop-width-1">
-              <div class="auto column items-center justify-start overflow-scroll background-black align-center padding-2 desktop-fixed desktop-top-0 desktop-bottom-0 desktop-width-1 desktop-flex desktop-padding-top-4">
-                <span class="margin-top-1 margin-bottom-1 mobile-padding-1 desktop-font-size-3vw"><a class="white bold" href="/">Erick Merchant</a></span>
-                <nav class="column inline-block desktop-flex">
-                  <span class="margin-top-1 margin-bottom-1 mobile-padding-1">
-                    <a class="white bold" href="/posts/">
-                      ${icon('calendar')}
-                      Posts
-                    </a>
-                  </span>
-                  <span class="margin-top-1 margin-bottom-1 mobile-padding-1">
-                    <a class="white bold" href="http://github.com/erickmerchant/">
-                      ${icon('github')}
-                      GitHub
-                    </a>
-                  </span>
-                  <span class="margin-top-1 margin-bottom-1 mobile-padding-1">
-                    <a class="white bold" href="http://twitter.com/erickmerchant/">
-                      ${icon('twitter')}
-                      Twitter
-                    </a>
-                  </span>
-                </nav>
-              </div>
+            <div class="center desktop-width-1">
+              <nav class="auto column items-center justify-start overflow-scroll background-black center padding-2 desktop-fixed desktop-top-0 desktop-bottom-0 desktop-width-1 desktop-flex desktop-padding-top-4">
+                <span class="desktop-type-x-large padding-1"><a class="white bold" href="/">Erick Merchant</a></span>
+                <span class="padding-1 inline-block">
+                  <a class="white bold" href="/posts/">
+                    ${icon('calendar')}
+                    Posts
+                  </a>
+                </span>
+                <span class="padding-1 inline-block">
+                  <a class="white bold" href="http://github.com/erickmerchant/">
+                    ${icon('github')}
+                    GitHub
+                  </a>
+                </span>
+                <span class="padding-1 inline-block">
+                  <a class="white bold" href="http://twitter.com/erickmerchant/">
+                    ${icon('twitter')}
+                    Twitter
+                  </a>
+                </span>
+              </nav>
             </div>
             <div class="flex column auto desktop-width-2">
-              <main class="auto padding-1 desktop-padding-top-2 desktop-padding-bottom-2 desktop-padding-right-4 desktop-padding-left-4" role="main">
+              <main class="auto padding-1 desktop-padding-vertical-2 desktop-padding-horizontal-4" role="main">
                 <div class="max-width-40rem">
                   ${safe(main({title, url}))}
                 </div>
               </main>
-              <footer class="background-light-gray align-center padding-2 small" role="contentinfo">
-                <div class="flex row wrap items-center justify-around max-width-40rem margin-right-auto margin-left-auto">
-                  <span class="margin-top-1 margin-bottom-1">
+              <footer class="background-light-gray center padding-2 type-small" role="contentinfo">
+                <div class="flex row wrap items-center justify-around max-width-40rem margin-horizontal-auto">
+                  <span class="padding-1 inline-block">
                     <a class="bold" href="https://github.com/erickmerchant/erickmerchant.com-source">
                       ${icon('github')}
                       View Source
                     </a>
                   </span>
-                  <span class="margin-top-1 margin-bottom-1">
+                  <span class="padding-1 inline-block">
                     <a class="bold" href="https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&amp;text=${encodeURIComponent(title)}" target="_blank">
                       ${icon('twitter')}
                       Tweet
                     </a>
                   </span>
-                  <span class="bold margin-top-1 margin-bottom-1">&copy; Erick Merchant, ${(new Date()).getFullYear()}</span>
+                  <span class="bold padding-1 inline-block">&copy; Erick Merchant, ${(new Date()).getFullYear()}</span>
                 </div>
               </footer>
             </div>
