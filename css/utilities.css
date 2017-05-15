@@ -15,11 +15,12 @@
 --whitespace-2: 1rem;
 --whitespace-3: 2rem;
 --whitespace-4: 4rem;
---type-xx-large: 2rem;
---type-x-large: 1.5rem;
---type-large: 1.25rem;
+--type-xxx-large: 2rem;
+--type-xx-large: 1.5rem;
+--type-x-large: 1.25rem;
+--type-large: 1.125rem;
 --type-medium: 1rem;
---type-small: 0.75rem;
+--type-small: 0.875rem;
 }
 *, *:before, *:after { box-sizing: border-box; }
 .content-box { box-sizing: content-box; }
@@ -774,6 +775,7 @@
 .background-blue { background-color: var(--blue); }
 .purple { color: var(--purple); }
 .background-purple { background-color: var(--purple); }
+.type-xxx-large { font-size: var(--type-xxx-large); }
 .type-xx-large { font-size: var(--type-xx-large); }
 .type-x-large { font-size: var(--type-x-large); }
 .type-large { font-size: var(--type-large); }

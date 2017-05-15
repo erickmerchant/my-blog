@@ -11,11 +11,12 @@
     "4": 4
   },
   "type": {
-    "xx-large": 2,
-    "x-large": 1.5,
-    "large": 1.25,
+    "xxx-large": 2,
+    "xx-large": 1.5,
+    "x-large": 1.25,
+    "large": 1.125,
     "medium": 1,
-    "small": 0.75
+    "small": 0.875
   },
   "colors": {
     "black": "hsl(0, 0%, 12.5%)",

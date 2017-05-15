@@ -3,7 +3,7 @@ const ift = require('@erickmerchant/ift')('')
 const moment = require('moment-timezone')
 const groupby = require('lodash.groupby')
 const icons = require('geomicons-open')
-const host = 'http://erickmerchant.com/'
+const host = 'http://erickmerchant.com'
 
 module.exports = ({collection}) => {
   collection('post', ({on, save, remove, read}) => {
@@ -51,7 +51,7 @@ module.exports = ({collection}) => {
   })
 
   return ({get, html, save, safe, link, dev}) => {
-    save('404', layout('404 Not Found', '404.html', ({title, url}) => html`
+    save('404', layout('404 Not Found', host + '404.html', ({title, url}) => html`
       <form role="search" action="http://google.com/search">
         <h1>${title}</h1>
         <p>That page doesn't exist. It was either moved, removed, or never existed.</p>
@@ -77,7 +77,7 @@ module.exports = ({collection}) => {
 
       const grouped = groupby(posts, (post) => post.date.format('MMMM YYYY'))
 
-      save('posts/', layout('Posts', 'posts/', ({title, url}) => html`
+      save('posts/', layout('Posts', host + 'posts/', ({title, url}) => html`
         <h1>${title}</h1>
         ${safe(Object.keys(grouped).map((monthYear) => html`
           <section>
@@ -103,7 +103,7 @@ module.exports = ({collection}) => {
             url = ['/', url]
           }
 
-          save(url, layout(`${post.title} | Posts`, link('/posts/:slug/', post), ({title, url}) => html`
+          save(url, layout(`${post.title} | Posts`, link(host + '/posts/:slug/', post), ({title, url}) => html`
             <article>
               <header>
                 <h1>${post.title}</h1>
@@ -161,13 +161,13 @@ module.exports = ({collection}) => {
           <title>${title}</title>
           <link href="/favicon.png" rel="shortcut icon" type="image/png">
           <link href="/app.css" rel="stylesheet" type="text/css">
-          <link rel="canonical" href="${host}${url}">
+          <link rel="canonical" href="${url}">
         </head>
         <body class="flex column">
           <div class="flex column min-height-100vh desktop-row">
             <div class="center desktop-width-1">
               <nav class="auto column items-center justify-start overflow-scroll background-black center padding-2 desktop-fixed desktop-top-0 desktop-bottom-0 desktop-width-1 desktop-flex desktop-padding-top-4">
-                <span class="desktop-type-x-large padding-1"><a class="white bold" href="/">Erick Merchant</a></span>
+                <span class="desktop-type-xx-large padding-1"><a class="white bold" href="/">Erick Merchant</a></span>
                 <span class="padding-1 inline-block">
                   <a class="white bold" href="/posts/">
                     ${icon('calendar')}
