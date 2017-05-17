@@ -160,7 +160,7 @@ module.exports = ({collection}) => {
           <meta name="viewport" content="width=device-width, initial-scale=1">
           <title>${title}</title>
           <link href="/favicon.png" rel="shortcut icon" type="image/png">
-          <link href="/app.css" rel="stylesheet" type="text/css">
+          <link href="/bundle.css" rel="stylesheet" type="text/css">
           <link rel="canonical" href="${url}">
         </head>
         <body class="flex column border-box">
