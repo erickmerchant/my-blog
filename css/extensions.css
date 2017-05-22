@@ -6,7 +6,3 @@
 .max-width-40rem { max-width: 40rem; }
 .min-height-100vh { min-height: 100vh; }
 .overflow-scroll { overflow: scroll; }
-
-@media (--breakpoint-desktop) {
-  .desktop-type-xx-large { font-size: var(--type-xx-large); }
-}
