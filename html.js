@@ -165,8 +165,8 @@ module.exports = ({collection}) => {
         </head>
         <body class="flex column border-box">
           <div class="flex column min-height-100vh desktop-row">
-            <div class="center desktop-width-1">
-              <nav class="auto column items-center justify-start overflow-scroll background-black center padding-2 desktop-fixed desktop-top-0 desktop-bottom-0 desktop-width-1 desktop-flex desktop-padding-top-4">
+            <div class="center desktop-width-1-of-3">
+              <nav class="auto column items-center justify-start overflow-scroll background-black center padding-2 desktop-fixed desktop-top-0 desktop-bottom-0 desktop-width-1-of-3 desktop-flex desktop-padding-top-4">
                 <span class="desktop-type-xx-large padding-1"><a class="white bold" href="/">Erick Merchant</a></span>
                 <span class="padding-1 inline-block">
                   <a class="white bold" href="/posts/">
@@ -188,7 +188,7 @@ module.exports = ({collection}) => {
                 </span>
               </nav>
             </div>
-            <div class="flex column auto desktop-width-2">
+            <div class="flex column auto desktop-width-2-of-3">
               <main class="auto padding-1 desktop-padding-vertical-2 desktop-padding-horizontal-4" role="main">
                 <div class="max-width-40rem">
                   ${safe(main({title, url}))}

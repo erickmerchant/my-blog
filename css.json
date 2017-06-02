@@ -3,7 +3,7 @@
     "mobile": [0, 40],
     "desktop": [40]
   },
-  "widths": 3,
+  "widths": [3],
   "whitespace": {
     "1": 0.5,
     "2": 1,
