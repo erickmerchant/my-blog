@@ -51,7 +51,7 @@ module.exports = ({collection}) => {
   })
 
   return ({get, html, save, safe, link, dev}) => {
-    save('404', layout('404 Not Found', host + '404.html', ({title, url}) => html`
+    save('404', layout('404 Not Found', host + '/404.html', ({title, url}) => html`
       <form role="search" action="http://google.com/search">
         <h1>${title}</h1>
         <p>That page doesn't exist. It was either moved, removed, or never existed.</p>
@@ -77,7 +77,7 @@ module.exports = ({collection}) => {
 
       const grouped = groupby(posts, (post) => post.date.format('MMMM YYYY'))
 
-      save('posts/', layout('Posts', host + 'posts/', ({title, url}) => html`
+      save('posts/', layout('Posts', host + '/posts/', ({title, url}) => html`
         <h1>${title}</h1>
         ${safe(Object.keys(grouped).map((monthYear) => html`
           <section>
