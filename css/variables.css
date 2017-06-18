@@ -1,0 +1,31 @@
+@custom-media --breakpoint-mobile (width < 40rem);
+
+@custom-media --breakpoint-desktop (width >= 40rem);
+
+:root {
+  --whitespace-1: 0.5rem;
+  --whitespace-2: 1rem;
+  --whitespace-3: 2rem;
+  --whitespace-4: 4rem;
+
+  --width-1: calc(100% / 3);
+  --width-2: calc(100% / 3 * 2);
+
+  --typesize-xxx-large: 2rem;
+  --typesize-xx-large: 1.5rem;
+  --typesize-x-large: 1.25rem;
+  --typesize-large: 1.125rem;
+  --typesize-medium: 1rem;
+  --typesize-small: 0.875rem;
+
+  --black: hsl(0, 0%, 12.5%);
+  --dark-gray: hsl(0, 0%, 45%);
+  --gray: hsl(0, 0%, 65%);
+  --light-gray: hsl(0, 0%, 97.5%);
+  --white: hsl(0, 0%, 100%);
+  --red: hsl(350, 60%, 60%);
+  --orange: hsl(30, 70%, 60%);
+  --green: hsl(140, 50%, 60%);
+  --blue: hsl(200, 70%, 60%);
+  --purple: hsl(310, 60%, 60%);
+}
