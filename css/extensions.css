@@ -1,6 +1,6 @@
 :root {
-  --border-radius: 0.125em;
-  --border-width: 0.125em;
+  --border-radius: 0.2em;
+  --border-width: 0.05em;
 }
 
 .max-width-40rem { max-width: 40rem; }

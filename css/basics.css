@@ -91,7 +91,7 @@ pre {
 blockquote {
   margin: 0 var(--whitespace-1);
   padding: 0 var(--whitespace-2);
-  border-left: calc(var(--border-width) * 2) solid var(--gray);
+  border-left: calc(var(--border-width) * 2) solid var(--black);
   font-size: 1rem;
   font-style: italic;
 }
