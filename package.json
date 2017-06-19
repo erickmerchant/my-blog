@@ -5,7 +5,7 @@
     "@erickmerchant/assets": "^3.3.2",
     "@erickmerchant/copy-files": "^1.2.0",
     "@erickmerchant/html": "^5.2.3",
-    "@erickmerchant/ift": "^2.1.3",
+    "@erickmerchant/ift": "^2.1.4",
     "@erickmerchant/optimize": "^3.0.2",
     "@erickmerchant/serve-files": "^2.0.1",
     "chalk": "^1.0.0",
