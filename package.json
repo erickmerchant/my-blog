@@ -8,7 +8,7 @@
     "@erickmerchant/ift": "^4.0.0",
     "@erickmerchant/optimize": "^3.0.2",
     "@erickmerchant/serve-files": "^2.0.1",
-    "chalk": "^1.0.0",
+    "chalk": "^2.0.1",
     "geomicons-open": "^2.0.0",
     "lodash.groupby": "^4.6.0",
     "moment-timezone": "^0.5.11",
