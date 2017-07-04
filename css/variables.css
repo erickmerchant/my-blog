@@ -11,12 +11,15 @@
   --width-1: calc(100% / 3);
   --width-2: calc(100% / 3 * 2);
 
-  --typesize-xxx-large: 2rem;
-  --typesize-xx-large: 1.5rem;
-  --typesize-x-large: 1.25rem;
-  --typesize-large: 1.125rem;
-  --typesize-medium: 1rem;
-  --typesize-small: 0.875rem;
+  --font-size-xxx-large: 2rem;
+  --font-size-xx-large: 1.5rem;
+  --font-size-x-large: 1.25rem;
+  --font-size-large: 1.125rem;
+  --font-size-medium: 1rem;
+  --font-size-small: 0.875rem;
+
+  --border-radius: 0.2em;
+  --border-width: 0.05em;
 
   --black: hsl(0, 0%, 12.5%);
   --dark-gray: hsl(0, 0%, 45%);

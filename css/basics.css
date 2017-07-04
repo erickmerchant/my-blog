@@ -47,16 +47,16 @@ h4, h5, h6 {
   margin-bottom: .5em;
 }
 
-h1 { font-size: var(--typesize-xxx-large); }
-h2 { font-size: var(--typesize-xx-large); }
-h3 { font-size: var(--typesize-x-large); }
-h4 { font-size: var(--typesize-large); }
+h1 { font-size: var(--font-size-xxx-large); }
+h2 { font-size: var(--font-size-xx-large); }
+h3 { font-size: var(--font-size-x-large); }
+h4 { font-size: var(--font-size-large); }
 
 @media (--breakpoint-mobile) {
-  h1 { font-size: var(--typesize-xx-large); }
-  h2 { font-size: var(--typesize-x-large); }
-  h3 { font-size: var(--typesize-large); }
-  h4 { font-size: var(--typesize-medium); }
+  h1 { font-size: var(--font-size-xx-large); }
+  h2 { font-size: var(--font-size-x-large); }
+  h3 { font-size: var(--font-size-large); }
+  h4 { font-size: var(--font-size-medium); }
 }
 
 p, ol, ul, blockquote {
