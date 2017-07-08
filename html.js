@@ -120,12 +120,12 @@ module.exports = ({collection}) => {
               ${safe(ift(
               posts[index + 1],
               (previous) => html`
-                <a class="align-left button background-blue white" rel="prev" href="${link('/posts/:slug/', previous)}">
+                <a class="align-left nowrap border-radius padding-2 bold background-blue white" rel="prev" href="${link('/posts/:slug/', previous)}">
                   ${icon('chevronLeft')}
                   Older
                 </a>`,
               () => html`
-                <span class="align-left button background-gray white is-disabled">
+                <span class="align-left nowrap border-radius padding-2 bold background-gray white is-disabled">
                   ${icon('chevronLeft')}
                   Older
                 </span>`
@@ -133,12 +133,12 @@ module.exports = ({collection}) => {
               ${safe(ift(
               posts[index - 1],
               (next) => html`
-                <a class="align-right button background-blue white" rel="next" href="${link('/posts/:slug/', next)}">
+                <a class="align-right nowrap border-radius padding-2 bold background-blue white" rel="next" href="${link('/posts/:slug/', next)}">
                   Newer
                   ${icon('chevronRight')}
                 </a>`,
               () => html`
-                <span class="align-right button background-gray white is-disabled">
+                <span class="align-right nowrap border-radius padding-2 bold background-gray white is-disabled">
                   Newer
                   ${icon('chevronRight')}
                 </span>`
@@ -164,7 +164,7 @@ module.exports = ({collection}) => {
           <link rel="canonical" href="${url}">
         </head>
         <body class="flex column border-box">
-          <div class="flex column min-height-100vh desktop-row">
+          <div class="flex column auto desktop-row">
             <div class="align-center desktop-width-1">
               <nav class="auto column items-center justify-start overflow-scroll background-black align-center padding-2 desktop-fixed desktop-top-0 desktop-bottom-0 desktop-width-1 desktop-flex desktop-padding-top-4">
                 <span class="desktop-font-size-xx-large padding-1"><a class="white bold" href="/">Erick Merchant</a></span>
@@ -190,12 +190,12 @@ module.exports = ({collection}) => {
             </div>
             <div class="flex column auto desktop-width-2">
               <main class="auto padding-1 desktop-padding-vertical-2 desktop-padding-horizontal-4" role="main">
-                <div class="max-width-40rem">
+                <div class="max-width">
                   ${safe(main({title, url}))}
                 </div>
               </main>
               <footer class="background-light-gray align-center padding-2 font-size-small" role="contentinfo">
-                <div class="flex row wrap items-center justify-around max-width-40rem margin-horizontal-auto">
+                <div class="flex row wrap items-center justify-around max-width margin-horizontal-auto">
                   <span class="padding-1 inline-block">
                     <a class="bold" href="https://github.com/erickmerchant/erickmerchant.com-source">
                       ${icon('github')}

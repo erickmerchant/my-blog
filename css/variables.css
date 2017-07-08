@@ -11,6 +11,8 @@
   --width-1: calc(100% / 3);
   --width-2: calc(100% / 3 * 2);
 
+  --max-width: 40rem;
+
   --font-size-xxx-large: 2rem;
   --font-size-xx-large: 1.5rem;
   --font-size-x-large: 1.25rem;
