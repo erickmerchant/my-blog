@@ -2,7 +2,7 @@
   "name": "erickmerchant.com-source",
   "private": true,
   "devDependencies": {
-    "@erickmerchant/assets": "^6.3.1",
+    "@erickmerchant/assets": "^6.4.0",
     "@erickmerchant/copy-files": "^1.2.4",
     "@erickmerchant/html": "^5.2.9",
     "@erickmerchant/ift": "^4.0.1",
