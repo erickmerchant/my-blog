@@ -3,7 +3,7 @@
   "private": true,
   "devDependencies": {
     "@erickmerchant/assets": "^6.5.0",
-    "@erickmerchant/copy-files": "^1.2.8",
+    "@erickmerchant/copy-files": "^1.3.0",
     "@erickmerchant/html": "^5.3.4",
     "@erickmerchant/ift": "^4.0.3",
     "@erickmerchant/optimize": "^5.0.8",
