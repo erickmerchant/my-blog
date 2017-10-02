@@ -2,3 +2,28 @@
 @import "./icons.css";
 @import "./highlights.css";
 @import './basics.css';
+
+
+@media (--breakpoint-desktop) {
+  .grid {
+    display: grid;
+    grid-template-columns: var(--width-1) var(--width-2);
+    grid-template-rows: auto max-content;
+    grid-template-areas: "nav main" "nav footer";
+    grid-gap: 1em;
+  }
+
+  .grid-nav {
+    grid-area: nav;
+    height: 100%;
+  }
+
+  .grid-main {
+    grid-area: main;
+    height: auto;
+  }
+
+  .grid-footer {
+    grid-area: footer;
+  }
+}

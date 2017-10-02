@@ -51,11 +51,11 @@ module.exports = ({collection}) => {
   })
 
   return ({get, html, save, safe, link, dev}) => {
-    save('404', layout('404 Not Found', host + '/404.html', ({title, url}) => html`
-      <form role="search" action="http://google.com/search">
+    save('404', layout('404 Not Found', '/404.html', ({title, url}) => html`
+      <div>
         <h1>${title}</h1>
         <p>That page doesn't exist. It was either moved, removed, or never existed.</p>
-      </form>`
+      </div>`
     ))
 
     const routes = ['posts/:time.:slug']
@@ -77,7 +77,7 @@ module.exports = ({collection}) => {
 
       const grouped = groupby(posts, (post) => post.date.format('MMMM YYYY'))
 
-      save('posts/', layout('Posts', host + '/posts/', ({title, url}) => html`
+      save('posts/', layout('Posts', '/posts/', ({title, url}) => html`
         <h1>${title}</h1>
         ${safe(Object.keys(grouped).map((monthYear) => html`
           <section>
@@ -103,7 +103,7 @@ module.exports = ({collection}) => {
             url = ['/', url]
           }
 
-          save(url, layout(`${post.title} | Posts`, link(host + '/posts/:slug/', post), ({title, url}) => html`
+          save(url, layout(`${post.title} | Posts`, link('/posts/:slug/', post), ({title, url}) => html`
             <article>
               <header>
                 <h1>${post.title}</h1>
@@ -116,16 +116,16 @@ module.exports = ({collection}) => {
               </header>
               <div>${safe(post.content)}</div>
             </article>
-            <nav class="flex row justify-around padding-2">
+            <nav class="flex row justify-around padding-2 bold">
               ${safe(ift(
               posts[index + 1],
               (previous) => html`
-                <a class="align-left nowrap border-radius padding-2 bold background-blue white" rel="prev" href="${link('/posts/:slug/', previous)}">
+                <a class="align-left nowrap border-radius padding-2 background-blue white" rel="prev" href="${link('/posts/:slug/', previous)}">
                   ${icon('chevronLeft')}
                   Older
                 </a>`,
               () => html`
-                <span class="align-left nowrap border-radius padding-2 bold background-gray white is-disabled">
+                <span class="align-left nowrap border-radius padding-2 background-gray white is-disabled">
                   ${icon('chevronLeft')}
                   Older
                 </span>`
@@ -133,12 +133,12 @@ module.exports = ({collection}) => {
               ${safe(ift(
               posts[index - 1],
               (next) => html`
-                <a class="align-right nowrap border-radius padding-2 bold background-blue white" rel="next" href="${link('/posts/:slug/', next)}">
+                <a class="align-right nowrap border-radius padding-2 background-blue white" rel="next" href="${link('/posts/:slug/', next)}">
                   Newer
                   ${icon('chevronRight')}
                 </a>`,
               () => html`
-                <span class="align-right nowrap border-radius padding-2 bold background-gray white is-disabled">
+                <span class="align-right nowrap border-radius padding-2 background-gray white is-disabled">
                   Newer
                   ${icon('chevronRight')}
                 </span>`
@@ -161,59 +161,44 @@ module.exports = ({collection}) => {
           <title>${title}</title>
           <link href="/favicon.png" rel="shortcut icon" type="image/png">
           <link href="/bundle.css" rel="stylesheet" type="text/css">
-          <link rel="canonical" href="${url}">
+          <link rel="canonical" href="${host}${url}">
         </head>
-        <body class="flex column border-box">
-          <div class="flex column auto desktop-row">
-            <div class="align-center desktop-width-1">
-              <nav class="auto column items-center justify-start overflow-scroll background-black align-center padding-2 desktop-fixed desktop-top-0 desktop-bottom-0 desktop-width-1 desktop-flex desktop-padding-top-4">
-                <span class="desktop-font-size-xx-large padding-1"><a class="white bold" href="/">Erick Merchant</a></span>
-                <span class="padding-1 inline-block">
-                  <a class="white bold" href="/posts/">
-                    ${icon('calendar')}
-                    Posts
-                  </a>
+        <body class="grid border-box flex mobile-items-center column">
+          <nav class="grid-nav background-black full-width align-center bold mobile-padding-2">
+            <div class="desktop-flex desktop-column desktop-fixed desktop-top-0 desktop-width-1 desktop-align-items-center desktop-margin-top-4">
+              <span>
+                <a class="desktop-font-size-xx-large white margin-1 inline-block" href="/">Erick Merchant</a>
                 </span>
-                <span class="padding-1 inline-block">
-                  <a class="white bold" href="http://github.com/erickmerchant/">
-                    ${icon('github')}
-                    GitHub
-                  </a>
-                </span>
-                <span class="padding-1 inline-block">
-                  <a class="white bold" href="http://twitter.com/erickmerchant/">
-                    ${icon('twitter')}
-                    Twitter
-                  </a>
-                </span>
-              </nav>
+              <span>
+                <a class="white margin-1 inline-block" href="/posts/">${icon('calendar')} Posts
+              </a>
+              </span>
+              <span>
+                <a class="white margin-1 inline-block" href="http://github.com/erickmerchant/">${icon('github')} GitHub
+              </a>
+              </span>
+              <span>
+                <a class="white margin-1 inline-block" href="http://twitter.com/erickmerchant/">${icon('twitter')} Twitter</a>
+              </span>
             </div>
-            <div class="flex column auto desktop-width-2">
-              <main class="auto padding-1 desktop-padding-vertical-2 desktop-padding-horizontal-4" role="main">
-                <div class="max-width">
-                  ${safe(main({title, url}))}
-                </div>
-              </main>
-              <footer class="background-light-gray align-center padding-2 font-size-small" role="contentinfo">
-                <div class="flex row wrap items-center justify-around max-width margin-horizontal-auto">
-                  <span class="padding-1 inline-block">
-                    <a class="bold" href="https://github.com/erickmerchant/erickmerchant.com-source">
-                      ${icon('github')}
-                      View Source
-                    </a>
-                  </span>
-                  <span class="padding-1 inline-block">
-                    <a class="bold" href="https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&amp;text=${encodeURIComponent(title)}" target="_blank">
-                      ${icon('twitter')}
-                      Tweet
-                    </a>
-                  </span>
-                  <span class="bold padding-1 inline-block">&copy; Erick Merchant, ${(new Date()).getFullYear()}</span>
-                </div>
-              </footer>
-            </div>
-          </div>
-        </body>`
+          </nav>
+          <main class="grid-main mobile-auto padding-2 desktop-margin-horizontal-4 max-width mobile-full-width" role="main">
+            ${safe(main({title, url}))}
+          </main>
+          <footer class="grid-footer background-light-gray full-width font-size-small padding-2 align-center bold" role="contentinfo">
+              <a class="margin-1 inline-block" href="https://github.com/erickmerchant/erickmerchant.com-source">
+                ${icon('github')}
+                View Source
+              </a>
+              <a class="margin-1 inline-block" href="https://twitter.com/intent/tweet?url=${encodeURIComponent(host + url)}&amp;text=${encodeURIComponent(title)}" target="_blank">
+                ${icon('twitter')}
+                Tweet
+              </a>
+            </span>
+            <span class="margin-1 inline-block">&copy; Erick Merchant, ${(new Date()).getFullYear()}</span>
+          </footer>
+        </body>
+      </html>`
     }
 
     function icon (name) {

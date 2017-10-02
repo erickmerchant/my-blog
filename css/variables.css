@@ -1,6 +1,6 @@
-@custom-media --breakpoint-mobile (width < 40rem);
+@custom-media --breakpoint-mobile (width < 60rem);
 
-@custom-media --breakpoint-desktop (width >= 40rem);
+@custom-media --breakpoint-desktop (width >= 60rem);
 
 :root {
   --whitespace-1: 0.5rem;
