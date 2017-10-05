@@ -1,15 +1,25 @@
 @import "./variables.css";
-*, *:before, *:after { box-sizing: inherit; }
+*, *::before, *::after { box-sizing: border-box; }
 .border-box { box-sizing: border-box; }
 .content-box { box-sizing: content-box; }
 .bold { font-weight: bold; }
 .italic { font-style: italic; }
 .underline { text-decoration: underline; }
 .nowrap { white-space: nowrap; }
+.pre { white-space: pre; }
+.normal { white-space: normal; }
 .list-style-none { list-style: none; }
 .overflow-scroll { overflow: scroll; }
+.overflow-hidden { overflow: hidden; }
+.overflow-auto { overflow: auto; }
+.overflow-visible { overflow: visible; }
 .right { float: right; }
 .left { float: left; }
+.clearfix::after {
+  content: "";
+  display: table;
+  clear: both;
+}
 .flex { display: flex;  }
 .inline-flex { display: inline-flex;  }
 .auto { flex: 1 1 auto;  }

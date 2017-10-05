@@ -3,6 +3,8 @@
 @custom-media --breakpoint-desktop (width >= 60rem);
 
 :root {
+  --box-sizing: border-box;
+
   --whitespace-1: 0.5rem;
   --whitespace-2: 1rem;
   --whitespace-3: 2rem;
