@@ -25,14 +25,14 @@
   --border-radius: 0.2em;
   --border-width: 0.05em;
 
-  --black: hsl(0, 0%, 12.5%);
+  --black: hsl(0, 0%, 12%);
   --dark-gray: hsl(0, 0%, 45%);
   --gray: hsl(0, 0%, 65%);
-  --light-gray: hsl(0, 0%, 97.5%);
+  --light-gray: hsl(0, 0%, 98%);
   --white: hsl(0, 0%, 100%);
-  --red: hsl(350, 60%, 55%);
-  --orange: hsl(30, 70%, 55%);
-  --green: hsl(140, 50%, 50%);
+  --red: hsl(350, 60%, 60%);
+  --orange: hsl(30, 70%, 60%);
+  --green: hsl(140, 50%, 60%);
   --blue: hsl(200, 70%, 60%);
-  --purple: hsl(310, 60%, 55%);
+  --purple: hsl(310, 60%, 60%);
 }
