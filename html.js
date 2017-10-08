@@ -168,17 +168,24 @@ module.exports = ({collection}) => {
             <div class="desktop-flex desktop-column desktop-fixed desktop-top-0 desktop-width-1 desktop-align-items-center desktop-margin-top-4">
               <span>
                 <a class="desktop-font-size-xx-large white margin-1 inline-block" href="/">Erick Merchant</a>
-                </span>
-              <span>
-                <a class="white margin-1 inline-block" href="/posts/">${icon('calendar')} Posts
-              </a>
               </span>
               <span>
-                <a class="white margin-1 inline-block" href="http://github.com/erickmerchant/">${icon('github')} GitHub
-              </a>
+                <a class="white margin-1 inline-block" href="/posts/">
+                  ${icon('calendar')}
+                  Posts
+                </a>
               </span>
               <span>
-                <a class="white margin-1 inline-block" href="http://twitter.com/erickmerchant/">${icon('twitter')} Twitter</a>
+                <a class="white margin-1 inline-block" href="http://github.com/erickmerchant/">
+                  ${icon('github')}
+                  GitHub
+                </a>
+              </span>
+              <span>
+                <a class="white margin-1 inline-block" href="http://twitter.com/erickmerchant/">
+                  ${icon('twitter')}
+                  Twitter
+                </a>
               </span>
             </div>
           </nav>
@@ -186,15 +193,14 @@ module.exports = ({collection}) => {
             ${safe(main({title, url}))}
           </main>
           <footer class="grid-footer background-light-gray full-width font-size-small padding-2 align-center bold" role="contentinfo">
-              <a class="margin-1 inline-block" href="https://github.com/erickmerchant/erickmerchant.com-source">
-                ${icon('github')}
-                View Source
-              </a>
-              <a class="margin-1 inline-block" href="https://twitter.com/intent/tweet?url=${encodeURIComponent(host + url)}&amp;text=${encodeURIComponent(title)}" target="_blank">
-                ${icon('twitter')}
-                Tweet
-              </a>
-            </span>
+            <a class="margin-1 inline-block" href="https://github.com/erickmerchant/erickmerchant.com-source">
+              ${icon('github')}
+              View Source
+            </a>
+            <a class="margin-1 inline-block" href="https://twitter.com/intent/tweet?url=${encodeURIComponent(host + url)}&amp;text=${encodeURIComponent(title)}" target="_blank">
+              ${icon('twitter')}
+              Tweet
+            </a>
             <span class="margin-1 inline-block">&copy; Erick Merchant, ${(new Date()).getFullYear()}</span>
           </footer>
         </body>
