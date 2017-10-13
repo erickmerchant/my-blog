@@ -165,7 +165,7 @@ module.exports = ({collection}) => {
         </head>
         <body class="grid flex mobile-items-center column">
           <nav class="grid-nav background-black full-width align-center bold mobile-padding-2">
-            <div class="desktop-flex desktop-column desktop-fixed desktop-top-0 desktop-width-1 desktop-align-items-center desktop-margin-top-4">
+            <div class="desktop-flex desktop-column desktop-top-0 desktop-width-1 desktop-align-items-center desktop-margin-top-4">
               <span>
                 <a class="desktop-font-size-xx-large white margin-1 inline-block" href="/">Erick Merchant</a>
               </span>
