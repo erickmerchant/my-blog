@@ -4,31 +4,44 @@
 @import './basics.css';
 
 @supports (display: grid) {
+  .grid {
+    display: grid;
+    grid-gap: 0;
+  }
+
+  .grid-nav {
+    grid-area: nav;
+  }
+
+  .grid-main {
+    grid-area: main;
+  }
+
+  .grid-footer {
+    grid-area: footer;
+  }
+
+  @media (--breakpoint-mobile) {
+    .grid {
+      grid-template-columns: 100%;
+      grid-template-rows: max-content auto max-content;
+      grid-template-areas: "nav" "main" "footer";
+    }
+  }
+
   @media (--breakpoint-desktop) {
     .grid {
-      display: grid;
-      grid-template-columns: 1fr 2fr;
+      grid-template-columns: calc(100% / 3) calc(100% / 3 * 2);
       grid-template-rows: auto max-content;
       grid-template-areas: "nav main" "nav footer";
-      grid-gap: 1em;
     }
 
     .grid-nav {
-      grid-area: nav;
       height: 100%;
     }
 
-    .grid-nav > * {
-      position: fixed;
-    }
-
     .grid-main {
-      grid-area: main;
       height: auto;
-    }
-
-    .grid-footer {
-      grid-area: footer;
     }
   }
 }

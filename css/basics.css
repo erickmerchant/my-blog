@@ -1,5 +1,11 @@
 html { height: 100%; }
 
+@media (width > 1600px) {
+  html {
+    font-size: 1vw;
+  }
+}
+
 body {
   height: 100%;
   font-family: system-ui;

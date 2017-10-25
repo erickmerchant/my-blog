@@ -163,11 +163,11 @@ module.exports = ({collection}) => {
           <link href="/bundle.css" rel="stylesheet" type="text/css">
           <link rel="canonical" href="${host}${url}">
         </head>
-        <body class="grid flex mobile-items-center column">
-          <nav class="grid-nav background-black full-width align-center bold mobile-padding-2">
-            <div class="desktop-flex desktop-column desktop-top-0 desktop-width-1 desktop-align-items-center desktop-margin-top-4">
+        <body class="grid">
+          <nav class="grid-nav background-black mobile-full-width align-center bold mobile-padding-2">
+            <div class="desktop-flex desktop-column desktop-fixed desktop-top-0 desktop-bottom-0 desktop-width-1 desktop-justify-center">
               <span>
-                <a class="desktop-font-size-xx-large white margin-1 inline-block" href="/">Erick Merchant</a>
+                <a class="desktop-font-size-xxx-large white margin-1 inline-block" href="/">Erick Merchant</a>
               </span>
               <span>
                 <a class="white margin-1 inline-block" href="/posts/">
@@ -189,10 +189,10 @@ module.exports = ({collection}) => {
               </span>
             </div>
           </nav>
-          <main class="grid-main mobile-auto padding-2 desktop-margin-horizontal-4 max-width mobile-full-width" role="main">
+          <main class="grid-main padding-2 desktop-margin-horizontal-4 mobile-max-width mobile-margin-horizontal-auto" role="main">
             ${safe(main({title, url}))}
           </main>
-          <footer class="grid-footer background-light-gray full-width font-size-small padding-2 align-center bold" role="contentinfo">
+          <footer class="grid-footer background-light-gray mobile-full-width font-size-small padding-2 align-center bold" role="contentinfo">
             <a class="margin-1 inline-block" href="https://github.com/erickmerchant/erickmerchant.com-source">
               ${icon('github')}
               View Source

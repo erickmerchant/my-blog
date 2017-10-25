@@ -1,26 +1,26 @@
-@custom-media --breakpoint-mobile (width < 60rem);
+@custom-media --breakpoint-mobile (width < 60em);
 
-@custom-media --breakpoint-desktop (width >= 60rem);
+@custom-media --breakpoint-desktop (width >= 60em);
 
 :root {
   --box-sizing: border-box;
 
-  --whitespace-1: 0.5rem;
-  --whitespace-2: 1rem;
-  --whitespace-3: 2rem;
-  --whitespace-4: 4rem;
+  --whitespace-1: 0.5em;
+  --whitespace-2: 1em;
+  --whitespace-3: 2em;
+  --whitespace-4: 4em;
 
   --width-1: calc(100% / 3);
   --width-2: calc(100% / 3 * 2);
 
-  --max-width: 40rem;
+  --max-width: 40em;
 
-  --font-size-xxx-large: 2rem;
-  --font-size-xx-large: 1.5rem;
-  --font-size-x-large: 1.25rem;
-  --font-size-large: 1.125rem;
-  --font-size-medium: 1rem;
-  --font-size-small: 0.875rem;
+  --font-size-xxx-large: 2em;
+  --font-size-xx-large: 1.5em;
+  --font-size-x-large: 1.25em;
+  --font-size-large: 1.125em;
+  --font-size-medium: 1em;
+  --font-size-small: 0.875em;
 
   --border-radius: 0.2em;
   --border-width: 0.05em;
