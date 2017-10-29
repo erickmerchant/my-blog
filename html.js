@@ -51,12 +51,15 @@ module.exports = ({collection}) => {
   })
 
   return ({get, html, save, safe, link, dev}) => {
-    save('404', layout('404 Not Found', '/404.html', ({title, url}) => html`
+    save('404', layout({
+      title: '404 Not Found',
+      url: '/404.html',
+      main: ({title, url}) => html`
       <div>
         <h1>${title}</h1>
         <p>That page doesn't exist. It was either moved, removed, or never existed.</p>
       </div>`
-    ))
+    }))
 
     const routes = ['posts/:time.:slug']
 
@@ -77,7 +80,10 @@ module.exports = ({collection}) => {
 
       const grouped = groupby(posts, (post) => post.date.format('MMMM YYYY'))
 
-      save('posts/', layout('Posts', '/posts/', ({title, url}) => html`
+      save('posts/', layout({
+        title: 'Posts',
+        url: '/posts/',
+        main: ({title, url}) => html`
         <h1>${title}</h1>
         ${safe(Object.keys(grouped).map((monthYear) => html`
           <section>
@@ -93,7 +99,7 @@ module.exports = ({collection}) => {
             </dl>
           </section>`
         ))}`
-      ))
+      }))
 
       if (posts.length > 0) {
         posts.forEach((post, index) => {
@@ -103,7 +109,10 @@ module.exports = ({collection}) => {
             url = ['/', url]
           }
 
-          save(url, layout(`${post.title} | Posts`, link('/posts/:slug/', post), ({title, url}) => html`
+          save(url, layout({
+            title: `${post.title} | Posts`,
+            url: link('/posts/:slug/', post),
+            main: ({title, url}) => html`
             <article>
               <header>
                 <h1>${post.title}</h1>
@@ -143,14 +152,13 @@ module.exports = ({collection}) => {
                   ${icon('chevronRight')}
                 </span>`
               ))}
-            </nav>
-            `
-          ))
+            </nav>`
+          }))
         })
       }
     })
 
-    function layout (title, url, main) {
+    function layout ({title, url, main}) {
       return html`
       <!DOCTYPE html>
       <html lang="en">
@@ -167,7 +175,7 @@ module.exports = ({collection}) => {
           <nav class="grid-nav background-black mobile-full-width align-center bold mobile-padding-2">
             <div class="desktop-flex desktop-column desktop-fixed desktop-top-0 desktop-bottom-0 desktop-width-1 desktop-justify-center">
               <span>
-                <a class="desktop-font-size-xxx-large white margin-1 inline-block" href="/">Erick Merchant</a>
+                <a class="desktop-font-size-xx-large white margin-1 inline-block" href="/">Erick Merchant</a>
               </span>
               <span>
                 <a class="white margin-1 inline-block" href="/posts/">
