@@ -11,7 +11,7 @@
     "chalk": "^2.3.0",
     "geomicons-open": "^2.0.0",
     "lodash.groupby": "^4.6.0",
-    "moment-timezone": "^0.5.11",
+    "moment-timezone": "^0.5.14",
     "slug": "^0.9.1",
     "standard": "^10.0.3"
   },
