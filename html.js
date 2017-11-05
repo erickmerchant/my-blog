@@ -1,5 +1,4 @@
 const slug = require('slug')
-const ift = require('@erickmerchant/ift')('')
 const moment = require('moment-timezone')
 const groupby = require('lodash.groupby')
 const icons = require('geomicons-open')
@@ -126,32 +125,32 @@ module.exports = ({collection}) => {
               <div>${safe(post.content)}</div>
             </article>
             <nav class="flex row justify-around padding-2 bold">
-              ${safe(ift(
-              posts[index + 1],
-              (previous) => html`
-                <a class="align-left nowrap border-radius padding-2 background-blue white" rel="prev" href="${link('/posts/:slug/', previous)}">
+              ${safe(
+              posts[index + 1]
+              ? html`
+                <a class="align-left nowrap border-radius padding-2 background-blue white" rel="prev" href="${link('/posts/:slug/', posts[index + 1])}">
                   ${icon('chevronLeft')}
                   Older
-                </a>`,
-              () => html`
+                </a>`
+              : html`
                 <span class="align-left nowrap border-radius padding-2 background-gray white is-disabled">
                   ${icon('chevronLeft')}
                   Older
                 </span>`
-              ))}
-              ${safe(ift(
-              posts[index - 1],
-              (next) => html`
-                <a class="align-right nowrap border-radius padding-2 background-blue white" rel="next" href="${link('/posts/:slug/', next)}">
+              )}
+              ${safe(
+              posts[index - 1]
+              ? html`
+                <a class="align-right nowrap border-radius padding-2 background-blue white" rel="next" href="${link('/posts/:slug/', posts[index - 1])}">
                   Newer
                   ${icon('chevronRight')}
-                </a>`,
-              () => html`
+                </a>`
+              : html`
                 <span class="align-right nowrap border-radius padding-2 background-gray white is-disabled">
                   Newer
                   ${icon('chevronRight')}
                 </span>`
-              ))}
+              )}
             </nav>`
           }))
         })
