@@ -9,15 +9,15 @@
     grid-gap: 0;
   }
 
-  .grid-nav {
+  .grid > nav {
     grid-area: nav;
   }
 
-  .grid-main {
+  .grid > main {
     grid-area: main;
   }
 
-  .grid-footer {
+  .grid > footer {
     grid-area: footer;
   }
 
@@ -36,11 +36,11 @@
       grid-template-areas: "nav main" "nav footer";
     }
 
-    .grid-nav {
+    .grid > nav {
       height: 100%;
     }
 
-    .grid-main {
+    .grid > main {
       height: auto;
     }
   }
