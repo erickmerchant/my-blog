@@ -18,6 +18,6 @@
   "scripts": {
     "test": "standard",
     "build": "copy-files base/* build && assets . build && html build && optimize build build/bundle.css",
-    "watch": "copy-files base/* build -w & assets . build -w --no-min & html build -w --dev --no-min & serve-files build"
+    "watch": "copy-files base/* build -w & assets . build -w --no-min & html build -w --dev --no-min & serve-files build --open"
   }
 }
