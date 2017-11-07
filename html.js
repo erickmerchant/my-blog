@@ -196,7 +196,7 @@ module.exports = ({collection}) => {
               </span>
             </div>
           </nav>
-          <main class="padding-2 desktop-margin-horizontal-4 max-width mobile-margin-horizontal-auto" role="main">
+          <main class="padding-2 desktop-margin-horizontal-4 max-width full-width mobile-margin-horizontal-auto" role="main">
             ${safe(main({title, url}))}
           </main>
           <footer class="background-light-gray mobile-full-width font-size-small padding-2 align-center bold" role="contentinfo">
