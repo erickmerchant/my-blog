@@ -171,8 +171,8 @@ module.exports = ({collection}) => {
           <link rel="canonical" href="${host}${url}">
         </head>
         <body class="grid">
-          <nav class="background-black mobile-full-width align-center bold mobile-padding-2">
-            <div class="desktop-flex desktop-column desktop-fixed desktop-top-0 desktop-bottom-0 desktop-width-1 desktop-justify-center">
+          <nav class="background-black align-center bold mobile-padding-2">
+            <div class="desktop-flex desktop-column desktop-justify-center">
               <span>
                 <a class="desktop-font-size-xx-large white margin-1 inline-block" href="/">Erick Merchant</a>
               </span>
@@ -199,7 +199,7 @@ module.exports = ({collection}) => {
           <main class="padding-2 desktop-margin-horizontal-4 max-width full-width mobile-margin-horizontal-auto" role="main">
             ${safe(main({title, url}))}
           </main>
-          <footer class="background-light-gray mobile-full-width font-size-small padding-2 align-center bold" role="contentinfo">
+          <footer class="background-light-gray font-size-small padding-2 align-center bold" role="contentinfo">
             <a class="margin-1 inline-block" href="https://github.com/erickmerchant/erickmerchant.com-source">
               ${icon('github')}
               View Source

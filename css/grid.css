@@ -1,0 +1,30 @@
+
+@supports (display: grid) {
+  .grid {
+    display: grid;
+  }
+
+  @media (--breakpoint-mobile) {
+    .grid {
+      grid-template-columns: 100%;
+      grid-template-rows: max-content auto max-content;
+    }
+  }
+
+  @media (--breakpoint-desktop) {
+    .grid {
+      grid-template-columns: 1fr 2fr;
+      grid-template-rows: 1fr max-content;
+    }
+
+    .grid > nav {
+      grid-row: span 2;
+    }
+
+    .grid > nav > div {
+      position: sticky;
+      height: 100vh;
+      top: 0;
+    }
+  }
+}
