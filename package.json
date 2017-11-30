@@ -2,10 +2,10 @@
   "name": "erickmerchant.com-source",
   "private": true,
   "devDependencies": {
-    "@erickmerchant/assets": "^9.0.4",
+    "@erickmerchant/assets": "^10.0.0",
     "@erickmerchant/copy-files": "^1.4.2",
     "@erickmerchant/html": "^5.3.12",
-    "@erickmerchant/optimize": "^5.0.17",
+    "@erickmerchant/optimize": "^6.0.0",
     "@erickmerchant/serve-files": "^3.1.1",
     "chalk": "^2.3.0",
     "geomicons-open": "^2.0.0",
@@ -17,7 +17,7 @@
   "dependencies": {},
   "scripts": {
     "test": "standard",
-    "build": "copy-files base/* build && assets . build && html build && optimize build build/bundle.css",
-    "watch": "copy-files base/* build -w & assets . build -w --no-min & html build -w --dev --no-min & serve-files build --open"
+    "build": "copy-files base/* build && assets build && html build && optimize build",
+    "watch": "copy-files base/* build -w & assets build -w --no-min & html build -w --dev --no-min & serve-files build --open"
   }
 }
