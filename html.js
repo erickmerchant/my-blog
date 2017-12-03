@@ -188,12 +188,6 @@ module.exports = ({collection}) => {
                   GitHub
                 </a>
               </span>
-              <span>
-                <a class="white margin-1 inline-block" href="http://twitter.com/erickmerchant/">
-                  ${icon('twitter')}
-                  Twitter
-                </a>
-              </span>
             </div>
           </nav>
           <main class="padding-2 desktop-margin-horizontal-4 max-width full-width mobile-margin-horizontal-auto" role="main">
@@ -203,10 +197,6 @@ module.exports = ({collection}) => {
             <a class="margin-1 inline-block" href="https://github.com/erickmerchant/erickmerchant.com-source">
               ${icon('github')}
               View Source
-            </a>
-            <a class="margin-1 inline-block" href="https://twitter.com/intent/tweet?url=${encodeURIComponent(host + url)}&amp;text=${encodeURIComponent(title)}" target="_blank">
-              ${icon('twitter')}
-              Tweet
             </a>
             <span class="margin-1 inline-block">&copy; Erick Merchant, ${(new Date()).getFullYear()}</span>
           </footer>
