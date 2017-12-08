@@ -14,7 +14,7 @@ module.exports = ({collection}) => {
 
       option('summary', {
         description: 'the summary',
-        default: ''
+        default: { value: '' }
       })
 
       return (args) => {
