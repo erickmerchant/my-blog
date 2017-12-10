@@ -1,30 +1,32 @@
 
 @supports (display: grid) {
-  .grid {
-    display: grid;
-  }
-
-  @media (--breakpoint-mobile) {
-    .grid {
-      grid-template-columns: 100%;
-      grid-template-rows: max-content auto max-content;
-    }
-  }
-
   @media (--breakpoint-desktop) {
-    .grid {
+    body {
+      display: grid !important;
       grid-template-columns: 1fr 2fr;
       grid-template-rows: 1fr max-content;
     }
 
-    .grid > nav {
+    body > nav {
       grid-row: span 2;
     }
 
-    .grid > nav > div {
+    body > nav a:first-child {
+      font-size: 1.5em;
+    }
+
+    body > nav > div {
       position: sticky;
-      height: 100vh;
       top: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    body > main {
+      margin-right: var(--whitespace-4) !important;
+      margin-left: var(--whitespace-4) !important;
     }
   }
 }

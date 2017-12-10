@@ -1,6 +1,6 @@
-@custom-media --breakpoint-mobile (width < 60em);
+@custom-media --breakpoint-mobile (width < 65em);
 
-@custom-media --breakpoint-desktop (width >= 60em);
+@custom-media --breakpoint-desktop (width >= 65em);
 
 :root {
   --box-sizing: border-box;

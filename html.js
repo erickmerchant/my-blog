@@ -170,27 +170,21 @@ module.exports = ({collection}) => {
           <link href="/bundle.css" rel="stylesheet" type="text/css">
           <link rel="canonical" href="${host}${url}">
         </head>
-        <body class="grid">
+        <body class="flex column">
           <nav class="background-black align-center bold mobile-padding-2">
-            <div class="desktop-flex desktop-column desktop-justify-center">
-              <span>
-                <a class="desktop-font-size-xx-large white margin-1 inline-block" href="/">Erick Merchant</a>
-              </span>
-              <span>
-                <a class="white margin-1 inline-block" href="/posts/">
-                  ${icon('calendar')}
-                  Posts
-                </a>
-              </span>
-              <span>
-                <a class="white margin-1 inline-block" href="http://github.com/erickmerchant/">
-                  ${icon('github')}
-                  GitHub
-                </a>
-              </span>
+            <div class="padding-2">
+              <a class="white margin-1 inline-block" href="/">Erick Merchant</a>
+              <a class="white margin-1 inline-block" href="/posts/">
+                ${icon('calendar')}
+                Posts
+              </a>
+              <a class="white margin-1 inline-block" href="http://github.com/erickmerchant/">
+                ${icon('github')}
+                GitHub
+              </a>
             </div>
           </nav>
-          <main class="padding-2 desktop-margin-horizontal-4 max-width full-width mobile-margin-horizontal-auto" role="main">
+          <main class="auto padding-2 max-width full-width margin-horizontal-auto" role="main">
             ${safe(main({title, url}))}
           </main>
           <footer class="background-light-gray font-size-small padding-2 align-center bold" role="contentinfo">
