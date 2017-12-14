@@ -173,15 +173,19 @@ module.exports = ({collection}) => {
         <body class="flex column">
           <nav class="background-black align-center bold mobile-padding-2">
             <div class="padding-2">
-              <a class="white margin-1 inline-block" href="/">Erick Merchant</a>
-              <a class="white margin-1 inline-block" href="/posts/">
-                ${icon('calendar')}
-                Posts
-              </a>
-              <a class="white margin-1 inline-block" href="http://github.com/erickmerchant/">
-                ${icon('github')}
-                GitHub
-              </a>
+              <span class="margin-1">
+                <a class="white" href="/">Erick Merchant</a>
+              </span>
+              <span class="margin-1">
+                <a class="white" href="/posts/">
+                  ${icon('calendar')} Posts
+                </a>
+              </span>
+              <span class="margin-1">
+                <a class="white" href="http://github.com/erickmerchant/">
+                  ${icon('github')} GitHub
+                </a>
+              </span>
             </div>
           </nav>
           <main class="auto padding-2 max-width full-width margin-horizontal-auto" role="main">
