@@ -1,5 +1,5 @@
-.DS_Store
-/content/drafts
-/build
 node_modules
-.atlatl-cache
+.nyc_output
+coverage
+content/drafts
+build
