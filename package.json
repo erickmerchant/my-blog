@@ -6,7 +6,7 @@
     "@erickmerchant/copy-files": "^1.6.3",
     "@erickmerchant/html": "^6.1.2",
     "@erickmerchant/optimize": "^6.2.2",
-    "@erickmerchant/serve-files": "^3.4.1",
+    "@erickmerchant/serve-files": "^3.5.0",
     "chalk": "^2.3.0",
     "geomicons-open": "^2.0.0",
     "lodash.groupby": "^4.6.0",
