@@ -3,10 +3,10 @@
   "private": true,
   "devDependencies": {
     "@erickmerchant/assets": "^10.3.3",
-    "@erickmerchant/copy-files": "^1.7.0",
+    "@erickmerchant/copy-files": "^1.7.1",
     "@erickmerchant/html": "^6.1.2",
     "@erickmerchant/optimize": "^6.2.2",
-    "@erickmerchant/serve-files": "^3.5.0",
+    "@erickmerchant/serve-files": "^3.5.1",
     "chalk": "^2.3.0",
     "geomicons-open": "^2.0.0",
     "lodash.groupby": "^4.6.0",
