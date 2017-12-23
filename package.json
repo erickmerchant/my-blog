@@ -2,7 +2,7 @@
   "name": "erickmerchant.com-source",
   "private": true,
   "devDependencies": {
-    "@erickmerchant/assets": "^10.3.3",
+    "@erickmerchant/assets": "^11.0.2",
     "@erickmerchant/copy-files": "^1.7.1",
     "@erickmerchant/html": "^6.1.2",
     "@erickmerchant/optimize": "^6.2.2",
@@ -17,7 +17,7 @@
   "dependencies": {},
   "scripts": {
     "test": "standard",
-    "build": "copy-files base/* build && assets build && html build && optimize build",
-    "watch": "copy-files base/* build -w & assets build -w --no-min & html build -w --dev --no-min & serve-files build --open"
+    "build": "copy-files base/* build && assets css/index.css build/bundle && html build && optimize build",
+    "watch": "copy-files base/* build -w & assets css/index.css build/bundle -w --no-min & html build -w --dev --no-min & serve-files build --open"
   }
 }
