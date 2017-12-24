@@ -4,9 +4,9 @@ const groupby = require('lodash.groupby')
 const icons = require('geomicons-open')
 const host = 'http://erickmerchant.com'
 
-module.exports = ({collection}) => {
-  collection('post', ({on, save, remove, read}) => {
-    on('draft', ({parameter, option}) => {
+module.exports = function ({collection}) {
+  collection('post', function ({on, save, remove, read}) {
+    on('draft', function ({parameter, option}) {
       option('title', {
         description: 'the title',
         required: true
@@ -17,7 +17,7 @@ module.exports = ({collection}) => {
         default: { value: '' }
       })
 
-      return (args) => {
+      return function (args) {
         save('posts/:slug', {
           title: args.title,
           summary: args.summary,
@@ -27,20 +27,20 @@ module.exports = ({collection}) => {
       }
     })
 
-    on('publish', ({parameter, option}) => {
+    on('publish', function ({parameter, option}) {
       parameter('post', {
         description: 'the post to publish',
         required: true
       })
 
-      return (args) => {
-        read(args.post, 'posts/:slug', (post) => {
+      return function (args) {
+        read(args.post, 'posts/:slug', function (post) {
           save(
             'posts/:time.:slug',
             Object.assign(post, {
               time: Date.now()
             }),
-            () => {
+            function () {
               remove(args.post)
             }
           )
@@ -49,7 +49,7 @@ module.exports = ({collection}) => {
     })
   })
 
-  return ({get, html, save, safe, link, dev}) => {
+  return function ({get, html, save, safe, link, dev}) {
     save('404', layout({
       title: '404 Not Found',
       url: '/404.html',
@@ -66,8 +66,8 @@ module.exports = ({collection}) => {
       routes.push('posts/:slug')
     }
 
-    get(routes, (posts) => {
-      posts = posts.reverse().map((post) => {
+    get(routes, function (posts) {
+      posts = posts.reverse().map(function (post) {
         if (post.time) {
           post.date = moment(new Date(Number(post.time))).tz(post.timeZone)
         } else {
@@ -101,7 +101,7 @@ module.exports = ({collection}) => {
       }))
 
       if (posts.length > 0) {
-        posts.forEach((post, index) => {
+        posts.forEach(function (post, index) {
           let url = link('/posts/:slug/', post)
 
           if (index === 0) {
