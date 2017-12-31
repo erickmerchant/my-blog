@@ -4,20 +4,17 @@
   "devDependencies": {
     "@erickmerchant/assets": "^11.1.1",
     "@erickmerchant/copy-files": "^1.8.0",
-    "@erickmerchant/html": "^6.1.5",
+    "@erickmerchant/html": "^7.0.2",
     "@erickmerchant/optimize": "^6.3.1",
     "@erickmerchant/serve-files": "^3.5.3",
     "chalk": "^2.3.0",
     "geomicons-open": "^2.0.0",
-    "lodash.groupby": "^4.6.0",
-    "moment-timezone": "^0.5.14",
-    "slug": "^0.9.1",
     "standard": "^10.0.3"
   },
   "dependencies": {},
   "scripts": {
     "test": "standard",
-    "build": "copy-files base/* build && assets css/index.css build/bundle && html build && optimize build",
-    "watch": "copy-files base/* build -w & assets css/index.css build/bundle -w --no-min & html build -w --dev --no-min & serve-files build --open"
+    "build": "copy-files base/* build && assets css/index.css build/bundle && html content html.js build && optimize build",
+    "watch": "copy-files base/* build -w & assets css/index.css build/bundle -w --no-min & html content html.js build -w --no-min & serve-files build --open"
   }
 }
