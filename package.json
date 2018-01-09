@@ -4,7 +4,7 @@
   "devDependencies": {
     "@erickmerchant/assets": "^11.1.5",
     "@erickmerchant/copy-files": "^1.8.1",
-    "@erickmerchant/html": "^7.0.2",
+    "@erickmerchant/html": "^8.0.0",
     "@erickmerchant/optimize": "^6.3.3",
     "@erickmerchant/serve-files": "^3.5.3",
     "chalk": "^2.3.0",
