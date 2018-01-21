@@ -6,7 +6,7 @@
     "@erickmerchant/copy-files": "^1.8.2",
     "@erickmerchant/html": "^8.0.2",
     "@erickmerchant/optimize": "^6.3.4",
-    "@erickmerchant/serve-files": "^3.5.5",
+    "@erickmerchant/serve-files": "^3.5.6",
     "chalk": "^2.3.0",
     "geomicons-open": "^2.0.0",
     "standard": "^10.0.3"
