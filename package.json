@@ -5,7 +5,7 @@
     "@erickmerchant/assets": "^11.1.13",
     "@erickmerchant/copy-files": "^1.8.2",
     "@erickmerchant/html": "^8.0.2",
-    "@erickmerchant/optimize": "^6.3.4",
+    "@erickmerchant/optimize": "^6.3.6",
     "@erickmerchant/serve-files": "^3.5.6",
     "chalk": "^2.3.0",
     "geomicons-open": "^2.0.0",
