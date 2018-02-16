@@ -2,10 +2,10 @@
   "name": "erickmerchant.com-source",
   "private": true,
   "devDependencies": {
-    "@erickmerchant/assets": "^12.0.0",
+    "@erickmerchant/assets": "^12.0.1",
     "@erickmerchant/copy-files": "^1.8.5",
-    "@erickmerchant/html": "^8.0.7",
-    "@erickmerchant/optimize": "^6.3.9",
+    "@erickmerchant/html": "^8.0.8",
+    "@erickmerchant/optimize": "^6.3.10",
     "@erickmerchant/serve-files": "^3.5.8",
     "chalk": "^2.3.1",
     "geomicons-open": "^2.0.0",
