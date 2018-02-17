@@ -83,18 +83,6 @@ pre {
   font-size: inherit;
 }
 
-pre {
-  word-spacing: normal;
-  word-break: normal;
-  tab-size: 4;
-  hyphens: none;
-  white-space: pre-wrap;
-  overflow-x: auto;
-  font-size: inherit;
-  background-color: var(--light-gray);
-  border-radius: var(--border-radius);
-}
-
 blockquote {
   margin: 0 var(--whitespace-1);
   padding: 0 var(--whitespace-2);

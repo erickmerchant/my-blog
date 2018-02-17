@@ -30,9 +30,8 @@
   --gray: hsl(0, 0%, 65%);
   --light-gray: hsl(0, 0%, 98%);
   --white: hsl(0, 0%, 100%);
-  --red: hsl(350, 60%, 60%);
-  --orange: hsl(30, 70%, 60%);
-  --green: hsl(140, 50%, 60%);
-  --blue: hsl(200, 70%, 60%);
-  --purple: hsl(310, 60%, 60%);
+  --red: hsl(350, 65%, 60%);
+  --orange: hsl(60, 55%, 60%);
+  --green: hsl(130, 45%, 60%);
+  --blue: hsl(200, 65%, 60%);
 }
