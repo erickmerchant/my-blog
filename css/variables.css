@@ -5,10 +5,10 @@
 :root {
   --box-sizing: border-box;
 
-  --whitespace-1: 0.5em;
-  --whitespace-2: 1em;
-  --whitespace-3: 2em;
-  --whitespace-4: 4em;
+  --spacing-1: 0.5em;
+  --spacing-2: 1em;
+  --spacing-3: 2em;
+  --spacing-4: 4em;
 
   --width-1: calc(100% / 3);
   --width-2: calc(100% / 3 * 2);

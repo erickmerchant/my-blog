@@ -25,8 +25,8 @@
     }
 
     body > main {
-      margin-right: var(--whitespace-4) !important;
-      margin-left: var(--whitespace-4) !important;
+      margin-right: var(--spacing-4) !important;
+      margin-left: var(--spacing-4) !important;
     }
   }
 }
