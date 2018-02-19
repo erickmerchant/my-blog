@@ -10,26 +10,26 @@ module.exports = function ({html, safe, route, link, content}) {
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <title>${route(function (on) {
-        on('/404.html', '404 Not Found')
+    on('/404.html', '404 Not Found')
 
-        on('/posts/', 'Posts')
+    on('/posts/', 'Posts')
 
-        content.forEach(function (post, index) {
-          const title = `${post.title} | Posts`
+    content.forEach(function (post, index) {
+      const title = `${post.title} | Posts`
 
-          if (index === 0) {
-            on('/', title)
-          }
+      if (index === 0) {
+        on('/', title)
+      }
 
-          on(link('/posts/:slug/', post), title)
-        })
-      })}</title>
+      on(link('/posts/:slug/', post), title)
+    })
+  })}</title>
       <link href="/favicon.png" rel="shortcut icon" type="image/png">
       <link href="/bundle.css" rel="stylesheet" type="text/css">
       <link rel="canonical" href="${host}${route()}">
     </head>
-    <body class="flex column">
-      <nav class="background-black align-center bold mobile-padding-2">
+    <body class="flex desktop-grid column">
+      <nav class="background-black align-center bold padding-2">
         <div class="padding-2">
           <span class="margin-1">
             <a class="white" href="/">Erick Merchant</a>
@@ -46,14 +46,14 @@ module.exports = function ({html, safe, route, link, content}) {
           </span>
         </div>
       </nav>
-      <main class="auto padding-2 max-width full-width margin-horizontal-auto" role="main">
+      <main class="auto padding-2 desktop-margin-horizontal-4 max-width full-width margin-horizontal-auto" role="main">
         ${route(function (on) {
-          on('/404.html', html`
+    on('/404.html', html`
             <h1>404 Not Found</h1>
             <p>That page doesn't exist. It was either moved, removed, or never existed.</p>
           `)
 
-          on('/posts/', html`
+    on('/posts/', html`
             <h1>Posts</h1>
             <dl>
               ${content.map((post) => html`
@@ -63,8 +63,8 @@ module.exports = function ({html, safe, route, link, content}) {
             </dl>
           `)
 
-          content.forEach(function (post, index) {
-            const body = html`
+    content.forEach(function (post, index) {
+      const body = html`
               <article>
                 <header>
                   <h1>${post.title}</h1>
@@ -79,41 +79,41 @@ module.exports = function ({html, safe, route, link, content}) {
               </article>
               <nav class="flex row justify-around padding-2 bold">
                 ${
-                content[index + 1]
-                ? html`
+  content[index + 1]
+    ? html`
                   <a class="align-left nowrap border-radius padding-2 background-blue white" rel="prev" href="${link('/posts/:slug/', content[index + 1])}">
                     ${icon('chevronLeft')}
                     Older
                   </a>`
-                : html`
+    : html`
                   <span class="align-left nowrap border-radius padding-2 background-gray white is-disabled">
                     ${icon('chevronLeft')}
                     Older
                   </span>`
-                }
+}
                 ${
-                content[index - 1]
-                ? html`
+  content[index - 1]
+    ? html`
                   <a class="align-right nowrap border-radius padding-2 background-blue white" rel="next" href="${link('/posts/:slug/', content[index - 1])}">
                     Newer
                     ${icon('chevronRight')}
                   </a>`
-                : html`
+    : html`
                   <span class="align-right nowrap border-radius padding-2 background-gray white is-disabled">
                     Newer
                     ${icon('chevronRight')}
                   </span>`
-                }
+}
               </nav>
             `
 
-            if (index === 0) {
-              on('/', body)
-            }
+      if (index === 0) {
+        on('/', body)
+      }
 
-            on(link('/posts/:slug/', post), body)
-          })
-        })}
+      on(link('/posts/:slug/', post), body)
+    })
+  })}
       </main>
       <footer class="background-light-gray font-size-small padding-2 align-center bold" role="contentinfo">
         <a class="margin-1 inline-block" href="https://github.com/erickmerchant/erickmerchant.com-source">
