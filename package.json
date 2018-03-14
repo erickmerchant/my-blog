@@ -3,7 +3,7 @@
   "private": true,
   "dependencies": {
     "@erickmerchant/assets": "^12.1.1",
-    "@erickmerchant/content": "^11.0.2",
+    "@erickmerchant/content": "^11.0.3",
     "@erickmerchant/copy-files": "^1.8.6",
     "@erickmerchant/framework": "^13.1.2",
     "@erickmerchant/framework-cli": "^5.0.3",
