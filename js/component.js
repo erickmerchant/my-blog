@@ -23,7 +23,7 @@ module.exports = function ({state, next}) {
       <link rel="canonical" href="${host}${state.location}">
     </head>
     <body class="flex desktop-grid column">
-      <nav class="background-black align-center bold padding-2">
+      <nav class="background-black align-center bold">
         <div class="padding-2">
           <span class="margin-1">
             <a class="white" href="/" onclick=${preventDefault(function (e) { history.push('/', {}) })}>Erick Merchant</a>
@@ -57,7 +57,7 @@ module.exports = function ({state, next}) {
     return route(state.location, function (on) {
       on('/posts/', () => html`<section>
         <h1>Posts</h1>
-        <ul>
+        <ul class="list-style-none padding-0">
           ${state.posts.map(postsItem)}
         </ul>
       </section>`)
@@ -74,7 +74,7 @@ module.exports = function ({state, next}) {
   }
 
   function postsItem (post) {
-    return html`<li><a href="${link('/posts/:slug/', post)}" onclick=${preventDefault(function (e) {
+    return html`<li>${icon('calendar')} <a href="${link('/posts/:slug/', post)}" onclick=${preventDefault(function (e) {
       history.push(link('/posts/:slug/', post), {})
     })}>${post.title}</a></li>`
   }
@@ -114,8 +114,7 @@ module.exports = function ({state, next}) {
           <h1>${state.post.title}</h1>
           <p>
             <time class="bold" datetime="${(new Date(state.post.date)).toISOString()}">
-              ${icon('calendar')}
-              ${(new Date(state.post.date)).toLocaleDateString('en-US', {year: 'numeric', month: 'long', day: 'numeric'})}
+              ${icon('calendar')} ${(new Date(state.post.date)).toLocaleDateString('en-US', {year: 'numeric', month: 'long', day: 'numeric'})}
             </time>
           </p>
         </header>
