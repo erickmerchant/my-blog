@@ -19,7 +19,7 @@
     "prevent-default": "^1.0.0",
     "prismjs": "^1.12.2",
     "rimraf": "^2.6.2",
-    "standard": "^11.0.0"
+    "standard": "^11.0.1"
   },
   "scripts": {
     "test": "standard",
