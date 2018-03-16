@@ -29,11 +29,6 @@ module.exports = function ({state, next}) {
             <a class="white" href="/" onclick=${preventDefault(function (e) { history.push('/', {}) })}>Erick Merchant</a>
           </span>
           <span class="margin-1">
-            <a class="white" href="/posts/" onclick=${preventDefault(function (e) { history.push('/posts/', {}) })}>
-              ${icon('calendar')} Posts
-            </a>
-          </span>
-          <span class="margin-1">
             <a class="white" href="http://github.com/erickmerchant/">
               ${icon('github')} GitHub
             </a>
@@ -55,13 +50,6 @@ module.exports = function ({state, next}) {
 
   function main () {
     return route(state.location, function (on) {
-      on('/posts/', () => html`<section>
-        <h1>Posts</h1>
-        <ul class="list-style-none padding-0">
-          ${state.posts.map(postsItem)}
-        </ul>
-      </section>`)
-
       on('/posts/:slug/', postPage)
 
       on('/', postPage)

@@ -27,10 +27,6 @@ module.exports = function (commit) {
             })
           })
       }
-
-      commit(function (state) {
-        return posts
-      })
     })
 
   commit(function () {

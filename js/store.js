@@ -10,15 +10,6 @@ module.exports = function (commit) {
   return function (action, val) {
     if (action === 'location') {
       route(val, function (on) {
-        on('/posts/', function () {
-          return api.postsList()
-            .then(function (posts) {
-              commit(function (state) {
-                return posts
-              })
-            })
-        })
-
         on('/posts/:slug/', function (params) {
           return api.postsItem(params.slug)
             .then(function (post) {
