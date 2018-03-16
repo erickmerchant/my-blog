@@ -61,12 +61,6 @@ module.exports = function ({state, next}) {
     })
   }
 
-  function postsItem (post) {
-    return html`<li>${icon('calendar')} <a href="${link('/posts/:slug/', post)}" onclick=${preventDefault(function (e) {
-      history.push(link('/posts/:slug/', post), {})
-    })}>${post.title}</a></li>`
-  }
-
   function previousButton ({state}) {
     return state.previous
       ? html`
