@@ -2,7 +2,7 @@
   "name": "erickmerchant.com-source",
   "private": true,
   "dependencies": {
-    "@erickmerchant/assets": "^12.1.4",
+    "@erickmerchant/assets": "^12.1.5",
     "@erickmerchant/content": "^11.0.3",
     "@erickmerchant/copy-files": "^1.8.6",
     "@erickmerchant/framework": "^13.1.2",
@@ -17,7 +17,7 @@
     "nanohtml": "^1.2.1",
     "nanomorph": "^5.1.3",
     "prevent-default": "^1.0.0",
-    "prismjs": "^1.12.2",
+    "prismjs": "^1.13.0",
     "rimraf": "^2.6.2",
     "standard": "^11.0.1"
   },
