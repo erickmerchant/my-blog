@@ -4,49 +4,36 @@ const icons = require('geomicons-open')
 const {route, link} = require('@erickmerchant/router')()
 const history = require('./history.js')
 const preventDefault = require('prevent-default')
-const host = 'http://erickmerchant.com'
 
 module.exports = function ({state, next}) {
   next(function () {
     window.scroll(0, 0)
   })
 
-  return html`
-  <html lang="en">
-    <head>
-      <meta charset="utf-8">
-      <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>${state.title}</title>
-      <link href="/favicon.png" rel="shortcut icon" type="image/png">
-      <link href="/bundle.css" rel="stylesheet" type="text/css">
-      <link rel="canonical" href="${host}${state.location}">
-    </head>
-    <body class="flex desktop-grid column">
-      <nav class="background-black align-center bold">
-        <div class="padding-2">
-          <span class="margin-1">
-            <a class="white" href="/" onclick=${preventDefault(function (e) { history.push('/', {}) })}>Erick Merchant</a>
-          </span>
-          <span class="margin-1">
-            <a class="white" href="http://github.com/erickmerchant/">
-              ${icon('github')} GitHub
-            </a>
-          </span>
-        </div>
-      </nav>
-      <main class="auto padding-2 desktop-margin-horizontal-4 max-width full-width margin-horizontal-auto" role="main">
-        ${main()}
-      </main>
-      <footer class="background-light-gray font-size-small padding-2 align-center bold" role="contentinfo">
-        <a class="margin-1 inline-block" href="https://github.com/erickmerchant/erickmerchant.com-source">
-          ${icon('github')}
-          View Source
-        </a>
-        <span class="margin-1 inline-block">${raw('&copy;')} Erick Merchant, ${(new Date()).getFullYear()}</span>
-      </footer>
-    </body>
-  </html>`
+  return html`<body class="flex desktop-grid column">
+    <nav class="background-black align-center bold">
+      <div class="padding-2">
+        <span class="margin-1">
+          <a class="white" href="/" onclick=${preventDefault(function (e) { history.push('/', {}) })}>Erick Merchant</a>
+        </span>
+        <span class="margin-1">
+          <a class="white" href="http://github.com/erickmerchant/">
+            ${icon('github')} GitHub
+          </a>
+        </span>
+      </div>
+    </nav>
+    <main class="auto padding-2 desktop-margin-horizontal-4 max-width full-width margin-horizontal-auto" role="main">
+      ${main()}
+    </main>
+    <footer class="background-light-gray font-size-small padding-2 align-center bold" role="contentinfo">
+      <a class="margin-1 inline-block" href="https://github.com/erickmerchant/erickmerchant.com-source">
+        ${icon('github')}
+        View Source
+      </a>
+      <span class="margin-1 inline-block">${raw('&copy;')} Erick Merchant, ${(new Date()).getFullYear()}</span>
+    </footer>
+  </body>`
 
   function main () {
     return route(state.location, function (on) {
