@@ -44,6 +44,7 @@
 .self-end { align-self: flex-end; }
 .self-center { align-self: center; }
 .self-baseline { align-self: baseline; }
+.inline { display: inline; }
 .inline-block { display: inline-block; }
 .block { display: block; }
 .none { display: none; }
@@ -297,6 +298,7 @@
 .mobile-self-end { align-self: flex-end; }
 .mobile-self-center { align-self: center; }
 .mobile-self-baseline { align-self: baseline; }
+.mobile-inline { display: inline; }
 .mobile-inline-block { display: inline-block; }
 .mobile-block { display: block; }
 .mobile-none { display: none; }
@@ -551,6 +553,7 @@
 .desktop-self-end { align-self: flex-end; }
 .desktop-self-center { align-self: center; }
 .desktop-self-baseline { align-self: baseline; }
+.desktop-inline { display: inline; }
 .desktop-inline-block { display: inline-block; }
 .desktop-block { display: block; }
 .desktop-none { display: none; }
@@ -901,4 +904,37 @@
 .border-right { border-right: var(--border-width) solid currentColor; }
 .border-bottom { border-bottom: var(--border-width) solid currentColor; }
 .border-left { border-left: var(--border-width) solid currentColor; }
-.border-radius { border-radius: var(--border-radius); }
+.border-radius {
+  border-top-left-radius: var(--border-radius);
+  border-top-right-radius: var(--border-radius);
+  border-bottom-left-radius: var(--border-radius);
+  border-bottom-right-radius: var(--border-radius);
+}
+.border-left-radius {
+  border-top-left-radius: var(--border-radius);
+  border-bottom-left-radius: var(--border-radius);
+}
+.border-right-radius {
+  border-top-right-radius: var(--border-radius);
+  border-bottom-right-radius: var(--border-radius);
+}
+.border-top-radius {
+  border-top-left-radius: var(--border-radius);
+  border-top-right-radius: var(--border-radius);
+}
+.border-bottom-radius {
+  border-bottom-left-radius: var(--border-radius);
+  border-bottom-right-radius: var(--border-radius);
+}
+.border-top-left-radius {
+  border-top-left-radius: var(--border-radius);
+}
+.border-top-right-radius {
+  border-top-right-radius: var(--border-radius);
+}
+.border-bottom-left-radius {
+  border-bottom-left-radius: var(--border-radius);
+}
+.border-bottom-right-radius {
+  border-bottom-right-radius: var(--border-radius);
+}
