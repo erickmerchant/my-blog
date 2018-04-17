@@ -1,5 +1,5 @@
 {
-  "name": "erickmerchant.com-source",
+  "name": "my-blog",
   "private": true,
   "dependencies": {
     "@erickmerchant/assets": "^13.0.8",
@@ -24,6 +24,6 @@
   "scripts": {
     "test": "standard",
     "build": "rimraf build && copy-files base build && content output content build/content && assets css/index.css build/bundle && framework render js/fixture.js js/html.js build/200.html --selector html && optimize build && rimraf build/200.html build/content",
-    "watch": "rimraf build && (copy-files base build -w & content output content build/content -w & assets css/index.css js/index.js build/bundle -w --no-min & serve-files build --default 200 --open)"
+    "watch": "rimraf build && (copy-files base build -w & content output content build/content -w & assets css/index.css js/index.js build/bundle -w & serve-files build --default 200 --open)"
   }
 }
