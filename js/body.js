@@ -27,7 +27,7 @@ module.exports = function ({state, next}) {
       ${main()}
     </main>
     <footer class="background-light-gray font-size-small padding-2 align-center bold" role="contentinfo">
-      <a class="margin-1 inline-block" href="https://github.com/erickmerchant/erickmerchant.com-source">
+      <a class="margin-1 inline-block" href="https://github.com/erickmerchant/my-blog">
         ${icon('github')}
         View Source
       </a>
