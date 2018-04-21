@@ -9,14 +9,14 @@ module.exports = function (commit) {
   api.postsList()
     .then(function (posts) {
       if (posts.posts.length) {
-        posts.posts.forEach((post) => {
+        for (let post of posts.posts) {
           api.postsItem(post.slug)
             .then(function (post) {
               commit(function (state) {
                 return post
               })
             })
-        })
+        }
 
         api.postsItem(posts.posts[0].slug)
           .then(function (post) {
