@@ -27,7 +27,7 @@ module.exports = {
       .then((posts) => {
         const index = posts.findIndex((post) => post.slug === slug)
 
-        return fetch(`/content/${slug}.json`)
+        return fetch(`/content/${posts[index].link}`)
           .then((post) => {
             post.content = md.render(post.content)
 
