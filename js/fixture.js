@@ -1,4 +1,4 @@
-const api = require('./api.js')
+const content = require('./content.js')
 
 const unfound = {
   location: '/404.html',
@@ -6,11 +6,11 @@ const unfound = {
 }
 
 module.exports = function (commit) {
-  api.postsList()
+  content.list()
     .then(function (posts) {
       if (posts.posts.length) {
         for (let post of posts.posts) {
-          api.postsItem(post.slug)
+          content.item(post.slug)
             .then(function (post) {
               commit(function (state) {
                 return post
@@ -18,7 +18,7 @@ module.exports = function (commit) {
             })
         }
 
-        api.postsItem(posts.posts[0].slug)
+        content.item(posts.posts[0].slug)
           .then(function (post) {
             commit(function (state) {
               post.location = '/'

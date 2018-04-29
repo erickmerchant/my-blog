@@ -1,4 +1,4 @@
-const fs = require('fs')
+const fetch = require('./fetch.js')
 const prism = require('prismjs')
 const md = require('markdown-it')({
   highlight (str, lang) {
@@ -10,28 +10,8 @@ const md = require('markdown-it')({
   }
 })
 
-let fetch
-
-if (typeof window !== 'undefined') {
-  fetch = function (url) {
-    return window.fetch(url).then((response) => response.json())
-  }
-} else {
-  fetch = function (url) {
-    return new Promise(function (resolve, reject) {
-      fs.readFile('./build' + url, 'utf8', function (err, response) {
-        if (err) {
-          reject(err)
-        } else {
-          resolve(JSON.parse(response))
-        }
-      })
-    })
-  }
-}
-
 module.exports = {
-  postsList () {
+  list () {
     return fetch('/content/index.json')
       .then((posts) => {
         return {
@@ -42,7 +22,7 @@ module.exports = {
       })
   },
 
-  postsItem (slug) {
+  item (slug) {
     return fetch('/content/index.json')
       .then((posts) => {
         const index = posts.findIndex((post) => post.slug === slug)

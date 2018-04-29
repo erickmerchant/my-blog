@@ -50,13 +50,11 @@ module.exports = function ({state, next}) {
 
   function previousButton ({state}) {
     return state.previous
-      ? html`
-        <a class="align-left nowrap border-radius padding-2 background-blue white" rel="prev" href="${link('/posts/:slug/', state.previous)}" onclick=${preventDefault(function (e) { history.push(link('/posts/:slug/', state.previous), {}) })}>
+      ? html`<a class="align-left nowrap border-radius padding-2 background-blue white" rel="prev" href="${link('/posts/:slug/', state.previous)}" onclick=${preventDefault(function (e) { history.push(link('/posts/:slug/', state.previous), {}) })}>
           ${icon('chevronLeft')}
           Older
         </a>`
-      : html`
-        <span class="align-left nowrap border-radius padding-2 background-gray white is-disabled">
+      : html`<span class="align-left nowrap border-radius padding-2 background-gray white is-disabled">
           ${icon('chevronLeft')}
           Older
         </span>`
@@ -64,13 +62,11 @@ module.exports = function ({state, next}) {
 
   function nextButton ({state}) {
     return state.next
-      ? html`
-        <a class="align-right nowrap border-radius padding-2 background-blue white" rel="next" href="${link('/posts/:slug/', state.next)}" onclick=${preventDefault(function (e) { history.push(link('/posts/:slug/', state.next), {}) })}>
+      ? html`<a class="align-right nowrap border-radius padding-2 background-blue white" rel="next" href="${link('/posts/:slug/', state.next)}" onclick=${preventDefault(function (e) { history.push(link('/posts/:slug/', state.next), {}) })}>
           Newer
           ${icon('chevronRight')}
         </a>`
-      : html`
-        <span class="align-right nowrap border-radius padding-2 background-gray white is-disabled">
+      : html`<span class="align-right nowrap border-radius padding-2 background-gray white is-disabled">
           Newer
           ${icon('chevronRight')}
         </span>`
@@ -97,8 +93,7 @@ module.exports = function ({state, next}) {
   }
 
   function icon (name) {
-    return html`
-      <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+    return html`<svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
         <path d="${icons.paths[name]}" />
       </svg>`
   }

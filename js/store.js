@@ -1,4 +1,4 @@
-const api = require('./api.js')
+const content = require('./content.js')
 const {route} = require('@erickmerchant/router')()
 
 const unfound = {
@@ -11,7 +11,7 @@ module.exports = function (commit) {
     if (action === 'location') {
       route(val, function (on) {
         on('/posts/:slug/', function (params) {
-          return api.postsItem(params.slug)
+          return content.item(params.slug)
             .then(function (post) {
               commit(function (state) {
                 return post
@@ -20,14 +20,14 @@ module.exports = function (commit) {
         })
 
         on('/', function () {
-          return api.postsList()
+          return content.list()
             .then(function ({posts}) {
               if (!posts.length) {
                 commit(function () {
                   return unfound
                 })
               } else {
-                api.postsItem(posts[0].slug)
+                content.item(posts[0].slug)
                   .then(function (post) {
                     commit(function (state) {
                       post.location = '/'
