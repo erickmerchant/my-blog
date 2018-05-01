@@ -22,7 +22,10 @@
   },
   "scripts": {
     "test": "standard",
-    "build": "rimraf build && copy-files base build && content output content build/content && assets css/index.css build/bundle && framework render js/fixture.js js/html.js build/200.html --selector html && optimize build && rimraf build/200.html build/content",
-    "watch": "rimraf build && (copy-files base build -w & content output content build/content -w & assets css/index.css js/index.js build/bundle -w & serve-files build --default 200 --open)"
+    "copy-files": "copy-files base build",
+    "content": "content output content build/content",
+    "assets": "assets css/index.css js/index.js build/bundle",
+    "build": "npm run copy-files && npm run content && npm run assets && framework render js/fixture.js js/html.js build/200.html --selector html && optimize build && rimraf build/200.html build/content",
+    "watch": "npm run copy-files -- -w & npm run content -- -w & npm run assets -- -w & serve-files build --default 200 --open"
   }
 }
