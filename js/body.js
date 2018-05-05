@@ -37,7 +37,7 @@ module.exports = function ({state, next}) {
 
   function main () {
     return route(state.location, function (on) {
-      on('/posts/:slug/', postPage)
+      on('/:categories*/:slug/', postPage)
 
       on('/', postPage)
 
@@ -50,7 +50,7 @@ module.exports = function ({state, next}) {
 
   function previousButton ({state}) {
     return state.previous
-      ? html`<a class="align-left nowrap border-radius padding-2 background-blue white" rel="prev" href="${link('/posts/:slug/', state.previous)}" onclick=${preventDefault(function (e) { history.push(link('/posts/:slug/', state.previous), {}) })}>
+      ? html`<a class="align-left nowrap border-radius padding-2 background-blue white" rel="prev" href="${link('/:categories*/:slug/', state.previous)}" onclick=${preventDefault(function (e) { history.push(link('/:categories*/:slug/', state.previous), {}) })}>
           ${icon('chevronLeft')}
           Older
         </a>`
@@ -62,7 +62,7 @@ module.exports = function ({state, next}) {
 
   function nextButton ({state}) {
     return state.next
-      ? html`<a class="align-right nowrap border-radius padding-2 background-blue white" rel="next" href="${link('/posts/:slug/', state.next)}" onclick=${preventDefault(function (e) { history.push(link('/posts/:slug/', state.next), {}) })}>
+      ? html`<a class="align-right nowrap border-radius padding-2 background-blue white" rel="next" href="${link('/:categories*/:slug/', state.next)}" onclick=${preventDefault(function (e) { history.push(link('/:categories*/:slug/', state.next), {}) })}>
           Newer
           ${icon('chevronRight')}
         </a>`

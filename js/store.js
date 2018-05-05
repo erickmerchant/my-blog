@@ -10,8 +10,8 @@ module.exports = function (commit) {
   return function (action, val) {
     if (action === 'location') {
       route(val, function (on) {
-        on('/posts/:slug/', function (params) {
-          return content.item(params.slug)
+        on('/:categories*/:slug/', function (params) {
+          return content.item(params)
             .then(function (post) {
               commit(function (state) {
                 return post
@@ -27,7 +27,7 @@ module.exports = function (commit) {
                   return unfound
                 })
               } else {
-                content.item(posts[0].slug)
+                content.item(posts[0])
                   .then(function (post) {
                     commit(function (state) {
                       post.location = '/'

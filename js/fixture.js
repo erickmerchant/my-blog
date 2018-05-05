@@ -10,7 +10,7 @@ module.exports = function (commit) {
     .then(function (posts) {
       if (posts.posts.length) {
         for (let post of posts.posts) {
-          content.item(post.slug)
+          content.item(post)
             .then(function (post) {
               commit(function (state) {
                 return post
@@ -18,7 +18,7 @@ module.exports = function (commit) {
             })
         }
 
-        content.item(posts.posts[0].slug)
+        content.item(posts.posts[0])
           .then(function (post) {
             commit(function (state) {
               post.location = '/'

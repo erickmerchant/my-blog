@@ -22,10 +22,10 @@ module.exports = {
       })
   },
 
-  item (slug) {
+  item (search) {
     return fetch('/content/index.json')
       .then((posts) => {
-        const index = posts.findIndex((post) => post.slug === slug)
+        const index = posts.findIndex((post) => post.slug === search.slug && post.categories.join('/') === search.categories.join('/'))
 
         return fetch(`/content/${posts[index].link}`)
           .then((post) => {
