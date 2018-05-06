@@ -7,7 +7,7 @@
     "@erickmerchant/copy-files": "^2.0.6",
     "@erickmerchant/framework": "^13.3.0",
     "@erickmerchant/framework-cli": "^5.0.13",
-    "@erickmerchant/optimize": "^9.0.6",
+    "@erickmerchant/optimize": "^9.0.7",
     "@erickmerchant/router": "^15.0.1",
     "@erickmerchant/serve-files": "^4.1.2",
     "geomicons-open": "^2.0.0",
