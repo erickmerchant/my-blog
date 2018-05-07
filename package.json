@@ -9,7 +9,7 @@
     "@erickmerchant/framework-cli": "^5.0.13",
     "@erickmerchant/optimize": "^9.0.7",
     "@erickmerchant/router": "^15.0.1",
-    "@erickmerchant/serve-files": "^4.1.2",
+    "@erickmerchant/serve-files": "^5.0.0",
     "geomicons-open": "^2.0.0",
     "history": "^4.7.2",
     "markdown-it": "^8.4.1",
@@ -25,7 +25,7 @@
     "copy-files": "copy-files files dist",
     "content": "content output content dist/content",
     "assets": "assets css/index.css js/index.js dist/bundle",
-    "build": "npm run copy-files && npm run content && npm run assets && framework render js/fixture.js js/html.js dist/200.html --selector html && optimize dist && rimraf dist/200.html dist/content",
-    "watch": "npm run copy-files -- -w & npm run content -- -w & npm run assets -- -w & serve-files dist --default 200 --open"
+    "build": "npm run copy-files && npm run content && npm run assets && framework render js/fixture.js js/html.js dist/index.html --selector html && optimize dist && rimraf dist/content",
+    "watch": "npm run copy-files -- -w & npm run content -- -w & npm run assets -- -w & serve-files dist --200 --open"
   }
 }
