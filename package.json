@@ -22,10 +22,10 @@
   },
   "scripts": {
     "test": "standard",
-    "copy-files": "copy-files base build",
-    "content": "content output content build/content",
-    "assets": "assets css/index.css js/index.js build/bundle",
-    "build": "npm run copy-files && npm run content && npm run assets && framework render js/fixture.js js/html.js build/200.html --selector html && optimize build && rimraf build/200.html build/content",
-    "watch": "npm run copy-files -- -w & npm run content -- -w & npm run assets -- -w & serve-files build --default 200 --open"
+    "copy-files": "copy-files files dist",
+    "content": "content output content dist/content",
+    "assets": "assets css/index.css js/index.js dist/bundle",
+    "build": "npm run copy-files && npm run content && npm run assets && framework render js/fixture.js js/html.js dist/200.html --selector html && optimize dist && rimraf dist/200.html dist/content",
+    "watch": "npm run copy-files -- -w & npm run content -- -w & npm run assets -- -w & serve-files dist --default 200 --open"
   }
 }

@@ -9,7 +9,7 @@ if (typeof window !== 'undefined') {
 } else {
   fetch = function (url) {
     return new Promise(function (resolve, reject) {
-      fs.readFile('./build' + url, 'utf8', function (err, response) {
+      fs.readFile('./dist' + url, 'utf8', function (err, response) {
         if (err) {
           reject(err)
         } else {
