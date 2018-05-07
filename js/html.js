@@ -1,6 +1,6 @@
 const html = require('nanohtml')
 const body = require('./body.js')
-const host = 'http://erickmerchant.com'
+const host = 'https://erickmerchant.com'
 
 module.exports = function ({state, next}) {
   return html`<html lang="en">

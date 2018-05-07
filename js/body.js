@@ -17,7 +17,7 @@ module.exports = function ({state, next}) {
           <a class="white" href="/" onclick=${preventDefault(function (e) { history.push('/', {}) })}>Erick Merchant</a>
         </span>
         <span class="margin-1">
-          <a class="white" href="http://github.com/erickmerchant/">
+          <a class="white" href="https://github.com/erickmerchant/">
             ${icon('github')} GitHub
           </a>
         </span>
