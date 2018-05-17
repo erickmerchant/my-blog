@@ -1,6 +1,5 @@
----
 title: 'NPM Prepare Script Pitfall'
----
+content: '''
 Today I learned that if you run `npm publish` with sudo and have a prepare script that runs babel, that script will fail to actually run.
 
 ``` javascript
@@ -27,3 +26,4 @@ Your package will publish correctly, essentially publishing a broken version. In
 - [About scripts](https://docs.npmjs.com/misc/scripts)
 - [Highly recommended package to make publishing easier](https://www.npmjs.com/package/np)
 - [A useful video about fixing npm permissions](https://docs.npmjs.com/getting-started/fixing-npm-permissions)
+'''
