@@ -42,8 +42,8 @@ module.exports = function ({state, next}) {
       on('/', postPage)
 
       on(() => html`<div>
-        <h1>404 Not Found</h1>
-        <p>That page doesn't exist. It was either moved, removed, or never existed.</p>
+        <h1>${state.title}</h1>
+        <p>${state.error != null ? state.error.message : ''}</p>
       </div>`)
     })
   }

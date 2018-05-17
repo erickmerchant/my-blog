@@ -1,9 +1,5 @@
 const content = require('./content.js')
-
-const unfound = {
-  location: '/404.html',
-  title: '404 Not Found'
-}
+const unfound = require('./404.js')
 
 module.exports = function (commit) {
   content.list()

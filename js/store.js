@@ -1,10 +1,6 @@
 const content = require('./content.js')
 const {route} = require('@erickmerchant/router')()
-
-const unfound = {
-  location: '/404.html',
-  title: '404 Not Found'
-}
+const unfound = require('./404.js')
 
 module.exports = function (commit) {
   return function (action, val) {
@@ -17,6 +13,7 @@ module.exports = function (commit) {
                 return post
               })
             })
+            .catch(errorHandler)
         })
 
         on('/', function () {
@@ -35,8 +32,10 @@ module.exports = function (commit) {
                       return post
                     })
                   })
+                  .catch(errorHandler)
               }
             })
+            .catch(errorHandler)
         })
 
         on(function () {
@@ -48,5 +47,15 @@ module.exports = function (commit) {
         })
       })
     }
+  }
+
+  function errorHandler (error) {
+    commit(function (state) {
+      return {
+        location: '500.html',
+        title: '500 Error',
+        error
+      }
+    })
   }
 }
