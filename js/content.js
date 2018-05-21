@@ -13,7 +13,7 @@ const md = require('markdown-it')({
 module.exports = {
   list () {
     return fetch('/content/index.json')
-      .then((posts) => {
+      .then(function (posts) {
         return {
           location: '/posts/',
           title: 'Posts',
@@ -24,11 +24,11 @@ module.exports = {
 
   item (search) {
     return fetch('/content/index.json')
-      .then((posts) => {
+      .then(function (posts) {
         const index = posts.findIndex((post) => post.slug === search.slug && post.categories.join('/') === search.categories.join('/'))
 
         return fetch(`/content/${posts[index].link}`)
-          .then((post) => {
+          .then(function (post) {
             post.content = md.render(post.content)
 
             return {
