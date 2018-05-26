@@ -56,14 +56,14 @@ h4, h5, h6 {
   margin-bottom: .5em;
 }
 
-h1 { font-size: var(--font-size-xxx-large); }
-h2 { font-size: var(--font-size-xx-large); }
-h3 { font-size: var(--font-size-x-large); }
+h1 { font-size: var(--font-size-1); }
+h2 { font-size: var(--font-size-2); }
+h3 { font-size: var(--font-size-3); }
 
 @media (--breakpoint-mobile) {
-  h1 { font-size: var(--font-size-xx-large); }
-  h2 { font-size: var(--font-size-x-large); }
-  h3 { font-size: var(--font-size-large); }
+  h1 { font-size: var(--font-size-2); }
+  h2 { font-size: var(--font-size-3); }
+  h3 { font-size: var(--font-size-4); }
 }
 
 p, ol, ul, blockquote {

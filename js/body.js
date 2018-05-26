@@ -14,10 +14,10 @@ module.exports = function ({state, next}) {
     <nav class="background-black align-center bold">
       <div class="padding-2">
         <span class="margin-1">
-          <a class="white" href="/" onclick=${preventDefault(function (e) { history.push('/', {}) })}>Erick Merchant</a>
+          <a class="black" href="/" onclick=${preventDefault(function (e) { history.push('/', {}) })}>Erick Merchant</a>
         </span>
         <span class="margin-1">
-          <a class="white" href="https://github.com/erickmerchant/">
+          <a class="black" href="https://github.com/erickmerchant/">
             ${icon('github')} GitHub
           </a>
         </span>
@@ -26,7 +26,7 @@ module.exports = function ({state, next}) {
     <main class="auto padding-2 desktop-margin-horizontal-4 max-width full-width margin-horizontal-auto" role="main">
       ${main()}
     </main>
-    <footer class="background-light-gray font-size-small padding-2 align-center bold" role="contentinfo">
+    <footer class="background-light-gray font-size-6 padding-2 align-center bold" role="contentinfo">
       <a class="margin-1 inline-block" href="https://github.com/erickmerchant/my-blog">
         ${icon('github')}
         View Source
@@ -50,11 +50,11 @@ module.exports = function ({state, next}) {
 
   function previousButton ({state}) {
     return state.previous
-      ? html`<a class="align-left nowrap border-radius padding-2 background-blue white" rel="prev" href="${link('/:categories*/:slug/', state.previous)}" onclick=${preventDefault(function (e) { history.push(link('/:categories*/:slug/', state.previous), {}) })}>
+      ? html`<a class="align-left nowrap border-radius padding-2 background-blue black" rel="prev" href="${link('/:categories*/:slug/', state.previous)}" onclick=${preventDefault(function (e) { history.push(link('/:categories*/:slug/', state.previous), {}) })}>
           ${icon('chevronLeft')}
           Older
         </a>`
-      : html`<span class="align-left nowrap border-radius padding-2 background-gray white is-disabled">
+      : html`<span class="align-left nowrap border-radius padding-2 background-gray black is-disabled">
           ${icon('chevronLeft')}
           Older
         </span>`
@@ -62,11 +62,11 @@ module.exports = function ({state, next}) {
 
   function nextButton ({state}) {
     return state.next
-      ? html`<a class="align-right nowrap border-radius padding-2 background-blue white" rel="next" href="${link('/:categories*/:slug/', state.next)}" onclick=${preventDefault(function (e) { history.push(link('/:categories*/:slug/', state.next), {}) })}>
+      ? html`<a class="align-right nowrap border-radius padding-2 background-blue black" rel="next" href="${link('/:categories*/:slug/', state.next)}" onclick=${preventDefault(function (e) { history.push(link('/:categories*/:slug/', state.next), {}) })}>
           Newer
           ${icon('chevronRight')}
         </a>`
-      : html`<span class="align-right nowrap border-radius padding-2 background-gray white is-disabled">
+      : html`<span class="align-right nowrap border-radius padding-2 background-gray black is-disabled">
           Newer
           ${icon('chevronRight')}
         </span>`

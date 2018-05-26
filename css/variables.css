@@ -15,23 +15,24 @@
 
   --max-width: 40em;
 
-  --font-size-xxx-large: 2em;
-  --font-size-xx-large: 1.5em;
-  --font-size-x-large: 1.25em;
-  --font-size-large: 1.125em;
-  --font-size-medium: 1em;
-  --font-size-small: 0.888em;
+  --font-size-1: 2.0736em;
+  --font-size-2: 1.728em;
+  --font-size-3: 1.44em;
+  --font-size-4: 1.2em;
+  --font-size-5: 1em;
+  --font-size-6: 0.8333em;
 
   --border-radius: 0.2em;
   --border-width: 0.05em;
 
   --black: hsl(0, 0%, 12%);
   --dark-gray: hsl(0, 0%, 45%);
-  --gray: hsl(0, 0%, 65%);
+  --gray: hsl(0, 0%, 60%);
   --light-gray: hsl(0, 0%, 98%);
   --white: hsl(0, 0%, 100%);
-  --red: hsl(350, 65%, 60%);
-  --orange: hsl(60, 55%, 60%);
-  --green: hsl(130, 45%, 60%);
+
+  --red: hsl(350, 45%, 60%);
+  --yellow: hsl(60, 45%, 60%);
+  --green: hsl(130, 55%, 60%);
   --blue: hsl(200, 65%, 60%);
 }
