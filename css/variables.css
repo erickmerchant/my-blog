@@ -26,13 +26,13 @@
   --border-width: 0.05em;
 
   --black: hsl(0, 0%, 12%);
-  --dark-gray: hsl(0, 0%, 45%);
-  --gray: hsl(0, 0%, 60%);
+  --dark-gray: hsl(0, 0%, 14%);
+  --gray: hsl(0, 0%, 56%);
   --light-gray: hsl(0, 0%, 98%);
   --white: hsl(0, 0%, 100%);
 
-  --red: hsl(350, 45%, 60%);
-  --yellow: hsl(60, 45%, 60%);
-  --green: hsl(130, 55%, 60%);
-  --blue: hsl(200, 65%, 60%);
+  --red: hsl(350, 55%, 56%);
+  --yellow: hsl(60, 55%, 56%);
+  --green: hsl(130, 55%, 56%);
+  --blue: hsl(200, 55%, 56%);
 }
