@@ -966,6 +966,27 @@
 .border-right-blue { border-right: var(--border-width) solid var(--blue); }
 .border-bottom-blue { border-bottom: var(--border-width) solid var(--blue); }
 .border-left-blue { border-left: var(--border-width) solid var(--blue); }
+.hover-blue,
+.placeholder-hover-blue::placeholder,
+.hover-hover-blue:hover,
+.focus-hover-blue:focus {
+  color: var(--hover-blue);
+}
+.background-hover-blue,
+.hover-background-hover-blue:hover,
+.focus-background-hover-blue:focus {
+  background-color: var(--hover-blue);
+}
+.border-hover-blue {
+  border-top: var(--border-width) solid var(--hover-blue);
+  border-right: var(--border-width) solid var(--hover-blue);
+  border-bottom: var(--border-width) solid var(--hover-blue);
+  border-left: var(--border-width) solid var(--hover-blue);
+}
+.border-top-hover-blue { border-top: var(--border-width) solid var(--hover-blue); }
+.border-right-hover-blue { border-right: var(--border-width) solid var(--hover-blue); }
+.border-bottom-hover-blue { border-bottom: var(--border-width) solid var(--hover-blue); }
+.border-left-hover-blue { border-left: var(--border-width) solid var(--hover-blue); }
 .border {
   border-top: var(--border-width) solid currentColor;
   border-right: var(--border-width) solid currentColor;

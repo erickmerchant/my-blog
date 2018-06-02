@@ -50,7 +50,7 @@ module.exports = function ({state, next}) {
 
   function previousButton ({state}) {
     return state.previous
-      ? html`<a class="align-left nowrap border-radius padding-2 background-blue white" rel="prev" href="${link('/:categories*/:slug/', state.previous)}" onclick=${preventDefault(function (e) { history.push(link('/:categories*/:slug/', state.previous), {}) })}>
+      ? html`<a class="align-left nowrap border-radius padding-2 background-blue hover-background-hover-blue white" rel="prev" href="${link('/:categories*/:slug/', state.previous)}" onclick=${preventDefault(function (e) { history.push(link('/:categories*/:slug/', state.previous), {}) })}>
           ${icon('chevronLeft')}
           Older
         </a>`
@@ -62,7 +62,7 @@ module.exports = function ({state, next}) {
 
   function nextButton ({state}) {
     return state.next
-      ? html`<a class="align-right nowrap border-radius padding-2 background-blue white" rel="next" href="${link('/:categories*/:slug/', state.next)}" onclick=${preventDefault(function (e) { history.push(link('/:categories*/:slug/', state.next), {}) })}>
+      ? html`<a class="align-right nowrap border-radius padding-2 background-blue hover-background-hover-blue white" rel="next" href="${link('/:categories*/:slug/', state.next)}" onclick=${preventDefault(function (e) { history.push(link('/:categories*/:slug/', state.next), {}) })}>
           Newer
           ${icon('chevronRight')}
         </a>`
