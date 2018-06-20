@@ -2,8 +2,8 @@
   "name": "my-blog",
   "private": true,
   "dependencies": {
-    "@erickmerchant/assets": "^13.10.3",
-    "@erickmerchant/content": "^13.2.3",
+    "@erickmerchant/assets": "^13.10.4",
+    "@erickmerchant/content": "^13.2.4",
     "@erickmerchant/copy-files": "^2.2.3",
     "@erickmerchant/framework": "^13.3.0",
     "@erickmerchant/framework-cli": "^5.2.3",
