@@ -25,7 +25,7 @@
     "setup": "rimraf dist && copy-files files dist",
     "content": "content output content dist/content",
     "assets": "assets css/index.css js/index.js dist/bundle",
-    "build": "npm run setup && npm run content && npm run assets && framework render js/fixture.js js/html.js dist/index.html --selector html && optimize dist && rimraf dist/content",
+    "build": "npm run setup && npm run content && npm run assets && framework render js/fixture.js js/html.js dist/200.html --selector html && optimize dist && rimraf dist/content",
     "watch": "npm run setup -- -w & npm run content -- -w & npm run assets -- -w & serve-files dist --200 --open"
   }
 }
