@@ -29,5 +29,5 @@ module.exports = function (commit) {
     return unfound
   })
 
-  return function () {}
+  return {}
 }

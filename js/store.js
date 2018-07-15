@@ -3,8 +3,8 @@ const {route} = require('@erickmerchant/router')()
 const unfound = require('./404.js')
 
 module.exports = function (commit) {
-  return function (action, val) {
-    if (action === 'location') {
+  return {
+    location (val) {
       route(val, function (on) {
         on('/:categories*/:slug/', function (params) {
           return content.item(params)

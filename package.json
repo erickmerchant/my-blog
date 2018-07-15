@@ -5,7 +5,7 @@
     "@erickmerchant/assets": "^13.11.2",
     "@erickmerchant/content": "^13.2.6",
     "@erickmerchant/copy-files": "^2.2.5",
-    "@erickmerchant/framework": "^13.3.2",
+    "@erickmerchant/framework": "^14.0.0",
     "@erickmerchant/framework-cli": "^5.2.5",
     "@erickmerchant/optimize": "^9.6.2",
     "@erickmerchant/router": "^15.0.3",
