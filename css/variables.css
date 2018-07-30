@@ -31,10 +31,10 @@
   --light-gray: hsl(0, 0%, 98%);
   --white: hsl(0, 0%, 100%);
 
-  --red: hsl(350, 55%, 56%);
-  --yellow: hsl(60, 55%, 56%);
-  --green: hsl(130, 55%, 56%);
-  --blue: hsl(200, 55%, 56%);
+  --red: hsl(350, 60%, 60%);
+  --yellow: hsl(60, 60%, 60%);
+  --green: hsl(130, 60%, 60%);
+  --blue: hsl(200, 60%, 60%);
 
-  --hover-blue: hsla(200, 55%, 56%, 90%);
+  --hover-blue: color-mod(var(--blue) alpha(80%));
 }
