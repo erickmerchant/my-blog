@@ -31,7 +31,7 @@ module.exports = function ({state, next}) {
         ${icon('github')}
         View Source
       </a>
-      <span class="margin-1 inline-block">${raw('&copy;')} Erick Merchant, ${(new Date()).getFullYear()}</span>
+      <span class="margin-1 inline-block">${raw('&copy;')} ${(new Date()).getFullYear()} Erick Merchant</span>
     </footer>
   </body>`
 
