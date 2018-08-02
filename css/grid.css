@@ -1,27 +1,10 @@
+@media (--breakpoint-desktop) {
+  .layout {
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: 1fr max-content;
+  }
 
-@supports (display: grid) {
-  @media (--breakpoint-desktop) {
-    .desktop-grid {
-      display: grid;
-      grid-template-columns: 1fr 2fr;
-      grid-template-rows: 1fr max-content;
-    }
-
-    .desktop-grid > nav {
-      grid-row: span 2;
-    }
-
-    .desktop-grid > nav span:first-child {
-      font-size: 1.5em;
-    }
-
-    .desktop-grid > nav > div {
-      position: sticky;
-      top: 0;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      height: 100vh;
-    }
+  .layout > nav {
+    grid-row: span 2;
   }
 }

@@ -10,10 +10,10 @@ module.exports = function ({state, next}) {
     window.scroll(0, 0)
   })
 
-  return html`<body class="flex desktop-grid column">
+  return html`<body class="flex desktop-grid layout column border-box">
     <nav class="background-black align-center bold">
-      <div class="padding-2">
-        <span class="margin-1">
+      <div class="padding-2 desktop-sticky desktop-top-0 desktop-flex desktop-column desktop-justify-center desktop-height-100vh">
+        <span class="margin-1 desktop-font-size-3">
           <a class="white" href="/" onclick=${preventDefault(function (e) { history.push('/', {}) })}>Erick Merchant</a>
         </span>
         <span class="margin-1">
@@ -23,7 +23,7 @@ module.exports = function ({state, next}) {
         </span>
       </div>
     </nav>
-    <main class="auto padding-2 desktop-margin-horizontal-4 max-width full-width margin-horizontal-auto" role="main">
+    <main class="flex-auto padding-2 desktop-margin-x-4 max-width-40em width-full margin-x-auto" role="main">
       ${main()}
     </main>
     <footer class="background-light-gray font-size-6 padding-2 align-center bold" role="contentinfo">
