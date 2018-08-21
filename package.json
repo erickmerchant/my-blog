@@ -2,7 +2,7 @@
   "name": "my-blog",
   "private": true,
   "dependencies": {
-    "@erickmerchant/assets": "^14.0.2",
+    "@erickmerchant/assets": "^14.0.3",
     "@erickmerchant/content": "^13.2.7",
     "@erickmerchant/copy-files": "^2.2.6",
     "@erickmerchant/framework": "^14.0.0",
