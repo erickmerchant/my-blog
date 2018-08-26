@@ -71,7 +71,7 @@
             break
 
           case 'set-hash':
-            state.hash = typeof args.hash === 'string' && args.hash !== '' ? args.hash : '#/all'
+            state.hash = typeof args.hash === 'string' &amp;&amp; args.hash !== '' ? args.hash : '#/all'
             break
 
           case 'unset-current':
@@ -240,7 +240,7 @@
     }
 
     function filterByHash (todo) {
-      return state.hash === '#/all' || (state.hash === '#/active' && !todo.completed) || (state.hash === '#/completed' && todo.completed)
+      return state.hash === '#/all' || (state.hash === '#/active' &amp;&amp; !todo.completed) || (state.hash === '#/completed' &amp;&amp; todo.completed)
     }
 
     function item (todo) {
@@ -275,7 +275,7 @@
     /* If the enter key is pressed add a todo and clear the current value. Otherwise save what was entered to value, because when the state changes the input should not clear */
     function add (e) {
       const title = e.currentTarget.value
-      if (e.keyCode === ENTER_KEY && e.currentTarget.value) {
+      if (e.keyCode === ENTER_KEY &amp;&amp; e.currentTarget.value) {
         dispatch('add-todo', {title})
 
         dispatch('set-value', {title: ''})
