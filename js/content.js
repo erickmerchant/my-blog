@@ -7,7 +7,7 @@ const filterDrafts = process.env.NODE_ENV === 'production'
 
 module.exports = {
   list () {
-    return fetch('/posts.json')
+    return fetch('/posts/index.json')
       .then(function (posts) {
         posts = posts.filter((post) => !filterDrafts || !post.draft).sort((a, b) => b.date - a.date)
 
@@ -20,7 +20,7 @@ module.exports = {
   },
 
   item (search) {
-    return fetch('/posts.json')
+    return fetch('/posts/index.json')
       .then(function (posts) {
         posts = posts.filter((post) => !filterDrafts || !post.draft).sort((a, b) => b.date - a.date)
 
@@ -28,7 +28,7 @@ module.exports = {
 
         const post = posts[index]
 
-        return fetch(`${link('/posts/:slug', post)}.html`)
+        return fetch(`${link('/posts/html/:slug', post)}.html`)
           .then(function (content) {
             return posthtml([
               function (tree) {
