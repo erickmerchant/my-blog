@@ -48,7 +48,7 @@ module.exports = {
             ])
               .process(content)
               .then(function (result) {
-                post.content = result.html
+                post.html = result.html
 
                 return {
                   location: link('/posts/:slug/', post),

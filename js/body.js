@@ -83,7 +83,7 @@ module.exports = function ({state, next}) {
             </time>
           </p>
         </header>
-        <div>${raw(state.post.content)}</div>
+        <div>${raw(state.post.html)}</div>
       </article>
       <nav class="flex row justify-around padding-2 bold">
         ${previousButton({state})}
