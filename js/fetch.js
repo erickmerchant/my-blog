@@ -4,7 +4,11 @@ let fetch
 
 if (typeof window !== 'undefined') {
   fetch = function (url) {
-    return window.fetch(url).then((response) => response.json())
+    return window.fetch(url).then((response) => {
+      if (url.endsWith('.json')) return response.json()
+
+      return response.text()
+    })
   }
 } else {
   fetch = function (url) {
@@ -12,8 +16,10 @@ if (typeof window !== 'undefined') {
       fs.readFile('./dist' + url, 'utf8', function (err, response) {
         if (err) {
           reject(err)
-        } else {
+        } else if (url.endsWith('.json')) {
           resolve(JSON.parse(response))
+        } else {
+          resolve(response)
         }
       })
     })

@@ -6,7 +6,7 @@ module.exports = function (commit) {
   return {
     location (val) {
       route(val, function (on) {
-        on('/:categories*/:slug/', function (params) {
+        on('/posts/:slug/', function (params) {
           return content.item(params)
             .then(function (post) {
               commit(function (state) {
