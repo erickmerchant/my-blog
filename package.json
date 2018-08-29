@@ -2,8 +2,8 @@
   "name": "my-blog",
   "private": true,
   "dependencies": {
-    "@erickmerchant/assets": "^14.0.4",
-    "@erickmerchant/copy-files": "^3.0.1",
+    "@erickmerchant/assets": "^14.0.5",
+    "@erickmerchant/copy-files": "^3.0.2",
     "@erickmerchant/framework": "^14.0.0",
     "@erickmerchant/framework-cli": "^5.2.7",
     "@erickmerchant/optimize": "^9.6.6",
