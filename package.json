@@ -19,7 +19,6 @@
     "prismjs": "^1.15.0",
     "rimraf": "^2.6.2",
     "sergeant": "^22.0.1",
-    "standard": "^11.0.1",
     "unescape": "^1.0.1"
   },
   "scripts": {
@@ -28,5 +27,8 @@
     "assets": "assets css/index.css js/index.js dist/bundle",
     "build": "npm run setup && npm run assets && NODE_ENV=production framework render js/fixture.js js/html.js dist/200.html --selector html && optimize dist",
     "watch": "npm run setup -- -w & npm run assets -- -w & serve-files dist --200 --open"
+  },
+  "devDependencies": {
+    "standard": "^12.0.0"
   }
 }

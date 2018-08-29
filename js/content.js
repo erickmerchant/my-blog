@@ -1,5 +1,5 @@
 const fetch = require('./fetch.js')
-const {link} = require('@erickmerchant/router')()
+const { link } = require('@erickmerchant/router')()
 const posthtml = require('posthtml')
 const unescape = require('unescape')
 const prism = require('prismjs')

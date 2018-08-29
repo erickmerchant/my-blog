@@ -6,7 +6,7 @@ const component = require('./body.js')
 const history = require('./history.js')
 const target = document.querySelector('body')
 
-framework({target, store, component, diff})(function (dispatch) {
+framework({ target, store, component, diff })(function (dispatch) {
   history.listen(function (location) {
     dispatch('location', location.pathname)
   })

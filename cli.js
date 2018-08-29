@@ -9,8 +9,8 @@ const writeFile = promisify(fs.writeFile)
 const rename = promisify(fs.rename)
 const readJSON = promisify(jsonfile.readFile)
 
-app('cli.js', 'draft and publish content', ({command}) => {
-  command('draft', 'make a new draft', ({parameter}) => {
+app('cli.js', 'draft and publish content', ({ command }) => {
+  command('draft', 'make a new draft', ({ parameter }) => {
     parameter('title', {
       description: 'the title',
       type: (value) => value,
@@ -32,13 +32,13 @@ app('cli.js', 'draft and publish content', ({command}) => {
 
       posts.push(draft)
 
-      await writeJSON('./content/posts.json', posts, {spaces: 2})
+      await writeJSON('./content/posts.json', posts, { spaces: 2 })
 
       await writeFile('./content/posts/' + slug + '.html', '')
     }
   })
 
-  command('publish', 'publish a post', ({parameter}) => {
+  command('publish', 'publish a post', ({ parameter }) => {
     parameter('content', {
       description: 'the html file',
       type: (value) => value,
@@ -70,7 +70,7 @@ app('cli.js', 'draft and publish content', ({command}) => {
 
       posts.push(post)
 
-      await writeJSON('./content/posts.json', posts, {spaces: 2})
+      await writeJSON('./content/posts.json', posts, { spaces: 2 })
 
       await rename('./content/posts/' + path.basename(args.content), './content/posts/' + post.slug + '.html')
     }

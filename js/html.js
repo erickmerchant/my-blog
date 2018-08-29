@@ -2,7 +2,7 @@ const html = require('nanohtml')
 const body = require('./body.js')
 const host = 'https://erickmerchant.com'
 
-module.exports = function ({state, next}) {
+module.exports = function ({ state, next }) {
   return html`<html lang="en">
     <head>
       <meta charset="utf-8">
@@ -13,6 +13,6 @@ module.exports = function ({state, next}) {
       <link href="/bundle.css" rel="stylesheet" type="text/css">
       <link rel="canonical" href="${host}${state.location}">
     </head>
-    ${body({state, next})}
+    ${body({ state, next })}
   </html>`
 }

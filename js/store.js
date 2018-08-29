@@ -1,5 +1,5 @@
 const content = require('./content.js')
-const {route} = require('@erickmerchant/router')()
+const { route } = require('@erickmerchant/router')()
 const unfound = require('./404.js')
 
 module.exports = function (commit) {
@@ -18,7 +18,7 @@ module.exports = function (commit) {
 
         on('/', function () {
           return content.list()
-            .then(function ({posts}) {
+            .then(function ({ posts }) {
               if (!posts.length) {
                 commit(function () {
                   return unfound

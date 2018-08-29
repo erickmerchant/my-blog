@@ -1,11 +1,11 @@
 const html = require('nanohtml')
 const raw = require('nanohtml/raw')
 const icons = require('geomicons-open')
-const {route, link} = require('@erickmerchant/router')()
+const { route, link } = require('@erickmerchant/router')()
 const history = require('./history.js')
 const preventDefault = require('prevent-default')
 
-module.exports = function ({state, next}) {
+module.exports = function ({ state, next }) {
   next(function () {
     window.scroll(0, 0)
   })
@@ -79,15 +79,15 @@ module.exports = function ({state, next}) {
           <h1>${state.post.title}</h1>
           <p>
             <time class="bold" datetime="${(new Date(state.post.date)).toISOString()}">
-              ${icon('calendar')} ${(new Date(state.post.date)).toLocaleDateString('en-US', {year: 'numeric', month: 'long', day: 'numeric'})}
+              ${icon('calendar')} ${(new Date(state.post.date)).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
             </time>
           </p>
         </header>
         <div>${raw(state.post.html)}</div>
       </article>
       <nav class="flex row justify-around padding-2 bold">
-        ${previousButton({state})}
-        ${nextButton({state})}
+        ${previousButton({ state })}
+        ${nextButton({ state })}
       </nav>
     </div>`
   }
