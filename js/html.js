@@ -10,7 +10,7 @@ module.exports = function ({ state, next }) {
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <title>${state.title}</title>
       <link href="/favicon.png" rel="shortcut icon" type="image/png">
-      <link href="/bundle.css" rel="stylesheet" type="text/css">
+      <link href="/css/index.css" rel="stylesheet" type="text/css">
       <link rel="canonical" href="${host}${state.location}">
     </head>
     ${body({ state, next })}

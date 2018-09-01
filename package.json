@@ -2,7 +2,7 @@
   "name": "my-blog",
   "private": true,
   "dependencies": {
-    "@erickmerchant/assets": "^14.0.5",
+    "@erickmerchant/assets": "^15.0.0",
     "@erickmerchant/copy-files": "^3.0.2",
     "@erickmerchant/framework": "^14.0.0",
     "@erickmerchant/framework-cli": "^5.2.7",
@@ -24,11 +24,11 @@
   "scripts": {
     "test": "standard",
     "setup": "rimraf dist && copy-files files content dist",
-    "assets": "assets css/index.css js/index.js dist/bundle",
+    "assets": "assets css/index.css js/index.js dist",
     "build": "npm run setup && npm run assets && NODE_ENV=production framework render js/fixture.js js/html.js dist/200.html --selector html && optimize dist",
     "watch": "npm run setup -- -w & npm run assets -- -w & serve-files dist --200 --open"
   },
   "devDependencies": {
-    "standard": "^12.0.0"
+    "standard": "^12.0.1"
   }
 }
