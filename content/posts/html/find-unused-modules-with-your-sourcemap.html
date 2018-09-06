@@ -11,25 +11,7 @@
 <p>Your build process is an npm script called build that runs <code>browserify -d ./src/a.js | exorcist a.js.map > a.js</code> which results in the following source map.
 
 <pre>
-  <code class="language-javascript">
-  {
-    "version": 3,
-    "sources": [
-      "node_modules/browser-pack/_prelude.js",
-      "src/a.js",
-      "src/b.js"
-    ],
-    "names": [],
-    "mappings": "AAAA;ACAA;AACA;;ACDA",
-    "file": "generated.js",
-    "sourceRoot": "",
-    "sourcesContent": [
-      "(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require==\\"function\\"&amp;&amp;require;if(!u&amp;&amp;a)return a(o,!0);if(i)return i(o,!0);var f=new Error(\\"Cannot find module '\\"+o+\\"'\\");throw f.code=\\"MODULE_NOT_FOUND\\",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require==\\"function\\"&amp;&amp;require;for(var o=0;o&lt;r.length;o++)s(r[o]);return s})",
-      "require('./b')\\n",
-      ""
-    ]
-  }
-  </code>
+  <code src="./includes/the-following-source-map.txt" class="language-javascript"></code>
 </pre>
 
 <p>You can simply look at the sources property of the source map and see that c.js is not being used at all. In a large project this method of just comparing the source map's sources to the file system won't be pleasant. I've created a node package called ghost-hunter to help.

@@ -1,7 +1,7 @@
 const fetch = require('./fetch.js')
 const { link } = require('@erickmerchant/router')()
 const posthtml = require('posthtml')
-const unescape = require('unescape')
+const path = require('path')
 const prism = require('prismjs')
 const filterDrafts = process.env.NODE_ENV === 'production'
 
@@ -31,19 +31,37 @@ module.exports = {
         return fetch(`${link('/posts/html/:slug', post)}.html`)
           .then(function (content) {
             return posthtml([
-              function (tree) {
+              function (tree, cb) {
+                const promises = []
+
                 tree.match({ tag: 'pre' }, function (node) {
+                  node.content = node.content.map((n) => typeof n === 'string' ? n.trim() : n)
+
                   return tree.match.call(node, { tag: 'code' }, function (node) {
                     const lang = node.attrs != null && node.attrs.class != null ? node.attrs.class.match(/language-(.*)/) : null
-                    const content = node.content[0]
+                    const src = node.attrs != null ? node.attrs.src : null
 
-                    if (lang != null && prism.languages[lang[1]]) {
-                      node.content = prism.highlight(unescape(content), prism.languages[lang[1]])
+                    if (src != null) {
+                      delete node.attrs.src
+
+                      promises.push(fetch(path.join('/posts/html/', src)).then(highlight))
+                    } else {
+                      highlight(node.content[0])
                     }
 
                     return node
+
+                    function highlight (content) {
+                      if (lang != null && prism.languages[lang[1]]) {
+                        node.content = prism.highlight(content, prism.languages[lang[1]])
+                      } else {
+                        node.content = content.trim()
+                      }
+                    }
                   })
                 })
+
+                Promise.all(promises).then(function () { cb(null, tree) })
               }
             ])
               .process(content)
