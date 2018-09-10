@@ -12,7 +12,7 @@ module.exports = ({ state, next }) => {
 
   return html`<body class="flex desktop-grid layout column border-box">
     <nav class="background-black align-center bold">
-      <div class="padding-2 desktop-sticky desktop-top-0 desktop-flex desktop-column desktop-justify-center desktop-height-100vh">
+      <div class="padding-2 desktop-sticky desktop-top-0 desktop-flex desktop-column desktop-justify-center desktop-height-view">
         <span class="margin-1 desktop-font-size-3">
           <a class="white" href="/" onclick=${preventDefault((e) => { history.push('/', {}) })}>Erick Merchant</a>
         </span>
@@ -23,7 +23,7 @@ module.exports = ({ state, next }) => {
         </span>
       </div>
     </nav>
-    <main class="flex-auto padding-2 desktop-margin-x-4 max-width-40em width-full margin-x-auto" role="main">
+    <main class="flex-auto padding-2 desktop-margin-x-4 max-width-measured width-full margin-x-auto" role="main">
       ${main()}
     </main>
     <footer class="background-light-gray font-size-6 padding-2 align-center bold" role="contentinfo">

@@ -20,9 +20,9 @@
 
   --width-1: calc(100% / 3);
   --width-2: calc(100% / 3 * 2);
-  --width-40em: 40em;
+  --width-measured: 40em;
   --width-full: 100%;
-  --height-100vh: 100vh;
+  --height-view: 100vh;
 
   --font-size-1: 2.0736em;
   --font-size-2: 1.728em;
