@@ -2,55 +2,57 @@ const content = require('./content.js')
 const { route } = require('@erickmerchant/router')()
 const unfound = require('./404.js')
 
-module.exports = function (commit) {
+module.exports = (commit) => {
   return {
     location (val) {
-      route(val, function (on) {
-        on('/posts/:slug/', function (params) {
-          return content.item(params)
-            .then(function (post) {
-              commit(function (state) {
+      route(val, (on) => {
+        on('/posts/:slug/', async (params) => {
+          try {
+            const post = await content.item(params)
+
+            commit((state) => {
+              return post
+            })
+          } catch (err) {
+            errorHandler(err)
+          }
+        })
+
+        on('/', async () => {
+          try {
+            const { posts } = await content.list()
+
+            if (!posts.length) {
+              commit(() => {
+                return unfound
+              })
+            } else {
+              const post = await content.item(posts[0])
+
+              commit((state) => {
+                post.location = '/'
+
                 return post
               })
-            })
-            .catch(errorHandler)
+            }
+          } catch (err) {
+            errorHandler(err)
+          }
         })
 
-        on('/', function () {
-          return content.list()
-            .then(function ({ posts }) {
-              if (!posts.length) {
-                commit(function () {
-                  return unfound
-                })
-              } else {
-                content.item(posts[0])
-                  .then(function (post) {
-                    commit(function (state) {
-                      post.location = '/'
-
-                      return post
-                    })
-                  })
-                  .catch(errorHandler)
-              }
-            })
-            .catch(errorHandler)
-        })
-
-        on(function () {
-          commit(function () {
+        on(async () => {
+          commit(() => {
             return unfound
           })
 
-          return Promise.resolve(true)
+          return true
         })
       })
     }
   }
 
   function errorHandler (error) {
-    commit(function (state) {
+    commit((state) => {
       return {
         location: '500.html',
         title: '500 Error',

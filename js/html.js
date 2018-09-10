@@ -2,7 +2,7 @@ const html = require('nanohtml')
 const body = require('./body.js')
 const host = 'https://erickmerchant.com'
 
-module.exports = function ({ state, next }) {
+module.exports = ({ state, next }) => {
   return html`<html lang="en">
     <head>
       <meta charset="utf-8">

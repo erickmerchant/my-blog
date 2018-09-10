@@ -6,77 +6,73 @@ const prism = require('prismjs')
 const filterDrafts = process.env.NODE_ENV === 'production'
 
 module.exports = {
-  list () {
-    return fetch('/posts/index.json')
-      .then(function (posts) {
-        posts = posts.filter((post) => !filterDrafts || !post.draft).sort((a, b) => b.date - a.date)
+  async list () {
+    let posts = await fetch('/posts/index.json')
 
-        return {
-          location: '/posts/',
-          title: 'Posts',
-          posts
-        }
-      })
+    posts = posts.filter((post) => !filterDrafts || !post.draft).sort((a, b) => b.date - a.date)
+
+    return {
+      location: '/posts/',
+      title: 'Posts',
+      posts
+    }
   },
 
-  item (search) {
-    return fetch('/posts/index.json')
-      .then(function (posts) {
-        posts = posts.filter((post) => !filterDrafts || !post.draft).sort((a, b) => b.date - a.date)
+  async item (search) {
+    let posts = await fetch('/posts/index.json')
 
-        const index = posts.findIndex((post) => link('/posts/:slug/', post) === link('/posts/:slug/', search))
+    posts = posts.filter((post) => !filterDrafts || !post.draft).sort((a, b) => b.date - a.date)
 
-        const post = posts[index]
+    const index = posts.findIndex((post) => link('/posts/:slug/', post) === link('/posts/:slug/', search))
 
-        return fetch(`${link('/posts/html/:slug', post)}.html`)
-          .then(function (content) {
-            return posthtml([
-              function (tree, cb) {
-                const promises = []
+    const post = posts[index]
 
-                tree.match({ tag: 'pre' }, function (node) {
-                  node.content = node.content.map((n) => typeof n === 'string' ? n.trim() : n)
+    const content = await fetch(`${link('/posts/html/:slug', post)}.html`)
 
-                  return tree.match.call(node, { tag: 'code' }, function (node) {
-                    const lang = node.attrs != null && node.attrs.class != null ? node.attrs.class.match(/language-(.*)/) : null
-                    const src = node.attrs != null ? node.attrs.src : null
+    const result = await posthtml([
+      (tree, cb) => {
+        const promises = []
 
-                    if (src != null) {
-                      delete node.attrs.src
+        tree.match({ tag: 'pre' }, (node) => {
+          node.content = node.content.map((n) => typeof n === 'string' ? n.trim() : n)
 
-                      promises.push(fetch(path.join('/posts/html/', src)).then(highlight))
-                    } else {
-                      highlight(node.content[0])
-                    }
+          return tree.match.call(node, { tag: 'code' }, (node) => {
+            const lang = node.attrs != null && node.attrs.class != null ? node.attrs.class.match(/language-(.*)/) : null
+            const src = node.attrs != null ? node.attrs.src : null
 
-                    return node
+            if (src != null) {
+              delete node.attrs.src
 
-                    function highlight (content) {
-                      if (lang != null && prism.languages[lang[1]]) {
-                        node.content = prism.highlight(content, prism.languages[lang[1]])
-                      } else {
-                        node.content = content.trim()
-                      }
-                    }
-                  })
-                })
+              promises.push(fetch(path.join('/posts/html/', src)).then(highlight))
+            } else {
+              highlight(node.content[0])
+            }
 
-                Promise.all(promises).then(function () { cb(null, tree) })
+            return node
+
+            function highlight (content) {
+              if (lang != null && prism.languages[lang[1]]) {
+                node.content = prism.highlight(content, prism.languages[lang[1]])
+              } else {
+                node.content = content.trim()
               }
-            ])
-              .process(content)
-              .then(function (result) {
-                post.html = result.html
-
-                return {
-                  location: link('/posts/:slug/', post),
-                  title: `Posts | ${post.title}`,
-                  next: posts[index - 1],
-                  previous: posts[index + 1],
-                  post
-                }
-              })
+            }
           })
-      })
+        })
+
+        Promise.all(promises).then(() => { cb(null, tree) })
+      }
+    ])
+      .process(content)
+
+    post.html = result.html
+
+    return {
+      location: link('/posts/:slug/', post),
+      title: `Posts | ${post.title}`,
+      next: posts[index - 1],
+      previous: posts[index + 1],
+      post
+    }
   }
 }

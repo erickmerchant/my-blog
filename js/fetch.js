@@ -3,17 +3,17 @@ const fs = require('fs')
 let fetch
 
 if (typeof window !== 'undefined') {
-  fetch = function (url) {
-    return window.fetch(url).then((response) => {
-      if (url.endsWith('.json')) return response.json()
+  fetch = async (url) => {
+    const response = await window.fetch(url)
 
-      return response.text()
-    })
+    if (url.endsWith('.json')) return response.json()
+
+    return response.text()
   }
 } else {
-  fetch = function (url) {
-    return new Promise(function (resolve, reject) {
-      fs.readFile('./dist' + url, 'utf8', function (err, response) {
+  fetch = (url) => {
+    return new Promise((resolve, reject) => {
+      fs.readFile('./dist' + url, 'utf8', (err, response) => {
         if (err) {
           reject(err)
         } else if (url.endsWith('.json')) {

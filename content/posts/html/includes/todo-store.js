@@ -1,6 +1,6 @@
 const storageKey = 'todo-data'
 
-module.exports = function (commit) {
+module.exports = (commit) => {
   /* Pull out any stored state from localStorage */
   let stored = window.localStorage.getItem(storageKey)
   let todos = []
@@ -16,7 +16,7 @@ module.exports = function (commit) {
   }
 
   /* commit is called with the initial state */
-  commit(function () {
+  commit(() => {
     return {
       todos,
       completed,
@@ -28,9 +28,9 @@ module.exports = function (commit) {
   })
 
   /* a function is returned that gets called anytime dispatch is called. It will get called with commit as the first argument followed by all the things dispatch was called with */
-  return function (action, args) {
+  return (action, args) => {
     /* commit is how the state is changed. What it returns becomes the new state */
-    commit(function (state) {
+    commit((state) => {
       let index
 
       switch (action) {

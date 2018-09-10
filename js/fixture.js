@@ -1,31 +1,30 @@
 const content = require('./content.js')
 const unfound = require('./404.js')
 
-module.exports = function (commit) {
+module.exports = (commit) => {
   content.list()
-    .then(function (posts) {
+    .then(async (posts) => {
       if (posts.posts.length) {
         for (let post of posts.posts) {
           content.item(post)
-            .then(function (post) {
-              commit(function (state) {
+            .then((post) => {
+              commit((state) => {
                 return post
               })
             })
         }
 
-        content.item(posts.posts[0])
-          .then(function (post) {
-            commit(function (state) {
-              post.location = '/'
+        const post = await content.item(posts.posts[0])
 
-              return post
-            })
-          })
+        commit((state) => {
+          post.location = '/'
+
+          return post
+        })
       }
     })
 
-  commit(function () {
+  commit(() => {
     return unfound
   })
 

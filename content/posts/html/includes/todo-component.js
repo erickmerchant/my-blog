@@ -3,9 +3,9 @@ const ENTER_KEY = 13
 const ESCAPE_KEY = 27
 
 /* The component gets called with the current state, dispatch which is a means to signal change, and next which is a way to interact with the page after a render */
-module.exports = function ({ state, dispatch, next }) {
+module.exports = ({ state, dispatch, next }) => {
   /* After the diff is called if an item is being edited, focus it */
-  next(function (target) {
+  next((target) => {
     const input = target.querySelector('input.edit')
 
     if (input) {

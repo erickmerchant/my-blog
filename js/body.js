@@ -5,8 +5,8 @@ const { route, link } = require('@erickmerchant/router')()
 const history = require('./history.js')
 const preventDefault = require('prevent-default')
 
-module.exports = function ({ state, next }) {
-  next(function () {
+module.exports = ({ state, next }) => {
+  next(() => {
     window.scroll(0, 0)
   })
 
@@ -14,7 +14,7 @@ module.exports = function ({ state, next }) {
     <nav class="background-black align-center bold">
       <div class="padding-2 desktop-sticky desktop-top-0 desktop-flex desktop-column desktop-justify-center desktop-height-100vh">
         <span class="margin-1 desktop-font-size-3">
-          <a class="white" href="/" onclick=${preventDefault(function (e) { history.push('/', {}) })}>Erick Merchant</a>
+          <a class="white" href="/" onclick=${preventDefault((e) => { history.push('/', {}) })}>Erick Merchant</a>
         </span>
         <span class="margin-1">
           <a class="white" href="https://github.com/erickmerchant/">
@@ -36,7 +36,7 @@ module.exports = function ({ state, next }) {
   </body>`
 
   function main () {
-    return route(state.location, function (on) {
+    return route(state.location, (on) => {
       on('/posts/:slug/', post)
 
       on('/', post)
@@ -50,7 +50,7 @@ module.exports = function ({ state, next }) {
 
   function previousButton () {
     return state.previous
-      ? html`<a class="align-left nowrap border-radius padding-2 background-blue hover-background-hover-blue white" rel="prev" href="${link('/posts/:slug/', state.previous)}" onclick=${preventDefault(function (e) { history.push(link('/posts/:slug/', state.previous), {}) })}>
+      ? html`<a class="align-left nowrap border-radius padding-2 background-blue hover-background-hover-blue white" rel="prev" href="${link('/posts/:slug/', state.previous)}" onclick=${preventDefault((e) => { history.push(link('/posts/:slug/', state.previous), {}) })}>
           ${icon('chevronLeft')}
           Older
         </a>`
@@ -62,7 +62,7 @@ module.exports = function ({ state, next }) {
 
   function nextButton () {
     return state.next
-      ? html`<a class="align-right nowrap border-radius padding-2 background-blue hover-background-hover-blue white" rel="next" href="${link('/posts/:slug/', state.next)}" onclick=${preventDefault(function (e) { history.push(link('/posts/:slug/', state.next), {}) })}>
+      ? html`<a class="align-right nowrap border-radius padding-2 background-blue hover-background-hover-blue white" rel="next" href="${link('/posts/:slug/', state.next)}" onclick=${preventDefault((e) => { history.push(link('/posts/:slug/', state.next), {}) })}>
           Newer
           ${icon('chevronRight')}
         </a>`
