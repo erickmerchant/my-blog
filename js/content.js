@@ -51,6 +51,10 @@ module.exports = {
             return node
 
             function highlight (content) {
+              if (typeof content === 'object') {
+                content = JSON.stringify(content, null, 2)
+              }
+
               if (lang != null && prism.languages[lang[1]]) {
                 node.content = prism.highlight(content, prism.languages[lang[1]])
               } else {
