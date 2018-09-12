@@ -3,7 +3,7 @@ const unfound = require('./404.js')
 
 module.exports = (commit) => {
   content.list()
-    .then(async (posts) => {
+    .then((posts) => {
       if (posts.posts.length) {
         for (let post of posts.posts) {
           content.item(post)
@@ -14,13 +14,14 @@ module.exports = (commit) => {
             })
         }
 
-        const post = await content.item(posts.posts[0])
+        content.item(posts.posts[0])
+          .then((post) => {
+            commit((state) => {
+              post.location = '/'
 
-        commit((state) => {
-          post.location = '/'
-
-          return post
-        })
+              return post
+            })
+          })
       }
     })
 
