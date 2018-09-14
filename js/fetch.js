@@ -13,7 +13,7 @@ if (typeof window !== 'undefined') {
 } else {
   fetch = (url) => {
     return new Promise((resolve, reject) => {
-      fs.readFile('./dist' + url, 'utf8', (err, response) => {
+      fs.readFile('./content' + url, 'utf8', (err, response) => {
         if (err) {
           reject(err)
         } else if (url.endsWith('.json')) {
