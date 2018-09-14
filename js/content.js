@@ -27,7 +27,7 @@ module.exports = {
 
     const post = posts[index]
 
-    const content = await fetch(`${link('/posts/html/:slug', post)}.html`)
+    const content = await fetch(`${link('/posts/:slug', post)}.html`)
 
     const result = await posthtml([
       (tree, cb) => {
@@ -43,7 +43,7 @@ module.exports = {
             if (src != null) {
               delete node.attrs.src
 
-              promises.push(fetch(path.join('/posts/html/', src)).then(highlight))
+              promises.push(fetch(path.join('/posts/', src)).then(highlight))
             } else {
               highlight(node.content[0])
             }

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const app = require('sergeant')
+const command = require('sergeant')
 const promisify = require('util').promisify
 const jsonfile = require('jsonfile')
 const fs = require('fs')
@@ -9,7 +9,7 @@ const writeFile = promisify(fs.writeFile)
 const rename = promisify(fs.rename)
 const readJSON = promisify(jsonfile.readFile)
 
-app('cli.js', 'draft and publish content', ({ command }) => {
+command('cli.js', 'draft and publish content', ({ command }) => {
   command('draft', 'make a new draft', ({ parameter }) => {
     parameter('title', {
       description: 'the title',
@@ -28,11 +28,11 @@ app('cli.js', 'draft and publish content', ({ command }) => {
         draft: true
       }
 
-      const posts = await readJSON('./content/posts.json', 'utf8')
+      const posts = await readJSON('./content/posts/index.json', 'utf8')
 
       posts.push(draft)
 
-      await writeJSON('./content/posts.json', posts, { spaces: 2 })
+      await writeJSON('./content/posts/index.json', posts, { spaces: 2 })
 
       await writeFile('./content/posts/' + slug + '.html', '')
     }
@@ -51,7 +51,7 @@ app('cli.js', 'draft and publish content', ({ command }) => {
     })
 
     return async (args) => {
-      const posts = await readJSON('./content/posts.json', 'utf8')
+      const posts = await readJSON('./content/posts/index.json', 'utf8')
 
       const index = posts.findIndex((post) => post.slug === path.basename(args.content, '.html'))
 
@@ -70,7 +70,7 @@ app('cli.js', 'draft and publish content', ({ command }) => {
 
       posts.push(post)
 
-      await writeJSON('./content/posts.json', posts, { spaces: 2 })
+      await writeJSON('./content/posts/index.json', posts, { spaces: 2 })
 
       await rename('./content/posts/' + path.basename(args.content), './content/posts/' + post.slug + '.html')
     }
@@ -78,5 +78,5 @@ app('cli.js', 'draft and publish content', ({ command }) => {
 })(process.argv.slice(2))
 
 function slugify (title) {
-  return title.toLowerCase().replace(/\s+/g, '-')
+  return title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z-]/g, '-')
 }
