@@ -12,6 +12,7 @@
     "@erickmerchant/serve-files": "^9.1.0",
     "geomicons-open": "^2.0.0",
     "history": "^4.7.2",
+    "htmlnano": "^0.2.0",
     "jsonfile": "^5.0.0",
     "nanohtml": "^1.2.3",
     "nanomorph": "^5.1.3",
