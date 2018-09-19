@@ -9,7 +9,7 @@
     "@erickmerchant/framework-cli": "^5.3.0",
     "@erickmerchant/optimize": "^9.8.1",
     "@erickmerchant/router": "^15.1.0",
-    "@erickmerchant/serve-files": "^9.1.0",
+    "@erickmerchant/serve-files": "^10.0.0",
     "geomicons-open": "^2.0.0",
     "history": "^4.7.2",
     "htmlnano": "^0.2.0",
@@ -26,7 +26,7 @@
   "scripts": {
     "test": "standard",
     "build": "rimraf dist && copy-files files dist && assets css/index.css dist && NODE_ENV=production framework render js/fixture.js js/html.js dist/200.html --selector html && optimize dist",
-    "watch": "rimraf dist && copy-files files content dist -w & assets css/index.css js/index.js dist -w --no-min & serve-files dist --200 --open"
+    "watch": "rimraf dist && copy-files files content dist -w & assets css/index.css js/index.js dist -w --no-min & serve-files dist --200 --port 3000 --open"
   },
   "devDependencies": {
     "standard": "^12.0.1"
