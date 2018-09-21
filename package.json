@@ -3,7 +3,7 @@
   "private": true,
   "dependencies": {
     "@babel/polyfill": "^7.0.0",
-    "@erickmerchant/assets": "^16.4.0",
+    "@erickmerchant/assets": "^16.5.0",
     "@erickmerchant/copy-files": "^3.2.0",
     "@erickmerchant/framework": "^14.1.0",
     "@erickmerchant/framework-cli": "^5.3.0",
