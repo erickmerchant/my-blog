@@ -6,41 +6,37 @@ module.exports = (commit) => {
   return {
     location (val) {
       route(val, (on) => {
-        on('/posts/:slug/', async (params) => {
-          try {
-            const post = await content.item(params)
-
-            commit((state) => {
-              return post
-            })
-          } catch (err) {
-            errorHandler(err)
-          }
-        })
-
-        on('/', async () => {
-          try {
-            const { posts } = await content.list()
-
-            if (!posts.length) {
-              commit(() => {
-                return unfound
-              })
-            } else {
-              const post = await content.item(posts[0])
-
+        on('/posts/:slug/', (params) => {
+          return content.item(params)
+            .then((post) => {
               commit((state) => {
-                post.location = '/'
-
                 return post
               })
-            }
-          } catch (err) {
-            errorHandler(err)
-          }
+            })
+            .catch(errorHandler)
         })
 
-        on(async () => {
+        on('/', () => {
+          return content.list()
+            .then(({ posts }) => {
+              if (!posts.length) {
+                commit(() => {
+                  return unfound
+                })
+              } else {
+                return content.item(posts[0]).then((post) => {
+                  commit((state) => {
+                    post.location = '/'
+
+                    return post
+                  })
+                })
+              }
+            })
+            .catch(errorHandler)
+        })
+
+        on(() => {
           commit(() => {
             return unfound
           })

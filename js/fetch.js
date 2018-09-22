@@ -1,17 +1,15 @@
-const fs = require('fs')
-
-let fetch
-
 if (typeof window !== 'undefined') {
-  fetch = async (url) => {
-    const response = await window.fetch(url)
+  module.exports = (url) => {
+    return window.fetch(url).then((response) => {
+      if (url.endsWith('.json')) return response.json()
 
-    if (url.endsWith('.json')) return response.json()
-
-    return response.text()
+      return response.text()
+    })
   }
 } else {
-  fetch = (url) => {
+  const fs = require('fs')
+
+  module.exports = (url) => {
     return new Promise((resolve, reject) => {
       fs.readFile('./content' + url, 'utf8', (err, response) => {
         if (err) {
@@ -25,5 +23,3 @@ if (typeof window !== 'undefined') {
     })
   }
 }
-
-module.exports = fetch

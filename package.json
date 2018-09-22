@@ -2,8 +2,7 @@
   "name": "my-blog",
   "private": true,
   "dependencies": {
-    "@babel/polyfill": "^7.0.0",
-    "@erickmerchant/assets": "^17.0.1",
+    "@erickmerchant/assets": "^17.0.2",
     "@erickmerchant/copy-files": "^3.2.0",
     "@erickmerchant/framework": "^14.1.0",
     "@erickmerchant/optimize": "^9.8.1",

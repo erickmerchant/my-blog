@@ -1,6 +1,3 @@
-
-require('@babel/polyfill')
-
 const framework = require('@erickmerchant/framework')
 const diff = require('nanomorph')
 const store = require('./store.js')
