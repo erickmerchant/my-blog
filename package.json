@@ -3,7 +3,7 @@
   "private": true,
   "dependencies": {
     "@babel/polyfill": "^7.0.0",
-    "@erickmerchant/assets": "^16.5.0",
+    "@erickmerchant/assets": "^17.0.1",
     "@erickmerchant/copy-files": "^3.2.0",
     "@erickmerchant/framework": "^14.1.0",
     "@erickmerchant/optimize": "^9.8.1",
@@ -24,8 +24,8 @@
   },
   "scripts": {
     "test": "standard",
-    "build": "rimraf dist && copy-files files dist && assets css/index.css dist && NODE_ENV=production framework render js/fixture.js js/html.js dist/200.html --selector html && optimize dist",
-    "watch": "rimraf dist && copy-files files content dist -w & assets css/index.css js/index.js dist -w --no-min & serve-files dist --200 --port 3000 --open"
+    "build": "rimraf dist && copy-files files dist && assets css/index.css dist && framework render js/fixture.js js/html.js dist/200.html --selector html && optimize dist",
+    "watch": "rimraf dist && copy-files files content dist -w & assets css/index.css js/index.js dist -w --no-min & serve-files dist --200 --port 3000"
   },
   "devDependencies": {
     "standard": "^12.0.1"

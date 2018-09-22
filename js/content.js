@@ -3,7 +3,7 @@ const { link } = require('@erickmerchant/router')()
 const posthtml = require('posthtml')
 const path = require('path')
 const prism = require('prismjs')
-const filterDrafts = process.env.NODE_ENV === 'production'
+const filterDrafts = typeof window === 'undefined'
 
 module.exports = {
   async list () {
