@@ -7,7 +7,7 @@
     "@erickmerchant/framework": "^14.1.0",
     "@erickmerchant/optimize": "^9.8.1",
     "@erickmerchant/router": "^15.1.0",
-    "@erickmerchant/serve-files": "^10.0.0",
+    "@erickmerchant/serve-files": "^10.0.1",
     "geomicons-open": "^2.0.0",
     "history": "^4.7.2",
     "htmlnano": "^0.2.0",
