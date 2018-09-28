@@ -2,12 +2,12 @@
   "name": "my-blog",
   "private": true,
   "dependencies": {
-    "@erickmerchant/assets": "^17.0.2",
+    "@erickmerchant/assets": "^17.1.0",
     "@erickmerchant/copy-files": "^3.2.0",
     "@erickmerchant/framework": "^14.1.0",
     "@erickmerchant/optimize": "^9.8.1",
     "@erickmerchant/router": "^15.1.0",
-    "@erickmerchant/serve-files": "^10.0.1",
+    "@erickmerchant/serve-files": "^10.1.0",
     "geomicons-open": "^2.0.0",
     "history": "^4.7.2",
     "htmlnano": "^0.2.0",
@@ -23,10 +23,11 @@
   },
   "scripts": {
     "test": "standard",
-    "build": "rimraf dist && copy-files files dist && assets css/index.css dist && framework render js/fixture.js js/html.js dist/200.html --selector html && optimize dist",
-    "watch": "rimraf dist && copy-files files content dist -w & assets css/index.css js/index.js dist -w --no-min & serve-files dist --200 --port 3000"
+    "build": "tasks 'rimraf dist' [ 'copy-files files dist' 'assets css/index.css dist' 'framework render js/fixture.js js/html.js files/200.html --selector html -o dist' ] 'optimize dist'",
+    "watch": "tasks 'rimraf dist' [ 'copy-files files content dist -w' 'assets css/index.css js/index.js dist -w --no-min' 'serve-files dist --200 --port 3000' ]"
   },
   "devDependencies": {
+    "@erickmerchant/tasks": "^0.2.0",
     "standard": "^12.0.1"
   }
 }
