@@ -4,7 +4,7 @@
   "dependencies": {
     "@erickmerchant/assets": "^17.1.3",
     "@erickmerchant/copy-files": "^3.2.3",
-    "@erickmerchant/framework": "^14.1.4",
+    "@erickmerchant/framework": "^15.0.0",
     "@erickmerchant/framework-cli": "^5.3.4",
     "@erickmerchant/optimize": "^9.8.5",
     "@erickmerchant/router": "^15.1.3",
