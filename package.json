@@ -28,7 +28,7 @@
     "watch": "tasks 'rimraf dist' [ 'copy-files files content dist -w' 'assets css/index.css js/index.js dist -w --no-min' 'serve-files dist --200 --port 3000 --dev' ]"
   },
   "devDependencies": {
-    "@erickmerchant/tasks": "^0.3.3",
+    "@erickmerchant/tasks": "^1.0.0",
     "standard": "^12.0.1"
   }
 }

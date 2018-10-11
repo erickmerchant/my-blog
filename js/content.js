@@ -1,5 +1,6 @@
 const fetch = require('./fetch.js')
 const { link } = require('@erickmerchant/router')()
+const unfound = require('./404.js')
 const posthtml = require('posthtml')
 const path = require('path')
 const prism = require('prismjs')
@@ -7,7 +8,7 @@ const filterDrafts = typeof window === 'undefined'
 
 module.exports = {
   list () {
-    return fetch('/posts/index.json').then((posts) => {
+    return fetch('/_posts/index.json').then((posts) => {
       posts = posts.filter((post) => !filterDrafts || !post.draft).sort((a, b) => b.date - a.date)
 
       return {
@@ -19,14 +20,18 @@ module.exports = {
   },
 
   item (search) {
-    return fetch('/posts/index.json').then((posts) => {
+    return fetch('/_posts/index.json').then((posts) => {
       posts = posts.filter((post) => !filterDrafts || !post.draft).sort((a, b) => b.date - a.date)
 
       const index = posts.findIndex((post) => link('/posts/:slug/', post) === link('/posts/:slug/', search))
 
+      if (index < 0) {
+        return unfound
+      }
+
       const post = posts[index]
 
-      return fetch(`${link('/posts/:slug', post)}.html`).then((html) => {
+      return fetch(`${link('/_posts/:slug', post)}.html`).then((html) => {
         return posthtml([
           (tree, cb) => {
             const promises = []
@@ -41,7 +46,7 @@ module.exports = {
                 if (src != null) {
                   delete node.attrs.src
 
-                  promises.push(fetch(path.join('/posts/', src)).then(highlight))
+                  promises.push(fetch(path.join('/_posts/', src)).then(highlight))
                 } else {
                   highlight(node.content[0])
                 }
