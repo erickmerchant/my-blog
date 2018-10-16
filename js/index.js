@@ -7,8 +7,8 @@ const target = document.querySelector('body')
 
 framework({ target, store, component, diff })((dispatch) => {
   history.listen((location) => {
-    dispatch('location', location.pathname)
+    dispatch(location.pathname)
   })
 
-  dispatch('location', history.location.pathname)
+  dispatch(history.location.pathname)
 })

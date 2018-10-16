@@ -1,4 +1,4 @@
-const html = require('bel')
+const html = require('nanohtml')
 const ENTER_KEY = 13
 const ESCAPE_KEY = 27
 

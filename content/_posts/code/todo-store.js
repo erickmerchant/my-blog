@@ -5,14 +5,12 @@ module.exports = (commit) => {
   let stored = window.localStorage.getItem(storageKey)
   let todos = []
   let completed = 0
-  let next = 0
 
   if (stored) {
     stored = JSON.parse(stored)
 
     todos = stored.todos
     completed = stored.todos.filter((todo) => todo.completed).length
-    next = stored.next
   }
 
   /* commit is called with the initial state */
@@ -20,18 +18,21 @@ module.exports = (commit) => {
     return {
       todos,
       completed,
-      next,
       value: '',
       current: null,
       hash: '#/all'
     }
   })
 
-  /* a function is returned that gets called anytime dispatch is called. It will get called with commit as the first argument followed by all the things dispatch was called with */
-  return (action, args) => {
+  /* this function is dispatch */
+  return (action, args = {}) => {
     /* commit is how the state is changed. What it returns becomes the new state */
     commit((state) => {
       let index
+
+      if (args.todo) {
+        index = state.todos.indexOf(args.todo)
+      }
 
       switch (action) {
         case 'set-value':
@@ -58,8 +59,6 @@ module.exports = (commit) => {
           break
 
         case 'edit-todo':
-          index = state.todos.indexOf(args.todo)
-
           if (index > -1) {
             state.todos[index].title = args.title
           }
@@ -78,8 +77,6 @@ module.exports = (commit) => {
           break
 
         case 'set-todo-completedness':
-          index = state.todos.indexOf(args.todo)
-
           if (index > -1) {
             state.todos[index].completed = args.completed
 
@@ -88,8 +85,6 @@ module.exports = (commit) => {
           break
 
         case 'remove-todo':
-          index = state.todos.indexOf(args.todo)
-
           if (index > -1) {
             if (state.todos[index].completed) {
               state.completed -= 1
@@ -106,13 +101,16 @@ module.exports = (commit) => {
           break
       }
 
-      /* Store todos and next in localStorage */
-      window.localStorage.setItem(storageKey, JSON.stringify({
-        todos: state.todos,
-        next: state.next
-      }))
-
-      return state
+      /* Store state in localStorage */
+      return storage(state)
     })
+  }
+
+  function storage (state) {
+    window.localStorage.setItem(storageKey, JSON.stringify({
+      todos: state.todos
+    }))
+
+    return state
   }
 }
