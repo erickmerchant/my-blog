@@ -65,7 +65,7 @@ module.exports = (commit) => {
           break
 
         case 'set-all-todos-completedness':
-          for (let todo of state.todos) {
+          for (const todo of state.todos) {
             todo.completed = args.completed
           }
 

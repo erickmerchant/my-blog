@@ -9,7 +9,7 @@ module.exports = ({ state, dispatch, next }) => {
     const input = target.querySelector('input.edit')
 
     if (input) {
-      let length = input.value.length * 2
+      const length = input.value.length * 2
 
       input.focus()
 

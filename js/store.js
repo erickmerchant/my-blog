@@ -6,11 +6,7 @@ module.exports = (commit) => {
   return (val) => route(val, (on) => {
     on('/posts/:slug/', (params) => {
       return content.item(params)
-        .then((post) => {
-          commit((state) => {
-            return post
-          })
-        })
+        .then(commitPost)
         .catch(errorHandler)
     })
 
@@ -18,30 +14,36 @@ module.exports = (commit) => {
       return content.list()
         .then(({ posts }) => {
           if (!posts.length) {
-            commit(() => {
-              return unfound
-            })
+            commitUnfound()
           } else {
-            return content.item(posts[0]).then((post) => {
-              commit((state) => {
-                post.location = '/'
-
-                return post
-              })
-            })
+            return content.item(posts[0]).then(commitPost)
           }
         })
         .catch(errorHandler)
     })
 
     on(() => {
-      commit(() => {
-        return unfound
-      })
+      commitUnfound()
 
       return true
     })
   })
+
+  function commitPost (post, location) {
+    commit((state) => {
+      if (location) {
+        post.location = location
+      }
+
+      return post
+    })
+  }
+
+  function commitUnfound () {
+    commit(() => {
+      return unfound
+    })
+  }
 
   function errorHandler (error) {
     commit((state) => {

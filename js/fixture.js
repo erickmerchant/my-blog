@@ -5,7 +5,7 @@ module.exports = (commit) => {
   content.list()
     .then((posts) => {
       if (posts.posts.length) {
-        for (let post of posts.posts) {
+        for (const post of posts.posts) {
           content.item(post)
             .then((post) => {
               commit((state) => {
