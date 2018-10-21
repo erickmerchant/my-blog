@@ -12,15 +12,11 @@ module.exports = ({ state, next }) => {
 
   return html`<body class="flex desktop-grid layout column border-box">
     <nav class="background-black align-center bold">
-      <div class="padding-2 desktop-sticky desktop-top-0 desktop-flex desktop-column desktop-justify-center desktop-height-view">
-        <span class="margin-1 desktop-font-size-3">
-          <a class="white" href="/" onclick=${preventDefault((e) => { history.push('/', {}) })}>Erick Merchant</a>
-        </span>
-        <span class="margin-1">
-          <a class="white" href="https://github.com/erickmerchant/">
-            ${icon('github')} GitHub
-          </a>
-        </span>
+      <div class="padding-2 desktop-sticky desktop-top-0 desktop-flex desktop-column desktop-justify-center desktop-height-view items-center">
+        <a class="margin-1 desktop-font-size-3 white" href="/" onclick=${preventDefault((e) => { history.push('/', {}) })}>Erick Merchant</a>
+        <a class="margin-1 white" href="https://github.com/erickmerchant/">
+          ${icon('github')} GitHub
+        </a>
       </div>
     </nav>
     <main class="flex-auto padding-2 desktop-margin-x-4 max-width-measured width-full margin-x-auto" role="main">
@@ -28,8 +24,7 @@ module.exports = ({ state, next }) => {
     </main>
     <footer class="background-light-gray font-size-6 padding-2 align-center bold" role="contentinfo">
       <a class="margin-1 inline-block" href="https://github.com/erickmerchant/my-blog">
-        ${icon('github')}
-        View Source
+        ${icon('github')} View Source
       </a>
       <span class="margin-1 inline-block">${raw('&copy;')} ${(new Date()).getFullYear()} Erick Merchant</span>
     </footer>
@@ -41,55 +36,49 @@ module.exports = ({ state, next }) => {
 
       on('/', post)
 
-      on(() => html`<div>
-        <h1>${state.title}</h1>
-        <p>${state.error != null ? state.error.message : ''}</p>
-      </div>`)
+      on(() => [
+        html`<h1>${state.title}</h1>`,
+        html`<p>${state.error != null ? state.error.message : ''}</p>`
+      ])
     })
+  }
+
+  function post () {
+    return [
+      html`<article>
+        <header>
+          <h1>${state.post.title}</h1>
+          <time class="bold" datetime="${(new Date(state.post.date)).toISOString()}">
+            ${icon('calendar')} ${(new Date(state.post.date)).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+          </time>
+        </header>
+        ${raw(state.post.html)}
+      </article>`,
+      html`<nav class="flex row justify-around padding-2 bold">
+        ${previousButton({ state })}
+        ${nextButton({ state })}
+      </nav>`
+    ]
   }
 
   function previousButton () {
     return state.previous
       ? html`<a class="align-left nowrap border-radius padding-2 background-blue hover-background-hover-blue white" rel="prev" href="${link('/posts/:slug/', state.previous)}" onclick=${preventDefault((e) => { history.push(link('/posts/:slug/', state.previous), {}) })}>
-          ${icon('chevronLeft')}
-          Older
+          ${icon('chevronLeft')} Older
         </a>`
       : html`<span class="align-left nowrap border-radius padding-2 background-gray white">
-          ${icon('chevronLeft')}
-          Older
+          ${icon('chevronLeft')} Older
         </span>`
   }
 
   function nextButton () {
     return state.next
       ? html`<a class="align-right nowrap border-radius padding-2 background-blue hover-background-hover-blue white" rel="next" href="${link('/posts/:slug/', state.next)}" onclick=${preventDefault((e) => { history.push(link('/posts/:slug/', state.next), {}) })}>
-          Newer
-          ${icon('chevronRight')}
+          Newer ${icon('chevronRight')}
         </a>`
       : html`<span class="align-right nowrap border-radius padding-2 background-gray white">
-          Newer
-          ${icon('chevronRight')}
+          Newer ${icon('chevronRight')}
         </span>`
-  }
-
-  function post () {
-    return html`<div>
-      <article>
-        <header>
-          <h1>${state.post.title}</h1>
-          <p>
-            <time class="bold" datetime="${(new Date(state.post.date)).toISOString()}">
-              ${icon('calendar')} ${(new Date(state.post.date)).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
-            </time>
-          </p>
-        </header>
-        <div>${raw(state.post.html)}</div>
-      </article>
-      <nav class="flex row justify-around padding-2 bold">
-        ${previousButton({ state })}
-        ${nextButton({ state })}
-      </nav>
-    </div>`
   }
 
   function icon (name) {

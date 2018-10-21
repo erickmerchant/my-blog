@@ -28,13 +28,13 @@ command('cli.js', 'draft and publish content', ({ command }) => {
         draft: true
       }
 
-      const posts = await readJSON('./content/posts/index.json', 'utf8')
+      const posts = await readJSON('./content/_posts/index.json', 'utf8')
 
       posts.push(draft)
 
-      await writeJSON('./content/posts/index.json', posts, { spaces: 2 })
+      await writeJSON('./content/_posts/index.json', posts, { spaces: 2 })
 
-      await writeFile('./content/posts/' + slug + '.html', '')
+      await writeFile('./content/_posts/' + slug + '.html', '')
     }
   })
 
@@ -51,7 +51,7 @@ command('cli.js', 'draft and publish content', ({ command }) => {
     })
 
     return async (args) => {
-      const posts = await readJSON('./content/posts/index.json', 'utf8')
+      const posts = await readJSON('./content/_posts/index.json', 'utf8')
 
       const index = posts.findIndex((post) => post.slug === path.basename(args.content, '.html'))
 
@@ -70,13 +70,13 @@ command('cli.js', 'draft and publish content', ({ command }) => {
 
       posts.push(post)
 
-      await writeJSON('./content/posts/index.json', posts, { spaces: 2 })
+      await writeJSON('./content/_posts/index.json', posts, { spaces: 2 })
 
-      await rename('./content/posts/' + path.basename(args.content), './content/posts/' + post.slug + '.html')
+      await rename('./content/_posts/' + path.basename(args.content), './content/_posts/' + post.slug + '.html')
     }
   })
 })(process.argv.slice(2))
 
 function slugify (title) {
-  return title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z-]/g, '-')
+  return title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '-')
 }
