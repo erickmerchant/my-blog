@@ -2,7 +2,7 @@
   "name": "my-blog",
   "private": true,
   "dependencies": {
-    "@erickmerchant/assets": "^17.1.4",
+    "@erickmerchant/assets": "^18.0.0",
     "@erickmerchant/copy-files": "^3.2.3",
     "@erickmerchant/framework": "^16.0.1",
     "@erickmerchant/framework-cli": "^5.3.5",
@@ -19,7 +19,7 @@
     "prevent-default": "^1.0.0",
     "prismjs": "^1.15.0",
     "rimraf": "^2.6.2",
-    "sergeant": "^22.2.0",
+    "sergeant": "^22.2.1",
     "unescape": "^1.0.1"
   },
   "scripts": {
