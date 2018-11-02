@@ -1,14 +1,13 @@
 const framework = require('@erickmerchant/framework')
-const diff = require('nanomorph')
+const update = require('@erickmerchant/framework/update')(document.querySelector('body'))
 const store = require('./store.js')
 const component = require('./body.js')
 const history = require('./history.js')
-const target = document.querySelector('body')
 
-framework({ target, store, component, diff })((dispatch) => {
-  history.listen((location) => {
-    dispatch(location.pathname)
-  })
+const dispatch = framework({ store, component, update })
 
-  dispatch(history.location.pathname)
+history.listen((location) => {
+  dispatch(location.pathname)
 })
+
+dispatch(history.location.pathname)

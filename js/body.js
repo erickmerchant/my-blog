@@ -1,89 +1,111 @@
-const html = require('nanohtml')
-const raw = require('nanohtml/raw')
+const { body, nav, div, a, main, h1, p, footer, span, article, header, time, svg, path } = require('@erickmerchant/framework/html')
 const icons = require('geomicons-open')
 const { route, link } = require('@erickmerchant/router')()
 const history = require('./history.js')
-const preventDefault = require('prevent-default')
 
-module.exports = ({ state, next }) => {
-  next(() => {
-    window.scroll(0, 0)
+module.exports = ({ state }) => {
+  return body(({ onupdate }) => {
+    onupdate(() => {
+      // window.scroll(0, 0)
+    })
+
+    return [{ class: 'flex desktop-grid layout column border-box' },
+      nav({ class: 'background-black align-center bold' },
+        div({ class: 'padding-2 desktop-sticky desktop-top-0 desktop-flex desktop-column desktop-justify-center desktop-height-view items-center' },
+          a({
+            class: 'margin-1 desktop-font-size-3 white',
+            href: '/',
+            onclick (e) {
+              e.preventDefault()
+
+              history.push('/', {})
+            }
+          },
+          'Erick Merchant'
+          ),
+          a({
+            class: 'margin-1 white',
+            href: 'https://github.com/erickmerchant/'
+          },
+          icon('github'),
+          'GitHub'
+          )
+        )
+      ),
+      main({
+        class: 'flex-auto padding-2 desktop-margin-x-4 max-width-measured width-full margin-x-auto',
+        role: 'main'
+      },
+      ...route(state.location, (on) => {
+        on(['/posts/:slug/', '/'], (params) => [
+          article(
+            header(
+              h1(state.post.title),
+              time({ class: 'bold', datetime: (new Date(state.post.date)).toISOString() },
+                icon('calendar'), (new Date(state.post.date)).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+              )
+            ),
+            state.post.html
+          ),
+          nav({ class: 'flex row justify-around padding-2 bold' },
+            state.previous
+              ? a({
+                class: 'align-left nowrap border-radius padding-2 background-blue hover-background-hover-blue white',
+                rel: 'prev',
+                href: link('/posts/:slug/', state.previous),
+                onclick (e) {
+                  e.preventDefault()
+
+                  history.push(link('/posts/:slug/', state.previous))
+                }
+              },
+              icon('chevronLeft'),
+              'Older'
+              )
+              : span({ class: 'align-left nowrap border-radius padding-2 background-gray white' },
+                icon('chevronLeft'),
+                'Older'
+              ),
+            state.next
+              ? a({
+                class: 'align-right nowrap border-radius padding-2 background-blue hover-background-hover-blue white',
+                rel: 'next',
+                href: link('/posts/:slug/', state.next),
+                onclick (e) {
+                  e.preventDefault()
+
+                  history.push(link('/posts/:slug/', state.next))
+                }
+              },
+              'Newer',
+              icon('chevronRight')
+              )
+              : span({ class: 'align-right nowrap border-radius padding-2 background-gray white' },
+                'Newer',
+                icon('chevronRight')
+              )
+          )
+        ])
+
+        on(() => [
+          h1(state.title),
+          p(state.error != null ? state.error.message : '')
+        ])
+      })
+      ),
+      footer({ class: 'background-light-gray font-size-6 padding-2 align-center bold', role: 'contentinfo' },
+        a({ class: 'margin-1 inline-block', href: 'https://github.com/erickmerchant/my-blog' },
+          icon('github'),
+          'View Source'
+        ),
+        span({ class: 'margin-1 inline-block' }, `&copy; ${(new Date()).getFullYear()} Erick Merchant`)
+      )
+    ]
   })
 
-  return html`<body class="flex desktop-grid layout column border-box">
-    <nav class="background-black align-center bold">
-      <div class="padding-2 desktop-sticky desktop-top-0 desktop-flex desktop-column desktop-justify-center desktop-height-view items-center">
-        <a class="margin-1 desktop-font-size-3 white" href="/" onclick=${preventDefault((e) => { history.push('/', {}) })}>Erick Merchant</a>
-        <a class="margin-1 white" href="https://github.com/erickmerchant/">
-          ${icon('github')} GitHub
-        </a>
-      </div>
-    </nav>
-    <main class="flex-auto padding-2 desktop-margin-x-4 max-width-measured width-full margin-x-auto" role="main">
-      ${main()}
-    </main>
-    <footer class="background-light-gray font-size-6 padding-2 align-center bold" role="contentinfo">
-      <a class="margin-1 inline-block" href="https://github.com/erickmerchant/my-blog">
-        ${icon('github')} View Source
-      </a>
-      <span class="margin-1 inline-block">${raw('&copy;')} ${(new Date()).getFullYear()} Erick Merchant</span>
-    </footer>
-  </body>`
-
-  function main () {
-    return route(state.location, (on) => {
-      on('/posts/:slug/', post)
-
-      on('/', post)
-
-      on(() => [
-        html`<h1>${state.title}</h1>`,
-        html`<p>${state.error != null ? state.error.message : ''}</p>`
-      ])
-    })
-  }
-
-  function post () {
-    return [
-      html`<article>
-        <header>
-          <h1>${state.post.title}</h1>
-          <time class="bold" datetime="${(new Date(state.post.date)).toISOString()}">
-            ${icon('calendar')} ${(new Date(state.post.date)).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
-          </time>
-        </header>
-        ${raw(state.post.html)}
-      </article>`,
-      html`<nav class="flex row justify-around padding-2 bold">
-        ${previousButton({ state })}
-        ${nextButton({ state })}
-      </nav>`
-    ]
-  }
-
-  function previousButton () {
-    return state.previous
-      ? html`<a class="align-left nowrap border-radius padding-2 background-blue hover-background-hover-blue white" rel="prev" href="${link('/posts/:slug/', state.previous)}" onclick=${preventDefault((e) => { history.push(link('/posts/:slug/', state.previous), {}) })}>
-          ${icon('chevronLeft')} Older
-        </a>`
-      : html`<span class="align-left nowrap border-radius padding-2 background-gray white">
-          ${icon('chevronLeft')} Older
-        </span>`
-  }
-
-  function nextButton () {
-    return state.next
-      ? html`<a class="align-right nowrap border-radius padding-2 background-blue hover-background-hover-blue white" rel="next" href="${link('/posts/:slug/', state.next)}" onclick=${preventDefault((e) => { history.push(link('/posts/:slug/', state.next), {}) })}>
-          Newer ${icon('chevronRight')}
-        </a>`
-      : html`<span class="align-right nowrap border-radius padding-2 background-gray white">
-          Newer ${icon('chevronRight')}
-        </span>`
-  }
-
   function icon (name) {
-    return html`<svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-        <path d="${icons.paths[name]}" />
-      </svg>`
+    return svg({ class: 'icon', xmlns: 'http://www.w3.org/2000/svg', viewBox: '0 0 32 32' },
+      path({ d: icons.paths[name] })
+    )
   }
 }
