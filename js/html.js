@@ -3,7 +3,8 @@ const body = require('./body.js')
 const host = 'https://erickmerchant.com'
 
 module.exports = ({ state, next }) => {
-  return html({ lang: 'en' },
+  return html(
+    { lang: 'en' },
     head(
       meta({ charset: 'utf-8' }),
       meta({ 'http-equiv': 'X-UA-Compatible', content: 'IE=edge' }),
