@@ -7,7 +7,7 @@ module.exports = ({ state }) => {
   return body(({ onupdate }) => {
     onupdate(() => {
       if (typeof window !== 'undefined') {
-        window.scroll(0, 0)
+        setTimeout(() => window.scroll({ top: 0, left: 0, behavior: 'smooth' }), 10)
       }
     })
 
@@ -60,7 +60,7 @@ module.exports = ({ state }) => {
             nav(
               { class: 'flex row justify-around padding-2 bold' },
               a(!!state.previous, () => [{
-                class: 'align-left nowrap border-radius padding-2 background-blue hover-background-hover-blue white',
+                class: 'align-left nowrap border-radius padding-2 background-blue white',
                 rel: 'prev',
                 href: link('/posts/:slug/', state.previous),
                 onclick (e) {
@@ -71,7 +71,7 @@ module.exports = ({ state }) => {
               }, icon('chevronLeft'), ' Older']),
               span(!state.previous, () => [{ class: 'align-left nowrap border-radius padding-2 background-gray white' }, icon('chevronLeft'), ' Older']),
               a(!!state.next, () => [{
-                class: 'align-right nowrap border-radius padding-2 background-blue hover-background-hover-blue white',
+                class: 'align-right nowrap border-radius padding-2 background-blue white',
                 rel: 'next',
                 href: link('/posts/:slug/', state.next),
                 onclick (e) {

@@ -931,34 +931,6 @@
 .border-right-blue { border-right-color: var(--blue); }
 .border-bottom-blue { border-bottom-color: var(--blue); }
 .border-left-blue { border-left-color: var(--blue); }
-.hover-blue,
-.placeholder-hover-blue::placeholder,
-.hover-hover-blue:hover,
-.active-hover-blue:active,
-.focus-hover-blue:focus {
-  color: var(--hover-blue);
-}
-.background-hover-blue,
-.hover-background-hover-blue:hover,
-.active-background-hover-blue:active,
-.focus-background-hover-blue:focus {
-  background-color: var(--hover-blue);
-}
-.border-hover-blue {
-  border-color: var(--hover-blue);
-}
-.border-x-hover-blue {
-  border-right-color: var(--hover-blue);
-  border-left-color: var(--hover-blue);
-}
-.border-y-hover-blue {
-  border-top-color: var(--hover-blue);
-  border-bottom-color: var(--hover-blue);
-}
-.border-top-hover-blue { border-top-color: var(--hover-blue); }
-.border-right-hover-blue { border-right-color: var(--hover-blue); }
-.border-bottom-hover-blue { border-bottom-color: var(--hover-blue); }
-.border-left-hover-blue { border-left-color: var(--hover-blue); }
 .border {
   border-width: var(--border-width);
 }
