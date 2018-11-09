@@ -10,9 +10,25 @@
 
 <p>Your build process is an npm script called build that runs <code>browserify -d ./src/a.js | exorcist a.js.map > a.js</code> which results in the following source map.
 
-<pre>
-  <code src="./code/the-following-source-map.json" class="language-javascript"></code>
-</pre>
+``` javascript
+{
+  "version": 3,
+  "sources": [
+    "node_modules/browser-pack/_prelude.js",
+    "src/a.js",
+    "src/b.js"
+  ],
+  "names": [],
+  "mappings": "AAAA;ACAA;AACA;;ACDA",
+  "file": "generated.js",
+  "sourceRoot": "",
+  "sourcesContent": [
+    "(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require==\"function\"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error(\"Cannot find module '\"+o+\"'\");throw f.code=\"MODULE_NOT_FOUND\",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require==\"function\"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})",
+    "require('./b')\n",
+    ""
+  ]
+}
+```
 
 <p>You can simply look at the sources property of the source map and see that c.js is not being used at all. In a large project this method of just comparing the source map's sources to the file system won't be pleasant. I've created a node package called ghost-hunter to help.
 

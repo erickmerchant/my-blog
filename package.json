@@ -2,26 +2,23 @@
   "name": "my-blog",
   "private": true,
   "dependencies": {
-    "@erickmerchant/assets": "^18.1.0",
+    "@erickmerchant/assets": "^18.1.1",
     "@erickmerchant/copy-files": "^3.2.3",
     "@erickmerchant/framework": "^17.1.1",
-    "@erickmerchant/optimize": "^9.10.3",
     "@erickmerchant/router": "^15.1.6",
     "@erickmerchant/serve-files": "^10.1.6",
+    "escape-goat": "^1.3.0",
     "geomicons-open": "^2.0.0",
     "history": "^4.7.2",
-    "htmlnano": "^0.2.0",
     "jsonfile": "^5.0.0",
-    "posthtml": "^0.11.3",
     "prismjs": "^1.15.0",
-    "rimraf": "^2.6.2",
     "sergeant": "^22.2.1",
     "unescape": "^1.0.1"
   },
   "scripts": {
     "test": "standard",
-    "build": "tasks 'rimraf dist' [ 'copy-files files dist' 'assets css/index.css dist' 'framework render js/fixture.js js/html.js files/200.html --selector html -o dist' ] 'optimize dist'",
-    "watch": "tasks 'rimraf dist' [ 'copy-files files content dist -w' 'assets css/index.css js/index.js dist -w --no-min' 'serve-files dist --200 --port 3000 --dev' ]"
+    "build": "tasks [ 'copy-files files dist' 'assets css/index.css dist' 'framework render js/fixture.js js/html.js files/200.html --selector html -o dist' ]",
+    "watch": "tasks [ 'copy-files files content dist -w' 'assets css/index.css js/index.js dist -w --no-min' 'serve-files dist --200 --port 3000 --dev' ]"
   },
   "devDependencies": {
     "@erickmerchant/tasks": "^1.0.1",

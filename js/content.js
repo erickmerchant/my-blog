@@ -1,10 +1,10 @@
 const fetch = require('./fetch.js')
 const { link } = require('@erickmerchant/router')()
 const unfound = require('./404.js')
-const posthtml = require('posthtml')
-const path = require('path')
 const prism = require('prismjs')
+const goat = require('escape-goat')
 const filterDrafts = typeof window === 'undefined'
+const codeStart = '```'
 
 module.exports = {
   list () {
@@ -31,57 +31,47 @@ module.exports = {
 
       const post = posts[index]
 
-      return fetch(`${link('/_posts/:slug', post)}.html`).then((html) => {
-        return posthtml([
-          (tree, cb) => {
-            const promises = []
+      return fetch(`${link('/_posts/:slug', post)}.md`).then((result) => {
+        const lns = result.split('\n')
+        const html = []
 
-            tree.match({ tag: 'pre' }, (node) => {
-              node.content = node.content.map((n) => typeof n === 'string' ? n.trim() : n)
+        while (lns.length) {
+          const ln = lns.shift()
 
-              return tree.match.call(node, { tag: 'code' }, (node) => {
-                const lang = node.attrs != null && node.attrs.class != null ? node.attrs.class.match(/language-(.*)/) : null
-                const src = node.attrs != null ? node.attrs.src : null
+          if (ln.startsWith(codeStart)) {
+            let code = []
 
-                if (src != null) {
-                  delete node.attrs.src
+            const lang = ln.substring(3).trim()
 
-                  promises.push(fetch(path.join('/_posts/', src)).then(highlight))
-                } else {
-                  highlight(node.content[0])
-                }
-
-                return node
-
-                function highlight (content) {
-                  if (typeof content === 'object') {
-                    content = JSON.stringify(content, null, 2)
-                  }
-
-                  if (lang != null && prism.languages[lang[1]]) {
-                    node.content = prism.highlight(content, prism.languages[lang[1]])
-                  } else {
-                    node.content = content.trim()
-                  }
-                }
-              })
-            })
-
-            Promise.all(promises).then(() => { cb(null, tree) })
-          }
-        ])
-          .process(html)
-          .then((html) => {
-            post.html = html.html
-
-            return {
-              location: link('/posts/:slug/', post),
-              title: `Posts | ${post.title}`,
-              next: posts[index - 1],
-              previous: posts[index + 1],
-              post
+            while (lns[0] != null && !lns[0].startsWith(codeStart)) {
+              code.push(lns.shift())
             }
-          })
+
+            lns.shift()
+
+            code = code.join('\n')
+
+            if (lang) {
+              code = prism.highlight(code, prism.languages[lang])
+            } else {
+              code = goat.escape(code)
+            }
+
+            html.push(`<pre><code>${code}</code></pre>`)
+          } else {
+            html.push(ln)
+          }
+        }
+
+        post.html = html.join('\n')
+
+        return {
+          location: link('/posts/:slug/', post),
+          title: `Posts | ${post.title}`,
+          next: posts[index - 1],
+          previous: posts[index + 1],
+          post
+        }
       })
     })
   }

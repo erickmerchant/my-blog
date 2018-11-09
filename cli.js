@@ -34,13 +34,13 @@ command('cli.js', 'draft and publish content', ({ command }) => {
 
       await writeJSON('./content/_posts/index.json', posts, { spaces: 2 })
 
-      await writeFile('./content/_posts/' + slug + '.html', '')
+      await writeFile('./content/_posts/' + slug + '.md', '')
     }
   })
 
   command('publish', 'publish a post', ({ parameter }) => {
     parameter('content', {
-      description: 'the html file',
+      description: 'the md file',
       type: (value) => value,
       required: true
     })
@@ -53,7 +53,7 @@ command('cli.js', 'draft and publish content', ({ command }) => {
     return async (args) => {
       const posts = await readJSON('./content/_posts/index.json', 'utf8')
 
-      const index = posts.findIndex((post) => post.slug === path.basename(args.content, '.html'))
+      const index = posts.findIndex((post) => post.slug === path.basename(args.content, '.md'))
 
       const post = posts[index]
 
@@ -72,7 +72,7 @@ command('cli.js', 'draft and publish content', ({ command }) => {
 
       await writeJSON('./content/_posts/index.json', posts, { spaces: 2 })
 
-      await rename('./content/_posts/' + path.basename(args.content), './content/_posts/' + post.slug + '.html')
+      await rename('./content/_posts/' + path.basename(args.content), './content/_posts/' + post.slug + '.md')
     }
   })
 })(process.argv.slice(2))

@@ -1,4 +1,4 @@
-code[class*="language-"] {
+pre code {
 	color: var(--dark-gray);
 }
 
