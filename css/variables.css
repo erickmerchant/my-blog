@@ -8,12 +8,6 @@
   --spacing-3: 2em;
   --spacing-4: 4em;
 
-  --width-1: calc(100% / 3);
-  --width-2: calc(100% / 3 * 2);
-  --width-measured: 40em;
-  --width-full: 100%;
-  --height-view: 100vh;
-
   --font-size-1: 2.0736em;
   --font-size-2: 1.728em;
   --font-size-3: 1.44em;
