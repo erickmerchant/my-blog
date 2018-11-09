@@ -1,0 +1,13 @@
+main {
+  flex: auto;
+  padding: var(--spacing-2);
+  max-width: 40em;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (--breakpoint-desktop) {
+  margin-left: var(--spacing-4);
+  margin-right: var(--spacing-4);
+}

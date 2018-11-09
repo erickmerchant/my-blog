@@ -1,0 +1,30 @@
+.pagination {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  padding: var(--spacing-2);
+  font-weight: bold;
+}
+
+.pagination > * {
+  white-space: nowrap;
+  border-radius: var(--border-radius);
+  padding: var(--spacing-2);
+  color: var(--white);
+}
+
+.pagination a {
+  background: var(--blue);
+}
+
+.pagination span {
+  background: var(--gray);
+}
+
+.pagination .previous {
+  text-align: left;
+}
+
+.pagination .next {
+  text-align: left;
+}

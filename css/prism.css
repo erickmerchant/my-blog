@@ -7,7 +7,7 @@ pre {
 	overflow: auto;
 	background-color: var(--light-gray);
   border-radius: var(--border-radius);
-  padding: var(--padding-2);
+  padding: var(--spacing-2);
 	line-height: 1.5;
 	word-spacing: normal;
   word-break: normal;

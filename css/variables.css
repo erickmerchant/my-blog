@@ -3,20 +3,10 @@
 @custom-media --breakpoint-desktop (width >= 65em);
 
 :root {
-  --margin-1: 0.5em;
-  --margin-2: 1em;
-  --margin-3: 2em;
-  --margin-4: 4em;
-
-  --padding-1: 0.5em;
-  --padding-2: 1em;
-  --padding-3: 2em;
-  --padding-4: 4em;
-
-  --gap-1: 0.5em;
-  --gap-2: 1em;
-  --gap-3: 2em;
-  --gap-4: 4em;
+  --spacing-1: 0.5em;
+  --spacing-2: 1em;
+  --spacing-3: 2em;
+  --spacing-4: 4em;
 
   --width-1: calc(100% / 3);
   --width-2: calc(100% / 3 * 2);

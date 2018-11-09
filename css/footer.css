@@ -1,0 +1,12 @@
+.footer {
+  background: var(--light-gray);
+  font-size: var(--font-size-6);
+  padding: var(--spacing-2);
+  text-align: center;
+  font-weight: bold;
+}
+
+.footer > * {
+  margin: var(--spacing-1);
+  display: inline-block;
+}

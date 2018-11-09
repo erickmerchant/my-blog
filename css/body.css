@@ -1,10 +1,17 @@
+body {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
 @media (--breakpoint-desktop) {
-  .layout {
+  body {
+    display: grid;
     grid-template-columns: 1fr 2fr;
     grid-template-rows: 1fr max-content;
   }
 
-  .layout > nav {
+  .nav {
     grid-row: span 2;
   }
 }

@@ -12,13 +12,10 @@ module.exports = ({ state }) => {
     })
 
     return [
-      { class: 'flex desktop-grid layout column border-box' },
       nav(
-        { class: 'background-black align-center bold' },
+        { class: 'nav' },
         div(
-          { class: 'padding-2 desktop-sticky desktop-top-0 desktop-flex desktop-column desktop-justify-center desktop-height-view items-center' },
           a({
-            class: 'margin-1 desktop-font-size-3 white',
             href: '/',
             onclick (e) {
               e.preventDefault()
@@ -27,16 +24,11 @@ module.exports = ({ state }) => {
             }
           }, 'Erick Merchant'),
           a({
-            class: 'margin-1 white',
             href: 'https://github.com/erickmerchant/'
           }, icon('github'), ' GitHub')
         )
       ),
       main(
-        {
-          class: 'flex-auto padding-2 desktop-margin-x-4 max-width-measured width-full margin-x-auto',
-          role: 'main'
-        },
         ...route(state.location, (on) => {
           on(['/posts/:slug/', '/'], () => [
             article(({ onupdate }) => {
@@ -44,23 +36,25 @@ module.exports = ({ state }) => {
                 el.insertAdjacentHTML('beforeend', state.post.html)
               })
 
-              return header(
-                h1(state.post.title),
-                time(
-                  {
-                    class: 'bold',
-                    datetime: (new Date(state.post.date)).toISOString()
-                  },
-                  icon('calendar'),
-                  ' ',
-                  (new Date(state.post.date)).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+              return [
+                { class: 'article' },
+                header(
+                  h1(state.post.title),
+                  time(
+                    {
+                      datetime: (new Date(state.post.date)).toISOString()
+                    },
+                    icon('calendar'),
+                    ' ',
+                    (new Date(state.post.date)).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+                  )
                 )
-              )
+              ]
             }),
             nav(
-              { class: 'flex row justify-around padding-2 bold' },
+              { class: 'pagination' },
               a(!!state.previous, () => [{
-                class: 'align-left nowrap border-radius padding-2 background-blue white',
+                class: 'previous',
                 rel: 'prev',
                 href: link('/posts/:slug/', state.previous),
                 onclick (e) {
@@ -69,9 +63,9 @@ module.exports = ({ state }) => {
                   history.push(link('/posts/:slug/', state.previous))
                 }
               }, icon('chevronLeft'), ' Older']),
-              span(!state.previous, () => [{ class: 'align-left nowrap border-radius padding-2 background-gray white' }, icon('chevronLeft'), ' Older']),
+              span(!state.previous, () => [{ class: 'previous' }, icon('chevronLeft'), ' Older']),
               a(!!state.next, () => [{
-                class: 'align-right nowrap border-radius padding-2 background-blue white',
+                class: 'next',
                 rel: 'next',
                 href: link('/posts/:slug/', state.next),
                 onclick (e) {
@@ -80,7 +74,7 @@ module.exports = ({ state }) => {
                   history.push(link('/posts/:slug/', state.next))
                 }
               }, 'Newer ', icon('chevronRight')]),
-              span(!state.next, () => [{ class: 'align-right nowrap border-radius padding-2 background-gray white' }, 'Newer ', icon('chevronRight')])
+              span(!state.next, () => [{ class: 'next' }, 'Newer ', icon('chevronRight')])
             )
           ])
 
@@ -92,14 +86,12 @@ module.exports = ({ state }) => {
       ),
       footer(
         {
-          class: 'background-light-gray font-size-6 padding-2 align-center bold',
-          role: 'contentinfo'
+          class: 'footer'
         },
         a({
-          class: 'margin-1 inline-block',
           href: 'https://github.com/erickmerchant/my-blog'
         }, icon('github'), ' View Source'),
-        span({ class: 'margin-1 inline-block' }, `© ${(new Date()).getFullYear()} Erick Merchant`)
+        span(`© ${(new Date()).getFullYear()} Erick Merchant`)
       )
     ]
   })

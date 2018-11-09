@@ -1,6 +1,10 @@
 @import "./variables.css";
 @import './basics.css';
-@import "./utilities.css";
 @import "./additions.css";
 @import "./prism.css";
-@import "./grid.css"
+@import "./body.css";
+@import "./nav.css";
+@import "./main.css";
+@import "./article.css";
+@import "./pagination.css";
+@import "./footer.css";
