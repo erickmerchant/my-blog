@@ -1,15 +1,15 @@
 pre code {
-	color: var(--dark-gray);
+  color: var(--dark-gray);
 }
 
 /* Code blocks */
 pre {
-	overflow: auto;
-	background-color: var(--light-gray);
+  overflow: auto;
+  background-color: var(--light-gray);
   border-radius: var(--border-radius);
   padding: var(--spacing-2);
-	line-height: 1.5;
-	word-spacing: normal;
+  line-height: 1.5;
+  word-spacing: normal;
   word-break: normal;
   tab-size: 2;
   hyphens: none;
@@ -19,40 +19,40 @@ pre {
 }
 
 .token.comment {
-	color: var(--gray);
+  color: var(--gray);
 }
 
 .token.punctuation {
-	color: var(--dark-gray);
+  color: var(--dark-gray);
 }
 
 .token.boolean,
 .token.number,
 .token.symbol {
-	color: var(--yellow);
+  color: var(--yellow);
 }
 
 .token.function {
-	color: var(--green);
+  color: var(--green);
 }
 
 .token.keyword {
-	color: var(--blue);
+  color: var(--blue);
 }
 
 .token.regex,
 .token.string {
-	color: var(--red);
+  color: var(--red);
 }
 
 .token.important,
 .token.bold {
-	font-weight: bold;
+  font-weight: bold;
 }
 .token.italic {
-	font-style: italic;
+  font-style: italic;
 }
 
 .token.entity {
-	cursor: help;
+  cursor: help;
 }
