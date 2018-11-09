@@ -1,23 +1,21 @@
 <p>Today I learned that if you run <code>npm publish</code> with sudo and have a prepare script that runs babel, that script will fail to actually run.
 
-<pre>
-  <code class="language-javascript">
-  {
-    "name": "@erickmerchant/example",
-    "version": "1.0.0",
-    "description": "An example",
-    "main": "dist/main.js",
-    "scripts": {
-      "build": "babel --presets es2015 main.js -d dist/",
-      "prepare": "npm run build"
-    },
-    "devDependencies": {
-      "babel-cli": "^6.10.1",
-      "babel-preset-es2015": "^6.9.0"
-    }
+``` javascript
+{
+  "name": "@erickmerchant/example",
+  "version": "1.0.0",
+  "description": "An example",
+  "main": "dist/main.js",
+  "scripts": {
+    "build": "babel --presets es2015 main.js -d dist/",
+    "prepare": "npm run build"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.10.1",
+    "babel-preset-es2015": "^6.9.0"
   }
-  </code>
-</pre>
+}
+```
 
 <p>For instance trying to <code>sudo npm publish</code> a package with the above package.json you'd get the error <code>npm WARN lifecycle @erickmerchant/example@1.0.0~prepare: cannot run in wd %s %s (wd=%s) @erickmerchant/example@1.0.0 npm run build /Users/erickmerchant/Code/example</code>.
 

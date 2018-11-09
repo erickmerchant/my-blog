@@ -34,17 +34,12 @@
 
 <h2>Installation</h2>
 
-<pre>
-  <code>
-  npm install -g ghost-hunter
-  </code>
-</pre>
+```
+npm install -g ghost-hunter
+```
 
 <h2>Usage</h2>
 
-<pre>
-  <code>
-  ghost-hunter a.js.map ./src/**/*.js
-  </code>
-</pre>
-
+```
+ghost-hunter a.js.map ./src/**/*.js
+```
