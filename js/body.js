@@ -53,17 +53,17 @@ module.exports = ({ state }) => {
             }),
             nav(
               { class: 'pagination' },
-              a(!!state.previous, () => [{
-                class: 'previous',
+              a(!!state.prev, () => [{
+                class: 'prev',
                 rel: 'prev',
-                href: link('/posts/:slug/', state.previous),
+                href: link('/posts/:slug/', state.prev),
                 onclick (e) {
                   e.preventDefault()
 
-                  history.push(link('/posts/:slug/', state.previous))
+                  history.push(link('/posts/:slug/', state.prev))
                 }
               }, icon('chevronLeft'), ' Older']),
-              span(!state.previous, () => [{ class: 'previous' }, icon('chevronLeft'), ' Older']),
+              span(!state.prev, () => [{ class: 'prev' }, icon('chevronLeft'), ' Older']),
               a(!!state.next, () => [{
                 class: 'next',
                 rel: 'next',

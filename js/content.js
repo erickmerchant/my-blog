@@ -69,7 +69,7 @@ module.exports = {
           location: link('/posts/:slug/', post),
           title: `Posts | ${post.title}`,
           next: posts[index - 1],
-          previous: posts[index + 1],
+          prev: posts[index + 1],
           post
         }
       })
