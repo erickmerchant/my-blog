@@ -8,6 +8,8 @@ main {
 }
 
 @media (--breakpoint-desktop) {
-  margin-left: var(--spacing-4);
-  margin-right: var(--spacing-4);
+  main {
+    margin-left: var(--spacing-4);
+    margin-right: var(--spacing-4);
+  }
 }

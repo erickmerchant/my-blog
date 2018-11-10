@@ -1,4 +1,5 @@
 .nav {
+  grid-row: span 2;
   background: var(--black);
   text-align: center;
   font-weight: bold;

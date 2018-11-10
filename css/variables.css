@@ -2,6 +2,8 @@
 
 @custom-media --breakpoint-desktop (width >= 65em);
 
+@custom-media --breakpoint-ultrawide (width > 1600px);
+
 :root {
   --spacing-1: 0.5em;
   --spacing-2: 1em;

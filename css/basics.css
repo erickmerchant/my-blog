@@ -4,7 +4,7 @@
 
 html { height: 100%; }
 
-@media (width > 1600px) {
+@media (--breakpoint-ultrawide) {
   html {
     font-size: 1vw;
   }
@@ -23,7 +23,25 @@ nav, main, section, footer {
   display: block;
 }
 
-main {
+h1, h2, h3,
+h4, h5, h6 {
+  font-weight: bold;
+  line-height: 1.25;
+  margin-top: 1em;
+  margin-bottom: .5em;
+}
+
+h1 { font-size: var(--font-size-1); }
+h2 { font-size: var(--font-size-2); }
+h3 { font-size: var(--font-size-3); }
+
+@media (--breakpoint-mobile) {
+  h1 { font-size: var(--font-size-2); }
+  h2 { font-size: var(--font-size-3); }
+  h3 { font-size: var(--font-size-4); }
+}
+
+p {
   word-wrap: break-word;
 }
 
@@ -50,24 +68,6 @@ a {
 a:hover {
   box-shadow: 0 .1em 0 0 currentColor;
   text-decoration: none;
-}
-
-h1, h2, h3,
-h4, h5, h6 {
-  font-weight: bold;
-  line-height: 1.25;
-  margin-top: 1em;
-  margin-bottom: .5em;
-}
-
-h1 { font-size: var(--font-size-1); }
-h2 { font-size: var(--font-size-2); }
-h3 { font-size: var(--font-size-3); }
-
-@media (--breakpoint-mobile) {
-  h1 { font-size: var(--font-size-2); }
-  h2 { font-size: var(--font-size-3); }
-  h3 { font-size: var(--font-size-4); }
 }
 
 p, ol, ul, blockquote {
