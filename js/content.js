@@ -4,7 +4,7 @@ const unfound = require('./404.js')
 const prism = require('prismjs')
 const goat = require('escape-goat')
 const filterDrafts = typeof window === 'undefined'
-const codeStart = '```'
+const codeDelim = '```'
 
 module.exports = {
   list () {
@@ -38,12 +38,12 @@ module.exports = {
         while (lns.length) {
           const ln = lns.shift()
 
-          if (ln.startsWith(codeStart)) {
+          if (ln.startsWith(codeDelim)) {
             let code = []
 
             const lang = ln.substring(3).trim()
 
-            while (lns[0] != null && !lns[0].startsWith(codeStart)) {
+            while (lns[0] != null && !lns[0].startsWith(codeDelim)) {
               code.push(lns.shift())
             }
 
