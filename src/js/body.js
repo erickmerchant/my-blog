@@ -1,9 +1,12 @@
-const { body, nav, div, a, main, h1, p, footer, span, article, header, time, svg, path } = require('@erickmerchant/framework/html')
-const icons = require('geomicons-open')
-const { route, link } = require('@erickmerchant/router')()
-const history = require('./history.js')
+import html from '@erickmerchant/framework/html'
+import icons from 'geomicons-open'
+import router from '@erickmerchant/router'
+import history from './history.js'
 
-module.exports = ({ state }) => {
+const { route, link } = router
+const { body, nav, div, a, main, h1, p, footer, span, article, header, time, svg, path } = html
+
+export default ({ state }) => {
   return body(({ onupdate }) => {
     onupdate(() => {
       if (typeof window !== 'undefined') {

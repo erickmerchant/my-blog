@@ -1,14 +1,16 @@
-const fetch = require('./fetch.js')
-const { link } = require('@erickmerchant/router')()
-const unfound = require('./404.js')
-const prism = require('prismjs')
-const goat = require('escape-goat')
+import fetch from './fetch.js'
+import router from '@erickmerchant/router'
+import unfound from './404.js'
+import prism from 'prismjs'
+import goat from 'escape-goat'
+
+const { link } = router
 const filterDrafts = typeof window === 'undefined'
 const codeDelim = '```'
 
-module.exports = {
+export default {
   list () {
-    return fetch('/_posts/index.json').then((posts) => {
+    return fetch('/content/posts/index.json').then((posts) => {
       posts = posts.filter((post) => !filterDrafts || !post.draft).sort((a, b) => b.date - a.date)
 
       return {
@@ -20,7 +22,7 @@ module.exports = {
   },
 
   item (search) {
-    return fetch('/_posts/index.json').then((posts) => {
+    return fetch('/content/posts/index.json').then((posts) => {
       posts = posts.filter((post) => !filterDrafts || !post.draft).sort((a, b) => b.date - a.date)
 
       const index = posts.findIndex((post) => link('/posts/:slug/', post) === link('/posts/:slug/', search))
@@ -31,7 +33,7 @@ module.exports = {
 
       const post = posts[index]
 
-      return fetch(`${link('/_posts/:slug', post)}.md`).then((result) => {
+      return fetch(`${link('/content/posts/:slug', post)}.md`).then((result) => {
         const lns = result.split('\n')
         const html = []
 

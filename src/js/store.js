@@ -1,8 +1,10 @@
-const content = require('./content.js')
-const { route } = require('@erickmerchant/router')()
-const unfound = require('./404.js')
+import content from './content.js'
+import router from '@erickmerchant/router'
+import unfound from './404.js'
 
-module.exports = (commit) => {
+const { route } = router
+
+export default (commit) => {
   return (val) => route(val, (on) => {
     on('/posts/:slug/', (params) => {
       return content.item(params)
