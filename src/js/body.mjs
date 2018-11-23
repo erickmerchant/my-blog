@@ -1,7 +1,7 @@
-import html from '@erickmerchant/framework/html'
+import { html } from '@erickmerchant/framework'
 import icons from 'geomicons-open'
 import router from '@erickmerchant/router'
-import history from './history.js'
+import history from './history.mjs'
 
 const { route, link } = router
 const { body, nav, div, a, main, h1, p, footer, span, article, header, time, svg, path } = html

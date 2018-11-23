@@ -1,7 +1,7 @@
-import fetch from './fetch.js'
+import fetch from './fetch.mjs'
 import router from '@erickmerchant/router'
-import unfound from './404.js'
-import prism from 'prismjs'
+import unfound from './404.mjs'
+import prism from 'pris.mjs'
 import goat from 'escape-goat'
 
 const { link } = router

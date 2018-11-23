@@ -1,6 +1,6 @@
-import content from './content.js'
+import content from './content.mjs'
 import router from '@erickmerchant/router'
-import unfound from './404.js'
+import unfound from './404.mjs'
 
 const { route } = router
 
