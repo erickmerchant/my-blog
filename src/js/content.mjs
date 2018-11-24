@@ -1,10 +1,8 @@
 import fetch from './fetch.mjs'
 import router from '@erickmerchant/router'
 import unfound from './404.mjs'
-import prism from 'pris.mjs'
-import goat from 'escape-goat'
 
-const { link } = router
+const { link } = router()
 const filterDrafts = typeof window === 'undefined'
 const codeDelim = '```'
 
@@ -43,7 +41,7 @@ export default {
           if (ln.startsWith(codeDelim)) {
             let code = []
 
-            const lang = ln.substring(3).trim()
+            // const lang = ln.substring(3).trim()
 
             while (lns[0] != null && !lns[0].startsWith(codeDelim)) {
               code.push(lns.shift())
@@ -51,13 +49,13 @@ export default {
 
             lns.shift()
 
-            code = code.join('\n')
-
-            if (lang) {
-              code = prism.highlight(code, prism.languages[lang])
-            } else {
-              code = goat.escape(code)
-            }
+            code = code
+              .join('\n')
+              .replace(/&/g, '&amp;')
+              .replace(/"/g, '&quot;')
+              .replace(/'/g, '&#39;')
+              .replace(/</g, '&lt;')
+              .replace(/>/g, '&gt;')
 
             html.push(`<pre><code>${code}</code></pre>`)
           } else {

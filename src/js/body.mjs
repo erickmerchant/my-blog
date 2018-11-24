@@ -1,10 +1,8 @@
 import { html } from '@erickmerchant/framework'
-import icons from 'geomicons-open'
 import router from '@erickmerchant/router'
-import history from './history.mjs'
 
-const { route, link } = router
-const { body, nav, div, a, main, h1, p, footer, span, article, header, time, svg, path } = html
+const { route, link } = router()
+const { body, nav, div, a, main, h1, p, footer, span, article, header, time } = html
 
 export default ({ state }) => {
   return body(({ onupdate }) => {
@@ -23,12 +21,12 @@ export default ({ state }) => {
             onclick (e) {
               e.preventDefault()
 
-              history.push('/', {})
+              window.history.pushState({}, '/')
             }
           }, 'Erick Merchant'),
           a({
             href: 'https://github.com/erickmerchant/'
-          }, icon('github'), ' GitHub')
+          }, 'GitHub')
         )
       ),
       main(
@@ -47,8 +45,6 @@ export default ({ state }) => {
                     {
                       datetime: (new Date(state.post.date)).toISOString()
                     },
-                    icon('calendar'),
-                    ' ',
                     (new Date(state.post.date)).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
                   )
                 )
@@ -63,10 +59,10 @@ export default ({ state }) => {
                 onclick (e) {
                   e.preventDefault()
 
-                  history.push(link('/posts/:slug/', state.prev))
+                  window.history.pushState({}, link('/posts/:slug/', state.prev))
                 }
-              }, icon('chevronLeft'), ' Older']),
-              span(!state.prev, () => [{ class: 'prev' }, icon('chevronLeft'), ' Older']),
+              }, 'Older']),
+              span(!state.prev, () => [{ class: 'prev' }, 'Older']),
               a(!!state.next, () => [{
                 class: 'next',
                 rel: 'next',
@@ -74,10 +70,10 @@ export default ({ state }) => {
                 onclick (e) {
                   e.preventDefault()
 
-                  history.push(link('/posts/:slug/', state.next))
+                  window.history.pushState({}, link('/posts/:slug/', state.next))
                 }
-              }, 'Newer ', icon('chevronRight')]),
-              span(!state.next, () => [{ class: 'next' }, 'Newer ', icon('chevronRight')])
+              }, 'Newer']),
+              span(!state.next, () => [{ class: 'next' }, 'Newer'])
             )
           ])
 
@@ -93,17 +89,9 @@ export default ({ state }) => {
         },
         a({
           href: 'https://github.com/erickmerchant/my-blog'
-        }, icon('github'), ' View Source'),
+        }, 'View Source'),
         span(`© ${(new Date()).getFullYear()} Erick Merchant`)
       )
     ]
   })
-}
-
-function icon (name) {
-  return svg({
-    class: 'icon',
-    xmlns: 'http://www.w3.org/2000/svg',
-    viewBox: '0 0 32 32'
-  }, path({ d: icons.paths[name] }))
 }

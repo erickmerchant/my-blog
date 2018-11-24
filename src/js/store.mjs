@@ -2,7 +2,7 @@ import content from './content.mjs'
 import router from '@erickmerchant/router'
 import unfound from './404.mjs'
 
-const { route } = router
+const { route } = router()
 
 export default (commit) => {
   return (val) => route(val, (on) => {
