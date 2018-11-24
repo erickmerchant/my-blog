@@ -4,7 +4,7 @@ import router from '@erickmerchant/router'
 const { route, link } = router()
 const { body, nav, div, a, main, h1, p, footer, span, article, header, time } = html
 
-export default ({ state }) => {
+export default ({ state, dispatch }) => {
   return body(({ onupdate }) => {
     onupdate(() => {
       if (typeof window !== 'undefined') {
@@ -21,7 +21,9 @@ export default ({ state }) => {
             onclick (e) {
               e.preventDefault()
 
-              window.history.pushState({}, '/')
+              window.history.pushState({}, null, '/')
+
+              dispatch('/')
             }
           }, 'Erick Merchant'),
           a({
@@ -59,7 +61,9 @@ export default ({ state }) => {
                 onclick (e) {
                   e.preventDefault()
 
-                  window.history.pushState({}, link('/posts/:slug/', state.prev))
+                  window.history.pushState({}, null, link('/posts/:slug/', state.prev))
+
+                  dispatch(link('/posts/:slug/', state.prev))
                 }
               }, 'Older']),
               span(!state.prev, () => [{ class: 'prev' }, 'Older']),
@@ -70,7 +74,9 @@ export default ({ state }) => {
                 onclick (e) {
                   e.preventDefault()
 
-                  window.history.pushState({}, link('/posts/:slug/', state.next))
+                  window.history.pushState({}, null, link('/posts/:slug/', state.next))
+
+                  dispatch(link('/posts/:slug/', state.next))
                 }
               }, 'Newer']),
               span(!state.next, () => [{ class: 'next' }, 'Newer'])

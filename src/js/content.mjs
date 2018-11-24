@@ -37,10 +37,9 @@ export default {
 
         while (lns.length) {
           const ln = lns.shift()
+          let code = []
 
           if (ln.startsWith(codeDelim)) {
-            let code = []
-
             // const lang = ln.substring(3).trim()
 
             while (lns[0] != null && !lns[0].startsWith(codeDelim)) {
@@ -49,7 +48,7 @@ export default {
 
             lns.shift()
 
-            code = code
+            let escaped = code
               .join('\n')
               .replace(/&/g, '&amp;')
               .replace(/"/g, '&quot;')
@@ -57,7 +56,7 @@ export default {
               .replace(/</g, '&lt;')
               .replace(/>/g, '&gt;')
 
-            html.push(`<pre><code>${code}</code></pre>`)
+            html.push(`<pre><code>${escaped}</code></pre>`)
           } else {
             html.push(ln)
           }
