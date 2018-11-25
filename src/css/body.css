@@ -3,7 +3,7 @@ body {
   flex-direction: column;
 }
 
-@media (--breakpoint-desktop) {
+@media (width >= 65em) {
   body {
     display: grid;
     grid-template-columns: 1fr 2fr;

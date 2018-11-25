@@ -15,7 +15,7 @@
   color: var(--white);
 }
 
-@media (--breakpoint-desktop) {
+@media (width >= 65em) {
   .nav > div {
     position: sticky;
     top: 0;

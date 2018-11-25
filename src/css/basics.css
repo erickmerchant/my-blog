@@ -4,7 +4,7 @@
 
 html { height: 100%; }
 
-@media (--breakpoint-ultrawide) {
+@media (width > 1600px) {
   html {
     font-size: 1vw;
   }
@@ -35,7 +35,7 @@ h1 { font-size: var(--font-size-1); }
 h2 { font-size: var(--font-size-2); }
 h3 { font-size: var(--font-size-3); }
 
-@media (--breakpoint-mobile) {
+@media (width < 65em) {
   h1 { font-size: var(--font-size-2); }
   h2 { font-size: var(--font-size-3); }
   h3 { font-size: var(--font-size-4); }

@@ -7,7 +7,7 @@ main {
   margin-right: auto;
 }
 
-@media (--breakpoint-desktop) {
+@media (width >= 65em) {
   main {
     margin-left: var(--spacing-4);
     margin-right: var(--spacing-4);
