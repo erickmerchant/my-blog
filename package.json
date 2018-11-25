@@ -5,7 +5,7 @@
     "test": "standard"
   },
   "dependencies": {
-    "@erickmerchant/framework": "^17.1.2-1",
+    "@erickmerchant/framework": "^17.1.2-2",
     "@erickmerchant/router": "^15.1.7-1",
     "jsonfile": "^5.0.0",
     "sergeant": "^22.2.1"
