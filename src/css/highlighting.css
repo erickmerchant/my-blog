@@ -1,0 +1,12 @@
+.keyword {
+  color: var(--green);
+}
+
+.number, .boolean, .null, .undefined {
+  color: var(--orange);
+}
+
+.string {
+  color: var(--red);
+}
+
