@@ -57,11 +57,11 @@ export default {
               .replace(/>/g, '&gt;')
 
             const highlighted = escaped
-              .replace(/(^|\s)(if|else|do|while|for|let|const|function|class|switch|case:)($|\s)/g, '$1<span class="keyword">$2</span>$3')
-              .replace(/(&quot;.*?&quot;|&#39;.*?&#39;|`.*?`)/g, '<span class="string">$1</span>')
-              .replace(/(^|\s)(false|true)($|\s)/g, '$1<span class="boolean">$2</span>$3')
-              .replace(/(^|\s)(null|undefined)($|\s)/g, '$1<span class="$2">$2</span>$3')
-              .replace(/(^|\s)(-?[0-9.]+)($|\s)/g, '$1<span class="number">$2</span>$3')
+              .replace(/(^|\s)(if|else|do|while|for|let|const|function|class|switch|case|return)($|\s)/g, '$1<span class="keyword">$2</span>$3')
+              .replace(/(&quot;.*?&quot;|&#39;.*?&#39;|`(.|\n)*?`)/g, '<span class="string">$1</span>')
+              .replace(/(^|\s)(false|true)($|\s|,)/g, '$1<span class="boolean">$2</span>$3')
+              .replace(/(^|\s)(null|undefined)($|\s|,)/g, '$1<span class="$2">$2</span>$3')
+              .replace(/(^|\s)(-?[0-9.]+)($|\s|,)/g, '$1<span class="number">$2</span>$3')
 
             html.push(`<pre><code>${highlighted}</code></pre>`)
           } else {
