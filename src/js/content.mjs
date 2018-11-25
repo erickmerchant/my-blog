@@ -48,7 +48,7 @@ export default {
 
             lns.shift()
 
-            let escaped = code
+            const escaped = code
               .join('\n')
               .replace(/&/g, '&amp;')
               .replace(/"/g, '&quot;')
@@ -56,7 +56,14 @@ export default {
               .replace(/</g, '&lt;')
               .replace(/>/g, '&gt;')
 
-            html.push(`<pre><code>${escaped}</code></pre>`)
+            const highlighted = escaped
+              .replace(/(^|\s)(if|else|do|while|for|let|const|function|class|switch|case:)($|\s)/g, '$1<span class="keyword">$2</span>$3')
+              .replace(/(&quot;.*?&quot;|&#39;.*?&#39;|`.*?`)/g, '<span class="string">$1</span>')
+              .replace(/(^|\s)(false|true)($|\s)/g, '$1<span class="boolean">$2</span>$3')
+              .replace(/(^|\s)(null|undefined)($|\s)/g, '$1<span class="$2">$2</span>$3')
+              .replace(/(^|\s)(-?[0-9.]+)($|\s)/g, '$1<span class="number">$2</span>$3')
+
+            html.push(`<pre><code>${highlighted}</code></pre>`)
           } else {
             html.push(ln)
           }

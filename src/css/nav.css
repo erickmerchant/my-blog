@@ -3,6 +3,7 @@
   background: var(--black);
   text-align: center;
   font-weight: bold;
+  color: var(--white);
 }
 
 .nav > div {
@@ -13,6 +14,10 @@
 .nav a {
   margin: var(--spacing-1);
   color: var(--white);
+}
+
+.nav em {
+  font-size: var(--font-size-6);
 }
 
 @media (width >= 65em) {

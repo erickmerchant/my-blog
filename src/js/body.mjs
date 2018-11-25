@@ -2,7 +2,7 @@ import { html } from '@erickmerchant/framework'
 import router from '@erickmerchant/router'
 
 const { route, link } = router()
-const { body, nav, div, a, main, h1, p, footer, span, article, header, time } = html
+const { body, nav, div, a, main, h1, p, footer, span, article, header, time, em } = html
 
 export default ({ state, dispatch }) => {
   return body(({ onupdate }) => {
@@ -18,17 +18,9 @@ export default ({ state, dispatch }) => {
         div(
           a({
             href: '/',
-            onclick (e) {
-              e.preventDefault()
-
-              window.history.pushState({}, null, '/')
-
-              dispatch('/')
-            }
+            onclick: getOnClick('/')
           }, 'Erick Merchant'),
-          a({
-            href: 'https://github.com/erickmerchant/'
-          }, 'GitHub')
+          em('writing about JavaScript, CSS, and HTML')
         )
       ),
       main(
@@ -58,26 +50,14 @@ export default ({ state, dispatch }) => {
                 class: 'prev',
                 rel: 'prev',
                 href: link('/posts/:slug/', state.prev),
-                onclick (e) {
-                  e.preventDefault()
-
-                  window.history.pushState({}, null, link('/posts/:slug/', state.prev))
-
-                  dispatch(link('/posts/:slug/', state.prev))
-                }
+                onclick: getOnClick(link('/posts/:slug/', state.prev))
               }, 'Older']),
               span(!state.prev, () => [{ class: 'prev' }, 'Older']),
               a(!!state.next, () => [{
                 class: 'next',
                 rel: 'next',
                 href: link('/posts/:slug/', state.next),
-                onclick (e) {
-                  e.preventDefault()
-
-                  window.history.pushState({}, null, link('/posts/:slug/', state.next))
-
-                  dispatch(link('/posts/:slug/', state.next))
-                }
+                onclick: getOnClick(link('/posts/:slug/', state.next))
               }, 'Newer']),
               span(!state.next, () => [{ class: 'next' }, 'Newer'])
             )
@@ -100,4 +80,14 @@ export default ({ state, dispatch }) => {
       )
     ]
   })
+
+  function getOnClick (href) {
+    return (e) => {
+      e.preventDefault()
+
+      window.history.pushState({}, null, href)
+
+      dispatch(href)
+    }
+  }
 }
