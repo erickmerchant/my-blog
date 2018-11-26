@@ -5,14 +5,15 @@ const { route, link } = router()
 const { body, nav, div, a, main, h1, p, footer, span, article, header, time, em } = html
 
 export default ({ state, dispatch }) => {
-  return body(({ onupdate }) => {
-    onupdate(() => {
-      if (typeof window !== 'undefined') {
-        setTimeout(() => window.scroll({ top: 0, left: 0, behavior: 'smooth' }), 10)
-      }
-    })
-
+  return body(() => {
     return [
+      {
+        onupdate () {
+          if (typeof window !== 'undefined') {
+            setTimeout(() => window.scroll({ top: 0, left: 0, behavior: 'smooth' }), 10)
+          }
+        }
+      },
       nav(
         { class: 'nav' },
         div(
@@ -26,13 +27,14 @@ export default ({ state, dispatch }) => {
       main(
         ...route(state.location, (on) => {
           on(['/posts/:slug/', '/'], () => [
-            article(({ onupdate }) => {
-              onupdate((el) => {
-                el.insertAdjacentHTML('beforeend', state.post.html)
-              })
-
+            article(() => {
               return [
-                { class: 'article' },
+                {
+                  class: 'article',
+                  onupdate () {
+                    this.insertAdjacentHTML('beforeend', state.post.html)
+                  }
+                },
                 header(
                   h1(state.post.title),
                   time(
