@@ -37,7 +37,7 @@ export default {
 
         while (lns.length) {
           const ln = lns.shift()
-          let code = []
+          const code = []
 
           if (ln.startsWith(codeDelim)) {
             // const lang = ln.substring(3).trim()
