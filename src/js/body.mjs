@@ -21,7 +21,9 @@ export default ({ state, dispatch }) => {
             href: '/',
             onclick: getOnClick('/')
           }, 'Erick Merchant'),
-          em('writing about JavaScript, CSS, and HTML')
+          a({
+            href: 'https://github.com/erickmerchant'
+          }, 'Projects')
         )
       ),
       main(

@@ -20,8 +20,8 @@
   --light-gray: gray(98);
   --white: gray(100);
 
-  --red: hsl(340, 60%, 53%);
-  --orange: hsl(20, 60%, 53%);
-  --green: hsl(160, 60%, 53%);
-  --blue: hsl(200, 60%, 53%);
+  --red: hsl(340, 60%, 55%);
+  --orange: hsl(20, 60%, 55%);
+  --green: hsl(160, 60%, 50%);
+  --blue: hsl(200, 60%, 55%);
 }
