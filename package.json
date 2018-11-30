@@ -2,9 +2,11 @@
   "name": "my-blog",
   "private": true,
   "scripts": {
-    "test": "standard"
+    "test": "standard",
+    "build": "dev cache src dist"
   },
   "dependencies": {
+    "@erickmerchant/dev-cli": "^1.0.0",
     "@erickmerchant/framework": "^17.1.2-3",
     "@erickmerchant/router": "^15.1.7-1",
     "jsonfile": "^5.0.0",
