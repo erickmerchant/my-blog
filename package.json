@@ -6,7 +6,7 @@
     "build": "dev cache src dist"
   },
   "dependencies": {
-    "@erickmerchant/dev-cli": "^1.0.0",
+    "@erickmerchant/dev-cli": "^1.0.1",
     "@erickmerchant/framework": "^18.0.0",
     "@erickmerchant/router": "^16.0.0",
     "jsonfile": "^5.0.0",
