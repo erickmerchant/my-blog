@@ -3,6 +3,7 @@
   background: var(--black);
   text-align: center;
   font-weight: bold;
+  color: var(--white);
 }
 
 .nav > div {
@@ -15,7 +16,11 @@
   color: var(--white);
 }
 
-@media (--breakpoint-desktop) {
+.nav em {
+  font-size: var(--font-size-6);
+}
+
+@media (width >= 65em) {
   .nav > div {
     position: sticky;
     top: 0;

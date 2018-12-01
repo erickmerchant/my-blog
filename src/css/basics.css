@@ -4,7 +4,7 @@
 
 html { height: 100%; }
 
-@media (--breakpoint-ultrawide) {
+@media (width > 1600px) {
   html {
     font-size: 1vw;
   }
@@ -35,7 +35,7 @@ h1 { font-size: var(--font-size-1); }
 h2 { font-size: var(--font-size-2); }
 h3 { font-size: var(--font-size-3); }
 
-@media (--breakpoint-mobile) {
+@media (width < 65em) {
   h1 { font-size: var(--font-size-2); }
   h2 { font-size: var(--font-size-3); }
   h3 { font-size: var(--font-size-4); }
@@ -84,6 +84,21 @@ pre {
     Consolas,
     'Liberation Mono',
     monospace;
+  font-size: inherit;
+}
+
+pre {
+  overflow: auto;
+  background-color: var(--light-gray);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-2);
+  line-height: 1.5;
+  word-spacing: normal;
+  word-break: normal;
+  tab-size: 2;
+  hyphens: none;
+  white-space: pre-wrap;
+  overflow-x: auto;
   font-size: inherit;
 }
 

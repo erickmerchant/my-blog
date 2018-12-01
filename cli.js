@@ -28,13 +28,13 @@ command('cli.js', 'draft and publish content', ({ command }) => {
         draft: true
       }
 
-      const posts = await readJSON('./content/_posts/index.json', 'utf8')
+      const posts = await readJSON('./src/content/posts/index.json', 'utf8')
 
       posts.push(draft)
 
-      await writeJSON('./content/_posts/index.json', posts, { spaces: 2 })
+      await writeJSON('./src/content/posts/index.json', posts, { spaces: 2 })
 
-      await writeFile('./content/_posts/' + slug + '.md', '')
+      await writeFile('./src/content/posts/' + slug + '.md', '')
     }
   })
 
@@ -51,7 +51,7 @@ command('cli.js', 'draft and publish content', ({ command }) => {
     })
 
     return async (args) => {
-      const posts = await readJSON('./content/_posts/index.json', 'utf8')
+      const posts = await readJSON('./src/content/posts/index.json', 'utf8')
 
       const index = posts.findIndex((post) => post.slug === path.basename(args.content, '.md'))
 
@@ -70,9 +70,9 @@ command('cli.js', 'draft and publish content', ({ command }) => {
 
       posts.push(post)
 
-      await writeJSON('./content/_posts/index.json', posts, { spaces: 2 })
+      await writeJSON('./src/content/posts/index.json', posts, { spaces: 2 })
 
-      await rename('./content/_posts/' + path.basename(args.content), './content/_posts/' + post.slug + '.md')
+      await rename('./src/content/posts/' + path.basename(args.content), './src/content/posts/' + post.slug + '.md')
     }
   })
 })(process.argv.slice(2))
