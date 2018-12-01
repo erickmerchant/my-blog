@@ -7,8 +7,8 @@
   },
   "dependencies": {
     "@erickmerchant/dev-cli": "^1.0.0",
-    "@erickmerchant/framework": "^17.1.2-3",
-    "@erickmerchant/router": "^15.1.7-1",
+    "@erickmerchant/framework": "^18.0.0",
+    "@erickmerchant/router": "^16.0.0",
     "jsonfile": "^5.0.0",
     "sergeant": "^22.2.1"
   },
