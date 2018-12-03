@@ -57,12 +57,16 @@ export default {
               .replace(/>/g, '&gt;')
 
             const highlighted = escaped
-              .replace(/(^|\s)(if|else|do|while|for|let|const|function|class|switch|case|return)($|\s)/g, '$1<span class="keyword">$2</span>$3')
+              .replace(/(^|\s)(import|export|default|if|else|do|while|for|let|const|function|class|switch|case|return|break)($|\s)/g, '$1<span class="keyword">$2</span>$3')
+              .replace(/([a-zA-Z0-9_$])\.([a-zA-Z0-9_$]*)/g, '$1.<span class="property">$2</span>')
+              .replace(/>\.([a-zA-Z0-9_$]*)/g, '>.<span class="property">$1</span>')
+              .replace(/(\/\*(.|\n)*?\*\/)/g, '<span class="comment">$1</span>')
+              .replace(/\/\/(.*)/g, '<span class="comment">//$1</span>')
               .replace(/(&quot;|&#39;)(.*?)\1/g, '<span class="string">$1$2$1</span>')
               .replace(/(`(.|\n)*?`)/g, '<span class="string">$1</span>')
               .replace(/(^|\s)(false|true)($|\s|,)/g, '$1<span class="boolean">$2</span>$3')
-              .replace(/(^|\s)(null|undefined)($|\s|,)/g, '$1<span class="$2">$2</span>$3')
               .replace(/(^|\s)(-?[0-9.]+)($|\s|,)/g, '$1<span class="number">$2</span>$3')
+              .replace(/(^|\s)(null|undefined)($|\s|,)/g, '$1<span class="$2">$2</span>$3')
 
             html.push(`<pre><code>${highlighted}</code></pre>`)
           } else {

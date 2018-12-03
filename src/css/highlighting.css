@@ -10,3 +10,11 @@
   color: var(--red);
 }
 
+.property {
+  color: var(--blue);
+}
+
+.comment, .comment * {
+  color: var(--gray);
+}
+
