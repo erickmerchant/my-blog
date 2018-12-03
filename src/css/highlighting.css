@@ -6,12 +6,12 @@
   color: var(--orange);
 }
 
-.string {
-  color: var(--red);
-}
-
 .property {
   color: var(--blue);
+}
+
+.string, .string * {
+  color: var(--red);
 }
 
 .comment, .comment * {

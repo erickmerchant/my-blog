@@ -61,7 +61,7 @@ export default {
               .replace(/([a-zA-Z0-9_$])\.([a-zA-Z0-9_$]*)/g, '$1.<span class="property">$2</span>')
               .replace(/>\.([a-zA-Z0-9_$]*)/g, '>.<span class="property">$1</span>')
               .replace(/(\/\*(.|\n)*?\*\/)/g, '<span class="comment">$1</span>')
-              .replace(/\/\/(.*)/g, '<span class="comment">//$1</span>')
+              .replace(/(\s)\/\/(.*)/g, '<span class="comment">$1//$2</span>')
               .replace(/(&quot;|&#39;)(.*?)\1/g, '<span class="string">$1$2$1</span>')
               .replace(/(`(.|\n)*?`)/g, '<span class="string">$1</span>')
               .replace(/(^|\s)(false|true)($|\s|,)/g, '$1<span class="boolean">$2</span>$3')
