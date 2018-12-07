@@ -40,13 +40,13 @@ export default {
           const code = []
 
           if (ln.startsWith(codeDelim)) {
-            // const lang = ln.substring(3).trim()
-
             while (lns[0] != null && !lns[0].startsWith(codeDelim)) {
               code.push(lns.shift())
             }
 
             lns.shift()
+
+            const lang = ln.substring(3).trim() || null
 
             const escaped = code
               .join('\n')
@@ -56,7 +56,7 @@ export default {
               .replace(/</g, '&lt;')
               .replace(/>/g, '&gt;')
 
-            const highlighted = escaped
+            const highlighted = lang != null ? escaped
               .replace(/(^|\s)(import|export|default|if|else|do|while|for|let|const|function|class|switch|case|return|break|continue|typeof|instanceof|of|in|try|catch|finally)($|\s)/g, '$1<span class="keyword">$2</span>$3')
               .replace(/([a-zA-Z0-9_$])\.([a-zA-Z0-9_$]*)/g, '$1.<span class="property">$2</span>')
               .replace(/>\.([a-zA-Z0-9_$]*)/g, '>.<span class="property">$1</span>')
@@ -66,7 +66,7 @@ export default {
               .replace(/(`(.|\n)*?`)/g, '<span class="string">$1</span>')
               .replace(/(^|\s)(false|true)($|\s|,)/g, '$1<span class="boolean">$2</span>$3')
               .replace(/(^|\s)(-?[0-9.]+)($|\s|,)/g, '$1<span class="number">$2</span>$3')
-              .replace(/(^|\s)(null|undefined)($|\s|,)/g, '$1<span class="$2">$2</span>$3')
+              .replace(/(^|\s)(null|undefined)($|\s|,)/g, '$1<span class="$2">$2</span>$3') : escaped
 
             html.push(`<pre><code>${highlighted}</code></pre>`)
           } else {

@@ -2,11 +2,11 @@
 
 <p>Say you have a src directory with the following files.
 
-<ul>
-  <li>a.js
-  <li>b.js
-  <li>c.js
-</ul>
+```
+├── a.js
+├── b.js
+└── c.js
+```
 
 <p>Your build process is an npm script called build that runs <code>browserify -d ./src/a.js | exorcist a.js.map > a.js</code> which results in the following source map.
 
