@@ -2,7 +2,7 @@ import { html } from '@erickmerchant/framework'
 import router from '@erickmerchant/router'
 
 const { route, link } = router()
-const { body, nav, div, a, main, h1, p, footer, span, article, header, time, em } = html
+const { body, nav, div, a, main, h1, p, footer, span, article, header, time } = html
 
 export default ({ state, dispatch }) => {
   return body(() => {
