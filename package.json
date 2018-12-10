@@ -1,16 +1,17 @@
 {
   "name": "my-blog",
-  "private": true,
+  "author": "Erick Merchant <erickmerchant@gmail.com>",
+  "license": "ISC",
   "scripts": {
     "test": "standard '**/*.{js,mjs}'",
     "build": "dev cache src dist"
   },
   "dependencies": {
-    "@erickmerchant/dev-cli": "^1.0.1",
-    "@erickmerchant/framework": "^18.0.0",
-    "@erickmerchant/router": "^16.0.0",
+    "@erickmerchant/dev-cli": "^2.0.0",
+    "@erickmerchant/framework": "^19.0.0",
+    "@erickmerchant/router": "^17.0.0",
     "jsonfile": "^5.0.0",
-    "sergeant": "^22.2.1"
+    "sergeant": "^23.0.0"
   },
   "devDependencies": {
     "standard": "^12.0.1"
