@@ -4,7 +4,7 @@
   "license": "ISC",
   "scripts": {
     "test": "standard '**/*.{js,mjs}'",
-    "build": "dev cache src dist"
+    "build": "dev copy src dist"
   },
   "dependencies": {
     "@erickmerchant/dev-cli": "^3.0.0",
