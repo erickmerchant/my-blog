@@ -5,6 +5,16 @@ const { route, link } = router()
 const { body, nav, div, a, main, h1, p, footer, span, article, header, time } = html
 
 export default ({ state, dispatch }) => {
+  const getOnClick = (href) => {
+    return (e) => {
+      e.preventDefault()
+
+      window.history.pushState({}, null, href)
+
+      dispatch(href)
+    }
+  }
+
   return body(() => {
     return [
       {
@@ -84,14 +94,4 @@ export default ({ state, dispatch }) => {
       )
     ]
   })
-
-  function getOnClick (href) {
-    return (e) => {
-      e.preventDefault()
-
-      window.history.pushState({}, null, href)
-
-      dispatch(href)
-    }
-  }
 }

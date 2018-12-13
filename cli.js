@@ -8,6 +8,9 @@ const writeJSON = promisify(jsonfile.writeFile)
 const writeFile = promisify(fs.writeFile)
 const rename = promisify(fs.rename)
 const readJSON = promisify(jsonfile.readFile)
+const slugify = (title) => {
+  return title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '-')
+}
 
 command('cli.js', 'draft and publish content', ({ command }) => {
   command('draft', 'make a new draft', ({ parameter }) => {
@@ -76,7 +79,3 @@ command('cli.js', 'draft and publish content', ({ command }) => {
     }
   })
 })(process.argv.slice(2))
-
-function slugify (title) {
-  return title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '-')
-}

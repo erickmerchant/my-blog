@@ -5,6 +5,32 @@ import unfound from './404.mjs'
 const { route } = router()
 
 export default (commit) => {
+  const commitPost = (post, location) => {
+    commit((state) => {
+      if (location) {
+        post.location = location
+      }
+
+      return post
+    })
+  }
+
+  const commitUnfound = () => {
+    commit(() => {
+      return unfound
+    })
+  }
+
+  const errorHandler = (error) => {
+    commit((state) => {
+      return {
+        location: '500.html',
+        title: '500 Error',
+        error
+      }
+    })
+  }
+
   return (val) => route(val, (on) => {
     on('/posts/:slug/', (params) => {
       return content.item(params)
@@ -30,30 +56,4 @@ export default (commit) => {
       return true
     })
   })
-
-  function commitPost (post, location) {
-    commit((state) => {
-      if (location) {
-        post.location = location
-      }
-
-      return post
-    })
-  }
-
-  function commitUnfound () {
-    commit(() => {
-      return unfound
-    })
-  }
-
-  function errorHandler (error) {
-    commit((state) => {
-      return {
-        location: '500.html',
-        title: '500 Error',
-        error
-      }
-    })
-  }
 }
