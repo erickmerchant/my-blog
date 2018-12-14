@@ -7,7 +7,7 @@
     "build": "dev copy src dist"
   },
   "dependencies": {
-    "@erickmerchant/dev-cli": "^3.2.0",
+    "@erickmerchant/dev-cli": "^3.2.1",
     "@erickmerchant/framework": "^19.1.0",
     "@erickmerchant/router": "^17.1.0",
     "jsonfile": "^5.0.0",
