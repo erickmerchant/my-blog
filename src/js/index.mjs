@@ -1,3 +1,5 @@
+/* global document, window */
+
 import framework, { update } from '@erickmerchant/framework'
 import store from './store.mjs'
 import component from './body.mjs'

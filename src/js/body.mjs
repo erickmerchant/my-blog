@@ -1,3 +1,5 @@
+/* global window */
+
 import { html } from '@erickmerchant/framework'
 import router from '@erickmerchant/router'
 
@@ -60,14 +62,14 @@ export default ({ state, dispatch }) => {
             }),
             nav(
               { class: 'pagination' },
-              a(!!state.prev, () => [{
+              a(Boolean(state.prev), () => [{
                 class: 'prev',
                 rel: 'prev',
                 href: link('/posts/:slug/', state.prev),
                 onclick: getOnClick(link('/posts/:slug/', state.prev))
               }, 'Older']),
               span(!state.prev, () => [{ class: 'prev' }, 'Older']),
-              a(!!state.next, () => [{
+              a(Boolean(state.next), () => [{
                 class: 'next',
                 rel: 'next',
                 href: link('/posts/:slug/', state.next),
