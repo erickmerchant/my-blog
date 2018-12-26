@@ -38,53 +38,51 @@ export default ({ state, dispatch }) => {
           }, 'Projects')
         )
       ),
-      main(
-        ...route(state.location, (on) => {
-          on(['/posts/:slug/', '/'], () => [
-            article(() => {
-              return [
-                {
-                  class: 'article',
-                  onupdate () {
-                    this.insertAdjacentHTML('beforeend', state.post.html)
-                  }
-                },
-                header(
-                  h1(state.post.title),
-                  time(
-                    {
-                      datetime: (new Date(state.post.date)).toISOString()
-                    },
-                    (new Date(state.post.date)).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
-                  )
+      main(...route(state.location, (on) => {
+        on(['/posts/:slug/', '/'], () => [
+          article(() => {
+            return [
+              {
+                class: 'article',
+                onupdate () {
+                  this.insertAdjacentHTML('beforeend', state.post.html)
+                }
+              },
+              header(
+                h1(state.post.title),
+                time(
+                  {
+                    datetime: (new Date(state.post.date)).toISOString()
+                  },
+                  (new Date(state.post.date)).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
                 )
-              ]
-            }),
-            nav(
-              { class: 'pagination' },
-              a(Boolean(state.prev), () => [{
-                class: 'prev',
-                rel: 'prev',
-                href: link('/posts/:slug/', state.prev),
-                onclick: getOnClick(link('/posts/:slug/', state.prev))
-              }, 'Older']),
-              span(!state.prev, () => [{ class: 'prev' }, 'Older']),
-              a(Boolean(state.next), () => [{
-                class: 'next',
-                rel: 'next',
-                href: link('/posts/:slug/', state.next),
-                onclick: getOnClick(link('/posts/:slug/', state.next))
-              }, 'Newer']),
-              span(!state.next, () => [{ class: 'next' }, 'Newer'])
-            )
-          ])
+              )
+            ]
+          }),
+          nav(
+            { class: 'pagination' },
+            a(Boolean(state.prev), () => [{
+              class: 'prev',
+              rel: 'prev',
+              href: link('/posts/:slug/', state.prev),
+              onclick: getOnClick(link('/posts/:slug/', state.prev))
+            }, 'Older']),
+            span(!state.prev, () => [{ class: 'prev' }, 'Older']),
+            a(Boolean(state.next), () => [{
+              class: 'next',
+              rel: 'next',
+              href: link('/posts/:slug/', state.next),
+              onclick: getOnClick(link('/posts/:slug/', state.next))
+            }, 'Newer']),
+            span(!state.next, () => [{ class: 'next' }, 'Newer'])
+          )
+        ])
 
-          on(() => [
-            h1(state.title),
-            p(state.error != null ? state.error.message : '')
-          ])
-        })
-      ),
+        on(() => [
+          h1(state.title),
+          p(state.error != null ? state.error.message : '')
+        ])
+      })),
       footer(
         {
           class: 'footer'
