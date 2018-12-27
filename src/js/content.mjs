@@ -33,7 +33,7 @@ export default {
 
       const post = posts[index]
 
-      return fetch(`${link('/content/posts/:slug', post)}.md`).then((result) => {
+      return fetch(`${ link('/content/posts/:slug', post) }.md`).then((result) => {
         const lns = result.split('\n')
         const html = []
 
@@ -58,19 +58,21 @@ export default {
               .replace(/</g, '&lt;')
               .replace(/>/g, '&gt;')
 
-            const highlighted = lang != null ? escaped
-              .replace(/(^|\s)(import|export|default|if|else|do|while|for|let|const|function|class|switch|case|return|break|continue|typeof|instanceof|of|in|try|catch|finally)($|\s)/g, '$1<span class="keyword">$2</span>$3')
-              .replace(/([a-zA-Z0-9_$])\.([a-zA-Z0-9_$]*)/g, '$1.<span class="property">$2</span>')
-              .replace(/>\.([a-zA-Z0-9_$]*)/g, '>.<span class="property">$1</span>')
-              .replace(/(\/\*(.|\n)*?\*\/)/g, '<span class="comment">$1</span>')
-              .replace(/(\s)\/\/(.*)/g, '<span class="comment">$1//$2</span>')
-              .replace(/(&quot;|&#39;)(.*?)\1/g, '<span class="string">$1$2$1</span>')
-              .replace(/(`(.|\n)*?`)/g, '<span class="string">$1</span>')
-              .replace(/(^|\s)(false|true)($|\s|,)/g, '$1<span class="boolean">$2</span>$3')
-              .replace(/(^|\s)(-?[0-9.]+)($|\s|,)/g, '$1<span class="number">$2</span>$3')
-              .replace(/(^|\s)(null|undefined)($|\s|,)/g, '$1<span class="$2">$2</span>$3') : escaped
+            const highlighted = lang != null
+              ? escaped
+                .replace(/(^|\s)(import|export|default|if|else|do|while|for|let|const|function|class|switch|case|return|break|continue|typeof|instanceof|of|in|try|catch|finally)($|\s)/g, '$1<span class="keyword">$2</span>$3')
+                .replace(/([a-zA-Z0-9_$])\.([a-zA-Z0-9_$]*)/g, '$1.<span class="property">$2</span>')
+                .replace(/>\.([a-zA-Z0-9_$]*)/g, '>.<span class="property">$1</span>')
+                .replace(/(\/\*(.|\n)*?\*\/)/g, '<span class="comment">$1</span>')
+                .replace(/(\s)\/\/(.*)/g, '<span class="comment">$1//$2</span>')
+                .replace(/(&quot;|&#39;)(.*?)\1/g, '<span class="string">$1$2$1</span>')
+                .replace(/(`(.|\n)*?`)/g, '<span class="string">$1</span>')
+                .replace(/(^|\s)(false|true)($|\s|,)/g, '$1<span class="boolean">$2</span>$3')
+                .replace(/(^|\s)(-?[0-9.]+)($|\s|,)/g, '$1<span class="number">$2</span>$3')
+                .replace(/(^|\s)(null|undefined)($|\s|,)/g, '$1<span class="$2">$2</span>$3')
+              : escaped
 
-            html.push(`<pre><code>${highlighted}</code></pre>`)
+            html.push(`<pre><code>${ highlighted }</code></pre>`)
           } else {
             html.push(ln)
           }
@@ -80,7 +82,7 @@ export default {
 
         return {
           location: link('/posts/:slug/', post),
-          title: `Posts | ${post.title}`,
+          title: `Posts | ${ post.title }`,
           next: posts[index - 1],
           prev: posts[index + 1],
           post

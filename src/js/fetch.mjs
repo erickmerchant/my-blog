@@ -1,9 +1,7 @@
 /* global window */
 
-export default (url) => {
-  return window.fetch(url).then((response) => {
-    if (url.endsWith('.json')) return response.json()
+export default (url) => window.fetch(url).then((response) => {
+  if (url.endsWith('.json')) return response.json()
 
-    return response.text()
-  })
-}
+  return response.text()
+})

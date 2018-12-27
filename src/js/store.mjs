@@ -16,39 +16,31 @@ export default (commit) => {
   }
 
   const commitUnfound = () => {
-    commit(() => {
-      return unfound
-    })
+    commit(() => unfound)
   }
 
   const errorHandler = (error) => {
-    commit((state) => {
-      return {
-        location: '500.html',
-        title: '500 Error',
-        error
-      }
-    })
+    commit((state) => ({
+      location: '500.html',
+      title: '500 Error',
+      error
+    }))
   }
 
   return (val) => route(val, (on) => {
-    on('/posts/:slug/', (params) => {
-      return content.item(params)
-        .then(commitPost)
-        .catch(errorHandler)
-    })
+    on('/posts/:slug/', (params) => content.item(params)
+      .then(commitPost)
+      .catch(errorHandler))
 
-    on('/', () => {
-      return content.list()
-        .then(({ posts }) => {
-          if (!posts.length) {
-            commitUnfound()
-          } else {
-            return content.item(posts[0]).then(commitPost)
-          }
-        })
-        .catch(errorHandler)
-    })
+    on('/', () => content.list()
+      .then(({ posts }) => {
+        if (!posts.length) {
+          commitUnfound()
+        } else {
+          return content.item(posts[0]).then(commitPost)
+        }
+      })
+      .catch(errorHandler))
 
     on(() => {
       commitUnfound()
