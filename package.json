@@ -3,17 +3,17 @@
   "author": "Erick Merchant <erickmerchant@gmail.com>",
   "license": "ISC",
   "scripts": {
-    "test": "standard '**/*.{js,mjs}'",
+    "test": "lint '**/*.{js,mjs,css}'",
     "build": "dev copy src dist"
   },
   "dependencies": {
-    "@erickmerchant/dev-cli": "^3.2.1",
-    "@erickmerchant/framework": "^19.1.0",
-    "@erickmerchant/router": "^17.1.0",
+    "@erickmerchant/dev-cli": "^3.3.0",
+    "@erickmerchant/framework": "^19.2.0",
+    "@erickmerchant/router": "^17.2.0",
     "jsonfile": "^5.0.0",
-    "sergeant": "^23.1.0"
+    "sergeant": "^23.2.0"
   },
   "devDependencies": {
-    "standard": "^12.0.1"
+    "@erickmerchant/lint": "^1.1.0"
   }
 }

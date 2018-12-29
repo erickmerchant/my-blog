@@ -2,7 +2,10 @@
   color: var(--green);
 }
 
-.number, .boolean, .null, .undefined {
+.number,
+.boolean,
+.null,
+.undefined {
   color: var(--orange);
 }
 
@@ -10,11 +13,12 @@
   color: var(--blue);
 }
 
-.string, .string * {
+.string,
+.string * {
   color: var(--red);
 }
 
-.comment, .comment * {
+.comment,
+.comment * {
   color: var(--gray);
 }
-

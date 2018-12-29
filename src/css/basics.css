@@ -2,7 +2,9 @@
   box-sizing: border-box;
 }
 
-html { height: 100%; }
+html {
+  height: 100%;
+}
 
 @media (width > 1600px) {
   html {
@@ -19,16 +21,23 @@ body {
   background-color: var(--white);
 }
 
-nav, main, section, footer {
+nav,
+main,
+section,
+footer {
   display: block;
 }
 
-h1, h2, h3,
-h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-weight: bold;
   line-height: 1.25;
   margin-top: 1em;
-  margin-bottom: .5em;
+  margin-bottom: 0.5em;
 }
 
 h1 { font-size: var(--font-size-1); }
@@ -66,24 +75,21 @@ a {
 }
 
 a:hover {
-  box-shadow: 0 .1em 0 0 currentColor;
+  box-shadow: 0 0.1em 0 0 currentColor;
   text-decoration: none;
 }
 
-p, ol, ul, blockquote {
+p,
+ol,
+ul,
+blockquote {
   margin-top: 1em;
   margin-bottom: 1em;
 }
 
 code,
 pre {
-  font-family:
-    'Roboto Mono',
-    'Source Code Pro',
-    Menlo,
-    Consolas,
-    'Liberation Mono',
-    monospace;
+  font-family: 'Roboto Mono', 'Source Code Pro', Menlo, Consolas, 'Liberation Mono', monospace;
   font-size: inherit;
 }
 
@@ -114,9 +120,9 @@ blockquote p {
   font-size: 1rem;
 }
 
-cite:before {
+cite::before {
   content: '\2014 \00A0';
-  color: var(--gray)
+  color: var(--gray);
 }
 
 hr {
