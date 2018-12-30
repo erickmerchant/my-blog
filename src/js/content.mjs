@@ -1,7 +1,7 @@
 /* global window */
 
-import fetch from './fetch.mjs'
 import router from '@erickmerchant/router'
+import fetch from './fetch.mjs'
 import unfound from './404.mjs'
 
 const { link } = router()
