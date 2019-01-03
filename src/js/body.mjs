@@ -1,12 +1,12 @@
 /* global window */
 
-import { html } from '@erickmerchant/framework'
+import {html} from '@erickmerchant/framework'
 import router from '@erickmerchant/router'
 
-const { route, link } = router()
-const { body, nav, div, a, main, h1, p, footer, span, article, header, time } = html
+const {route, link} = router()
+const {body, nav, div, a, main, h1, p, footer, span, article, header, time} = html
 
-export default ({ state, dispatch }) => {
+export default ({state, dispatch}) => {
   const getOnClick = (href) => (e) => {
     e.preventDefault()
 
@@ -19,12 +19,12 @@ export default ({ state, dispatch }) => {
     {
       onupdate () {
         if (typeof window !== 'undefined') {
-          setTimeout(() => window.scroll({ top: 0, left: 0, behavior: 'smooth' }), 10)
+          setTimeout(() => window.scroll({top: 0, left: 0, behavior: 'smooth'}), 10)
         }
       }
     },
     nav(
-      { class: 'nav' },
+      {class: 'nav'},
       div(
         a({
           href: '/',
@@ -50,26 +50,26 @@ export default ({ state, dispatch }) => {
               {
                 datetime: (new Date(state.post.date)).toISOString()
               },
-              (new Date(state.post.date)).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+              (new Date(state.post.date)).toLocaleDateString('en-US', {year: 'numeric', month: 'long', day: 'numeric'})
             )
           )
         ]),
         nav(
-          { class: 'pagination' },
+          {class: 'pagination'},
           a(Boolean(state.prev), () => [{
             class: 'prev',
             rel: 'prev',
             href: link('/posts/:slug/', state.prev),
             onclick: getOnClick(link('/posts/:slug/', state.prev))
           }, 'Older']),
-          span(!state.prev, () => [{ class: 'prev' }, 'Older']),
+          span(!state.prev, () => [{class: 'prev'}, 'Older']),
           a(Boolean(state.next), () => [{
             class: 'next',
             rel: 'next',
             href: link('/posts/:slug/', state.next),
             onclick: getOnClick(link('/posts/:slug/', state.next))
           }, 'Newer']),
-          span(!state.next, () => [{ class: 'next' }, 'Newer'])
+          span(!state.next, () => [{class: 'next'}, 'Newer'])
         )
       ])
 
@@ -85,7 +85,7 @@ export default ({ state, dispatch }) => {
       a({
         href: 'https://github.com/erickmerchant/my-blog'
       }, 'View Source'),
-      span(`© ${ (new Date()).getFullYear() } Erick Merchant`)
+      span(`© ${(new Date()).getFullYear()} Erick Merchant`)
     )
   ])
 }

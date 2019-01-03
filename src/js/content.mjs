@@ -4,7 +4,7 @@ import router from '@erickmerchant/router'
 import fetch from './fetch.mjs'
 import unfound from './404.mjs'
 
-const { link } = router()
+const {link} = router()
 const filterDrafts = typeof window === 'undefined'
 const codeDelim = '```'
 
@@ -33,7 +33,7 @@ export default {
 
       const post = posts[index]
 
-      return fetch(`${ link('/content/posts/:slug', post) }.md`).then((result) => {
+      return fetch(`${link('/content/posts/:slug', post)}.md`).then((result) => {
         const lns = result.split('\n')
         const html = []
 
@@ -72,7 +72,7 @@ export default {
                 .replace(/(^|\s)(null|undefined)($|\s|,)/g, '$1<span class="$2">$2</span>$3')
               : escaped
 
-            html.push(`<pre><code>${ highlighted }</code></pre>`)
+            html.push(`<pre><code>${highlighted}</code></pre>`)
           } else {
             html.push(ln)
           }
@@ -82,7 +82,7 @@ export default {
 
         return {
           location: link('/posts/:slug/', post),
-          title: `Posts | ${ post.title }`,
+          title: `Posts | ${post.title}`,
           next: posts[index - 1],
           prev: posts[index + 1],
           post

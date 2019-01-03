@@ -10,8 +10,8 @@ const rename = promisify(fs.rename)
 const readJSON = promisify(jsonfile.readFile)
 const slugify = (title) => title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '-')
 
-command('cli.js', 'draft and publish content', ({ command }) => {
-  command('draft', 'make a new draft', ({ parameter }) => {
+command('cli.js', 'draft and publish content', ({command}) => {
+  command('draft', 'make a new draft', ({parameter}) => {
     parameter('title', {
       description: 'the title',
       type: (value) => value,
@@ -33,13 +33,13 @@ command('cli.js', 'draft and publish content', ({ command }) => {
 
       posts.push(draft)
 
-      await writeJSON('./src/content/posts/index.json', posts, { spaces: 2 })
+      await writeJSON('./src/content/posts/index.json', posts, {spaces: 2})
 
-      await writeFile(`./src/content/posts/${ slug }.md`, '')
+      await writeFile(`./src/content/posts/${slug}.md`, '')
     }
   })
 
-  command('publish', 'publish a post', ({ parameter }) => {
+  command('publish', 'publish a post', ({parameter}) => {
     parameter('content', {
       description: 'the md file',
       type: (value) => value,
@@ -71,9 +71,9 @@ command('cli.js', 'draft and publish content', ({ command }) => {
 
       posts.push(post)
 
-      await writeJSON('./src/content/posts/index.json', posts, { spaces: 2 })
+      await writeJSON('./src/content/posts/index.json', posts, {spaces: 2})
 
-      await rename(`./src/content/posts/${ path.basename(args.content) }`, `./src/content/posts/${ post.slug }.md`)
+      await rename(`./src/content/posts/${path.basename(args.content)}`, `./src/content/posts/${post.slug}.md`)
     }
   })
 })(process.argv.slice(2))

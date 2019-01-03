@@ -2,7 +2,7 @@ import router from '@erickmerchant/router'
 import content from './content.mjs'
 import unfound from './404.mjs'
 
-const { route } = router()
+const {route} = router()
 
 export default (commit) => {
   const commitPost = (post, location) => {
@@ -33,7 +33,7 @@ export default (commit) => {
       .catch(errorHandler))
 
     on('/', () => content.list()
-      .then(({ posts }) => {
+      .then(({posts}) => {
         if (!posts.length) {
           commitUnfound()
         } else {
