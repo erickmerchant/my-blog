@@ -20,11 +20,13 @@ export default (commit) => {
   }
 
   const errorHandler = (error) => {
-    commit((state) => ({
-      location: '500.html',
-      title: '500 Error',
-      error
-    }))
+    commit((state) => {
+      return {
+        location: '500.html',
+        title: '500 Error',
+        error
+      }
+    })
   }
 
   return (val) => route(val, (on) => {
