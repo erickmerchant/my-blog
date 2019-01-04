@@ -7,13 +7,13 @@
     "build": "dev copy src dist"
   },
   "dependencies": {
-    "@erickmerchant/dev-cli": "^3.3.2",
+    "@erickmerchant/dev-cli": "^4.0.0",
     "@erickmerchant/framework": "^19.2.0",
     "@erickmerchant/router": "^17.2.0",
     "jsonfile": "^5.0.0",
     "sergeant": "^23.2.0"
   },
   "devDependencies": {
-    "@erickmerchant/lint": "^1.4.0"
+    "@erickmerchant/lint": "^1.5.1"
   }
 }
