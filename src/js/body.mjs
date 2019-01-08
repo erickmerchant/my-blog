@@ -17,7 +17,7 @@ export default ({state, dispatch}) => {
 
   return body(() => [
     {
-      onupdate () {
+      onupdate() {
         if (typeof window !== 'undefined') {
           setTimeout(() => window.scroll({top: 0, left: 0, behavior: 'smooth'}), 10)
         }
@@ -40,7 +40,7 @@ export default ({state, dispatch}) => {
         article(() => [
           {
             class: 'article',
-            onupdate () {
+            onupdate() {
               this.insertAdjacentHTML('beforeend', state.post.html)
             }
           },

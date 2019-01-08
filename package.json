@@ -3,7 +3,8 @@
   "author": "Erick Merchant <erickmerchant@gmail.com>",
   "license": "ISC",
   "scripts": {
-    "test": "lint '**/*.{js,mjs,css}'",
+    "pretest": "lint '**/*.{js,mjs,css}'",
+    "test": "",
     "build": "dev copy src dist"
   },
   "dependencies": {
@@ -14,6 +15,6 @@
     "sergeant": "^23.2.0"
   },
   "devDependencies": {
-    "@erickmerchant/lint": "^1.5.1"
+    "@erickmerchant/lint": "^1.6.0"
   }
 }

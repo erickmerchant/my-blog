@@ -9,7 +9,7 @@ const filterDrafts = typeof window === 'undefined'
 const codeDelim = '```'
 
 export default {
-  list () {
+  list() {
     return fetch('/content/posts/index.json').then((posts) => {
       posts = posts.filter((post) => !filterDrafts || !post.draft).sort((a, b) => b.date - a.date)
 
@@ -21,7 +21,7 @@ export default {
     })
   },
 
-  item (search) {
+  item(search) {
     return fetch('/content/posts/index.json').then((posts) => {
       posts = posts.filter((post) => !filterDrafts || !post.draft).sort((a, b) => b.date - a.date)
 
