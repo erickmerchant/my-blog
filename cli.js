@@ -11,11 +11,12 @@ const readJSON = promisify(jsonfile.readFile)
 const slugify = (title) => title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '-')
 
 command('cli.js', 'draft and publish content', ({command}) => {
-  command('draft', 'make a new draft', ({parameter}) => {
-    parameter('title', {
+  command('draft', 'make a new draft', ({option}) => {
+    option('title', {
       description: 'the title',
       type: (value) => value,
-      required: true
+      required: true,
+      alias: 't'
     })
 
     return async (args) => {
@@ -39,16 +40,17 @@ command('cli.js', 'draft and publish content', ({command}) => {
     }
   })
 
-  command('publish', 'publish a post', ({parameter}) => {
+  command('publish', 'publish a post', ({parameter, option}) => {
     parameter('content', {
       description: 'the md file',
       type: (value) => value,
       required: true
     })
 
-    parameter('title', {
+    option('title', {
       description: 'a new title',
-      type: (value) => value
+      type: (value) => value,
+      alias: 't'
     })
 
     return async (args) => {
