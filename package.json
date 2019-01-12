@@ -4,7 +4,7 @@
   "license": "ISC",
   "scripts": {
     "pretest": "lint '**/*.{js,mjs,css}'",
-    "test": "",
+    "test": "exit 0",
     "build": "dev copy src dist"
   },
   "dependencies": {
@@ -15,6 +15,6 @@
     "sergeant": "^24.0.0"
   },
   "devDependencies": {
-    "@erickmerchant/lint": "^1.6.2"
+    "@erickmerchant/lint": "^1.7.0"
   }
 }
