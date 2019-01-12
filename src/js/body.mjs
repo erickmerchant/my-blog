@@ -62,14 +62,14 @@ export default ({state, dispatch}) => {
             href: link('/posts/:slug/', state.prev),
             onclick: getOnClick(link('/posts/:slug/', state.prev))
           }, 'Older']),
-          span(!state.prev, () => [{class: 'prev'}, 'Older']),
+          span(!Boolean(state.prev), () => [{class: 'prev'}, 'Older']),
           a(Boolean(state.next), () => [{
             class: 'next',
             rel: 'next',
             href: link('/posts/:slug/', state.next),
             onclick: getOnClick(link('/posts/:slug/', state.next))
           }, 'Newer']),
-          span(!state.next, () => [{class: 'next'}, 'Newer'])
+          span(!Boolean(state.next), () => [{class: 'next'}, 'Newer'])
         )
       ])
 
