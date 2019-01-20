@@ -13,12 +13,12 @@ const globby = require('globby')
 
     switch (path.extname(relative)) {
       case '.css':
-      headers.push(`  Link: </${relative}>; rel=preload; as=style`)
-      break
+        headers.push(`  Link: </${relative}>; rel=preload; as=style`)
+        break
 
       case '.mjs':
-      headers.push(`  Link: </${relative}>; rel=modulepreload; as=script`)
-      break
+        headers.push(`  Link: </${relative}>; rel=modulepreload; as=script`)
+        break
     }
   }
 
