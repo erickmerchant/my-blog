@@ -9,14 +9,14 @@
   Link: </css/nav.css>; rel=preload; as=style
   Link: </css/pagination.css>; rel=preload; as=style
   Link: </css/variables.css>; rel=preload; as=style
-  Link: </js/404.mjs>; rel=preload; as=script
-  Link: </js/body.mjs>; rel=preload; as=script
-  Link: </js/content.mjs>; rel=preload; as=script
-  Link: </js/fetch.mjs>; rel=preload; as=script
-  Link: </js/index.mjs>; rel=preload; as=script
-  Link: </js/store.mjs>; rel=preload; as=script
-  Link: </node_modules/@erickmerchant/framework/main.mjs>; rel=preload; as=script
-  Link: </node_modules/@erickmerchant/router/main.mjs>; rel=preload; as=script
+  Link: </js/404.mjs>; rel=modulepreload; as=script
+  Link: </js/body.mjs>; rel=modulepreload; as=script
+  Link: </js/content.mjs>; rel=modulepreload; as=script
+  Link: </js/fetch.mjs>; rel=modulepreload; as=script
+  Link: </js/index.mjs>; rel=modulepreload; as=script
+  Link: </js/store.mjs>; rel=modulepreload; as=script
+  Link: </node_modules/@erickmerchant/framework/main.mjs>; rel=modulepreload; as=script
+  Link: </node_modules/@erickmerchant/router/main.mjs>; rel=modulepreload; as=script
 /posts/*
   Link: </css/article.css>; rel=preload; as=style
   Link: </css/basics.css>; rel=preload; as=style
@@ -28,11 +28,11 @@
   Link: </css/nav.css>; rel=preload; as=style
   Link: </css/pagination.css>; rel=preload; as=style
   Link: </css/variables.css>; rel=preload; as=style
-  Link: </js/404.mjs>; rel=preload; as=script
-  Link: </js/body.mjs>; rel=preload; as=script
-  Link: </js/content.mjs>; rel=preload; as=script
-  Link: </js/fetch.mjs>; rel=preload; as=script
-  Link: </js/index.mjs>; rel=preload; as=script
-  Link: </js/store.mjs>; rel=preload; as=script
-  Link: </node_modules/@erickmerchant/framework/main.mjs>; rel=preload; as=script
-  Link: </node_modules/@erickmerchant/router/main.mjs>; rel=preload; as=script
+  Link: </js/404.mjs>; rel=modulepreload; as=script
+  Link: </js/body.mjs>; rel=modulepreload; as=script
+  Link: </js/content.mjs>; rel=modulepreload; as=script
+  Link: </js/fetch.mjs>; rel=modulepreload; as=script
+  Link: </js/index.mjs>; rel=modulepreload; as=script
+  Link: </js/store.mjs>; rel=modulepreload; as=script
+  Link: </node_modules/@erickmerchant/framework/main.mjs>; rel=modulepreload; as=script
+  Link: </node_modules/@erickmerchant/router/main.mjs>; rel=modulepreload; as=script
