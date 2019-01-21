@@ -5,6 +5,7 @@ const writeFile = promisify(fs.writeFile)
 const globby = require('globby')
 
 ;(async () => {
+  const posts = require('./dist/content/posts/index.json')
   const files = await globby('./dist/**/*.{css,mjs}')
   const headers = ['  Link: </content/posts/index.json>; rel=preload; as=fetch']
 
@@ -25,16 +26,17 @@ const globby = require('globby')
   const lines = []
 
   for (const path of ['/', '/posts/*']) {
-    lines.push(path, ...headers)
+    lines.push(path)
+
+    if (path === '/') {
+      lines.push(`  Link: </content/posts/${posts[posts.length - 1].slug}.md>; rel=preload; as=fetch`)
+    }
+
+    lines.push(...headers)
   }
 
-  const posts = await globby('./dist/content/posts/*.md')
-
   for (const post of posts) {
-    const relative = path.relative('./dist', post)
-    const slug = path.basename(post, '.md')
-
-    lines.push(`/posts/${slug}`, `  Link: </${relative}>; rel=preload; as=fetch`)
+    lines.push(`/posts/${post.slug}`, `  Link: </content/posts/${post.slug}.md>; rel=preload; as=fetch`)
   }
 
   await writeFile('./dist/_headers', lines.join('\n'))

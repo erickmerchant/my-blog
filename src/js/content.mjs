@@ -7,10 +7,11 @@ import unfound from './404.mjs'
 const {link} = router()
 const filterDrafts = typeof window === 'undefined'
 const codeDelim = '```'
+const postsPromise = fetch('/content/posts/index.json')
 
 export default {
   list() {
-    return fetch('/content/posts/index.json').then((posts) => {
+    return postsPromise.then((posts) => {
       posts = posts.filter((post) => !filterDrafts || !post.draft).sort((a, b) => b.date - a.date)
 
       return {
@@ -22,7 +23,7 @@ export default {
   },
 
   item(search) {
-    return fetch('/content/posts/index.json').then((posts) => {
+    return postsPromise.then((posts) => {
       posts = posts.filter((post) => !filterDrafts || !post.draft).sort((a, b) => b.date - a.date)
 
       const index = posts.findIndex((post) => link('/posts/:slug/', post) === link('/posts/:slug/', search))
