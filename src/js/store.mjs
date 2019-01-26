@@ -4,7 +4,7 @@ import unfound from './404.mjs'
 
 const {route} = router()
 
-export default (commit) => {
+export const dispatchLocation = (commit, location) => {
   const commitPost = (post, location) => {
     commit((state) => {
       if (location) {
@@ -29,7 +29,7 @@ export default (commit) => {
     })
   }
 
-  return (val) => route(val, (on) => {
+  return route(location, (on) => {
     on('/posts/:slug/', (params) => content.item(params)
       .then(commitPost)
       .catch(errorHandler))

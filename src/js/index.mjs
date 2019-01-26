@@ -1,13 +1,9 @@
-/* global document, window */
+/* global document */
 
-import framework, {update} from '@erickmerchant/framework'
-import store from './store.mjs'
+import framework, {domUpdate} from '@erickmerchant/framework'
 import component from './body.mjs'
 
-const dispatch = framework({store, component, update: update(document.querySelector('body'))})
+const update = domUpdate(document.querySelector('body'))
+const state = {location: '', title: ''}
 
-window.onpopstate = () => {
-  dispatch(document.location.pathname)
-}
-
-dispatch(document.location.pathname)
+framework({state, component, update})
