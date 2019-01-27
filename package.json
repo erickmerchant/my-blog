@@ -5,11 +5,11 @@
   "scripts": {
     "pretest": "lint '**/*.{js,mjs,css}'",
     "test": "exit 0",
-    "build": "dev copy src dist",
+    "build": "dev cache src dist",
     "postbuild": "node postbuild.js"
   },
   "dependencies": {
-    "@erickmerchant/dev-cli": "^5.3.1",
+    "@erickmerchant/dev-cli": "^6.0.0",
     "@erickmerchant/framework": "^20.3.0",
     "@erickmerchant/router": "^17.3.0",
     "globby": "^9.0.0",
