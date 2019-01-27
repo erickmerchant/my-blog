@@ -18,17 +18,17 @@ export default (state, commit) => {
 
   return body(
     {
-      onupdate() {
-        if (typeof window !== 'undefined') {
-          setTimeout(() => window.scroll({top: 0, left: 0, behavior: 'smooth'}), 10)
-        }
-      },
       onmount() {
         window.onpopstate = () => {
           dispatchLocation(commit, document.location.pathname)
         }
 
         dispatchLocation(commit, document.location.pathname)
+      },
+      onupdate() {
+        setTimeout(() => {
+          window.scroll({top: 0, left: 0, behavior: 'smooth'})
+        }, 10)
       }
     },
     nav(
