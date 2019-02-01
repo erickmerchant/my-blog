@@ -17,6 +17,6 @@
     "sergeant": "^24.1.0"
   },
   "devDependencies": {
-    "@erickmerchant/lint": "^1.10.0"
+    "@erickmerchant/lint": "^1.10.1"
   }
 }
