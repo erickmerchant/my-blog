@@ -22,14 +22,14 @@ export const dispatchLocation = (commit, location) => {
   const errorHandler = (error) => {
     commit((state) => {
       return {
-        location: '500.html',
+        location: '/500.html',
         title: '500 Error',
         error
       }
     })
   }
 
-  return route(location, (on) => {
+  route(location, (on) => {
     on('/posts/:slug/', (params) => content.item(params)
       .then(commitPost)
       .catch(errorHandler))
@@ -39,15 +39,13 @@ export const dispatchLocation = (commit, location) => {
         if (!posts.length) {
           commitUnfound()
         } else {
-          return content.item(posts[0]).then(commitPost)
+          content.item(posts[0]).then(commitPost)
         }
       })
       .catch(errorHandler))
 
     on(() => {
       commitUnfound()
-
-      return true
     })
   })
 }

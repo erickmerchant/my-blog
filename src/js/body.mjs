@@ -86,7 +86,7 @@ export default (state, commit) => {
       ])
 
       on(() => [
-        h1(state.title),
+        h1({}, state.title),
         p({}, state.error != null ? state.error.message : '')
       ])
     })),
