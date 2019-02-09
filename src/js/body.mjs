@@ -1,6 +1,6 @@
 /* global window, document */
 
-import {html} from '@erickmerchant/framework'
+import {html, safe} from '@erickmerchant/framework'
 import router from '@erickmerchant/router'
 import {dispatchLocation} from './store.mjs'
 
@@ -48,10 +48,7 @@ export default (state, commit) => {
       on(['/posts/:slug/', '/'], () => [
         article(
           {
-            class: 'article',
-            onupdate() {
-              this.insertAdjacentHTML('beforeend', state.post.html)
-            }
+            class: 'article'
           },
           header(
             {},
@@ -62,7 +59,8 @@ export default (state, commit) => {
               },
               (new Date(state.post.date)).toLocaleDateString('en-US', {year: 'numeric', month: 'long', day: 'numeric'})
             )
-          )
+          ),
+          safe(state.post.html)
         ),
         nav(
           {class: 'pagination'},
