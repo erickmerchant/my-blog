@@ -1,10 +1,9 @@
 /* global window */
 
-import router from '@erickmerchant/router'
+import {link} from './router.mjs'
 import fetch from './fetch.mjs'
 import unfound from './404.mjs'
 
-const {link} = router()
 const filterDrafts = typeof window === 'undefined'
 const codeDelim = '```'
 const postsPromise = fetch('/content/posts/index.json')

@@ -1,8 +1,6 @@
-import router from '@erickmerchant/router'
+import {route} from './router.mjs'
 import content from './content.mjs'
 import unfound from './404.mjs'
-
-const {route} = router()
 
 export const dispatchLocation = (commit, location) => {
   const commitPost = (post, location) => {

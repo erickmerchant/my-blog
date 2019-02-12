@@ -1,10 +1,9 @@
 /* global window, document */
 
 import {html, safe} from '@erickmerchant/framework'
-import router from '@erickmerchant/router'
+import {route, link} from './router.mjs'
 import {dispatchLocation} from './store.mjs'
 
-const {route, link} = router()
 const {body, nav, div, a, main, h1, p, footer, span, article, header, time} = html
 
 export default (state, commit) => {
