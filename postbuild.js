@@ -25,7 +25,7 @@ const globby = require('globby')
 
   const lines = []
 
-  for (const path of ['/index.html ']) {
+  for (const path of ['/index.html']) {
     lines.push(path)
 
     // if (path === '/') {
