@@ -112,7 +112,7 @@ module.exports = (commit) => {
         case 'remove-todo':
           if (index > -1) {
             if (state.todos[index].completed) {
-              state.completed -= 1
+              state.completed--
             }
 
             state.todos.splice(index, 1)
