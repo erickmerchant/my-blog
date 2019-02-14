@@ -10,11 +10,11 @@
   },
   "dependencies": {
     "@erickmerchant/dev-cli": "^8.0.2",
-    "@erickmerchant/framework": "^21.1.0",
+    "@erickmerchant/framework": "^21.1.1",
     "@erickmerchant/router": "^17.3.2",
     "globby": "^9.0.0",
     "jsonfile": "^5.0.0",
-    "sergeant": "^24.1.1"
+    "sergeant": "^24.1.2"
   },
   "devDependencies": {
     "@erickmerchant/lint": "^1.10.1"
