@@ -14,7 +14,7 @@ const globby = require('globby')
 
     switch (path.extname(relative)) {
       case '.css':
-        headers.push(`  Link: </${relative}>; rel=preload; as=style`)
+        headers.push(`  Link: </${relative}> rel=preload as=style`)
         break
 
       case '.mjs':
