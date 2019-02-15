@@ -9,7 +9,7 @@
     "postbuild": "node postbuild.js"
   },
   "dependencies": {
-    "@erickmerchant/dev-cli": "^8.0.2",
+    "@erickmerchant/dev-cli": "^8.0.3",
     "@erickmerchant/framework": "^21.1.1",
     "@erickmerchant/router": "^17.3.2",
     "globby": "^9.0.0",
