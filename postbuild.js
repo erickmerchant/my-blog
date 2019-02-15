@@ -5,7 +5,7 @@ const writeFile = promisify(fs.writeFile)
 const globby = require('globby')
 
 ;(async () => {
-  // const posts = require('./dist/content/posts/index.json')
+  const posts = require('./dist/content/posts/index.json')
   const files = await globby('./dist/**/*.{css,mjs}')
   const headers = []
 
