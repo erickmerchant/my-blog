@@ -18,7 +18,7 @@ const globby = require('globby')
         break
 
       case '.mjs':
-        headers.push(`  Link: </${relative}>; rel=modulepreload`)
+        headers.push(`  Link: </${relative}>; rel=preload; as=script; crossorigin=anonymous`)
         break
     }
   }
