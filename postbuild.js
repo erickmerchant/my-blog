@@ -29,14 +29,14 @@ const globby = require('globby')
     lines.push(path)
 
     if (path === '/') {
-      lines.push(`  Link: </content/posts/${posts[posts.length - 1].slug}.md>; rel=preload; as=fetch`)
+      lines.push(`  Link: </content/posts/${posts[posts.length - 1].slug}.md>; rel=preload; as=fetch; crossorigin=anonymous`)
     }
 
     lines.push(...headers)
   }
 
   for (const post of posts) {
-    lines.push(`/posts/${post.slug}`, `  Link: </content/posts/${post.slug}.md>; rel=preload; as=fetch`)
+    lines.push(`/posts/${post.slug}`, `  Link: </content/posts/${post.slug}.md>; rel=preload; as=fetch; crossorigin=anonymous`)
   }
 
   await writeFile('./dist/_headers', lines.join('\n'))
