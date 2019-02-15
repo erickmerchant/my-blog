@@ -7,7 +7,9 @@ const globby = require('globby')
 ;(async () => {
   const posts = require('./dist/content/posts/index.json')
   const files = await globby('./dist/**/*.{css,mjs}')
-  const headers = []
+  const headers = [
+    '  Link: </content/posts/index.json>; rel=preload; as=fetch'
+  ]
 
   for (const file of files) {
     const relative = path.relative('./dist', file)
@@ -25,18 +27,16 @@ const globby = require('globby')
 
   const lines = []
 
-  for (const path of ['/', '/posts/*']) {
-    lines.push(path)
+  lines.push('/')
 
-    if (path === '/') {
-      lines.push(`  Link: </content/posts/${posts[posts.length - 1].slug}.md>; rel=preload; as=fetch; crossorigin=anonymous`)
-    }
-
-    lines.push(...headers)
+  if (posts.length) {
+    lines.push(`  Link: </content/posts/${posts[posts.length - 1].slug}.md>; rel=preload; as=fetch`)
   }
 
+  lines.push(...headers)
+
   for (const post of posts) {
-    lines.push(`/posts/${post.slug}`, `  Link: </content/posts/${post.slug}.md>; rel=preload; as=fetch; crossorigin=anonymous`)
+    lines.push(`/posts/${post.slug}`, `  Link: </content/posts/${post.slug}.md>; rel=preload; as=fetch`, ...headers)
   }
 
   await writeFile('./dist/_headers', lines.join('\n'))
