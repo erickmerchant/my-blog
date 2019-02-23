@@ -3,6 +3,14 @@ import content from './content.mjs'
 import unfound from './404.mjs'
 
 export const dispatchLocation = (commit, location) => {
+  const scrollWindow = () => {
+    setTimeout(() => window.scroll({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    }), 10)
+  }
+
   const commitPost = (post, location) => {
     commit((state) => {
       if (location) {
@@ -11,10 +19,14 @@ export const dispatchLocation = (commit, location) => {
 
       return post
     })
+
+    scrollWindow()
   }
 
   const commitUnfound = () => {
     commit(() => unfound)
+
+    scrollWindow()
   }
 
   const errorHandler = (error) => {
@@ -25,6 +37,8 @@ export const dispatchLocation = (commit, location) => {
         error
       }
     })
+
+    scrollWindow()
   }
 
   route(location, (on) => {
