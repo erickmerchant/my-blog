@@ -17,17 +17,16 @@ export default (state, commit) => {
 
   return body(
     {
-      onmount() {
+      onappend() {
         window.onpopstate = () => {
           dispatchLocation(commit, document.location.pathname)
+
+          setTimeout(() => {
+            window.scroll({top: 0, left: 0, behavior: 'smooth'})
+          }, 10)
         }
 
         dispatchLocation(commit, document.location.pathname)
-      },
-      onupdate() {
-        setTimeout(() => {
-          window.scroll({top: 0, left: 0, behavior: 'smooth'})
-        }, 10)
       }
     },
     nav(
