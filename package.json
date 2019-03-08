@@ -3,7 +3,7 @@
   "author": "Erick Merchant <erickmerchant@gmail.com>",
   "license": "ISC",
   "scripts": {
-    "pretest": "lint '**/*.{js,mjs,css}'",
+    "pretest": "lint '**/*.{js,mjs,css,html}'",
     "test": "exit 0",
     "build": "dev cache src dist",
     "postbuild": "node postbuild.js"
