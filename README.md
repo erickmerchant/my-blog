@@ -1,5 +1,3 @@
 # my-blog
 
-A static site built with @erickmerchant/framework.
-
-Code is covered by the LICENSE. Content is copyright to Erick Merchant.
+My blog, and a static site built with @erickmerchant/framework.
