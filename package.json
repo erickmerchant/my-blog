@@ -19,7 +19,7 @@
     "sergeant": "^24.1.4"
   },
   "devDependencies": {
-    "@erickmerchant/lint": "^2.1.0",
+    "@erickmerchant/lint": "^2.2.0",
     "eslint": "^5.15.1",
     "stylelint": "^9.10.1"
   },
