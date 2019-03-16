@@ -20,7 +20,7 @@
   },
   "devDependencies": {
     "@erickmerchant/lint": "^2.2.0",
-    "eslint": "^5.15.1",
+    "eslint": "^5.15.2",
     "stylelint": "^9.10.1"
   },
   "engines": {
