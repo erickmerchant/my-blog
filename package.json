@@ -14,7 +14,7 @@
     "@erickmerchant/framework": "^22.6.0",
     "@erickmerchant/onappend": "^1.0.3",
     "@erickmerchant/router": "^17.3.6",
-    "globby": "^9.1.0",
+    "globby": "^9.2.0",
     "jsonfile": "^5.0.0",
     "sergeant": "^24.1.4"
   },
