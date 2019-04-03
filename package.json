@@ -16,7 +16,7 @@
     "@erickmerchant/router": "^17.3.6",
     "globby": "^9.2.0",
     "jsonfile": "^5.0.0",
-    "sergeant": "^24.1.4"
+    "sergeant": "^25.0.0"
   },
   "devDependencies": {
     "@erickmerchant/lint": "^2.2.0",
