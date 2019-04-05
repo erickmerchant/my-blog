@@ -1,5 +1,6 @@
 {
   "name": "my-blog",
+  "private": true,
   "description": "erickmerchant.com",
   "author": "Erick Merchant <erickmerchant@gmail.com>",
   "license": "ISC",
