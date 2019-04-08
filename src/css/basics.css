@@ -17,7 +17,7 @@ body {
   font-family: system-ui;
   line-height: 1.5;
   margin: 0;
-  color: var(--black);
+  color: var(--dark-gray);
   background-color: var(--white);
 }
 
@@ -52,21 +52,6 @@ h3 { font-size: var(--font-size-3); }
 
 p {
   word-wrap: break-word;
-}
-
-img {
-  max-width: 100%;
-  height: auto;
-  box-sizing: content-box;
-  width: 100%;
-  padding: 1em;
-  border-radius: var(--border-radius);
-  border: var(--border-width) solid var(--gray);
-  margin: var(--spacing-1) 0;
-}
-
-svg {
-  max-height: 100%;
 }
 
 a {
@@ -106,30 +91,4 @@ pre {
   white-space: pre-wrap;
   overflow-x: auto;
   font-size: inherit;
-}
-
-blockquote {
-  margin: 0 var(--spacing-1);
-  padding: 0 var(--spacing-2);
-  border-left: calc(var(--border-width) * 2) solid var(--black);
-  font-size: 1rem;
-  font-style: italic;
-}
-
-blockquote p {
-  font-size: 1rem;
-}
-
-cite::before {
-  content: '\2014 \00A0';
-  color: var(--gray);
-}
-
-hr {
-  margin-top: 1.5em;
-  margin-bottom: 1.5em;
-  border: 0;
-  border-bottom-width: 1px;
-  border-bottom-style: solid;
-  border-bottom-color: var(--gray);
 }

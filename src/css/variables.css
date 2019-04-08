@@ -11,13 +11,12 @@
   --font-size-6: 0.8333em;
   --border-radius: 0.2em;
   --border-width: 0.05em;
-  --black: gray(12);
-  --dark-gray: gray(14);
-  --gray: gray(56);
+  --dark-gray: gray(12);
+  --gray: gray(55);
   --light-gray: gray(98);
   --white: gray(100);
-  --red: hsl(340, 60%, 55%);
-  --orange: hsl(20, 60%, 55%);
-  --green: hsl(160, 60%, 50%);
-  --blue: hsl(200, 60%, 55%);
+  --red: hsl(340, 60%, 59%);
+  --orange: hsl(20, 60%, 51%);
+  --green: hsl(160, 60%, 43%);
+  --blue: hsl(200, 60%, 51%);
 }

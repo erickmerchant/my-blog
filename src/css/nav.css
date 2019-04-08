@@ -1,6 +1,6 @@
 .nav {
   grid-row: span 2;
-  background: var(--black);
+  background: var(--dark-gray);
   text-align: center;
   font-weight: bold;
   color: var(--white);
