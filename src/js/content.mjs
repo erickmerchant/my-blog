@@ -60,16 +60,15 @@ export default {
 
             const highlighted = lang != null
               ? escaped
-                .replace(/(^|\s)(import|export|default|if|else|do|while|for|let|const|function|class|switch|case|return|break|continue|typeof|instanceof|of|in|try|catch|finally)($|\s)/g, '$1<span class="keyword">$2</span>$3')
-                .replace(/([a-zA-Z0-9_$])\.([a-zA-Z0-9_$]*)/g, '$1.<span class="property">$2</span>')
-                .replace(/>\.([a-zA-Z0-9_$]*)/g, '>.<span class="property">$1</span>')
-                .replace(/(\/\*(.|\n)*?\*\/)/g, '<span class="comment">$1</span>')
-                .replace(/(\s)\/\/(.*)/g, '<span class="comment">$1//$2</span>')
-                .replace(/(&quot;|&#39;)(.*?)\1/g, '<span class="string">$1$2$1</span>')
+                .replace(/([^\w]|^)(async|await|break|case|catch|class|const|continue|debugger|default|delete|do|else|export|extends|finally|for|function|if|import|in|instanceof|let|new|return|super|switch|this|throw|try|typeof|var|void|while|with|yield|require|module|exports)([^\w]|$)/g, '$1<span class="keyword">$2</span>$3')
+                .replace(/([^\w]|^)(true|false)([^\w]|$)/g, '$1<span class="boolean">$2</span>$3')
+                .replace(/([^\w]|^)(null|undefined)([^\w]|$)/g, '$1<span class="$2">$2</span>$3')
+                .replace(/(\s)-?(\d+\.\d+|\d+|\.\d+)(\s)/g, '$1<span class="number">$2</span>$3')
+                .replace(/([^\w]|^)(\w+)\(/g, '$1<span class="function-call">$2</span>(')
                 .replace(/(`(.|\n)*?`)/g, '<span class="string">$1</span>')
-                .replace(/(^|\s)(false|true)($|\s|,)/g, '$1<span class="boolean">$2</span>$3')
-                .replace(/(^|\s)(-?[0-9.]+)($|\s|,)/g, '$1<span class="number">$2</span>$3')
-                .replace(/(^|\s)(null|undefined)($|\s|,)/g, '$1<span class="$2">$2</span>$3')
+                .replace(/(&#39;|&quot;)(.*?)\1/g, '<span class="string">$1$2$1</span>')
+                .replace(/(\/\*(.|\n)*?\*\/)/g, '<span class="comment">$1</span>')
+                .replace(/(\s)\/\/(.*?)/g, '$1<span class="comment">//$2</span>')
               : escaped
 
             html.push(`<pre><code>${highlighted}</code></pre>`)

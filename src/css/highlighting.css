@@ -2,14 +2,14 @@
   color: var(--green);
 }
 
-.number,
 .boolean,
 .null,
-.undefined {
+.undefined,
+.number {
   color: var(--orange);
 }
 
-.property {
+.function-call {
   color: var(--blue);
 }
 
