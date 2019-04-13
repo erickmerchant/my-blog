@@ -20,9 +20,9 @@
     "sergeant": "^25.0.0"
   },
   "devDependencies": {
-    "@erickmerchant/lint": "^2.2.0",
+    "@erickmerchant/lint": "^2.3.0",
     "eslint": "^5.16.0",
-    "stylelint": "^9.10.1"
+    "stylelint": "^10.0.0"
   },
   "engines": {
     "node": ">=8"
