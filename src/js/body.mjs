@@ -1,10 +1,10 @@
 /* global window, document */
 
-import {html, safe} from '@erickmerchant/framework'
+import {view, safe} from '@erickmerchant/framework'
 import {route, link} from './router.mjs'
 import {dispatchLocation} from './store.mjs'
 
-const {site, article, pagination, enabledAnchor, disabledAnchor, heading1, paragraph} = html
+const {site, article, pagination, enabledAnchor, disabledAnchor, heading1, paragraph} = view
 
 export default (state, commit) => {
   const getOnClick = (href) => (e) => {
