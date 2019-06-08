@@ -17,12 +17,12 @@
     "@erickmerchant/router": "^17.3.6",
     "globby": "^9.2.0",
     "jsonfile": "^5.0.0",
-    "sergeant": "^26.1.1"
+    "sergeant": "^26.1.2"
   },
   "devDependencies": {
     "@erickmerchant/lint": "^2.4.1",
     "eslint": "^5.16.0",
-    "stylelint": "^10.0.1"
+    "stylelint": "^10.1.0"
   },
   "engines": {
     "node": ">=8"
