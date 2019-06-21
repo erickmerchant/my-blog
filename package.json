@@ -11,7 +11,7 @@
     "postbuild": "node postbuild.js"
   },
   "dependencies": {
-    "@erickmerchant/dev-cli": "^8.6.2",
+    "@erickmerchant/dev-cli": "^8.7.0",
     "@erickmerchant/framework": "^24.4.5",
     "@erickmerchant/onappend": "^1.0.4",
     "@erickmerchant/router": "^17.3.6",
