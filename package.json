@@ -11,17 +11,17 @@
     "postbuild": "node postbuild.js"
   },
   "dependencies": {
-    "@erickmerchant/dev-cli": "^8.7.0",
-    "@erickmerchant/framework": "^24.4.5",
-    "@erickmerchant/onappend": "^1.0.4",
-    "@erickmerchant/router": "^17.3.6",
+    "@erickmerchant/dev-cli": "^8.7.1",
+    "@erickmerchant/framework": "^24.4.6",
+    "@erickmerchant/onappend": "^1.0.5",
+    "@erickmerchant/router": "^17.3.7",
     "globby": "^9.2.0",
     "jsonfile": "^5.0.0",
-    "sergeant": "^26.1.2"
+    "sergeant": "^26.1.3"
   },
   "devDependencies": {
-    "@erickmerchant/lint": "^2.5.0",
-    "eslint": "^5.16.0",
+    "@erickmerchant/lint": "^3.0.0",
+    "eslint": "^6.0.1",
     "stylelint": "^10.1.0"
   },
   "engines": {
