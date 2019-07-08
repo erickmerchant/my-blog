@@ -1,5 +1,3 @@
-/* global window */
-
 import {route} from './router.mjs'
 import content from './content.mjs'
 import unfound from './404.mjs'

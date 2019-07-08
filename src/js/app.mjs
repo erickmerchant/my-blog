@@ -1,5 +1,3 @@
-/* global document */
-
 import framework, {domUpdate} from '@erickmerchant/framework'
 import onappend from '@erickmerchant/onappend'
 import component from './body.mjs'

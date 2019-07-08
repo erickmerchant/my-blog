@@ -1,5 +1,3 @@
-/* global window, document */
-
 import {view, safe} from '@erickmerchant/framework'
 import {route, link} from './router.mjs'
 import {dispatchLocation} from './store.mjs'

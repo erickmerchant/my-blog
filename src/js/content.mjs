@@ -1,5 +1,3 @@
-/* global window */
-
 import {link} from './router.mjs'
 import fetch from './fetch.mjs'
 import unfound from './404.mjs'
