@@ -2,11 +2,3 @@ body {
   display: flex;
   flex-direction: column;
 }
-
-@media (width >= 65em) {
-  body {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    grid-template-rows: 1fr max-content;
-  }
-}

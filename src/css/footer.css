@@ -1,12 +1,23 @@
 .footer {
-  background: var(--light-gray);
-  font-size: var(--font-size-6);
-  padding: var(--spacing-2);
-  text-align: center;
   font-weight: bold;
+  background: var(--gray-color);
+  color: var(--light-color);
+  padding: var(--spacing);
 }
 
-.footer > * {
-  margin: var(--spacing-1);
-  display: inline-block;
+.footer a {
+  color: inherit;
+}
+
+.footer ul {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.footer li {
+  margin: var(--spacing);
 }

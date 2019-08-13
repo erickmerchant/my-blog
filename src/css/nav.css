@@ -1,36 +1,23 @@
 .nav {
-  grid-row: span 2;
-  background: var(--dark-gray);
-  text-align: center;
   font-weight: bold;
-  color: var(--white);
-}
-
-.nav > div {
-  padding: var(--spacing-2);
-  align-items: center;
+  background: var(--primary-color);
+  padding: var(--spacing);
+  color: var(--light-color);
 }
 
 .nav a {
-  margin: var(--spacing-1);
-  color: var(--white);
+  color: inherit;
 }
 
-.nav em {
-  font-size: var(--font-size-6);
+.nav ul {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
-@media (width >= 65em) {
-  .nav > div {
-    position: sticky;
-    top: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    height: 100vh;
-  }
-
-  .nav a:nth-child(1) {
-    font-size: var(--font-size-3);
-  }
+.nav li {
+  margin: var(--spacing);
 }

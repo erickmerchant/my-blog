@@ -2,38 +2,49 @@ import {view, safe} from '@erickmerchant/framework'
 import {route, link} from './router.mjs'
 import {dispatchLocation} from './store.mjs'
 
-const {site, article, pagination, enabledAnchor, disabledAnchor, heading1, paragraph} = view
+const {site, main, liAnchor, error} = view
+let initialized = false
 
-export default (state, commit) => {
-  const getOnClick = (href) => (e) => {
-    e.preventDefault()
+export default ({state, commit, next}) => {
+  const anchorAttrs = (href) => {
+    return {
+      href,
+      onclick: (e) => {
+        e.preventDefault()
 
-    window.history.pushState({}, null, href)
+        window.history.pushState({}, null, href)
 
-    dispatchLocation(commit, href)
+        dispatchLocation(commit, href)
+      }
+    }
   }
 
-  return site`<body
-    onappend=${() => {
+  next(() => {
+    window.scroll(0, 0)
+  })
+
+  if (!initialized) {
+    initialized = true
+
+    next(() => {
       window.onpopstate = () => {
         dispatchLocation(commit, document.location.pathname)
       }
 
       dispatchLocation(commit, document.location.pathname)
-    }}
-  >
+    })
+  }
+
+  return site`<body>
     <nav class="nav">
-      <div>
-        <a
-          href="/"
-          onclick=${getOnClick('/')}
-        >Erick Merchant</a>
-        <a href="https://github.com/erickmerchant">Projects</a>
-      </div>
+      <ul>
+        <li><a ${anchorAttrs('/')}>Erick Merchant</a></li>
+        <li><a href="https://github.com/erickmerchant">Projects</a></li>
+      </ul>
     </nav>
-    <main>${route(state.location, (on) => {
-      on(['/posts/:slug/', '/'], () => [
-        article`<article class="article">
+    ${route(state.location, (on) => {
+      on('/posts/:slug/', () => main`<main>
+        <article class="article">
           <header>
             <h1>${state.post.title}</h1>
             <time datetime=${(new Date(state.post.date)).toISOString()}>
@@ -41,35 +52,37 @@ export default (state, commit) => {
             </time>
           </header>
           ${safe(state.post.html)}
-        </article>`,
-        pagination`<nav class="pagination">
-          ${Boolean(state.prev)
-            ? enabledAnchor`<a ${{
-              class: 'prev',
-              rel: 'prev',
-              href: link('/posts/:slug/', state.prev),
-              onclick: getOnClick(link('/posts/:slug/', state.prev))
-            }}>${'Older'}<a>`
-            : disabledAnchor`<span class=${'prev'}>${'Older'}</span>`}
-          ${Boolean(state.next)
-            ? enabledAnchor`<a ${{
-              class: 'next',
-              rel: 'next',
-              href: link('/posts/:slug/', state.next),
-              onclick: getOnClick(link('/posts/:slug/', state.next))
-            }}>${'Newer'}<a>`
-            : disabledAnchor`<span class=${'next'}>${'Newer'}</span>`}
-        </nav>`
-      ])
+        </article>
+        <nav class="pagination">
+          <ul>
+            ${Boolean(state.prev)
+              ? liAnchor`<li><a ${{
+                class: 'prev',
+                rel: 'prev',
+                ...anchorAttrs(link('/posts/:slug/', state.prev))
+              }}>${'Older'}</a></li>`
+              : null}
+            ${Boolean(state.next)
+              ? liAnchor`<li><a ${{
+                class: 'next',
+                rel: 'next',
+                ...anchorAttrs(link('/posts/:slug/', state.next))
+              }}>${'Newer'}</a></li>`
+              : null}
+          </ul>
+        </nav>
+      </main>`)
 
-      on(() => [
-        heading1`<h1>${state.title}</h1>`,
-        paragraph`<p>${state.error != null ? state.error.message : ''}</p>`
-      ])
-    })}</main>
+      on(() => error`<main>
+        <h1>${state.title}</h1>
+        <p>${state.error != null ? state.error.message : ''}</p>
+      </main>`)
+    })}
     <footer class="footer">
-      <a href="https://github.com/erickmerchant/my-blog">View Source</a>
-      <span>${`© ${(new Date()).getFullYear()} Erick Merchant`}</span>
+      <ul>
+        <li><a href="https://github.com/erickmerchant/my-blog">View Source</a></li>
+        <li><span>${`© ${(new Date()).getFullYear()} Erick Merchant`}</span></li>
+      </ul>
     </footer>
   </body>`
 }

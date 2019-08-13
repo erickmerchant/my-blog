@@ -6,19 +6,13 @@ html {
   height: 100%;
 }
 
-@media (width > 1600px) {
-  html {
-    font-size: 1vw;
-  }
-}
-
 body {
   height: 100%;
   font-family: system-ui;
   line-height: 1.5;
   margin: 0;
-  color: var(--dark-gray);
-  background-color: var(--white);
+  color: var(--dark-color);
+  background-color: var(--light-color);
 }
 
 nav,
@@ -28,26 +22,12 @@ footer {
   display: block;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+:--heading {
   font-weight: bold;
   line-height: 1.25;
   margin-top: 1em;
   margin-bottom: 0.5em;
-}
-
-h1 { font-size: var(--font-size-1); }
-h2 { font-size: var(--font-size-2); }
-h3 { font-size: var(--font-size-3); }
-
-@media (width < 65em) {
-  h1 { font-size: var(--font-size-2); }
-  h2 { font-size: var(--font-size-3); }
-  h3 { font-size: var(--font-size-4); }
+  font-size: var(--heading-font-size);
 }
 
 p {
@@ -55,12 +35,12 @@ p {
 }
 
 a {
-  color: var(--blue);
+  color: var(--primary-color);
   text-decoration: none;
+  box-shadow: 0 0.1em 0 0 currentColor;
 }
 
 a:hover {
-  box-shadow: 0 0.1em 0 0 currentColor;
   text-decoration: none;
 }
 
@@ -80,9 +60,10 @@ pre {
 
 pre {
   overflow: auto;
-  background-color: var(--light-gray);
+  background-color: var(--dark-color);
+  color: var(--secondary-color);
   border-radius: var(--border-radius);
-  padding: var(--spacing-2);
+  padding: var(--spacing);
   line-height: 1.5;
   word-spacing: normal;
   word-break: normal;
