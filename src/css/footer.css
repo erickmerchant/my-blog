@@ -1,12 +1,7 @@
 .footer {
+  font-size: var(--small-font-size);
   font-weight: bold;
-  background: var(--gray-color);
-  color: var(--light-color);
   padding: var(--spacing);
-}
-
-.footer a {
-  color: inherit;
 }
 
 .footer ul {

@@ -10,12 +10,12 @@
   list-style: none;
   margin: 0;
   padding: 0;
+  justify-content: space-around;
 }
 
 .pagination li {
   margin: var(--spacing);
-  padding: var(--spacing);
+  padding: var(--spacing) calc(var(--spacing) * 3);
   border: var(--border-width) solid var(--primary-color);
   border-radius: var(--border-radius);
-  flex-grow: 1;
 }

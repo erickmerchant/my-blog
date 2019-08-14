@@ -2,7 +2,7 @@
   font-weight: bold;
   background: var(--primary-color);
   padding: var(--spacing);
-  color: var(--light-color);
+  color: white;
 }
 
 .nav a {

@@ -11,8 +11,8 @@ body {
   font-family: system-ui;
   line-height: 1.5;
   margin: 0;
-  color: var(--dark-color);
-  background-color: var(--light-color);
+  color: var(--tertiary-color);
+  background-color: white;
 }
 
 nav,
@@ -22,12 +22,12 @@ footer {
   display: block;
 }
 
-:--heading {
+h1, h2, h3, h4, h5, h6 {
   font-weight: bold;
   line-height: 1.25;
   margin-top: 1em;
   margin-bottom: 0.5em;
-  font-size: var(--heading-font-size);
+  font-size: var(--large-font-size);
 }
 
 p {
@@ -60,7 +60,7 @@ pre {
 
 pre {
   overflow: auto;
-  background-color: var(--dark-color);
+  background-color: var(--tertiary-color);
   color: var(--secondary-color);
   border-radius: var(--border-radius);
   padding: var(--spacing);

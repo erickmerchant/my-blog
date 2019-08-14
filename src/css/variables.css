@@ -1,13 +1,10 @@
-@custom-selector :--heading h1, h2, h3, h4, h5, h6;
-
 :root {
   --spacing: 1em;
-  --heading-font-size: 2em;
+  --large-font-size: 1.5em;
+  --small-font-size: .75em;
   --border-radius: 0.2em;
   --border-width: 0.2em;
-  --primary-color: hsl(200, 60%, 40%);
-  --secondary-color: hsl(200, 60%, 80%);
-  --gray-color: hsl(200, 10%, 40%);
-  --dark-color: hsl(200, 60%, 10%);
-  --light-color: white;
+  --primary-color: hsl(200, 70%, 40%);
+  --secondary-color: hsl(200, 70%, 80%);
+  --tertiary-color: hsl(200, 70%, 10%);
 }
