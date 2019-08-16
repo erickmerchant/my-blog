@@ -3,7 +3,6 @@ import {route, link} from './router.mjs'
 import {dispatchLocation} from './store.mjs'
 
 const {site, main, liAnchor, error} = view
-let initialized = false
 
 export default ({state, commit, next}) => {
   const anchorAttrs = (href) => {
@@ -22,18 +21,6 @@ export default ({state, commit, next}) => {
   next(() => {
     window.scroll(0, 0)
   })
-
-  if (!initialized) {
-    initialized = true
-
-    next(() => {
-      window.onpopstate = () => {
-        dispatchLocation(commit, document.location.pathname)
-      }
-
-      dispatchLocation(commit, document.location.pathname)
-    })
-  }
 
   return site`<body>
     <nav class="nav">
