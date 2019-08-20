@@ -16,6 +16,11 @@
 .pagination li {
   margin: var(--spacing);
   padding: var(--spacing) calc(var(--spacing) * 3);
-  border: var(--border-width) solid var(--primary-color);
+  background-color: var(--primary-color);
   border-radius: var(--border-radius);
+  color: white
+}
+
+.pagination a {
+  color: inherit;
 }
