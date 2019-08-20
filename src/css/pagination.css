@@ -18,7 +18,7 @@
   padding: var(--spacing) calc(var(--spacing) * 3);
   background-color: var(--primary-color);
   border-radius: var(--border-radius);
-  color: white
+  color: white;
 }
 
 .pagination a {
