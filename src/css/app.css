@@ -1,8 +1,4 @@
-@import './variables.css';
 @import './basics.css';
-@import './body.css';
 @import './nav.css';
-@import './main.css';
-@import './article.css';
 @import './pagination.css';
 @import './footer.css';

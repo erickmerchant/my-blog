@@ -2,15 +2,16 @@
   padding: var(--spacing);
   font-weight: bold;
   text-align: center;
+  color: white;
 }
 
 .pagination ul {
   display: flex;
   flex-wrap: wrap;
   list-style: none;
+  justify-content: space-around;
   margin: 0;
   padding: 0;
-  justify-content: space-around;
 }
 
 .pagination li {
@@ -18,7 +19,6 @@
   padding: var(--spacing) calc(var(--spacing) * 3);
   background-color: var(--primary-color);
   border-radius: var(--border-radius);
-  color: white;
 }
 
 .pagination a {

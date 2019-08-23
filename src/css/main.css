@@ -1,8 +1,0 @@
-main {
-  flex: auto;
-  padding: 0 var(--spacing);
-  max-width: 40em;
-  width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-}

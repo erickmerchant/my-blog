@@ -1,8 +1,9 @@
 .nav {
-  font-weight: bold;
   background: var(--primary-color);
   padding: var(--spacing);
+  font-weight: bold;
   color: white;
+  box-shadow: inset 0 -1em 1em -1em var(--tertiary-color);
 }
 
 .nav ul {

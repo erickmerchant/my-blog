@@ -1,7 +1,7 @@
 .footer {
   font-size: var(--small-font-size);
-  font-weight: bold;
   padding: var(--spacing);
+  font-weight: bold;
 }
 
 .footer ul {
