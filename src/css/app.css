@@ -1,4 +1,157 @@
-@import './basics.css';
-@import './nav.css';
-@import './pagination.css';
-@import './footer.css';
+* {
+  box-sizing: border-box;
+  font-family: system-ui;
+  line-height: 1.5;
+}
+
+html {
+  --spacing: 1em;
+  --large-font-size: 1.5em;
+  --small-font-size: 0.75em;
+  --border-radius: 0.2em;
+  --border-width: 0.2em;
+  --primary-color: hsl(150, 60%, 30%);
+  --secondary-color: hsl(150, 60%, 80%);
+  --tertiary-color: hsl(150, 60%, 10%);
+
+  height: 100%;
+}
+
+body {
+  height: inherit;
+  color: var(--tertiary-color);
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+}
+
+main {
+  padding: 0 var(--spacing);
+  flex: auto;
+  max-width: 40em;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: var(--large-font-size);
+  margin-top: var(--spacing);
+  margin-bottom: calc(var(--spacing) / 2);
+  line-height: 1.25;
+}
+
+time {
+  font-weight: bold;
+}
+
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+  box-shadow: 0 0.1em 0 0 currentColor;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+p,
+ol,
+ul,
+blockquote {
+  margin: var(--spacing) 0;
+}
+
+ol,
+ul { padding: 0 0 0 calc(var(--spacing) * 2); }
+
+code,
+pre {
+  font-family: 'Roboto Mono', 'Source Code Pro', Menlo, Consolas, 'Liberation Mono', monospace;
+}
+
+pre {
+  background-color: var(--tertiary-color);
+  color: var(--secondary-color);
+  border-radius: var(--border-radius);
+  padding: var(--spacing);
+  overflow: auto;
+  white-space: pre-wrap;
+}
+
+.nav {
+  background: var(--primary-color);
+  padding: var(--spacing);
+  font-weight: bold;
+  color: white;
+  box-shadow: inset 0 -1em 1em -1em var(--tertiary-color);
+}
+
+.nav ul {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav li {
+  margin: var(--spacing);
+}
+
+.nav a {
+  color: inherit;
+}
+
+.pagination {
+  padding: var(--spacing);
+  font-weight: bold;
+  text-align: center;
+  color: white;
+}
+
+.pagination ul {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  justify-content: space-around;
+  margin: 0;
+  padding: 0;
+}
+
+.pagination li {
+  margin: var(--spacing);
+  padding: var(--spacing) calc(var(--spacing) * 3);
+  background-color: var(--primary-color);
+  border-radius: var(--border-radius);
+}
+
+.pagination a {
+  color: inherit;
+}
+
+.footer {
+  font-size: var(--small-font-size);
+  padding: var(--spacing);
+  font-weight: bold;
+}
+
+.footer ul {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.footer li {
+  margin: var(--spacing);
+}
