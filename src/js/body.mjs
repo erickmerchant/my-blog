@@ -25,7 +25,7 @@ export default ({state, commit, next}) => {
   return site`<body>
     <header>
       <nav class="nav primary-nav-theme">
-        <ul class="flex-list">
+        <ul class="flex-list justify-center bold">
           <li><a ${anchorAttrs('/')}>Erick Merchant</a></li>
           <li><a href="https://github.com/erickmerchant">Projects</a></li>
         </ul>
@@ -36,13 +36,13 @@ export default ({state, commit, next}) => {
         on('/posts/:slug/', () => article`<article>
           <header>
             <h1>${state.post.title}</h1>
-            <time datetime=${(new Date(state.post.date)).toISOString()}>
+            <time class="bold" datetime=${(new Date(state.post.date)).toISOString()}>
               ${(new Date(state.post.date)).toLocaleDateString('en-US', {year: 'numeric', month: 'long', day: 'numeric'})}
             </time>
           </header>
           <div>${safe(state.post.html)}</div>
           <nav class="pagination">
-            <ul class="flex-list">
+            <ul class="flex-list justify-around bold">
               ${Boolean(state.prev)
                 ? liAnchor`<li class="primary-nav-theme"><a ${{
                   class: 'prev',
@@ -66,7 +66,7 @@ export default ({state, commit, next}) => {
       })}
     </main>
     <footer class="footer">
-      <ul class="flex-list">
+      <ul class="flex-list justify-center bold">
         <li><a href="https://github.com/erickmerchant/my-blog">View Source</a></li>
         <li><span>${`© ${(new Date()).getFullYear()} Erick Merchant`}</span></li>
       </ul>
