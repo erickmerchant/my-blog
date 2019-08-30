@@ -24,8 +24,8 @@ export default ({state, commit, next}) => {
 
   return site`<body>
     <header>
-      <nav class="nav">
-        <ul>
+      <nav class="nav primary-nav-theme">
+        <ul class="flex-list">
           <li><a ${anchorAttrs('/')}>Erick Merchant</a></li>
           <li><a href="https://github.com/erickmerchant">Projects</a></li>
         </ul>
@@ -42,15 +42,15 @@ export default ({state, commit, next}) => {
           </header>
           <div>${safe(state.post.html)}</div>
           <nav class="pagination">
-            <ul>
+            <ul class="flex-list">
               ${Boolean(state.prev)
-                ? liAnchor`<li><a ${{
+                ? liAnchor`<li class="primary-nav-theme"><a ${{
                   class: 'prev',
                   ...anchorAttrs(link('/posts/:slug/', state.prev))
                 }}>${'Older'}</a></li>`
                 : null}
               ${Boolean(state.next)
-                ? liAnchor`<li><a ${{
+                ? liAnchor`<li class="primary-nav-theme"><a ${{
                   class: 'next',
                   ...anchorAttrs(link('/posts/:slug/', state.next))
                 }}>${'Newer'}</a></li>`
@@ -66,7 +66,7 @@ export default ({state, commit, next}) => {
       })}
     </main>
     <footer class="footer">
-      <ul>
+      <ul class="flex-list">
         <li><a href="https://github.com/erickmerchant/my-blog">View Source</a></li>
         <li><span>${`© ${(new Date()).getFullYear()} Erick Merchant`}</span></li>
       </ul>
