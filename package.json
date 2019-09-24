@@ -11,7 +11,7 @@
     "postbuild": "node postbuild.js"
   },
   "dependencies": {
-    "@erickmerchant/dev-cli": "^8.11.0",
+    "@erickmerchant/dev-cli": "^8.12.0",
     "@erickmerchant/framework": "^27.0.0",
     "@erickmerchant/router": "^17.5.0",
     "globby": "^10.0.1",
@@ -19,7 +19,7 @@
     "sergeant": "^26.1.3"
   },
   "devDependencies": {
-    "@erickmerchant/lint": "^3.2.0",
+    "@erickmerchant/lint": "^3.2.1",
     "babel-eslint": "^10.0.3",
     "eslint": "^6.4.0",
     "stylelint": "^11.0.0"
