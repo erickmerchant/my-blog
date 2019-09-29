@@ -36,8 +36,8 @@ export default ({state, commit, next}) => {
         on('/posts/:slug/', () => article`<article>
           <header>
             <h1>${state.post.title}</h1>
-            <time class="bold" datetime=${(new Date(state.post.date)).toISOString()}>
-              ${(new Date(state.post.date)).toLocaleDateString('en-US', {year: 'numeric', month: 'long', day: 'numeric'})}
+            <time class="bold" datetime=${new Date(state.post.date).toISOString()}>
+              ${new Date(state.post.date).toLocaleDateString('en-US', {year: 'numeric', month: 'long', day: 'numeric'})}
             </time>
           </header>
           <div>${safe(state.post.html)}</div>
@@ -68,7 +68,7 @@ export default ({state, commit, next}) => {
     <footer class="footer">
       <ul class="flex-list justify-center bold">
         <li><a href="https://github.com/erickmerchant/my-blog">View Source</a></li>
-        <li><span>${`© ${(new Date()).getFullYear()} Erick Merchant`}</span></li>
+        <li><span>${`© ${new Date().getFullYear()} Erick Merchant`}</span></li>
       </ul>
     </footer>
   </body>`
