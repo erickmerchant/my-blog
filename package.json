@@ -21,7 +21,7 @@
   "devDependencies": {
     "@erickmerchant/lint": "^3.2.2",
     "babel-eslint": "^10.0.3",
-    "eslint": "^6.5.0",
+    "eslint": "^6.5.1",
     "stylelint": "^11.0.0"
   },
   "engines": {
