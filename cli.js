@@ -10,18 +10,18 @@ const rename = promisify(fs.rename)
 const readJSON = promisify(jsonfile.readFile)
 const slugify = (title) => title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '-')
 
-command(['draft'], ({option, description}) => {
-  description('make a new draft')
-
-  option({
-    name: 'title',
-    description: 'the title',
-    type: (value) => value,
-    required: true,
-    alias: 't'
-  })
-
-  return async (args) => {
+command({
+  name: 'draft',
+  description: 'make a new draft',
+  options: {
+    title: {
+      description: 'the title',
+      parameter: true,
+      required: true
+    },
+    t: 'title'
+  },
+  async action(args) {
     const title = args.title
     const slug = slugify(title)
 
@@ -42,24 +42,23 @@ command(['draft'], ({option, description}) => {
   }
 })
 
-command(['publish'], ({parameter, option, description}) => {
-  description('publish a post')
-
-  parameter({
-    name: 'content',
-    description: 'the md file',
-    type: (value) => value,
-    required: true
-  })
-
-  option({
-    name: 'title',
-    description: 'a new title',
-    type: (value) => value,
-    alias: 't'
-  })
-
-  return async (args) => {
+command({
+  name: 'publish',
+  description: 'publish a post',
+  signature: ['content'],
+  options: {
+    content: {
+      description: 'the md file',
+      required: true,
+      parameter: true
+    },
+    title: {
+      description: 'a new title',
+      parameter: true
+    },
+    t: 'title'
+  },
+  async action(args) {
     const posts = await readJSON('./src/content/posts/index.json', 'utf8')
 
     const index = posts.findIndex((post) => post.slug === path.basename(args.content, '.md'))
