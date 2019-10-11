@@ -47,13 +47,13 @@ export default ({state, commit, next}) => {
                 ? liAnchor`<li class="primary-nav-theme"><a ${{
                   class: 'prev',
                   ...anchorAttrs(link('/posts/:slug/', state.prev))
-                }}>${'Older'}</a></li>`
+                }}><span>${'Older'}</span></a></li>`
                 : null}
               ${Boolean(state.next)
                 ? liAnchor`<li class="primary-nav-theme"><a ${{
                   class: 'next',
                   ...anchorAttrs(link('/posts/:slug/', state.next))
-                }}>${'Newer'}</a></li>`
+                }}><span>${'Newer'}</span></a></li>`
                 : null}
             </ul>
           </nav>

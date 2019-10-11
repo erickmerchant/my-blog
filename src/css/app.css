@@ -50,7 +50,7 @@ h6 {
 a {
   color: var(--primary-color);
   text-decoration: none;
-  box-shadow: 0 0.1em 0 0 currentColor;
+  box-shadow: 0 0.1em 0 0 currentcolor;
 }
 
 a:hover {
@@ -119,8 +119,17 @@ pre {
 }
 
 .pagination li {
-  padding: var(--spacing) calc(var(--spacing) * 3);
   border-radius: var(--border-radius);
+}
+
+.pagination a {
+  display: block;
+  padding: var(--spacing) calc(var(--spacing) * 3);
+  box-shadow: none;
+}
+
+.pagination span {
+  box-shadow: 0 0.1em 0 0 currentcolor;
 }
 
 .footer {
