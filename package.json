@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@erickmerchant/dev-cli": "^8.13.0",
-    "@erickmerchant/framework": "^27.0.0",
+    "@erickmerchant/framework": "^27.1.0",
     "@erickmerchant/router": "^17.5.0",
     "globby": "^10.0.1",
     "jsonfile": "^5.0.0",

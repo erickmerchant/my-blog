@@ -68,7 +68,7 @@ export default ({state, commit, next}) => {
     <footer class="footer">
       <ul class="flex-list justify-center bold">
         <li><a href="https://github.com/erickmerchant/my-blog">View Source</a></li>
-        <li><span>${`© ${new Date().getFullYear()} Erick Merchant`}</span></li>
+        <li><span>© ${new Date().getFullYear()} Erick Merchant</span></li>
       </ul>
     </footer>
   </body>`
