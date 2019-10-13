@@ -10,16 +10,15 @@ html {
   --small-font-size: 0.75em;
   --border-radius: 0.2em;
   --border-width: 0.2em;
-  --primary-color: hsl(150, 60%, 30%);
-  --secondary-color: hsl(150, 60%, 80%);
-  --tertiary-color: hsl(150, 60%, 10%);
-
-  height: 100%;
+  --primary-color: hsl(135, 60%, 30%);
+  --neutral-color: hsl(135, 10%, 30%);
+  --light-color: hsl(135, 60%, 80%);
+  --dark-color: hsl(135, 60%, 10%);
 }
 
 body {
-  height: inherit;
-  color: var(--tertiary-color);
+  height: 100vh;
+  color: var(--dark-color);
   background-color: white;
   display: flex;
   flex-direction: column;
@@ -36,11 +35,7 @@ main {
 }
 
 h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+h2 {
   font-size: var(--large-font-size);
   margin-top: var(--spacing);
   margin-bottom: calc(var(--spacing) / 2);
@@ -58,13 +53,10 @@ a:hover {
 }
 
 p,
-ol,
-ul,
-blockquote {
+ul {
   margin: var(--spacing) 0;
 }
 
-ol,
 ul { padding: 0 0 0 calc(var(--spacing) * 2); }
 
 code,
@@ -73,8 +65,8 @@ pre {
 }
 
 pre {
-  background-color: var(--tertiary-color);
-  color: var(--secondary-color);
+  background-color: var(--dark-color);
+  color: var(--light-color);
   border-radius: var(--border-radius);
   padding: var(--spacing);
   overflow: auto;
@@ -98,6 +90,11 @@ pre {
   color: white;
 }
 
+.neutral-nav-theme {
+  background-color: var(--neutral-color);
+  color: white;
+}
+
 .primary-nav-theme a {
   color: inherit;
 }
@@ -115,20 +112,22 @@ pre {
 }
 
 .nav {
-  box-shadow: inset 0 -1em 1em -1em var(--tertiary-color);
+  box-shadow: inset 0 -1em 1em -1em var(--dark-color);
 }
 
 .pagination li {
+  flex: 1 1 calc(50% - (var(--spacing) * 2));
   border-radius: var(--border-radius);
 }
 
-.pagination a {
+.pagination li > * {
   display: block;
   padding: var(--spacing) calc(var(--spacing) * 3);
   box-shadow: none;
+  text-align: center;
 }
 
-.pagination span {
+.pagination li > * span {
   box-shadow: 0 0.1em 0 0 currentcolor;
 }
 

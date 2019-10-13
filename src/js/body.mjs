@@ -2,10 +2,16 @@ import {view, safe} from '@erickmerchant/framework'
 import {route, link} from './router.mjs'
 import {dispatchLocation} from './store.mjs'
 
-const {site, article, liAnchor, error} = view()
+const {site, article, liAnchor, liSpan, error} = view()
 
 export default ({state, commit, next}) => {
-  const anchorAttrs = (href) => {
+  const anchorAttrs = (path, vars) => {
+    let href = path
+
+    if (vars != null) {
+      href = link(path, vars)
+    }
+
     return {
       href,
       onclick: (e) => {
@@ -44,17 +50,11 @@ export default ({state, commit, next}) => {
           <nav class="pagination">
             <ul class="flex-list justify-around bold">
               ${Boolean(state.prev)
-                ? liAnchor`<li class="primary-nav-theme"><a ${{
-                  class: 'prev',
-                  ...anchorAttrs(link('/posts/:slug/', state.prev))
-                }}><span>${'Older'}</span></a></li>`
-                : null}
+                ? liAnchor`<li class="primary-nav-theme"><a ${anchorAttrs('/posts/:slug/', state.prev)}><span>${'Older'}</span></a></li>`
+                : liSpan`<li class="neutral-nav-theme"><span>${'Older'}</span></li>`}
               ${Boolean(state.next)
-                ? liAnchor`<li class="primary-nav-theme"><a ${{
-                  class: 'next',
-                  ...anchorAttrs(link('/posts/:slug/', state.next))
-                }}><span>${'Newer'}</span></a></li>`
-                : null}
+                ? liAnchor`<li class="primary-nav-theme"><a ${anchorAttrs('/posts/:slug/', state.next)}><span>${'Newer'}</span></a></li>`
+                : liSpan`<li class="neutral-nav-theme"><span>${'Newer'}</span></li>`}
             </ul>
           </nav>
         </article>`)
