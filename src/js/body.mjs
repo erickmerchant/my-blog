@@ -30,8 +30,8 @@ export default ({state, commit, next}) => {
 
   return site`<body>
     <header>
-      <nav class="nav primary-nav-theme">
-        <ul class="flex-list justify-center bold">
+      <nav class="box-shadow-inset background-primary white">
+        <ul class="Nav center bold">
           <li><a ${anchorAttrs('/')}>Erick Merchant</a></li>
           <li><a href="https://github.com/erickmerchant">Projects</a></li>
         </ul>
@@ -47,14 +47,14 @@ export default ({state, commit, next}) => {
             </time>
           </header>
           <div>${safe(state.post.html)}</div>
-          <nav class="pagination">
-            <ul class="flex-list justify-around bold">
+          <nav>
+            <ul class="Pagination Nav space-around bold">
               ${Boolean(state.prev)
-                ? liAnchor`<li class="primary-nav-theme"><a ${anchorAttrs('/posts/:slug/', state.prev)}><span>${'Older'}</span></a></li>`
-                : liSpan`<li class="neutral-nav-theme"><span>${'Older'}</span></li>`}
+                ? liAnchor`<li class="background-primary white"><a ${anchorAttrs('/posts/:slug/', state.prev)}><span>${'Older'}</span></a></li>`
+                : liSpan`<li class="background-neutral white"><span>${'Older'}</span></li>`}
               ${Boolean(state.next)
-                ? liAnchor`<li class="primary-nav-theme"><a ${anchorAttrs('/posts/:slug/', state.next)}><span>${'Newer'}</span></a></li>`
-                : liSpan`<li class="neutral-nav-theme"><span>${'Newer'}</span></li>`}
+                ? liAnchor`<li class="background-primary white"><a ${anchorAttrs('/posts/:slug/', state.next)}><span>${'Newer'}</span></a></li>`
+                : liSpan`<li class="background-neutral white"><span>${'Newer'}</span></li>`}
             </ul>
           </nav>
         </article>`)
@@ -65,8 +65,8 @@ export default ({state, commit, next}) => {
         </section>`)
       })}
     </main>
-    <footer class="footer">
-      <ul class="flex-list justify-center bold">
+    <footer class="small-font-size">
+      <ul class="Nav center bold">
         <li><a href="https://github.com/erickmerchant/my-blog">View Source</a></li>
         <li><span>© ${new Date().getFullYear()} Erick Merchant</span></li>
       </ul>

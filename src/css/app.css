@@ -30,15 +30,13 @@ main {
   flex: auto;
   max-width: 40em;
   width: 100%;
-  margin-left: auto;
-  margin-right: auto;
+  margin-inline: auto;
 }
 
 h1,
 h2 {
   font-size: var(--large-font-size);
-  margin-top: var(--spacing);
-  margin-bottom: calc(var(--spacing) / 2);
+  margin-block: var(--spacing) calc(var(--spacing) / 2);
   line-height: 1.25;
 }
 
@@ -77,29 +75,39 @@ pre {
   font-weight: bold;
 }
 
-.justify-center {
-  justify-content: center;
+.small-font-size {
+  font-size: var(--small-font-size);
 }
 
-.justify-around {
-  justify-content: space-around;
-}
-
-.primary-nav-theme {
-  background-color: var(--primary-color);
+.white {
   color: white;
 }
 
-.neutral-nav-theme {
-  background-color: var(--neutral-color);
-  color: white;
-}
-
-.primary-nav-theme a {
+.white a {
   color: inherit;
 }
 
-.flex-list {
+.background-primary {
+  background-color: var(--primary-color);
+}
+
+.background-neutral {
+  background-color: var(--neutral-color);
+}
+
+.center {
+  justify-content: center;
+}
+
+.space-around {
+  justify-content: space-around;
+}
+
+.box-shadow-inset {
+  box-shadow: inset 0 -1em 1em -1em var(--dark-color);
+}
+
+.Nav {
   display: flex;
   flex-wrap: wrap;
   list-style: none;
@@ -107,30 +115,22 @@ pre {
   margin: 0;
 }
 
-.flex-list li {
+.Nav li {
   margin: var(--spacing);
 }
 
-.nav {
-  box-shadow: inset 0 -1em 1em -1em var(--dark-color);
-}
-
-.pagination li {
+.Pagination li {
   flex: 1 1 calc(50% - (var(--spacing) * 2));
   border-radius: var(--border-radius);
 }
 
-.pagination li > * {
+.Pagination li > * {
   display: block;
   padding: var(--spacing) calc(var(--spacing) * 3);
   box-shadow: none;
   text-align: center;
 }
 
-.pagination li > * span {
+.Pagination li > * span {
   box-shadow: 0 0.1em 0 0 currentcolor;
-}
-
-.footer {
-  font-size: var(--small-font-size);
 }
