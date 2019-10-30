@@ -2,6 +2,8 @@
   box-sizing: border-box;
   font-family: system-ui;
   line-height: 1.5;
+  margin: 0;
+  padding: 0;
 }
 
 html {
@@ -22,7 +24,6 @@ body {
   background-color: white;
   display: flex;
   flex-direction: column;
-  margin: 0;
 }
 
 main {
@@ -83,10 +84,6 @@ pre {
   color: white;
 }
 
-.white a {
-  color: inherit;
-}
-
 .background-primary {
   background-color: var(--primary-color);
 }
@@ -112,11 +109,14 @@ pre {
   flex-wrap: wrap;
   list-style: none;
   padding: var(--spacing);
-  margin: 0;
 }
 
 .Nav li {
   margin: var(--spacing);
+}
+
+.Nav a {
+  color: inherit;
 }
 
 .Pagination li {
