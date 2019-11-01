@@ -43,10 +43,10 @@ h2 {
 
 a {
   color: var(--primary-color);
-  text-decoration: none;
   box-shadow: 0 0.1em 0 0 currentcolor;
 }
 
+a,
 a:hover {
   text-decoration: none;
 }
@@ -80,15 +80,21 @@ pre {
   font-size: var(--small-font-size);
 }
 
-.white {
+.primary,
+.neutral {
   color: white;
 }
 
-.background-primary {
+.primary a,
+.neutral a {
+  color: inherit;
+}
+
+.primary {
   background-color: var(--primary-color);
 }
 
-.background-neutral {
+.neutral {
   background-color: var(--neutral-color);
 }
 
@@ -104,33 +110,30 @@ pre {
   box-shadow: inset 0 -1em 1em -1em var(--dark-color);
 }
 
-.Nav {
+.links {
   display: flex;
   flex-wrap: wrap;
   list-style: none;
+  text-align: center;
   padding: var(--spacing);
+  margin: 0;
 }
 
-.Nav li {
+.links li {
   margin: var(--spacing);
 }
 
-.Nav a {
-  color: inherit;
-}
-
-.Pagination li {
+.previous-next li {
   flex: 1 1 calc(50% - (var(--spacing) * 2));
   border-radius: var(--border-radius);
 }
 
-.Pagination li > * {
+.previous-next li > * {
   display: block;
-  padding: var(--spacing) calc(var(--spacing) * 3);
   box-shadow: none;
-  text-align: center;
+  padding: var(--spacing) calc(var(--spacing) * 3);
 }
 
-.Pagination li > * span {
+.previous-next li > * span {
   box-shadow: 0 0.1em 0 0 currentcolor;
 }
