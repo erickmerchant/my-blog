@@ -46,9 +46,9 @@ export default ({state, commit, next}) => {
               ${new Date(state.post.date).toLocaleDateString('en-US', {year: 'numeric', month: 'long', day: 'numeric'})}
             </time>
           </header>
-          <div>${safe(state.post.html)}</div>
+          <div class="content">${safe(state.post.html)}</div>
           <nav>
-            <ul class="links previous-next space-around bold">
+            <ul class="links buttons space-around bold">
               ${Boolean(state.prev)
                 ? liAnchor`<li class="primary"><a ${anchorAttrs('/posts/:slug/', state.prev)}><span>${'Older'}</span></a></li>`
                 : liSpan`<li class="neutral"><span>${'Older'}</span></li>`}
