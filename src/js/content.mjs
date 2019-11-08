@@ -2,14 +2,13 @@ import {link} from './router.mjs'
 import fetch from './fetch.mjs'
 import unfound from './404.mjs'
 
-const filterDrafts = typeof window === 'undefined'
 const codeDelim = '```'
 const postsPromise = fetch('/content/posts/index.json')
 
 export default {
   list() {
     return postsPromise.then((posts) => {
-      posts = posts.filter((post) => !filterDrafts || !post.draft).sort((a, b) => b.date - a.date)
+      posts = posts.sort((a, b) => b.date - a.date)
 
       return {
         location: '/posts/',
@@ -21,7 +20,7 @@ export default {
 
   item(search) {
     return postsPromise.then((posts) => {
-      posts = posts.filter((post) => !filterDrafts || !post.draft).sort((a, b) => b.date - a.date)
+      posts = posts.sort((a, b) => b.date - a.date)
 
       const index = posts.findIndex((post) => link('/posts/:slug/', post) === link('/posts/:slug/', search))
 

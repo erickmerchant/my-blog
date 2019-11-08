@@ -6,13 +6,13 @@ const fs = require('fs')
 const path = require('path')
 const writeJSON = promisify(jsonfile.writeFile)
 const writeFile = promisify(fs.writeFile)
-const rename = promisify(fs.rename)
 const readJSON = promisify(jsonfile.readFile)
+const globby = require('globby')
 const slugify = (title) => title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '-')
 
 command({
-  name: 'draft',
-  description: 'make a new draft',
+  name: 'post',
+  description: 'make a new post',
   options: {
     title: {
       description: 'the title',
@@ -25,16 +25,15 @@ command({
     const title = args.title
     const slug = slugify(title)
 
-    const draft = {
+    const post = {
       date: Date.now(),
       title,
-      slug,
-      draft: true
+      slug
     }
 
     const posts = await readJSON('./src/content/posts/index.json', 'utf8')
 
-    posts.push(draft)
+    posts.push(post)
 
     await writeJSON('./src/content/posts/index.json', posts, {spaces: 2})
 
@@ -43,44 +42,43 @@ command({
 })
 
 command({
-  name: 'publish',
-  description: 'publish a post',
-  signature: ['content'],
-  options: {
-    content: {
-      description: 'the md file',
-      required: true,
-      parameter: true
-    },
-    title: {
-      description: 'a new title',
-      parameter: true
-    },
-    t: 'title'
-  },
-  async action(args) {
-    const posts = await readJSON('./src/content/posts/index.json', 'utf8')
+  name: 'postbuild',
+  async action() {
+    const posts = require('./dist/content/posts/index.json')
+    const files = await globby('./dist/**/*.{css,mjs}')
+    const headers = [
+      '  Link: </content/posts/index.json>; rel=preload; as=fetch; crossorigin=anonymous'
+    ]
 
-    const index = posts.findIndex((post) => post.slug === path.basename(args.content, '.md'))
+    for (const file of files) {
+      const relative = `/${path.relative('./dist', file)}`
 
-    const post = posts[index]
+      switch (path.extname(relative)) {
+        case '.css':
+          headers.push(`  Link: <${relative}>; rel=preload; as=style`)
+          break
 
-    post.date = Date.now()
-
-    post.draft = false
-
-    if (args.title != null) {
-      post.title = args.title
-      post.slug = slugify(post.title)
+        case '.mjs':
+          headers.push(`  Link: <${relative}>; rel=preload; as=script; crossorigin=anonymous`)
+          break
+      }
     }
 
-    posts.splice(index, 1)
+    const lines = []
 
-    posts.push(post)
+    lines.push('/')
 
-    await writeJSON('./src/content/posts/index.json', posts, {spaces: 2})
+    if (posts.length) {
+      lines.push(`  Link: </content/posts/${posts[posts.length - 1].slug}.md>; rel=preload; as=fetch; crossorigin=anonymous`)
+    }
 
-    await rename(`./src/content/posts/${path.basename(args.content)}`, `./src/content/posts/${post.slug}.md`)
+    lines.push(...headers, '')
+
+    for (const post of posts) {
+      lines.push(`/posts/${post.slug}`, `  Link: </content/posts/${post.slug}.md>; rel=preload; as=fetch; crossorigin=anonymous`, ...headers, '')
+    }
+
+    await writeFile('./dist/_headers', lines.join('\n'))
   }
 })
 

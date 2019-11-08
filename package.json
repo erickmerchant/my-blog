@@ -8,10 +8,10 @@
     "pretest": "lint '**/*.{js,mjs,css,html}'",
     "test": "exit 0",
     "build": "dev cache src dist",
-    "postbuild": "node postbuild.js"
+    "postbuild": "node cli.js postbuild"
   },
   "dependencies": {
-    "@erickmerchant/dev-cli": "^8.14.2",
+    "@erickmerchant/dev-cli": "^8.14.3",
     "@erickmerchant/framework": "^28.0.1",
     "@erickmerchant/router": "^17.5.0",
     "globby": "^10.0.1",
