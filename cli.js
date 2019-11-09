@@ -1,12 +1,10 @@
 #!/usr/bin/env node
 const {command, start} = require('sergeant')('cli.js')
 const promisify = require('util').promisify
-const jsonfile = require('jsonfile')
 const fs = require('fs')
 const path = require('path')
-const writeJSON = promisify(jsonfile.writeFile)
 const writeFile = promisify(fs.writeFile)
-const readJSON = promisify(jsonfile.readFile)
+const readFile = promisify(fs.readFile)
 const globby = require('globby')
 const slugify = (title) => title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '-')
 
@@ -31,11 +29,13 @@ command({
       slug
     }
 
-    const posts = await readJSON('./src/content/posts/index.json', 'utf8')
+    let posts = await readFile('./src/content/posts/index.json')
+
+    posts = JSON.parse(posts)
 
     posts.push(post)
 
-    await writeJSON('./src/content/posts/index.json', posts, {spaces: 2})
+    await writeFile('./src/content/posts/index.json', JSON.stringify(posts, null, 2))
 
     await writeFile(`./src/content/posts/${slug}.md`, '')
   }
