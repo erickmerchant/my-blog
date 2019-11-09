@@ -1,7 +1,9 @@
 import {link} from './router.mjs'
 import fetch from './fetch.mjs'
 import unfound from './404.mjs'
+import {view, safe} from '@erickmerchant/framework'
 
+const {pre} = view()
 const codeDelim = '```'
 const postsPromise = fetch('/content/posts/index.json')
 
@@ -32,34 +34,37 @@ export default {
 
       return fetch(`${link('/content/posts/:slug', post)}.md`).then((result) => {
         const lns = result.split('\n')
-        const html = []
+        const content = []
+        let html = ''
 
         while (lns.length) {
           const ln = lns.shift()
           const code = []
 
           if (ln.startsWith(codeDelim)) {
+            if (html) {
+              content.push(safe(html))
+
+              html = ''
+            }
+
             while (lns[0] != null && !lns[0].startsWith(codeDelim)) {
               code.push(lns.shift())
             }
 
             lns.shift()
 
-            const escaped = code
-              .join('\n')
-              .replace(/&/g, '&amp;')
-              .replace(/"/g, '&quot;')
-              .replace(/'/g, '&#39;')
-              .replace(/</g, '&lt;')
-              .replace(/>/g, '&gt;')
-
-            html.push(`<pre><code>${escaped}</code></pre>`)
+            content.push(pre`<pre><code>${code.join('\n')}</code></pre>`)
           } else {
-            html.push(ln)
+            html += ln
           }
         }
 
-        post.html = html.join('\n')
+        if (html) {
+          content.push(safe(html))
+        }
+
+        post.content = content
 
         return {
           location: link('/posts/:slug/', post),

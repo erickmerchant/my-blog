@@ -46,7 +46,7 @@ export default ({state, commit, next}) => {
               ${new Date(state.post.date).toLocaleDateString('en-US', {year: 'numeric', month: 'long', day: 'numeric'})}
             </time>
           </header>
-          <div class="content">${safe(state.post.html)}</div>
+          <div class="content">${state.post.content}</div>
           <nav>
             <ul class="links buttons space-around bold">
               ${Boolean(state.prev)
