@@ -1,6 +1,6 @@
 <p>Today I learned that if you run <code>npm publish</code> with sudo and have a prepare script that runs babel, that script will fail to actually run.
 
-``` javascript
+```
 {
   "name": "@erickmerchant/example",
   "version": "1.0.0",

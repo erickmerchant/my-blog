@@ -2,7 +2,7 @@
 
 <h2>index.js</h2>
 
-``` javascript
+```
 const framework = require('@erickmerchant/framework')
 const store = require('./store')
 const component = require('./component')
@@ -22,7 +22,7 @@ framework({ target, store, component, diff })((dispatch) => {
 
 <h2>store.js</h2>
 
-``` javascript
+```
 const storageKey = 'todo-data'
 
 module.exports = (commit) => {
@@ -143,7 +143,7 @@ module.exports = (commit) => {
 
 <h2>component.js</h2>
 
-``` javascript
+```
 const html = require('nanohtml')
 const ENTER_KEY = 13
 const ESCAPE_KEY = 27
