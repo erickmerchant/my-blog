@@ -46,14 +46,16 @@
 
 html {
   --spacing: 1em;
-  --large-font-size: 1.5em;
-  --small-font-size: 0.75em;
+  --font-size-1: 1.5em;
+  --font-size-2: 1.125em;
+  --font-size-3: 1em;
+  --font-size-4: 0.875em;
   --border-radius: 0.2em;
   --border-width: 0.2em;
-  --primary-color: hsl(135, 60%, 30%);
-  --neutral-color: hsl(135, 10%, 30%);
-  --light-color: hsl(135, 60%, 80%);
-  --dark-color: hsl(135, 60%, 10%);
+  --primary-color: hsl(200, 50%, 40%);
+  --neutral-color: hsl(200, 10%, 40%);
+  --light-color: hsl(200, 70%, 70%);
+  --dark-color: hsl(200, 50%, 10%);
 }
 
 body {
@@ -74,7 +76,7 @@ main {
 
 h1,
 h2 {
-  font-size: var(--large-font-size);
+  font-size: var(--font-size-1);
   line-height: 1.25;
   margin-block: var(--spacing) calc(var(--spacing) / 2);
 }
@@ -116,8 +118,12 @@ a:hover {
   font-weight: 700;
 }
 
-.small-font-size {
-  font-size: var(--small-font-size);
+.font-size-2 {
+  font-size: var(--font-size-2);
+}
+
+.font-size-4 {
+  font-size: var(--font-size-4);
 }
 
 .primary,
