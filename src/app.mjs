@@ -1,4 +1,4 @@
-import framework, {domUpdate, view, safe} from '@erickmerchant/framework'
+import framework, {domUpdate, view, raw} from '@erickmerchant/framework'
 import router from '@erickmerchant/router'
 
 const postRoutePattern = '/posts/:slug/'
@@ -57,7 +57,7 @@ const getPost = async (search) => {
     if (i % 2) {
       content.push(pre`<pre><code>${lns[i]}</code></pre>`)
     } else {
-      content.push(safe(lns[i]))
+      content.push(raw(lns[i]))
     }
 
     i++
