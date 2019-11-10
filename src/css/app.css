@@ -150,7 +150,6 @@ a:hover {
   list-style: none;
   text-align: center;
   padding-block: var(--spacing);
-  margin-inline: calc(-1 * var(--spacing));
 }
 
 .links li {
