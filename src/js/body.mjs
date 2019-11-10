@@ -1,4 +1,4 @@
-import {view, safe} from '@erickmerchant/framework'
+import {view} from '@erickmerchant/framework'
 import {route, link} from './router.mjs'
 import {dispatchLocation} from './store.mjs'
 
