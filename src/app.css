@@ -70,7 +70,8 @@ h1,
 h2 {
   font-size: var(--font-size-1);
   line-height: 1.25;
-  margin-block: var(--spacing) calc(var(--spacing) / 2);
+  margin-top: var(--spacing);
+  margin-bottom: calc(var(--spacing) / 2);
 }
 
 a {
@@ -87,13 +88,16 @@ a:hover {
   flex: auto;
   max-width: 40em;
   width: 100%;
-  margin-inline: auto;
-  padding-inline: var(--spacing);
+  margin-right: auto;
+  margin-left: auto;
+  padding-right: var(--spacing);
+  padding-left: var(--spacing);
 }
 
 .content ul,
 .content p {
-  margin-block: var(--spacing);
+  margin-top: var(--spacing);
+  margin-bottom: var(--spacing);
 }
 
 .content ul {
@@ -161,7 +165,8 @@ a:hover {
   flex-wrap: wrap;
   list-style: none;
   text-align: center;
-  padding-block: var(--spacing);
+  padding-top: var(--spacing);
+  padding-bottom: var(--spacing);
 }
 
 .links li {
