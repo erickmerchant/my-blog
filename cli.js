@@ -63,11 +63,11 @@ command({
           break
 
         case '.woff':
-          headers.push(`  Link: <${relative}>; as=font; type=font/woff`)
+          headers.push(`  Link: <${relative}>; rel=preload; as=font; type=font/woff`)
           break
 
         case '.woff2':
-            headers.push(`  Link: <${relative}>; as=font; type=font/woff2`)
+            headers.push(`  Link: <${relative}>; rel=preload; as=font; type=font/woff2`)
             break
       }
     }
