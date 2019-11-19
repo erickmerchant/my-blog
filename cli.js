@@ -45,7 +45,7 @@ command({
   name: 'postbuild',
   async action() {
     const posts = require('./dist/content/posts/index.json')
-    const files = await globby('./dist/**/*.{css,mjs}')
+    const files = await globby('./dist/**/*')
     const headers = [
       '  Link: </content/posts/index.json>; rel=preload; as=fetch; crossorigin=anonymous'
     ]
@@ -61,6 +61,14 @@ command({
         case '.mjs':
           headers.push(`  Link: <${relative}>; rel=preload; as=script; crossorigin=anonymous`)
           break
+
+        case '.woff':
+          headers.push(`  Link: <${relative}>; as=font; type=font/woff`)
+          break
+
+        case '.woff2':
+            headers.push(`  Link: <${relative}>; as=font; type=font/woff2`)
+            break
       }
     }
 
