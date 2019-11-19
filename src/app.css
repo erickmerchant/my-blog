@@ -5,8 +5,8 @@
   font-style: normal;
   font-weight: 400;
   src:
-    local('PT Sans'),
-    local('PTSans-Regular'),
+    /* local('PT Sans'),
+    local('PTSans-Regular'), */
     url('/fonts/pt-sans-v11-latin-regular.woff2') format('woff2'),
     url('/fonts/pt-sans-v11-latin-regular.woff') format('woff');
 }
@@ -17,8 +17,8 @@
   font-style: normal;
   font-weight: 700;
   src:
-    local('PT Sans Bold'),
-    local('PTSans-Bold'),
+    /* local('PT Sans Bold'),
+    local('PTSans-Bold'), */
     url('/fonts/pt-sans-v11-latin-700.woff2') format('woff2'),
     url('/fonts/pt-sans-v11-latin-700.woff') format('woff');
 }
@@ -29,8 +29,8 @@
   font-style: normal;
   font-weight: 400;
   src:
-    local('PT Mono'),
-    local('PTMono-Regular'),
+    /* local('PT Mono'),
+    local('PTMono-Regular'), */
     url('/fonts/pt-mono-v7-latin-regular.woff2') format('woff2'),
     url('/fonts/pt-mono-v7-latin-regular.woff') format('woff');
 }
