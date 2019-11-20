@@ -52,10 +52,10 @@ html {
   --font-size-4: 0.875em;
   --border-radius: 0.2em;
   --border-width: 0.2em;
-  --primary-color: hsl(200, 50%, 40%);
-  --neutral-color: hsl(200, 10%, 40%);
-  --light-color: hsl(200, 70%, 70%);
-  --dark-color: hsl(200, 50%, 10%);
+  --primary-color: hsl(150, 50%, 40%);
+  --neutral-color: hsl(150, 10%, 40%);
+  --light-color: hsl(150, 70%, 70%);
+  --dark-color: hsl(150, 50%, 10%);
 }
 
 body {
@@ -156,10 +156,6 @@ a:hover {
   justify-content: space-around;
 }
 
-.box-shadow-inset {
-  box-shadow: inset 0 -1em 1em -1em var(--dark-color);
-}
-
 .links {
   display: flex;
   flex-wrap: wrap;
@@ -176,14 +172,5 @@ a:hover {
 .buttons li {
   flex: 1 1 calc(50% - (var(--spacing) * 2));
   border-radius: var(--border-radius);
-}
-
-.buttons li > * {
-  display: block;
-  box-shadow: none;
   padding: var(--spacing) calc(var(--spacing) * 3);
-}
-
-.buttons li > * span {
-  box-shadow: 0 0.1em 0 0 currentcolor;
 }

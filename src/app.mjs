@@ -136,7 +136,7 @@ const component = ({state, commit, next}) => {
 
   return site`<body>
     <header>
-      <nav class="box-shadow-inset primary font-size-2">
+      <nav class="primary font-size-2">
         <ul class="links center bold">
           <li><a ${anchorAttrs('/')}>Erick Merchant</a></li>
           <li><a href="https://github.com/erickmerchant">Projects</a></li>
@@ -155,11 +155,11 @@ const component = ({state, commit, next}) => {
         <nav>
           <ul class="links buttons space-around bold font-size-2">
             ${Boolean(state.prev)
-              ? liAnchor`<li class="primary"><a ${anchorAttrs(postRoutePattern, state.prev)}><span>${'Older'}</span></a></li>`
-              : liSpan`<li class="neutral"><span>${'Older'}</span></li>`}
+              ? liAnchor`<li class="primary"><a ${anchorAttrs(postRoutePattern, state.prev)}>${'Older'}</a></li>`
+              : liSpan`<li class="neutral">${'Older'}</li>`}
             ${Boolean(state.next)
-              ? liAnchor`<li class="primary"><a ${anchorAttrs(postRoutePattern, state.next)}><span>${'Newer'}</span></a></li>`
-              : liSpan`<li class="neutral"><span>${'Newer'}</span></li>`}
+              ? liAnchor`<li class="primary"><a ${anchorAttrs(postRoutePattern, state.next)}>${'Newer'}</a></li>`
+              : liSpan`<li class="neutral">${'Newer'}</li>`}
           </ul>
         </nav>
       </article>`)
@@ -170,7 +170,7 @@ const component = ({state, commit, next}) => {
       </section>`)
     })}
     <footer>
-      <ul class="links center bold font-size-4">
+      <ul class="links content center bold font-size-4">
         <li><a href="https://github.com/erickmerchant/my-blog">View Source</a></li>
         <li><span>© ${new Date().getFullYear()} Erick Merchant</span></li>
       </ul>
