@@ -52,10 +52,10 @@ html {
   --font-size-4: 0.875em;
   --border-radius: 0.2em;
   --border-width: 0.2em;
-  --primary-color: hsl(150, 50%, 40%);
-  --neutral-color: hsl(150, 10%, 40%);
-  --light-color: hsl(150, 70%, 70%);
-  --dark-color: hsl(150, 50%, 10%);
+  --primary-color: hsl(110, 50%, 40%);
+  --neutral-color: hsl(110, 10%, 40%);
+  --light-color: hsl(110, 70%, 70%);
+  --dark-color: hsl(110, 50%, 10%);
 }
 
 body {
