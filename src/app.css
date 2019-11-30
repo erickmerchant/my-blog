@@ -62,15 +62,20 @@ body {
   height: 100vh;
   font-family: 'PT Sans', sans-serif;
   color: var(--dark-color);
-  display: flex;
   flex-direction: column;
 }
 
-h1,
-h2 {
+.flex {
+  display: flex;
+}
+
+.border-radius {
+  border-radius: var(--border-radius);
+}
+
+.heading {
   font-size: var(--font-size-1);
   line-height: 1.25;
-  margin-top: var(--spacing);
   margin-bottom: calc(var(--spacing) / 2);
 }
 
@@ -94,9 +99,12 @@ a:hover {
   padding-left: var(--spacing);
 }
 
-.content ul,
-.content p {
+.heading,
+.content > * {
   margin-top: var(--spacing);
+}
+
+.content > * {
   margin-bottom: var(--spacing);
 }
 
@@ -112,7 +120,6 @@ a:hover {
 .content pre {
   background-color: var(--dark-color);
   color: var(--light-color);
-  border-radius: var(--border-radius);
   padding: var(--spacing);
   overflow: auto;
   white-space: pre-wrap;
@@ -157,7 +164,6 @@ a:hover {
 }
 
 .links {
-  display: flex;
   flex-wrap: wrap;
   list-style: none;
   text-align: center;
@@ -171,6 +177,5 @@ a:hover {
 
 .buttons li {
   flex: 1 1 calc(50% - (var(--spacing) * 2));
-  border-radius: var(--border-radius);
   padding: var(--spacing) calc(var(--spacing) * 3);
 }
