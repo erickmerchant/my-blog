@@ -134,10 +134,10 @@ const component = ({state, commit, next}) => {
     window.scroll(0, 0)
   })
 
-  return site`<body>
+  return site`<body class="flex">
     <header>
       <nav class="primary font-size-2">
-        <ul class="links center bold">
+        <ul class="links flex center bold">
           <li><a ${anchorAttrs('/')}>Erick Merchant</a></li>
           <li><a href="https://github.com/erickmerchant">Projects</a></li>
         </ul>
@@ -146,14 +146,14 @@ const component = ({state, commit, next}) => {
     ${route(state.location, (on) => {
       on(postRoutePattern, () => article`<article class="main">
         <header>
-          <h1>${state.post.title}</h1>
+          <h1 class="heading">${state.post.title}</h1>
           <time class="bold" datetime=${new Date(state.post.date).toISOString()}>
             ${new Date(state.post.date).toLocaleDateString('en-US', {year: 'numeric', month: 'long', day: 'numeric'})}
           </time>
         </header>
         <div class="content">${state.post.content}</div>
         <nav>
-          <ul class="links buttons space-around bold font-size-2">
+          <ul class="links flex buttons space-around bold font-size-2">
             ${Boolean(state.prev)
               ? liAnchor`<li class="primary"><a ${anchorAttrs(postRoutePattern, state.prev)}>${'Older'}</a></li>`
               : liSpan`<li class="neutral">${'Older'}</li>`}
@@ -165,12 +165,12 @@ const component = ({state, commit, next}) => {
       </article>`)
 
       on(() => error`<section class="main">
-        <h1>${state.title}</h1>
+        <h1 class="heading">${state.title}</h1>
         <p>${state.error != null ? state.error.message : ''}</p>
       </section>`)
     })}
     <footer>
-      <ul class="links content center bold font-size-4">
+      <ul class="links flex content center bold font-size-4">
         <li><a href="https://github.com/erickmerchant/my-blog">View Source</a></li>
         <li><span>© ${new Date().getFullYear()} Erick Merchant</span></li>
       </ul>
