@@ -153,7 +153,7 @@ const component = ({state, commit, next}) => {
         </header>
         <div class="content">${state.post.content}</div>
         <nav>
-          <ul class="links flex buttons space-around bold font-size-2">
+          <ul class="links flex buttons bold font-size-2">
             ${Boolean(state.prev)
               ? liAnchor`<li class="primary border-radius"><a ${anchorAttrs(postRoutePattern, state.prev)}>${'Older'}</a></li>`
               : liSpan`<li class="neutral border-radius">${'Older'}</li>`}

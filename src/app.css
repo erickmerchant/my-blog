@@ -59,10 +59,14 @@ html {
 }
 
 body {
-  height: 100vh;
   font-family: 'PT Sans', sans-serif;
   color: var(--dark-color);
   flex-direction: column;
+}
+
+html,
+body {
+  height: 100%;
 }
 
 a {
@@ -115,10 +119,6 @@ a:hover {
 
 .center {
   justify-content: center;
-}
-
-.space-around {
-  justify-content: space-around;
 }
 
 .heading {
