@@ -11,7 +11,7 @@
     "postbuild": "node cli.js postbuild"
   },
   "dependencies": {
-    "@erickmerchant/dev-cli": "^9.1.0",
+    "@erickmerchant/dev-cli": "^9.1.1",
     "@erickmerchant/framework": "^29.1.0",
     "@erickmerchant/router": "^17.5.0",
     "globby": "^10.0.1",
