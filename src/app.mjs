@@ -156,10 +156,10 @@ const component = ({state, commit, next}) => {
           <ul class="links flex buttons bold font-size-2">
             ${Boolean(state.prev)
               ? liAnchor`<li class="primary border-radius"><a ${anchorAttrs(postRoutePattern, state.prev)}>${'Older'}</a></li>`
-              : liSpan`<li class="neutral border-radius">${'Older'}</li>`}
+              : liSpan`<li class="neutral border-radius scale-down">${''}</li>`}
             ${Boolean(state.next)
               ? liAnchor`<li class="primary border-radius"><a ${anchorAttrs(postRoutePattern, state.next)}>${'Newer'}</a></li>`
-              : liSpan`<li class="neutral border-radius">${'Newer'}</li>`}
+              : liSpan`<li class="neutral border-radius scale-down">${''}</li>`}
           </ul>
         </nav>
       </article>`)
@@ -169,7 +169,7 @@ const component = ({state, commit, next}) => {
         <p>${state.error != null ? state.error.message : ''}</p>
       </section>`)
     })}
-    <footer>
+    <footer class="neutral">
       <ul class="links flex content center bold font-size-4">
         <li><a href="https://github.com/erickmerchant/my-blog">View Source</a></li>
         <li><span>© ${new Date().getFullYear()} Erick Merchant</span></li>
