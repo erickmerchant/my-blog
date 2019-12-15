@@ -172,7 +172,7 @@ const component = ({state, commit, next}) => {
     <footer class="footer">
       <ul class="list content footer-content">
         <li class="list-item"><a class="white" href="https://github.com/erickmerchant/my-blog">View Source</a></li>
-        <li class="list-item"><span class="white">© ${new Date().getFullYear()} Erick Merchant</span></li>
+        <li class="list-item"><span class="white">${raw('&copy;')} ${new Date().getFullYear()} Erick Merchant</span></li>
       </ul>
     </footer>
   </body>`
