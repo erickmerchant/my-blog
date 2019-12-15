@@ -55,7 +55,7 @@ const getPost = async (search) => {
 
   while (i < lns.length) {
     if (i % 2) {
-      content.push(pre`<pre class="border-radius"><code>${lns[i]}</code></pre>`)
+      content.push(pre`<pre class="pre"><code>${lns[i]}</code></pre>`)
     } else {
       content.push(raw(lns[i]))
     }
@@ -134,12 +134,12 @@ const component = ({state, commit, next}) => {
     window.scroll(0, 0)
   })
 
-  return site`<body class="flex">
+  return site`<body class="body">
     <header>
-      <nav class="primary font-size-2">
-        <ul class="links flex center bold">
-          <li><a ${anchorAttrs('/')}>Erick Merchant</a></li>
-          <li><a href="https://github.com/erickmerchant">Projects</a></li>
+      <nav class="nav">
+        <ul class="list nav-list">
+          <li class="list-item"><a class="white" ${anchorAttrs('/')}>Erick Merchant</a></li>
+          <li class="list-item"><a class="white" href="https://github.com/erickmerchant">Projects</a></li>
         </ul>
       </nav>
     </header>
@@ -147,19 +147,19 @@ const component = ({state, commit, next}) => {
       on(postRoutePattern, () => article`<article class="main">
         <header>
           <h1 class="heading">${state.post.title}</h1>
-          <time class="bold" datetime=${new Date(state.post.date).toISOString()}>
+          <time class="date" datetime=${new Date(state.post.date).toISOString()}>
             ${new Date(state.post.date).toLocaleDateString('en-US', {year: 'numeric', month: 'long', day: 'numeric'})}
           </time>
         </header>
         <div class="content">${state.post.content}</div>
         <nav>
-          <ul class="links flex buttons bold font-size-2">
+          <ul class="list buttons">
             ${Boolean(state.prev)
-              ? liAnchor`<li class="primary border-radius"><a ${anchorAttrs(postRoutePattern, state.prev)}>${'Older'}</a></li>`
-              : liSpan`<li class="neutral border-radius scale-down">${''}</li>`}
+              ? liAnchor`<li class="list-item button"><a class="white" ${anchorAttrs(postRoutePattern, state.prev)}>${'Older'}</a></li>`
+              : liSpan`<li class="list-item button-disabled button">${''}</li>`}
             ${Boolean(state.next)
-              ? liAnchor`<li class="primary border-radius"><a ${anchorAttrs(postRoutePattern, state.next)}>${'Newer'}</a></li>`
-              : liSpan`<li class="neutral border-radius scale-down">${''}</li>`}
+              ? liAnchor`<li class="list-item button"><a class="white" ${anchorAttrs(postRoutePattern, state.next)}>${'Newer'}</a></li>`
+              : liSpan`<li class="list-item button-disabled button">${''}</li>`}
           </ul>
         </nav>
       </article>`)
@@ -169,10 +169,10 @@ const component = ({state, commit, next}) => {
         <p>${state.error != null ? state.error.message : ''}</p>
       </section>`)
     })}
-    <footer class="neutral">
-      <ul class="links flex content center bold font-size-4">
-        <li><a href="https://github.com/erickmerchant/my-blog">View Source</a></li>
-        <li><span>© ${new Date().getFullYear()} Erick Merchant</span></li>
+    <footer class="footer">
+      <ul class="list content footer-content">
+        <li class="list-item"><a class="white" href="https://github.com/erickmerchant/my-blog">View Source</a></li>
+        <li class="list-item"><span class="white">© ${new Date().getFullYear()} Erick Merchant</span></li>
       </ul>
     </footer>
   </body>`

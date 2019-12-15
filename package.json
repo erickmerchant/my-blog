@@ -7,18 +7,19 @@
   "scripts": {
     "pretest": "lint '**/*.{js,mjs,css,html}'",
     "test": "exit 0",
+    "start": "dev serve src",
     "build": "dev cache src dist",
     "postbuild": "node cli.js postbuild"
   },
   "dependencies": {
-    "@erickmerchant/dev-cli": "^9.1.1",
+    "@erickmerchant/dev-cli": "^9.1.3",
     "@erickmerchant/framework": "^29.1.0",
     "@erickmerchant/router": "^17.5.0",
     "globby": "^10.0.1",
     "sergeant": "^27.2.0"
   },
   "devDependencies": {
-    "@erickmerchant/lint": "^3.4.2",
+    "@erickmerchant/lint": "^3.6.0",
     "babel-eslint": "^10.0.3",
     "eslint": "^6.7.2",
     "stylelint": "^12.0.0"
