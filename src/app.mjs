@@ -146,31 +146,31 @@ const component = ({state, commit, next}) => {
     ${route(state.location, (on) => {
       on(postRoutePattern, () => article`<article class="main">
         <header>
-          <h1 class="heading">${state.post.title}</h1>
+          <h1>${state.post.title}</h1>
           <time class="date" datetime=${new Date(state.post.date).toISOString()}>
             ${new Date(state.post.date).toLocaleDateString('en-US', {year: 'numeric', month: 'long', day: 'numeric'})}
           </time>
         </header>
         <div class="content">${state.post.content}</div>
         <nav>
-          <ul class="list buttons">
+          <ul class="list button-list">
             ${Boolean(state.prev)
               ? liAnchor`<li class="list-item button"><a class="white" ${anchorAttrs(postRoutePattern, state.prev)}>${'Older'}</a></li>`
-              : liSpan`<li class="list-item button-disabled button">${''}</li>`}
+              : liSpan`<li class="list-item button--disabled button">${''}</li>`}
             ${Boolean(state.next)
               ? liAnchor`<li class="list-item button"><a class="white" ${anchorAttrs(postRoutePattern, state.next)}>${'Newer'}</a></li>`
-              : liSpan`<li class="list-item button-disabled button">${''}</li>`}
+              : liSpan`<li class="list-item button--disabled button">${''}</li>`}
           </ul>
         </nav>
       </article>`)
 
       on(() => error`<section class="main">
-        <h1 class="heading">${state.title}</h1>
+        <h1>${state.title}</h1>
         <p>${state.error != null ? state.error.message : ''}</p>
       </section>`)
     })}
     <footer class="footer">
-      <ul class="list footer-content">
+      <ul class="list footer-list">
         <li class="list-item"><a class="white" href="https://github.com/erickmerchant/my-blog">View Source</a></li>
         <li class="list-item"><span class="white">${raw('&copy;')} ${new Date().getFullYear()} Erick Merchant</span></li>
       </ul>
