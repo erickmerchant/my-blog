@@ -138,8 +138,8 @@ const component = ({state, commit, next}) => {
     <header>
       <nav class="nav">
         <ul class="list nav-list">
-          <li class="list-item"><a class="white" ${anchorAttrs('/')}>Erick Merchant</a></li>
-          <li class="list-item"><a class="white" href="https://github.com/erickmerchant">Projects</a></li>
+          <li class="list-item"><a ${anchorAttrs('/')}>Erick Merchant</a></li>
+          <li class="list-item"><a href="https://github.com/erickmerchant">Projects</a></li>
         </ul>
       </nav>
     </header>
@@ -155,10 +155,10 @@ const component = ({state, commit, next}) => {
         <nav>
           <ul class="list button-list">
             ${Boolean(state.prev)
-              ? liAnchor`<li class="list-item button"><a class="white" ${anchorAttrs(postRoutePattern, state.prev)}>${'Older'}</a></li>`
+              ? liAnchor`<li class="list-item button"><a ${anchorAttrs(postRoutePattern, state.prev)}>${'Older'}</a></li>`
               : liSpan`<li class="list-item button--disabled button">${''}</li>`}
             ${Boolean(state.next)
-              ? liAnchor`<li class="list-item button"><a class="white" ${anchorAttrs(postRoutePattern, state.next)}>${'Newer'}</a></li>`
+              ? liAnchor`<li class="list-item button"><a ${anchorAttrs(postRoutePattern, state.next)}>${'Newer'}</a></li>`
               : liSpan`<li class="list-item button--disabled button">${''}</li>`}
           </ul>
         </nav>
@@ -171,8 +171,8 @@ const component = ({state, commit, next}) => {
     })}
     <footer class="footer">
       <ul class="list footer-list">
-        <li class="list-item"><a class="white" href="https://github.com/erickmerchant/my-blog">View Source</a></li>
-        <li class="list-item"><span class="white">${raw('&copy;')} ${new Date().getFullYear()} Erick Merchant</span></li>
+        <li class="list-item"><a href="https://github.com/erickmerchant/my-blog">View Source</a></li>
+        <li class="list-item">${raw('&copy;')} ${new Date().getFullYear()} Erick Merchant</li>
       </ul>
     </footer>
   </body>`

@@ -37,7 +37,7 @@
 
 * {
   box-sizing: border-box;
-  font-family: inherit;
+  font: inherit;
   line-height: 1.5;
   margin: 0;
   padding: 0;
@@ -47,6 +47,7 @@
 h1,
 h2 {
   line-height: 1.25;
+  font-weight: bold;
   margin-bottom: calc(var(--spacing) / 2);
   margin-top: var(--spacing);
 }
@@ -59,9 +60,20 @@ h2 {
   font-size: var(--font-size-2);
 }
 
+p,
+ul,
+pre {
+  margin-top: var(--content-x-spacing);
+  margin-bottom: var(--content-x-spacing);
+}
+
+ul {
+  padding-left: var(--list-indent);
+}
+
 a {
-  color: var(--primary-color);
   box-shadow: 0 0.1em 0 0 currentcolor;
+  color: var(--link-color);
 }
 
 a,
@@ -77,28 +89,28 @@ a:hover {
   --font-size-5: 0.875em;
   --border-radius: 0.25em;
   --primary-color: hsl(120, 50%, 40%);
+  --secondary-color: hsl(120, 30%, 40%);
   --neutral-color: hsl(120, 10%, 40%);
   --bright-color: hsl(120, 70%, 70%);
   --dark-color: hsl(120, 50%, 10%);
+  --content-x-spacing: 0;
+  --list-indent: 0;
+  --link-color: var(--primary-color);
 
   height: 100%;
 }
 
 .body {
   font-family: 'PT Sans', sans-serif;
-  color: var(--dark-color);
   flex-direction: column;
   height: 100%;
-}
-
-.white {
-  color: white;
+  color: var(--dark-color);
 }
 
 .nav {
-  font-size: var(--font-size-3);
-  background-color: var(--primary-color);
   font-weight: 700;
+  font-size: var(--font-size-3);
+  background-color: var(--secondary-color);
 }
 
 .nav-list {
@@ -119,22 +131,18 @@ a:hover {
   padding-left: var(--spacing);
 }
 
-.content > * {
-  margin-top: var(--spacing);
-  margin-bottom: var(--spacing);
-}
-
-.content ul {
-  padding-left: calc(var(--spacing) * 2);
+.content {
+  --list-indent: calc(var(--spacing) * 2);
+  --content-x-spacing: var(--spacing);
 }
 
 .pre {
   font-family: 'PT Mono', monospace;
+  overflow: auto;
+  white-space: pre-wrap;
   background-color: var(--dark-color);
   color: var(--bright-color);
   padding: var(--spacing);
-  overflow: auto;
-  white-space: pre-wrap;
   border-radius: var(--border-radius);
 }
 
@@ -143,8 +151,11 @@ a:hover {
   flex-wrap: wrap;
   list-style: none;
   text-align: center;
+  color: white;
   padding-top: var(--spacing);
   padding-bottom: var(--spacing);
+
+  --link-color: currentColor;
 }
 
 .list-item {
@@ -156,8 +167,8 @@ a:hover {
 }
 
 .button {
-  font-size: var(--font-size-3);
   flex: 1 1 calc(50% - (var(--spacing) * 2));
+  font-size: var(--font-size-3);
   padding: var(--spacing) calc(var(--spacing) * 3);
   border-radius: var(--border-radius);
   background-color: var(--primary-color);
@@ -169,7 +180,7 @@ a:hover {
 
 .footer {
   margin-top: calc(var(--spacing) * 4);
-  background-color: var(--primary-color);
+  background-color: var(--secondary-color);
 }
 
 .footer-list {
