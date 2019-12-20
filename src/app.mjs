@@ -3,7 +3,7 @@ import router from '@erickmerchant/router'
 
 const postRoutePattern = '/posts/:slug/'
 const {route, link} = router()
-const {pre, site, article, liAnchor, liSpan, error} = view()
+const {pre, site, article, pagination, enabled, disabled, error} = view()
 
 const fetch = async (url) => {
   const response = await window.fetch(url)
@@ -136,8 +136,8 @@ const component = ({state, commit, next}) => {
 
   return site`<body class="body">
     <header>
-      <nav class="nav">
-        <ul class="list nav-list">
+      <nav class="top-nav">
+        <ul class="list top-nav-list">
           <li class="list-item"><a ${anchorAttrs('/')}>Erick Merchant</a></li>
           <li class="list-item"><a href="https://github.com/erickmerchant">Projects</a></li>
         </ul>
@@ -152,16 +152,19 @@ const component = ({state, commit, next}) => {
           </time>
         </header>
         <div class="content">${state.post.content}</div>
-        <nav>
-          <ul class="list button-list">
-            ${Boolean(state.prev)
-              ? liAnchor`<li class="list-item button"><a ${anchorAttrs(postRoutePattern, state.prev)}>${'Older'}</a></li>`
-              : liSpan`<li class="list-item button--disabled button">${''}</li>`}
-            ${Boolean(state.next)
-              ? liAnchor`<li class="list-item button"><a ${anchorAttrs(postRoutePattern, state.next)}>${'Newer'}</a></li>`
-              : liSpan`<li class="list-item button--disabled button">${''}</li>`}
-          </ul>
-        </nav>
+        ${Boolean(state.prev) || Boolean(state.next)
+          ? pagination`<nav>
+            <ul class="list">
+              ${Boolean(state.prev)
+                ? enabled`<li class="list-item button"><a ${anchorAttrs(postRoutePattern, state.prev)}>${'Older'}</a></li>`
+                : disabled`<li class="list-item button button--disabled ">${''}</li>`}
+              ${Boolean(state.next)
+                ? enabled`<li class="list-item button"><a ${anchorAttrs(postRoutePattern, state.next)}>${'Newer'}</a></li>`
+                : disabled`<li class="list-item button button--disabled ">${''}</li>`}
+            </ul>
+          </nav>`
+          : null
+        }
       </article>`)
 
       on(() => error`<section class="main">

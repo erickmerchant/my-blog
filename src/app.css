@@ -63,17 +63,18 @@ h2 {
 p,
 ul,
 pre {
-  margin-top: var(--content-x-spacing);
-  margin-bottom: var(--content-x-spacing);
+  margin-top: var(--content-x-spacing, 0);
+  margin-bottom: var(--content-x-spacing, 0);
 }
 
 ul {
-  padding-left: var(--list-indent);
+  padding-left: var(--list-indent, 0);
+  list-style: var(--list-style, none);
 }
 
 a {
   box-shadow: 0 0.1em 0 0 currentcolor;
-  color: var(--link-color);
+  color: var(--link-color, var(--primary-color));
 }
 
 a,
@@ -88,14 +89,11 @@ a:hover {
   --font-size-3: 1.125em;
   --font-size-5: 0.875em;
   --border-radius: 0.25em;
-  --primary-color: hsl(120, 50%, 40%);
-  --secondary-color: hsl(120, 30%, 40%);
-  --neutral-color: hsl(120, 10%, 40%);
-  --bright-color: hsl(120, 70%, 70%);
-  --dark-color: hsl(120, 50%, 10%);
-  --content-x-spacing: 0;
-  --list-indent: 0;
-  --link-color: var(--primary-color);
+  --primary-color: hsl(120, 50%, 50%);
+  --secondary-color: hsl(120, 25%, 50%);
+  --neutral-color: hsl(120, 12.25%, 50%);
+  --bright-color: hsl(120, 75%, 75%);
+  --dark-color: hsl(120, 50%, 12.25%);
 
   height: 100%;
 }
@@ -107,13 +105,12 @@ a:hover {
   color: var(--dark-color);
 }
 
-.nav {
-  font-weight: 700;
+.top-nav {
   font-size: var(--font-size-3);
   background-color: var(--secondary-color);
 }
 
-.nav-list {
+.top-nav-list {
   justify-content: center;
 }
 
@@ -134,6 +131,7 @@ a:hover {
 .content {
   --list-indent: calc(var(--spacing) * 2);
   --content-x-spacing: var(--spacing);
+  --list-style: disc;
 }
 
 .pre {
@@ -149,9 +147,9 @@ a:hover {
 .list {
   display: flex;
   flex-wrap: wrap;
-  list-style: none;
   text-align: center;
   color: white;
+  font-weight: 700;
   padding-top: var(--spacing);
   padding-bottom: var(--spacing);
 
@@ -162,12 +160,8 @@ a:hover {
   margin: var(--spacing);
 }
 
-.button-list {
-  font-weight: 700;
-}
-
 .button {
-  flex: 1 1 calc(50% - (var(--spacing) * 2));
+  flex: calc(50% - (var(--spacing) * 2));
   font-size: var(--font-size-3);
   padding: var(--spacing) calc(var(--spacing) * 3);
   border-radius: var(--border-radius);
@@ -176,6 +170,12 @@ a:hover {
 
 .button--disabled {
   background-color: var(--neutral-color);
+}
+
+@media (max-width: 40em) {
+  .button--disabled {
+    display: none;
+  }
 }
 
 .footer {
