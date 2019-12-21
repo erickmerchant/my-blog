@@ -3,7 +3,7 @@ import router from '@erickmerchant/router'
 
 const postRoutePattern = '/posts/:slug/'
 const {route, link} = router()
-const {pre, site, article, pagination, enabled, disabled, error} = view()
+const {pre, site, article, pagination, button, disabledButton, error} = view()
 
 const fetch = async (url) => {
   const response = await window.fetch(url)
@@ -156,11 +156,11 @@ const component = ({state, commit, next}) => {
           ? pagination`<nav>
             <ul class="list">
               ${Boolean(state.prev)
-                ? enabled`<li class="list-item button"><a ${anchorAttrs(postRoutePattern, state.prev)}>${'Older'}</a></li>`
-                : disabled`<li class="list-item button button--disabled ">${''}</li>`}
+                ? button`<li class="list-item button"><a ${anchorAttrs(postRoutePattern, state.prev)}>${'Older'}</a></li>`
+                : disabledButton`<li class="list-item button button--disabled">${''}</li>`}
               ${Boolean(state.next)
-                ? enabled`<li class="list-item button"><a ${anchorAttrs(postRoutePattern, state.next)}>${'Newer'}</a></li>`
-                : disabled`<li class="list-item button button--disabled ">${''}</li>`}
+                ? button`<li class="list-item button"><a ${anchorAttrs(postRoutePattern, state.next)}>${'Newer'}</a></li>`
+                : disabledButton`<li class="list-item button button--disabled">${''}</li>`}
             </ul>
           </nav>`
           : null

@@ -1,16 +1,7 @@
 {
   "name": "my-blog",
-  "private": true,
   "description": "erickmerchant.com",
   "author": "Erick Merchant <erickmerchant@gmail.com>",
-  "license": "ISC",
-  "scripts": {
-    "pretest": "lint '**/*.{js,mjs,css,html}'",
-    "test": "exit 0",
-    "start": "dev serve src",
-    "build": "dev cache src dist",
-    "postbuild": "node cli.js postbuild"
-  },
   "dependencies": {
     "@erickmerchant/dev-cli": "^9.1.4",
     "@erickmerchant/framework": "^29.1.1",
@@ -21,10 +12,19 @@
   "devDependencies": {
     "@erickmerchant/lint": "^3.6.2",
     "babel-eslint": "^10.0.3",
-    "eslint": "^6.7.2",
+    "eslint": "^6.8.0",
     "stylelint": "^12.0.0"
   },
   "engines": {
     "node": ">=12"
+  },
+  "license": "ISC",
+  "private": true,
+  "scripts": {
+    "build": "dev cache src dist",
+    "postbuild": "node cli.js postbuild",
+    "pretest": "lint '**/*.{js,mjs,css,html}'",
+    "start": "dev serve src",
+    "test": "exit 0"
   }
 }
