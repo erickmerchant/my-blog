@@ -1,8 +1,8 @@
 const list = {
-  'display': 'flex',
+  display: 'flex',
   'flex-wrap': 'wrap',
   'text-align': 'center',
-  'color': 'white',
+  color: 'white',
   'font-weight': 700,
   'padding-top': 'var(--spacing)',
   'padding-bottom': 'var(--spacing)',
@@ -11,14 +11,14 @@ const list = {
 }
 
 const listItem = {
-  'margin': 'var(--spacing)'
+  margin: 'var(--spacing)'
 }
 
 const button = {
   ...listItem,
-  'flex': 'calc(50% - (var(--spacing) * 2))',
+  flex: 'calc(50% - (var(--spacing) * 2))',
   'font-size': 'var(--font-size-3)',
-  'padding': 'var(--spacing) calc(var(--spacing) * 3)',
+  padding: 'var(--spacing) calc(var(--spacing) * 3)',
   'border-radius': 'var(--border-radius)',
   'background-color': 'var(--primary-color)'
 }
@@ -127,8 +127,8 @@ module.exports = {
 
     'font-family': '"PT Sans", sans-serif',
     'flex-direction': 'column',
-    'height': '100%',
-    'color': 'var(--dark-color)'
+    height: '100%',
+    color: 'var(--dark-color)'
   },
   topNav: {
     'font-size': 'var(--font-size-3)',
@@ -142,9 +142,9 @@ module.exports = {
     'font-weight': 700
   },
   main: {
-    'flex': 'auto',
+    flex: 'auto',
     'max-width': '40em',
-    'width': '100%',
+    width: '100%',
     'margin-right': 'auto',
     'margin-left': 'auto',
     'padding-right': 'var(--spacing)',
@@ -157,11 +157,11 @@ module.exports = {
   },
   pre: {
     'font-family': '"PT Mono", monospace',
-    'overflow': 'auto',
+    overflow: 'auto',
     'white-space': 'pre-wrap',
     'background-color': 'var(--dark-color)',
-    'color': 'var(--bright-color)',
-    'padding': 'var(--spacing)',
+    color: 'var(--bright-color)',
+    padding: 'var(--spacing)',
     'border-radius': 'var(--border-radius)'
   },
   list,
