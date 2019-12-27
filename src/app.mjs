@@ -1,5 +1,6 @@
 import framework, {domUpdate, view, raw} from '@erickmerchant/framework'
 import router from '@erickmerchant/router'
+import {classes} from './outcss.js'
 
 const postRoutePattern = '/posts/:slug/'
 const {route, link} = router()
@@ -55,7 +56,7 @@ const getPost = async (search) => {
 
   while (i < lns.length) {
     if (i % 2) {
-      content.push(pre`<pre class="pre"><code>${lns[i]}</code></pre>`)
+      content.push(pre`<pre class=${classes.pre}><code>${lns[i]}</code></pre>`)
     } else {
       content.push(raw(lns[i]))
     }
@@ -134,48 +135,48 @@ const component = ({state, commit, next}) => {
     window.scroll(0, 0)
   })
 
-  return site`<body class="body">
+  return site`<body class=${classes.app}>
     <header>
-      <nav class="top-nav">
-        <ul class="list top-nav-list">
-          <li class="list-item"><a ${anchorAttrs('/')}>Erick Merchant</a></li>
-          <li class="list-item"><a href="https://github.com/erickmerchant">Projects</a></li>
+      <nav class=${classes.topNav}>
+        <ul class=${classes.topNavList}>
+          <li class=${classes.listItem}><a ${anchorAttrs('/')}>Erick Merchant</a></li>
+          <li class=${classes.listItem}><a href="https://github.com/erickmerchant">Projects</a></li>
         </ul>
       </nav>
     </header>
     ${route(state.location, (on) => {
-      on(postRoutePattern, () => article`<article class="main">
+      on(postRoutePattern, () => article`<article class=${classes.main}>
         <header>
           <h1>${state.post.title}</h1>
-          <time class="date" datetime=${new Date(state.post.date).toISOString()}>
+          <time class=${classes.date} datetime=${new Date(state.post.date).toISOString()}>
             ${new Date(state.post.date).toLocaleDateString('en-US', {year: 'numeric', month: 'long', day: 'numeric'})}
           </time>
         </header>
-        <div class="content">${state.post.content}</div>
+        <div class=${classes.content}>${state.post.content}</div>
         ${Boolean(state.prev) || Boolean(state.next)
           ? pagination`<nav>
-            <ul class="list">
+            <ul class=${classes.list}>
               ${Boolean(state.prev)
-                ? button`<li class="list-item button"><a ${anchorAttrs(postRoutePattern, state.prev)}>${'Older'}</a></li>`
-                : disabledButton`<li class="list-item button button--disabled">${''}</li>`}
+                ? button`<li class=${classes.button}><a ${anchorAttrs(postRoutePattern, state.prev)}>${'Older'}</a></li>`
+                : disabledButton`<li class=${classes.buttonDisabled}>${''}</li>`}
               ${Boolean(state.next)
-                ? button`<li class="list-item button"><a ${anchorAttrs(postRoutePattern, state.next)}>${'Newer'}</a></li>`
-                : disabledButton`<li class="list-item button button--disabled">${''}</li>`}
+                ? button`<li class=${classes.button}><a ${anchorAttrs(postRoutePattern, state.next)}>${'Newer'}</a></li>`
+                : disabledButton`<li class=${classes.buttonDisabled}>${''}</li>`}
             </ul>
           </nav>`
           : null
         }
       </article>`)
 
-      on(() => error`<section class="main">
+      on(() => error`<section class=${classes.main}>
         <h1>${state.title}</h1>
         <p>${state.error != null ? state.error.message : ''}</p>
       </section>`)
     })}
-    <footer class="footer">
-      <ul class="list footer-list">
-        <li class="list-item"><a href="https://github.com/erickmerchant/my-blog">View Source</a></li>
-        <li class="list-item">${raw('&copy;')} ${new Date().getFullYear()} Erick Merchant</li>
+    <footer class=${classes.footer}>
+      <ul class=${classes.footerList}>
+        <li class=${classes.listItem}><a href="https://github.com/erickmerchant/my-blog">View Source</a></li>
+        <li class=${classes.listItem}>${raw('&copy;')} ${new Date().getFullYear()} Erick Merchant</li>
       </ul>
     </footer>
   </body>`
