@@ -113,6 +113,7 @@ module.exports = {
     }
   `,
   app: {
+    display: 'flex',
     height: '100%',
     color: 'var(--dark-color)',
     'font-family': '"PT Sans", sans-serif',

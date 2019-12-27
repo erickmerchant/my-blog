@@ -4,7 +4,7 @@ import {classes} from './css.mjs'
 
 const postRoutePattern = '/posts/:slug/'
 const {route, link} = router()
-const {pre, site, article, pagination, button, disabledButton, error} = view()
+const {pre, site, article, pagination, anchor, error} = view()
 
 const fetch = async (url) => {
   const response = await window.fetch(url)
@@ -156,12 +156,8 @@ const component = ({state, commit, next}) => {
         ${Boolean(state.prev) || Boolean(state.next)
           ? pagination`<nav>
             <ul class=${classes.list}>
-              ${Boolean(state.prev)
-                ? button`<li class=${classes.button}><a ${anchorAttrs(postRoutePattern, state.prev)}>${'Older'}</a></li>`
-                : disabledButton`<li class=${classes.buttonDisabled}>${''}</li>`}
-              ${Boolean(state.next)
-                ? button`<li class=${classes.button}><a ${anchorAttrs(postRoutePattern, state.next)}>${'Newer'}</a></li>`
-                : disabledButton`<li class=${classes.buttonDisabled}>${''}</li>`}
+              <li class=${Boolean(state.prev) ? classes.button : classes.buttonDisabled}>${Boolean(state.prev) ? anchor`<a ${anchorAttrs(postRoutePattern, state.prev)}>${'Older'}</a>` : null}</li>
+              <li class=${Boolean(state.next) ? classes.button : classes.buttonDisabled}>${Boolean(state.next) ? anchor`<a ${anchorAttrs(postRoutePattern, state.next)}>${'Newer'}</a>` : null}</li>
             </ul>
           </nav>`
           : null
