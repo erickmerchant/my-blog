@@ -3,7 +3,7 @@
   "description": "erickmerchant.com",
   "author": "Erick Merchant <erickmerchant@gmail.com>",
   "dependencies": {
-    "@erickmerchant/css": "^15.1.1",
+    "@erickmerchant/css": "^15.1.2",
     "@erickmerchant/dev-cli": "^9.1.4",
     "@erickmerchant/framework": "^29.1.1",
     "@erickmerchant/router": "^17.5.1",
