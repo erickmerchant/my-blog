@@ -1,6 +1,6 @@
 import framework, {domUpdate, view, raw} from '@erickmerchant/framework'
 import router from '@erickmerchant/router'
-import {classes} from './outcss.mjs'
+import {classes} from './css.mjs'
 
 const postRoutePattern = '/posts/:slug/'
 const {route, link} = router()
