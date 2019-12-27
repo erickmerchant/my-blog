@@ -1,8 +1,8 @@
 const list = {
   display: 'flex',
+  color: 'white',
   'flex-wrap': 'wrap',
   'text-align': 'center',
-  color: 'white',
   'font-weight': 700,
   'padding-top': 'var(--spacing)',
   'padding-bottom': 'var(--spacing)',
@@ -17,8 +17,8 @@ const listItem = {
 const button = {
   ...listItem,
   flex: 'calc(50% - (var(--spacing) * 2))',
-  'font-size': 'var(--font-size-3)',
   padding: 'var(--spacing) calc(var(--spacing) * 3)',
+  'font-size': 'var(--font-size-3)',
   'border-radius': 'var(--border-radius)',
   'background-color': 'var(--primary-color)'
 }
@@ -77,7 +77,7 @@ module.exports = {
     h1,
     h2 {
       line-height: 1.25;
-      font-weight: bold;
+      font-weight: 700;
       margin-bottom: calc(var(--spacing) / 2);
       margin-top: var(--spacing);
     }
@@ -113,6 +113,10 @@ module.exports = {
     }
   `,
   app: {
+    height: '100%',
+    color: 'var(--dark-color)',
+    'font-family': '"PT Sans", sans-serif',
+    'flex-direction': 'column',
     '--spacing': '1em',
     '--font-size-1': '1.5em',
     '--font-size-2': '1.25em',
@@ -123,12 +127,7 @@ module.exports = {
     '--secondary-color': 'hsl(120, 25%, 50%)',
     '--neutral-color': 'hsl(120, 12.25%, 50%)',
     '--bright-color': 'hsl(120, 75%, 75%)',
-    '--dark-color': 'hsl(120, 50%, 12.25%)',
-
-    'font-family': '"PT Sans", sans-serif',
-    'flex-direction': 'column',
-    height: '100%',
-    color: 'var(--dark-color)'
+    '--dark-color': 'hsl(120, 50%, 12.25%)'
   },
   topNav: {
     'font-size': 'var(--font-size-3)',
@@ -143,8 +142,8 @@ module.exports = {
   },
   main: {
     flex: 'auto',
-    'max-width': '40em',
     width: '100%',
+    'max-width': '40em',
     'margin-right': 'auto',
     'margin-left': 'auto',
     'padding-right': 'var(--spacing)',
@@ -156,12 +155,12 @@ module.exports = {
     '--list-style': 'disc'
   },
   pre: {
-    'font-family': '"PT Mono", monospace',
     overflow: 'auto',
-    'white-space': 'pre-wrap',
-    'background-color': 'var(--dark-color)',
     color: 'var(--bright-color)',
     padding: 'var(--spacing)',
+    'font-family': '"PT Mono", monospace',
+    'white-space': 'pre-wrap',
+    'background-color': 'var(--dark-color)',
     'border-radius': 'var(--border-radius)'
   },
   list,
@@ -181,7 +180,6 @@ module.exports = {
   footerList: {
     ...list,
     'justify-content': 'center',
-    'font-weight': 700,
     'font-size': 'var(--font-size-5)'
   }
 }
