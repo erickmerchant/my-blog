@@ -1,7 +1,18 @@
 {
   "name": "my-blog",
+  "private": true,
   "description": "erickmerchant.com",
+  "license": "ISC",
   "author": "Erick Merchant <erickmerchant@gmail.com>",
+  "scripts": {
+    "prebuild": "css css.js src/css",
+    "build": "dev cache src dist",
+    "postbuild": "node cli.js postbuild",
+    "prestart": "npm run prebuild -- -w &",
+    "start": "dev serve src",
+    "pretest": "lint '**/*.{js,mjs,css,html}'",
+    "test": "exit 0"
+  },
   "dependencies": {
     "@erickmerchant/css": "^16.0.0",
     "@erickmerchant/dev-cli": "^9.1.4",
@@ -18,16 +29,5 @@
   },
   "engines": {
     "node": ">=12"
-  },
-  "license": "ISC",
-  "private": true,
-  "scripts": {
-    "prebuild": "css css.js src/css",
-    "build": "dev cache src dist",
-    "postbuild": "node cli.js postbuild",
-    "pretest": "lint '**/*.{js,mjs,css,html}'",
-    "prestart": "npm run prebuild -- -w &",
-    "start": "dev serve src",
-    "test": "exit 0"
   }
 }
