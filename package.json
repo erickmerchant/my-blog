@@ -5,7 +5,7 @@
   "license": "ISC",
   "author": "Erick Merchant <erickmerchant@gmail.com>",
   "scripts": {
-    "prebuild": "css css.js src/css",
+    "prebuild": "css src/styles.mjs src/out/styles",
     "build": "dev cache src dist",
     "postbuild": "node cli.js postbuild",
     "prestart": "npm run prebuild -- -w &",
@@ -14,8 +14,8 @@
     "test": "exit 0"
   },
   "dependencies": {
-    "@erickmerchant/css": "^16.1.0",
-    "@erickmerchant/dev-cli": "^9.1.4",
+    "@erickmerchant/css": "^17.0.0",
+    "@erickmerchant/dev-cli": "^9.1.5",
     "@erickmerchant/framework": "^29.1.1",
     "@erickmerchant/router": "^17.5.1",
     "globby": "^10.0.1",

@@ -23,7 +23,7 @@ const button = `
   background-color: var(--primary-color);
 `
 
-module.exports = {
+export default {
   _before: `
     @font-face {
       font-display: swap;
