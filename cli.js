@@ -53,6 +53,8 @@ command({
     for (const file of files) {
       const relative = `/${path.relative('./dist', file)}`
 
+      if (relative === '/styles.mjs') continue
+
       switch (path.extname(relative)) {
         case '.css':
           headers.push(`  Link: <${relative}>; rel=preload; as=style`)
