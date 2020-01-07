@@ -11,15 +11,26 @@ const list = `
 `
 
 const listItem = `
-  margin: var(--spacing);
+  margin-top: var(--spacing);
+  margin-bottom: var(--spacing);
+  margin-right: var(--spacing);
+  margin-left: var(--spacing);
 `
 
 const button = `
   ${listItem}
-  flex: calc(50% - (var(--spacing) * 2));
-  padding: var(--spacing) calc(var(--spacing) * 3);
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: calc(50% - (var(--spacing) * 2));
+  padding-top: var(--spacing);
+  padding-bottom: var(--spacing);
+  padding-right: calc(var(--spacing) * 3);
+  padding-left: calc(var(--spacing) * 3);
   font-size: var(--font-size-3);
-  border-radius: var(--border-radius);
+  border-top-left-radius: var(--border-radius);
+  border-top-right-radius: var(--border-radius);
+  border-bottom-right-radius: var(--border-radius);
+  border-bottom-left-radius: var(--border-radius);
   background-color: var(--primary-color);
 `
 
@@ -65,8 +76,14 @@ export default {
       box-sizing: border-box;
       font: inherit;
       line-height: 1.5;
-      margin: 0;
-      padding: 0;
+      margin-top: 0;
+      margin-bottom: 0;
+      margin-right: 0;
+      margin-left: 0;
+      padding-top: 0;
+      padding-bottom: 0;
+      padding-right: 0;
+      padding-left: 0;
       max-width: 100%;
     }
 
@@ -142,7 +159,9 @@ export default {
     font-weight: 700
   `,
   main: `
-    flex: auto;
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: auto;
     width: 100%;
     max-width: 40em;
     margin-right: auto;
@@ -156,13 +175,20 @@ export default {
     --list-style: disc;
   `,
   pre: `
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: auto;
     color: var(--bright-color);
-    padding: var(--spacing);
+    padding-top: var(--spacing);
+    padding-bottom: var(--spacing);
+    padding-right: var(--spacing);
+    padding-left: var(--spacing);
     font-family: "PT Mono", monospace;
     white-space: pre-wrap;
     background-color: var(--dark-color);
-    border-radius: var(--border-radius);
+    border-top-left-radius: var(--border-radius);
+    border-top-right-radius: var(--border-radius);
+    border-bottom-right-radius: var(--border-radius);
+    border-bottom-left-radius: var(--border-radius);
   `,
   list,
   listItem,
