@@ -76,14 +76,8 @@ export default {
       box-sizing: border-box;
       font: inherit;
       line-height: 1.5;
-      margin-top: 0;
-      margin-bottom: 0;
-      margin-right: 0;
-      margin-left: 0;
-      padding-top: 0;
-      padding-bottom: 0;
-      padding-right: 0;
-      padding-left: 0;
+      margin: 0;
+      padding: 0;
       max-width: 100%;
     }
 
