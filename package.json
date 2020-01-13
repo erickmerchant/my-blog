@@ -16,7 +16,7 @@
   "dependencies": {
     "@erickmerchant/css": "^19.0.1",
     "@erickmerchant/dev-cli": "^9.1.5",
-    "@erickmerchant/framework": "^29.2.0",
+    "@erickmerchant/framework": "^29.2.3",
     "@erickmerchant/router": "^17.5.2",
     "globby": "^11.0.0",
     "sergeant": "^27.2.1"
