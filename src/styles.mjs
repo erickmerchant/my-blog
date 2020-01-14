@@ -1,36 +1,45 @@
+const space = '1em'
+const fontSizes = {
+  h1: '1.5em',
+  h2: '1.25em',
+  h3: '1.125em',
+  h5: '0.875em'
+}
+const borderRadius = '0.25em'
+
 const list = `
   display: flex;
   color: white;
   flex-wrap: wrap;
   text-align: center;
   font-weight: 700;
-  padding-top: var(--spacing);
-  padding-bottom: var(--spacing);
+  padding-top: ${space};
+  padding-bottom: ${space};
 
   --link-color: currentColor;
 `
 
 const listItem = `
-  margin-top: var(--spacing);
-  margin-bottom: var(--spacing);
-  margin-right: var(--spacing);
-  margin-left: var(--spacing);
+  margin-top: ${space};
+  margin-bottom: ${space};
+  margin-right: ${space};
+  margin-left: ${space};
 `
 
 const button = `
   ${listItem}
   flex-grow: 1;
   flex-shrink: 1;
-  flex-basis: calc(50% - (var(--spacing) * 2));
-  padding-top: var(--spacing);
-  padding-bottom: var(--spacing);
-  padding-right: calc(var(--spacing) * 3);
-  padding-left: calc(var(--spacing) * 3);
-  font-size: var(--font-size-3);
-  border-top-left-radius: var(--border-radius);
-  border-top-right-radius: var(--border-radius);
-  border-bottom-right-radius: var(--border-radius);
-  border-bottom-left-radius: var(--border-radius);
+  flex-basis: calc(50% - (${space} * 2));
+  padding-top: ${space};
+  padding-bottom: ${space};
+  padding-right: calc(${space} * 3);
+  padding-left: calc(${space} * 3);
+  font-size: ${fontSizes.h3};
+  border-top-left-radius: ${borderRadius};
+  border-top-right-radius: ${borderRadius};
+  border-bottom-right-radius: ${borderRadius};
+  border-bottom-left-radius: ${borderRadius};
   background-color: var(--primary-color);
 `
 
@@ -89,16 +98,16 @@ export default {
     h2 {
       line-height: 1.25;
       font-weight: 700;
-      margin-bottom: calc(var(--spacing) / 2);
-      margin-top: var(--spacing);
+      margin-bottom: calc(${space} / 2);
+      margin-top: ${space};
     }
 
     h1 {
-      font-size: var(--font-size-1);
+      font-size: ${fontSizes.h1};
     }
 
     h2 {
-      font-size: var(--font-size-2);
+      font-size: ${fontSizes.h2};
     }
 
     p,
@@ -129,12 +138,6 @@ export default {
     color: var(--dark-color);
     font-family: "PT Sans", sans-serif;
     flex-direction: column;
-    --spacing: 1em;
-    --font-size-1: 1.5em;
-    --font-size-2: 1.25em;
-    --font-size-3: 1.125em;
-    --font-size-5: 0.875em;
-    --border-radius: 0.25em;
     --primary-color: hsl(120, 50%, 50%);
     --secondary-color: hsl(120, 25%, 50%);
     --neutral-color: hsl(120, 12.25%, 50%);
@@ -142,7 +145,7 @@ export default {
     --dark-color: hsl(120, 50%, 12.25%);
   `,
   topNav: `
-    font-size: var(--font-size-3);
+    font-size: ${fontSizes.h3};
     background-color: var(--secondary-color);
   `,
   topNavList: `
@@ -160,29 +163,29 @@ export default {
     max-width: 40em;
     margin-right: auto;
     margin-left: auto;
-    padding-right: var(--spacing);
-    padding-left: var(--spacing);
+    padding-right: ${space};
+    padding-left: ${space};
   `,
   content: `
-    --list-indent: calc(var(--spacing) * 2);
-    --content-x-spacing: var(--spacing);
+    --list-indent: calc(${space} * 2);
+    --content-x-spacing: ${space};
     --list-style: disc;
   `,
   pre: `
     overflow-y: auto;
     overflow-x: auto;
     color: var(--bright-color);
-    padding-top: var(--spacing);
-    padding-bottom: var(--spacing);
-    padding-right: var(--spacing);
-    padding-left: var(--spacing);
+    padding-top: ${space};
+    padding-bottom: ${space};
+    padding-right: ${space};
+    padding-left: ${space};
     font-family: "PT Mono", monospace;
     white-space: pre-wrap;
     background-color: var(--dark-color);
-    border-top-left-radius: var(--border-radius);
-    border-top-right-radius: var(--border-radius);
-    border-bottom-right-radius: var(--border-radius);
-    border-bottom-left-radius: var(--border-radius);
+    border-top-left-radius: ${borderRadius};
+    border-top-right-radius: ${borderRadius};
+    border-bottom-right-radius: ${borderRadius};
+    border-bottom-left-radius: ${borderRadius};
   `,
   list,
   listItem,
@@ -195,12 +198,12 @@ export default {
     }
   `,
   footer: `
-    margin-top: calc(var(--spacing) * 4);
+    margin-top: calc(${space} * 4);
     background-color: var(--secondary-color);
   `,
   footerList: `
     ${list}
     justify-content: center;
-    font-size: var(--font-size-5);
+    font-size: ${fontSizes.h5};
   `
 }
