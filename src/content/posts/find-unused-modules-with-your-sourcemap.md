@@ -10,7 +10,7 @@
 
 <p>Your build process is an npm script called build that runs <code>browserify -d ./src/a.js | exorcist a.js.map > a.js</code> which results in the following source map.
 
-```
+``` json
 {
   "version": 3,
   "sources": [

@@ -49,9 +49,10 @@ const getPost = async (search) => {
 
   const result = await fetch(`${link('/content/posts/:slug', post)}.md`)
 
-  const lns = result.split(/\n```\n/g)
+  const lns = result.split(/\n```.*\n/g)
 
   const content = []
+
   let i = 0
 
   while (i < lns.length) {
