@@ -122,7 +122,7 @@ const component = ({state, commit, next}) => {
 
     return {
       href,
-      onclick: (e) => {
+      onclick(e) {
         e.preventDefault()
 
         window.history.pushState({}, null, href)
