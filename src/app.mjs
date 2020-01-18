@@ -1,5 +1,5 @@
-import framework, {domUpdate, view, raw} from '@erickmerchant/framework'
-import router from '@erickmerchant/router'
+import {render, domUpdate, view, raw} from '@erickmerchant/framework'
+import {router} from '@erickmerchant/router'
 import {classes} from './out/styles.mjs'
 
 const postRoutePattern = '/posts/:slug/'
@@ -185,7 +185,7 @@ const update = domUpdate(target)
 
 const state = {location: '', title: ''}
 
-const commit = framework({state, component, update})
+const commit = render({state, component, update})
 
 window.onpopstate = () => {
   dispatchLocation(commit, document.location.pathname)
