@@ -1,9 +1,7 @@
 import {render, domUpdate, view, raw} from '@erickmerchant/framework'
-import {router} from '@erickmerchant/router'
+import {route} from '@erickmerchant/router/wildcard.mjs'
 import {classes} from './out/styles.mjs'
 
-const postRoutePattern = '/posts/:slug/'
-const {route, link} = router()
 const {pre, site, article, pagination, anchor, error} = view()
 
 const fetch = async (url) => {
@@ -39,7 +37,7 @@ const getPost = async (search) => {
 
   posts = posts.sort((a, b) => b.date - a.date)
 
-  const index = posts.findIndex((post) => link(postRoutePattern, post) === link(postRoutePattern, search))
+  const index = posts.findIndex((post) => `/posts/${post.slug}/` === `/posts/${search}/`)
 
   if (index < 0) {
     return unfound
@@ -47,7 +45,7 @@ const getPost = async (search) => {
 
   const post = posts[index]
 
-  const result = await fetch(`${link('/content/posts/:slug', post)}.md`)
+  const result = await fetch(`/content/posts/${post.slug}.md`)
 
   const lns = result.split(/\n```.*\n/g)
 
@@ -68,7 +66,7 @@ const getPost = async (search) => {
   post.content = content
 
   return {
-    location: link(postRoutePattern, post),
+    location: `/posts/${post.slug}/`,
     title: `Posts | ${post.title}`,
     next: posts[index - 1],
     prev: posts[index + 1],
@@ -81,8 +79,8 @@ const dispatchLocation = async (commit, location) => {
 
   try {
     state = await route(location, (on) => {
-      on(postRoutePattern, async (params) => {
-        const post = await getPost(params)
+      on('/posts/*/', async ([search]) => {
+        const post = await getPost(search)
 
         return post
       })
@@ -94,7 +92,7 @@ const dispatchLocation = async (commit, location) => {
           return unfound
         }
 
-        const post = await getPost(posts[0])
+        const post = await getPost(posts[0].slug)
 
         return post
       })
@@ -113,13 +111,7 @@ const dispatchLocation = async (commit, location) => {
 }
 
 const component = ({state, commit, next}) => {
-  const anchorAttrs = (path, vars) => {
-    let href = path
-
-    if (vars != null) {
-      href = link(path, vars)
-    }
-
+  const anchorAttrs = (href) => {
     return {
       href,
       onclick(e) {
@@ -146,7 +138,7 @@ const component = ({state, commit, next}) => {
       </nav>
     </header>
     ${route(state.location, (on) => {
-      on(postRoutePattern, () => article`<article class=${classes.main}>
+      on('/posts/*/', () => article`<article class=${classes.main}>
         <header>
           <h1>${state.post.title}</h1>
           <time class=${classes.date} datetime=${new Date(state.post.date).toISOString()}>
@@ -157,8 +149,8 @@ const component = ({state, commit, next}) => {
         ${Boolean(state.prev) || Boolean(state.next)
           ? pagination`<nav>
             <ul class=${classes.list}>
-              <li class=${Boolean(state.prev) ? classes.button : classes.buttonDisabled}>${Boolean(state.prev) ? anchor`<a ${anchorAttrs(postRoutePattern, state.prev)}>${'Older'}</a>` : null}</li>
-              <li class=${Boolean(state.next) ? classes.button : classes.buttonDisabled}>${Boolean(state.next) ? anchor`<a ${anchorAttrs(postRoutePattern, state.next)}>${'Newer'}</a>` : null}</li>
+              <li class=${Boolean(state.prev) ? classes.button : classes.buttonDisabled}>${Boolean(state.prev) ? anchor`<a ${anchorAttrs(`/posts/${state.prev.slug}/`)}>${'Older'}</a>` : null}</li>
+              <li class=${Boolean(state.next) ? classes.button : classes.buttonDisabled}>${Boolean(state.next) ? anchor`<a ${anchorAttrs(`/posts/${state.next.slug}/`)}>${'Newer'}</a>` : null}</li>
             </ul>
           </nav>`
           : null
