@@ -17,7 +17,7 @@
     "@erickmerchant/css": "^20.0.1",
     "@erickmerchant/dev-cli": "^9.1.5",
     "@erickmerchant/framework": "^30.0.1",
-    "@erickmerchant/router": "^18.1.1",
+    "@erickmerchant/router": "^18.2.0",
     "globby": "^11.0.0",
     "sergeant": "^27.2.1"
   },
