@@ -1,4 +1,3 @@
-const space = '1em'
 const fontSizes = {
   h1: '1.5em',
   h2: '1.25em',
@@ -13,28 +12,28 @@ const list = `
   flex-wrap: wrap;
   text-align: center;
   font-weight: 700;
-  padding-top: ${space};
-  padding-bottom: ${space};
+  padding-top: 1em;
+  padding-bottom: 1em;
 
   --link-color: currentColor;
 `
 
 const listItem = `
-  margin-top: ${space};
-  margin-bottom: ${space};
-  margin-right: ${space};
-  margin-left: ${space};
+  margin-top: 1em;
+  margin-bottom: 1em;
+  margin-right: 1em;
+  margin-left: 1em;
 `
 
 const button = `
   ${listItem}
   flex-grow: 1;
   flex-shrink: 1;
-  flex-basis: calc(50% - (${space} * 2));
-  padding-top: ${space};
-  padding-bottom: ${space};
-  padding-right: calc(${space} * 3);
-  padding-left: calc(${space} * 3);
+  flex-basis: calc(50% - 2em);
+  padding-top: 1em;
+  padding-bottom: 1em;
+  padding-right: 3em;
+  padding-left: 3em;
   font-size: ${fontSizes.h3};
   background-color: var(--primary-color);
 
@@ -98,8 +97,8 @@ export const _start = `
   h2 {
     line-height: 1.25;
     font-weight: 700;
-    margin-bottom: calc(${space} / 2);
-    margin-top: ${space};
+    margin-bottom: 0.5em;
+    margin-top: 1em;
   }
 
   h1 {
@@ -165,22 +164,22 @@ export const styles = {
     max-width: 40em;
     margin-right: auto;
     margin-left: auto;
-    padding-right: ${space};
-    padding-left: ${space};
+    padding-right: 1em;
+    padding-left: 1em;
   `,
   content: `
-    --list-indent: calc(${space} * 2);
-    --content-x-spacing: ${space};
+    --list-indent: 2em;
+    --content-x-spacing: 1em;
     --list-style: disc;
   `,
   pre: `
     overflow-y: auto;
     overflow-x: auto;
     color: var(--bright-color);
-    padding-top: ${space};
-    padding-bottom: ${space};
-    padding-right: ${space};
-    padding-left: ${space};
+    padding-top: 1em;
+    padding-bottom: 1em;
+    padding-right: 1em;
+    padding-left: 1em;
     font-family: "PT Mono", monospace;
     white-space: pre-wrap;
     background-color: var(--dark-color);
@@ -198,7 +197,7 @@ export const styles = {
     }
   `,
   footer: `
-    margin-top: calc(${space} * 4);
+    margin-top: 4em;
     background-color: var(--secondary-color);
   `,
   footerList: `
