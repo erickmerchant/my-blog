@@ -19,10 +19,7 @@ const list = `
 `
 
 const listItem = `
-  margin-top: 1em;
-  margin-bottom: 1em;
-  margin-right: 1em;
-  margin-left: 1em;
+  margin: 1em;
 `
 
 const button = `
@@ -30,14 +27,10 @@ const button = `
   flex-grow: 1;
   flex-shrink: 1;
   flex-basis: calc(50% - 2em);
-  padding-top: 1em;
-  padding-bottom: 1em;
-  padding-right: 3em;
-  padding-left: 3em;
+  padding: 1em 3em;
   font-size: ${fontSizes.h3};
   background-color: var(--primary-color);
-
-  --border-radius: ${borderRadius};
+  border-radius: ${borderRadius};
 `
 
 export const _start = `
@@ -84,9 +77,6 @@ export const _start = `
     margin: 0;
     padding: 0;
     max-width: 100%;
-    border-radius: var(--border-radius);
-
-    --border-radius: 0;
   }
 
   html {
@@ -173,18 +163,13 @@ export const styles = {
     --list-style: disc;
   `,
   pre: `
-    overflow-y: auto;
-    overflow-x: auto;
+    overflow: auto;
     color: var(--bright-color);
-    padding-top: 1em;
-    padding-bottom: 1em;
-    padding-right: 1em;
-    padding-left: 1em;
+    padding: 1em;
     font-family: "PT Mono", monospace;
     white-space: pre-wrap;
     background-color: var(--dark-color);
-
-    --border-radius: ${borderRadius};
+    border-radius: ${borderRadius};
   `,
   list,
   listItem,
