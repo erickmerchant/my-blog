@@ -4,34 +4,8 @@ const fontSizes = {
   h3: '1.125em',
   h5: '0.875em'
 }
+
 const borderRadius = '0.25em'
-
-const list = `
-  display: flex;
-  color: white;
-  flex-wrap: wrap;
-  text-align: center;
-  font-weight: 700;
-  padding-top: 1em;
-  padding-bottom: 1em;
-
-  --link-color: currentColor;
-`
-
-const listItem = `
-  margin: 1em;
-`
-
-const button = `
-  ${listItem}
-  flex-grow: 1;
-  flex-shrink: 1;
-  flex-basis: calc(50% - 2em);
-  padding: 1em 3em;
-  font-size: ${fontSizes.h3};
-  background-color: var(--primary-color);
-  border-radius: ${borderRadius};
-`
 
 export const _start = `
   @font-face {
@@ -122,6 +96,33 @@ export const _start = `
   }
 `
 
+const list = `
+  display: flex;
+  color: white;
+  flex-wrap: wrap;
+  text-align: center;
+  font-weight: 700;
+  padding-top: 1em;
+  padding-bottom: 1em;
+
+  --link-color: currentColor;
+`
+
+const listItem = `
+  margin: 1em;
+`
+
+const button = `
+  ${listItem}
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: calc(50% - 2em);
+  padding: 1em 3em;
+  font-size: ${fontSizes.h3};
+  background-color: var(--primary-color);
+  border-radius: ${borderRadius};
+`
+
 export const styles = {
   app: `
     display: flex;
@@ -129,6 +130,7 @@ export const styles = {
     color: var(--dark-color);
     font-family: "PT Sans", sans-serif;
     flex-direction: column;
+
     --primary-color: hsl(120, 50%, 50%);
     --secondary-color: hsl(120, 25%, 50%);
     --neutral-color: hsl(120, 12.25%, 50%);
