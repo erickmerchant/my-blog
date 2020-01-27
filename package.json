@@ -14,12 +14,12 @@
     "test": "exit 0"
   },
   "dependencies": {
-    "@erickmerchant/css": "^20.1.0",
-    "@erickmerchant/dev-cli": "^9.1.5",
+    "@erickmerchant/css": "^20.2.0",
+    "@erickmerchant/dev-cli": "^9.1.6",
     "@erickmerchant/framework": "^30.0.1",
     "@erickmerchant/router": "^18.2.0",
     "globby": "^11.0.0",
-    "sergeant": "^27.2.1"
+    "sergeant": "^27.2.2"
   },
   "devDependencies": {
     "@erickmerchant/lint": "^4.0.0",
