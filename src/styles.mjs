@@ -55,6 +55,7 @@ export const _start = `
 
   html {
     height: 100%;
+    font-family: "PT Sans", sans-serif;
   }
 
   h1,
@@ -114,9 +115,7 @@ const listItem = `
 
 const button = `
   ${listItem}
-  flex-grow: 1;
-  flex-shrink: 1;
-  flex-basis: calc(50% - 2em);
+  flex: 1 1 calc(50% - 2em);
   padding: 1em 3em;
   font-size: ${fontSizes.h3};
   background-color: var(--primary-color);
@@ -128,7 +127,6 @@ export const styles = {
     display: flex;
     height: 100%;
     color: var(--dark-color);
-    font-family: "PT Sans", sans-serif;
     flex-direction: column;
 
     --primary-color: hsl(120, 50%, 50%);
@@ -149,9 +147,7 @@ export const styles = {
     font-weight: 700
   `,
   main: `
-    flex-grow: 1;
-    flex-shrink: 1;
-    flex-basis: auto;
+    flex-grow: 1 1 auto;
     width: 100%;
     max-width: 40em;
     margin-right: auto;
