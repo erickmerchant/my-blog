@@ -5,6 +5,14 @@ const fontSizes = {
   h5: '0.875em'
 }
 
+const colors = {
+  primary: 'hsl(120, 50%, 50%)',
+  secondary: 'hsl(120, 25%, 50%)',
+  neutral: 'hsl(120, 12.25%, 50%)',
+  bright: 'hsl(120, 75%, 75%)',
+  dark: 'hsl(120, 50%, 12.25%)'
+}
+
 const borderRadius = '0.25em'
 
 export const _start = `
@@ -88,7 +96,7 @@ export const _start = `
 
   a {
     box-shadow: 0 0.1em 0 0 currentcolor;
-    color: var(--link-color, var(--primary-color));
+    color: var(--link-color, ${colors.primary});
   }
 
   a,
@@ -118,7 +126,7 @@ const button = `
   flex: 1 1 calc(50% - 2em);
   padding: 1em 3em;
   font-size: ${fontSizes.h3};
-  background-color: var(--primary-color);
+  background-color: ${colors.primary};
   border-radius: ${borderRadius};
 `
 
@@ -126,18 +134,12 @@ export const styles = {
   app: `
     display: flex;
     height: 100%;
-    color: var(--dark-color);
+    color: ${colors.dark};
     flex-direction: column;
-
-    --primary-color: hsl(120, 50%, 50%);
-    --secondary-color: hsl(120, 25%, 50%);
-    --neutral-color: hsl(120, 12.25%, 50%);
-    --bright-color: hsl(120, 75%, 75%);
-    --dark-color: hsl(120, 50%, 12.25%);
   `,
   topNav: `
     font-size: ${fontSizes.h3};
-    background-color: var(--secondary-color);
+    background-color: ${colors.secondary};
   `,
   topNavList: `
     ${list}
@@ -162,11 +164,11 @@ export const styles = {
   `,
   pre: `
     overflow: auto;
-    color: var(--bright-color);
+    color: ${colors.bright};
     padding: 1em;
     font-family: "PT Mono", monospace;
     white-space: pre-wrap;
-    background-color: var(--dark-color);
+    background-color: ${colors.dark};
     border-radius: ${borderRadius};
   `,
   list,
@@ -174,14 +176,14 @@ export const styles = {
   button,
   buttonDisabled: `
     ${button}
-    background-color: var(--neutral-color);
+    background-color: ${colors.neutral};
     @media (max-width: 40em) {
       display: none;
     }
   `,
   footer: `
     margin-top: 4em;
-    background-color: var(--secondary-color);
+    background-color: ${colors.secondary};
   `,
   footerList: `
     ${list}
