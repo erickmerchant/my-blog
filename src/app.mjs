@@ -1,8 +1,6 @@
-import {render, domUpdate, view, raw} from '@erickmerchant/framework'
+import {render, domUpdate, html, raw} from '@erickmerchant/framework'
 import {route} from '@erickmerchant/router/wildcard.mjs'
 import {classes} from './out/styles.mjs'
-
-const {pre, site, article, pagination, anchor, error} = view()
 
 const fetch = async (url) => {
   const response = await window.fetch(url)
@@ -55,7 +53,7 @@ const getPost = async (search) => {
 
   while (i < lns.length) {
     if (i % 2) {
-      content.push(pre`<pre class=${classes.pre}><code>${lns[i]}</code></pre>`)
+      content.push(html`<pre class=${classes.pre}><code>${lns[i]}</code></pre>`)
     } else {
       content.push(raw(lns[i]))
     }
@@ -128,7 +126,9 @@ const component = ({state, commit, next}) => {
     window.scroll(0, 0)
   })
 
-  return site`<body class=${classes.app}>
+  const link = (slug, text) => html`<a ${anchorAttrs(`/posts/${slug}/`)}>${text}</a>`
+
+  return html`<body class=${classes.app}>
     <header>
       <nav class=${classes.topNav}>
         <ul class=${classes.topNavList}>
@@ -138,7 +138,7 @@ const component = ({state, commit, next}) => {
       </nav>
     </header>
     ${route(state.location, (on) => {
-      on('/posts/*/', () => article`<article class=${classes.main}>
+      on('/posts/*/', () => html`<article class=${classes.main}>
         <header>
           <h1>${state.post.title}</h1>
           <time class=${classes.date} datetime=${new Date(state.post.date).toISOString()}>
@@ -147,17 +147,17 @@ const component = ({state, commit, next}) => {
         </header>
         <div class=${classes.content}>${state.post.content}</div>
         ${Boolean(state.prev) || Boolean(state.next)
-          ? pagination`<nav>
+          ? html`<nav>
             <ul class=${classes.list}>
-              <li class=${Boolean(state.prev) ? classes.button : classes.buttonDisabled}>${Boolean(state.prev) ? anchor`<a ${anchorAttrs(`/posts/${state.prev.slug}/`)}>${'Older'}</a>` : null}</li>
-              <li class=${Boolean(state.next) ? classes.button : classes.buttonDisabled}>${Boolean(state.next) ? anchor`<a ${anchorAttrs(`/posts/${state.next.slug}/`)}>${'Newer'}</a>` : null}</li>
+              <li class=${Boolean(state.prev) ? classes.button : classes.buttonDisabled}>${Boolean(state.prev) ? link(state.prev.slug, 'Older') : null}</li>
+              <li class=${Boolean(state.next) ? classes.button : classes.buttonDisabled}>${Boolean(state.next) ? link(state.next.slug, 'Newer') : null}</li>
             </ul>
           </nav>`
           : null
         }
       </article>`)
 
-      on(() => error`<section class=${classes.main}>
+      on(() => html`<section class=${classes.main}>
         <h1>${state.title}</h1>
         <p>${state.error != null ? state.error.message : ''}</p>
       </section>`)
