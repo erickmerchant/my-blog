@@ -149,7 +149,7 @@ export const styles = {
     font-weight: 700
   `,
   main: `
-    flex-grow: 1 1 auto;
+    flex: 1 1 auto;
     width: 100%;
     max-width: 40em;
     margin-right: auto;
