@@ -134,8 +134,8 @@ export const styles = {
   app: `
     display: flex;
     height: 100%;
-    color: ${colors.dark};
     flex-direction: column;
+    color: ${colors.dark};
   `,
   topNav: `
     font-size: ${fontSizes.h3};
@@ -164,10 +164,10 @@ export const styles = {
   `,
   pre: `
     overflow: auto;
-    color: ${colors.bright};
     padding: 1em;
     font-family: "PT Mono", monospace;
     white-space: pre-wrap;
+    color: ${colors.bright};
     background-color: ${colors.dark};
     border-radius: ${borderRadius};
   `,
