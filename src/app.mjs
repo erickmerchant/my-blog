@@ -108,7 +108,7 @@ const dispatchLocation = async (commit, location) => {
   commit(() => state)
 }
 
-const component = ({state, commit, next}) => {
+const component = ({state, commit}) => (afterUpdate) => {
   const anchorAttrs = (href) => {
     return {
       href,
@@ -122,7 +122,7 @@ const component = ({state, commit, next}) => {
     }
   }
 
-  next(() => {
+  afterUpdate(() => {
     window.scroll(0, 0)
   })
 

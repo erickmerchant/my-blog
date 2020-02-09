@@ -8,15 +8,15 @@
     "prebuild": "css src/styles.mjs src/out/styles",
     "build": "dev cache src dist",
     "postbuild": "node cli.js postbuild",
-    "prestart": "npm run prebuild -- -w &",
+    "prestart": "npm run prebuild -- -wd &",
     "start": "dev serve src",
     "pretest": "lint '**/*.mjs'",
     "test": "exit 0"
   },
   "dependencies": {
-    "@erickmerchant/css": "^20.5.0",
+    "@erickmerchant/css": "^20.6.0",
     "@erickmerchant/dev-cli": "^9.1.6",
-    "@erickmerchant/framework": "^31.0.2",
+    "@erickmerchant/framework": "^32.0.0",
     "@erickmerchant/router": "^18.2.0",
     "globby": "^11.0.0",
     "sergeant": "^27.2.2"
