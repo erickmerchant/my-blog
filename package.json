@@ -1,7 +1,6 @@
 {
   "name": "my-blog",
   "private": true,
-  "description": "erickmerchant.com",
   "license": "ISC",
   "author": "Erick Merchant <erickmerchant@gmail.com>",
   "scripts": {
@@ -14,15 +13,15 @@
     "test": "exit 0"
   },
   "dependencies": {
-    "@erickmerchant/css": "^20.7.1",
-    "@erickmerchant/dev-cli": "^9.2.0",
-    "@erickmerchant/framework": "^32.1.0",
+    "@erickmerchant/css": "^20.7.2",
+    "@erickmerchant/dev-cli": "^9.2.1",
+    "@erickmerchant/framework": "^32.1.1",
     "@erickmerchant/router": "^18.2.0",
     "globby": "^11.0.0",
     "sergeant": "^27.2.2"
   },
   "devDependencies": {
-    "@erickmerchant/lint": "^4.1.0",
+    "@erickmerchant/lint": "^4.1.1",
     "babel-eslint": "^10.0.3"
   },
   "engines": {

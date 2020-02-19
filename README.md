@@ -1,3 +1,3 @@
 # my-blog
 
-My blog, and a static site built with @erickmerchant/framework.
+My blog, and a single page static site built with @erickmerchant/framework.
