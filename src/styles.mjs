@@ -177,7 +177,7 @@ export const styles = {
   buttonDisabled: `
     ${button}
     background-color: ${colors.neutral};
-    @media (max-width: 40em) {
+    @media(max-width: 40em) {
       display: none;
     }
   `,
