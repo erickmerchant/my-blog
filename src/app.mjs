@@ -37,7 +37,7 @@ const getPost = async (search) => {
 
   const index = posts.findIndex((post) => `/posts/${post.slug}/` === `/posts/${search}/`)
 
-  if (index < 0) {
+  if (index === -1) {
     return unfound
   }
 
