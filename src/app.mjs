@@ -146,11 +146,11 @@ const component = ({state, commit}) => (afterUpdate) => {
           </time>
         </header>
         <div class=${classes.content}>${state.post.content}</div>
-        ${Boolean(state.prev) || Boolean(state.next)
+        ${state.prev || state.next
           ? html`<nav>
             <ul class=${classes.list}>
-              <li class=${Boolean(state.prev) ? classes.button : classes.buttonDisabled}>${Boolean(state.prev) ? link(state.prev.slug, 'Older') : null}</li>
-              <li class=${Boolean(state.next) ? classes.button : classes.buttonDisabled}>${Boolean(state.next) ? link(state.next.slug, 'Newer') : null}</li>
+              <li class=${state.prev ? classes.button : classes.buttonDisabled}>${state.prev ? link(state.prev.slug, 'Older') : null}</li>
+              <li class=${state.next ? classes.button : classes.buttonDisabled}>${state.next ? link(state.next.slug, 'Newer') : null}</li>
             </ul>
           </nav>`
           : null
