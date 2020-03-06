@@ -105,31 +105,6 @@ export const _start = `
   }
 `
 
-const list = `
-  display: flex;
-  color: white;
-  flex-wrap: wrap;
-  text-align: center;
-  font-weight: 700;
-  padding-top: 1em;
-  padding-bottom: 1em;
-
-  --link-color: currentColor;
-`
-
-const listItem = `
-  margin: 1em;
-`
-
-const button = `
-  ${listItem}
-  flex: 1 1 calc(50% - 2em);
-  padding: 1em 3em;
-  font-size: ${fontSizes.h3};
-  background-color: ${colors.primary};
-  border-radius: ${borderRadius};
-`
-
 export const styles = {
   app: `
     display: flex;
@@ -141,8 +116,8 @@ export const styles = {
     font-size: ${fontSizes.h3};
     background-color: ${colors.secondary};
   `,
-  topNavList: `
-    ${list}
+  topNavList: (styles) => `
+    ${styles.list}
     justify-content: center;
   `,
   date: `
@@ -171,11 +146,30 @@ export const styles = {
     background-color: ${colors.dark};
     border-radius: ${borderRadius};
   `,
-  list,
-  listItem,
-  button,
-  buttonDisabled: `
-    ${button}
+  list: `
+    display: flex;
+    color: white;
+    flex-wrap: wrap;
+    text-align: center;
+    font-weight: 700;
+    padding-top: 1em;
+    padding-bottom: 1em;
+
+    --link-color: currentColor;
+  `,
+  listItem: `
+    margin: 1em;
+  `,
+  button: (styles) => `
+    ${styles.listItem}
+    flex: 1 1 calc(50% - 2em);
+    padding: 1em 3em;
+    font-size: ${fontSizes.h3};
+    background-color: ${colors.primary};
+    border-radius: ${borderRadius};
+  `,
+  buttonDisabled: (styles) => `
+    ${styles.button(styles)}
     background-color: ${colors.neutral};
     @media(max-width: 40em) {
       display: none;
@@ -185,8 +179,8 @@ export const styles = {
     margin-top: 4em;
     background-color: ${colors.secondary};
   `,
-  footerList: `
-    ${list}
+  footerList: (styles) => `
+    ${styles.list}
     justify-content: center;
     font-size: ${fontSizes.h5};
   `
