@@ -1,8 +1,10 @@
-const fontSizes = {
-  h1: '1.5em',
-  h2: '1.25em',
-  h3: '1.125em',
-  h5: '0.875em'
+const fontWeights = {
+  h1: 900,
+  h2: 760,
+  h3: 620,
+  h4: 480,
+  h5: 340,
+  h6: 200
 }
 
 const colors = {
@@ -35,7 +37,6 @@ export const _start = `
   * {
     box-sizing: border-box;
     font: inherit;
-    line-height: 1.5;
     margin: 0;
     padding: 0;
     max-width: 100%;
@@ -43,24 +44,24 @@ export const _start = `
 
   html {
     height: 100%;
-    font-family: "Public Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-weight: 400;
+    font: 20px/1.5 "Public Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: ${fontWeights.h6};
   }
 
   h1,
   h2 {
     line-height: 1.25;
-    font-weight: 800;
+    font-size: 1.5em;
     margin-bottom: 0.5em;
     margin-top: 1em;
   }
 
   h1 {
-    font-size: ${fontSizes.h1};
+    font-weight: ${fontWeights.h1};
   }
 
   h2 {
-    font-size: ${fontSizes.h2};
+    font-weight: ${fontWeights.h2};
   }
 
   p,
@@ -75,8 +76,12 @@ export const _start = `
     list-style: var(--list-style, none);
   }
 
+  ::marker {
+    color: currentColor;
+  }
+
   a {
-    box-shadow: 0 0.1em 0 0 currentcolor;
+    box-shadow: 0 0.1em 0 0 currentColor;
     color: var(--link-color, ${colors.primary});
   }
 
@@ -94,7 +99,7 @@ export const styles = {
     color: ${colors.dark};
   `,
   topNav: `
-    font-size: ${fontSizes.h3};
+    font-weight: ${fontWeights.h3};
     background-color: ${colors.secondary};
   `,
   topNavList: (styles) => `
@@ -102,7 +107,7 @@ export const styles = {
     justify-content: center;
   `,
   date: `
-    font-weight: 700;
+    font-weight: ${fontWeights.h3};
     display: inline-flex;
     align-items: center;
   `,
@@ -141,7 +146,6 @@ export const styles = {
     color: white;
     flex-wrap: wrap;
     text-align: center;
-    font-weight: 700;
     padding-top: 1em;
     padding-bottom: 1em;
 
@@ -155,7 +159,7 @@ export const styles = {
     position: relative;
     flex: 1 1 calc(50% - 2em);
     padding: 1em 3em;
-    font-size: ${fontSizes.h3};
+    font-weight: ${fontWeights.h4};
     background-color: ${colors.primary};
     border-radius: ${borderRadius};
   `,
@@ -179,12 +183,13 @@ export const styles = {
     }
   `,
   footer: `
+    font-size: .75em;
     margin-top: 4em;
     background-color: ${colors.secondary};
   `,
   footerList: (styles) => `
     ${styles.list}
     justify-content: center;
-    font-size: ${fontSizes.h5};
+    font-weight: ${fontWeights.h4};
   `
 }
