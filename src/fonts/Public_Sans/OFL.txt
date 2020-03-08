@@ -1,5 +1,4 @@
-﻿Copyright (c) 2011, ParaType Ltd. (http://www.paratype.com/public),
-with Reserved Font Names "PT Sans", "PT Serif", "PT Mono" and "ParaType".
+Copyright (c) 2015, Pablo Impallari, Rodrigo Fuenzalida (Modified by Dan O. Williams and USWDS) (https://github.com/uswds/public-sans)
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.
 This license is copied below, and is also available with a FAQ at:

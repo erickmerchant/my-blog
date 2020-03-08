@@ -18,38 +18,18 @@ const borderRadius = '0.25em'
 export const _start = `
   @font-face {
     font-display: swap;
-    font-family: 'PT Sans';
+    font-family: 'Public Sans';
     font-style: normal;
-    font-weight: 400;
-    src:
-      local('PT Sans'),
-      local('PTSans-Regular'),
-      url('/fonts/pt-sans-v11-latin-regular.woff2') format('woff2'),
-      url('/fonts/pt-sans-v11-latin-regular.woff') format('woff');
+    font-weight: 1 999;
+    src: url('/fonts/Public_Sans/PublicSans-VariableFont_wght-subset.woff2') format('woff2');
   }
 
   @font-face {
     font-display: swap;
-    font-family: 'PT Sans';
+    font-family: 'Fira Code';
     font-style: normal;
-    font-weight: 700;
-    src:
-      local('PT Sans Bold'),
-      local('PTSans-Bold'),
-      url('/fonts/pt-sans-v11-latin-700.woff2') format('woff2'),
-      url('/fonts/pt-sans-v11-latin-700.woff') format('woff');
-  }
-
-  @font-face {
-    font-display: swap;
-    font-family: 'PT Mono';
-    font-style: normal;
-    font-weight: 400;
-    src:
-      local('PT Mono'),
-      local('PTMono-Regular'),
-      url('/fonts/pt-mono-v7-latin-regular.woff2') format('woff2'),
-      url('/fonts/pt-mono-v7-latin-regular.woff') format('woff');
+    font-weight: 1 999;
+    src: url('/fonts/Fira_Code/FiraCode-VariableFont_wght-subset.woff2') format('woff2');
   }
 
   * {
@@ -63,13 +43,14 @@ export const _start = `
 
   html {
     height: 100%;
-    font-family: "PT Sans", sans-serif;
+    font-family: "Public Sans", sans-serif;
+    font-weight: 400;
   }
 
   h1,
   h2 {
     line-height: 1.25;
-    font-weight: 700;
+    font-weight: 800;
     margin-bottom: 0.5em;
     margin-top: 1em;
   }
@@ -121,7 +102,7 @@ export const styles = {
     justify-content: center;
   `,
   date: `
-    font-weight: 700
+    font-weight: 600;
   `,
   main: `
     flex: 1 1 auto;
@@ -140,7 +121,8 @@ export const styles = {
   pre: `
     overflow: auto;
     padding: 1em;
-    font-family: "PT Mono", monospace;
+    font-family: "Fira Code", monospace;
+    font-weight: 400;
     white-space: pre-wrap;
     color: ${colors.bright};
     background-color: ${colors.dark};
@@ -151,7 +133,7 @@ export const styles = {
     color: white;
     flex-wrap: wrap;
     text-align: center;
-    font-weight: 700;
+    font-weight: 600;
     padding-top: 1em;
     padding-bottom: 1em;
 
