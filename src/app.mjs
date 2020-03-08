@@ -142,7 +142,14 @@ const component = ({state, commit}) => (afterUpdate) => {
         <header>
           <h1>${state.post.title}</h1>
           <time class=${classes.date} datetime=${new Date(state.post.date).toISOString()}>
-            ${new Date(state.post.date).toLocaleDateString('en-US', {year: 'numeric', month: 'long', day: 'numeric'})}
+            <svg viewBox="0 0 32 32" class=${classes.dateIcon}>
+              <rect width="32" height="6" rx="0.5" />
+              <rect width="32" height="22" y="8" rx="0.5" />
+              <rect width="8" height="8" y="12" x="20" rx="0.5" fill="white" />
+            </svg>
+            <span>
+              ${new Date(state.post.date).toLocaleDateString('en-US', {year: 'numeric', month: 'long', day: 'numeric'})}
+            </span>
           </time>
         </header>
         <div class=${classes.content}>${state.post.content}</div>

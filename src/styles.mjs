@@ -102,7 +102,15 @@ export const styles = {
     justify-content: center;
   `,
   date: `
-    font-weight: 600;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+  `,
+  dateIcon: `
+    height: 1em;
+    width: 1em;
+    margin-right: 0.5em;
+    fill: currentColor;
   `,
   main: `
     flex: 1 1 auto;
@@ -133,7 +141,7 @@ export const styles = {
     color: white;
     flex-wrap: wrap;
     text-align: center;
-    font-weight: 600;
+    font-weight: 700;
     padding-top: 1em;
     padding-bottom: 1em;
 
