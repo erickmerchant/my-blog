@@ -126,7 +126,7 @@ const component = ({state, commit}) => (afterUpdate) => {
     window.scroll(0, 0)
   })
 
-  const link = (slug, text) => html`<a ${anchorAttrs(`/posts/${slug}/`)}>${text}</a>`
+  const paginationLink = (slug, text) => html`<a ${anchorAttrs(`/posts/${slug}/`)} class=${classes.buttonAnchor}>${text}</a>`
 
   return html`<body class=${classes.app}>
     <header>
@@ -156,8 +156,8 @@ const component = ({state, commit}) => (afterUpdate) => {
         ${state.prev || state.next
           ? html`<nav>
             <ul class=${classes.list}>
-              <li class=${state.prev ? classes.button : classes.buttonDisabled}>${state.prev ? link(state.prev.slug, 'Older') : null}</li>
-              <li class=${state.next ? classes.button : classes.buttonDisabled}>${state.next ? link(state.next.slug, 'Newer') : null}</li>
+              <li class=${state.prev ? classes.button : classes.buttonDisabled}>${state.prev ? paginationLink(state.prev.slug, 'Older') : null}</li>
+              <li class=${state.next ? classes.button : classes.buttonDisabled}>${state.next ? paginationLink(state.next.slug, 'Newer') : null}</li>
             </ul>
           </nav>`
           : null

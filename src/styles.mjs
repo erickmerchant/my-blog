@@ -152,6 +152,7 @@ export const styles = {
   `,
   button: (styles) => `
     ${styles.listItem}
+    position: relative;
     flex: 1 1 calc(50% - 2em);
     padding: 1em 3em;
     font-size: ${fontSizes.h3};
@@ -163,6 +164,18 @@ export const styles = {
     background-color: ${colors.neutral};
     @media(max-width: 40em) {
       display: none;
+    }
+  `,
+  buttonAnchor: `
+    ::after {
+      display: block;
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      border-radius: ${borderRadius};
     }
   `,
   footer: `
