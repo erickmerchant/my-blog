@@ -43,7 +43,7 @@ export const _start = `
 
   html {
     height: 100%;
-    font-family: "Public Sans", sans-serif;
+    font-family: "Public Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-weight: 400;
   }
 
