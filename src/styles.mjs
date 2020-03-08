@@ -17,7 +17,7 @@ const borderRadius = '0.25em'
 
 export const _start = `
   @font-face {
-    font-display: swap;
+    font-display: fallback;
     font-family: 'Public Sans';
     font-style: normal;
     font-weight: 1 999;
@@ -25,7 +25,7 @@ export const _start = `
   }
 
   @font-face {
-    font-display: swap;
+    font-display: fallback;
     font-family: 'Fira Code';
     font-style: normal;
     font-weight: 1 999;
@@ -43,7 +43,7 @@ export const _start = `
 
   html {
     height: 100%;
-    font-family: "Public Sans", Helvetica, Arial, sans-serif;
+    font-family: "Public Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-weight: 400;
   }
 
