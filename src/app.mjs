@@ -53,7 +53,7 @@ const getPost = async (search) => {
 
   while (i < lns.length) {
     if (i % 2) {
-      content.push(html`<pre class=${classes.pre}><code>${lns[i]}</code></pre>`)
+      content.push(html`<pre><code>${lns[i]}</code></pre>`)
     } else {
       content.push(raw(lns[i]))
     }

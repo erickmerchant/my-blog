@@ -3,7 +3,6 @@ const fontWeights = {
   heading2: 775,
   heading3: 650,
   navigation: 525,
-  code: 400,
   body: 275
 }
 
@@ -11,6 +10,7 @@ const colors = {
   primary: 'hsl(120, 50%, 50%)',
   secondary: 'hsl(120, 25%, 50%)',
   neutral: 'hsl(120, 12.25%, 50%)',
+  light: 'hsl(120, 12.5%, 87.25%)',
   bright: 'hsl(120, 75%, 75%)',
   dark: 'hsl(120, 50%, 12.25%)'
 }
@@ -51,16 +51,17 @@ export const _start = `
   h1,
   h2 {
     line-height: 1.25;
-    font-size: 1.5em;
     margin-bottom: 0.5em;
     margin-top: 1em;
   }
 
   h1 {
+    font-size: 1.5em;
     font-weight: ${fontWeights.heading1};
   }
 
   h2 {
+    font-size: 1.25em;
     font-weight: ${fontWeights.heading2};
   }
 
@@ -88,6 +89,26 @@ export const _start = `
   a,
   a:hover {
     text-decoration: none;
+  }
+
+  pre {
+    overflow: auto;
+    padding: 1em;
+    white-space: pre-wrap;
+    color: ${colors.bright};
+    background-color: ${colors.dark};
+    border-radius: ${borderRadius};
+  }
+
+  code {
+    font-family: "Fira Code", monospace;
+  }
+
+  :not(pre) > code {
+    background: ${colors.light};
+    border-radius: ${borderRadius};
+    font-size: .75em;
+    padding: 0.125em 0.5em;
   }
 `
 
@@ -129,16 +150,6 @@ export const styles = {
     --list-indent: 2em;
     --content-x-spacing: 1em;
     --list-style: disc;
-  `,
-  pre: `
-    overflow: auto;
-    padding: 1em;
-    font-family: "Fira Code", monospace;
-    font-weight: ${fontWeights.code};
-    white-space: pre-wrap;
-    color: ${colors.bright};
-    background-color: ${colors.dark};
-    border-radius: ${borderRadius};
   `,
   list: `
     display: flex;
