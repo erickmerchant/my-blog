@@ -1,17 +1,19 @@
 const fontWeights = {
-  heading1: 900,
-  heading2: 775,
-  heading3: 650,
-  navigation: 525,
-  body: 275
+  h1: 900,
+  h2: 775,
+  h3: 650,
+  h4: 525,
+  h5: 400,
+  h6: 275
 }
 
 const colors = {
   primary: 'hsl(120, 50%, 50%)',
   secondary: 'hsl(120, 25%, 50%)',
   neutral: 'hsl(120, 12.25%, 50%)',
-  light: 'hsl(120, 12.5%, 87.25%)',
+  dim: 'hsl(120, 75%, 25%)',
   bright: 'hsl(120, 75%, 75%)',
+  light: 'hsl(120, 50%, 75%)',
   dark: 'hsl(120, 50%, 12.25%)'
 }
 
@@ -30,7 +32,7 @@ export const _start = `
     font-display: fallback;
     font-family: 'Fira Code';
     font-style: normal;
-    font-weight: 1 999;
+    font-weight: ${fontWeights.h5};
     src: url('/fonts/Fira_Code/FiraCode-Regular-subset.woff2') format('woff2');
   }
 
@@ -45,7 +47,7 @@ export const _start = `
   html {
     height: 100%;
     font: 20px/1.5 "Public Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-weight: ${fontWeights.body};
+    font-weight: ${fontWeights.h6};
   }
 
   h1,
@@ -57,12 +59,12 @@ export const _start = `
 
   h1 {
     font-size: 1.5em;
-    font-weight: ${fontWeights.heading1};
+    font-weight: ${fontWeights.h1};
   }
 
   h2 {
     font-size: 1.25em;
-    font-weight: ${fontWeights.heading2};
+    font-weight: ${fontWeights.h2};
   }
 
   p,
@@ -102,13 +104,18 @@ export const _start = `
 
   code {
     font-family: "Fira Code", monospace;
+    font-weight: ${fontWeights.h5};
+    font-size: .8em;
   }
 
   :not(pre) > code {
-    background: ${colors.light};
-    border-radius: ${borderRadius};
-    font-size: .75em;
-    padding: 0.125em 0.5em;
+    color: ${colors.dim};
+    font-weight: bold;
+  }
+
+  :not(pre) > code::before,
+  :not(pre) > code::after {
+    content: '\`';
   }
 `
 
@@ -120,7 +127,7 @@ export const styles = {
     color: ${colors.dark};
   `,
   topNav: `
-    font-weight: ${fontWeights.navigation};
+    font-weight: ${fontWeights.h4};
     background-color: ${colors.secondary};
   `,
   topNavList: (styles) => `
@@ -128,7 +135,7 @@ export const styles = {
     justify-content: center;
   `,
   date: `
-    font-weight: ${fontWeights.heading3};
+    font-weight: ${fontWeights.h3};
     display: inline-flex;
     align-items: center;
   `,
@@ -169,7 +176,7 @@ export const styles = {
     position: relative;
     flex: 1 1 calc(50% - 2em);
     padding: 1em 3em;
-    font-weight: ${fontWeights.heading3};
+    font-weight: ${fontWeights.h3};
     background-color: ${colors.primary};
     border-radius: ${borderRadius};
   `,
@@ -200,6 +207,6 @@ export const styles = {
   footerList: (styles) => `
     ${styles.list}
     justify-content: center;
-    font-weight: ${fontWeights.navigation};
+    font-weight: ${fontWeights.h4};
   `
 }
