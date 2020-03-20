@@ -46,7 +46,7 @@ export const _start = `
 
   html {
     height: 100%;
-    font: 20px/1.5 "Public Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font: 20px/1.5 "Public Sans", system-ui, -apple-system, Segoe UI, Roboto, Noto Sans, Ubuntu, Cantarell, Helvetica Neue, sans-serif;
     font-weight: ${fontWeights.h6};
   }
 
