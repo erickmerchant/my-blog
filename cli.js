@@ -7,6 +7,11 @@ const writeFile = promisify(fs.writeFile)
 const readFile = promisify(fs.readFile)
 const globby = require('globby')
 const slugify = (title) => title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '-')
+const execa = require('execa')
+const execaOptions = {shell: true, stdio: 'inherit', cwd: process.cwd()}
+
+// require('@erickmerchant/css')
+// require('@erickmerchant/dev-cli')
 
 command({
   name: 'post',
@@ -42,8 +47,21 @@ command({
 })
 
 command({
-  name: 'postbuild',
+  name: 'start',
   async action() {
+    execa('css src/styles.mjs src/out/styles -wd', execaOptions)
+
+    execa('dev serve src', execaOptions)
+  }
+})
+
+command({
+  name: 'build',
+  async action() {
+    await execa('css src/styles.mjs src/out/styles', execaOptions)
+
+    await execa('dev cache src dist', execaOptions)
+
     const posts = require('./dist/content/posts/index.json')
     const files = await globby('./dist/**/*.{mjs,css}')
     const headers = [
@@ -60,7 +78,7 @@ command({
           headers.push(`  Link: <${relative}>; rel=preload; as=style`)
           break
 
-        case '.mjs':
+          case '.mjs':
           headers.push(`  Link: <${relative}>; rel=preload; as=script; crossorigin=anonymous`)
           break
       }

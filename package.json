@@ -4,19 +4,17 @@
   "license": "ISC",
   "author": "Erick Merchant <erickmerchant@gmail.com>",
   "scripts": {
-    "prebuild": "css src/styles.mjs src/out/styles",
-    "build": "dev cache src dist",
-    "postbuild": "node cli.js postbuild",
-    "prestart": "npm run prebuild -- -wd &",
-    "start": "dev serve src",
+    "build": "node ./cli.js build",
+    "start": "node ./cli.js start",
     "pretest": "lint '**/*.mjs'",
     "test": "exit 0"
   },
   "dependencies": {
     "@erickmerchant/css": "^20.10.0",
-    "@erickmerchant/dev-cli": "^9.3.1",
+    "@erickmerchant/dev-cli": "^9.4.0",
     "@erickmerchant/framework": "^32.3.1",
     "@erickmerchant/router": "^18.2.0",
+    "execa": "^4.0.0",
     "globby": "^11.0.0",
     "sergeant": "^27.2.2"
   },
