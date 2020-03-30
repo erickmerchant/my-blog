@@ -132,6 +132,7 @@ export const styles = {
   `,
   topNavList: (styles) => `
     ${styles.list}
+
     justify-content: center;
   `,
   date: `
@@ -173,6 +174,7 @@ export const styles = {
   `,
   button: (styles) => `
     ${styles.listItem}
+
     position: relative;
     flex: 1 1 calc(50% - 2em);
     padding: 1em 3em;
@@ -182,6 +184,7 @@ export const styles = {
   `,
   buttonDisabled: (styles) => `
     ${styles.button(styles)}
+
     background-color: ${colors.neutral};
     @media(max-width: 40em) {
       display: none;
@@ -206,6 +209,7 @@ export const styles = {
   `,
   footerList: (styles) => `
     ${styles.list}
+
     justify-content: center;
     font-weight: ${fontWeights.h4};
   `

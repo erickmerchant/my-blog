@@ -58,9 +58,10 @@ command({
 command({
   name: 'build',
   async action() {
-    await execa('css src/styles.mjs src/out/styles', execaOptions)
-
-    await execa('dev cache src dist', execaOptions)
+    await Promise.all([
+      execa('css src/styles.mjs src/out/styles', execaOptions),
+      execa('dev cache src dist', execaOptions)
+    ])
 
     const posts = require('./dist/content/posts/index.json')
     const files = await globby('./dist/**/*.{mjs,css}')
