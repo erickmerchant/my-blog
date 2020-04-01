@@ -103,7 +103,7 @@ export const _start = `
   }
 
   code {
-    font-family: "Fira Code", monospace;
+    font-family: Consolas, monaco, monospace;
     font-weight: ${fontWeights.h5};
     font-size: .8em;
   }
