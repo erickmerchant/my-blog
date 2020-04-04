@@ -22,18 +22,10 @@ const borderRadius = '0.25em'
 export const _start = `
   @font-face {
     font-display: fallback;
-    font-family: 'Public Sans';
+    font-family: "Public Sans";
     font-style: normal;
     font-weight: 1 999;
-    src: url('/fonts/Public_Sans/PublicSans-VariableFont_wght-subset.woff2') format('woff2');
-  }
-
-  @font-face {
-    font-display: fallback;
-    font-family: 'Fira Code';
-    font-style: normal;
-    font-weight: ${fontWeights.h5};
-    src: url('/fonts/Fira_Code/FiraCode-Regular-subset.woff2') format('woff2');
+    src: url("/fonts/Public_Sans/PublicSans-VariableFont_wght-subset.woff2") format("woff2");
   }
 
   * {
@@ -46,7 +38,7 @@ export const _start = `
 
   html {
     height: 100%;
-    font: 20px/1.5 "Public Sans", system-ui, -apple-system, Segoe UI, Roboto, Noto Sans, Ubuntu, Cantarell, Helvetica Neue, sans-serif;
+    font: 20px/1.5 "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
     font-weight: ${fontWeights.h6};
   }
 
@@ -115,7 +107,7 @@ export const _start = `
 
   :not(pre) > code::before,
   :not(pre) > code::after {
-    content: '\`';
+    content: "\`";
   }
 `
 
@@ -193,7 +185,7 @@ export const styles = {
   buttonAnchor: `
     ::after {
       display: block;
-      content: '';
+      content: "";
       position: absolute;
       top: 0;
       right: 0;
