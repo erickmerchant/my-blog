@@ -64,7 +64,7 @@ command({
     ])
 
     const posts = require('./dist/content/posts/index.json')
-    const files = await globby('./dist/**/*.{mjs,css}')
+    const files = await globby('./dist/**/*.{mjs,css,woff2}')
     const headers = [
       '  Link: </content/posts/index.json>; rel=preload; as=fetch; crossorigin=anonymous'
     ]
@@ -81,6 +81,10 @@ command({
 
           case '.mjs':
           headers.push(`  Link: <${relative}>; rel=preload; as=script; crossorigin=anonymous`)
+          break
+
+          case '.woff2':
+          headers.push(`  Link: <${relative}>; rel=preload; as=font; crossorigin=anonymous`)
           break
       }
     }
