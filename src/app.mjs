@@ -1,6 +1,6 @@
 import {render, domUpdate, html, raw} from '@erickmerchant/framework'
 import {route} from '@erickmerchant/router/wildcard.mjs'
-import {classes} from './out/styles.mjs'
+import {classes} from './css/styles.mjs'
 
 const fetch = async (url) => {
   const response = await window.fetch(url)
