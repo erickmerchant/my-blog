@@ -20,8 +20,13 @@ const init = async (commit) => {
 }
 
 const component = ({state, commit}) => html`<body class=${classes.app}>
+  <header class=${classes.header}>
+    <h1 class=${classes.headerCell}>Posts</h1>
+    <div class=${classes.headerControls}>
+      <button class=${classes.control}>New</button>
+    </div>
+  </header>
   <table class=${classes.table}>
-    <caption class=${classes.caption}>Posts <button>New</button></caption>
     <thead>
       <tr>
         <th class=${classes.th}>Title</th>
@@ -34,12 +39,13 @@ const component = ({state, commit}) => html`<body class=${classes.app}>
         <td class=${classes.td}>${post.title}</td>
         <td class=${classes.td}>${new Date(post.date).toLocaleDateString('en-US', {year: 'numeric', month: 'long', day: 'numeric'})}</td>
         <td class=${classes.td}>
-          <button>Edit</button>
-          <button>Delete</button>
+          <button class=${classes.control}>Edit</button>
+          <button class=${classes.control}>Delete</button>
         </td>
       </tr>`)}
     </tbody>
   </table>
+
 </body>`
 
 const commit = render({state, update, component})

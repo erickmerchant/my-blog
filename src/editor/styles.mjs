@@ -13,6 +13,26 @@ export const styles = {
     font-size: 16px;
     padding: 1em;
   `,
+  header: `
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+  `,
+  headerCell: `
+    flex: 1 1 auto;
+    margin: 0;
+    padding: 0.5em 1em 0.5em 0;
+  `,
+  headerControls: (styles) => `
+    ${styles.headerCell}
+    text-align: right;
+  `,
+  control: `
+    appearance: none;
+    border: none;
+    padding: 0.5em;
+    color: ${colors.primary};
+  `,
   table: `
     width: 100%;
     border-collapse: collapse;
@@ -31,5 +51,9 @@ export const styles = {
   td: `
     padding: 0.5em 1em 0.5em 0;
     white-space: nowrap;
+
+    :last-child {
+      text-align: right;
+    }
   `
 }
