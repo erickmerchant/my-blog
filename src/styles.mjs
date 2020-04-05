@@ -1,4 +1,4 @@
-const fontWeights = {
+export const fontWeights = {
   h1: 900,
   h2: 775,
   h3: 650,
@@ -7,7 +7,7 @@ const fontWeights = {
   h6: 275
 }
 
-const colors = {
+export const colors = {
   primary: 'hsl(120, 50%, 50%)',
   secondary: 'hsl(120, 25%, 50%)',
   neutral: 'hsl(120, 12.25%, 50%)',
@@ -17,7 +17,7 @@ const colors = {
   dark: 'hsl(120, 50%, 12.25%)'
 }
 
-const borderRadius = '0.25em'
+export const borderRadius = '0.25em'
 
 export const _start = `
   @font-face {

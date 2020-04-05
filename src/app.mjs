@@ -2,6 +2,12 @@ import {render, domUpdate, html, raw} from '@erickmerchant/framework'
 import {route} from '@erickmerchant/router/wildcard.mjs'
 import {classes} from './css/styles.mjs'
 
+const state = {location: '', title: ''}
+
+const target = document.querySelector('body')
+
+const update = domUpdate(target)
+
 const fetch = async (url) => {
   const response = await window.fetch(url)
 
@@ -178,13 +184,7 @@ const component = ({state, commit}) => (afterUpdate) => {
   </body>`
 }
 
-const target = document.querySelector('body')
-
-const update = domUpdate(target)
-
-const state = {location: '', title: ''}
-
-const commit = render({state, component, update})
+const commit = render({state, update, component})
 
 window.onpopstate = () => {
   dispatchLocation(commit, document.location.pathname)
