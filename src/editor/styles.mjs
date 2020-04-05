@@ -8,17 +8,10 @@ export const _start = `
 
 export const styles = {
   app: `
-    display: flex;
-    flex-wrap: wrap;
     height: 100%;
     color: ${colors.dark};
     font-size: 16px;
-  `,
-  half: `
-    flex: 1 1 50%;
     padding: 1em;
-    max-height: 100vh;
-    overflow-y: scroll;
   `,
   table: `
     width: 100%;
