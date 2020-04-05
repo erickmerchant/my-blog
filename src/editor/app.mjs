@@ -13,7 +13,7 @@ const init = async (commit) => {
   const posts = await res.json()
 
   commit((state) => {
-    state.posts = posts
+    state.posts = posts.reverse()
 
     return state
   })
@@ -45,7 +45,6 @@ const component = ({state, commit}) => html`<body class=${classes.app}>
       </tr>`)}
     </tbody>
   </table>
-
 </body>`
 
 const commit = render({state, update, component})

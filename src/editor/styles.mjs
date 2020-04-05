@@ -32,6 +32,7 @@ export const styles = {
     border: none;
     padding: 0.5em;
     color: ${colors.primary};
+    margin: 0 0.5em;
   `,
   table: `
     width: 100%;
