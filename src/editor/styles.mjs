@@ -1,6 +1,6 @@
 import * as parent from '../styles.mjs'
 
-const {colors, fontWeights} = parent
+const {colors, fontWeights, borderRadius} = parent
 
 export const _start = `
   ${parent._start}
@@ -56,5 +56,16 @@ export const styles = {
     :last-child {
       text-align: right;
     }
+  `,
+  modal: `
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    overflow-y: scroll;
+    background-color: hsla(0, 0%, 100%, 0.95);
+    border: 1px solid transparent;
+    border-radius: ${borderRadius};
   `
 }
