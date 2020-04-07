@@ -23,11 +23,11 @@ export const styles = {
     margin: 0;
     padding: 0.5em 1em 0.5em 0;
   `,
-  headerControls: (styles) => `
+  headerTextButtons: (styles) => `
     ${styles.headerCell}
     text-align: right;
   `,
-  control: `
+  textButton: `
     appearance: none;
     border: none;
     padding: 0.5em;
@@ -57,7 +57,7 @@ export const styles = {
       text-align: right;
     }
   `,
-  modal: `
+  form: `
     position: absolute;
     top: 0;
     bottom: 0;
@@ -66,6 +66,46 @@ export const styles = {
     overflow-y: scroll;
     background-color: hsla(0, 0%, 100%, 0.95);
     border: 1px solid transparent;
+    border-radius: ${borderRadius};
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+  `,
+  label: `
+    margin: 1em 0 0.5em;
+    font-weight: ${fontWeights.h3};
+  `,
+  input: `
+    padding: 0.5em;
+    width: 100%;
+    border-radius: ${borderRadius};
+    border: 1px solid ${colors.dark};
+  `,
+  textarea: `
+    padding: 0.5em;
+    width: 100%;
+    border-radius: ${borderRadius};
+    border: 1px solid ${colors.dark};
+    flex: 1 1 auto;
+  `,
+  formButtons: `
+    display: flex;
+    justify-content: flex-end;
+  `,
+  cancelButton: (styles) => `
+    ${styles.textButton}
+
+    margin: 1em 0;
+    padding: 1em 3em;
+  `,
+  saveButton: `
+    float: right;
+    appearance: none;
+    color: white;
+    margin: 1em 0 1em 1em;
+    padding: 1em 3em;
+    font-weight: ${fontWeights.h3};
+    background-color: ${colors.primary};
     border-radius: ${borderRadius};
   `
 }
