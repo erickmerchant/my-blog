@@ -33,7 +33,6 @@ command({
 
     await del(['./dist/editor/'])
 
-    const posts = require('./dist/content/posts/index.json')
     const files = await globby('./dist/**/*.{mjs,css,woff2}')
     const headers = []
 
@@ -59,11 +58,7 @@ command({
 
     const lines = []
 
-    lines.push('/', ...headers, '')
-
-    for (const post of posts) {
-      lines.push(`/posts/${post.slug}`, ...headers, '')
-    }
+    lines.push('/*', ...headers, '')
 
     await writeFile('./dist/_headers', lines.join('\n'))
   }
