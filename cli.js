@@ -31,6 +31,8 @@ command({
       execa('dev cache src dist', execaOptions)
     ])
 
+    await del(['./dist/editor/'])
+
     const posts = require('./dist/content/posts/index.json')
     const files = await globby('./dist/**/*.{mjs,css,woff2}')
     const headers = [
@@ -72,8 +74,6 @@ command({
     }
 
     await writeFile('./dist/_headers', lines.join('\n'))
-
-    await del(['./dist/editor/'])
   }
 })
 

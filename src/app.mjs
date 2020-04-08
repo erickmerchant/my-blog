@@ -2,7 +2,7 @@ import {render, domUpdate, html, raw} from '@erickmerchant/framework'
 import {route} from '@erickmerchant/router/wildcard.mjs'
 import {classes} from './css/styles.mjs'
 
-const headers = {'Content-Type': 'application/json'}
+const fetchOptions = {headers: {'Content-Type': 'application/json'}, mode: 'no-cors'}
 
 const state = {location: '', title: ''}
 
@@ -10,7 +10,7 @@ const target = document.querySelector('body')
 
 const update = domUpdate(target)
 
-const postsPromise = fetch('/content/posts/index.json', {headers}).then((res) => res.json())
+const postsPromise = fetch('/content/posts/index.json', fetchOptions).then((res) => res.json())
 
 const unfound = {
   location: '/404.html',
@@ -39,7 +39,7 @@ const getPost = async (search) => {
 
   const post = posts[index]
 
-  const response = await fetch(`/content/posts/${post.slug}.json`, {headers})
+  const response = await fetch(`/content/posts/${post.slug}.json`, fetchOptions)
 
   const result = await response.json()
 
