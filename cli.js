@@ -35,9 +35,7 @@ command({
 
     const posts = require('./dist/content/posts/index.json')
     const files = await globby('./dist/**/*.{mjs,css,woff2}')
-    const headers = [
-      '  Link: </content/posts/index.json>; rel=preload; as=fetch; type=application/json; crossorigin=anonymous'
-    ]
+    const headers = []
 
     for (const file of files) {
       const relative = `/${path.relative('./dist', file)}`
@@ -61,16 +59,10 @@ command({
 
     const lines = []
 
-    lines.push('/')
-
-    if (posts.length) {
-      lines.push(`  Link: </content/posts/${posts[0].slug}.json>; rel=preload; as=fetch; type=application/json; crossorigin=anonymous`)
-    }
-
-    lines.push(...headers, '')
+    lines.push('/', ...headers, '')
 
     for (const post of posts) {
-      lines.push(`/posts/${post.slug}`, `  Link: </content/posts/${post.slug}.json>; rel=preload; as=fetch; type=application/json; crossorigin=anonymous`, ...headers, '')
+      lines.push(`/posts/${post.slug}`, ...headers, '')
     }
 
     await writeFile('./dist/_headers', lines.join('\n'))
