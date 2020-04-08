@@ -1,10 +1,6 @@
-import * as parent from '../styles.mjs'
+import {colors, fontWeights, borderRadius, _start} from '../styles.mjs'
 
-const {colors, fontWeights, borderRadius} = parent
-
-export const _start = `
-  ${parent._start}
-`
+export {_start}
 
 export const styles = {
   app: `

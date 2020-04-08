@@ -3,6 +3,7 @@ const {command, start} = require('sergeant')('cli.js')
 const promisify = require('util').promisify
 const fs = require('fs')
 const path = require('path')
+const del = require('del')
 const writeFile = promisify(fs.writeFile)
 const globby = require('globby')
 const execa = require('execa')
@@ -71,6 +72,8 @@ command({
     }
 
     await writeFile('./dist/_headers', lines.join('\n'))
+
+    await del(['./dist/editor/'])
   }
 })
 
