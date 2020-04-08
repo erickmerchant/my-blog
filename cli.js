@@ -32,35 +32,6 @@ command({
     ])
 
     await del(['./dist/editor/'])
-
-    const files = await globby('./dist/**/*.{mjs,css,woff2}')
-    const headers = []
-
-    for (const file of files) {
-      const relative = `/${path.relative('./dist', file)}`
-
-      if (relative === '/styles.mjs') continue
-
-      switch (path.extname(relative)) {
-        case '.css':
-          headers.push(`  Link: <${relative}>; rel=preload; as=style`)
-          break
-
-          case '.mjs':
-          headers.push(`  Link: <${relative}>; rel=preload; as=script; crossorigin=anonymous`)
-          break
-
-          case '.woff2':
-          headers.push(`  Link: <${relative}>; rel=preload; as=font; crossorigin=anonymous`)
-          break
-      }
-    }
-
-    const lines = []
-
-    lines.push('/*', ...headers, '')
-
-    await writeFile('./dist/_headers', lines.join('\n'))
   }
 })
 
