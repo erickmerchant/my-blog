@@ -1,8 +1,9 @@
 import {render, domUpdate, html} from '@erickmerchant/framework'
 import {classes} from './css/styles.mjs'
 const slugify = (title) => title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '-')
+const clone = (obj) => JSON.parse(JSON.stringify(obj))
 
-const fetchOptions = {headers: {'Content-Type': 'application/json'}}
+const headers = {'Content-Type': 'application/json'}
 
 const state = {posts: []}
 
@@ -12,12 +13,14 @@ const update = domUpdate(target)
 
 const init = async (commit) => {
   try {
-    const res = await fetch('/content/posts/index.json', fetchOptions)
+    const res = await fetch('/content/posts/index.json', {headers})
 
     const posts = await res.json()
 
     commit((state) => {
-      state.posts = posts.reverse()
+      state.posts = posts
+
+      state.post = null
 
       return state
     })
@@ -49,22 +52,18 @@ const edit = (commit, post) => async (e) => {
   e.preventDefault()
 
   try {
-    const res = await fetch(`/content/posts/${post.slug}.json`, fetchOptions)
+    const res = await fetch(`/content/posts/${post.slug}.json`, {headers})
 
-    const {title, content} = await res.json()
+    const p = Object.assign(clone(post), await res.json())
 
     commit((state) => {
-      state.post = {
-        title,
-        content
-      }
+      state.post = p
+
+      return state
     })
   } catch (error) {
     commit((state) => {
-      state.post = {
-        title: '',
-        content: ''
-      }
+      state.post = post
 
       state.error = error
 
@@ -77,9 +76,27 @@ const remove = (commit, post) => async (e) => {
   e.preventDefault()
 
   try {
-    await fetch(`/content/posts/${post.slug}.json`, Object.assign({}, fetchOptions, {method: 'DELETE'}))
+    if (post.slug != null) {
+      const res = await fetch('/content/posts/index.json', {headers})
 
-    init(commit)
+      const posts = await res.json()
+
+      const index = posts.findIndex((p) => p.slug === post.slug)
+
+      if (index > -1) {
+        posts.splice(index, 1)
+
+        await fetch('/content/posts/index.json', {
+          method: 'POST',
+          headers,
+          body: JSON.stringify(posts)
+        })
+      }
+
+      await fetch(`/content/posts/${post.slug}.json`, {headers, method: 'DELETE'})
+
+      init(commit)
+    }
   } catch (error) {
     commit((state) => {
       state.error = error
@@ -102,25 +119,50 @@ const cancel = (commit) => async (e) => {
 const save = (commit, post) => async (e) => {
   e.preventDefault()
 
-  const data = Object.assign({}, post)
+  const data = clone(post)
 
   for (const [key, val] of new FormData(e.currentTarget)) {
     data[key] = val
   }
 
-  if (data.slug == null) {
-    data.slug = slugify(data.title)
-  }
-
-  if (data.data == null) {
-    data.data = Date.now()
-  }
-
   try {
-    await fetch(`/content/posts/${data.slug}.json`, Object.assign({}, fetchOptions, {
+    const res = await fetch('/content/posts/index.json', {headers})
+
+    const posts = await res.json()
+
+    if (data.date == null) {
+      const now = new Date()
+
+      data.date = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`
+    }
+
+    if (data.slug == null) {
+      data.slug = slugify(data.title)
+
+      const {title, date, slug} = data
+
+      posts.unshift({title, date, slug})
+    } else {
+      const index = posts.findIndex((post) => post.slug === data.slug)
+
+      const {title, date, slug} = data
+
+      posts.splice(index, 1, {title, date, slug})
+    }
+
+    data.content = data.content.replace(/\r/g, '')
+
+    await fetch('/content/posts/index.json', {
       method: 'POST',
+      headers,
+      body: JSON.stringify(posts)
+    })
+
+    await fetch(`/content/posts/${data.slug}.json`, {
+      method: 'POST',
+      headers,
       body: JSON.stringify(data)
-    }))
+    })
 
     init(commit)
   } catch (error) {

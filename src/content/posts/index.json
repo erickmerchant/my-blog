@@ -1,12 +1,1 @@
-[
-  {
-    "date": 1480306211096,
-    "title": "NPM Prepare Script Pitfall",
-    "slug": "npm-prepare-script-pitfall"
-  },
-  {
-    "date": 1487472214959,
-    "title": "Find Unused Modules With Your Source Map",
-    "slug": "find-unused-modules-with-your-sourcemap"
-  }
-]
+[{"title":"Find Unused Modules With Your Source Map","date":"2017-02-18","slug":"find-unused-modules-with-your-sourcemap"},{"title":"NPM Prepare Script Pitfall","date":"2016-11-27","slug":"npm-prepare-script-pitfall"}]

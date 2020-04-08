@@ -2,21 +2,15 @@ import {render, domUpdate, html, raw} from '@erickmerchant/framework'
 import {route} from '@erickmerchant/router/wildcard.mjs'
 import {classes} from './css/styles.mjs'
 
+const headers = {'Content-Type': 'application/json'}
+
 const state = {location: '', title: ''}
 
 const target = document.querySelector('body')
 
 const update = domUpdate(target)
 
-const fetch = async (url) => {
-  const response = await window.fetch(url)
-
-  if (url.endsWith('.json')) return response.json()
-
-  return response.text()
-}
-
-const postsPromise = fetch('/content/posts/index.json')
+const postsPromise = fetch('/content/posts/index.json', {headers}).then((res) => res.json())
 
 const unfound = {
   location: '/404.html',
@@ -25,9 +19,7 @@ const unfound = {
 }
 
 const listPosts = async () => {
-  let posts = await postsPromise
-
-  posts = posts.sort((a, b) => b.date - a.date)
+  const posts = await postsPromise
 
   return {
     location: '/posts/',
@@ -37,11 +29,9 @@ const listPosts = async () => {
 }
 
 const getPost = async (search) => {
-  let posts = await postsPromise
+  const posts = await postsPromise
 
-  posts = posts.sort((a, b) => b.date - a.date)
-
-  const index = posts.findIndex((post) => `/posts/${post.slug}/` === `/posts/${search}/`)
+  const index = posts.findIndex((post) => post.slug === search)
 
   if (index === -1) {
     return unfound
@@ -49,9 +39,11 @@ const getPost = async (search) => {
 
   const post = posts[index]
 
-  const result = await fetch(`/content/posts/${post.slug}.md`)
+  const response = await fetch(`/content/posts/${post.slug}.json`, {headers})
 
-  const lns = result.split(/\n```.*\n/g)
+  const result = await response.json()
+
+  const lns = result.content.split(/\n```.*\n/g)
 
   const content = []
 
