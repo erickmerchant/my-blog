@@ -60,7 +60,7 @@ export const styles = {
     right: 0;
     left: 0;
     overflow-y: scroll;
-    background-color: hsla(0, 0%, 100%, 0.95);
+    background-color: white;
     border: 1px solid transparent;
     border-radius: ${borderRadius};
     padding: 1em;
