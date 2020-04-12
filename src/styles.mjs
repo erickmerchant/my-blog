@@ -38,7 +38,9 @@ export const _start = `
 
   html {
     height: 100%;
-    font: 20px/1.5 "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    font-family: "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    font-size: max(20px, 1vw);
+    line-height: 1.5;
     font-weight: ${fontWeights.h6};
   }
 
@@ -139,8 +141,7 @@ export const styles = {
   `,
   main: `
     flex: 1 1 auto;
-    width: 100%;
-    max-width: 40em;
+    width: min(100%, 40em);
     margin-right: auto;
     margin-left: auto;
     padding-right: 1em;
