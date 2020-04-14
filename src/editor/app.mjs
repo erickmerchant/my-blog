@@ -211,7 +211,7 @@ const component = ({state, commit}) => html`<body class=${classes.app}>
   <header hidden=${state.post} class=${classes.header}>
     <h1 class=${classes.headerCell}>Posts</h1>
     <div class=${classes.headerTextButtons}>
-      <button class=${classes.textButton} onclick=${create(commit)}>New</button>
+      <button class=${classes.createButton} onclick=${create(commit)}>New</button>
     </div>
   </header>
   <table hidden=${state.post} class=${classes.table}>

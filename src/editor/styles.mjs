@@ -53,10 +53,23 @@ export const styles = {
     ${styles.headerCell}
     text-align: right;
   `,
+  button: `
+    appearance: none;
+    color: #FFF;
+    margin: 1em 0 1em 1em;
+    padding: 0.5em 1.5em;
+    font-weight: ${fontWeights.h3};
+    background-color: #090;
+    border: none;
+    border-radius: ${borderRadius};
+  `,
+  createButton: (styles) => `
+    ${styles.button}
+  `,
   textButton: `
     appearance: none;
     border: none;
-    padding: 0.5em;
+    padding: 0.5em 1.5em;
     color: #090;
     margin: 0 0.5em;
   `,
@@ -195,16 +208,9 @@ export const styles = {
     ${styles.textButton}
 
     margin: 1em 0;
-    padding: 1em 3em;
-  `,
-  saveButton: `
-    float: right;
-    appearance: none;
-    color: #FFF;
-    margin: 1em 0 1em 1em;
     padding: 0.5em 1.5em;
-    font-weight: ${fontWeights.h3};
-    background-color: #090;
-    border-radius: ${borderRadius};
+  `,
+  saveButton: (styles) => `
+    ${styles.button}
   `
 }
