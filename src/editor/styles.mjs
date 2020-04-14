@@ -121,7 +121,7 @@ export const styles = {
     margin: 0 auto;
     line-height: 1.5;
     `,
-    textareaHighlightsWrap: `
+  textareaHighlightsWrap: `
     min-height: 15em;
     padding: 0.5em;
     background-color: #FFF;
