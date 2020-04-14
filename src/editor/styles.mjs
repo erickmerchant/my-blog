@@ -56,20 +56,21 @@ export const styles = {
   button: `
     appearance: none;
     color: #FFF;
-    margin: 1em 0 1em 1em;
+    margin: 0 0.5em;
     padding: 0.5em 1.5em;
     font-weight: ${fontWeights.h3};
     background-color: #090;
     border: none;
     border-radius: ${borderRadius};
-  `,
+    `,
   createButton: (styles) => `
     ${styles.button}
-  `,
+    `,
   textButton: `
     appearance: none;
     border: none;
     padding: 0.5em 1.5em;
+    font-weight: ${fontWeights.h3};
     color: #090;
     margin: 0 0.5em;
   `,
@@ -117,7 +118,7 @@ export const styles = {
   `,
   label: `
     margin: 1em 0 0.5em;
-    font-weight: ${fontWeights.h3};
+    font-weight: ${fontWeights.h4};
   `,
   labelLarge: (styles) => `
     ${styles.label}
@@ -133,6 +134,7 @@ export const styles = {
   inputLarge: (styles) => `
     ${styles.input}
 
+    font-weight: ${fontWeights.h3};
     font-size: 1.25em;
   `,
   textareaWrap: `
@@ -212,5 +214,7 @@ export const styles = {
   `,
   saveButton: (styles) => `
     ${styles.button}
+
+    margin: 1em;
   `
 }
