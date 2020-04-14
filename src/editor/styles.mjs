@@ -49,6 +49,8 @@ export const styles = {
     color: ${colors.black};
     font-size: 16px;
     padding: 1em;
+
+    --z-index: 0;
   `,
   header: `
     display: flex;
@@ -162,7 +164,6 @@ export const styles = {
     padding: 0.5em;
     background-color: ${colors.white};
     border-radius: ${borderRadius};
-    pointer-events: none;
   `,
   textareaHighlights: `
     min-height: 15em;
@@ -185,7 +186,6 @@ export const styles = {
   `,
   highlightUrl: `
     color: ${colors.blue};
-    text-decoration: underline;
     background-color: transparent;
   `,
   highlightHeading: `
@@ -204,6 +204,7 @@ export const styles = {
     bottom: 0;
     right: 0;
     left: 0;
+    z-index: var(--z-index);
     width: 100%;
     padding: 0.5em;
     border-radius: ${borderRadius};

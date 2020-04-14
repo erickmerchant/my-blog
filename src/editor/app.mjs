@@ -18,7 +18,7 @@ const highlighter = (str) => content.toHTML(str, {
   codeBlockOpening: `<span class="${classes.highlightPunctuation}">\`\`\`</span><span class="${classes.highlightCodeBlock}">`,
   codeInline: (text) => `<span class="${classes.highlightPunctuation}">\`</span><span class="${classes.highlightCodeInline}">${text}</span><span class="${classes.highlightPunctuation}">\`</span>`,
   heading: (text) => `<span class="${classes.highlightHeadingPunctuation}">#</span> <span class="${classes.highlightHeading}">${text}</span>`,
-  link: (text, href) => `<span class="${classes.highlightPunctuation}">[</span>${text}<span class="${classes.highlightPunctuation}">]</span><span class="${classes.highlightPunctuation}">(</span><span class="${classes.highlightUrl}">${href}</span><span class="${classes.highlightPunctuation}">)</span>`,
+  link: (text, href) => `<span class="${classes.highlightPunctuation}">[</span>${text}<span class="${classes.highlightPunctuation}">]</span><span class="${classes.highlightPunctuation}">(</span><a class="${classes.highlightUrl}" href="${href}">${href}</a><span class="${classes.highlightPunctuation}">)</span>`,
   listClosing: '',
   listItem: (text) => `<span class="${classes.highlightPunctuation}">-</span> ${text}`,
   listOpening: '',
@@ -207,7 +207,19 @@ const highlight = (commit) => (e) => {
   })
 }
 
-const component = ({state, commit}) => html`<body class=${classes.app}>
+const lowerZindex = (e) => {
+  if (e.key === 'Meta') {
+    const current = Number(e.currentTarget.style.getPropertyValue('--z-index'))
+
+    e.currentTarget.style.setProperty('--z-index', current === 0 ? -1 : 0)
+  }
+}
+
+const resetZindex = (e) => {
+  e.currentTarget.style.setProperty('--z-index', 0)
+}
+
+const component = ({state, commit}) => html`<body class=${classes.app} onkeydown=${lowerZindex} onkeyup=${resetZindex}>
   <header hidden=${state.post} class=${classes.header}>
     <h1 class=${classes.headerCell}>Posts</h1>
     <div class=${classes.headerTextButtons}>
