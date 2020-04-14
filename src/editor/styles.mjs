@@ -106,11 +106,21 @@ export const styles = {
     margin: 1em 0 0.5em;
     font-weight: ${fontWeights.h3};
   `,
+  labelLarge: (styles) => `
+    ${styles.label}
+
+    font-size: 1.125em;
+  `,
   input: `
     padding: 0.5em;
     width: 100%;
     border-radius: ${borderRadius};
     border: 2px solid #999;
+  `,
+  inputLarge: (styles) => `
+    ${styles.input}
+
+    font-size: 1.25em;
   `,
   textareaWrap: `
     position: relative;
@@ -192,7 +202,7 @@ export const styles = {
     appearance: none;
     color: #FFF;
     margin: 1em 0 1em 1em;
-    padding: 1em 3em;
+    padding: 0.5em 1.5em;
     font-weight: ${fontWeights.h3};
     background-color: #090;
     border-radius: ${borderRadius};

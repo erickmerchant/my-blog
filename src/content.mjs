@@ -15,8 +15,8 @@ const defaultTemplates = {
 
 export const toHTML = (str, templates = defaultTemplates) => {
   const lineToHTML = (ln) => ln
-    .replace(/`(.+?)`/g, (m, ...p) => templates.codeInline(...p))
-    .replace(/\[(.+?)\]\((.+?)\)/g, (m, ...p) => templates.link(...p))
+    .replace(/`(.+?)`/g, (m, p1, offset) => offset === 0 || ln.charAt(offset - 1) !== '\\' ? templates.codeInline(p1) : m)
+    .replace(/\[(.+?)\]\((.+?)\)/g, (m, p1, p2, offset) => offset === 0 || ln.charAt(offset - 1) !== '\\' ? templates.link(p1, p2) : m)
 
   let html = ''
   const lns = str.split('\n')

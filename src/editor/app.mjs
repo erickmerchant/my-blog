@@ -235,8 +235,8 @@ const component = ({state, commit}) => html`<body class=${classes.app}>
   </table>
   ${state.post
   ? html`<form class=${classes.form} onsubmit=${save(commit, state.post)} method="POST">
-      <label class=${classes.label} for="Title">Title</label>
-      <input class=${classes.input} name="title" id="Title" value=${state.post.title} />
+      <label class=${classes.labelLarge} for="Title">Title</label>
+      <input class=${classes.inputLarge} name="title" id="Title" value=${state.post.title} oninput=${(e) => commit((state) => { state.post.title = e.currentTarget.value; return state })} />
       <label class=${classes.label} for="Content">Content</label>
       <div class=${classes.textareaWrap}>
         <div class=${classes.textareaHighlightsWrap}>
@@ -245,7 +245,7 @@ const component = ({state, commit}) => html`<body class=${classes.app}>
         <textarea class=${classes.textarea} name="content" id="Content" oninput=${highlight(commit)}>${state.post.content}</textarea>
       </div>
       <div class=${classes.formButtons}>
-        <button class=${classes.cancelButton} onclick=${cancel(commit)}>Cancel</button>
+        <button class=${classes.cancelButton} onclick=${cancel(commit)} type="button">Cancel</button>
         <button class=${classes.saveButton} type="submit">Save</button>
       </div>
     </form>`
