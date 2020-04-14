@@ -9,6 +9,17 @@ export const fontWeights = {
   h6: 300
 }
 
+const colors = {
+  black: '#000',
+  white: '#FFF',
+  green: '#0C0',
+  blue: '#0CF',
+  red: '#F30',
+  gray1: '#333',
+  gray2: '#666',
+  gray3: '#CCC'
+}
+
 export const _start = `
   ${_superStart}
 
@@ -35,7 +46,7 @@ export const styles = {
     font-family: "Fira Code";
     font-weight: ${fontWeights.h6};
     height: 100%;
-    color: #000;
+    color: ${colors.black};
     font-size: 16px;
     padding: 1em;
   `,
@@ -55,11 +66,11 @@ export const styles = {
   `,
   button: `
     appearance: none;
-    color: #FFF;
+    color: ${colors.white};
     margin: 0 0.5em;
     padding: 0.5em 1.5em;
     font-weight: ${fontWeights.h3};
-    background-color: #090;
+    background-color: ${colors.blue};
     border: none;
     border-radius: ${borderRadius};
     `,
@@ -71,13 +82,13 @@ export const styles = {
     border: none;
     padding: 0.5em 1.5em;
     font-weight: ${fontWeights.h3};
-    color: #090;
+    color: ${colors.blue};
     margin: 0 0.5em;
   `,
   deleteButton: (styles) => `
     ${styles.textButton}
 
-    color: #C00;
+    color: ${colors.red};
   `,
   table: `
     width: 100%;
@@ -109,7 +120,7 @@ export const styles = {
     right: 0;
     left: 0;
     overflow-y: scroll;
-    background-color: white;
+    background-color: ${colors.white};
     border: 2px solid transparent;
     border-radius: ${borderRadius};
     padding: 1em;
@@ -129,19 +140,19 @@ export const styles = {
     padding: 0.5em;
     width: 100%;
     border-radius: ${borderRadius};
-    border: 2px solid #999;
+    border: 2px solid currentColor;
+    color: ${colors.gray1};
   `,
   inputLarge: (styles) => `
     ${styles.input}
 
-    font-weight: ${fontWeights.h3};
     font-size: 1.25em;
   `,
   textareaWrap: `
     position: relative;
     width: 100%;
     height: max(15em, max-content);
-    border: 2px solid #999;
+    border: 2px solid currentColor;
     border-radius: ${borderRadius};
     margin: 0 auto;
     line-height: 1.5;
@@ -149,41 +160,41 @@ export const styles = {
   textareaHighlightsWrap: `
     min-height: 15em;
     padding: 0.5em;
-    background-color: #FFF;
+    background-color: ${colors.white};
     border-radius: ${borderRadius};
     pointer-events: none;
   `,
   textareaHighlights: `
     min-height: 15em;
-    color: #333;
+    color: ${colors.gray1};
   `,
   highlightPunctuation: `
-    color: #999;
+    color: ${colors.gray3};
     font-weight: ${fontWeights.h5};
     background-color: transparent;
   `,
   highlightCodeBlock: `
-    color: #090;
+    color: ${colors.green};
     display: block;
     white-space: pre-wrap;
     background-color: transparent;
   `,
   highlightCodeInline: `
-    color: #090;
+    color: ${colors.green};
     background-color: transparent;
   `,
   highlightUrl: `
-    color: #00C;
+    color: ${colors.blue};
     text-decoration: underline;
     background-color: transparent;
   `,
   highlightHeading: `
-    color: #000;
+    color: ${colors.black};
     font-weight: ${fontWeights.h3};
     background-color: transparent;
   `,
   highlightHeadingPunctuation: `
-    color: #999;
+    color: ${colors.gray3};
     font-weight: ${fontWeights.h3};
     background-color: transparent;
   `,
@@ -197,7 +208,7 @@ export const styles = {
     padding: 0.5em;
     border-radius: ${borderRadius};
     margin: 0;
-    caret-color: #333;
+    caret-color: ${colors.gray1};
     color: transparent;
     background-color: transparent;
     overflow: hidden;
