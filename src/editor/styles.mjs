@@ -1,11 +1,41 @@
-import {colors, fontWeights, borderRadius, _start} from '../styles.mjs'
+import {borderRadius, _start as _superStart} from '../styles.mjs'
 
-export {_start}
+export const fontWeights = {
+  h1: 700,
+  h2: 620,
+  h3: 540,
+  h4: 460,
+  h5: 380,
+  h6: 300
+}
+
+export const _start = `
+  ${_superStart}
+
+  @font-face {
+    font-display: fallback;
+    font-family: "Fira Code";
+    font-style: normal;
+    font-weight: 300 700;
+    src: url("/fonts/Fira_Code/FiraCode-VariableFont_wght-subset.woff2") format("woff2");
+  }
+
+  pre {
+    overflow: auto;
+    padding: 0;
+    white-space: pre-wrap;
+    color: inherit;
+    background-color: transparent;
+    border-radius: 0;
+  }
+`
 
 export const styles = {
   app: `
+    font-family: "Fira Code";
+    font-weight: ${fontWeights.h6};
     height: 100%;
-    color: ${colors.dark};
+    color: #000;
     font-size: 16px;
     padding: 1em;
   `,
@@ -27,22 +57,27 @@ export const styles = {
     appearance: none;
     border: none;
     padding: 0.5em;
-    color: ${colors.primary};
+    color: #090;
     margin: 0 0.5em;
+  `,
+  deleteButton: (styles) => `
+    ${styles.textButton}
+
+    color: #C00;
   `,
   table: `
     width: 100%;
     border-collapse: collapse;
   `,
   caption: `
-    font-weight: ${fontWeights.h2};
+    font-weight: ${fontWeights.h1};
     text-align: left;
     padding: 1em 1em 1em 0;
   `,
   th: (styles) => `
     ${styles.td}
-    border-bottom: 1px solid ${colors.dark};
-    font-weight: ${fontWeights.h3};
+    border-bottom: 1px solid currentColor;
+    font-weight: ${fontWeights.h2};
     text-align: left;
   `,
   td: `
@@ -61,7 +96,7 @@ export const styles = {
     left: 0;
     overflow-y: scroll;
     background-color: white;
-    border: 1px solid transparent;
+    border: 2px solid transparent;
     border-radius: ${borderRadius};
     padding: 1em;
     display: flex;
@@ -75,14 +110,72 @@ export const styles = {
     padding: 0.5em;
     width: 100%;
     border-radius: ${borderRadius};
-    border: 1px solid ${colors.dark};
+    border: 2px solid #999;
+  `,
+  textareaWrap: `
+    position: relative;
+    width: 100%;
+    height: max(15em, max-content);
+    border: 2px solid #999;
+    border-radius: ${borderRadius};
+    margin: 0 auto;
+    line-height: 1.5;
+    `,
+    textareaHighlightsWrap: `
+    min-height: 15em;
+    padding: 0.5em;
+    background-color: #FFF;
+    border-radius: ${borderRadius};
+    pointer-events: none;
+  `,
+  textareaHighlights: `
+    min-height: 15em;
+    color: #333;
+  `,
+  highlightPunctuation: `
+    color: #999;
+    font-weight: ${fontWeights.h5};
+    background-color: transparent;
+  `,
+  highlightCodeBlock: `
+    color: #090;
+    display: block;
+    white-space: pre-wrap;
+    background-color: transparent;
+  `,
+  highlightCodeInline: `
+    color: #090;
+    background-color: transparent;
+  `,
+  highlightUrl: `
+    color: #00C;
+    text-decoration: underline;
+    background-color: transparent;
+  `,
+  highlightHeading: `
+    color: #000;
+    font-weight: ${fontWeights.h3};
+    background-color: transparent;
+  `,
+  highlightHeadingPunctuation: `
+    color: #999;
+    font-weight: ${fontWeights.h3};
+    background-color: transparent;
   `,
   textarea: `
-    padding: 0.5em;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
     width: 100%;
+    padding: 0.5em;
     border-radius: ${borderRadius};
-    border: 1px solid ${colors.dark};
-    flex: 1 1 auto;
+    margin: 0;
+    caret-color: #333;
+    color: transparent;
+    background-color: transparent;
+    overflow: hidden;
   `,
   formButtons: `
     display: flex;
@@ -97,11 +190,11 @@ export const styles = {
   saveButton: `
     float: right;
     appearance: none;
-    color: white;
+    color: #FFF;
     margin: 1em 0 1em 1em;
     padding: 1em 3em;
     font-weight: ${fontWeights.h3};
-    background-color: ${colors.primary};
+    background-color: #090;
     border-radius: ${borderRadius};
   `
 }

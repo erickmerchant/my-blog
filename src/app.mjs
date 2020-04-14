@@ -1,6 +1,7 @@
 import {render, domUpdate, html, raw} from '@erickmerchant/framework'
 import {route} from '@erickmerchant/router/wildcard.mjs'
 import {classes} from './css/styles.mjs'
+import * as content from './content.mjs'
 
 const fetchOptions = {headers: {'Content-Type': 'application/json'}, mode: 'no-cors'}
 
@@ -43,23 +44,7 @@ const getPost = async (search) => {
 
   const result = await response.json()
 
-  const lns = result.content.split(/\n```.*\n/g)
-
-  const content = []
-
-  let i = 0
-
-  while (i < lns.length) {
-    if (i % 2) {
-      content.push(html`<pre><code>${lns[i]}</code></pre>`)
-    } else {
-      content.push(raw(lns[i]))
-    }
-
-    i++
-  }
-
-  post.content = content
+  post.content = content.toHTML(result.content)
 
   return {
     location: `/posts/${post.slug}/`,
@@ -150,7 +135,7 @@ const component = ({state, commit}) => (afterUpdate) => {
             </span>
           </time>
         </header>
-        <div class=${classes.content}>${state.post.content}</div>
+        <div class=${classes.content}>${raw(state.post.content)}</div>
         ${state.prev || state.next
           ? html`<nav>
             <ul class=${classes.list}>

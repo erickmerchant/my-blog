@@ -1,5 +1,7 @@
-import {render, domUpdate, html} from '@erickmerchant/framework'
+import {render, domUpdate, html, raw} from '@erickmerchant/framework'
 import {classes} from './css/styles.mjs'
+import * as content from '../content.mjs'
+
 const slugify = (title) => title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '-')
 const clone = (obj) => JSON.parse(JSON.stringify(obj))
 
@@ -11,6 +13,19 @@ const target = document.querySelector('body')
 
 const update = domUpdate(target)
 
+const highlighter = (str) => content.toHTML(str, {
+  codeBlockClosing: `</span><span class="${classes.highlightPunctuation}">\`\`\`</span>`,
+  codeBlockOpening: `<span class="${classes.highlightPunctuation}">\`\`\`</span><span class="${classes.highlightCodeBlock}">`,
+  codeInline: (text) => `<span class="${classes.highlightPunctuation}">\`</span><span class="${classes.highlightCodeInline}">${text}</span><span class="${classes.highlightPunctuation}">\`</span>`,
+  heading: (text) => `<span class="${classes.highlightHeadingPunctuation}">#</span> <span class="${classes.highlightHeading}">${text}</span>`,
+  link: (text, href) => `<span class="${classes.highlightPunctuation}">[</span>${text}<span class="${classes.highlightPunctuation}">]</span><span class="${classes.highlightPunctuation}">(</span><span class="${classes.highlightUrl}">${href}</span><span class="${classes.highlightPunctuation}">)</span>`,
+  listClosing: '',
+  listItem: (text) => `<span class="${classes.highlightPunctuation}">-</span> ${text}`,
+  listOpening: '',
+  paragraph: (text) => `${text}`,
+  newline: '<br>'
+})
+
 const init = async (commit) => {
   try {
     const res = await fetch('/content/posts/index.json', {headers})
@@ -21,6 +36,8 @@ const init = async (commit) => {
       state.posts = posts
 
       state.post = null
+
+      state.highlights = null
 
       return state
     })
@@ -44,6 +61,8 @@ const create = (commit) => (e) => {
       content: ''
     }
 
+    state.highlights = ''
+
     return state
   })
 }
@@ -59,11 +78,15 @@ const edit = (commit, post) => async (e) => {
     commit((state) => {
       state.post = p
 
+      state.highlights = highlighter(p.content)
+
       return state
     })
   } catch (error) {
     commit((state) => {
       state.post = post
+
+      state.highlights = highlighter(post.content)
 
       state.error = error
 
@@ -111,6 +134,8 @@ const cancel = (commit) => async (e) => {
 
   commit((state) => {
     state.post = null
+
+    state.highlights = null
 
     return state
   })
@@ -174,14 +199,22 @@ const save = (commit, post) => async (e) => {
   }
 }
 
+const highlight = (commit) => (e) => {
+  commit((state) => {
+    state.highlights = highlighter(e.currentTarget.value)
+
+    return state
+  })
+}
+
 const component = ({state, commit}) => html`<body class=${classes.app}>
-  <header class=${classes.header}>
+  <header hidden=${state.post} class=${classes.header}>
     <h1 class=${classes.headerCell}>Posts</h1>
     <div class=${classes.headerTextButtons}>
       <button class=${classes.textButton} onclick=${create(commit)}>New</button>
     </div>
   </header>
-  <table class=${classes.table}>
+  <table hidden=${state.post} class=${classes.table}>
     <thead>
       <tr>
         <th class=${classes.th}>Title</th>
@@ -195,7 +228,7 @@ const component = ({state, commit}) => html`<body class=${classes.app}>
         <td class=${classes.td}>${new Date(post.date).toLocaleDateString('en-US', {year: 'numeric', month: 'long', day: 'numeric'})}</td>
         <td class=${classes.td}>
           <button class=${classes.textButton} onclick=${edit(commit, post)}>Edit</button>
-          <button class=${classes.textButton} onclick=${remove(commit, post)}>Delete</button>
+          <button class=${classes.deleteButton} onclick=${remove(commit, post)}>Delete</button>
         </td>
       </tr>`)}
     </tbody>
@@ -205,7 +238,12 @@ const component = ({state, commit}) => html`<body class=${classes.app}>
       <label class=${classes.label} for="Title">Title</label>
       <input class=${classes.input} name="title" id="Title" value=${state.post.title} />
       <label class=${classes.label} for="Content">Content</label>
-      <textarea class=${classes.textarea} name="content" id="Content">${state.post.content}</textarea>
+      <div class=${classes.textareaWrap}>
+        <div class=${classes.textareaHighlightsWrap}>
+          <div class=${classes.textareaHighlights}>${raw(state.highlights)}</div>
+        </div>
+        <textarea class=${classes.textarea} name="content" id="Content" oninput=${highlight(commit)}>${state.post.content}</textarea>
+      </div>
       <div class=${classes.formButtons}>
         <button class=${classes.cancelButton} onclick=${cancel(commit)}>Cancel</button>
         <button class=${classes.saveButton} type="submit">Save</button>
