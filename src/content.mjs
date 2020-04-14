@@ -1,5 +1,11 @@
 const codeFence = '```'
 
+const escape = (str) => String(str).replace(/&/g, '&amp;')
+  .replace(/</g, '&lt;')
+  .replace(/>/g, '&gt;')
+  .replace(/"/g, '&quot;')
+  .replace(/'/g, '&#039;')
+
 const defaultTemplates = {
   codeBlockClosing: '</code></pre>',
   codeBlockOpening: '<pre><code>',
@@ -19,7 +25,7 @@ export const toHTML = (str, templates = defaultTemplates) => {
     .replace(/\[(.+?)\]\((.+?)\)/g, (m, p1, p2, offset) => (offset === 0 || ln.charAt(offset - 1) !== '\\' ? templates.link(p1, p2) : m))
 
   let html = ''
-  const lns = str.split('\n')
+  const lns = escape(str).split('\n')
 
   while (lns.length) {
     switch (true) {
@@ -50,7 +56,7 @@ export const toHTML = (str, templates = defaultTemplates) => {
 
         const last = lns.shift()
 
-        html += `${templates.codeBlockOpening}${code.join('\n')}${last === codeFence ? templates.codeBlockClosing : ''}${templates.newline}`
+        html += `${templates.codeBlockOpening}${code.join('\n')}${templates.newline}${last === codeFence ? templates.codeBlockClosing : ''}${templates.newline}`
       }
         break
 
