@@ -6,7 +6,7 @@
   "scripts": {
     "build": "node ./cli.js build",
     "start": "node ./cli.js start",
-    "pretest": "lint '**/*.mjs'",
+    "pretest": "lint '**/*.{js,mjs}'",
     "test": "exit 0"
   },
   "dependencies": {
@@ -16,7 +16,6 @@
     "@erickmerchant/router": "^18.2.0",
     "del": "^5.1.0",
     "execa": "^4.0.0",
-    "globby": "^11.0.0",
     "sergeant": "^27.2.2"
   },
   "devDependencies": {
