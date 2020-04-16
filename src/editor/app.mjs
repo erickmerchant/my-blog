@@ -15,7 +15,7 @@ const update = domUpdate(target)
 
 const highlighter = (str) => content(str.replace(/\r/g, ''), {
   codeBlock: (code) => html`<span>
-    <span class=${classes.highlightPunctuation}>${'```'}</span>
+    <span class=${classes.highlightPunctuation}>${'```\n'}</span>
     <span class=${classes.highlightCodeBlock}>${code}</span>
     <span class=${classes.highlightPunctuation}>${'```'}</span>
   </span>`,
@@ -41,8 +41,7 @@ const highlighter = (str) => content(str.replace(/\r/g, ''), {
     <span class=${classes.highlightPunctuation}>- </span>
     ${text}
   </span>`,
-  paragraph: (text) => html`<span>${text}</span>`,
-  newline: html`<br />`
+  paragraph: (text) => html`<span>${text}</span>`
 })
 
 const init = async (commit) => {

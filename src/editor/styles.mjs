@@ -170,7 +170,6 @@ export const styles = {
   `,
   highlightCodeBlock: `
     color: ${colors.green};
-    display: block;
     white-space: pre-wrap;
   `,
   highlightCodeInline: `

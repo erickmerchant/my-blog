@@ -3,17 +3,19 @@ import {html} from '@erickmerchant/framework'
 const codeFence = '```'
 
 const defaultTemplates = {
-  codeBlock: (code) => html`<pre><code>${code}</code></pre>`,
+  codeBlock: (items) => html`<pre><code>${items}</code></pre>`,
   codeInline: (text) => html`<code>${text}</code>`,
   heading: (text) => html`<h2>${text}</h2>`,
   link: (text, href) => html`<a href=${href}>${text}</a>`,
   list: (items) => html`<ul>${items}</ul>`,
-  listItem: (text) => html`<li>${text}</li>`,
-  paragraph: (text) => html`<p>${text}</p>`
+  listItem: (items) => html`<li>${items}</li>`,
+  paragraph: (items) => (items.length ? html`<p>${items}</p>` : null)
 }
 
 export const content = (str, templates = defaultTemplates) => {
   const inline = (ln) => {
+    if (ln === '') return []
+
     const results = []
     const matches = ln.matchAll(/\[(.*?)\]\((.*?)\)|`(.*?)`/g)
     let offset = 0
@@ -78,9 +80,17 @@ export const content = (str, templates = defaultTemplates) => {
       }
         break
 
-      default:
-        html.push(templates.paragraph(inline(lns.shift())))
-        html.push('\n')
+      default: {
+        const p = templates.paragraph(inline(lns.shift()))
+
+        if (p != null) {
+          html.push(p)
+
+          html.push('\n')
+        } else {
+          html.push('\n')
+        }
+      }
     }
   }
 
