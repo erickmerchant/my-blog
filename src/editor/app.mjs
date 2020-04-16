@@ -1,6 +1,6 @@
-import {render, domUpdate, html, raw} from '@erickmerchant/framework'
+import {render, domUpdate, html} from '@erickmerchant/framework'
 import {classes} from './css/styles.mjs'
-import * as content from '../content.mjs'
+import {content} from '../content.mjs'
 
 const slugify = (title) => title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '-')
 const clone = (obj) => JSON.parse(JSON.stringify(obj))
@@ -13,17 +13,36 @@ const target = document.querySelector('body')
 
 const update = domUpdate(target)
 
-const highlighter = (str) => content.toHTML(str, {
-  codeBlockClosing: `</span><span class="${classes.highlightPunctuation}">\`\`\`</span>`,
-  codeBlockOpening: `<span class="${classes.highlightPunctuation}">\`\`\`</span><span class="${classes.highlightCodeBlock}">`,
-  codeInline: (text) => `<span class="${classes.highlightPunctuation}">\`</span><span class="${classes.highlightCodeInline}">${text}</span><span class="${classes.highlightPunctuation}">\`</span>`,
-  heading: (text) => `<span class="${classes.highlightHeadingPunctuation}">#</span> <span class="${classes.highlightHeading}">${text}</span>`,
-  link: (text, href) => `<span class="${classes.highlightPunctuation}">[</span>${text}<span class="${classes.highlightPunctuation}">]</span><span class="${classes.highlightPunctuation}">(</span><a class="${classes.highlightUrl}" href="${href}">${href}</a><span class="${classes.highlightPunctuation}">)</span>`,
-  listClosing: '',
-  listItem: (text) => `<span class="${classes.highlightPunctuation}">-</span> ${text}`,
-  listOpening: '',
-  paragraph: (text) => `${text}`,
-  newline: '<br>'
+const highlighter = (str) => content(str.replace(/\r/g, ''), {
+  codeBlock: (code) => html`<span>
+    <span class=${classes.highlightPunctuation}>${'```'}</span>
+    <span class=${classes.highlightCodeBlock}>${code}</span>
+    <span class=${classes.highlightPunctuation}>${'```'}</span>
+  </span>`,
+  codeInline: (text) => html`<span>
+    <span class=${classes.highlightPunctuation}>${'`'}</span>
+    <span class=${classes.highlightCodeInline}>${text}</span>
+    <span class=${classes.highlightPunctuation}>${'`'}</span>
+  </span>`,
+  heading: (text) => html`<span>
+    <span class=${classes.highlightHeadingPunctuation}># </span>
+    <span class=${classes.highlightHeading}>${text}</span>
+  </span>`,
+  link: (text, href) => html`<span>
+    <span class=${classes.highlightPunctuation}>[</span>
+    ${text}
+    <span class=${classes.highlightPunctuation}>]</span>
+    <span class=${classes.highlightPunctuation}>(</span>
+    <a href=${href}>${href}</a>
+    <span class=${classes.highlightPunctuation}>)</span>
+  </span>`,
+  list: (items) => html`<span>${items}</span>`,
+  listItem: (text) => html`<span>
+    <span class=${classes.highlightPunctuation}>- </span>
+    ${text}
+  </span>`,
+  paragraph: (text) => html`<span>${text}</span>`,
+  newline: html`<br />`
 })
 
 const init = async (commit) => {
@@ -78,7 +97,7 @@ const edit = (commit, post) => async (e) => {
     commit((state) => {
       state.post = p
 
-      state.highlights = highlighter(p.content)
+      state.highlights = p.content
 
       return state
     })
@@ -86,7 +105,7 @@ const edit = (commit, post) => async (e) => {
     commit((state) => {
       state.post = post
 
-      state.highlights = highlighter(post.content)
+      state.highlights = post.content
 
       state.error = error
 
@@ -201,7 +220,7 @@ const save = (commit, post) => async (e) => {
 
 const highlight = (commit) => (e) => {
   commit((state) => {
-    state.highlights = highlighter(e.currentTarget.value)
+    state.highlights = e.currentTarget.value
 
     return state
   })
@@ -237,7 +256,7 @@ const component = ({state, commit}) => html`<body class=${classes.app} onkeydown
     <tbody>
       ${state.posts.map((post) => html`<tr>
         <td class=${classes.td}>${post.title}</td>
-        <td class=${classes.td}>${new Date(post.date).toLocaleDateString('en-US', {year: 'numeric', month: 'long', day: 'numeric'})}</td>
+        <td class=${classes.td}>${new Date(post.date).toLocaleDateString('en-US', {year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC'})}</td>
         <td class=${classes.td}>
           <button class=${classes.textButton} onclick=${edit(commit, post)}>Edit</button>
           <button class=${classes.deleteButton} onclick=${remove(commit, post)}>Delete</button>
@@ -252,7 +271,7 @@ const component = ({state, commit}) => html`<body class=${classes.app} onkeydown
       <label class=${classes.label} for="Content">Content</label>
       <div class=${classes.textareaWrap}>
         <div class=${classes.textareaHighlightsWrap}>
-          <div class=${classes.textareaHighlights}>${raw(state.highlights)}</div>
+          <pre class=${classes.textareaHighlights}>${highlighter(state.highlights)}</pre>
         </div>
         <textarea class=${classes.textarea} name="content" id="Content" oninput=${highlight(commit)}>${state.post.content}</textarea>
       </div>

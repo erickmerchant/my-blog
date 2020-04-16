@@ -1,7 +1,7 @@
 import {render, domUpdate, html, raw} from '@erickmerchant/framework'
 import {route} from '@erickmerchant/router/wildcard.mjs'
 import {classes} from './css/styles.mjs'
-import * as content from './content.mjs'
+import {content} from './content.mjs'
 
 const fetchOptions = {headers: {'Content-Type': 'application/json'}, mode: 'no-cors'}
 
@@ -44,7 +44,7 @@ const getPost = async (search) => {
 
   const result = await response.json()
 
-  post.content = content.toHTML(result.content)
+  post.content = result.content
 
   return {
     location: `/posts/${post.slug}/`,
@@ -131,11 +131,11 @@ const component = ({state, commit}) => (afterUpdate) => {
               <rect width="8" height="8" y="12" x="20" rx="0.5" fill="white" />
             </svg>
             <span>
-              ${new Date(state.post.date).toLocaleDateString('en-US', {year: 'numeric', month: 'long', day: 'numeric'})}
+              ${new Date(state.post.date).toLocaleDateString('en-US', {year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC'})}
             </span>
           </time>
         </header>
-        <div class=${classes.content}>${raw(state.post.content)}</div>
+        <div class=${classes.content}>${content(state.post.content)}</div>
         ${state.prev || state.next
           ? html`<nav>
             <ul class=${classes.list}>

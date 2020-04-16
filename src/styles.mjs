@@ -1,4 +1,4 @@
-export const fontWeights = {
+const fontWeights = {
   h1: 900,
   h2: 775,
   h3: 650,
@@ -7,17 +7,15 @@ export const fontWeights = {
   h6: 275
 }
 
-export const colors = {
-  primary: 'hsl(120, 50%, 50%)',
-  secondary: 'hsl(120, 25%, 50%)',
-  neutral: 'hsl(120, 12.25%, 50%)',
-  dim: 'hsl(120, 75%, 25%)',
-  bright: 'hsl(120, 75%, 75%)',
-  light: 'hsl(120, 50%, 75%)',
-  dark: 'hsl(120, 50%, 12.25%)'
+const colors = {
+  green1: 'hsl(120, 30%, 50%)',
+  green2: 'hsl(120, 30%, 40%)', // darken for light background
+  green3: 'hsl(120, 50%, 60%)', // saturate and lighten for dark background
+  gray: 'hsl(120, 15%, 50%)',
+  black: 'hsl(120, 15%, 15%)'
 }
 
-export const borderRadius = '0.25em'
+const borderRadius = '0.25em'
 
 export const _start = `
   @font-face {
@@ -79,7 +77,7 @@ export const _start = `
 
   a {
     box-shadow: 0 0.1em 0 0 currentColor;
-    color: var(--link-color, ${colors.primary});
+    color: var(--link-color, ${colors.green2});
   }
 
   a,
@@ -91,8 +89,8 @@ export const _start = `
     overflow: auto;
     padding: 1em;
     white-space: pre-wrap;
-    color: ${colors.bright};
-    background-color: ${colors.dark};
+    color: ${colors.green3};
+    background-color: ${colors.black};
     border-radius: ${borderRadius};
   }
 
@@ -103,7 +101,7 @@ export const _start = `
   }
 
   :not(pre) > code {
-    color: ${colors.dim};
+    color: ${colors.green2};
     font-weight: bold;
   }
 
@@ -118,11 +116,11 @@ export const styles = {
     display: flex;
     height: 100%;
     flex-direction: column;
-    color: ${colors.dark};
+    color: ${colors.black};
   `,
   topNav: `
     font-weight: ${fontWeights.h4};
-    background-color: ${colors.secondary};
+    background-color: ${colors.green1};
   `,
   topNavList: (styles) => `
     ${styles.list}
@@ -172,13 +170,13 @@ export const styles = {
     flex: 1 1 calc(50% - 2em);
     padding: 1em 3em;
     font-weight: ${fontWeights.h3};
-    background-color: ${colors.primary};
+    background-color: ${colors.green1};
     border-radius: ${borderRadius};
   `,
   buttonDisabled: (styles) => `
     ${styles.button(styles)}
 
-    background-color: ${colors.neutral};
+    background-color: ${colors.gray};
     @media(max-width: 40em) {
       display: none;
     }
@@ -198,7 +196,7 @@ export const styles = {
   footer: `
     font-size: .75em;
     margin-top: 4em;
-    background-color: ${colors.secondary};
+    background-color: ${colors.green1};
   `,
   footerList: (styles) => `
     ${styles.list}

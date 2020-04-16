@@ -1,4 +1,4 @@
-import {borderRadius, _start as _superStart} from '../styles.mjs'
+import {_start as _superStart} from '../styles.mjs'
 
 export const fontWeights = {
   h1: 700,
@@ -10,15 +10,15 @@ export const fontWeights = {
 }
 
 const colors = {
-  black: '#000',
-  white: '#FFF',
-  green: '#0C0',
-  blue: '#0CF',
-  red: '#F30',
-  gray1: '#333',
-  gray2: '#666',
-  gray3: '#CCC'
+  black: 'hsl(120, 10%, 20%)',
+  gray: 'hsl(120, 10%, 75%)',
+  white: 'hsl(120, 10%, 100%)',
+  green: 'hsl(120, 60%, 50%)',
+  blue: 'hsl(200, 100%, 50%)',
+  red: 'hsl(350, 90%, 50%)'
 }
+
+const borderRadius = '3px'
 
 export const _start = `
   ${_superStart}
@@ -30,15 +30,6 @@ export const _start = `
     font-weight: 300 700;
     src: url("/fonts/Fira_Code/FiraCode-VariableFont_wght-subset.woff2") format("woff2");
   }
-
-  pre {
-    overflow: auto;
-    padding: 0;
-    white-space: pre-wrap;
-    color: inherit;
-    background-color: transparent;
-    border-radius: 0;
-  }
 `
 
 export const styles = {
@@ -48,9 +39,10 @@ export const styles = {
     height: 100%;
     color: ${colors.black};
     font-size: 16px;
-    padding: 1em;
+    padding: 2em;
 
     --z-index: 0;
+    --link-color: ${colors.blue};
   `,
   header: `
     display: flex;
@@ -60,7 +52,7 @@ export const styles = {
   headerCell: `
     flex: 1 1 auto;
     margin: 0;
-    padding: 0.5em 1em 0.5em 0;
+    padding: 0.5em 0;
   `,
   headerTextButtons: (styles) => `
     ${styles.headerCell}
@@ -68,24 +60,25 @@ export const styles = {
   `,
   button: `
     appearance: none;
-    color: ${colors.white};
-    margin: 0 0.5em;
+    margin-left: 1.5em;
     padding: 0.5em 1.5em;
     font-weight: ${fontWeights.h3};
     background-color: ${colors.blue};
+    color: ${colors.white};
     border: none;
     border-radius: ${borderRadius};
-    `,
+  `,
   createButton: (styles) => `
     ${styles.button}
-    `,
+  `,
   textButton: `
     appearance: none;
-    border: none;
+    margin-left: 0.25em;
     padding: 0.5em 1.5em;
     font-weight: ${fontWeights.h3};
     color: ${colors.blue};
-    margin: 0 0.5em;
+    border: none;
+    border-radius: ${borderRadius};
   `,
   deleteButton: (styles) => `
     ${styles.textButton}
@@ -103,16 +96,17 @@ export const styles = {
   `,
   th: (styles) => `
     ${styles.td}
-    border-bottom: 1px solid currentColor;
+    border-bottom: 1px solid ${colors.black};
     font-weight: ${fontWeights.h2};
     text-align: left;
   `,
   td: `
-    padding: 0.5em 1em 0.5em 0;
+    padding: 1em 1em 1em 0;
     white-space: nowrap;
 
     :last-child {
       text-align: right;
+      padding-right: 0;
     }
   `,
   form: `
@@ -123,9 +117,7 @@ export const styles = {
     left: 0;
     overflow-y: scroll;
     background-color: ${colors.white};
-    border: 2px solid transparent;
-    border-radius: ${borderRadius};
-    padding: 1em;
+    padding: 2em;
     display: flex;
     flex-direction: column;
   `,
@@ -142,8 +134,8 @@ export const styles = {
     padding: 0.5em;
     width: 100%;
     border-radius: ${borderRadius};
-    border: 2px solid currentColor;
-    color: ${colors.gray1};
+    border: 1px solid ${colors.black};
+    color: ${colors.black};
   `,
   inputLarge: (styles) => `
     ${styles.input}
@@ -153,50 +145,44 @@ export const styles = {
   textareaWrap: `
     position: relative;
     width: 100%;
-    height: max(15em, max-content);
-    border: 2px solid currentColor;
-    border-radius: ${borderRadius};
     margin: 0 auto;
     line-height: 1.5;
-    `,
+    border-radius: ${borderRadius};
+    border: 1px solid ${colors.black};
+  `,
   textareaHighlightsWrap: `
     min-height: 15em;
     padding: 0.5em;
-    background-color: ${colors.white};
-    border-radius: ${borderRadius};
   `,
   textareaHighlights: `
     min-height: 15em;
-    color: ${colors.gray1};
+    color: ${colors.black};
+    overflow: auto;
+    padding: 0;
+    white-space: pre-wrap;
+    color: inherit;
+    border-radius: 0;
+    background-color: transparent;
   `,
   highlightPunctuation: `
-    color: ${colors.gray3};
+    color: ${colors.gray};
     font-weight: ${fontWeights.h5};
-    background-color: transparent;
   `,
   highlightCodeBlock: `
     color: ${colors.green};
     display: block;
     white-space: pre-wrap;
-    background-color: transparent;
   `,
   highlightCodeInline: `
     color: ${colors.green};
-    background-color: transparent;
-  `,
-  highlightUrl: `
-    color: ${colors.blue};
-    background-color: transparent;
   `,
   highlightHeading: `
     color: ${colors.black};
-    font-weight: ${fontWeights.h3};
-    background-color: transparent;
+    font-weight: ${fontWeights.h2};
   `,
   highlightHeadingPunctuation: `
-    color: ${colors.gray3};
-    font-weight: ${fontWeights.h3};
-    background-color: transparent;
+    color: ${colors.gray};
+    font-weight: ${fontWeights.h2};
   `,
   textarea: `
     position: absolute;
@@ -207,9 +193,10 @@ export const styles = {
     z-index: var(--z-index);
     width: 100%;
     padding: 0.5em;
-    border-radius: ${borderRadius};
     margin: 0;
-    caret-color: ${colors.gray1};
+    border: none;
+    border-radius: ${borderRadius};
+    caret-color: ${colors.black};
     color: transparent;
     background-color: transparent;
     overflow: hidden;
@@ -221,12 +208,11 @@ export const styles = {
   cancelButton: (styles) => `
     ${styles.textButton}
 
-    margin: 1em 0;
-    padding: 0.5em 1.5em;
+    margin-top: 1em;
   `,
   saveButton: (styles) => `
     ${styles.button}
 
-    margin: 1em;
+    margin-top: 1em;
   `
 }
