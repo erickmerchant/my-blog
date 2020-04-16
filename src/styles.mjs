@@ -9,8 +9,8 @@ const fontWeights = {
 
 const colors = {
   green1: 'hsl(120, 30%, 50%)',
-  green2: 'hsl(120, 30%, 40%)', // darken for light background
-  green3: 'hsl(120, 50%, 60%)', // saturate and lighten for dark background
+  green2: 'hsl(120, 30%, 40%)',
+  green3: 'hsl(120, 50%, 60%)',
   gray: 'hsl(120, 15%, 50%)',
   black: 'hsl(120, 15%, 15%)'
 }

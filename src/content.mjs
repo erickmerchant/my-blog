@@ -1,4 +1,4 @@
-import {html, raw} from '@erickmerchant/framework'
+import {html} from '@erickmerchant/framework'
 
 const codeFence = '```'
 
