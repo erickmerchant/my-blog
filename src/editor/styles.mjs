@@ -1,5 +1,3 @@
-import {_start as _superStart} from '../styles.mjs'
-
 export const fontWeights = {
   h1: 700,
   h2: 620,
@@ -21,8 +19,6 @@ const colors = {
 const borderRadius = '3px'
 
 export const _start = `
-  ${_superStart}
-
   @font-face {
     font-display: fallback;
     font-family: "Fira Code";
@@ -30,16 +26,44 @@ export const _start = `
     font-weight: 300 700;
     src: url("/fonts/Fira_Code/FiraCode-VariableFont_wght-subset.woff2") format("woff2");
   }
-`
 
-export const styles = {
-  app: `
-    font-family: "Fira Code";
+  * {
+    box-sizing: border-box;
+    font: inherit;
+    margin: 0;
+    padding: 0;
+    max-width: 100%;
+  }
+
+  html {
+    font-family: "Fira Code", monospace;
     font-weight: ${fontWeights.h6};
     height: 100%;
     color: ${colors.black};
     font-size: 16px;
+    line-height: 1.5;
+  }
+
+  a {
+    box-shadow: 0 0.1em 0 0 currentColor;
+    color: var(--link-color, ${colors.green1});
+  }
+
+  a,
+  a:hover {
+    text-decoration: none;
+  }
+
+  pre {
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+`
+
+export const styles = {
+  app: `
     padding: 2em;
+    max-width: 100vw;
 
     --z-index: 0;
     --link-color: ${colors.blue};
@@ -49,14 +73,17 @@ export const styles = {
     flex-wrap: wrap;
     align-items: center;
   `,
-  headerCell: `
+  headerHeading: `
     flex: 1 1 auto;
     margin: 0;
     padding: 0.5em 0;
+    font-size: 1.5em;
+    font-weight: ${fontWeights.h1};
   `,
   headerTextButtons: (styles) => `
-    ${styles.headerCell}
+    ${styles.headerHeading}
     text-align: right;
+    font-size: 1em;
   `,
   button: `
     appearance: none;
@@ -79,11 +106,16 @@ export const styles = {
     color: ${colors.blue};
     border: none;
     border-radius: ${borderRadius};
+    box-shadow: none;
   `,
   deleteButton: (styles) => `
     ${styles.textButton}
 
     color: ${colors.red};
+  `,
+  tableWrap: `
+    max-width: 100%;
+    overflow-x: scroll;
   `,
   table: `
     width: 100%;
@@ -199,6 +231,8 @@ export const styles = {
     color: transparent;
     background-color: transparent;
     overflow: hidden;
+    word-break: break-word;
+    resize: none;
   `,
   formButtons: `
     display: flex;
@@ -213,5 +247,8 @@ export const styles = {
     ${styles.button}
 
     margin-top: 1em;
+  `,
+  stackTrace: `
+    color: ${colors.red};
   `
 }

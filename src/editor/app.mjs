@@ -1,4 +1,5 @@
 import {render, domUpdate, html} from '@erickmerchant/framework'
+import {route} from '@erickmerchant/router/wildcard.mjs'
 import {classes} from './css/styles.mjs'
 import {content} from '../content.mjs'
 
@@ -6,6 +7,67 @@ const slugify = (title) => title.toLowerCase().replace(/\s+/g, '-').replace(/[^a
 const clone = (obj) => JSON.parse(JSON.stringify(obj))
 
 const headers = {'Content-Type': 'application/json'}
+
+const dispatchLocation = async (commit, location) => {
+  let state
+
+  try {
+    state = await route(location || '/', (on) => {
+      on('/', async () => {
+        const res = await fetch('/content/posts/index.json', {headers})
+
+        const posts = await res.json()
+
+        return {
+          posts: posts,
+          post: null,
+          highlights: null
+        }
+      })
+
+      on('/posts/create', async () => {
+        return {
+          post: {
+            title: '',
+            content: ''
+          },
+          highlights:''
+        }
+      })
+
+      on('/posts/edit/*', async (slug) => {
+        const res = await fetch(`/content/posts/${slug}.json`, {headers})
+
+        const post = await res.json()
+
+        return {
+          post,
+          highlights: post.content
+        }
+      })
+
+      on(async () => {
+        return {
+          posts: [],
+          post: null,
+          highlights: null,
+          error: Error('Route not found')
+        }
+      })
+    })
+  } catch (error) {
+    state = {
+      posts: [],
+      post: null,
+      highlights: null,
+      error
+    }
+  }
+
+  commit((old) => {
+    return Object.assign(old, state)
+  })
+}
 
 const state = {posts: []}
 
@@ -44,75 +106,6 @@ const highlighter = (str) => content(str.replace(/\r/g, ''), {
   paragraph: (text) => html`<span>${text}</span>`
 })
 
-const init = async (commit) => {
-  try {
-    const res = await fetch('/content/posts/index.json', {headers})
-
-    const posts = await res.json()
-
-    commit((state) => {
-      state.posts = posts
-
-      state.post = null
-
-      state.highlights = null
-
-      return state
-    })
-  } catch (error) {
-    commit((state) => {
-      state.posts = []
-
-      state.error = error
-
-      return state
-    })
-  }
-}
-
-const create = (commit) => (e) => {
-  e.preventDefault()
-
-  commit((state) => {
-    state.post = {
-      title: '',
-      content: ''
-    }
-
-    state.highlights = ''
-
-    return state
-  })
-}
-
-const edit = (commit, post) => async (e) => {
-  e.preventDefault()
-
-  try {
-    const res = await fetch(`/content/posts/${post.slug}.json`, {headers})
-
-    const p = Object.assign(clone(post), await res.json())
-
-    commit((state) => {
-      state.post = p
-
-      state.highlights = p.content
-
-      return state
-    })
-  } catch (error) {
-    commit((state) => {
-      state.post = post
-
-      state.highlights = post.content
-
-      state.error = error
-
-      return state
-    })
-  }
-}
-
 const remove = (commit, post) => async (e) => {
   e.preventDefault()
 
@@ -136,7 +129,7 @@ const remove = (commit, post) => async (e) => {
 
       await fetch(`/content/posts/${post.slug}.json`, {headers, method: 'DELETE'})
 
-      init(commit)
+      window.location.hash = '#'
     }
   } catch (error) {
     commit((state) => {
@@ -207,7 +200,7 @@ const save = (commit, post) => async (e) => {
       body: JSON.stringify(data)
     })
 
-    init(commit)
+    window.location.hash = '#'
   } catch (error) {
     commit((state) => {
       state.error = error
@@ -238,31 +231,34 @@ const resetZindex = (e) => {
 }
 
 const component = ({state, commit}) => html`<body class=${classes.app} onkeydown=${lowerZindex} onkeyup=${resetZindex}>
-  <header hidden=${state.post} class=${classes.header}>
-    <h1 class=${classes.headerCell}>Posts</h1>
+  <header hidden=${state.post || state.error} class=${classes.header}>
+    <h1 class=${classes.headerHeading}>Posts</h1>
     <div class=${classes.headerTextButtons}>
-      <button class=${classes.createButton} onclick=${create(commit)}>New</button>
+      <a class=${classes.createButton} href="#/posts/create">New</a>
     </div>
   </header>
-  <table hidden=${state.post} class=${classes.table}>
-    <thead>
-      <tr>
-        <th class=${classes.th}>Title</th>
-        <th class=${classes.th}>Date</th>
-        <th class=${classes.th} />
-      </tr>
-    </thead>
-    <tbody>
-      ${state.posts.map((post) => html`<tr>
-        <td class=${classes.td}>${post.title}</td>
-        <td class=${classes.td}>${new Date(post.date).toLocaleDateString('en-US', {year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC'})}</td>
-        <td class=${classes.td}>
-          <button class=${classes.textButton} onclick=${edit(commit, post)}>Edit</button>
-          <button class=${classes.deleteButton} onclick=${remove(commit, post)}>Delete</button>
-        </td>
-      </tr>`)}
-    </tbody>
-  </table>
+  <div hidden=${state.post || state.error} class=${classes.tableWrap}>
+    <table class=${classes.table}>
+      <thead>
+        <tr>
+          <th class=${classes.th}>Title</th>
+          <th class=${classes.th}>Date</th>
+          <th class=${classes.th} />
+        </tr>
+      </thead>
+      <tbody>
+        ${state.posts.map((post) => html`<tr>
+          <td class=${classes.td}>${post.title}</td>
+          <td class=${classes.td}>${new Date(post.date).toLocaleDateString('en-US', {year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC'})}</td>
+          <td class=${classes.td}>
+            <a class=${classes.textButton} href=${`#/posts/edit/${post.slug}`}>Edit</a>
+            <a class=${classes.textButton} href=${`/posts/${post.slug}`}>View</a>
+            <button class=${classes.deleteButton} onclick=${remove(commit, post)}>Delete</button>
+          </td>
+        </tr>`)}
+      </tbody>
+    </table>
+  </div>
   ${state.post
   ? html`<form class=${classes.form} onsubmit=${save(commit, state.post)} method="POST">
       <label class=${classes.labelLarge} for="Title">Title</label>
@@ -275,13 +271,23 @@ const component = ({state, commit}) => html`<body class=${classes.app} onkeydown
         <textarea class=${classes.textarea} name="content" id="Content" oninput=${highlight(commit)}>${state.post.content}</textarea>
       </div>
       <div class=${classes.formButtons}>
-        <button class=${classes.cancelButton} onclick=${cancel(commit)} type="button">Cancel</button>
+        <a class=${classes.cancelButton} href="#/">Cancel</a>
         <button class=${classes.saveButton} type="submit">Save</button>
       </div>
     </form>`
+  : null}
+  ${state.error
+  ? html`<div>
+    <h1 class=${classes.headerHeading}>${state.error.message}</h1>
+    <pre class=${classes.stackTrace}>${state.error.stack}</pre>
+  `
   : null}
 </body>`
 
 const commit = render({state, update, component})
 
-init(commit)
+window.onpopstate = () => {
+  dispatchLocation(commit, document.location.hash.substring(1))
+}
+
+dispatchLocation(commit, document.location.hash.substring(1))
