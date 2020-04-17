@@ -9,10 +9,9 @@ const fontWeights = {
 
 const colors = {
   green1: 'hsl(120, 30%, 50%)',
-  green2: 'hsl(120, 30%, 40%)',
-  green3: 'hsl(120, 50%, 60%)',
-  gray: 'hsl(120, 15%, 50%)',
-  black: 'hsl(120, 15%, 15%)'
+  green2: 'hsl(120, 50%, 70%)',
+  gray: 'hsl(120, 5%, 50%)',
+  black: 'hsl(120, 5%, 15%)'
 }
 
 const borderRadius = '0.25em'
@@ -77,7 +76,7 @@ export const _start = `
 
   a {
     box-shadow: 0 0.1em 0 0 currentColor;
-    color: var(--link-color, ${colors.green2});
+    color: var(--link-color, ${colors.green1});
   }
 
   a,
@@ -89,7 +88,7 @@ export const _start = `
     overflow: auto;
     padding: 1em;
     white-space: pre-wrap;
-    color: ${colors.green3};
+    color: ${colors.green2};
     background-color: ${colors.black};
     border-radius: ${borderRadius};
   }
@@ -101,7 +100,7 @@ export const _start = `
   }
 
   :not(pre) > code {
-    color: ${colors.green2};
+    color: ${colors.green1};
     font-weight: bold;
   }
 

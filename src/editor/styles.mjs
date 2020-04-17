@@ -13,9 +13,9 @@ const colors = {
   black: 'hsl(120, 10%, 20%)',
   gray: 'hsl(120, 10%, 75%)',
   white: 'hsl(120, 10%, 100%)',
-  green: 'hsl(120, 60%, 50%)',
+  green: 'hsl(120, 40%, 50%)',
   blue: 'hsl(200, 100%, 50%)',
-  red: 'hsl(350, 90%, 50%)'
+  red: 'hsl(355, 80%, 50%)'
 }
 
 const borderRadius = '3px'
