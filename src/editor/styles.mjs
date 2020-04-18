@@ -8,12 +8,13 @@ export const fontWeights = {
 }
 
 const colors = {
-  black: 'hsl(120, 10%, 20%)',
-  gray: 'hsl(120, 10%, 75%)',
-  white: 'hsl(120, 10%, 100%)',
-  green: 'hsl(120, 40%, 50%)',
+  black: 'hsl(105, 10%, 20%)',
+  gray: 'hsl(105, 10%, 75%)',
+  silver: 'hsl(105, 10%, 85%)',
+  white: 'hsl(105, 10%, 100%)',
+  green: 'hsl(105, 30%, 50%)',
   blue: 'hsl(200, 100%, 50%)',
-  red: 'hsl(355, 80%, 50%)'
+  red: 'hsl(340, 80%, 55%)'
 }
 
 const borderRadius = '3px'
@@ -37,41 +38,26 @@ export const _start = `
 
   html {
     font-family: "Fira Code", monospace;
-    font-weight: ${fontWeights.h6};
     height: 100%;
-    color: ${colors.black};
-    font-size: 16px;
-    line-height: 1.5;
-  }
-
-  a {
-    box-shadow: 0 0.1em 0 0 currentColor;
-    color: var(--link-color, ${colors.green1});
-  }
-
-  a,
-  a:hover {
-    text-decoration: none;
-  }
-
-  pre {
-    white-space: pre-wrap;
-    word-break: break-word;
   }
 `
 
 export const styles = {
   app: `
+    font-weight: ${fontWeights.h6};
+    line-height: 1.5;
+    font-size: 16px;
+    color: ${colors.black};
     padding: 2em;
     max-width: 100vw;
 
     --z-index: 0;
-    --link-color: ${colors.blue};
   `,
   header: `
     display: flex;
     flex-wrap: wrap;
     align-items: center;
+    border: 5px solid transparent;
   `,
   headerHeading: `
     flex: 1 1 auto;
@@ -83,7 +69,7 @@ export const styles = {
   headerTextButtons: (styles) => `
     ${styles.headerHeading}
     text-align: right;
-    font-size: 1em;
+    font-size: 1.125em;
   `,
   button: `
     appearance: none;
@@ -94,6 +80,12 @@ export const styles = {
     color: ${colors.white};
     border: none;
     border-radius: ${borderRadius};
+    cursor: pointer;
+    text-decoration: none;
+
+    :hover {
+      text-decoration: none;
+    }
   `,
   createButton: (styles) => `
     ${styles.button}
@@ -107,6 +99,12 @@ export const styles = {
     border: none;
     border-radius: ${borderRadius};
     box-shadow: none;
+    cursor: pointer;
+    text-decoration: none;
+
+    :hover {
+      text-decoration: none;
+    }
   `,
   deleteButton: (styles) => `
     ${styles.textButton}
@@ -120,6 +118,7 @@ export const styles = {
   table: `
     width: 100%;
     border-collapse: collapse;
+    border: 5px solid transparent;
   `,
   caption: `
     font-weight: ${fontWeights.h1};
@@ -128,13 +127,12 @@ export const styles = {
   `,
   th: (styles) => `
     ${styles.td}
-    border-bottom: 1px solid ${colors.black};
+    border-bottom: 1px solid ${colors.silver};
     font-weight: ${fontWeights.h2};
     text-align: left;
   `,
   td: `
     padding: 1em 1em 1em 0;
-    white-space: nowrap;
 
     :last-child {
       text-align: right;
@@ -153,6 +151,21 @@ export const styles = {
     display: flex;
     flex-direction: column;
   `,
+  formRow: `
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+  `,
+  formColumn: `
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    margin-right: 1em;
+
+    :last-child {
+      margin-right: 0;
+    }
+  `,
   label: `
     margin: 1em 0 0.5em;
     font-weight: ${fontWeights.h4};
@@ -166,8 +179,12 @@ export const styles = {
     padding: 0.5em;
     width: 100%;
     border-radius: ${borderRadius};
-    border: 1px solid ${colors.black};
+    border: 1px solid ${colors.silver};
     color: ${colors.black};
+
+    :read-only {
+      background: ${colors.silver};
+    }
   `,
   inputLarge: (styles) => `
     ${styles.input}
@@ -180,7 +197,7 @@ export const styles = {
     margin: 0 auto;
     line-height: 1.5;
     border-radius: ${borderRadius};
-    border: 1px solid ${colors.black};
+    border: 1px solid ${colors.silver};
   `,
   textareaHighlightsWrap: `
     min-height: 15em;
@@ -195,17 +212,33 @@ export const styles = {
     color: inherit;
     border-radius: 0;
     background-color: transparent;
+    white-space: pre-wrap;
+    word-break: break-word;
   `,
   highlightPunctuation: `
     color: ${colors.gray};
     font-weight: ${fontWeights.h5};
   `,
+  highlightBold: `
+    font-weight: ${fontWeights.h4};
+  `,
+  highlightUrl: `
+    box-shadow: 0 0.1em 0 0 currentColor;
+    color: ${colors.blue};
+    text-decoration: none;
+
+    :hover {
+      text-decoration: none;
+    }
+  `,
   highlightCodeBlock: `
     color: ${colors.green};
     white-space: pre-wrap;
+    font-weight: ${fontWeights.h5};
   `,
   highlightCodeInline: `
     color: ${colors.green};
+    font-weight: ${fontWeights.h5};
   `,
   highlightHeading: `
     color: ${colors.black};
@@ -250,5 +283,7 @@ export const styles = {
   `,
   stackTrace: `
     color: ${colors.red};
+    white-space: pre-wrap;
+    word-break: break-word;
   `
 }

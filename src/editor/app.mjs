@@ -8,22 +8,25 @@ const clone = (obj) => JSON.parse(JSON.stringify(obj))
 
 const headers = {'Content-Type': 'application/json'}
 
+const init = async () => {
+  const res = await fetch('/content/posts/index.json', {headers})
+
+  const posts = await res.json()
+
+  return {
+    location: '',
+    posts,
+    post: null,
+    highlights: null
+  }
+}
+
 const dispatchLocation = async (commit, location) => {
   let state
 
   try {
-    state = await route(location || '/', (on) => {
-      on('/', async () => {
-        const res = await fetch('/content/posts/index.json', {headers})
-
-        const posts = await res.json()
-
-        return {
-          posts: posts,
-          post: null,
-          highlights: null
-        }
-      })
+    state = await route(location, (on) => {
+      on('/', init)
 
       on('/posts/create', async () => {
         return {
@@ -31,7 +34,7 @@ const dispatchLocation = async (commit, location) => {
             title: '',
             content: ''
           },
-          highlights:''
+          highlights: ''
         }
       })
 
@@ -64,22 +67,27 @@ const dispatchLocation = async (commit, location) => {
     }
   }
 
-  commit((old) => {
-    return Object.assign(old, state)
-  })
+  state.location = location
+
+  commit((old) => Object.assign(old, state))
 }
 
-const state = {posts: []}
+const state = {location: '', posts: []}
 
 const target = document.querySelector('body')
 
 const update = domUpdate(target)
 
-const highlighter = (str) => content(str.replace(/\r/g, ''), {
-  codeBlock: (code) => html`<span>
+const highlighter = (str) => content(str.replace(/\r/g, ''), false, {
+  bold: (text) => html`<span>
+    <span class=${classes.highlightPunctuation}>*</span>
+    <span class=${classes.highlightBold}>${text}</span>
+    <span class=${classes.highlightPunctuation}>*</span>
+  </span>`,
+  codeBlock: (code, isClosed) => html`<span>
     <span class=${classes.highlightPunctuation}>${'```\n'}</span>
     <span class=${classes.highlightCodeBlock}>${code}</span>
-    <span class=${classes.highlightPunctuation}>${'```'}</span>
+    ${isClosed ? html`<span class=${classes.highlightPunctuation}>${'```'}</span>` : null}
   </span>`,
   codeInline: (text) => html`<span>
     <span class=${classes.highlightPunctuation}>${'`'}</span>
@@ -95,7 +103,7 @@ const highlighter = (str) => content(str.replace(/\r/g, ''), {
     ${text}
     <span class=${classes.highlightPunctuation}>]</span>
     <span class=${classes.highlightPunctuation}>(</span>
-    <a href=${href}>${href}</a>
+    <a class=${classes.highlightUrl} href=${href}>${href}</a>
     <span class=${classes.highlightPunctuation}>)</span>
   </span>`,
   list: (items) => html`<span>${items}</span>`,
@@ -129,7 +137,9 @@ const remove = (commit, post) => async (e) => {
 
       await fetch(`/content/posts/${post.slug}.json`, {headers, method: 'DELETE'})
 
-      window.location.hash = '#'
+      const state = await init()
+
+      commit(() => state)
     }
   } catch (error) {
     commit((state) => {
@@ -138,18 +148,6 @@ const remove = (commit, post) => async (e) => {
       return state
     })
   }
-}
-
-const cancel = (commit) => async (e) => {
-  e.preventDefault()
-
-  commit((state) => {
-    state.post = null
-
-    state.highlights = null
-
-    return state
-  })
 }
 
 const save = (commit, post) => async (e) => {
@@ -166,21 +164,23 @@ const save = (commit, post) => async (e) => {
 
     const posts = await res.json()
 
-    if (data.date == null) {
+    if (!data.date) {
       const now = new Date()
 
-      data.date = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`
+      const month = now.getMonth() + 1
+
+      data.date = `${now.getFullYear()}-${month < 10 ? `0${month}` : month}-${now.getDate()}`
     }
 
-    if (data.slug == null) {
-      data.slug = slugify(data.title)
+    const index = posts.findIndex((post) => post.slug === data.slug)
+
+    if (index === -1) {
+      data.slug = data.slug ? data.slug : slugify(data.title)
 
       const {title, date, slug} = data
 
       posts.unshift({title, date, slug})
     } else {
-      const index = posts.findIndex((post) => post.slug === data.slug)
-
       const {title, date, slug} = data
 
       posts.splice(index, 1, {title, date, slug})
@@ -230,39 +230,60 @@ const resetZindex = (e) => {
   e.currentTarget.style.setProperty('--z-index', 0)
 }
 
-const component = ({state, commit}) => html`<body class=${classes.app} onkeydown=${lowerZindex} onkeyup=${resetZindex}>
-  <header hidden=${state.post || state.error} class=${classes.header}>
-    <h1 class=${classes.headerHeading}>Posts</h1>
-    <div class=${classes.headerTextButtons}>
-      <a class=${classes.createButton} href="#/posts/create">New</a>
+const component = ({state, commit}) => html`<body class=${classes.app} onkeydown=${lowerZindex} onkeyup=${resetZindex}>${
+  state.error
+  ? html`<div>
+    <h1 class=${classes.headerHeading}>${state.error.message}</h1>
+    <pre class=${classes.stackTrace}>${state.error.stack}</pre>
+  </div>`
+  : route(state.location, (on) => {
+    on('/', () => html`<div>
+    <header class=${classes.header}>
+      <h1 class=${classes.headerHeading}>Posts</h1>
+      <div class=${classes.headerTextButtons}>
+        <a class=${classes.createButton} href="#/posts/create">New</a>
+      </div>
+    </header>
+    <div class=${classes.tableWrap}>
+      <table class=${classes.table}>
+        <thead>
+          <tr>
+            <th class=${classes.th}>Title</th>
+            <th class=${classes.th}>Date</th>
+            <th class=${classes.th} />
+          </tr>
+        </thead>
+        <tbody>
+          ${state.posts.map((post) => html`<tr>
+            <td class=${classes.td}>${post.title}</td>
+            <td class=${classes.td}>${new Date(post.date).toLocaleDateString('en-US', {year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC'})}</td>
+            <td class=${classes.td}>
+              <a class=${classes.textButton} href=${`#/posts/edit/${post.slug}`}>Edit</a>
+              <a class=${classes.textButton} target="_blank" href=${`/posts/${post.slug}`}>View</a>
+              <button class=${classes.deleteButton} onclick=${remove(commit, post)}>Delete</button>
+            </td>
+          </tr>`)}
+        </tbody>
+      </table>
     </div>
-  </header>
-  <div hidden=${state.post || state.error} class=${classes.tableWrap}>
-    <table class=${classes.table}>
-      <thead>
-        <tr>
-          <th class=${classes.th}>Title</th>
-          <th class=${classes.th}>Date</th>
-          <th class=${classes.th} />
-        </tr>
-      </thead>
-      <tbody>
-        ${state.posts.map((post) => html`<tr>
-          <td class=${classes.td}>${post.title}</td>
-          <td class=${classes.td}>${new Date(post.date).toLocaleDateString('en-US', {year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC'})}</td>
-          <td class=${classes.td}>
-            <a class=${classes.textButton} href=${`#/posts/edit/${post.slug}`}>Edit</a>
-            <a class=${classes.textButton} href=${`/posts/${post.slug}`}>View</a>
-            <button class=${classes.deleteButton} onclick=${remove(commit, post)}>Delete</button>
-          </td>
-        </tr>`)}
-      </tbody>
-    </table>
-  </div>
-  ${state.post
-  ? html`<form class=${classes.form} onsubmit=${save(commit, state.post)} method="POST">
+  </div>`)
+
+  on(['/posts/create', '/posts/edit/*'], ([slug]) => html`<form class=${classes.form} onsubmit=${save(commit, state.post)} method="POST">
       <label class=${classes.labelLarge} for="Title">Title</label>
       <input class=${classes.inputLarge} name="title" id="Title" value=${state.post.title} oninput=${(e) => commit((state) => { state.post.title = e.currentTarget.value; return state })} />
+      <div class=${classes.formRow}>
+        <div class=${classes.formColumn}>
+          <label class=${classes.label} for="Date">Date</label>
+          <input class=${classes.input} name="date" type="date" id="Date" value=${state.post.date ?? ''} oninput=${(e) => commit((state) => { state.post.date = e.currentTarget.value; return state })} />
+        </div>
+        <div class=${classes.formColumn}>
+          <label class=${classes.label} for="Slug">Slug</label>
+          ${slug
+          ? html`<input class=${classes.input} name="slug" id="Slug" value=${slug} readOnly=${true} />`
+          : html`<input class=${classes.input} name="slug" id="Slug" value=${state.post.slug ?? ''} placeholder=${slugify(state.post.title ?? '')} oninput=${(e) => commit((state) => { state.post.slug = e.currentTarget.value; return state })} />`
+          }
+        </div>
+      </div>
       <label class=${classes.label} for="Content">Content</label>
       <div class=${classes.textareaWrap}>
         <div class=${classes.textareaHighlightsWrap}>
@@ -274,15 +295,11 @@ const component = ({state, commit}) => html`<body class=${classes.app} onkeydown
         <a class=${classes.cancelButton} href="#/">Cancel</a>
         <button class=${classes.saveButton} type="submit">Save</button>
       </div>
-    </form>`
-  : null}
-  ${state.error
-  ? html`<div>
-    <h1 class=${classes.headerHeading}>${state.error.message}</h1>
-    <pre class=${classes.stackTrace}>${state.error.stack}</pre>
-  `
-  : null}
-</body>`
+    </form>`)
+
+    on(() => '')
+  })
+}</body>`
 
 const commit = render({state, update, component})
 

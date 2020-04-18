@@ -115,15 +115,15 @@ const component = ({state, commit}) => (afterUpdate) => {
     <header>
       <nav class=${classes.topNav}>
         <ul class=${classes.topNavList}>
-          <li class=${classes.listItem}><a ${anchorAttrs('/')}>Erick Merchant</a></li>
-          <li class=${classes.listItem}><a href="https://github.com/erickmerchant">Projects</a></li>
+          <li class=${classes.navListItem}><a class=${classes.navAnchor} ${anchorAttrs('/')}>Erick Merchant</a></li>
+          <li class=${classes.navListItem}><a class=${classes.navAnchor} href="https://github.com/erickmerchant">Projects</a></li>
         </ul>
       </nav>
     </header>
     ${route(state.location, (on) => {
       on('/posts/*/', () => html`<article class=${classes.main}>
         <header>
-          <h1>${state.post.title}</h1>
+          <h1 class=${classes.heading1}>${state.post.title}</h1>
           <time class=${classes.date} datetime=${new Date(state.post.date).toISOString()}>
             <svg viewBox="0 0 32 32" class=${classes.dateIcon}>
               <rect width="32" height="6" rx="0.5" />
@@ -135,10 +135,10 @@ const component = ({state, commit}) => (afterUpdate) => {
             </span>
           </time>
         </header>
-        <div class=${classes.content}>${content(state.post.content)}</div>
+        <div>${content(state.post.content)}</div>
         ${state.prev || state.next
           ? html`<nav>
-            <ul class=${classes.list}>
+            <ul class=${classes.navList}>
               <li class=${state.prev ? classes.button : classes.buttonDisabled}>${state.prev ? paginationLink(state.prev.slug, 'Older') : null}</li>
               <li class=${state.next ? classes.button : classes.buttonDisabled}>${state.next ? paginationLink(state.next.slug, 'Newer') : null}</li>
             </ul>
@@ -148,14 +148,14 @@ const component = ({state, commit}) => (afterUpdate) => {
       </article>`)
 
       on(() => html`<section class=${classes.main}>
-        <h1>${state.title}</h1>
-        <p>${state.error != null ? state.error.message : ''}</p>
+        <h1 class=${classes.heading1}>${state.title}</h1>
+        <p class=${classes.paragraph}>${state.error?.message ?? ''}</p>
       </section>`)
     })}
     <footer class=${classes.footer}>
       <ul class=${classes.footerList}>
-        <li class=${classes.listItem}><a href="https://github.com/erickmerchant/my-blog">View Source</a></li>
-        <li class=${classes.listItem}>${raw('&copy;')} ${new Date().getFullYear()} Erick Merchant</li>
+        <li class=${classes.navListItem}><a class=${classes.navAnchor} href="https://github.com/erickmerchant/my-blog">View Source</a></li>
+        <li class=${classes.navListItem}>${raw('&copy;')} ${new Date().getFullYear()} Erick Merchant</li>
       </ul>
     </footer>
   </body>`

@@ -8,10 +8,10 @@ const fontWeights = {
 }
 
 const colors = {
-  green1: 'hsl(120, 30%, 50%)',
-  green2: 'hsl(120, 50%, 70%)',
-  gray: 'hsl(120, 5%, 50%)',
-  black: 'hsl(120, 5%, 15%)'
+  green1: 'hsl(105, 30%, 50%)',
+  green2: 'hsl(105, 50%, 70%)',
+  gray: 'hsl(105, 5%, 50%)',
+  black: 'hsl(105, 5%, 15%)'
 }
 
 const borderRadius = '0.25em'
@@ -36,82 +36,18 @@ export const _start = `
   html {
     height: 100%;
     font-family: "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-    font-size: max(20px, 1vw);
-    line-height: 1.5;
-    font-weight: ${fontWeights.h6};
-  }
-
-  h1,
-  h2 {
-    line-height: 1.25;
-    margin-bottom: 0.5em;
-    margin-top: 1em;
-  }
-
-  h1 {
-    font-size: 1.5em;
-    font-weight: ${fontWeights.h1};
-  }
-
-  h2 {
-    font-size: 1.25em;
-    font-weight: ${fontWeights.h2};
-  }
-
-  p,
-  ul,
-  pre {
-    margin-top: var(--content-x-spacing, 0);
-    margin-bottom: var(--content-x-spacing, 0);
-  }
-
-  ul {
-    padding-left: var(--list-indent, 0);
-    list-style: var(--list-style, none);
   }
 
   ::marker {
     color: currentColor;
   }
-
-  a {
-    box-shadow: 0 0.1em 0 0 currentColor;
-    color: var(--link-color, ${colors.green1});
-  }
-
-  a,
-  a:hover {
-    text-decoration: none;
-  }
-
-  pre {
-    overflow: auto;
-    padding: 1em;
-    white-space: pre-wrap;
-    color: ${colors.green2};
-    background-color: ${colors.black};
-    border-radius: ${borderRadius};
-  }
-
-  code {
-    font-family: Consolas, monaco, monospace;
-    font-weight: ${fontWeights.h5};
-    font-size: .8em;
-  }
-
-  :not(pre) > code {
-    color: ${colors.green1};
-    font-weight: bold;
-  }
-
-  :not(pre) > code::before,
-  :not(pre) > code::after {
-    content: "\`";
-  }
 `
 
 export const styles = {
   app: `
+    font-size: max(20px, 1vw);
+    line-height: 1.5;
+    font-weight: ${fontWeights.h6};
     display: flex;
     height: 100%;
     flex-direction: column;
@@ -122,9 +58,72 @@ export const styles = {
     background-color: ${colors.green1};
   `,
   topNavList: (styles) => `
-    ${styles.list}
+    ${styles.navList}
 
     justify-content: center;
+  `,
+  heading: `
+    line-height: 1.25;
+    margin-bottom: 0.5em;
+    margin-top: 1em;
+  `,
+  heading1: (styles) => `
+    ${styles.heading}
+
+    font-size: 1.5em;
+    font-weight: ${fontWeights.h1};
+  `,
+  heading2: (styles) => `
+    ${styles.heading}
+
+    font-size: 1.25em;
+    font-weight: ${fontWeights.h2};
+  `,
+  strong: `
+    font-weight: ${fontWeights.h4};
+  `,
+  pre: `
+    overflow: auto;
+    padding: 1em;
+    white-space: pre-wrap;
+    color: ${colors.green2};
+    background-color: ${colors.black};
+    border-radius: ${borderRadius};
+  `,
+  code: (styles) => `
+    ${styles.codeBlock}
+
+    color: ${colors.green1};
+    font-weight: bold;
+
+    ::before,
+    ::after {
+      content: "\`";
+    }
+  `,
+  codeBlock: `
+    font-family: Consolas, monaco, monospace;
+    font-weight: ${fontWeights.h5};
+    font-size: .8em;
+  `,
+  anchor: `
+    box-shadow: 0 0.1em 0 0 currentColor;
+    color: ${colors.green1};
+    text-decoration: none;
+
+    :hover {
+      text-decoration: none;
+    }
+  `,
+  list: `
+    margin-top: 1em;
+    margin-bottom: 1em;
+    padding-left: 2em;
+    list-style: disc;
+  `,
+  paragraph: `
+    margin-top: 1em;
+    margin-bottom: 1em;
   `,
   date: `
     font-weight: ${fontWeights.h3};
@@ -144,26 +143,25 @@ export const styles = {
     padding-right: 1em;
     padding-left: 1em;
   `,
-  content: `
-    --list-indent: 2em;
-    --content-x-spacing: 1em;
-    --list-style: disc;
-  `,
-  list: `
+  navList: `
     display: flex;
     color: white;
     flex-wrap: wrap;
     text-align: center;
     padding-top: 1em;
     padding-bottom: 1em;
-
-    --link-color: currentColor;
+    list-style: none;
   `,
-  listItem: `
+  navListItem: `
     margin: 1em;
   `,
+  navAnchor: (styles) => `
+    ${styles.anchor}
+
+    color: white;
+  `,
   button: (styles) => `
-    ${styles.listItem}
+    ${styles.navListItem}
 
     position: relative;
     flex: 1 1 calc(50% - 2em);
@@ -176,11 +174,16 @@ export const styles = {
     ${styles.button(styles)}
 
     background-color: ${colors.gray};
+
     @media(max-width: 40em) {
       display: none;
     }
   `,
-  buttonAnchor: `
+  buttonAnchor: (styles) => `
+    ${styles.anchor}
+
+    color: white;
+
     ::after {
       display: block;
       content: "";
@@ -198,7 +201,7 @@ export const styles = {
     background-color: ${colors.green1};
   `,
   footerList: (styles) => `
-    ${styles.list}
+    ${styles.navList}
 
     justify-content: center;
     font-weight: ${fontWeights.h4};
