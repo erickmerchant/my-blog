@@ -8,13 +8,13 @@ export const fontWeights = {
 }
 
 const colors = {
-  black: 'hsl(105, 10%, 20%)',
-  gray: 'hsl(105, 10%, 75%)',
-  silver: 'hsl(105, 10%, 85%)',
-  white: 'hsl(105, 10%, 100%)',
-  green: 'hsl(105, 30%, 50%)',
+  black: 'hsl(100, 10%, 20%)',
+  gray: 'hsl(100, 10%, 75%)',
+  silver: 'hsl(100, 10%, 85%)',
+  white: 'hsl(100, 10%, 100%)',
+  green: 'hsl(100, 30%, 50%)',
   blue: 'hsl(200, 100%, 50%)',
-  red: 'hsl(340, 80%, 55%)'
+  red: 'hsl(350, 80%, 55%)'
 }
 
 const borderRadius = '3px'

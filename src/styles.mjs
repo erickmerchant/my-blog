@@ -8,10 +8,10 @@ const fontWeights = {
 }
 
 const colors = {
-  green1: 'hsl(105, 30%, 50%)',
-  green2: 'hsl(105, 50%, 70%)',
-  gray: 'hsl(105, 5%, 50%)',
-  black: 'hsl(105, 5%, 15%)'
+  green1: 'hsl(100, 30%, 50%)',
+  green2: 'hsl(100, 50%, 70%)',
+  gray: 'hsl(100, 5%, 50%)',
+  black: 'hsl(100, 5%, 15%)'
 }
 
 const borderRadius = '0.25em'
