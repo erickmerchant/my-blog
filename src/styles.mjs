@@ -171,7 +171,7 @@ export const styles = {
     border-radius: ${borderRadius};
   `,
   buttonDisabled: (styles) => `
-    ${styles.button(styles)}
+    ${styles.button}
 
     background-color: ${colors.gray};
 
