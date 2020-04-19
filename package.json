@@ -10,7 +10,7 @@
     "test": "exit 0"
   },
   "dependencies": {
-    "@erickmerchant/css": "^21.0.0",
+    "@erickmerchant/css": "^21.0.1",
     "@erickmerchant/dev-cli": "^9.8.2",
     "@erickmerchant/framework": "^32.3.3",
     "@erickmerchant/router": "^18.2.0",
