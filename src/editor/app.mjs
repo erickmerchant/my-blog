@@ -4,7 +4,6 @@ import {classes} from './css/styles.mjs'
 import {content} from '../content.mjs'
 
 const slugify = (title) => title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '-')
-const clone = (obj) => JSON.parse(JSON.stringify(obj))
 
 const headers = {'Content-Type': 'application/json'}
 
@@ -153,7 +152,11 @@ const remove = (commit, post) => async (e) => {
 const save = (commit, post) => async (e) => {
   e.preventDefault()
 
-  const data = clone(post)
+  const data = {}
+
+  for (const [key, val] of Object.entries(post)) {
+    data[key] = val
+  }
 
   for (const [key, val] of new FormData(e.currentTarget)) {
     data[key] = val

@@ -86,7 +86,6 @@ export const styles = {
     overflow: auto;
     padding: 1em;
     white-space: pre-wrap;
-    color: ${colors.green2};
     background-color: ${colors.black};
     border-radius: ${borderRadius};
   `,
@@ -103,7 +102,7 @@ export const styles = {
   `,
   codeBlock: `
     font-family: Consolas, monaco, monospace;
-    font-weight: ${fontWeights.h5};
+    color: ${colors.green2};
     font-size: .8em;
   `,
   anchor: `
