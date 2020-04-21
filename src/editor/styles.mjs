@@ -68,6 +68,7 @@ export const styles = {
   `,
   headerTextButtons: (styles) => `
     ${styles.headerHeading}
+
     text-align: right;
     font-size: 1.125em;
   `,
@@ -87,9 +88,7 @@ export const styles = {
       text-decoration: none;
     }
   `,
-  createButton: (styles) => `
-    ${styles.button}
-  `,
+  createButton: (styles) => styles.button,
   textButton: `
     appearance: none;
     margin-left: 0.25em;
@@ -127,6 +126,7 @@ export const styles = {
   `,
   th: (styles) => `
     ${styles.td}
+
     border-bottom: 1px solid ${colors.silver};
     text-align: left;
     font-weight: ${fontWeights.h2};
@@ -211,7 +211,7 @@ export const styles = {
     background-color: transparent;
     white-space: pre-wrap;
     word-break: break-word;
-    color: inherit;
+    color: ${colors.black};
   `,
   highlightPunctuation: `
     color: ${colors.gray};
