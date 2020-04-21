@@ -30,10 +30,10 @@ export const _start = `
 
   * {
     box-sizing: border-box;
-    font: inherit;
+    max-width: 100%;
     margin: 0;
     padding: 0;
-    max-width: 100%;
+    font: inherit;
   }
 
   html {
@@ -44,12 +44,12 @@ export const _start = `
 
 export const styles = {
   app: `
-    font-weight: ${fontWeights.h6};
+    max-width: 100vw;
+    padding: 2em;
     line-height: 1.5;
     font-size: 16px;
+    font-weight: ${fontWeights.h6};
     color: ${colors.black};
-    padding: 2em;
-    max-width: 100vw;
 
     --z-index: 0;
   `,
@@ -75,13 +75,13 @@ export const styles = {
     appearance: none;
     margin-left: 1.5em;
     padding: 0.5em 1.5em;
-    font-weight: ${fontWeights.h3};
-    background-color: ${colors.blue};
-    color: ${colors.white};
     border: none;
     border-radius: ${borderRadius};
-    cursor: pointer;
+    background-color: ${colors.blue};
+    color: ${colors.white};
+    font-weight: ${fontWeights.h3};
     text-decoration: none;
+    cursor: pointer;
 
     :hover {
       text-decoration: none;
@@ -94,13 +94,13 @@ export const styles = {
     appearance: none;
     margin-left: 0.25em;
     padding: 0.5em 1.5em;
-    font-weight: ${fontWeights.h3};
-    color: ${colors.blue};
     border: none;
     border-radius: ${borderRadius};
     box-shadow: none;
-    cursor: pointer;
+    color: ${colors.blue};
+    font-weight: ${fontWeights.h3};
     text-decoration: none;
+    cursor: pointer;
 
     :hover {
       text-decoration: none;
@@ -121,35 +121,35 @@ export const styles = {
     border: 5px solid transparent;
   `,
   caption: `
-    font-weight: ${fontWeights.h1};
-    text-align: left;
     padding: 1em 1em 1em 0;
+    text-align: left;
+    font-weight: ${fontWeights.h1};
   `,
   th: (styles) => `
     ${styles.td}
     border-bottom: 1px solid ${colors.silver};
-    font-weight: ${fontWeights.h2};
     text-align: left;
+    font-weight: ${fontWeights.h2};
   `,
   td: `
     padding: 1em 1em 1em 0;
 
     :last-child {
-      text-align: right;
       padding-right: 0;
+      text-align: right;
     }
   `,
   form: `
+    display: flex;
+    flex-direction: column;
     position: absolute;
     top: 0;
     bottom: 0;
     right: 0;
     left: 0;
+    padding: 2em;
     overflow-y: scroll;
     background-color: ${colors.white};
-    padding: 2em;
-    display: flex;
-    flex-direction: column;
   `,
   formRow: `
     display: flex;
@@ -176,8 +176,8 @@ export const styles = {
     font-size: 1.125em;
   `,
   input: `
-    padding: 0.5em;
     width: 100%;
+    padding: 0.5em;
     border-radius: ${borderRadius};
     border: 1px solid ${colors.silver};
     color: ${colors.black};
@@ -195,9 +195,9 @@ export const styles = {
     position: relative;
     width: 100%;
     margin: 0 auto;
-    line-height: 1.5;
     border-radius: ${borderRadius};
     border: 1px solid ${colors.silver};
+    line-height: 1.5;
   `,
   textareaHighlightsWrap: `
     min-height: 15em;
@@ -205,15 +205,13 @@ export const styles = {
   `,
   textareaHighlights: `
     min-height: 15em;
-    color: ${colors.black};
-    overflow: auto;
     padding: 0;
-    white-space: pre-wrap;
-    color: inherit;
+    overflow: auto;
     border-radius: 0;
     background-color: transparent;
     white-space: pre-wrap;
     word-break: break-word;
+    color: inherit;
   `,
   highlightPunctuation: `
     color: ${colors.gray};
@@ -232,8 +230,8 @@ export const styles = {
     }
   `,
   highlightCodeBlock: `
-    color: ${colors.green};
     white-space: pre-wrap;
+    color: ${colors.green};
     font-weight: ${fontWeights.h5};
   `,
   highlightCodeInline: `
@@ -258,12 +256,12 @@ export const styles = {
     width: 100%;
     padding: 0.5em;
     margin: 0;
+    overflow: hidden;
     border: none;
     border-radius: ${borderRadius};
-    caret-color: ${colors.black};
-    color: transparent;
     background-color: transparent;
-    overflow: hidden;
+    color: transparent;
+    caret-color: ${colors.black};
     word-break: break-word;
     resize: none;
   `,

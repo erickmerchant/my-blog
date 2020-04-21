@@ -27,10 +27,10 @@ export const _start = `
 
   * {
     box-sizing: border-box;
-    font: inherit;
+    max-width: 100%;
     margin: 0;
     padding: 0;
-    max-width: 100%;
+    font: inherit;
   }
 
   html {
@@ -45,12 +45,12 @@ export const _start = `
 
 export const styles = {
   app: `
-    font-size: max(20px, 1vw);
-    line-height: 1.5;
-    font-weight: ${fontWeights.h6};
     display: flex;
-    height: 100%;
     flex-direction: column;
+    height: 100%;
+    font-size: max(20px, 1vw);
+    font-weight: ${fontWeights.h6};
+    line-height: 1.5;
     color: ${colors.black};
   `,
   topNav: `
@@ -63,9 +63,9 @@ export const styles = {
     justify-content: center;
   `,
   heading: `
-    line-height: 1.25;
     margin-bottom: 0.5em;
     margin-top: 1em;
+    line-height: 1.25;
   `,
   heading1: (styles) => `
     ${styles.heading}
@@ -92,8 +92,8 @@ export const styles = {
   code: (styles) => `
     ${styles.codeBlock}
 
-    color: ${colors.green1};
     font-weight: bold;
+    color: ${colors.green1};
 
     ::before,
     ::after {
@@ -102,8 +102,8 @@ export const styles = {
   `,
   codeBlock: `
     font-family: Consolas, monaco, monospace;
-    color: ${colors.green2};
     font-size: .8em;
+    color: ${colors.green2};
   `,
   anchor: `
     box-shadow: 0 0.1em 0 0 currentColor;
@@ -125,9 +125,9 @@ export const styles = {
     margin-bottom: 1em;
   `,
   date: `
-    font-weight: ${fontWeights.h3};
     display: inline-flex;
     align-items: center;
+    font-weight: ${fontWeights.h3};
   `,
   dateIcon: `
     height: 1em;
@@ -144,11 +144,11 @@ export const styles = {
   `,
   navList: `
     display: flex;
-    color: white;
     flex-wrap: wrap;
-    text-align: center;
     padding-top: 1em;
     padding-bottom: 1em;
+    color: white;
+    text-align: center;
     list-style: none;
   `,
   navListItem: `
@@ -165,9 +165,9 @@ export const styles = {
     position: relative;
     flex: 1 1 calc(50% - 2em);
     padding: 1em 3em;
-    font-weight: ${fontWeights.h3};
-    background-color: ${colors.green1};
     border-radius: ${borderRadius};
+    background-color: ${colors.green1};
+    font-weight: ${fontWeights.h3};
   `,
   buttonDisabled: (styles) => `
     ${styles.button}
@@ -184,8 +184,8 @@ export const styles = {
     color: white;
 
     ::after {
-      display: block;
       content: "";
+      display: block;
       position: absolute;
       top: 0;
       right: 0;
