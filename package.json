@@ -12,7 +12,7 @@
   "dependencies": {
     "@erickmerchant/css": "^21.0.1",
     "@erickmerchant/dev-cli": "^9.8.2",
-    "@erickmerchant/framework": "^32.3.3",
+    "@erickmerchant/framework": "^33.0.0",
     "@erickmerchant/router": "^18.2.0",
     "del": "^5.1.0",
     "execa": "^4.0.0",
