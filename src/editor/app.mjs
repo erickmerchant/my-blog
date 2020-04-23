@@ -235,12 +235,12 @@ const resetZindex = (e) => {
 
 const component = ({state, commit}) => html`<body class=${classes.app} onkeydown=${lowerZindex} onkeyup=${resetZindex}>${
   state.error
-  ? html`<div>
+  ? html`
     <h1 class=${classes.headerHeading}>${state.error.message}</h1>
     <pre class=${classes.stackTrace}>${state.error.stack}</pre>
-  </div>`
+  `
   : route(state.location, (on) => {
-    on('/', () => html`<div>
+    on('/', () => html`
     <header class=${classes.header}>
       <h1 class=${classes.headerHeading}>Posts</h1>
       <div class=${classes.headerTextButtons}>
@@ -269,7 +269,7 @@ const component = ({state, commit}) => html`<body class=${classes.app} onkeydown
         </tbody>
       </table>
     </div>
-  </div>`)
+  `)
 
   on(['/posts/create', '/posts/edit/*'], ([slug]) => html`<form class=${classes.form} onsubmit=${save(commit, state.post)} method="POST">
       <label class=${classes.labelLarge} for="Title">Title</label>

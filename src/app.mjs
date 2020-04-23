@@ -1,4 +1,4 @@
-import {render, domUpdate, html, raw} from '@erickmerchant/framework'
+import {render, domUpdate, html} from '@erickmerchant/framework'
 import {route} from '@erickmerchant/router/wildcard.mjs'
 import {classes} from './css/styles.mjs'
 import {content} from './content.mjs'
@@ -135,7 +135,7 @@ const component = ({state, commit}) => (afterUpdate) => {
             </span>
           </time>
         </header>
-        <div>${content(state.post.content)}</div>
+        ${content(state.post.content)}
         ${state.prev || state.next
           ? html`<nav>
             <ul class=${classes.navList}>
@@ -155,7 +155,7 @@ const component = ({state, commit}) => (afterUpdate) => {
     <footer class=${classes.footer}>
       <ul class=${classes.footerList}>
         <li class=${classes.navListItem}><a class=${classes.navAnchor} href="https://github.com/erickmerchant/my-blog">View Source</a></li>
-        <li class=${classes.navListItem}>${raw('&copy;')} ${new Date().getFullYear()} Erick Merchant</li>
+        <li class=${classes.navListItem}>© ${new Date().getFullYear()} Erick Merchant</li>
       </ul>
     </footer>
   </body>`
