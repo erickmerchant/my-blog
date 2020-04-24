@@ -5,7 +5,7 @@ import {content} from '../content.mjs'
 
 const slugify = (title) => title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '-')
 
-const headers = {'Content-Type': 'application/json'}
+const headers = {'Content-Type': 'application/json', mode: 'no-cors'}
 
 const init = async () => {
   const res = await fetch('/content/posts/index.json', {headers})
@@ -14,9 +14,7 @@ const init = async () => {
 
   return {
     location: '',
-    posts,
-    post: null,
-    highlights: null
+    posts
   }
 }
 
@@ -29,16 +27,19 @@ const dispatchLocation = async (commit, location) => {
 
       on('/posts/create', async () => {
         return {
-          post: {
-            title: '',
-            content: ''
-          },
+          post: {},
           highlights: ''
         }
       })
 
       on('/posts/edit/*', async (slug) => {
         const res = await fetch(`/content/posts/${slug}.json`, {headers})
+
+        if (res.status >= 300) {
+          return {
+            error: Error(`${res.status} ${res.statusText}`)
+          }
+        }
 
         const post = await res.json()
 
@@ -50,25 +51,19 @@ const dispatchLocation = async (commit, location) => {
 
       on(async () => {
         return {
-          posts: [],
-          post: null,
-          highlights: null,
           error: Error('Route not found')
         }
       })
     })
   } catch (error) {
     state = {
-      posts: [],
-      post: null,
-      highlights: null,
       error
     }
   }
 
   state.location = location
 
-  commit((old) => Object.assign(old, state))
+  commit(() => state)
 }
 
 const state = {location: '', posts: []}
@@ -178,7 +173,7 @@ const save = (commit, post) => async (e) => {
     const index = posts.findIndex((post) => post.slug === data.slug)
 
     if (index === -1) {
-      data.slug = data.slug ? data.slug : slugify(data.title)
+      data.slug = data.slug || slugify(data.title)
 
       const {title, date, slug} = data
 
@@ -216,6 +211,8 @@ const save = (commit, post) => async (e) => {
 const highlight = (commit) => (e) => {
   commit((state) => {
     state.highlights = e.currentTarget.value
+
+    state.post.content = e.currentTarget.value
 
     return state
   })
@@ -271,20 +268,17 @@ const component = ({state, commit}) => html`<body class=${classes.app} onkeydown
     </div>
   `)
 
-  on(['/posts/create', '/posts/edit/*'], ([slug]) => html`<form class=${classes.form} onsubmit=${save(commit, state.post)} method="POST">
+  on(['/posts/create', '/posts/edit/*'], ([slug]) => html`<form class=${classes.form} onsubmit=${save(commit, state.post)} method="POST" autocomplete="off">
       <label class=${classes.labelLarge} for="Title">Title</label>
-      <input class=${classes.inputLarge} name="title" id="Title" value=${state.post.title} oninput=${(e) => commit((state) => { state.post.title = e.currentTarget.value; return state })} />
+      <input class=${classes.inputLarge} name="title" id="Title" value=${state.post.title ?? ''} oninput=${(e) => commit((state) => { state.post.title = e.currentTarget.value; return state })} />
       <div class=${classes.formRow}>
         <div class=${classes.formColumn}>
           <label class=${classes.label} for="Date">Date</label>
-          <input class=${classes.input} name="date" type="date" id="Date" value=${state.post.date ?? ''} oninput=${(e) => commit((state) => { state.post.date = e.currentTarget.value; return state })} />
+          <input class=${classes.input} name="date" type="date" id="Date" value=${state.post.date} oninput=${(e) => commit((state) => { state.post.date = e.currentTarget.value; return state })} />
         </div>
         <div class=${classes.formColumn}>
           <label class=${classes.label} for="Slug">Slug</label>
-          ${slug
-          ? html`<input class=${classes.input} name="slug" id="Slug" value=${slug} readOnly=${true} />`
-          : html`<input class=${classes.input} name="slug" id="Slug" value=${state.post.slug ?? ''} placeholder=${slugify(state.post.title ?? '')} oninput=${(e) => commit((state) => { state.post.slug = e.currentTarget.value; return state })} />`
-          }
+          <input class=${classes.input} name="slug" id="Slug" readonly=${slug != null} value=${state.post.slug ?? ''} placeholder=${slugify(state.post.title ?? '')} oninput=${slug == null ? (e) => commit((state) => { state.post.slug = e.currentTarget.value; return state }) : null} />
         </div>
       </div>
       <label class=${classes.label} for="Content">Content</label>
@@ -292,7 +286,7 @@ const component = ({state, commit}) => html`<body class=${classes.app} onkeydown
         <div class=${classes.textareaHighlightsWrap}>
           <pre class=${classes.textareaHighlights}>${highlighter(state.highlights)}</pre>
         </div>
-        <textarea class=${classes.textarea} name="content" id="Content" oninput=${highlight(commit)}>${state.post.content}</textarea>
+        <textarea class=${classes.textarea} name="content" id="Content" oninput=${highlight(commit)}>${state.post.content ?? ''}</textarea>
       </div>
       <div class=${classes.formButtons}>
         <a class=${classes.cancelButton} href="#/">Cancel</a>

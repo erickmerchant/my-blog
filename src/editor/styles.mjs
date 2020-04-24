@@ -93,6 +93,7 @@ export const styles = {
     appearance: none;
     margin-left: 0.25em;
     padding: 0.5em 1.5em;
+    background: transparent;
     border: none;
     border-radius: ${borderRadius};
     box-shadow: none;
@@ -147,7 +148,7 @@ export const styles = {
     bottom: 0;
     right: 0;
     left: 0;
-    padding: 2em;
+    margin: 2em;
     overflow-y: scroll;
     background-color: ${colors.white};
   `,
@@ -254,6 +255,7 @@ export const styles = {
     left: 0;
     z-index: var(--z-index);
     width: 100%;
+    height: 100%;
     padding: 0.5em;
     margin: 0;
     overflow: hidden;
