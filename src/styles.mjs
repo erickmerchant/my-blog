@@ -118,7 +118,6 @@ export const styles = {
     margin-top: 1em;
     margin-bottom: 1em;
     padding-left: 2em;
-    list-style: disc;
   `,
   paragraph: `
     margin-top: 1em;
