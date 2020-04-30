@@ -145,11 +145,9 @@ export const styles = {
     flex-direction: column;
     position: absolute;
     top: 0;
-    bottom: 0;
     right: 0;
     left: 0;
     margin: 2em;
-    overflow-y: scroll;
     background-color: ${colors.white};
   `,
   formRow: `
