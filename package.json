@@ -10,18 +10,18 @@
     "test": "exit 0"
   },
   "dependencies": {
-    "@erickmerchant/css": "^21.1.0",
-    "@erickmerchant/dev-cli": "^9.9.0",
-    "@erickmerchant/framework": "^34.0.0",
-    "@erickmerchant/router": "^18.2.0",
+    "@erickmerchant/css": "^22.0.0",
+    "@erickmerchant/dev-cli": "^10.0.0",
+    "@erickmerchant/framework": "^35.0.0",
+    "@erickmerchant/router": "^19.0.0",
     "del": "^5.1.0",
     "execa": "^4.0.0",
-    "sergeant": "^27.2.2"
+    "sergeant": "^28.0.0"
   },
   "devDependencies": {
-    "@erickmerchant/lint": "^4.1.2"
+    "@erickmerchant/lint": "^5.0.0"
   },
   "engines": {
-    "node": ">=12"
+    "node": ">=14"
   }
 }
