@@ -1,10 +1,8 @@
 const fontWeights = {
-  h1: 900,
-  h2: 775,
-  h3: 650,
-  h4: 525,
-  h5: 400,
-  h6: 275
+  heading1: 900,
+  heading2: 800,
+  bold: 600,
+  normal: 200
 }
 
 const colors = {
@@ -49,12 +47,12 @@ export const styles = {
     flex-direction: column;
     height: 100%;
     font-size: max(20px, 1vw);
-    font-weight: ${fontWeights.h6};
+    font-weight: ${fontWeights.normal};
     line-height: 1.5;
     color: ${colors.black};
   `,
   topNav: `
-    font-weight: ${fontWeights.h4};
+    font-weight: ${fontWeights.bold};
     background-color: ${colors.green1};
   `,
   topNavList: (styles) => `
@@ -71,16 +69,16 @@ export const styles = {
     ${styles.heading}
 
     font-size: 1.5em;
-    font-weight: ${fontWeights.h1};
+    font-weight: ${fontWeights.heading1};
   `,
   heading2: (styles) => `
     ${styles.heading}
 
     font-size: 1.25em;
-    font-weight: ${fontWeights.h2};
+    font-weight: ${fontWeights.heading2};
   `,
   strong: `
-    font-weight: ${fontWeights.h4};
+    font-weight: ${fontWeights.bold};
   `,
   pre: `
     overflow: auto;
@@ -126,10 +124,10 @@ export const styles = {
   date: `
     display: inline-flex;
     align-items: center;
-    font-weight: ${fontWeights.h3};
+    font-weight: ${fontWeights.bold};
   `,
   dateIcon: `
-    height: 1em;
+    height: .9em;
     margin-right: 0.5em;
     fill: currentColor;
   `,
@@ -166,7 +164,7 @@ export const styles = {
     padding: 1em 3em;
     border-radius: ${borderRadius};
     background-color: ${colors.green1};
-    font-weight: ${fontWeights.h3};
+    font-weight: ${fontWeights.bold};
   `,
   buttonDisabled: (styles) => `
     ${styles.button}
@@ -202,6 +200,6 @@ export const styles = {
     ${styles.navList}
 
     justify-content: center;
-    font-weight: ${fontWeights.h4};
+    font-weight: ${fontWeights.bold};
   `
 }

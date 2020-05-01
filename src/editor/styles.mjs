@@ -1,10 +1,7 @@
 export const fontWeights = {
-  h1: 700,
-  h2: 620,
-  h3: 540,
-  h4: 460,
-  h5: 380,
-  h6: 300
+  heading: 700,
+  bold: 500,
+  normal: 300
 }
 
 const colors = {
@@ -48,7 +45,7 @@ export const styles = {
     padding: 2em;
     line-height: 1.5;
     font-size: 16px;
-    font-weight: ${fontWeights.h6};
+    font-weight: ${fontWeights.normal};
     color: ${colors.black};
 
     --z-index: 0;
@@ -64,7 +61,7 @@ export const styles = {
     margin: 0;
     padding: 0.5em 0;
     font-size: 1.5em;
-    font-weight: ${fontWeights.h1};
+    font-weight: ${fontWeights.heading};
   `,
   headerTextButtons: (styles) => `
     ${styles.headerHeading}
@@ -80,7 +77,7 @@ export const styles = {
     border-radius: ${borderRadius};
     background-color: ${colors.blue};
     color: ${colors.white};
-    font-weight: ${fontWeights.h3};
+    font-weight: ${fontWeights.bold};
     text-decoration: none;
     cursor: pointer;
 
@@ -98,7 +95,7 @@ export const styles = {
     border-radius: ${borderRadius};
     box-shadow: none;
     color: ${colors.blue};
-    font-weight: ${fontWeights.h3};
+    font-weight: ${fontWeights.bold};
     text-decoration: none;
     cursor: pointer;
 
@@ -120,17 +117,12 @@ export const styles = {
     border-collapse: collapse;
     border: 5px solid transparent;
   `,
-  caption: `
-    padding: 1em 1em 1em 0;
-    text-align: left;
-    font-weight: ${fontWeights.h1};
-  `,
   th: (styles) => `
     ${styles.td}
 
     border-bottom: 1px solid ${colors.silver};
     text-align: left;
-    font-weight: ${fontWeights.h2};
+    font-weight: ${fontWeights.bold};
   `,
   td: `
     padding: 1em 1em 1em 0;
@@ -167,7 +159,7 @@ export const styles = {
   `,
   label: `
     margin: 1em 0 0.5em;
-    font-weight: ${fontWeights.h4};
+    font-weight: ${fontWeights.bold};
   `,
   labelLarge: (styles) => `
     ${styles.label}
@@ -214,10 +206,10 @@ export const styles = {
   `,
   highlightPunctuation: `
     color: ${colors.gray};
-    font-weight: ${fontWeights.h5};
+    font-weight: ${fontWeights.normal};
   `,
   highlightBold: `
-    font-weight: ${fontWeights.h4};
+    font-weight: ${fontWeights.bold};
   `,
   highlightUrl: `
     box-shadow: 0 0.1em 0 0 currentColor;
@@ -231,19 +223,19 @@ export const styles = {
   highlightCodeBlock: `
     white-space: pre-wrap;
     color: ${colors.green};
-    font-weight: ${fontWeights.h5};
+    font-weight: ${fontWeights.normal};
   `,
   highlightCodeInline: `
     color: ${colors.green};
-    font-weight: ${fontWeights.h5};
+    font-weight: ${fontWeights.normal};
   `,
   highlightHeading: `
     color: ${colors.black};
-    font-weight: ${fontWeights.h2};
+    font-weight: ${fontWeights.heading};
   `,
   highlightHeadingPunctuation: `
     color: ${colors.gray};
-    font-weight: ${fontWeights.h2};
+    font-weight: ${fontWeights.heading};
   `,
   textarea: `
     position: absolute;
