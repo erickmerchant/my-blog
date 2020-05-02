@@ -10,13 +10,13 @@
     "test": "exit 0"
   },
   "dependencies": {
-    "@erickmerchant/css": "^22.0.0",
-    "@erickmerchant/dev-cli": "^10.0.0",
-    "@erickmerchant/framework": "^35.0.0",
+    "@erickmerchant/css": "^22.1.0",
+    "@erickmerchant/dev-cli": "^10.1.0",
+    "@erickmerchant/framework": "^35.1.0",
     "@erickmerchant/router": "^19.0.0",
     "del": "^5.1.0",
     "execa": "^4.0.0",
-    "sergeant": "^28.0.0"
+    "sergeant": "^28.1.0"
   },
   "devDependencies": {
     "@erickmerchant/lint": "^5.0.0"
