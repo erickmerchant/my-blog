@@ -165,9 +165,7 @@ const save = (commit, post) => async (e) => {
     if (!data.date) {
       const now = new Date()
 
-      const month = now.getMonth() + 1
-
-      data.date = `${now.getFullYear()}-${month < 10 ? `0${month}` : month}-${now.getDate()}`
+      data.date = now.toISOString().substring(0, 10)
     }
 
     const index = posts.findIndex((post) => post.slug === data.slug)
@@ -274,7 +272,7 @@ const component = ({state, commit}) => html`<body class=${classes.app} onkeydown
       <div class=${classes.formRow}>
         <div class=${classes.formColumn}>
           <label class=${classes.label} for="Date">Date</label>
-          <input class=${classes.input} name="date" type="date" id="Date" value=${state.post.date} oninput=${(e) => commit((state) => { state.post.date = e.currentTarget.value; return state })} />
+          <input class=${classes.input} name="date" type="date" id="Date" value=${state.post.date ?? ''} oninput=${(e) => commit((state) => { state.post.date = e.currentTarget.value; return state })} />
         </div>
         <div class=${classes.formColumn}>
           <label class=${classes.label} for="Slug">Slug</label>
