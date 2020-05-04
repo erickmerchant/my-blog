@@ -60,11 +60,7 @@ const dispatchLocation = async (commit, location) => {
 
   try {
     state = await route(location, (on) => {
-      on('/posts/*/', async ([search]) => {
-        const post = await getPost(search)
-
-        return post
-      })
+      on('/posts/*/', ([search]) => getPost(search))
 
       on('/', async () => {
         const {posts} = await listPosts()
@@ -73,9 +69,7 @@ const dispatchLocation = async (commit, location) => {
           return unfound
         }
 
-        const post = await getPost(posts[0].slug)
-
-        return post
+        return getPost(posts[0].slug)
       })
 
       on(async () => unfound)
