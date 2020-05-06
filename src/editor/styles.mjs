@@ -139,7 +139,7 @@ export const styles = {
     top: 0;
     right: 0;
     left: 0;
-    margin: 2em;
+    padding: 2em;
     background-color: ${colors.white};
   `,
   formRow: `

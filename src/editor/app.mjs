@@ -1,7 +1,6 @@
 import {render, domUpdate, html} from '@erickmerchant/framework'
-import {route} from '@erickmerchant/router/wildcard.mjs'
 import {classes} from './css/styles.mjs'
-import {content} from '../content.mjs'
+import {content, getSegments} from '../common.mjs'
 
 const slugify = (title) => title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '-')
 
@@ -13,60 +12,59 @@ const init = async () => {
   const posts = await res.json()
 
   return {
-    location: '',
+    route: 'posts',
     posts
   }
 }
 
 const dispatchLocation = async (commit, location) => {
-  let state
+  const segments = getSegments(location.substring(1))
+
+  let state = {
+    route: 'error',
+    error: Error('Route not found')
+  }
 
   try {
-    state = await route(location, (on) => {
-      on('/', init)
+    if (segments.initial === 'posts/edit') {
+      const slug = segments.last
 
-      on('/posts/create', async () => {
+      const res = await fetch(`/content/posts/${slug}.json`, {headers})
+
+      if (res.status >= 300) {
         return {
-          post: {},
-          highlights: ''
+          error: Error(`${res.status} ${res.statusText}`)
         }
-      })
+      }
 
-      on('/posts/edit/*', async (slug) => {
-        const res = await fetch(`/content/posts/${slug}.json`, {headers})
+      const post = await res.json()
 
-        if (res.status >= 300) {
-          return {
-            error: Error(`${res.status} ${res.statusText}`)
-          }
-        }
-
-        const post = await res.json()
-
-        return {
-          post,
-          highlights: post.content
-        }
-      })
-
-      on(async () => {
-        return {
-          error: Error('Route not found')
-        }
-      })
-    })
+      state = {
+        route: 'posts/edit',
+        slug,
+        post,
+        highlights: post.content
+      }
+    } else if (segments.all === 'posts/create') {
+      state = {
+        route: 'posts/create',
+        post: {},
+        highlights: ''
+      }
+    } else if (segments.all === '') {
+      state = await init()
+    }
   } catch (error) {
     state = {
+      route: 'error',
       error
     }
   }
 
-  state.location = location
-
   commit(() => state)
 }
 
-const state = {location: '', posts: []}
+const state = {route: 'posts', posts: []}
 
 const target = document.querySelector('body')
 
@@ -228,15 +226,9 @@ const resetZindex = (e) => {
   e.currentTarget.style.setProperty('--z-index', 0)
 }
 
-const component = ({state, commit}) => html`<body class=${classes.app} onkeydown=${lowerZindex} onkeyup=${resetZindex}>${
-  state.error
-  ? html`
-    <h1 class=${classes.headerHeading}>${state.error.message}</h1>
-    <pre class=${classes.stackTrace}>${state.error.stack}</pre>
-  `
-  : route(state.location, (on) => {
-    on('/', () => html`
-    <header class=${classes.header}>
+const component = ({state, commit}) => html`<body class=${classes.app} onkeydown=${lowerZindex} onkeyup=${resetZindex}>${(() => {
+  if (state.route === 'posts') {
+    return html`<header class=${classes.header}>
       <h1 class=${classes.headerHeading}>Posts</h1>
       <div class=${classes.headerTextButtons}>
         <a class=${classes.createButton} href="#/posts/create">New</a>
@@ -263,10 +255,11 @@ const component = ({state, commit}) => html`<body class=${classes.app} onkeydown
           </tr>`)}
         </tbody>
       </table>
-    </div>
-  `)
+    </div>`
+  }
 
-  on(['/posts/create', '/posts/edit/*'], ([slug]) => html`<form class=${classes.form} onsubmit=${save(commit, state.post)} method="POST" autocomplete="off">
+  if (['posts/edit', 'posts/create'].includes(state.route)) {
+    return html`<form class=${classes.form} onsubmit=${save(commit, state.post)} method="POST" autocomplete="off">
       <label class=${classes.labelLarge} for="Title">Title</label>
       <input class=${classes.inputLarge} name="title" id="Title" value=${state.post.title ?? ''} oninput=${(e) => commit((state) => { state.post.title = e.currentTarget.value; return state })} />
       <div class=${classes.formRow}>
@@ -276,7 +269,7 @@ const component = ({state, commit}) => html`<body class=${classes.app} onkeydown
         </div>
         <div class=${classes.formColumn}>
           <label class=${classes.label} for="Slug">Slug</label>
-          <input class=${classes.input} name="slug" id="Slug" readonly=${slug != null} value=${state.post.slug ?? ''} placeholder=${slugify(state.post.title ?? '')} oninput=${slug == null ? (e) => commit((state) => { state.post.slug = e.currentTarget.value; return state }) : null} />
+          <input class=${classes.input} name="slug" id="Slug" readonly=${state.slug != null} value=${state.post.slug ?? ''} placeholder=${slugify(state.post.title ?? '')} oninput=${state.slug == null ? (e) => commit((state) => { state.post.slug = e.currentTarget.value; return state }) : null} />
         </div>
       </div>
       <label class=${classes.label} for="Content">Content</label>
@@ -290,16 +283,19 @@ const component = ({state, commit}) => html`<body class=${classes.app} onkeydown
         <a class=${classes.cancelButton} href="#/">Cancel</a>
         <button class=${classes.saveButton} type="submit">Save</button>
       </div>
-    </form>`)
+    </form>`
+  }
 
-    on(() => '')
-  })
-}</body>`
+  return html`
+    <h1 class=${classes.headerHeading}>${state.error.message}</h1>
+    <pre class=${classes.stackTrace}>${state.error.stack}</pre>
+  `
+})()}</body>`
 
 const commit = render({state, update, component})
 
 window.onpopstate = () => {
-  dispatchLocation(commit, document.location.hash.substring(1))
+  dispatchLocation(commit, document.location.hash)
 }
 
-dispatchLocation(commit, document.location.hash.substring(1))
+dispatchLocation(commit, document.location.hash)
