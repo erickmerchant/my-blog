@@ -6,11 +6,7 @@ const fetchOptions = {headers: {'Content-Type': 'application/json'}, mode: 'no-c
 
 const state = {route: '', title: ''}
 
-const target = document.querySelector('body')
-
-const update = domUpdate(target)
-
-const postsPromise = fetch('/content/posts/index.json', fetchOptions).then((res) => res.json())
+let postsPromise
 
 const unfound = {
   route: 'error',
@@ -79,7 +75,7 @@ const dispatchLocation = async (commit, location) => {
   commit(() => state)
 }
 
-const component = ({state, commit}) => (afterUpdate) => {
+export const component = ({state, commit}) => (afterUpdate) => {
   const anchorAttrs = (href) => {
     return {
       href,
@@ -142,19 +138,29 @@ const component = ({state, commit}) => (afterUpdate) => {
         <p class=${classes.paragraph}>${state.error?.message ?? ''}</p>
       </section>`
     }}
-    <footer class=${classes.footer}>
+    ${state.route !== '' ?
+      html`<footer class=${classes.footer}>
       <ul class=${classes.footerList}>
         <li class=${classes.navListItem}><a class=${classes.navAnchor} href="https://github.com/erickmerchant/my-blog">View Source</a></li>
         <li class=${classes.navListItem}>© ${new Date().getFullYear()} Erick Merchant</li>
       </ul>
-    </footer>
+    </footer>` :
+    null}
   </body>`
 }
 
-const commit = render({state, update, component})
+export const start = () => {
+  postsPromise = fetch('/content/posts/index.json', fetchOptions).then((res) => res.json())
 
-window.onpopstate = () => {
+  const target = document.querySelector('body')
+
+  const update = domUpdate(target)
+
+  const commit = render({state, update, component})
+
+  window.onpopstate = () => {
+    dispatchLocation(commit, document.location.pathname)
+  }
+
   dispatchLocation(commit, document.location.pathname)
 }
-
-dispatchLocation(commit, document.location.pathname)
