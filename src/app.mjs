@@ -138,14 +138,14 @@ export const component = ({state, commit}) => (afterUpdate) => {
         <p class=${classes.paragraph}>${state.error?.message ?? ''}</p>
       </section>`
     }}
-    ${state.route !== '' ?
-      html`<footer class=${classes.footer}>
+    ${state.route !== ''
+      ? html`<footer class=${classes.footer}>
       <ul class=${classes.footerList}>
         <li class=${classes.navListItem}><a class=${classes.navAnchor} href="https://github.com/erickmerchant/my-blog">View Source</a></li>
         <li class=${classes.navListItem}>© ${new Date().getFullYear()} Erick Merchant</li>
       </ul>
-    </footer>` :
-    null}
+    </footer>`
+    : null}
   </body>`
 }
 
