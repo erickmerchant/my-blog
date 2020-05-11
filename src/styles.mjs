@@ -133,7 +133,7 @@ export const styles = {
   `,
   main: `
     flex: 1 1 auto;
-    width: min(100%, 40em);
+    width: min(40em, 100%);
     margin-right: auto;
     margin-left: auto;
     padding-right: 1em;
