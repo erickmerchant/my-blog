@@ -1,4 +1,4 @@
-export const fontWeights = {
+const fontWeights = {
   heading: 700,
   bold: 500,
   normal: 300
@@ -47,31 +47,25 @@ export const styles = {
     font-size: 16px;
     font-weight: ${fontWeights.normal};
     color: ${colors.black};
+    overflow-x: scroll;
 
     --z-index: 0;
   `,
   header: `
     display: flex;
-    flex-wrap: wrap;
     align-items: center;
     border: 5px solid transparent;
   `,
   headerHeading: `
-    flex: 1 1 auto;
-    margin: 0;
     padding: 0.5em 0;
     font-size: 1.5em;
     font-weight: ${fontWeights.heading};
   `,
-  headerTextButtons: (styles) => `
-    ${styles.headerHeading}
-
-    text-align: right;
-    font-size: 1.125em;
+  headerSpacer: (styles) => `
+    flex: 1 1 auto;
   `,
   button: `
     appearance: none;
-    margin-left: 1.5em;
     padding: 0.5em 1.5em;
     border: none;
     border-radius: ${borderRadius};
@@ -107,10 +101,6 @@ export const styles = {
     ${styles.textButton}
 
     color: ${colors.red};
-  `,
-  tableWrap: `
-    max-width: 100%;
-    overflow-x: scroll;
   `,
   table: `
     width: 100%;
@@ -196,7 +186,6 @@ export const styles = {
   `,
   textareaHighlights: `
     min-height: 15em;
-    padding: 0;
     overflow: auto;
     border-radius: 0;
     background-color: transparent;
@@ -247,7 +236,6 @@ export const styles = {
     width: 100%;
     height: 100%;
     padding: 0.5em;
-    margin: 0;
     overflow: hidden;
     border: none;
     border-radius: ${borderRadius};

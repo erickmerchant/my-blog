@@ -230,32 +230,29 @@ const component = ({state, commit}) => html`<body class=${classes.app} onkeydown
   if (state.route === 'posts') {
     return html`<header class=${classes.header}>
       <h1 class=${classes.headerHeading}>Posts</h1>
-      <div class=${classes.headerTextButtons}>
-        <a class=${classes.createButton} href="#/posts/create">New</a>
-      </div>
+      <span class=${classes.headerSpacer} />
+      <a class=${classes.createButton} href="#/posts/create">New</a>
     </header>
-    <div class=${classes.tableWrap}>
-      <table class=${classes.table}>
-        <thead>
-          <tr>
-            <th class=${classes.th}>Title</th>
-            <th class=${classes.th}>Date</th>
-            <th class=${classes.th} />
-          </tr>
-        </thead>
-        <tbody>
-          ${state.posts.map((post) => html`<tr>
-            <td class=${classes.td}>${post.title}</td>
-            <td class=${classes.td}>${new Date(post.date).toLocaleDateString('en-US', {year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC'})}</td>
-            <td class=${classes.td}>
-              <a class=${classes.textButton} href=${`#/posts/edit/${post.slug}`}>Edit</a>
-              <a class=${classes.textButton} target="_blank" href=${`/posts/${post.slug}`}>View</a>
-              <button class=${classes.deleteButton} onclick=${remove(commit, post)}>Delete</button>
-            </td>
-          </tr>`)}
-        </tbody>
-      </table>
-    </div>`
+    <table class=${classes.table}>
+      <thead>
+        <tr>
+          <th class=${classes.th}>Title</th>
+          <th class=${classes.th}>Date</th>
+          <th class=${classes.th} />
+        </tr>
+      </thead>
+      <tbody>
+        ${state.posts.map((post) => html`<tr>
+          <td class=${classes.td}>${post.title}</td>
+          <td class=${classes.td}>${new Date(post.date).toLocaleDateString('en-US', {year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC'})}</td>
+          <td class=${classes.td}>
+            <a class=${classes.textButton} href=${`#/posts/edit/${post.slug}`}>Edit</a>
+            <a class=${classes.textButton} target="_blank" href=${`/posts/${post.slug}`}>View</a>
+            <button class=${classes.deleteButton} onclick=${remove(commit, post)}>Delete</button>
+          </td>
+        </tr>`)}
+      </tbody>
+    </table>`
   }
 
   if (['posts/edit', 'posts/create'].includes(state.route)) {
