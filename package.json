@@ -9,7 +9,7 @@
     "test": "lint '**/*.{js,mjs}'"
   },
   "dependencies": {
-    "@erickmerchant/css": "^22.2.0",
+    "@erickmerchant/css": "^22.2.1",
     "@erickmerchant/dev-cli": "^10.2.0",
     "@erickmerchant/framework": "^35.1.3",
     "cheerio": "^1.0.0-rc.3",
