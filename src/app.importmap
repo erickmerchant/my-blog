@@ -1,0 +1,5 @@
+{
+  "imports": {
+    "@erickmerchant/framework": "/node_modules/@erickmerchant/framework/main.mjs"
+  }
+}

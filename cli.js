@@ -16,7 +16,7 @@ command({
 
     execa('css src/editor/styles.mjs src/editor/css/styles -wd', execaOptions)
 
-    execa('dev serve src -d', execaOptions)
+    execa('dev serve -m src/app.importmap src -d', execaOptions)
   }
 })
 
@@ -25,7 +25,7 @@ command({
   async action() {
     await Promise.all([
       execa('css src/styles.mjs src/css/styles', execaOptions),
-      execa('dev cache src dist', execaOptions)
+      execa('dev cache -m src/app.importmap src dist', execaOptions)
     ])
 
     await del(['./dist/editor/'])
