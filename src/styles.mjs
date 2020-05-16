@@ -165,6 +165,10 @@ export const styles = {
     border-radius: ${borderRadius};
     background-color: ${colors.green1};
     font-weight: ${fontWeights.bold};
+
+    :focus, :active, :hover {
+      filter: saturate(1.5);
+    }
   `,
   buttonDisabled: (styles) => `
     ${styles.button}

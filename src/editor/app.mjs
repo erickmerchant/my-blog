@@ -61,7 +61,7 @@ const dispatchLocation = async (commit, location) => {
     }
   }
 
-  commit(() => state)
+  commit(state)
 }
 
 const state = {route: 'posts', posts: []}
@@ -131,13 +131,11 @@ const remove = (commit, post) => async (e) => {
 
       const state = await init()
 
-      commit(() => state)
+      commit(state)
     }
   } catch (error) {
     commit((state) => {
       state.error = error
-
-      return state
     })
   }
 }
@@ -198,8 +196,6 @@ const save = (commit, post) => async (e) => {
   } catch (error) {
     commit((state) => {
       state.error = error
-
-      return state
     })
   }
 }
@@ -209,8 +205,6 @@ const highlight = (commit) => (e) => {
     state.highlights = e.currentTarget.value
 
     state.post.content = e.currentTarget.value
-
-    return state
   })
 }
 
@@ -258,15 +252,15 @@ const component = ({state, commit}) => html`<body class=${classes.app} onkeydown
   if (['posts/edit', 'posts/create'].includes(state.route)) {
     return html`<form class=${classes.form} onsubmit=${save(commit, state.post)} method="POST" autocomplete="off">
       <label class=${classes.labelLarge} for="Title">Title</label>
-      <input class=${classes.inputLarge} name="title" id="Title" value=${state.post.title ?? ''} oninput=${(e) => commit((state) => { state.post.title = e.currentTarget.value; return state })} />
+      <input class=${classes.inputLarge} name="title" id="Title" value=${state.post.title ?? ''} oninput=${(e) => commit((state) => { state.post.title = e.currentTarget.value })} />
       <div class=${classes.formRow}>
         <div class=${classes.formColumn}>
           <label class=${classes.label} for="Date">Date</label>
-          <input class=${classes.input} name="date" type="date" id="Date" value=${state.post.date ?? ''} oninput=${(e) => commit((state) => { state.post.date = e.currentTarget.value; return state })} />
+          <input class=${classes.input} name="date" type="date" id="Date" value=${state.post.date ?? ''} oninput=${(e) => commit((state) => { state.post.date = e.currentTarget.value })} />
         </div>
         <div class=${classes.formColumn}>
           <label class=${classes.label} for="Slug">Slug</label>
-          <input class=${classes.input} name="slug" id="Slug" readonly=${state.slug != null} value=${state.post.slug ?? ''} placeholder=${slugify(state.post.title ?? '')} oninput=${state.slug == null ? (e) => commit((state) => { state.post.slug = e.currentTarget.value; return state }) : null} />
+          <input class=${classes.input} name="slug" id="Slug" readonly=${state.slug != null} value=${state.post.slug ?? ''} placeholder=${slugify(state.post.title ?? '')} oninput=${state.slug == null ? (e) => commit((state) => { state.post.slug = e.currentTarget.value }) : null} />
         </div>
       </div>
       <label class=${classes.label} for="Content">Content</label>

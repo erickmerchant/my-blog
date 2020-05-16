@@ -72,7 +72,7 @@ const dispatchLocation = async (commit, location) => {
     }
   }
 
-  commit(() => state)
+  commit(state)
 }
 
 export const component = ({state, commit}) => (afterUpdate) => {

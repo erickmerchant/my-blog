@@ -78,6 +78,10 @@ export const styles = {
     :hover {
       text-decoration: none;
     }
+
+    :focus, :active, :hover {
+      filter: saturate(1.5);
+    }
   `,
   createButton: (styles) => styles.button,
   textButton: `
