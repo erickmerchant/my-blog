@@ -39,7 +39,7 @@ command({
     const {component} = await import('./src/app.mjs')
     const state = {route: '', title: ''}
 
-    const $body = cheerio.load(stringify(component({state})))('body')
+    const $body = cheerio.load(stringify(component(state)))('body')
 
     $body.find('*').each((index, el) => {
       let node = el.firstChild

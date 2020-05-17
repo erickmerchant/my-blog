@@ -1,4 +1,4 @@
-import {render, domUpdate, html} from '@erickmerchant/framework'
+import {createApp, createDomView, html} from '@erickmerchant/framework'
 import {classes} from './css/styles.mjs'
 import {content, getSegments} from '../common.mjs'
 
@@ -17,7 +17,11 @@ const init = async () => {
   }
 }
 
-const dispatchLocation = async (commit, location) => {
+const state = {route: 'posts', posts: []}
+
+const app = createApp(state)
+
+const dispatchLocation = async (location) => {
   const segments = getSegments(location.substring(1))
 
   let state = {
@@ -61,14 +65,8 @@ const dispatchLocation = async (commit, location) => {
     }
   }
 
-  commit(state)
+  app.commit(state)
 }
-
-const state = {route: 'posts', posts: []}
-
-const target = document.querySelector('body')
-
-const update = domUpdate(target)
 
 const highlighter = (str) => content(str.replace(/\r/g, ''), false, {
   bold: (text) => html`<span>
@@ -106,7 +104,7 @@ const highlighter = (str) => content(str.replace(/\r/g, ''), false, {
   paragraph: (text) => html`<span>${text}</span>`
 })
 
-const remove = (commit, post) => async (e) => {
+const remove = (post) => async (e) => {
   e.preventDefault()
 
   try {
@@ -131,16 +129,16 @@ const remove = (commit, post) => async (e) => {
 
       const state = await init()
 
-      commit(state)
+      app.commit(state)
     }
   } catch (error) {
-    commit((state) => {
+    app.commit((state) => {
       state.error = error
     })
   }
 }
 
-const save = (commit, post) => async (e) => {
+const save = (post) => async (e) => {
   e.preventDefault()
 
   const data = {}
@@ -194,14 +192,14 @@ const save = (commit, post) => async (e) => {
 
     window.location.hash = '#'
   } catch (error) {
-    commit((state) => {
+    app.commit((state) => {
       state.error = error
     })
   }
 }
 
-const highlight = (commit) => (e) => {
-  commit((state) => {
+const highlight = (e) => {
+  app.commit((state) => {
     state.highlights = e.currentTarget.value
 
     state.post.content = e.currentTarget.value
@@ -220,73 +218,76 @@ const resetZindex = (e) => {
   e.currentTarget.style.setProperty('--z-index', 0)
 }
 
-const component = ({state, commit}) => html`<body class=${classes.app} onkeydown=${lowerZindex} onkeyup=${resetZindex}>${(() => {
-  if (state.route === 'posts') {
-    return html`<header class=${classes.header}>
-      <h1 class=${classes.headerHeading}>Posts</h1>
-      <span class=${classes.headerSpacer} />
-      <a class=${classes.createButton} href="#/posts/create">New</a>
-    </header>
-    <table class=${classes.table}>
-      <thead>
-        <tr>
-          <th class=${classes.th}>Title</th>
-          <th class=${classes.th}>Date</th>
-          <th class=${classes.th} />
-        </tr>
-      </thead>
-      <tbody>
-        ${state.posts.map((post) => html`<tr>
-          <td class=${classes.td}>${post.title}</td>
-          <td class=${classes.td}>${new Date(post.date).toLocaleDateString('en-US', {year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC'})}</td>
-          <td class=${classes.td}>
-            <a class=${classes.textButton} href=${`#/posts/edit/${post.slug}`}>Edit</a>
-            <a class=${classes.textButton} target="_blank" href=${`/posts/${post.slug}`}>View</a>
-            <button class=${classes.deleteButton} onclick=${remove(commit, post)}>Delete</button>
-          </td>
-        </tr>`)}
-      </tbody>
-    </table>`
-  }
+const target = document.querySelector('body')
 
-  if (['posts/edit', 'posts/create'].includes(state.route)) {
-    return html`<form class=${classes.form} onsubmit=${save(commit, state.post)} method="POST" autocomplete="off">
-      <label class=${classes.labelLarge} for="Title">Title</label>
-      <input class=${classes.inputLarge} name="title" id="Title" value=${state.post.title ?? ''} oninput=${(e) => commit((state) => { state.post.title = e.currentTarget.value })} />
-      <div class=${classes.formRow}>
-        <div class=${classes.formColumn}>
-          <label class=${classes.label} for="Date">Date</label>
-          <input class=${classes.input} name="date" type="date" id="Date" value=${state.post.date ?? ''} oninput=${(e) => commit((state) => { state.post.date = e.currentTarget.value })} />
-        </div>
-        <div class=${classes.formColumn}>
-          <label class=${classes.label} for="Slug">Slug</label>
-          <input class=${classes.input} name="slug" id="Slug" readonly=${state.slug != null} value=${state.post.slug ?? ''} placeholder=${slugify(state.post.title ?? '')} oninput=${state.slug == null ? (e) => commit((state) => { state.post.slug = e.currentTarget.value }) : null} />
-        </div>
-      </div>
-      <label class=${classes.label} for="Content">Content</label>
-      <div class=${classes.textareaWrap}>
-        <div class=${classes.textareaHighlightsWrap}>
-          <pre class=${classes.textareaHighlights}>${highlighter(state.highlights)}</pre>
-        </div>
-        <textarea class=${classes.textarea} name="content" id="Content" oninput=${highlight(commit)}>${state.post.content ?? ''}</textarea>
-      </div>
-      <div class=${classes.formButtons}>
-        <a class=${classes.cancelButton} href="#/">Cancel</a>
-        <button class=${classes.saveButton} type="submit">Save</button>
-      </div>
-    </form>`
-  }
+const view = createDomView(target, (state) => html`
+  <body class=${classes.app} onkeydown=${lowerZindex} onkeyup=${resetZindex}>${(() => {
+    if (state.route === 'posts') {
+      return html`<header class=${classes.header}>
+        <h1 class=${classes.headerHeading}>Posts</h1>
+        <span class=${classes.headerSpacer} />
+        <a class=${classes.createButton} href="#/posts/create">New</a>
+      </header>
+      <table class=${classes.table}>
+        <thead>
+          <tr>
+            <th class=${classes.th}>Title</th>
+            <th class=${classes.th}>Date</th>
+            <th class=${classes.th} />
+          </tr>
+        </thead>
+        <tbody>
+          ${state.posts.map((post) => html`<tr>
+            <td class=${classes.td}>${post.title}</td>
+            <td class=${classes.td}>${new Date(post.date).toLocaleDateString('en-US', {year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC'})}</td>
+            <td class=${classes.td}>
+              <a class=${classes.textButton} href=${`#/posts/edit/${post.slug}`}>Edit</a>
+              <a class=${classes.textButton} target="_blank" href=${`/posts/${post.slug}`}>View</a>
+              <button class=${classes.deleteButton} onclick=${remove(post)}>Delete</button>
+            </td>
+          </tr>`)}
+        </tbody>
+      </table>`
+    }
 
-  return html`
-    <h1 class=${classes.headerHeading}>${state.error.message}</h1>
-    <pre class=${classes.stackTrace}>${state.error.stack}</pre>
-  `
-})()}</body>`
+    if (['posts/edit', 'posts/create'].includes(state.route)) {
+      return html`<form class=${classes.form} onsubmit=${save(state.post)} method="POST" autocomplete="off">
+        <label class=${classes.labelLarge} for="Title">Title</label>
+        <input class=${classes.inputLarge} name="title" id="Title" value=${state.post.title ?? ''} oninput=${(e) => app.commit((state) => { state.post.title = e.currentTarget.value })} />
+        <div class=${classes.formRow}>
+          <div class=${classes.formColumn}>
+            <label class=${classes.label} for="Date">Date</label>
+            <input class=${classes.input} name="date" type="date" id="Date" value=${state.post.date ?? ''} oninput=${(e) => app.commit((state) => { state.post.date = e.currentTarget.value })} />
+          </div>
+          <div class=${classes.formColumn}>
+            <label class=${classes.label} for="Slug">Slug</label>
+            <input class=${classes.input} name="slug" id="Slug" readonly=${state.slug != null} value=${state.post.slug ?? ''} placeholder=${slugify(state.post.title ?? '')} oninput=${state.slug == null ? (e) => app.commit((state) => { state.post.slug = e.currentTarget.value }) : null} />
+          </div>
+        </div>
+        <label class=${classes.label} for="Content">Content</label>
+        <div class=${classes.textareaWrap}>
+          <div class=${classes.textareaHighlightsWrap}>
+            <pre class=${classes.textareaHighlights}>${highlighter(state.highlights)}</pre>
+          </div>
+          <textarea class=${classes.textarea} name="content" id="Content" oninput=${highlight}>${state.post.content ?? ''}</textarea>
+        </div>
+        <div class=${classes.formButtons}>
+          <a class=${classes.cancelButton} href="#/">Cancel</a>
+          <button class=${classes.saveButton} type="submit">Save</button>
+        </div>
+      </form>`
+    }
 
-const commit = render({state, update, component})
+    return html`
+      <h1 class=${classes.headerHeading}>${state.error.message}</h1>
+      <pre class=${classes.stackTrace}>${state.error.stack}</pre>
+    `
+  })()}</body>`)
+
+app.render(view)
 
 window.onpopstate = () => {
-  dispatchLocation(commit, document.location.hash)
+  dispatchLocation(document.location.hash)
 }
 
-dispatchLocation(commit, document.location.hash)
+dispatchLocation(document.location.hash)

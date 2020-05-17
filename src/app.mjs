@@ -1,10 +1,12 @@
-import {render, domUpdate, html} from '@erickmerchant/framework'
+import {createApp, createDomView, html} from '@erickmerchant/framework'
 import {classes} from './css/styles.mjs'
 import {content, getSegments} from './common.mjs'
 
 const fetchOptions = {headers: {'Content-Type': 'application/json'}, mode: 'no-cors'}
 
 const state = {route: '', title: ''}
+
+const app = createApp(state)
 
 let postsPromise
 
@@ -49,7 +51,7 @@ const getPost = async (search) => {
   }
 }
 
-const dispatchLocation = async (commit, location) => {
+const dispatchLocation = async (location) => {
   const segments = getSegments(location)
 
   let state = unfound
@@ -72,10 +74,10 @@ const dispatchLocation = async (commit, location) => {
     }
   }
 
-  commit(state)
+  app.commit(state)
 }
 
-export const component = ({state, commit}) => (afterUpdate) => {
+export const component = (state) => (afterUpdate) => {
   const anchorAttrs = (href) => {
     return {
       href,
@@ -84,7 +86,7 @@ export const component = ({state, commit}) => (afterUpdate) => {
 
         window.history.pushState({}, null, href)
 
-        dispatchLocation(commit, href)
+        dispatchLocation(href)
       }
     }
   }
@@ -154,13 +156,13 @@ export const start = () => {
 
   const target = document.querySelector('body')
 
-  const update = domUpdate(target)
+  const view = createDomView(target, component)
 
-  const commit = render({state, update, component})
+  app.render(view)
 
   window.onpopstate = () => {
-    dispatchLocation(commit, document.location.pathname)
+    dispatchLocation(document.location.pathname)
   }
 
-  dispatchLocation(commit, document.location.pathname)
+  dispatchLocation(document.location.pathname)
 }
