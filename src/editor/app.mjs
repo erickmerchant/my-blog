@@ -223,31 +223,33 @@ const target = document.querySelector('body')
 const view = createDomView(target, (state) => html`
   <body class=${classes.app} onkeydown=${lowerZindex} onkeyup=${resetZindex}>${(() => {
     if (state.route === 'posts') {
-      return html`<header class=${classes.header}>
-        <h1 class=${classes.headerHeading}>Posts</h1>
-        <span class=${classes.headerSpacer} />
-        <a class=${classes.createButton} href="#/posts/create">New</a>
-      </header>
-      <table class=${classes.table}>
-        <thead>
-          <tr>
-            <th class=${classes.th}>Title</th>
-            <th class=${classes.th}>Date</th>
-            <th class=${classes.th} />
-          </tr>
-        </thead>
-        <tbody>
-          ${state.posts.map((post) => html`<tr>
-            <td class=${classes.td}>${post.title}</td>
-            <td class=${classes.td}>${new Date(post.date).toLocaleDateString('en-US', {year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC'})}</td>
-            <td class=${classes.td}>
-              <a class=${classes.textButton} href=${`#/posts/edit/${post.slug}`}>Edit</a>
-              <a class=${classes.textButton} target="_blank" href=${`/posts/${post.slug}`}>View</a>
-              <button class=${classes.deleteButton} onclick=${remove(post)}>Delete</button>
-            </td>
-          </tr>`)}
-        </tbody>
-      </table>`
+      return [
+        html`<header class=${classes.header}>
+          <h1 class=${classes.headerHeading}>Posts</h1>
+          <span class=${classes.headerSpacer} />
+          <a class=${classes.createButton} href="#/posts/create">New</a>
+        </header>`,
+        html`<table class=${classes.table}>
+          <thead>
+            <tr>
+              <th class=${classes.th}>Title</th>
+              <th class=${classes.th}>Date</th>
+              <th class=${classes.th} />
+            </tr>
+          </thead>
+          <tbody>
+            ${state.posts.map((post) => html`<tr>
+              <td class=${classes.td}>${post.title}</td>
+              <td class=${classes.td}>${new Date(post.date).toLocaleDateString('en-US', {year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC'})}</td>
+              <td class=${classes.td}>
+                <a class=${classes.textButton} href=${`#/posts/edit/${post.slug}`}>Edit</a>
+                <a class=${classes.textButton} target="_blank" href=${`/posts/${post.slug}`}>View</a>
+                <button class=${classes.deleteButton} onclick=${remove(post)}>Delete</button>
+              </td>
+            </tr>`)}
+          </tbody>
+        </table>`
+      ]
     }
 
     if (['posts/edit', 'posts/create'].includes(state.route)) {
@@ -278,10 +280,10 @@ const view = createDomView(target, (state) => html`
       </form>`
     }
 
-    return html`
+    return html`<div>
       <h1 class=${classes.headerHeading}>${state.error.message}</h1>
       <pre class=${classes.stackTrace}>${state.error.stack}</pre>
-    `
+    </div>`
   })()}</body>`)
 
 app.render(view)
