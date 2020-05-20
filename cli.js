@@ -69,6 +69,8 @@ command({
       .html($body.html())
 
     await writeFile(paths.index, $.html())
+
+    await execa('rollup -c rollup.config.js', execaOptions)
   }
 })
 
