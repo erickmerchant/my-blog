@@ -210,13 +210,11 @@ const save = (post) => async (e) => {
   }
 }
 
-const highlight = (e) => {
-  app.commit((state) => {
-    state.highlights = e.currentTarget.value
+const highlight = (e) => app.commit((state) => {
+  state.highlights = e.currentTarget.value
 
-    state.post.content = e.currentTarget.value
-  })
-}
+  state.post.content = e.currentTarget.value
+})
 
 const lowerZindex = (e) => {
   if (e.key === 'Meta') {
