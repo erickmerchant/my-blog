@@ -69,38 +69,50 @@ const dispatchLocation = async (location) => {
 }
 
 const highlighter = (str) => content(str.replace(/\r/g, ''), false, {
-  bold: (text) => html`<span>
-    <span class=${classes.highlightPunctuation}>*</span>
-    <span class=${classes.highlightBold}>${text}</span>
-    <span class=${classes.highlightPunctuation}>*</span>
-  </span>`,
-  codeBlock: (code, isClosed) => html`<span>
-    <span class=${classes.highlightPunctuation}>${'```\n'}</span>
-    <span class=${classes.highlightCodeBlock}>${code}</span>
-    ${isClosed ? html`<span class=${classes.highlightPunctuation}>${'```'}</span>` : null}
-  </span>`,
-  codeInline: (text) => html`<span>
-    <span class=${classes.highlightPunctuation}>${'`'}</span>
-    <span class=${classes.highlightCodeInline}>${text}</span>
-    <span class=${classes.highlightPunctuation}>${'`'}</span>
-  </span>`,
-  heading: (text) => html`<span>
-    <span class=${classes.highlightHeadingPunctuation}># </span>
-    <span class=${classes.highlightHeading}>${text}</span>
-  </span>`,
-  link: (text, href) => html`<span>
-    <span class=${classes.highlightPunctuation}>[</span>
-    ${text}
-    <span class=${classes.highlightPunctuation}>]</span>
-    <span class=${classes.highlightPunctuation}>(</span>
-    <a class=${classes.highlightUrl} href=${href}>${href}</a>
-    <span class=${classes.highlightPunctuation}>)</span>
-  </span>`,
+  bold: (text) => html`
+    <span>
+      <span class=${classes.highlightPunctuation}>*</span>
+      <span class=${classes.highlightBold}>${text}</span>
+      <span class=${classes.highlightPunctuation}>*</span>
+    </span>
+  `,
+  codeBlock: (code, isClosed) => html`
+    <span>
+      <span class=${classes.highlightPunctuation}>${'```\n'}</span>
+      <span class=${classes.highlightCodeBlock}>${code}</span>
+      ${isClosed ? html`<span class=${classes.highlightPunctuation}>${'```'}</span>` : null}
+    </span>
+  `,
+  codeInline: (text) => html`
+    <span>
+      <span class=${classes.highlightPunctuation}>${'`'}</span>
+      <span class=${classes.highlightCodeInline}>${text}</span>
+      <span class=${classes.highlightPunctuation}>${'`'}</span>
+    </span>
+  `,
+  heading: (text) => html`
+    <span>
+      <span class=${classes.highlightHeadingPunctuation}># </span>
+      <span class=${classes.highlightHeading}>${text}</span>
+    </span>
+  `,
+  link: (text, href) => html`
+    <span>
+      <span class=${classes.highlightPunctuation}>[</span>
+      ${text}
+      <span class=${classes.highlightPunctuation}>]</span>
+      <span class=${classes.highlightPunctuation}>(</span>
+      <a class=${classes.highlightUrl} href=${href}>${href}</a>
+      <span class=${classes.highlightPunctuation}>)</span>
+    </span>
+  `,
   list: (items) => html`<span>${items}</span>`,
-  listItem: (text) => html`<span>
-    <span class=${classes.highlightPunctuation}>- </span>
-    ${text}
-  </span>`,
+  listItem: (text) => html`
+    <span>
+      <span class=${classes.highlightPunctuation}>- </span>
+      ${text}
+    </span>
+  `,
   paragraph: (text) => html`<span>${text}</span>`
 })
 
@@ -238,15 +250,17 @@ const view = createDomView(target, (state) => html`
             </tr>
           </thead>
           <tbody>
-            ${state.posts.map((post) => html`<tr>
-              <td class=${classes.td}>${post.title}</td>
-              <td class=${classes.td}>${new Date(post.date).toLocaleDateString('en-US', {year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC'})}</td>
-              <td class=${classes.td}>
-                <a class=${classes.textButton} href=${`#/posts/edit/${post.slug}`}>Edit</a>
-                <a class=${classes.textButton} target="_blank" href=${`/posts/${post.slug}`}>View</a>
-                <button class=${classes.deleteButton} onclick=${remove(post)}>Delete</button>
-              </td>
-            </tr>`)}
+            ${state.posts.map((post) => html`
+              <tr>
+                <td class=${classes.td}>${post.title}</td>
+                <td class=${classes.td}>${new Date(post.date).toLocaleDateString('en-US', {year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC'})}</td>
+                <td class=${classes.td}>
+                  <a class=${classes.textButton} href=${`#/posts/edit/${post.slug}`}>Edit</a>
+                  <a class=${classes.textButton} target="_blank" href=${`/posts/${post.slug}`}>View</a>
+                  <button class=${classes.deleteButton} onclick=${remove(post)}>Delete</button>
+                </td>
+              </tr>
+            `)}
           </tbody>
         </table>`
       ]
