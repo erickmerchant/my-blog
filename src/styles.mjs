@@ -16,7 +16,7 @@ const borderRadius = '0.25em'
 
 export const _start = `
   @font-face {
-    font-display: fallback;
+    font-display: swap;
     font-family: "Public Sans";
     font-style: normal;
     font-weight: 100 900;
