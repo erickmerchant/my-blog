@@ -1,6 +1,6 @@
 import {createApp, createDomView, html} from '@erickmerchant/framework'
 import {classes} from './css/styles.mjs'
-import {content, getSegments} from './common.mjs'
+import {contentComponent, getSegments} from './common.mjs'
 
 const fetchOptions = {headers: {'Content-Type': 'application/json'}, mode: 'no-cors'}
 
@@ -16,65 +16,44 @@ const unfound = {
   error: Error('That page doesn\'t exist. It was either moved, removed, or never existed.')
 }
 
-const listPosts = async () => {
-  const posts = await postsPromise
-
-  return {
-    title: 'Posts',
-    posts
-  }
-}
-
-const getPost = async (search) => {
-  const posts = await postsPromise
-
-  const index = posts.findIndex((post) => post.slug === search)
-
-  if (index === -1) {
-    return unfound
-  }
-
-  const post = posts[index]
-
-  const response = await fetch(`/content/posts/${post.slug}.json`, fetchOptions)
-
-  const result = await response.json()
-
-  post.content = result.content
-
-  return {
-    route: 'post',
-    title: `Posts | ${post.title}`,
-    next: posts[index - 1],
-    prev: posts[index + 1],
-    post
-  }
-}
-
 const dispatchLocation = async (location) => {
   const segments = getSegments(location)
-
-  let state = unfound
+  const posts = await postsPromise
+  let index = -1
 
   try {
     if (segments.initial === 'posts') {
-      state = await getPost(segments.last)
-    } else if (segments.all === '') {
-      const {posts} = await listPosts()
+      index = posts.findIndex((post) => post.slug === segments.last)
+    } else if (segments.all === '' && posts.length > 0) {
+      index = 0
+    }
 
-      if (posts.length) {
-        state = await getPost(posts[0].slug)
-      }
+    if (index > -1) {
+      const post = Object.assign({}, posts[index])
+
+      const response = await fetch(`/content/posts/${post.slug}.json`, fetchOptions)
+
+      const content = await response.json()
+
+      post.content = content
+
+      app.commit({
+        route: 'post',
+        title: `Posts | ${post.title}`,
+        next: posts[index - 1],
+        prev: posts[index + 1],
+        post
+      })
+    } else {
+      app.commit(unfound)
     }
   } catch (error) {
-    state = {
+    app.commit({
       route: 'error',
       title: '500 Error',
       error
-    }
+    })
   }
-
-  app.commit(state)
 }
 
 export const component = (state) => (afterUpdate) => {
@@ -122,7 +101,16 @@ export const component = (state) => (afterUpdate) => {
               </span>
             </time>
           </header>
-          ${content(state.post.content)}
+          ${contentComponent(state.post.content ?? '', {
+            bold: (text) => html`<strong class=${classes.strong}>${text}</strong>`,
+            codeBlock: (items) => html`<pre class=${classes.pre}><code class=${classes.codeBlock}>${items}</code></pre>`,
+            codeInline: (text) => html`<code class=${classes.code}>${text}</code>`,
+            heading: (text) => html`<h2 class=${classes.heading2}>${text}</h2>`,
+            link: (text, href) => html`<a class=${classes.anchor} href=${href}>${text}</a>`,
+            list: (items) => html`<ul class=${classes.list}>${items}</ul>`,
+            listItem: (items) => html`<li>${items}</li>`,
+            paragraph: (items) => (items.length ? html`<p class=${classes.paragraph}>${items}</p>` : null)
+          })}
           ${state.prev || state.next
             ? html`<nav>
               <ul class=${classes.navList}>

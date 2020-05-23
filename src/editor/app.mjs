@@ -1,15 +1,27 @@
 import {createApp, createDomView, html} from '@erickmerchant/framework'
 import {classes} from './css/styles.mjs'
-import {content, getSegments} from '../common.mjs'
+import {contentComponent, getSegments} from '../common.mjs'
 
 const slugify = (title) => title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '-')
 
-const headers = {'Content-Type': 'application/json', mode: 'no-cors'}
+const fetchOptions = {'Content-Type': 'application/json', mode: 'no-cors'}
+
+const getList = async () => {
+  const res = await fetch('/content/posts/index.json', {fetchOptions})
+
+  return res.json()
+}
+
+const postList = async (posts) => {
+  await fetch('/content/posts/index.json', {
+    method: 'POST',
+    fetchOptions,
+    body: JSON.stringify(posts)
+  })
+}
 
 const init = async () => {
-  const res = await fetch('/content/posts/index.json', {headers})
-
-  const posts = await res.json()
+  const posts = await getList()
 
   return {
     route: 'posts',
@@ -33,15 +45,21 @@ const dispatchLocation = async (location) => {
     if (segments.initial === 'posts/edit') {
       const slug = segments.last
 
-      const res = await fetch(`/content/posts/${slug}.json`, {headers})
+      const posts = await getList()
 
-      if (res.status >= 300) {
+      const index = posts.findIndex((p) => p.slug === slug)
+
+      const post = index > -1 ? Object.assign({}, posts[index]) : {}
+
+      const contentRes = await fetch(`/content/posts/${slug}.json`, {fetchOptions})
+
+      if (contentRes.status >= 300) {
         return {
-          error: Error(`${res.status} ${res.statusText}`)
+          error: Error(`${contentRes.status} ${contentRes.statusText}`)
         }
       }
 
-      const post = await res.json()
+      post.content = await contentRes.json()
 
       state = {
         route: 'posts/edit',
@@ -68,7 +86,7 @@ const dispatchLocation = async (location) => {
   app.commit(state)
 }
 
-const highlighter = (str) => content(str.replace(/\r/g, ''), false, {
+const highlighter = (str) => contentComponent(str.replace(/\r/g, ''), {
   bold: (text) => html`
     <span>
       <span class=${classes.highlightPunctuation}>*</span>
@@ -114,30 +132,24 @@ const highlighter = (str) => content(str.replace(/\r/g, ''), false, {
     </span>
   `,
   paragraph: (text) => html`<span>${text}</span>`
-})
+}, false)
 
 const remove = (post) => async (e) => {
   e.preventDefault()
 
   try {
     if (post.slug != null) {
-      const res = await fetch('/content/posts/index.json', {headers})
-
-      const posts = await res.json()
+      const posts = await getList()
 
       const index = posts.findIndex((p) => p.slug === post.slug)
 
       if (index > -1) {
         posts.splice(index, 1)
 
-        await fetch('/content/posts/index.json', {
-          method: 'POST',
-          headers,
-          body: JSON.stringify(posts)
-        })
+        await postList(posts)
       }
 
-      await fetch(`/content/posts/${post.slug}.json`, {headers, method: 'DELETE'})
+      await fetch(`/content/posts/${post.slug}.json`, {fetchOptions, method: 'DELETE'})
 
       const state = await init()
 
@@ -164,9 +176,7 @@ const save = (post) => async (e) => {
   }
 
   try {
-    const res = await fetch('/content/posts/index.json', {headers})
-
-    const posts = await res.json()
+    const posts = await getList()
 
     if (!data.date) {
       const now = new Date()
@@ -190,16 +200,12 @@ const save = (post) => async (e) => {
 
     data.content = data.content.replace(/\r/g, '')
 
-    await fetch('/content/posts/index.json', {
-      method: 'POST',
-      headers,
-      body: JSON.stringify(posts)
-    })
+    await postList(posts)
 
     await fetch(`/content/posts/${data.slug}.json`, {
       method: 'POST',
-      headers,
-      body: JSON.stringify(data)
+      fetchOptions,
+      body: JSON.stringify(data.content)
     })
 
     window.location.hash = '#'

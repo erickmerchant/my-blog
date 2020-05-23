@@ -1,20 +1,6 @@
-import {html} from '@erickmerchant/framework'
-import {classes} from './css/styles.mjs'
-
 const codeFence = '```'
 
-const defaultTemplates = {
-  bold: (text) => html`<strong class=${classes.strong}>${text}</strong>`,
-  codeBlock: (items) => html`<pre class=${classes.pre}><code class=${classes.codeBlock}>${items}</code></pre>`,
-  codeInline: (text) => html`<code class=${classes.code}>${text}</code>`,
-  heading: (text) => html`<h2 class=${classes.heading2}>${text}</h2>`,
-  link: (text, href) => html`<a class=${classes.anchor} href=${href}>${text}</a>`,
-  list: (items) => html`<ul class=${classes.list}>${items}</ul>`,
-  listItem: (items) => html`<li>${items}</li>`,
-  paragraph: (items) => (items.length ? html`<p class=${classes.paragraph}>${items}</p>` : null)
-}
-
-export const content = (str, stripBackslash = true, templates = defaultTemplates) => {
+export const contentComponent = (str, templates, stripBackslash = true) => {
   const inline = (ln) => {
     if (ln === '') return []
 
