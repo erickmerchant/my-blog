@@ -11,10 +11,16 @@ export const contentComponent = (str, templates, stripBackslash = true) => {
     for (const match of matches) {
       let unescaped = true
 
-      if (match.index > 0 && ln.substring(match.index - 1, match.index) === '\\') {
+      if (
+        match.index > 0 &&
+        ln.substring(match.index - 1, match.index) === '\\'
+      ) {
         unescaped = false
 
-        if (match.index > 1 && ln.substring(match.index - 2, match.index) === '\\\\') {
+        if (
+          match.index > 1 &&
+          ln.substring(match.index - 2, match.index) === '\\\\'
+        ) {
           unescaped = true
         } else {
           if (!stripBackslash) continue
@@ -57,52 +63,60 @@ export const contentComponent = (str, templates, stripBackslash = true) => {
         html.push('\n')
         break
 
-      case lns[0].startsWith('- '): {
-        const items = []
+      case lns[0].startsWith('- '):
+        {
+          const items = []
 
-        while (lns.length && lns[0].startsWith('- ')) {
-          items.push(templates.listItem(inline(lns.shift().substring(2))))
-          items.push('\n')
+          while (lns.length && lns[0].startsWith('- ')) {
+            items.push(templates.listItem(inline(lns.shift().substring(2))))
+            items.push('\n')
+          }
+
+          html.push(templates.list(items))
         }
-
-        html.push(templates.list(items))
-      }
         break
 
-      case lns[0] === codeFence: {
-        lns.shift()
+      case lns[0] === codeFence:
+        {
+          lns.shift()
 
-        const code = []
+          const code = []
 
-        while (lns.length && lns[0] !== codeFence) {
-          code.push(lns.shift())
-          code.push('\n')
+          while (lns.length && lns[0] !== codeFence) {
+            code.push(lns.shift())
+            code.push('\n')
+          }
+
+          const close = lns.shift()
+
+          html.push(
+            templates.codeBlock(inline(code.join('')), close === codeFence)
+          )
+          html.push('\n')
         }
-
-        const close = lns.shift()
-
-        html.push(templates.codeBlock(inline(code.join('')), close === codeFence))
-        html.push('\n')
-      }
         break
 
-      case lns[0] === `\\${codeFence}`: {
-        const ln = lns.shift()
+      case lns[0] === `\\${codeFence}`:
+        {
+          const ln = lns.shift()
 
-        if (stripBackslash) {
-          html.push(codeFence)
-        } else {
-          html.push(ln)
+          if (stripBackslash) {
+            html.push(codeFence)
+          } else {
+            html.push(ln)
+          }
+
+          html.push('\n')
         }
-
-        html.push('\n')
-      }
         break
 
       default: {
         let ln = lns.shift()
 
-        if (stripBackslash && (ln.startsWith('\\# ') || ln.startsWith('\\- '))) {
+        if (
+          stripBackslash &&
+          (ln.startsWith('\\# ') || ln.startsWith('\\- '))
+        ) {
           ln = ln.substring(1)
         }
 

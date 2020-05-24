@@ -53,10 +53,9 @@ command({
       }
     })
 
-    const [index, styles] = await Promise.all([
-      paths.index,
-      paths.styles
-    ].map((path) => readFile(path, 'utf8')))
+    const [index, styles] = await Promise.all(
+      [paths.index, paths.styles].map((path) => readFile(path, 'utf8'))
+    )
 
     const styleHTML = `<style>${styles}</style>`
 
@@ -64,9 +63,7 @@ command({
 
     $('link[rel="stylesheet"]').replaceWith(styleHTML)
 
-    $('body')
-      .attr('class', $body.attr('class'))
-      .html($body.html())
+    $('body').attr('class', $body.attr('class')).html($body.html())
 
     await writeFile(paths.index, $.html())
 

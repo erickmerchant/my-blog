@@ -2,9 +2,13 @@ import {createApp, createDomView, html} from '@erickmerchant/framework'
 import {classes} from './css/styles.mjs'
 import {contentComponent, getSegments} from '../common.mjs'
 
-const slugify = (title) => title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '-')
+const slugify = (title) =>
+  title
+    .toLowerCase()
+    .replace(/\s+/g, '-')
+    .replace(/[^a-z0-9-]/g, '-')
 
-const fetchOptions = {'Content-Type': 'application/json', mode: 'no-cors'}
+const fetchOptions = {'Content-Type': 'application/json', 'mode': 'no-cors'}
 
 const getList = async () => {
   const res = await fetch('/content/posts/index.json', {fetchOptions})
@@ -51,7 +55,9 @@ const dispatchLocation = async (location) => {
 
       const post = index > -1 ? Object.assign({}, posts[index]) : {}
 
-      const contentRes = await fetch(`/content/posts/${slug}.json`, {fetchOptions})
+      const contentRes = await fetch(`/content/posts/${slug}.json`, {
+        fetchOptions
+      })
 
       if (contentRes.status >= 300) {
         return {
@@ -86,53 +92,68 @@ const dispatchLocation = async (location) => {
   app.commit(state)
 }
 
-const highlighter = (str) => contentComponent(str.replace(/\r/g, ''), {
-  bold: (text) => html`
-    <span>
-      <span class=${classes.highlightPunctuation}>*</span>
-      <span class=${classes.highlightBold}>${text}</span>
-      <span class=${classes.highlightPunctuation}>*</span>
-    </span>
-  `,
-  codeBlock: (code, isClosed) => html`
-    <span>
-      <span class=${classes.highlightPunctuation}>${'```\n'}</span>
-      <span class=${classes.highlightCodeBlock}>${code}</span>
-      ${isClosed ? html`<span class=${classes.highlightPunctuation}>${'```'}</span>` : null}
-    </span>
-  `,
-  codeInline: (text) => html`
-    <span>
-      <span class=${classes.highlightPunctuation}>${'`'}</span>
-      <span class=${classes.highlightCodeInline}>${text}</span>
-      <span class=${classes.highlightPunctuation}>${'`'}</span>
-    </span>
-  `,
-  heading: (text) => html`
-    <span>
-      <span class=${classes.highlightHeadingPunctuation}># </span>
-      <span class=${classes.highlightHeading}>${text}</span>
-    </span>
-  `,
-  link: (text, href) => html`
-    <span>
-      <span class=${classes.highlightPunctuation}>[</span>
-      ${text}
-      <span class=${classes.highlightPunctuation}>]</span>
-      <span class=${classes.highlightPunctuation}>(</span>
-      <a class=${classes.highlightUrl} href=${href}>${href}</a>
-      <span class=${classes.highlightPunctuation}>)</span>
-    </span>
-  `,
-  list: (items) => html`<span>${items}</span>`,
-  listItem: (text) => html`
-    <span>
-      <span class=${classes.highlightPunctuation}>- </span>
-      ${text}
-    </span>
-  `,
-  paragraph: (text) => html`<span>${text}</span>`
-}, false)
+const highlighter = (str) =>
+  contentComponent(
+    str.replace(/\r/g, ''),
+    {
+      bold: (text) => html`
+        <span>
+          <span class=${classes.highlightPunctuation}>*</span>
+          <span class=${classes.highlightBold}>${text}</span>
+          <span class=${classes.highlightPunctuation}>*</span>
+        </span>
+      `,
+      codeBlock: (code, isClosed) => html`
+        <span>
+          <span class=${classes.highlightPunctuation}>${'```\n'}</span>
+          <span class=${classes.highlightCodeBlock}>${code}</span>
+          ${isClosed
+            ? html`
+                <span class=${classes.highlightPunctuation}>${'```'}</span>
+              `
+            : null}
+        </span>
+      `,
+      codeInline: (text) => html`
+        <span>
+          <span class=${classes.highlightPunctuation}>${'`'}</span>
+          <span class=${classes.highlightCodeInline}>${text}</span>
+          <span class=${classes.highlightPunctuation}>${'`'}</span>
+        </span>
+      `,
+      heading: (text) => html`
+        <span>
+          <span class=${classes.highlightHeadingPunctuation}>${'# '}</span>
+          <span class=${classes.highlightHeading}>${text}</span>
+        </span>
+      `,
+      link: (text, href) => html`
+        <span>
+          <span class=${classes.highlightPunctuation}>[</span>
+          ${text}
+          <span class=${classes.highlightPunctuation}>]</span>
+          <span class=${classes.highlightPunctuation}>(</span>
+          <a class=${classes.highlightUrl} href=${href}>${href}</a>
+          <span class=${classes.highlightPunctuation}>)</span>
+        </span>
+      `,
+      list: (items) =>
+        html`
+          <span>${items}</span>
+        `,
+      listItem: (text) => html`
+        <span>
+          <span class=${classes.highlightPunctuation}>${'- '}</span>
+          ${text}
+        </span>
+      `,
+      paragraph: (text) =>
+        html`
+          <span>${text}</span>
+        `
+    },
+    false
+  )
 
 const remove = (post) => async (e) => {
   e.preventDefault()
@@ -149,7 +170,10 @@ const remove = (post) => async (e) => {
         await postList(posts)
       }
 
-      await fetch(`/content/posts/${post.slug}.json`, {fetchOptions, method: 'DELETE'})
+      await fetch(`/content/posts/${post.slug}.json`, {
+        fetchOptions,
+        method: 'DELETE'
+      })
 
       const state = await init()
 
@@ -216,11 +240,12 @@ const save = (post) => async (e) => {
   }
 }
 
-const highlight = (e) => app.commit((state) => {
-  state.highlights = e.currentTarget.value
+const highlight = (e) =>
+  app.commit((state) => {
+    state.highlights = e.currentTarget.value
 
-  state.post.content = e.currentTarget.value
-})
+    state.post.content = e.currentTarget.value
+  })
 
 const lowerZindex = (e) => {
   if (e.key === 'Meta') {
@@ -236,73 +261,158 @@ const resetZindex = (e) => {
 
 const target = document.querySelector('body')
 
-const view = createDomView(target, (state) => html`
-  <body class=${classes.app} onkeydown=${lowerZindex} onkeyup=${resetZindex}>${(() => {
-    if (state.route === 'posts') {
-      return [
-        html`<header class=${classes.header}>
-          <h1 class=${classes.headerHeading}>Posts</h1>
-          <span class=${classes.headerSpacer} />
-          <a class=${classes.createButton} href="#/posts/create">New</a>
-        </header>`,
-        html`<table class=${classes.table}>
-          <thead>
-            <tr>
-              <th class=${classes.th}>Title</th>
-              <th class=${classes.th}>Date</th>
-              <th class=${classes.th} />
-            </tr>
-          </thead>
-          <tbody>
-            ${state.posts.map((post) => html`
-              <tr>
-                <td class=${classes.td}>${post.title}</td>
-                <td class=${classes.td}>${new Date(post.date).toLocaleDateString('en-US', {year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC'})}</td>
-                <td class=${classes.td}>
-                  <a class=${classes.textButton} href=${`#/posts/edit/${post.slug}`}>Edit</a>
-                  <a class=${classes.textButton} target="_blank" href=${`/posts/${post.slug}`}>View</a>
-                  <button class=${classes.deleteButton} onclick=${remove(post)}>Delete</button>
-                </td>
-              </tr>
-            `)}
-          </tbody>
-        </table>`
-      ]
-    }
+const view = createDomView(
+  target,
+  (state) => html`
+    <body class=${classes.app} onkeydown=${lowerZindex} onkeyup=${resetZindex}>
+      ${(() => {
+        if (state.route === 'posts') {
+          return [
+            html`
+              <header class=${classes.header}>
+                <h1 class=${classes.headerHeading}>Posts</h1>
+                <span class=${classes.headerSpacer} />
+                <a class=${classes.createButton} href="#/posts/create">New</a>
+              </header>
+            `,
+            html`
+              <table class=${classes.table}>
+                <thead>
+                  <tr>
+                    <th class=${classes.th}>Title</th>
+                    <th class=${classes.th}>Date</th>
+                    <th class=${classes.th} />
+                  </tr>
+                </thead>
+                <tbody>
+                  ${state.posts.map(
+                    (post) => html`
+                      <tr>
+                        <td class=${classes.td}>${post.title}</td>
+                        <td class=${classes.td}>
+                          ${new Date(post.date).toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                            timeZone: 'UTC'
+                          })}
+                        </td>
+                        <td class=${classes.td}>
+                          <a
+                            class=${classes.textButton}
+                            href=${`#/posts/edit/${post.slug}`}
+                          >
+                            Edit
+                          </a>
+                          <a
+                            class=${classes.textButton}
+                            target="_blank"
+                            href=${`/posts/${post.slug}`}
+                          >
+                            View
+                          </a>
+                          <button
+                            class=${classes.deleteButton}
+                            onclick=${remove(post)}
+                          >
+                            Delete
+                          </button>
+                        </td>
+                      </tr>
+                    `
+                  )}
+                </tbody>
+              </table>
+            `
+          ]
+        }
 
-    if (['posts/edit', 'posts/create'].includes(state.route)) {
-      return html`<form class=${classes.form} onsubmit=${save(state.post)} method="POST" autocomplete="off">
-        <label class=${classes.labelLarge} for="Title">Title</label>
-        <input class=${classes.inputLarge} name="title" id="Title" value=${state.post.title ?? ''} oninput=${(e) => app.commit((state) => { state.post.title = e.currentTarget.value })} />
-        <div class=${classes.formRow}>
-          <div class=${classes.formColumn}>
-            <label class=${classes.label} for="Date">Date</label>
-            <input class=${classes.input} name="date" type="date" id="Date" value=${state.post.date ?? ''} oninput=${(e) => app.commit((state) => { state.post.date = e.currentTarget.value })} />
-          </div>
-          <div class=${classes.formColumn}>
-            <label class=${classes.label} for="Slug">Slug</label>
-            <input class=${classes.input} name="slug" id="Slug" readonly=${state.slug != null} value=${state.post.slug ?? ''} placeholder=${slugify(state.post.title ?? '')} oninput=${state.slug == null ? (e) => app.commit((state) => { state.post.slug = e.currentTarget.value }) : null} />
-          </div>
-        </div>
-        <label class=${classes.label} for="Content">Content</label>
-        <div class=${classes.textareaWrap}>
-          <div class=${classes.textareaHighlightsWrap}>
-            <pre class=${classes.textareaHighlights}>${highlighter(state.highlights)}</pre>
-          </div>
-          <textarea class=${classes.textarea} name="content" id="Content" oninput=${highlight}>${state.post.content ?? ''}</textarea>
-        </div>
-        <div class=${classes.formButtons}>
-          <a class=${classes.cancelButton} href="#/">Cancel</a>
-          <button class=${classes.saveButton} type="submit">Save</button>
-        </div>
-      </form>`
-    }
+        if (['posts/edit', 'posts/create'].includes(state.route)) {
+          return html`
+            <form
+              class=${classes.form}
+              onsubmit=${save(state.post)}
+              method="POST"
+              autocomplete="off"
+            >
+              <label class=${classes.labelLarge} for="Title">Title</label>
+              <input
+                class=${classes.inputLarge}
+                name="title"
+                id="Title"
+                value=${state.post.title ?? ''}
+                oninput=${(e) =>
+                  app.commit((state) => {
+                    state.post.title = e.currentTarget.value
+                  })}
+              />
+              <div class=${classes.formRow}>
+                <div class=${classes.formColumn}>
+                  <label class=${classes.label} for="Date">Date</label>
+                  <input
+                    class=${classes.input}
+                    name="date"
+                    type="date"
+                    id="Date"
+                    value=${state.post.date ?? ''}
+                    oninput=${(e) =>
+                      app.commit((state) => {
+                        state.post.date = e.currentTarget.value
+                      })}
+                  />
+                </div>
+                <div class=${classes.formColumn}>
+                  <label class=${classes.label} for="Slug">Slug</label>
+                  <input
+                    class=${classes.input}
+                    name="slug"
+                    id="Slug"
+                    readonly=${state.slug != null}
+                    value=${state.post.slug ?? ''}
+                    placeholder=${slugify(state.post.title ?? '')}
+                    oninput=${state.slug == null
+                      ? (e) =>
+                          app.commit((state) => {
+                            state.post.slug = e.currentTarget.value
+                          })
+                      : null}
+                  />
+                </div>
+              </div>
+              <label class=${classes.label} for="Content">Content</label>
+              <div class=${classes.textareaWrap}>
+                <div class=${classes.textareaHighlightsWrap}>
+                  <pre class=${classes.textareaHighlights}>
+${highlighter(state.highlights)}</pre
+                  >
+                </div>
+                <textarea
+                  class=${classes.textarea}
+                  name="content"
+                  id="Content"
+                  oninput=${highlight}
+                >
+${state.post.content ?? ''}</textarea
+                >
+              </div>
+              <div class=${classes.formButtons}>
+                <a class=${classes.cancelButton} href="#/">Cancel</a>
+                <button class=${classes.saveButton} type="submit">Save</button>
+              </div>
+            </form>
+          `
+        }
 
-    return html`<div>
-      <h1 class=${classes.headerHeading}>${state.error.message}</h1>
-      <pre class=${classes.stackTrace}>${state.error.stack}</pre>
-    </div>`
-  })()}</body>`)
+        return html`
+          <div>
+            <h1 class=${classes.headerHeading}>${state.error.message}</h1>
+            <pre class=${classes.stackTrace}>${state.error.stack}</pre>
+          </div>
+        `
+      })()}
+    </body>
+  `
+)
 
 app.render(view)
 
