@@ -6,7 +6,7 @@
   "scripts": {
     "build": "node ./cli.js build",
     "start": "node ./cli.js start",
-    "test": "eslint '*.js' 'src/**/*.mjs'"
+    "test": "eslint cli.js rollup.config.js 'src/*.mjs' 'src/editor/*.mjs'"
   },
   "dependencies": {
     "@erickmerchant/css": "^22.2.2",
@@ -31,10 +31,7 @@
     "node": ">=14.2"
   },
   "eslintConfig": {
-    "extends": "@erickmerchant/eslint-config",
-    "ignorePatterns": [
-      "**/css/*"
-    ]
+    "extends": "@erickmerchant/eslint-config"
   },
   "prettier": "@erickmerchant/prettier-config"
 }
