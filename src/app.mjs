@@ -64,30 +64,30 @@ const dispatchLocation = async (location) => {
   }
 }
 
-export const component = (state) => (afterUpdate) => {
-  const anchorAttrs = (href) => {
-    return {
-      href,
-      onclick(e) {
-        e.preventDefault()
+const anchorAttrs = (href) => {
+  return {
+    href,
+    onclick(e) {
+      e.preventDefault()
 
-        window.history.pushState({}, null, href)
+      window.history.pushState({}, null, href)
 
-        dispatchLocation(href)
-      }
+      dispatchLocation(href)
     }
   }
+}
 
+const paginationLink = (slug, text) =>
+  html`
+    <a ${anchorAttrs(`/posts/${slug}/`)} class=${classes.buttonAnchor}>
+      ${text}
+    </a>
+  `
+
+export const component = (state) => (afterUpdate) => {
   afterUpdate(() => {
     window.scroll(0, 0)
   })
-
-  const paginationLink = (slug, text) =>
-    html`
-      <a ${anchorAttrs(`/posts/${slug}/`)} class=${classes.buttonAnchor}>
-        ${text}
-      </a>
-    `
 
   return html`
     <body class=${classes.app}>
