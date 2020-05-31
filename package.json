@@ -21,7 +21,7 @@
     "sergeant": "^28.1.1"
   },
   "devDependencies": {
-    "@erickmerchant/eslint-config": "^1.1.0",
+    "@erickmerchant/eslint-config": "^1.1.1",
     "@erickmerchant/prettier-config": "^1.1.0",
     "babel-eslint": "^10.1.0",
     "eslint": "^7.1.0",
