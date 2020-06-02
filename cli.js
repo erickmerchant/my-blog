@@ -36,8 +36,11 @@ command({
     }
 
     const {stringify} = await import('@erickmerchant/framework/stringify.mjs')
-    const {component} = await import('./src/app.mjs')
+    const {classes} = await import('./src/css/styles.mjs')
+    const {createComponent} = await import('./src/app.mjs')
+
     const state = {route: '', title: ''}
+    const component = createComponent({}, classes)
 
     const $body = cheerio.load(stringify(component(state)))('body')
 
