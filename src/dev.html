@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="The personal site of Erick Merchant." />
+    <link
+      href="/css/styles.css"
+      rel="stylesheet"
+    />
+    <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
+    <title>A Web Development Blog</title>
+    <script type="module">
+      import {createDomView, createApp} from '@erickmerchant/framework'
+
+      const app = createApp()
+
+      const target = document.querySelector('body')
+
+      let isSetup = false
+
+      const start = async (query = '') => {
+        const {classes} = await import(`/css/styles.mjs${query}`)
+        const {createComponent, initalState, setupApp, dispatchLocation} = await import(`/app.mjs${query}`)
+
+        if (!isSetup) {
+          isSetup = true
+
+          setupApp(app)
+        } else {
+          dispatchLocation(app, document.location.pathname)
+        }
+
+        app.commit((state = Object.assign({}, initalState)) => state)
+
+        const component = createComponent(app, classes)
+
+        const view = createDomView(target, component)
+
+        app.render(view)
+      }
+
+      start()
+
+      const changes = new EventSource('/__changes')
+
+      changes.onmessage = (e) => {
+        const changes = JSON.parse(e.data)
+        const query = `?${Date.now()}`
+
+        if (changes.file === 'css/styles.css') {
+          const link = document.querySelector('[rel="stylesheet"]')
+
+          const clone = link.cloneNode()
+
+          clone.href = `/css/styles.css${query}`
+
+          clone.onload = () => {
+            link.remove()
+          }
+
+          link.after(clone)
+        } else {
+          start(query)
+        }
+      }
+    </script>
+  </head>
+  <body></body>
+</html>

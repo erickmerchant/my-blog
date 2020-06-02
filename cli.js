@@ -16,7 +16,7 @@ command({
 
     execa('css src/editor/styles.mjs src/editor/css/styles -wd', execaOptions)
 
-    execa('dev serve -m src/app.importmap src -d', execaOptions)
+    execa('dev serve -m src/app.importmap src -d -e dev.html', execaOptions)
   }
 })
 
