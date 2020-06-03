@@ -4,10 +4,6 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="The personal site of Erick Merchant." />
-    <link
-      href="/css/styles.css"
-      rel="stylesheet"
-    />
     <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
     <title>A Web Development Blog</title>
     <script type="module">
@@ -16,6 +12,20 @@
       const app = createApp()
 
       const target = document.querySelector('body')
+
+      const loadCSS = async (query = '') => {
+        const css = await fetch(`/css/styles.css${query}`)
+
+        let oldsheet = document.querySelector('style')
+
+        let stylesheet = document.createElement('style')
+
+        document.head.append(stylesheet)
+
+        stylesheet.textContent = await css.text()
+
+        if (oldsheet) oldsheet.remove()
+      }
 
       let isSetup = false
 
@@ -40,29 +50,21 @@
         app.render(view)
       }
 
+      loadCSS()
+
       start()
 
       const changes = new EventSource('/__changes')
 
-      changes.onmessage = (e) => {
+      changes.onmessage = async (e) => {
         const changes = JSON.parse(e.data)
         const query = `?${Date.now()}`
 
         if (changes.file === 'css/styles.css') {
-          const link = document.querySelector('[rel="stylesheet"]')
-
-          const clone = link.cloneNode()
-
-          clone.href = `/css/styles.css${query}`
-
-          clone.onload = () => {
-            link.remove()
-          }
-
-          link.after(clone)
-        } else {
-          start(query)
+          await loadCSS(query)
         }
+
+        start(query)
       }
     </script>
   </head>
