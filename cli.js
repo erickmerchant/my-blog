@@ -28,19 +28,32 @@ command({
       execa('dev cache -m src/app.importmap src dist', execaOptions)
     ])
 
-    await del(['./dist/editor/'])
+    await del(['./dist/editor/', './dist/editor.html'])
 
     const paths = {
       index: './dist/index.html',
       styles: './dist/css/styles.css'
     }
 
-    const {stringify} = await import('@erickmerchant/framework/stringify.mjs')
-    const {classes} = await import('./src/css/styles.mjs')
-    const {createComponent} = await import('./src/app.mjs')
+    const [
+      {stringify},
+      {classes},
+      {createComponent},
+      {getSegments, contentComponent}
+    ] = await Promise.all([
+      import('@erickmerchant/framework/stringify.mjs'),
+      import('./src/css/styles.mjs'),
+      import('./src/app.mjs'),
+      import('./src/common.mjs')
+    ])
 
     const state = {route: '', title: ''}
-    const component = createComponent({}, classes)
+    const component = createComponent(
+      {},
+      classes,
+      getSegments,
+      contentComponent
+    )
 
     const $body = cheerio.load(stringify(component(state)))('body')
 

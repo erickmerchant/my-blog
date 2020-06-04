@@ -1,5 +1,4 @@
 import {html} from '@erickmerchant/framework'
-import {contentComponent, getSegments} from './common.mjs'
 
 const fetchOptions = {
   headers: {'Content-Type': 'application/json'},
@@ -16,12 +15,12 @@ const unfound = {
   )
 }
 
-export const dispatchLocation = async (app, location) => {
-  const segments = getSegments(location)
+export const dispatchLocation = async (app, segments) => {
   const posts = await fetch(
     '/content/posts/index.json',
     fetchOptions
   ).then((res) => res.json())
+
   let index = -1
 
   try {
@@ -62,7 +61,12 @@ export const dispatchLocation = async (app, location) => {
   }
 }
 
-export const createComponent = (app, classes) => {
+export const createComponent = (
+  app,
+  classes,
+  getSegments,
+  contentComponent
+) => {
   const anchorAttrs = (href) => {
     return {
       href,
@@ -71,7 +75,7 @@ export const createComponent = (app, classes) => {
 
         window.history.pushState({}, null, href)
 
-        dispatchLocation(app, href)
+        dispatchLocation(app, getSegments(href))
       }
     }
   }
@@ -242,10 +246,10 @@ export const createComponent = (app, classes) => {
   }
 }
 
-export const setupApp = (app) => {
+export const setupApp = (app, getSegments) => {
   window.onpopstate = () => {
-    dispatchLocation(app, document.location.pathname)
+    dispatchLocation(app, getSegments(document.location.pathname))
   }
 
-  dispatchLocation(app, document.location.pathname)
+  dispatchLocation(app, getSegments(document.location.pathname))
 }

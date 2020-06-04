@@ -30,20 +30,32 @@
       let isSetup = false
 
       const start = async (query = '') => {
-        const {classes} = await import(`/css/styles.mjs${query}`)
-        const {createComponent, initalState, setupApp, dispatchLocation} = await import(`/app.mjs${query}`)
+        const [
+          {classes},
+          {createComponent, initalState, setupApp, dispatchLocation},
+          {getSegments, contentComponent}
+        ] = await Promise.all([
+          import(`/css/styles.mjs${query}`),
+          import(`/app.mjs${query}`),
+          import(`/common.mjs${query}`)
+        ])
 
         if (!isSetup) {
           isSetup = true
 
-          setupApp(app)
+          setupApp(app, getSegments)
         } else {
           dispatchLocation(app, document.location.pathname)
         }
 
         app.commit((state = Object.assign({}, initalState)) => state)
 
-        const component = createComponent(app, classes)
+        const component = createComponent(
+          app,
+          classes,
+          getSegments,
+          contentComponent
+        )
 
         const view = createDomView(target, component)
 

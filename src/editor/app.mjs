@@ -37,9 +37,7 @@ const state = {route: 'posts', posts: []}
 
 const app = createApp(state)
 
-const dispatchLocation = async (location) => {
-  const segments = getSegments(location.substring(1))
-
+const dispatchLocation = async (segments) => {
   let state = {
     route: 'error',
     error: Error('Route not found')
@@ -417,7 +415,7 @@ ${state.post.content ?? ''}</textarea
 app.render(view)
 
 window.onpopstate = () => {
-  dispatchLocation(document.location.hash)
+  dispatchLocation(getSegments(document.location.hash.substring(1)))
 }
 
-dispatchLocation(document.location.hash)
+dispatchLocation(getSegments(document.location.hash.substring(1)))
