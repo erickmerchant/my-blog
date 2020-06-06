@@ -43,7 +43,7 @@ command({
     ] = await Promise.all([
       import('@erickmerchant/framework/stringify.mjs'),
       import('./src/css/styles.mjs'),
-      import('./src/app.mjs'),
+      import('./src/main.mjs'),
       import('./src/common.mjs')
     ])
 

@@ -7,77 +7,48 @@
     <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
     <title>A Web Development Blog</title>
     <script type="module">
+      import {createContainer} from '@erickmerchant/dev-cli/container.mjs'
       import {createDomView, createApp} from '@erickmerchant/framework'
 
       const app = createApp()
 
       const target = document.querySelector('body')
 
-      const loadCSS = async (query = '') => {
-        const css = await fetch(`/css/styles.css${query}`)
-
-        let oldsheet = document.querySelector('style')
-
-        let stylesheet = document.createElement('style')
-
-        document.head.append(stylesheet)
-
-        stylesheet.textContent = await css.text()
-
-        if (oldsheet) oldsheet.remove()
-      }
-
       let isSetup = false
 
-      const start = async (query = '') => {
-        const [
-          {classes},
-          {createComponent, initalState, setupApp, dispatchLocation},
-          {getSegments, contentComponent}
-        ] = await Promise.all([
-          import(`/css/styles.mjs${query}`),
-          import(`/app.mjs${query}`),
-          import(`/common.mjs${query}`)
-        ])
+      createContainer(
+        {
+          'css/styles.mjs': 'styles',
+          'main.mjs': 'main',
+          'common.mjs': 'common'
+        },
+        ['css/styles.css'],
+        async ({styles, main, common}) => {
+          if (!isSetup) {
+            isSetup = true
 
-        if (!isSetup) {
-          isSetup = true
+            main.setupApp(app, common.getSegments)
+          } else {
+            main.dispatchLocation(
+              app,
+              common.getSegments(document.location.pathname)
+            )
+          }
 
-          setupApp(app, getSegments)
-        } else {
-          dispatchLocation(app, document.location.pathname)
+          app.commit((state = Object.assign({}, main.initalState)) => state)
+
+          const component = main.createComponent(
+            app,
+            styles.classes,
+            common.getSegments,
+            common.contentComponent
+          )
+
+          const view = createDomView(target, component)
+
+          app.render(view)
         }
-
-        app.commit((state = Object.assign({}, initalState)) => state)
-
-        const component = createComponent(
-          app,
-          classes,
-          getSegments,
-          contentComponent
-        )
-
-        const view = createDomView(target, component)
-
-        app.render(view)
-      }
-
-      loadCSS()
-
-      start()
-
-      const changes = new EventSource('/__changes')
-
-      changes.onmessage = async (e) => {
-        const changes = JSON.parse(e.data)
-        const query = `?${Date.now()}`
-
-        if (changes.file === 'css/styles.css') {
-          await loadCSS(query)
-        }
-
-        start(query)
-      }
+      )
     </script>
   </head>
   <body></body>
