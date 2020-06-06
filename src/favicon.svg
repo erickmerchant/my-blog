@@ -4,5 +4,5 @@
       fill: hsl(100, 30%, 50%);
     }
   </style>
-  <rect width="70" height="70" x="15" y="15" />
+  <rect width="70" height="70" x="15" y="15" rx="5" />
 </svg>
