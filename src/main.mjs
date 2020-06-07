@@ -1,4 +1,4 @@
-import {html} from '@erickmerchant/framework'
+import {html} from '@erickmerchant/framework/main.mjs'
 
 const fetchOptions = {
   headers: {'Content-Type': 'application/json'},

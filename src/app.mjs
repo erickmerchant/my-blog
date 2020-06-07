@@ -1,4 +1,4 @@
-import {createDomView, createApp} from '@erickmerchant/framework'
+import {createDomView, createApp} from '@erickmerchant/framework/main.mjs'
 import {classes} from '/css/styles.mjs'
 import {createComponent, initialState, setupApp} from '/main.mjs'
 import {getSegments, contentComponent} from './src/common.mjs'

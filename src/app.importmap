@@ -1,6 +1,0 @@
-{
-  "imports": {
-    "@erickmerchant/dev-cli/container.mjs": "/node_modules/@erickmerchant/dev-cli/container.mjs",
-    "@erickmerchant/framework": "/node_modules/@erickmerchant/framework/main.mjs"
-  }
-}
