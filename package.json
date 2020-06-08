@@ -16,7 +16,7 @@
     "cheerio": "^1.0.0-rc.3",
     "del": "^5.1.0",
     "execa": "^4.0.2",
-    "rollup": "^2.14.0",
+    "rollup": "^2.15.0",
     "rollup-plugin-terser": "^6.1.0",
     "sergeant": "^28.1.1"
   },
