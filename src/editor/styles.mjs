@@ -81,10 +81,10 @@ export const styles = {
     font-size: 1.5em;
     font-weight: ${fontWeights.heading};
   `,
-  headerSpacer: (styles) => `
+  headerSpacer: `
     flex: 1 1 auto;
   `,
-  createButton: (styles) => button,
+  createButton: button,
   textButton: `
     appearance: none;
     margin-left: 0.25em;
@@ -259,7 +259,7 @@ export const styles = {
 
     margin-top: 1em;
   `,
-  saveButton: (styles) => `
+  saveButton: `
     ${button}
 
     margin-top: 1em;

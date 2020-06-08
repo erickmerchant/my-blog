@@ -66,13 +66,13 @@ export const styles = {
 
     justify-content: center;
   `,
-  heading1: (styles) => `
+  heading1: `
     ${heading}
 
     font-size: 1.5em;
     font-weight: ${fontWeights.heading1};
   `,
-  heading2: (styles) => `
+  heading2: `
     ${heading}
 
     font-size: 1.25em;
