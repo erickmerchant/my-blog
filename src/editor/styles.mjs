@@ -39,6 +39,26 @@ export const _start = `
   }
 `
 
+const button = `
+  appearance: none;
+  padding: 0.5em 1.5em;
+  border: none;
+  border-radius: ${borderRadius};
+  background-color: ${colors.blue};
+  color: ${colors.white};
+  font-weight: ${fontWeights.bold};
+  text-decoration: none;
+  cursor: pointer;
+
+  :hover {
+    text-decoration: none;
+  }
+
+  :focus, :active, :hover {
+    filter: saturate(1.5);
+  }
+`
+
 export const styles = {
   app: `
     max-width: 100vw;
@@ -64,26 +84,7 @@ export const styles = {
   headerSpacer: (styles) => `
     flex: 1 1 auto;
   `,
-  button: `
-    appearance: none;
-    padding: 0.5em 1.5em;
-    border: none;
-    border-radius: ${borderRadius};
-    background-color: ${colors.blue};
-    color: ${colors.white};
-    font-weight: ${fontWeights.bold};
-    text-decoration: none;
-    cursor: pointer;
-
-    :hover {
-      text-decoration: none;
-    }
-
-    :focus, :active, :hover {
-      filter: saturate(1.5);
-    }
-  `,
-  createButton: (styles) => styles.button,
+  createButton: (styles) => button,
   textButton: `
     appearance: none;
     margin-left: 0.25em;
@@ -259,7 +260,7 @@ export const styles = {
     margin-top: 1em;
   `,
   saveButton: (styles) => `
-    ${styles.button}
+    ${button}
 
     margin-top: 1em;
   `,

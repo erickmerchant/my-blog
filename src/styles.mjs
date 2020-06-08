@@ -41,6 +41,12 @@ export const _start = `
   }
 `
 
+const heading = `
+  margin-bottom: 0.5em;
+  margin-top: 1em;
+  line-height: 1.25;
+`
+
 export const styles = {
   app: `
     display: flex;
@@ -60,19 +66,14 @@ export const styles = {
 
     justify-content: center;
   `,
-  heading: `
-    margin-bottom: 0.5em;
-    margin-top: 1em;
-    line-height: 1.25;
-  `,
   heading1: (styles) => `
-    ${styles.heading}
+    ${heading}
 
     font-size: 1.5em;
     font-weight: ${fontWeights.heading1};
   `,
   heading2: (styles) => `
-    ${styles.heading}
+    ${heading}
 
     font-size: 1.25em;
     font-weight: ${fontWeights.heading2};
