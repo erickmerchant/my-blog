@@ -8,18 +8,16 @@ const slugify = (title) =>
     .replace(/\s+/g, '-')
     .replace(/[^a-z0-9-]/g, '-')
 
-const fetchOptions = {'Content-Type': 'application/json', 'mode': 'no-cors'}
-
 const getList = async () => {
-  const res = await fetch('/content/posts/index.json', {fetchOptions})
+  const res = await fetch('/content/posts/index.json')
 
   return res.json()
 }
 
 const postList = async (posts) => {
   await fetch('/content/posts/index.json', {
+    headers: {'Content-Type': 'application/json'},
     method: 'POST',
-    fetchOptions,
     body: JSON.stringify(posts)
   })
 }
@@ -53,9 +51,7 @@ const dispatchLocation = async (segments) => {
 
       const post = index > -1 ? Object.assign({}, posts[index]) : {}
 
-      const contentRes = await fetch(`/content/posts/${slug}.json`, {
-        fetchOptions
-      })
+      const contentRes = await fetch(`/content/posts/${slug}.json`)
 
       if (contentRes.status >= 300) {
         return {
@@ -169,7 +165,6 @@ const remove = (post) => async (e) => {
       }
 
       await fetch(`/content/posts/${post.slug}.json`, {
-        fetchOptions,
         method: 'DELETE'
       })
 
@@ -225,8 +220,8 @@ const save = (post) => async (e) => {
     await postList(posts)
 
     await fetch(`/content/posts/${data.slug}.json`, {
+      headers: {'Content-Type': 'application/json'},
       method: 'POST',
-      fetchOptions,
       body: JSON.stringify(data.content)
     })
 
@@ -311,6 +306,7 @@ const view = createDomView(
                           </a>
                           <button
                             class=${classes.deleteButton}
+                            type="button"
                             onclick=${remove(post)}
                           >
                             Delete

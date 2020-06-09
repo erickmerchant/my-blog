@@ -1,10 +1,5 @@
 import {html} from '@erickmerchant/framework/main.mjs'
 
-const fetchOptions = {
-  headers: {'Content-Type': 'application/json'},
-  mode: 'no-cors'
-}
-
 export const initialState = {route: '', title: ''}
 
 const unfound = {
@@ -16,10 +11,9 @@ const unfound = {
 }
 
 export const dispatchLocation = async (app, segments) => {
-  const posts = await fetch(
-    '/content/posts/index.json',
-    fetchOptions
-  ).then((res) => res.json())
+  const posts = await fetch('/content/posts/index.json').then((res) =>
+    res.json()
+  )
 
   let index = -1
 
@@ -33,10 +27,7 @@ export const dispatchLocation = async (app, segments) => {
     if (index > -1) {
       const post = Object.assign({}, posts[index])
 
-      const response = await fetch(
-        `/content/posts/${post.slug}.json`,
-        fetchOptions
-      )
+      const response = await fetch(`/content/posts/${post.slug}.json`)
 
       const content = await response.json()
 
