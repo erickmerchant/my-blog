@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@erickmerchant/css": "^22.3.0",
-    "@erickmerchant/dev-cli": "^14.0.0",
+    "@erickmerchant/dev-cli": "^14.0.2",
     "@erickmerchant/framework": "^37.1.0",
     "cheerio": "^1.0.0-rc.3",
     "del": "^5.1.0",
