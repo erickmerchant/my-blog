@@ -5,11 +5,27 @@ import {getSegments, contentComponent} from '/common.mjs'
 
 const app = createApp(Object.assign({}, initialState))
 
-setupApp(app, getSegments)
+const key = `/content/posts/index.json`
+
+const promise = window.fetch(key)
+
+const fetch = (url, options) => {
+  if (url === key) return promise.then((res) => res.clone())
+
+  return window.fetch(url, options)
+}
+
+setupApp(app, fetch, getSegments)
 
 const target = document.querySelector('body')
 
-const component = createComponent(app, classes, getSegments, contentComponent)
+const component = createComponent(
+  app,
+  classes,
+  fetch,
+  getSegments,
+  contentComponent
+)
 
 const view = createDomView(target, component)
 

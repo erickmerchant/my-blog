@@ -51,6 +51,7 @@ command({
     const component = createComponent(
       {},
       classes,
+      () => {},
       getSegments,
       contentComponent
     )

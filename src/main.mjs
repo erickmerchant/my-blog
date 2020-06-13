@@ -10,7 +10,7 @@ const unfound = {
   )
 }
 
-export const dispatchLocation = async (app, segments) => {
+export const dispatchLocation = async (app, fetch, segments) => {
   const posts = await fetch('/content/posts/index.json').then((res) =>
     res.json()
   )
@@ -55,6 +55,7 @@ export const dispatchLocation = async (app, segments) => {
 export const createComponent = (
   app,
   classes,
+  fetch,
   getSegments,
   contentComponent
 ) => {
@@ -66,7 +67,7 @@ export const createComponent = (
 
         window.history.pushState({}, null, href)
 
-        dispatchLocation(app, getSegments(href))
+        dispatchLocation(app, fetch, getSegments(href))
       }
     }
   }
@@ -237,10 +238,10 @@ export const createComponent = (
   }
 }
 
-export const setupApp = (app, getSegments) => {
+export const setupApp = (app, fetch, getSegments) => {
   window.onpopstate = () => {
-    dispatchLocation(app, getSegments(document.location.pathname))
+    dispatchLocation(app, fetch, getSegments(document.location.pathname))
   }
 
-  dispatchLocation(app, getSegments(document.location.pathname))
+  dispatchLocation(app, fetch, getSegments(document.location.pathname))
 }
