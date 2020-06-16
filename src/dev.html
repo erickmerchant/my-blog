@@ -7,12 +7,7 @@
     <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
     <title>A Web Development Blog</title>
     <script type="module">
-      import {
-        createContainer,
-        cssService,
-        jsService,
-        createService
-      } from '@erickmerchant/dev-cli/container.mjs'
+      import {createContainer} from '@erickmerchant/dev-cli/container.mjs'
       import {createDomView, createApp} from '@erickmerchant/framework/main.mjs'
 
       const app = createApp()
@@ -23,46 +18,53 @@
 
       createContainer(
         [
-          jsService('main.mjs', 'main'),
-          jsService('common.mjs', 'common'),
-          createService(
-            (url) => url.match(/^content\/.*\.json$/),
-            (container) => {
+          'main.mjs',
+          'common.mjs',
+          'css/styles.mjs',
+          [
+            /^content\/.*\.json$/,
+            () => {
               const key = `/content/posts/index.json`
 
               const promise = fetch(`${key}?${Date.now()}`)
 
-              container.fetch = (url, options) => {
-                if (url === key) return promise.then((res) => res.clone())
+              return {
+                fetch(url, options) {
+                  if (url === key) return promise.then((res) => res.clone())
 
-                return fetch(url, options)
+                  return fetch(url, options)
+                }
               }
             }
-          ),
-          jsService('css/styles.mjs', 'styles'),
-          cssService('css/styles.css')
+          ]
         ],
-        async ({styles, main, common, fetch}) => {
+        ['css/styles.css'],
+        async (
+          {setupApp, dispatchLocation, initalState, createComponent},
+          {getSegments, contentComponent},
+          {classes},
+          {fetch}
+        ) => {
           if (!isSetup) {
             isSetup = true
 
-            main.setupApp(app, fetch, common.getSegments)
+            setupApp(app, fetch, getSegments)
           } else {
-            main.dispatchLocation(
+            dispatchLocation(
               app,
               fetch,
-              common.getSegments(document.location.pathname)
+              getSegments(document.location.pathname)
             )
           }
 
-          app.commit((state = Object.assign({}, main.initalState)) => state)
+          app.commit((state = Object.assign({}, initalState)) => state)
 
-          const component = main.createComponent(
+          const component = createComponent(
             app,
-            styles.classes,
+            classes,
             fetch,
-            common.getSegments,
-            common.contentComponent
+            getSegments,
+            contentComponent
           )
 
           const view = createDomView(target, component)
