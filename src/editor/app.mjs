@@ -377,7 +377,8 @@ const view = createDomView(
               <div class=${classes.textareaWrap}>
                 <div class=${classes.textareaHighlightsWrap}>
                   <pre class=${classes.textareaHighlights}>
-${highlighter(state.highlights)}</pre
+                    ${highlighter(state.highlights)}
+                  </pre
                   >
                 </div>
                 <textarea
@@ -386,7 +387,8 @@ ${highlighter(state.highlights)}</pre
                   id="Content"
                   oninput=${highlight}
                 >
-${state.post.content ?? ''}</textarea
+                  ${state.post.content ?? ''}
+                </textarea
                 >
               </div>
               <div class=${classes.formButtons}>
