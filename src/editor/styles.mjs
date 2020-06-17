@@ -167,10 +167,11 @@ export const styles = {
     border-radius: ${borderRadius};
     border: 1px solid ${colors.silver};
     color: ${colors.black};
+  `,
+  inputReadOnly: (styles) => `
+    ${styles.input}
 
-    :read-only {
-      background: ${colors.silver};
-    }
+    background: ${colors.silver};
   `,
   inputLarge: (styles) => `
     ${styles.input}

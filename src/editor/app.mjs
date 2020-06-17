@@ -358,7 +358,9 @@ const view = createDomView(
                 <div class=${classes.formColumn}>
                   <label class=${classes.label} for="Slug">Slug</label>
                   <input
-                    class=${classes.input}
+                    class=${state.slug != null
+                      ? classes.inputReadOnly
+                      : classes.input}
                     name="slug"
                     id="Slug"
                     readonly=${state.slug != null}

@@ -128,8 +128,9 @@ export const styles = {
     font-weight: ${fontWeights.bold};
   `,
   dateIcon: `
-    height: .9em;
-    margin-right: 0.5em;
+    height: 0.95em;
+    margin-top: 0.05em;
+    margin-right: 0.25em;
     fill: currentColor;
   `,
   main: `
