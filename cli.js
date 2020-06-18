@@ -44,7 +44,7 @@ command({
       {getSegments, contentComponent}
     ] = await Promise.all([
       import('@erickmerchant/framework/stringify.mjs'),
-      import('./src/css/styles.mjs'),
+      import('./src/css/styles.js'),
       import('./src/main.js'),
       import('./src/common.js')
     ])
