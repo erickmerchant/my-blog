@@ -3,10 +3,11 @@
   "private": true,
   "license": "ISC",
   "author": "Erick Merchant <erickmerchant@gmail.com>",
+  "type": "module",
   "scripts": {
     "build": "node ./cli.js build",
     "start": "node ./cli.js start",
-    "lint": "eslint cli.js rollup.config.js 'src/*.mjs' 'src/editor/*.mjs'",
+    "lint": "eslint cli.js rollup.config.js 'src/*.js' 'src/editor/*.js'",
     "test": "npm run lint"
   },
   "dependencies": {

@@ -1,9 +1,9 @@
 import {terser} from 'rollup-plugin-terser'
 
 export default {
-  input: 'dist/app.mjs',
+  input: 'dist/app.js',
   output: {
-    file: 'dist/app.mjs',
+    file: 'dist/app.js',
     format: 'esm'
   },
   plugins: [

@@ -1,20 +1,22 @@
 #!/usr/bin/env node
-const {command, start} = require('sergeant')('cli.js')
-const del = require('del')
-const promisify = require('util').promisify
-const fs = require('fs')
-const cheerio = require('cheerio')
+import sergeant from 'sergeant'
+import del from 'del'
+import {promisify} from 'util'
+import fs from 'fs'
+import cheerio from 'cheerio'
+import execa from 'execa'
+
+const {command, start} = sergeant('cli.js')
 const readFile = promisify(fs.readFile)
 const writeFile = promisify(fs.writeFile)
-const execa = require('execa')
 const execaOptions = {shell: true, stdio: 'inherit', cwd: process.cwd()}
 
 command({
   name: 'start',
   async action() {
-    execa('css src/styles.mjs src/css/styles -wd', execaOptions)
+    execa('css src/styles.js src/css/styles -wd', execaOptions)
 
-    execa('css src/editor/styles.mjs src/editor/css/styles -wd', execaOptions)
+    execa('css src/editor/styles.js src/editor/css/styles -wd', execaOptions)
 
     execa('dev serve src -d -e dev.html', execaOptions)
   }
@@ -24,7 +26,7 @@ command({
   name: 'build',
   async action() {
     await Promise.all([
-      execa('css src/styles.mjs src/css/styles', execaOptions),
+      execa('css src/styles.js src/css/styles', execaOptions),
       execa('dev cache src dist', execaOptions)
     ])
 
@@ -43,8 +45,8 @@ command({
     ] = await Promise.all([
       import('@erickmerchant/framework/stringify.mjs'),
       import('./src/css/styles.mjs'),
-      import('./src/main.mjs'),
-      import('./src/common.mjs')
+      import('./src/main.js'),
+      import('./src/common.js')
     ])
 
     const state = {route: '', title: ''}
