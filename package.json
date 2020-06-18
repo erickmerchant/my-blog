@@ -10,13 +10,13 @@
     "test": "npm run lint"
   },
   "dependencies": {
-    "@erickmerchant/css": "^22.4.0",
-    "@erickmerchant/dev-cli": "^16.0.0",
+    "@erickmerchant/css": "^22.4.1",
+    "@erickmerchant/dev-cli": "^16.0.1",
     "@erickmerchant/framework": "^37.1.0",
     "cheerio": "^1.0.0-rc.3",
     "del": "^5.1.0",
     "execa": "^4.0.2",
-    "rollup": "^2.16.1",
+    "rollup": "^2.17.0",
     "rollup-plugin-terser": "^6.1.0",
     "sergeant": "^28.1.1"
   },
