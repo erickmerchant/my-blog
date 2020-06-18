@@ -5,6 +5,7 @@ import {promisify} from 'util'
 import fs from 'fs'
 import cheerio from 'cheerio'
 import execa from 'execa'
+import {stringify} from '@erickmerchant/framework/stringify.js'
 
 const {command, start} = sergeant('cli.js')
 const readFile = promisify(fs.readFile)
@@ -38,12 +39,10 @@ command({
     }
 
     const [
-      {stringify},
       {classes},
       {createComponent},
       {getSegments, contentComponent}
     ] = await Promise.all([
-      import('@erickmerchant/framework/stringify.mjs'),
       import('./src/css/styles.js'),
       import('./src/main.js'),
       import('./src/common.js')
