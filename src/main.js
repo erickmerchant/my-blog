@@ -1,4 +1,4 @@
-import {html} from '@erickmerchant/framework/main.mjs'
+import {html} from '@erickmerchant/framework/main.js'
 
 export const initialState = {route: '', title: ''}
 
