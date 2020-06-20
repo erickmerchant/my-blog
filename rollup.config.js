@@ -12,6 +12,10 @@ export default {
         if (file.startsWith('/')) return `dist${file}`
       }
     },
-    terser()
+    terser({
+      mangle: {toplevel: true},
+      ecma: 8,
+      safari10: true
+    })
   ]
 }
