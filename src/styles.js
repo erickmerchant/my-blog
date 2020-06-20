@@ -116,7 +116,15 @@ export const styles = {
   list: `
     margin-top: 1em;
     margin-bottom: 1em;
-    padding-left: 2em;
+    padding-left: 0.5em;
+    list-style: none;
+  `,
+  listItem: `
+    :before {
+      content: '-';
+      margin-right: 0.5em;
+      font-weight: ${fontWeights.bold};
+    }
   `,
   paragraph: `
     margin-top: 1em;
