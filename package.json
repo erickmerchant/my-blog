@@ -11,15 +11,14 @@
     "test": "npm run lint"
   },
   "dependencies": {
-    "@erickmerchant/css": "^23.0.1",
-    "@erickmerchant/dev-cli": "^17.0.0",
+    "@erickmerchant/css": "^23.1.0",
+    "@erickmerchant/dev-cli": "^17.1.0",
     "@erickmerchant/framework": "^38.0.0",
     "cheerio": "^1.0.0-rc.3",
     "del": "^5.1.0",
     "execa": "^4.0.2",
     "rollup": "^2.17.1",
-    "rollup-plugin-terser": "^6.1.0",
-    "sergeant": "^28.1.1"
+    "rollup-plugin-terser": "^6.1.0"
   },
   "devDependencies": {
     "@erickmerchant/eslint-config": "^1.1.1",
