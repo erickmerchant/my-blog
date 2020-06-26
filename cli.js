@@ -22,7 +22,7 @@ const program = async () => {
         options
       )
 
-      execa('dev', ['serve', 'src', '-d', '-e', 'dev.html', '--http2'], {
+      execa('dev', ['serve', 'src', '-d', '-e', 'dev.html'], {
         ...options,
         env: {
           DEV_HTTP2_KEY: 'storage/key.pem',

@@ -35,10 +35,6 @@ export const _start = `
     height: 100%;
     font-family: "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   }
-
-  ::marker {
-    color: currentColor;
-  }
 `
 
 const heading = `
