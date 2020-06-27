@@ -72,7 +72,8 @@ export const styles = {
     --z-index: 0;
   `,
   header: `
-    display: flex;
+    display: grid;
+    grid-template-columns: max-content 1fr max-content;
     align-items: center;
     border: 5px solid transparent;
   `,
@@ -80,9 +81,6 @@ export const styles = {
     padding: 0.5em 0;
     font-size: 1.5em;
     font-weight: ${fontWeights.heading};
-  `,
-  headerSpacer: `
-    flex: 1 1 auto;
   `,
   createButton: button,
   textButton: `
@@ -128,8 +126,9 @@ export const styles = {
     }
   `,
   form: `
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 1.5em;
     position: absolute;
     top: 0;
     right: 0;
@@ -138,22 +137,11 @@ export const styles = {
     background-color: ${colors.white};
   `,
   formRow: `
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-  `,
-  formColumn: `
-    display: flex;
-    flex-direction: column;
-    flex: 1 1 auto;
-    margin-right: 1em;
-
-    :last-child {
-      margin-right: 0;
-    }
+    grid-column: 1 / span 2;
   `,
   label: `
-    margin: 1em 0 0.5em;
+    display: block;
+    margin-bottom: 0.5em;
     font-weight: ${fontWeights.bold};
   `,
   labelLarge: (styles) => `
@@ -252,8 +240,8 @@ export const styles = {
     resize: none;
   `,
   formButtons: `
-    display: flex;
-    justify-content: flex-end;
+    grid-column: 1 / span 2;
+    justify-self: end;
   `,
   cancelButton: (styles) => `
     ${styles.textButton}

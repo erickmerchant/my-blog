@@ -43,10 +43,20 @@ const heading = `
   line-height: 1.25;
 `
 
+const button = `
+  margin: 1em;
+  position: relative;
+  flex: 1 1 calc(50% - 2em);
+  padding: 1em 3em;
+  border-radius: ${borderRadius};
+  background-color: ${colors.green1};
+  font-weight: ${fontWeights.bold};
+`
+
 export const styles = {
   app: `
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-rows: max-content 1fr max-content;
     height: 100%;
     font-size: max(20px, 1vw);
     font-weight: ${fontWeights.normal};
@@ -127,7 +137,8 @@ export const styles = {
     margin-bottom: 1em;
   `,
   date: `
-    display: inline-flex;
+    display: grid;
+    grid-template-columns: max-content 1fr;
     align-items: center;
     font-weight: ${fontWeights.bold};
   `,
@@ -138,7 +149,6 @@ export const styles = {
     fill: currentColor;
   `,
   main: `
-    flex: 1 1 auto;
     width: min(40em, 100%);
     margin-right: auto;
     margin-left: auto;
@@ -162,28 +172,17 @@ export const styles = {
 
     color: white;
   `,
-  button: (styles) => `
-    ${styles.navListItem}
+  buttonEnabled: `
+    ${button}
 
-    position: relative;
-    flex: 1 1 calc(50% - 2em);
-    padding: 1em 3em;
-    border-radius: ${borderRadius};
-    background-color: ${colors.green1};
-    font-weight: ${fontWeights.bold};
-
-    :focus, :active, :hover {
+    :focus, :hover {
       filter: saturate(1.5);
     }
   `,
-  buttonDisabled: (styles) => `
-    ${styles.button}
+  buttonDisabled: `
+    ${button}
 
     background-color: ${colors.gray};
-
-    @media(max-width: 40em) {
-      display: none;
-    }
   `,
   buttonAnchor: (styles) => `
     ${styles.anchor}

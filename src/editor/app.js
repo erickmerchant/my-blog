@@ -264,7 +264,7 @@ const view = createDomView(
             html`
               <header class=${classes.header}>
                 <h1 class=${classes.headerHeading}>Posts</h1>
-                <span class=${classes.headerSpacer} />
+                <span />
                 <a class=${classes.createButton} href="#/posts/create">New</a>
               </header>
             `,
@@ -329,69 +329,71 @@ const view = createDomView(
               method="POST"
               autocomplete="off"
             >
-              <label class=${classes.labelLarge} for="Title">Title</label>
-              <input
-                class=${classes.inputLarge}
-                name="title"
-                id="Title"
-                value=${state.post.title ?? ''}
-                oninput=${(e) =>
-                  app.commit((state) => {
-                    state.post.title = e.currentTarget.value
-                  })}
-              />
               <div class=${classes.formRow}>
-                <div class=${classes.formColumn}>
-                  <label class=${classes.label} for="Date">Date</label>
-                  <input
-                    class=${classes.input}
-                    name="date"
-                    type="date"
-                    id="Date"
-                    value=${state.post.date ?? ''}
-                    oninput=${(e) =>
-                      app.commit((state) => {
-                        state.post.date = e.currentTarget.value
-                      })}
-                  />
-                </div>
-                <div class=${classes.formColumn}>
-                  <label class=${classes.label} for="Slug">Slug</label>
-                  <input
-                    class=${state.slug != null
-                      ? classes.inputReadOnly
-                      : classes.input}
-                    name="slug"
-                    id="Slug"
-                    readonly=${state.slug != null}
-                    value=${state.post.slug ?? ''}
-                    placeholder=${slugify(state.post.title ?? '')}
-                    oninput=${state.slug == null
-                      ? (e) =>
-                          app.commit((state) => {
-                            state.post.slug = e.currentTarget.value
-                          })
-                      : null}
-                  />
-                </div>
+                <label class=${classes.labelLarge} for="Title">Title</label>
+                <input
+                  class=${classes.inputLarge}
+                  name="title"
+                  id="Title"
+                  value=${state.post.title ?? ''}
+                  oninput=${(e) =>
+                    app.commit((state) => {
+                      state.post.title = e.currentTarget.value
+                    })}
+                />
               </div>
-              <label class=${classes.label} for="Content">Content</label>
-              <div class=${classes.textareaWrap}>
-                <div class=${classes.textareaHighlightsWrap}>
-                  <pre class=${classes.textareaHighlights}>
-                    ${highlighter(state.highlights)}
-                  </pre
+              <div>
+                <label class=${classes.label} for="Date">Date</label>
+                <input
+                  class=${classes.input}
+                  name="date"
+                  type="date"
+                  id="Date"
+                  value=${state.post.date ?? ''}
+                  oninput=${(e) =>
+                    app.commit((state) => {
+                      state.post.date = e.currentTarget.value
+                    })}
+                />
+              </div>
+              <div>
+                <label class=${classes.label} for="Slug">Slug</label>
+                <input
+                  class=${state.slug != null
+                    ? classes.inputReadOnly
+                    : classes.input}
+                  name="slug"
+                  id="Slug"
+                  readonly=${state.slug != null}
+                  value=${state.post.slug ?? ''}
+                  placeholder=${slugify(state.post.title ?? '')}
+                  oninput=${state.slug == null
+                    ? (e) =>
+                        app.commit((state) => {
+                          state.post.slug = e.currentTarget.value
+                        })
+                    : null}
+                />
+              </div>
+              <div class=${classes.formRow}>
+                <label class=${classes.label} for="Content">Content</label>
+                <div class=${classes.textareaWrap}>
+                  <div class=${classes.textareaHighlightsWrap}>
+                    <pre class=${classes.textareaHighlights}>
+                      ${highlighter(state.highlights)}
+                    </pre
+                    >
+                  </div>
+                  <textarea
+                    class=${classes.textarea}
+                    name="content"
+                    id="Content"
+                    oninput=${highlight}
+                  >
+                    ${state.post.content ?? ''}
+                  </textarea
                   >
                 </div>
-                <textarea
-                  class=${classes.textarea}
-                  name="content"
-                  id="Content"
-                  oninput=${highlight}
-                >
-                  ${state.post.content ?? ''}
-                </textarea
-                >
               </div>
               <div class=${classes.formButtons}>
                 <a class=${classes.cancelButton} href="#/">Cancel</a>

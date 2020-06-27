@@ -74,11 +74,20 @@ export const createComponent = (
     }
   }
 
-  const paginationLink = (slug, text) =>
+  const paginationItem = (obj, text) =>
     html`
-      <a ${anchorAttrs(`/posts/${slug}/`)} class=${classes.buttonAnchor}>
-        ${text}
-      </a>
+      <li class=${obj ? classes.buttonEnabled : classes.buttonDisabled}>
+        ${obj
+          ? html`
+              <a
+                ${anchorAttrs(`/posts/${obj.slug}/`)}
+                class=${classes.buttonAnchor}
+              >
+                ${text}
+              </a>
+            `
+          : text}
+      </li>
     `
 
   return (state) => html`
@@ -178,24 +187,8 @@ export const createComponent = (
                 ? html`
                     <nav>
                       <ul class=${classes.navList}>
-                        <li
-                          class=${state.prev
-                            ? classes.button
-                            : classes.buttonDisabled}
-                        >
-                          ${state.prev
-                            ? paginationLink(state.prev.slug, 'Older')
-                            : null}
-                        </li>
-                        <li
-                          class=${state.next
-                            ? classes.button
-                            : classes.buttonDisabled}
-                        >
-                          ${state.next
-                            ? paginationLink(state.next.slug, 'Newer')
-                            : null}
-                        </li>
+                        ${paginationItem(state.prev, 'Older')}
+                        ${paginationItem(state.next, 'Newer')}
                       </ul>
                     </nav>
                   `
