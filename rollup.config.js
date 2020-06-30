@@ -14,7 +14,7 @@ export default {
     },
     terser({
       mangle: {toplevel: true},
-      ecma: 8,
+      ecma: 9,
       safari10: true
     })
   ]
