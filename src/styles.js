@@ -111,7 +111,7 @@ export const styles = {
     color: ${colors.green2};
   `,
   anchor: `
-    box-shadow: 0 0.1em 0 0 currentColor;
+    box-shadow: 0 0.1em 0 0 currentcolor;
     color: ${colors.green1};
     text-decoration: none;
 
@@ -146,7 +146,7 @@ export const styles = {
     height: 0.95em;
     margin-top: 0.05em;
     margin-right: 0.25em;
-    fill: currentColor;
+    fill: currentcolor;
   `,
   main: `
     width: min(40em, 100%);

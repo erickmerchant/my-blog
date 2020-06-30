@@ -195,7 +195,7 @@ export const styles = {
     font-weight: ${fontWeights.bold};
   `,
   highlightUrl: `
-    box-shadow: 0 0.1em 0 0 currentColor;
+    box-shadow: 0 0.1em 0 0 currentcolor;
     color: ${colors.blue};
     text-decoration: none;
 
