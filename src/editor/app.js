@@ -1,6 +1,6 @@
 import {createApp, createDomView, html} from '@erickmerchant/framework/main.js'
 import {classes} from './css/styles.js'
-import {contentComponent, getSegments} from '../common.js'
+import * as common from '../common.js'
 
 const slugify = (title) =>
   title
@@ -87,7 +87,7 @@ const dispatchLocation = async (segments) => {
 }
 
 const highlighter = (str) =>
-  contentComponent(
+  common.contentComponent(
     str.replace(/\r/g, ''),
     {
       bold: (text) => html`
@@ -198,7 +198,7 @@ const save = (post) => async (e) => {
     if (!data.date) {
       const now = new Date()
 
-      data.date = now.toISOString().substring(0, 10)
+      data.date = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`
     }
 
     const index = posts.findIndex((post) => post.slug === data.slug)
@@ -283,12 +283,9 @@ const view = createDomView(
                       <tr>
                         <td class=${classes.td}>${post.title}</td>
                         <td class=${classes.td}>
-                          ${new Date(post.date).toLocaleDateString('en-US', {
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric',
-                            timeZone: 'UTC'
-                          })}
+                          ${common.dateToPrettyString(
+                            common.stringToDate(post.date)
+                          )}
                         </td>
                         <td class=${classes.td}>
                           <a
@@ -417,7 +414,7 @@ const view = createDomView(
 app.render(view)
 
 window.onpopstate = () => {
-  dispatchLocation(getSegments(document.location.hash.substring(1)))
+  dispatchLocation(common.getSegments(document.location.hash.substring(1)))
 }
 
-dispatchLocation(getSegments(document.location.hash.substring(1)))
+dispatchLocation(common.getSegments(document.location.hash.substring(1)))

@@ -155,3 +155,21 @@ export const getSegments = (all) => {
     all
   }
 }
+
+export const stringToDate = (str) => {
+  const [year, month, day] = str.split('-')
+
+  return new Date(year, month - 1, day)
+}
+
+export const dateToPrettyString = (date) => {
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  })
+}
+
+export const dateToISOString = (date) => {
+  return date.toISOString()
+}
