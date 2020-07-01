@@ -85,7 +85,6 @@ export const styles = {
   createButton: button,
   textButton: `
     appearance: none;
-    margin-left: 0.25em;
     padding: 0.5em 1.5em;
     background: transparent;
     border: none;
@@ -124,6 +123,11 @@ export const styles = {
       padding-right: 0;
       text-align: right;
     }
+  `,
+  tableControls: `
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
   `,
   form: `
     display: grid;

@@ -198,7 +198,10 @@ const save = (post) => async (e) => {
     if (!data.date) {
       const now = new Date()
 
-      data.date = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`
+      data.date = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(
+        2,
+        '0'
+      )}-${String(now.getDate()).padStart(2, '0')}`
     }
 
     const index = posts.findIndex((post) => post.slug === data.slug)
@@ -288,26 +291,28 @@ const view = createDomView(
                           )}
                         </td>
                         <td class=${classes.td}>
-                          <a
-                            class=${classes.textButton}
-                            href=${`#/posts/edit/${post.slug}`}
-                          >
-                            Edit
-                          </a>
-                          <a
-                            class=${classes.textButton}
-                            target="_blank"
-                            href=${`/posts/${post.slug}`}
-                          >
-                            View
-                          </a>
-                          <button
-                            class=${classes.deleteButton}
-                            type="button"
-                            onclick=${remove(post)}
-                          >
-                            Delete
-                          </button>
+                          <div class=${classes.tableControls}>
+                            <a
+                              class=${classes.textButton}
+                              href=${`#/posts/edit/${post.slug}`}
+                            >
+                              Edit
+                            </a>
+                            <a
+                              class=${classes.textButton}
+                              target="_blank"
+                              href=${`/posts/${post.slug}`}
+                            >
+                              View
+                            </a>
+                            <button
+                              class=${classes.deleteButton}
+                              type="button"
+                              onclick=${remove(post)}
+                            >
+                              Delete
+                            </button>
+                          </div>
                         </td>
                       </tr>
                     `
