@@ -124,11 +124,9 @@ export const contentComponent = (str, templates, stripBackslash = true) => {
 
         if (p != null) {
           html.push(p)
-
-          html.push('\n')
-        } else {
-          html.push('\n')
         }
+
+        html.push('\n')
       }
     }
   }
@@ -156,20 +154,14 @@ export const getSegments = (all) => {
   }
 }
 
-export const stringToDate = (str) => {
-  const [year, month, day] = str.split('-')
+export const prettyDate = (str) => {
+  const [year, month, day] = str.split('-').map((v) => Number(v))
 
-  return new Date(year, month - 1, day)
-}
+  const date = new Date(year, month - 1, day)
 
-export const dateToPrettyString = (date) => {
   return date.toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
     day: 'numeric'
   })
-}
-
-export const dateToISOString = (date) => {
-  return date.toISOString()
 }

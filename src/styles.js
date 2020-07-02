@@ -81,7 +81,7 @@ export const styles = {
   heading2: `
     ${heading}
 
-    font-size: 1.25em;
+    font-size: 1em;
     font-weight: ${fontWeights.heading2};
   `,
   strong: `

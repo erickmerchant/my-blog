@@ -1,6 +1,6 @@
 import {createApp, createDomView, html} from '@erickmerchant/framework/main.js'
 import {classes} from './css/styles.js'
-import * as common from '../common.js'
+import {contentComponent, getSegments, prettyDate} from '../common.js'
 
 const slugify = (title) =>
   title
@@ -87,7 +87,7 @@ const dispatchLocation = async (segments) => {
 }
 
 const highlighter = (str) =>
-  common.contentComponent(
+  contentComponent(
     str.replace(/\r/g, ''),
     {
       bold: (text) => html`
@@ -286,9 +286,7 @@ const view = createDomView(
                       <tr>
                         <td class=${classes.td}>${post.title}</td>
                         <td class=${classes.td}>
-                          ${common.dateToPrettyString(
-                            common.stringToDate(post.date)
-                          )}
+                          ${prettyDate(post.date)}
                         </td>
                         <td class=${classes.td}>
                           <div class=${classes.tableControls}>
@@ -419,7 +417,7 @@ const view = createDomView(
 app.render(view)
 
 window.onpopstate = () => {
-  dispatchLocation(common.getSegments(document.location.hash.substring(1)))
+  dispatchLocation(getSegments(document.location.hash.substring(1)))
 }
 
-dispatchLocation(common.getSegments(document.location.hash.substring(1)))
+dispatchLocation(getSegments(document.location.hash.substring(1)))

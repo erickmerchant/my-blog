@@ -52,7 +52,12 @@ export const dispatchLocation = async (app, fetch, segments) => {
   }
 }
 
-export const createComponent = (app, classes, fetch, common) => {
+export const createComponent = (
+  app,
+  classes,
+  fetch,
+  {contentComponent, getSegments, prettyDate}
+) => {
   const anchorAttrs = (href) => {
     return {
       href,
@@ -61,7 +66,7 @@ export const createComponent = (app, classes, fetch, common) => {
 
         window.history.pushState({}, null, href)
 
-        dispatchLocation(app, fetch, common.getSegments(href))
+        dispatchLocation(app, fetch, getSegments(href))
 
         window.scroll(0, 0)
       }
@@ -111,12 +116,7 @@ export const createComponent = (app, classes, fetch, common) => {
             <article class=${classes.main}>
               <header>
                 <h1 class=${classes.heading1}>${state.post.title}</h1>
-                <time
-                  class=${classes.date}
-                  datetime=${common.dateToISOString(
-                    common.stringToDate(state.post.date)
-                  )}
-                >
+                <time class=${classes.date} datetime=${state.post.date}>
                   <svg viewBox="0 0 32 32" class=${classes.dateIcon}>
                     <rect width="32" height="6" rx="0.5" />
                     <rect width="32" height="22" y="8" rx="0.5" />
@@ -130,13 +130,11 @@ export const createComponent = (app, classes, fetch, common) => {
                     />
                   </svg>
                   <span>
-                    ${common.dateToPrettyString(
-                      common.stringToDate(state.post.date)
-                    )}
+                    ${prettyDate(state.post.date)}
                   </span>
                 </time>
               </header>
-              ${common.contentComponent(state.post.content ?? '', {
+              ${contentComponent(state.post.content ?? '', {
                 bold: (text) =>
                   html`
                     <strong class=${classes.strong}>${text}</strong>
@@ -220,10 +218,10 @@ export const createComponent = (app, classes, fetch, common) => {
   `
 }
 
-export const setupApp = (app, fetch, common) => {
+export const setupApp = (app, fetch, getSegments) => {
   window.onpopstate = () => {
-    dispatchLocation(app, fetch, common.getSegments(document.location.pathname))
+    dispatchLocation(app, fetch, getSegments(document.location.pathname))
   }
 
-  dispatchLocation(app, fetch, common.getSegments(document.location.pathname))
+  dispatchLocation(app, fetch, getSegments(document.location.pathname))
 }

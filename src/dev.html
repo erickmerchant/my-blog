@@ -41,25 +41,29 @@
         ['css/styles.css'],
         async (
           {setupApp, dispatchLocation, initalState, createComponent},
-          common,
+          {contentComponent, getSegments, prettyDate},
           {classes},
           {fetch}
         ) => {
           if (!isSetup) {
             isSetup = true
 
-            setupApp(app, fetch, common)
+            setupApp(app, fetch, getSegments)
           } else {
             dispatchLocation(
               app,
               fetch,
-              common.getSegments(document.location.pathname)
+              getSegments(document.location.pathname)
             )
           }
 
           app.commit((state = Object.assign({}, initalState)) => state)
 
-          const component = createComponent(app, classes, fetch, common)
+          const component = createComponent(app, classes, fetch, {
+            contentComponent,
+            getSegments,
+            prettyDate
+          })
 
           const view = createDomView(target, component)
 

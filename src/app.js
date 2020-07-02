@@ -1,7 +1,7 @@
 import {createDomView, createApp} from '@erickmerchant/framework/main.js'
 import {classes} from '/css/styles.js'
 import {createComponent, initialState, setupApp} from '/main.js'
-import * as common from '/common.js'
+import {contentComponent, getSegments, prettyDate} from '/common.js'
 
 const app = createApp(Object.assign({}, initialState))
 
@@ -15,11 +15,15 @@ const fetch = (url, options) => {
   return window.fetch(url, options)
 }
 
-setupApp(app, fetch, common)
+setupApp(app, fetch, getSegments)
 
 const target = document.querySelector('body')
 
-const component = createComponent(app, classes, fetch, common)
+const component = createComponent(app, classes, fetch, {
+  contentComponent,
+  getSegments,
+  prettyDate
+})
 
 const view = createDomView(target, component)
 
