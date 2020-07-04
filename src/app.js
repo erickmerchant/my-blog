@@ -1,7 +1,7 @@
 import {createDomView, createApp} from '@erickmerchant/framework/main.js'
-import {classes} from '/css/styles.js'
-import {createComponent, initialState, setupApp} from '/main.js'
-import {contentComponent, getSegments, prettyDate} from '/common.js'
+import {classes} from './css/styles.js'
+import {createComponent, initialState, setupApp} from './main.js'
+import {contentComponent, getSegments, prettyDate} from './common.js'
 
 const app = createApp(Object.assign({}, initialState))
 
