@@ -2,8 +2,8 @@ import {createApp, createDomView, html} from '@erickmerchant/framework/main.js'
 import {classes} from './css/styles.js'
 import {contentComponent, getSegments, prettyDate} from '../common.js'
 
-const slugify = (title) =>
-  title
+const slugify = (str) =>
+  str
     .toLowerCase()
     .replace(/\s+/g, '-')
     .replace(/[^a-z0-9-]/g, '-')
@@ -43,15 +43,15 @@ const dispatchLocation = async (segments) => {
 
   try {
     if (segments.initial === 'posts/edit') {
-      const slug = segments.last
+      const id = segments.last
 
       const posts = await getList()
 
-      const index = posts.findIndex((p) => p.slug === slug)
+      const index = posts.findIndex((p) => p.slug === id)
 
-      const post = index > -1 ? Object.assign({}, posts[index]) : {}
+      const post = ~index ? Object.assign({}, posts[index]) : {}
 
-      const contentRes = await fetch(`/content/posts/${slug}.json`)
+      const contentRes = await fetch(`/content/posts/${id}.json`)
 
       if (contentRes.status >= 300) {
         return {
@@ -60,18 +60,16 @@ const dispatchLocation = async (segments) => {
       }
 
       post.content = await contentRes.json()
+      post.highlights = post.content
 
       state = {
         route: 'posts/edit',
-        slug,
-        post,
-        highlights: post.content
+        post
       }
     } else if (segments.all === 'posts/create') {
       state = {
         route: 'posts/create',
-        post: {},
-        highlights: ''
+        post: {}
       }
     } else if (segments.all === '') {
       state = await init()
@@ -86,7 +84,7 @@ const dispatchLocation = async (segments) => {
   app.commit(state)
 }
 
-const highlighter = (str) =>
+const highlighter = (str = '') =>
   contentComponent(
     str.replace(/\r/g, ''),
     {
@@ -158,7 +156,7 @@ const remove = (post) => async (e) => {
 
       const index = posts.findIndex((p) => p.slug === post.slug)
 
-      if (index > -1) {
+      if (~index) {
         posts.splice(index, 1)
 
         await postList(posts)
@@ -206,7 +204,7 @@ const save = (post) => async (e) => {
 
     const index = posts.findIndex((post) => post.slug === data.slug)
 
-    if (index === -1) {
+    if (!~index) {
       data.slug = data.slug || slugify(data.title)
 
       const {title, date, slug} = data
@@ -238,7 +236,7 @@ const save = (post) => async (e) => {
 
 const highlight = (e) =>
   app.commit((state) => {
-    state.highlights = e.currentTarget.value
+    state.post.highlights = e.currentTarget.value
 
     state.post.content = e.currentTarget.value
   })
@@ -359,15 +357,15 @@ const view = createDomView(
               <div>
                 <label class=${classes.label} for="Slug">Slug</label>
                 <input
-                  class=${state.slug != null
+                  class=${state.post.slug != null
                     ? classes.inputReadOnly
                     : classes.input}
                   name="slug"
                   id="Slug"
-                  readonly=${state.slug != null}
+                  readonly=${state.post.slug != null}
                   value=${state.post.slug ?? ''}
                   placeholder=${slugify(state.post.title ?? '')}
-                  oninput=${state.slug == null
+                  oninput=${state.post.slug == null
                     ? (e) =>
                         app.commit((state) => {
                           state.post.slug = e.currentTarget.value
@@ -380,7 +378,7 @@ const view = createDomView(
                 <div class=${classes.textareaWrap}>
                   <div class=${classes.textareaHighlightsWrap}>
                     <pre class=${classes.textareaHighlights}>
-                      ${highlighter(state.highlights)}
+                      ${highlighter(state.post.highlights)}
                     </pre
                     >
                   </div>

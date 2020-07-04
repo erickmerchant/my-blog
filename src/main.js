@@ -24,7 +24,7 @@ export const dispatchLocation = async (app, fetch, segments) => {
       index = 0
     }
 
-    if (index > -1) {
+    if (~index) {
       const post = Object.assign({}, posts[index])
 
       const response = await fetch(`/content/posts/${post.slug}.json`)

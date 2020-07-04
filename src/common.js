@@ -141,7 +141,7 @@ export const getSegments = (all) => {
 
   let lastSlashIndex = all.lastIndexOf('/')
 
-  if (lastSlashIndex === -1) lastSlashIndex = all.length
+  if (!~lastSlashIndex) lastSlashIndex = all.length
 
   const initial = all.substring(0, lastSlashIndex)
 
