@@ -10,34 +10,22 @@ const unfound = {
   )
 }
 
-export const dispatchLocation = async (app, fetch, segments) => {
-  const posts = await fetch('/content/posts/index.json').then((res) =>
-    res.json()
-  )
+export const dispatchLocation = async (app, postModel, segments) => {
+  const posts = await postModel.getAll()
 
-  let index = -1
+  let post
 
   try {
     if (segments.initial === 'posts') {
-      index = posts.findIndex((post) => post.slug === segments.last)
+      post = await postModel.get(segments.last)
     } else if (segments.all === '' && posts.length > 0) {
-      index = 0
+      post = await postModel.get()
     }
 
-    if (~index) {
-      const post = Object.assign({}, posts[index])
-
-      const response = await fetch(`/content/posts/${post.slug}.json`)
-
-      const content = await response.json()
-
-      post.content = content
-
+    if (post != null) {
       app.commit({
         route: 'post',
         title: `Posts | ${post.title}`,
-        next: posts[index - 1],
-        prev: posts[index + 1],
         post
       })
     } else {
@@ -55,7 +43,7 @@ export const dispatchLocation = async (app, fetch, segments) => {
 export const createComponent = (
   app,
   classes,
-  fetch,
+  postModel,
   {contentComponent, getSegments, prettyDate}
 ) => {
   const anchorAttrs = (href) => {
@@ -66,7 +54,7 @@ export const createComponent = (
 
         window.history.pushState({}, null, href)
 
-        dispatchLocation(app, fetch, getSegments(href))
+        dispatchLocation(app, postModel, getSegments(href))
 
         window.scroll(0, 0)
       }
@@ -174,12 +162,12 @@ export const createComponent = (
                       `
                     : null
               })}
-              ${state.prev || state.next
+              ${state.post.prev || state.post.next
                 ? html`
                     <nav>
                       <ul class=${classes.navList}>
-                        ${paginationItem(state.prev, 'Older')}
-                        ${paginationItem(state.next, 'Newer')}
+                        ${paginationItem(state.post.prev, 'Older')}
+                        ${paginationItem(state.post.next, 'Newer')}
                       </ul>
                     </nav>
                   `
@@ -218,10 +206,10 @@ export const createComponent = (
   `
 }
 
-export const setupApp = (app, fetch, getSegments) => {
+export const setupApp = (app, postModel, getSegments) => {
   window.onpopstate = () => {
-    dispatchLocation(app, fetch, getSegments(document.location.pathname))
+    dispatchLocation(app, postModel, getSegments(document.location.pathname))
   }
 
-  dispatchLocation(app, fetch, getSegments(document.location.pathname))
+  dispatchLocation(app, postModel, getSegments(document.location.pathname))
 }

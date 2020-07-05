@@ -44,18 +44,16 @@ const button = `
   padding: 0.5em 1.5em;
   border: none;
   border-radius: ${borderRadius};
+  border: 1px solid ${colors.blue};
   background-color: ${colors.blue};
   color: ${colors.white};
   font-weight: ${fontWeights.bold};
   text-decoration: none;
   cursor: pointer;
 
-  :hover {
-    text-decoration: none;
-  }
-
-  :focus, :active, :hover {
-    filter: saturate(1.5);
+  :focus, :hover {
+    filter: saturate(2);
+    outline: 0;
   }
 `
 
@@ -87,7 +85,7 @@ export const styles = {
     appearance: none;
     padding: 0.5em 1.5em;
     background: transparent;
-    border: none;
+    border: 1px solid white;
     border-radius: ${borderRadius};
     box-shadow: none;
     color: ${colors.blue};
@@ -97,6 +95,12 @@ export const styles = {
 
     :hover {
       text-decoration: none;
+    }
+
+    :focus {
+      outline: 0;
+      border: 1px solid currentcolor;
+      filter: saturate(2);
     }
   `,
   deleteButton: (styles) => `
@@ -246,6 +250,9 @@ export const styles = {
   formButtons: `
     grid-column: 1 / span 2;
     justify-self: end;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 1em;
   `,
   cancelButton: (styles) => `
     ${styles.textButton}

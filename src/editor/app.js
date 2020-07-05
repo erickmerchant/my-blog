@@ -1,6 +1,11 @@
 import {createApp, createDomView, html} from '@erickmerchant/framework/main.js'
 import {classes} from './css/styles.js'
-import {contentComponent, getSegments, prettyDate} from '../common.js'
+import {
+  contentComponent,
+  getSegments,
+  prettyDate,
+  createPostsModel
+} from '../common.js'
 
 const slugify = (str) =>
   str
@@ -8,22 +13,89 @@ const slugify = (str) =>
     .replace(/\s+/g, '-')
     .replace(/[^a-z0-9-]/g, '-')
 
-const getList = async () => {
-  const res = await fetch('/content/posts/index.json')
+const fetch = async (url, options) => {
+  const res = await window.fetch(url, options)
 
-  return res.json()
+  if (res.status >= 300) {
+    throw Error(`${res.status} ${res.statusText}`)
+  }
+
+  return res
 }
 
-const postList = async (posts) => {
-  await fetch('/content/posts/index.json', {
-    headers: {'Content-Type': 'application/json'},
-    method: 'POST',
-    body: JSON.stringify(posts)
-  })
+const postModel = {
+  ...createPostsModel(fetch),
+
+  async saveAll(data) {
+    await fetch('/content/posts/index.json', {
+      headers: {'Content-Type': 'application/json'},
+      method: 'POST',
+      body: JSON.stringify(data)
+    })
+  },
+
+  async save(id, data) {
+    const posts = await this.getAll()
+
+    const exists = id != null
+
+    id = id ?? (data.slug || slugify(data.title))
+
+    const index = posts.findIndex((post) => post.slug === id)
+
+    if (!exists && ~index) {
+      throw Error(`"${id}" already exists`)
+    }
+
+    if (!data.date) {
+      const now = new Date()
+
+      data.date = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(
+        2,
+        '0'
+      )}-${String(now.getDate()).padStart(2, '0')}`
+    }
+
+    data.slug = id
+
+    data.content = data.content.replace(/\r/g, '')
+
+    const {title, date, slug} = data
+
+    if (!~index) {
+      posts.unshift({title, date, slug})
+    } else {
+      posts.splice(index, 1, {title, date, slug})
+    }
+
+    await this.saveAll(posts)
+
+    await fetch(`/content/posts/${id}.json`, {
+      headers: {'Content-Type': 'application/json'},
+      method: 'POST',
+      body: JSON.stringify(data.content)
+    })
+  },
+
+  async remove(id) {
+    const posts = await this.getAll()
+
+    const index = posts.findIndex((p) => p.slug === id)
+
+    if (~index) {
+      posts.splice(index, 1)
+
+      await this.saveAll(posts)
+
+      await fetch(`/content/posts/${id}.json`, {
+        method: 'DELETE'
+      })
+    }
+  }
 }
 
 const init = async () => {
-  const posts = await getList()
+  const posts = await postModel.getAll()
 
   return {
     route: 'posts',
@@ -45,22 +117,11 @@ const dispatchLocation = async (segments) => {
     if (segments.initial === 'posts/edit') {
       const id = segments.last
 
-      const posts = await getList()
+      const post = await postModel.get(id)
 
-      const index = posts.findIndex((p) => p.slug === id)
+      if (post == null) throw Error(`post "${id}" not found`)
 
-      const post = ~index ? Object.assign({}, posts[index]) : {}
-
-      const contentRes = await fetch(`/content/posts/${id}.json`)
-
-      if (contentRes.status >= 300) {
-        return {
-          error: Error(`${contentRes.status} ${contentRes.statusText}`)
-        }
-      }
-
-      post.content = await contentRes.json()
-      post.highlights = post.content
+      post.highlightedContent = post.content
 
       state = {
         route: 'posts/edit',
@@ -152,19 +213,7 @@ const remove = (post) => async (e) => {
 
   try {
     if (post.slug != null) {
-      const posts = await getList()
-
-      const index = posts.findIndex((p) => p.slug === post.slug)
-
-      if (~index) {
-        posts.splice(index, 1)
-
-        await postList(posts)
-      }
-
-      await fetch(`/content/posts/${post.slug}.json`, {
-        method: 'DELETE'
-      })
+      await postModel.remove(post.slug)
 
       const state = await init()
 
@@ -180,6 +229,8 @@ const remove = (post) => async (e) => {
 const save = (post) => async (e) => {
   e.preventDefault()
 
+  const id = post.slug
+
   const data = {}
 
   for (const [key, val] of Object.entries(post)) {
@@ -191,40 +242,7 @@ const save = (post) => async (e) => {
   }
 
   try {
-    const posts = await getList()
-
-    if (!data.date) {
-      const now = new Date()
-
-      data.date = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(
-        2,
-        '0'
-      )}-${String(now.getDate()).padStart(2, '0')}`
-    }
-
-    const index = posts.findIndex((post) => post.slug === data.slug)
-
-    if (!~index) {
-      data.slug = data.slug || slugify(data.title)
-
-      const {title, date, slug} = data
-
-      posts.unshift({title, date, slug})
-    } else {
-      const {title, date, slug} = data
-
-      posts.splice(index, 1, {title, date, slug})
-    }
-
-    data.content = data.content.replace(/\r/g, '')
-
-    await postList(posts)
-
-    await fetch(`/content/posts/${data.slug}.json`, {
-      headers: {'Content-Type': 'application/json'},
-      method: 'POST',
-      body: JSON.stringify(data.content)
-    })
+    await postModel.save(id, data)
 
     window.location.hash = '#'
   } catch (error) {
@@ -236,7 +254,7 @@ const save = (post) => async (e) => {
 
 const highlight = (e) =>
   app.commit((state) => {
-    state.post.highlights = e.currentTarget.value
+    state.post.highlightedContent = e.currentTarget.value
 
     state.post.content = e.currentTarget.value
   })
@@ -266,7 +284,13 @@ const view = createDomView(
               <header class=${classes.header}>
                 <h1 class=${classes.headerHeading}>Posts</h1>
                 <span />
-                <a class=${classes.createButton} href="#/posts/create">New</a>
+                <a
+                  tabindex="0"
+                  class=${classes.createButton}
+                  href="#/posts/create"
+                >
+                  New
+                </a>
               </header>
             `,
             html`
@@ -289,12 +313,14 @@ const view = createDomView(
                         <td class=${classes.td}>
                           <div class=${classes.tableControls}>
                             <a
+                              tabindex="0"
                               class=${classes.textButton}
                               href=${`#/posts/edit/${post.slug}`}
                             >
                               Edit
                             </a>
                             <a
+                              tabindex="0"
                               class=${classes.textButton}
                               target="_blank"
                               href=${`/posts/${post.slug}`}
@@ -302,6 +328,7 @@ const view = createDomView(
                               View
                             </a>
                             <button
+                              tabindex="0"
                               class=${classes.deleteButton}
                               type="button"
                               onclick=${remove(post)}
@@ -378,7 +405,7 @@ const view = createDomView(
                 <div class=${classes.textareaWrap}>
                   <div class=${classes.textareaHighlightsWrap}>
                     <pre class=${classes.textareaHighlights}>
-                      ${highlighter(state.post.highlights)}
+                      ${highlighter(state.post.highlightedContent)}
                     </pre
                     >
                   </div>

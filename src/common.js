@@ -165,3 +165,33 @@ export const prettyDate = (str) => {
     day: 'numeric'
   })
 }
+
+export const createPostsModel = (fetch) => {
+  return {
+    getAll() {
+      return fetch('/content/posts/index.json').then((res) => res.json())
+    },
+
+    async get(id) {
+      const posts = await this.getAll()
+
+      const index = id != null ? posts.findIndex((post) => post.slug === id) : 0
+
+      if (~index) {
+        const post = Object.assign({}, posts[index])
+
+        const response = await fetch(`/content/posts/${post.slug}.json`)
+
+        const content = await response.json()
+
+        post.content = content
+
+        post.next = posts[index - 1]
+
+        post.prev = posts[index + 1]
+
+        return post
+      }
+    }
+  }
+}
