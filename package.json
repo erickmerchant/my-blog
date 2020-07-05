@@ -17,7 +17,7 @@
     "cheerio": "^1.0.0-rc.3",
     "del": "^5.1.0",
     "execa": "^4.0.2",
-    "rollup": "^2.18.1",
+    "rollup": "^2.19.0",
     "rollup-plugin-terser": "^6.1.0"
   },
   "devDependencies": {
