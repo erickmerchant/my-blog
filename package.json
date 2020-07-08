@@ -12,12 +12,12 @@
   },
   "dependencies": {
     "@erickmerchant/css": "^23.1.1",
-    "@erickmerchant/dev-cli": "^18.0.1",
+    "@erickmerchant/dev-cli": "^18.1.0",
     "@erickmerchant/framework": "^39.0.0",
     "cheerio": "^1.0.0-rc.3",
     "del": "^5.1.0",
-    "execa": "^4.0.2",
-    "rollup": "^2.19.0",
+    "execa": "^4.0.3",
+    "rollup": "^2.21.0",
     "rollup-plugin-terser": "^6.1.0"
   },
   "devDependencies": {
