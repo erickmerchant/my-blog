@@ -8,7 +8,11 @@
     <title>A Web Development Blog</title>
     <script type="module">
       import {createContainer} from '@erickmerchant/dev-cli/container.js'
-      import {createDomView, createApp} from '@erickmerchant/framework/main.js'
+      import {
+        createDomView,
+        createApp,
+        html
+      } from '@erickmerchant/framework/main.js'
 
       const app = createApp()
 
@@ -63,6 +67,17 @@
 
           const component = createComponent(app, classes, postModel, {
             contentComponent,
+            extraFooterLink: html`
+              <li class=${classes.navListItem}>
+                <a
+                  class=${classes.navAnchor}
+                  href="/editor.html"
+                  target="_blank"
+                >
+                  Edit
+                </a>
+              </li>
+            `,
             getSegments,
             prettyDate
           })

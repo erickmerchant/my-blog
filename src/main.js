@@ -44,7 +44,7 @@ export const createComponent = (
   app,
   classes,
   postModel,
-  {contentComponent, getSegments, prettyDate}
+  {contentComponent, extraFooterLink, getSegments, prettyDate}
 ) => {
   const anchorAttrs = (href) => {
     return {
@@ -187,6 +187,7 @@ export const createComponent = (
         ? html`
             <footer class=${classes.footer}>
               <ul class=${classes.footerList}>
+                ${extraFooterLink}
                 <li class=${classes.navListItem}>
                   <a
                     class=${classes.navAnchor}
