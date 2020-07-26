@@ -180,7 +180,6 @@ export const styles = {
     margin: 0 auto;
     border-radius: ${borderRadius};
     border: 1px solid ${colors.silver};
-    line-height: 1.5;
   `,
   textareaHighlightsWrap: `
     min-height: 15em;
