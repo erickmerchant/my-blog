@@ -39,7 +39,7 @@ export const _start = `
 
 const heading = `
   margin-bottom: 0.5em;
-  margin-top: 1em;
+  margin-top: 2em;
   line-height: 1.25;
 `
 
