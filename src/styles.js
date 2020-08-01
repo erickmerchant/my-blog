@@ -172,19 +172,20 @@ export const styles = {
 
     color: white;
   `,
-  buttonEnabled: `
+  paginationList: (styles) => styles.navList,
+  paginationItemEnabled: `
     ${button}
 
     :focus, :hover {
       filter: saturate(1.5);
     }
   `,
-  buttonDisabled: `
+  paginationItemDisabled: `
     ${button}
 
     background-color: ${colors.gray};
   `,
-  buttonAnchor: (styles) => `
+  paginationAnchor: (styles) => `
     ${styles.anchor}
 
     color: white;

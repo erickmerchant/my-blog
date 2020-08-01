@@ -63,12 +63,16 @@ export const createComponent = (
 
   const paginationItem = (obj, text) =>
     html`
-      <li class=${obj ? classes.buttonEnabled : classes.buttonDisabled}>
+      <li
+        class=${obj
+          ? classes.paginationItemEnabled
+          : classes.paginationItemDisabled}
+      >
         ${obj
           ? html`
               <a
                 ${anchorAttrs(`/posts/${obj.slug}/`)}
-                class=${classes.buttonAnchor}
+                class=${classes.paginationAnchor}
               >
                 ${text}
               </a>
@@ -165,7 +169,7 @@ export const createComponent = (
               ${state.post.prev || state.post.next
                 ? html`
                     <nav>
-                      <ul class=${classes.navList}>
+                      <ul class=${classes.paginationList}>
                         ${paginationItem(state.post.prev, 'Older')}
                         ${paginationItem(state.post.next, 'Newer')}
                       </ul>
