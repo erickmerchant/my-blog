@@ -91,6 +91,7 @@ export const styles = {
     overflow: auto;
     padding: 1em;
     white-space: pre-wrap;
+    word-break: break-word;
     background-color: ${colors.black};
     border-radius: ${borderRadius};
   `,
