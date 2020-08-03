@@ -83,24 +83,10 @@ export const createComponent = (
 
   return (state) => html`
     <body class=${classes.app}>
-      <header>
-        <nav class=${classes.topNav}>
-          <ul class=${classes.topNavList}>
-            <li class=${classes.navListItem}>
-              <a class=${classes.navAnchor} ${anchorAttrs('/')}>
-                Erick Merchant
-              </a>
-            </li>
-            <li class=${classes.navListItem}>
-              <a
-                class=${classes.navAnchor}
-                href="https://github.com/erickmerchant"
-              >
-                Projects
-              </a>
-            </li>
-          </ul>
-        </nav>
+      <header class=${classes.header}>
+        <a ${anchorAttrs('/')} class=${classes.headerAnchor}>
+          erickmerchant.com
+        </a>
       </header>
       ${() => {
         if (state.route === 'post') {
@@ -187,23 +173,47 @@ export const createComponent = (
           </section>
         `
       }}
+      <aside class=${classes.aside}>
+        <div class=${classes.asideContent}>
+          <h3 class=${classes.asideHeading}>
+            <a ${anchorAttrs('/')} class=${classes.asideHeadingDesktop}>
+              erickmerchant.com
+            </a>
+            <span class=${classes.asideHeadingMobile}>About Me</span>
+          </h3>
+          <p class=${classes.asideParagraph}>
+            I'm
+            <strong class=${classes.strong}>Erick Merchant</strong>
+            . This is my web development blog. Check out my
+            <a
+              class=${classes.asideAnchor}
+              href="https://github.com/erickmerchant"
+            >
+              open-source projects
+            </a>
+            on Github.
+          </p>
+        </div>
+      </aside>
       ${state.route !== ''
         ? html`
             <footer class=${classes.footer}>
-              <ul class=${classes.footerList}>
-                ${extraFooterLink}
-                <li class=${classes.navListItem}>
-                  <a
-                    class=${classes.navAnchor}
-                    href="https://github.com/erickmerchant/my-blog"
-                  >
-                    View Source
-                  </a>
-                </li>
-                <li class=${classes.navListItem}>
-                  © ${new Date().getFullYear()} Erick Merchant
-                </li>
-              </ul>
+              <nav>
+                <ul class=${classes.footerNavList}>
+                  ${extraFooterLink}
+                  <li class=${classes.footerNavItem}>
+                    <a
+                      class=${classes.footerNavAnchor}
+                      href="https://github.com/erickmerchant/my-blog"
+                    >
+                      View Source
+                    </a>
+                  </li>
+                  <li class=${classes.footerNavItem}>
+                    © ${new Date().getFullYear()} Erick Merchant
+                  </li>
+                </ul>
+              </nav>
             </footer>
           `
         : null}
