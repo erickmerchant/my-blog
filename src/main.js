@@ -85,7 +85,7 @@ export const createComponent = (
     <body class=${classes.app}>
       <header class=${classes.header}>
         <a ${anchorAttrs('/')} class=${classes.headerAnchor}>
-          erickmerchant.com
+          ErickMerchant.com
         </a>
       </header>
       ${() => {
@@ -174,25 +174,29 @@ export const createComponent = (
         `
       }}
       <aside class=${classes.aside}>
-        <div class=${classes.asideContent}>
-          <h3 class=${classes.asideHeading}>
-            <a ${anchorAttrs('/')} class=${classes.asideHeadingDesktop}>
-              erickmerchant.com
+        <div class=${classes.asideInner}>
+          <header class=${classes.asideHeader}>
+            <a ${anchorAttrs('/')} class=${classes.headerAnchor}>
+              ErickMerchant.com
             </a>
-            <span class=${classes.asideHeadingMobile}>About Me</span>
-          </h3>
-          <p class=${classes.asideParagraph}>
-            I'm
-            <strong class=${classes.strong}>Erick Merchant</strong>
-            . This is my web development blog. Check out my
-            <a
-              class=${classes.asideAnchor}
-              href="https://github.com/erickmerchant"
-            >
-              open-source projects
-            </a>
-            on Github.
-          </p>
+          </header>
+          <div class=${classes.aboutContent}>
+            <h3 class=${classes.aboutHeading}>
+              About Me
+            </h3>
+            <p class=${classes.aboutParagraph}>
+              I'm
+              <strong class=${classes.strong}>Erick Merchant</strong>
+              . This is my web development blog. Check out my
+              <a
+                class=${classes.aboutAnchor}
+                href="https://github.com/erickmerchant"
+              >
+                open-source projects
+              </a>
+              on Github.
+            </p>
+          </div>
         </div>
       </aside>
       ${state.route !== ''

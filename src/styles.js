@@ -44,19 +44,13 @@ export const _start = `
 `
 
 const heading = `
-  margin-bottom: 0.5em;
-  margin-top: 2em;
   line-height: 1.25;
-`
+  margin-bottom: 0.5em;
+  margin-top: 1em;
 
-const button = `
-  margin: 1em;
-  position: relative;
-  flex: 1 1 calc(50% - var(--padding));
-  padding: 1em 3em;
-  border-radius: ${borderRadius};
-  background-color: ${colors.green1};
-  font-weight: ${fontWeights.bold};
+  ${tablet} {
+    margin-top: 2em;
+  }
 `
 
 export const styles = {
@@ -69,12 +63,13 @@ export const styles = {
     color: ${colors.black};
     grid-template-columns: 100%;
 
-    --padding: 1em;
+    --padding: 0.5em;
 
     ${tablet} {
       grid-template-columns: 1fr 2fr;
       grid-template-rows: max-content 1fr max-content;
-      --padding: 1.5em;
+
+      --padding: 1em;
     }
 
     ${desktop} {
@@ -109,6 +104,7 @@ export const styles = {
 
     font-weight: bold;
     color: ${colors.green1};
+    word-break: break-word;
 
     ::before,
     ::after {
@@ -151,7 +147,6 @@ export const styles = {
     padding-bottom: 1em;
     background-color: ${colors.green1};
     color: white;
-
     display: flex;
     justify-content: center;
 
@@ -162,6 +157,15 @@ export const styles = {
   headerAnchor: `
     color: inherit;
     font-weight: ${fontWeights.bold};
+  `,
+  main: `
+    width: min(40em, 100%);
+    padding-right: var(--padding);
+    padding-left: var(--padding);
+
+    ${tablet} {
+      grid-column: 2;
+    }
   `,
   date: `
     display: grid;
@@ -175,88 +179,45 @@ export const styles = {
     margin-right: 0.25em;
     fill: currentcolor;
   `,
-  aside: `
-    background-color: ${colors.lightGray};
-    color: ${colors.darkGray};
-
-    ${tablet} {
-      background-color: ${colors.green0};
-      grid-row: 1 / -1;
-      color: white;
-    }
-  `,
-  asideContent: `
-    padding-right: var(--padding);
-    padding-left: var(--padding);
-    padding-bottom: 2em;
-
-    ${tablet} {
-      position: sticky;
-      top: 0;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-    }
-  `,
-  asideHeading: `
-    ${heading}
-
-    font-weight: ${fontWeights.bold};
-
-    ${tablet} {
-      font-size: 1.5em;
-      font-weight: ${fontWeights.heading1};
-    }
-  `,
-  asideHeadingMobile: `
-    ${tablet} {
-      display: none;
-    }
-  `,
-  asideHeadingDesktop: `
-    display: none;
-    color: inherit;
-
-    ${tablet} {
-      display: block;
-    }
-  `,
-  asideAnchor: `
-    color: inherit;
-  `,
-  asideParagraph: `
-    font-size: 0.75em;
-  `,
-  main: `
-    width: min(40em, 100%);
-    padding-right: var(--padding);
-    padding-left: var(--padding);
-
-    ${tablet} {
-      grid-column: 2;
-    }
-  `,
   paginationList: `
     display: flex;
     flex-wrap: wrap;
     padding-top: 1em;
-    padding-bottom: 1em;
+    margin-bottom: 2em;
     color: white;
     text-align: center;
     list-style: none;
+    flex-direction: column;
+
+    ${tablet} {
+      flex-direction: row;
+    }
   `,
-  paginationItemEnabled: `
-    ${button}
+  paginationItemDisabled: `
+    margin-top: 1em;
+    position: relative;
+    flex: 1 1;
+    padding: 1em 3em;
+    border-radius: ${borderRadius};
+    font-weight: ${fontWeights.bold};
+    background-color: ${colors.gray};
+
+    ${tablet} {
+      margin-right: 1em;
+
+      :last-child {
+        margin-right: 0;
+      }
+    }
+  `,
+  paginationItemEnabled: (styles) => `
+    ${styles.paginationItemDisabled}
+
+    background-color: ${colors.green1};
 
     :focus, :hover {
       filter: saturate(1.5);
     }
-  `,
-  paginationItemDisabled: `
-    ${button}
-
-    background-color: ${colors.gray};
   `,
   paginationAnchor: (styles) => `
     ${styles.anchor}
@@ -273,6 +234,58 @@ export const styles = {
       left: 0;
       border-radius: ${borderRadius};
     }
+  `,
+  aside: `
+    background-color: ${colors.lightGray};
+    color: ${colors.darkGray};
+
+    ${tablet} {
+      grid-row: 1 / -1;
+      background-color: ${colors.green0};
+      color: white;
+    }
+  `,
+  asideInner: `
+    padding-right: var(--padding);
+    padding-left: var(--padding);
+
+    ${tablet} {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+  `,
+  asideHeader: `
+    ${heading}
+
+    display: none;
+    font-size: 1.5em;
+    font-weight: ${fontWeights.heading1};
+
+    ${tablet} {
+      display: block;
+    }
+  `,
+  aboutContent: `
+    padding-bottom: 1em;
+  `,
+  aboutHeading: `
+    ${heading}
+
+    font-weight: ${fontWeights.bold};
+  `,
+  aboutAnchor: `
+    color: ${colors.green1};
+
+    ${tablet} {
+      color: inherit;
+    }
+  `,
+  aboutParagraph: `
+    font-size: 0.75em;
   `,
   footer: `
     background-color: ${colors.lightGray};
