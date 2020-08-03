@@ -177,17 +177,18 @@ export const styles = {
   `,
   aside: `
     background-color: ${colors.lightGray};
+    color: ${colors.darkGray};
 
     ${tablet} {
       background-color: ${colors.green0};
       grid-row: 1 / -1;
+      color: white;
     }
   `,
   asideContent: `
     padding-right: var(--padding);
     padding-left: var(--padding);
     padding-bottom: 2em;
-    color: ${colors.darkGray};
 
     ${tablet} {
       position: sticky;
@@ -196,7 +197,6 @@ export const styles = {
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
-      color: white;
     }
   `,
   asideHeading: `
@@ -226,9 +226,7 @@ export const styles = {
     color: inherit;
   `,
   asideParagraph: `
-    ${tablet} {
-      font-size: .75em;
-    }
+    font-size: 0.75em;
   `,
   main: `
     width: min(40em, 100%);
@@ -279,7 +277,7 @@ export const styles = {
   footer: `
     background-color: ${colors.lightGray};
     color: ${colors.darkGray};
-    font-size: .75em;
+    font-size: 0.75em;
 
     ${tablet} {
       background-color: white;
