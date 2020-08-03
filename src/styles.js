@@ -62,6 +62,7 @@ export const styles = {
     line-height: 1.5;
     color: ${colors.black};
     grid-template-columns: 100%;
+    grid-template-rows: max-content 1fr max-content max-content;
 
     --padding: 0.5em;
 
