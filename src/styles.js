@@ -68,7 +68,7 @@ export const styles = {
 
     ${tablet} {
       grid-template-columns: 1fr 2fr;
-      grid-template-rows: max-content 1fr max-content;
+      grid-template-rows: 1fr max-content;
 
       --padding: 1em;
     }
@@ -273,10 +273,15 @@ export const styles = {
   `,
   aboutContent: `
     padding-bottom: 1em;
+    flex: auto;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
   `,
   aboutHeading: `
     ${heading}
 
+    margin-top: 1em;
     font-weight: ${fontWeights.bold};
   `,
   aboutAnchor: `
