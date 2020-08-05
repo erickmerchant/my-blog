@@ -6,16 +6,14 @@ const fontWeights = {
 }
 
 const colors = {
-  green0: 'hsl(100, 25%, 45%)',
-  green1: 'hsl(100, 35%, 55%)',
+  green1: 'hsl(100, 30%, 50%)',
   green2: 'hsl(100, 50%, 70%)',
   lightGray: 'hsl(100, 5%, 95%)',
   gray: 'hsl(100, 5%, 50%)',
-  darkGray: 'hsl(100, 5%, 25%)',
-  black: 'hsl(100, 5%, 15%)'
+  darkGray: 'hsl(100, 5%, 20%)'
 }
 
-const borderRadius = '0.25em'
+const borderRadius = '3px'
 
 const paddingX = 'max(10px, 2vw)'
 
@@ -61,7 +59,7 @@ export const styles = {
     font-size: max(20px, 1vw);
     font-weight: ${fontWeights.normal};
     line-height: 1.5;
-    color: ${colors.black};
+    color: ${colors.darkGray};
     grid-template-columns: 100%;
     grid-template-rows: max-content 1fr max-content max-content;
 
@@ -93,7 +91,7 @@ export const styles = {
     padding-left: 1em;
     white-space: pre-wrap;
     word-break: break-word;
-    background-color: ${colors.black};
+    background-color: ${colors.darkGray};
     border-radius: ${borderRadius};
   `,
   code: (styles) => `
@@ -241,7 +239,7 @@ export const styles = {
 
     ${tabletUp} {
       grid-row: 1 / -1;
-      background-color: ${colors.green0};
+      background-color: ${colors.green1};
       color: white;
     }
   `,
@@ -300,7 +298,7 @@ export const styles = {
 
     ${tabletUp} {
       background-color: white;
-      color: ${colors.black};
+      color: ${colors.darkGray};
       grid-column: 2;
     }
   `,
