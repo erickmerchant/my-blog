@@ -17,8 +17,9 @@ const colors = {
 
 const borderRadius = '0.25em'
 
-const tablet = '@media (min-width: 768px)'
-const desktop = '@media (min-width: 1024px)'
+const paddingX = 'max(10px, 2vw)'
+
+const tabletUp = '@media (min-width: 768px)'
 
 export const _start = `
   @font-face {
@@ -48,7 +49,7 @@ const heading = `
   margin-bottom: 0.5em;
   margin-top: 1em;
 
-  ${tablet} {
+  ${tabletUp} {
     margin-top: 2em;
   }
 `
@@ -64,17 +65,9 @@ export const styles = {
     grid-template-columns: 100%;
     grid-template-rows: max-content 1fr max-content max-content;
 
-    --padding: 0.5em;
-
-    ${tablet} {
+    ${tabletUp} {
       grid-template-columns: 1fr 2fr;
       grid-template-rows: 1fr max-content;
-
-      --padding: 1em;
-    }
-
-    ${desktop} {
-      --padding: 2em;
     }
   `,
   heading1: `
@@ -94,7 +87,10 @@ export const styles = {
   `,
   pre: `
     overflow: auto;
-    padding: 1em;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    padding-right: 1em;
+    padding-left: 1em;
     white-space: pre-wrap;
     word-break: break-word;
     background-color: ${colors.black};
@@ -151,20 +147,20 @@ export const styles = {
     display: flex;
     justify-content: center;
 
-    ${tablet} {
+    ${tabletUp} {
       display: none;
     }
   `,
   headerAnchor: `
-    color: inherit;
+    color: white;
     font-weight: ${fontWeights.bold};
   `,
   main: `
     width: min(40em, 100%);
-    padding-right: var(--padding);
-    padding-left: var(--padding);
+    padding-right: ${paddingX};
+    padding-left: ${paddingX};
 
-    ${tablet} {
+    ${tabletUp} {
       grid-column: 2;
     }
   `,
@@ -190,7 +186,7 @@ export const styles = {
     list-style: none;
     flex-direction: column;
 
-    ${tablet} {
+    ${tabletUp} {
       flex-direction: row;
     }
   `,
@@ -198,12 +194,15 @@ export const styles = {
     margin-top: 1em;
     position: relative;
     flex: 1 1;
-    padding: 1em 3em;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    padding-right: 3em;
+    padding-left: 3em;
     border-radius: ${borderRadius};
     font-weight: ${fontWeights.bold};
     background-color: ${colors.gray};
 
-    ${tablet} {
+    ${tabletUp} {
       margin-right: 1em;
 
       :last-child {
@@ -240,17 +239,17 @@ export const styles = {
     background-color: ${colors.lightGray};
     color: ${colors.darkGray};
 
-    ${tablet} {
+    ${tabletUp} {
       grid-row: 1 / -1;
       background-color: ${colors.green0};
       color: white;
     }
   `,
   asideInner: `
-    padding-right: var(--padding);
-    padding-left: var(--padding);
+    padding-right: ${paddingX};
+    padding-left: ${paddingX};
 
-    ${tablet} {
+    ${tabletUp} {
       position: sticky;
       top: 0;
       height: 100vh;
@@ -267,7 +266,7 @@ export const styles = {
     font-size: 1.5em;
     font-weight: ${fontWeights.heading1};
 
-    ${tablet} {
+    ${tabletUp} {
       display: block;
     }
   `,
@@ -287,8 +286,8 @@ export const styles = {
   aboutAnchor: `
     color: ${colors.green1};
 
-    ${tablet} {
-      color: inherit;
+    ${tabletUp} {
+      color: white;
     }
   `,
   aboutParagraph: `
@@ -299,7 +298,7 @@ export const styles = {
     color: ${colors.darkGray};
     font-size: 0.75em;
 
-    ${tablet} {
+    ${tabletUp} {
       background-color: white;
       color: ${colors.black};
       grid-column: 2;
@@ -312,15 +311,18 @@ export const styles = {
     display: flex;
     font-weight: ${fontWeights.bold};
     border-top: 1px solid ${colors.gray};
-    padding: 1em 0;
-    margin: 0 3em;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    margin-right: 3em;
+    margin-left: 3em;
 
-    ${tablet} {
+    ${tabletUp} {
       border-color: ${colors.lightGray};
     }
   `,
   footerNavItem: `
-    margin: 0 0.5em;
+    margin-right: 0.5em;
+    margin-left: 0.5em;
   `,
   footerNavAnchor: `
     color: ${colors.green1};

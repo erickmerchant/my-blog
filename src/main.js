@@ -17,9 +17,9 @@ export const dispatchLocation = async (app, postModel, segments) => {
 
   try {
     if (segments.initial === 'posts') {
-      post = await postModel.get(segments.last)
+      post = await postModel.getBySlug(segments.last)
     } else if (segments.all === '' && posts.length > 0) {
-      post = await postModel.get()
+      post = await postModel.getBySlug()
     }
 
     if (post != null) {
@@ -186,8 +186,12 @@ export const createComponent = (
             </h3>
             <p class=${classes.aboutParagraph}>
               I'm
-              <strong class=${classes.strong}>Erick Merchant</strong>
-              . This is my web development blog. Check out my
+              <em class=${classes.strong}>Erick Merchant.</em>
+              I've been employed as a web developer for
+              <em class=${classes.strong}>
+                ${new Date().getFullYear() - 2006}
+              </em>
+              years. This is my web development blog. Check out my
               <a
                 class=${classes.aboutAnchor}
                 href="https://github.com/erickmerchant"

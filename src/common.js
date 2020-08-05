@@ -172,7 +172,7 @@ export const createPostsModel = (fetch) => {
       return fetch('/content/posts/index.json').then((res) => res.json())
     },
 
-    async get(id) {
+    async getBySlug(id) {
       const posts = await this.getAll()
 
       const index = id != null ? posts.findIndex((post) => post.slug === id) : 0

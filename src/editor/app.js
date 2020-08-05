@@ -117,7 +117,7 @@ const dispatchLocation = async (segments) => {
     if (segments.initial === 'posts/edit') {
       const id = segments.last
 
-      const post = await postModel.get(id)
+      const post = await postModel.getBySlug(id)
 
       if (post == null) throw Error(`post "${id}" not found`)
 

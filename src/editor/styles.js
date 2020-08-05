@@ -41,7 +41,10 @@ export const _start = `
 
 const button = `
   appearance: none;
-  padding: 0.5em 1.5em;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  padding-right: 1.5em;
+  padding-left: 1.5em;
   border: none;
   border-radius: ${borderRadius};
   border: 1px solid ${colors.blue};
@@ -76,14 +79,18 @@ export const styles = {
     border: 5px solid transparent;
   `,
   headerHeading: `
-    padding: 0.5em 0;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
     font-size: 1.5em;
     font-weight: ${fontWeights.heading};
   `,
   createButton: button,
   textButton: `
     appearance: none;
-    padding: 0.5em 1.5em;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    padding-right: 1.5em;
+    padding-left: 1.5em;
     background: transparent;
     border: 1px solid white;
     border-radius: ${borderRadius};
@@ -121,7 +128,9 @@ export const styles = {
     font-weight: ${fontWeights.bold};
   `,
   td: `
-    padding: 1em 1em 1em 0;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    padding-right: 1em;
 
     :last-child {
       padding-right: 0;
@@ -177,7 +186,8 @@ export const styles = {
   textareaWrap: `
     position: relative;
     width: 100%;
-    margin: 0 auto;
+    margin-right: auto;
+    margin-left: auto;
     border-radius: ${borderRadius};
     border: 1px solid ${colors.silver};
   `,
