@@ -153,7 +153,7 @@ export const styles = {
     font-weight: ${fontWeights.bold};
   `,
   main: `
-    width: min(calc(30em + (${paddingX} * 2)), 100%);
+    max-width: calc(30em + (${paddingX} * 2));
     padding-right: ${paddingX};
     padding-left: ${paddingX};
     margin-right: auto;
@@ -161,8 +161,6 @@ export const styles = {
 
     ${tabletUp} {
       grid-column: 2;
-      margin-right: 0;
-      margin-left: 0;
     }
   `,
   date: `
@@ -249,6 +247,9 @@ export const styles = {
   asideInner: `
     padding-right: ${paddingX};
     padding-left: ${paddingX};
+    max-width: calc(30em + (${paddingX} * 2));
+    margin-left: auto;
+    margin-right: auto;
 
     ${tabletUp} {
       position: sticky;
@@ -309,7 +310,6 @@ export const styles = {
     display: flex;
     justify-content: center;
     list-style: none;
-    display: flex;
     font-weight: ${fontWeights.bold};
     border-top: 1px solid ${colors.gray};
     padding-top: 1em;
