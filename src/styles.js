@@ -77,7 +77,6 @@ export const styles = {
   heading2: `
     ${heading}
 
-    font-size: 1em;
     font-weight: ${fontWeights.heading2};
   `,
   strong: `
@@ -154,12 +153,16 @@ export const styles = {
     font-weight: ${fontWeights.bold};
   `,
   main: `
-    width: min(40em, 100%);
+    width: min(calc(30em + (${paddingX} * 2)), 100%);
     padding-right: ${paddingX};
     padding-left: ${paddingX};
+    margin-right: auto;
+    margin-left: auto;
 
     ${tabletUp} {
       grid-column: 2;
+      margin-right: 0;
+      margin-left: 0;
     }
   `,
   date: `
