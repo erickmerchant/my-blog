@@ -138,14 +138,17 @@ export const styles = {
     }
   `,
   tableControls: `
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    text-align: center;
+  `,
+  tableControl: (styles) => `
+    ${styles.textButton}
+
+    display: inline-block;
   `,
   form: `
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-gap: 1.5em;
+    gap: 1.5em;
     position: absolute;
     top: 0;
     right: 0;
@@ -261,7 +264,7 @@ export const styles = {
     justify-self: end;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-gap: 1em;
+    gap: 1em;
   `,
   cancelButton: (styles) => `
     ${styles.textButton}

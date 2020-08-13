@@ -206,7 +206,7 @@ export const createComponent = (
       ${state.route !== ''
         ? html`
             <footer class=${classes.footer}>
-              <nav>
+              <nav class=${classes.footerNav}>
                 <ul class=${classes.footerNavList}>
                   ${extraFooterLink}
                   <li class=${classes.footerNavItem}>

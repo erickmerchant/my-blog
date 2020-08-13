@@ -314,14 +314,14 @@ const view = createDomView(
                           <div class=${classes.tableControls}>
                             <a
                               tabindex="0"
-                              class=${classes.textButton}
+                              class=${classes.tableControl}
                               href=${`#/posts/edit/${post.slug}`}
                             >
                               Edit
                             </a>
                             <a
                               tabindex="0"
-                              class=${classes.textButton}
+                              class=${classes.tableControl}
                               target="_blank"
                               href=${`/posts/${post.slug}`}
                             >

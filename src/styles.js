@@ -107,7 +107,7 @@ export const styles = {
   `,
   codeBlock: `
     font-family: Consolas, monaco, monospace;
-    font-size: 0.75em;
+    font-size: 0.875em;
     color: ${colors.green2};
   `,
   anchor: `
@@ -141,10 +141,11 @@ export const styles = {
     padding-bottom: 1em;
     background-color: ${colors.green1};
     color: white;
-    display: flex;
+    display: grid;
     justify-content: center;
     position: sticky;
     top: 0;
+    z-index: 1;
 
     ${tabletUp} {
       display: none;
@@ -178,23 +179,17 @@ export const styles = {
     fill: currentcolor;
   `,
   paginationList: `
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(10em, 1fr));
+    gap: 1em;
     padding-top: 1em;
     margin-bottom: 2em;
     color: white;
     text-align: center;
     list-style: none;
-    flex-direction: column;
-
-    ${tabletUp} {
-      flex-direction: row;
-    }
   `,
   paginationItemDisabled: `
-    margin-top: 1em;
     position: relative;
-    flex: 1 1;
     padding-top: 1em;
     padding-bottom: 1em;
     padding-right: 3em;
@@ -202,14 +197,7 @@ export const styles = {
     border-radius: ${borderRadius};
     font-weight: ${fontWeights.bold};
     background-color: ${colors.gray};
-
-    ${tabletUp} {
-      margin-right: 1em;
-
-      :last-child {
-        margin-right: 0;
-      }
-    }
+    font-size: 0.875em;
   `,
   paginationItemEnabled: (styles) => `
     ${styles.paginationItemDisabled}
@@ -257,9 +245,8 @@ export const styles = {
       position: sticky;
       top: 0;
       height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+      display: grid;
+      gird-template: 1fr 1fr;
       overflow-y: scroll;
     }
   `,
@@ -276,10 +263,6 @@ export const styles = {
   `,
   aboutContent: `
     padding-bottom: 1em;
-    flex: auto;
-    justify-content: center;
-    display: flex;
-    flex-direction: column;
   `,
   aboutHeading: `
     ${heading}
@@ -295,12 +278,12 @@ export const styles = {
     }
   `,
   aboutParagraph: `
-    font-size: 0.75em;
+    font-size: 0.875em;
   `,
   footer: `
     background-color: ${colors.lightGray};
     color: ${colors.darkGray};
-    font-size: 0.75em;
+    font-size: 0.875em;
 
     ${tabletUp} {
       background-color: white;
@@ -308,10 +291,9 @@ export const styles = {
       grid-column: 2;
     }
   `,
-  footerNavList: `
-    display: flex;
+  footerNav: `
+    display: grid;
     justify-content: center;
-    list-style: none;
     font-weight: ${fontWeights.bold};
     border-top: 1px solid ${colors.gray};
     padding-top: 1em;
@@ -323,9 +305,16 @@ export const styles = {
       border-color: ${colors.lightGray};
     }
   `,
+  footerNavList: `
+    list-style: none;
+    text-align: center;
+  `,
   footerNavItem: `
+    display: inline-block;
     margin-right: 0.5em;
     margin-left: 0.5em;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
   `,
   footerNavAnchor: `
     color: ${colors.green1};
