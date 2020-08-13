@@ -55,13 +55,13 @@ const heading = `
 export const styles = {
   app: `
     display: grid;
-    height: 100%;
+    min-height: 100%;
     font-size: max(20px, 1vw);
     font-weight: ${fontWeights.normal};
     line-height: 1.5;
     color: ${colors.darkGray};
     grid-template-columns: 100%;
-    grid-template-rows: max-content 1fr max-content max-content;
+    grid-template-rows: max-content auto max-content max-content;
 
     ${tabletUp} {
       grid-template-columns: 1fr 2fr;
@@ -143,6 +143,8 @@ export const styles = {
     color: white;
     display: flex;
     justify-content: center;
+    position: sticky;
+    top: 0;
 
     ${tabletUp} {
       display: none;
