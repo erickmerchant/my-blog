@@ -180,7 +180,7 @@ export const styles = {
   `,
   paginationList: `
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(10em, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(7em, 1fr));
     gap: 1em;
     padding-top: 1em;
     margin-bottom: 2em;
@@ -192,8 +192,6 @@ export const styles = {
     position: relative;
     padding-top: 1em;
     padding-bottom: 1em;
-    padding-right: 3em;
-    padding-left: 3em;
     border-radius: ${borderRadius};
     font-weight: ${fontWeights.bold};
     background-color: ${colors.gray};
