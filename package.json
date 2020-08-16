@@ -11,7 +11,7 @@
     "test": "npm run lint"
   },
   "dependencies": {
-    "@erickmerchant/css": "^23.2.1",
+    "@erickmerchant/css": "^23.2.2",
     "@erickmerchant/dev-cli": "^18.2.0",
     "@erickmerchant/framework": "^39.0.0",
     "cheerio": "^1.0.0-rc.3",

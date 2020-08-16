@@ -244,7 +244,7 @@ export const styles = {
       top: 0;
       height: 100vh;
       display: grid;
-      gird-template: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
       overflow-y: scroll;
     }
   `,
