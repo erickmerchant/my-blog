@@ -15,9 +15,7 @@ const colors = {
 
 const borderRadius = '3px'
 
-const paddingX = 'max(10px, 2vw)'
-
-const tabletUp = '@media (min-width: 768px)'
+const tabletUp = '@media (min-width: 1024px)'
 
 export const _start = `
   @font-face {
@@ -156,14 +154,19 @@ export const styles = {
     font-weight: ${fontWeights.bold};
   `,
   main: `
-    max-width: calc(30em + (${paddingX} * 2));
-    padding-right: ${paddingX};
-    padding-left: ${paddingX};
+    max-width: 31em;
+    padding-right: 0.5em;
+    padding-left: 0.5em;
     margin-right: auto;
     margin-left: auto;
 
     ${tabletUp} {
+      max-width: 34em;
+      padding-right: 2em;
+      padding-left: 2em;
       grid-column: 2;
+      margin-right: 0;
+      margin-left: 0;
     }
   `,
   date: `
@@ -233,13 +236,16 @@ export const styles = {
     }
   `,
   asideInner: `
-    padding-right: ${paddingX};
-    padding-left: ${paddingX};
-    max-width: calc(30em + (${paddingX} * 2));
+    max-width: 31em;
+    padding-right: 0.5em;
+    padding-left: 0.5em;
     margin-left: auto;
     margin-right: auto;
 
     ${tabletUp} {
+      max-width: 34em;
+      padding-right: 2em;
+      padding-left: 2em;
       position: sticky;
       top: 0;
       height: 100vh;
@@ -281,12 +287,17 @@ export const styles = {
   footer: `
     background-color: ${colors.lightGray};
     color: ${colors.darkGray};
-    font-size: 0.875em;
+    padding-right: 0.5em;
+    padding-left: 0.5em;
+    width: 100%;
 
     ${tabletUp} {
+      max-width: 34em;
       background-color: white;
       color: ${colors.darkGray};
       grid-column: 2;
+      padding-right: 2em;
+      padding-left: 2em;
     }
   `,
   footerNav: `
@@ -296,16 +307,18 @@ export const styles = {
     border-top: 1px solid ${colors.gray};
     padding-top: 1em;
     padding-bottom: 1em;
-    margin-right: 3em;
-    margin-left: 3em;
+    max-width: 31em;
+    margin-right: auto;
+    margin-left: auto;
 
     ${tabletUp} {
+      max-width: 100%;
       border-color: ${colors.lightGray};
     }
   `,
   footerNavList: `
     list-style: none;
-    text-align: center;
+    font-size: 0.875em;
   `,
   footerNavItem: `
     display: inline-block;
