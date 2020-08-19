@@ -256,7 +256,7 @@ export const styles = {
     }
   `,
   aboutContent: `
-    grid-row: 3 / span 1;
+    grid-row: 3;
     padding-bottom: 1em;
     background-color: ${colors.lightGray};
     color: ${colors.darkGray};
