@@ -83,11 +83,38 @@ export const createComponent = (
 
   return (state) => html`
     <body class=${classes.app}>
-      <header class=${classes.header}>
-        <a ${anchorAttrs('/')} class=${classes.headerAnchor}>
-          ErickMerchant.com
-        </a>
-      </header>
+      <div class=${classes.hero}>
+        <div class=${classes.heroInner}>
+          <header class=${classes.header}>
+            <a ${anchorAttrs('/')} class=${classes.headerAnchor}>
+              ErickMerchant.com
+            </a>
+          </header>
+          <aside class=${classes.aboutContent}>
+            <div class=${classes.aboutContentInner}>
+              <h3 class=${classes.aboutHeading}>
+                About Me
+              </h3>
+              <p class=${classes.aboutParagraph}>
+                I'm
+                <em class=${classes.strong}>Erick Merchant.</em>
+                I've been employed as a web developer for
+                <em class=${classes.strong}>
+                  ${new Date().getFullYear() - 2006}
+                </em>
+                years. This is my web development blog. Check out my
+                <a
+                  class=${classes.aboutAnchor}
+                  href="https://github.com/erickmerchant"
+                >
+                  open-source projects
+                </a>
+                on Github.
+              </p>
+            </div>
+          </aside>
+        </div>
+      </div>
       ${() => {
         if (state.route === 'post') {
           return html`
@@ -173,36 +200,6 @@ export const createComponent = (
           </section>
         `
       }}
-      <aside class=${classes.aside}>
-        <div class=${classes.asideInner}>
-          <header class=${classes.asideHeader}>
-            <a ${anchorAttrs('/')} class=${classes.headerAnchor}>
-              ErickMerchant.com
-            </a>
-          </header>
-          <div class=${classes.aboutContent}>
-            <h3 class=${classes.aboutHeading}>
-              About Me
-            </h3>
-            <p class=${classes.aboutParagraph}>
-              I'm
-              <em class=${classes.strong}>Erick Merchant.</em>
-              I've been employed as a web developer for
-              <em class=${classes.strong}>
-                ${new Date().getFullYear() - 2006}
-              </em>
-              years. This is my web development blog. Check out my
-              <a
-                class=${classes.aboutAnchor}
-                href="https://github.com/erickmerchant"
-              >
-                open-source projects
-              </a>
-              on Github.
-            </p>
-          </div>
-        </div>
-      </aside>
       ${state.route !== ''
         ? html`
             <footer class=${classes.footer}>

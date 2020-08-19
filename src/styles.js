@@ -134,21 +134,6 @@ export const styles = {
     margin-top: 1em;
     margin-bottom: 1em;
   `,
-  header: `
-    padding-top: 1em;
-    padding-bottom: 1em;
-    background-color: ${colors.green1};
-    color: white;
-    display: grid;
-    justify-content: center;
-    position: sticky;
-    top: 0;
-    z-index: 1;
-
-    ${tabletUp} {
-      display: none;
-    }
-  `,
   headerAnchor: `
     color: white;
     font-weight: ${fontWeights.bold};
@@ -225,22 +210,18 @@ export const styles = {
       border-radius: ${borderRadius};
     }
   `,
-  aside: `
-    background-color: ${colors.lightGray};
-    color: ${colors.darkGray};
+  hero: `
+    display: contents;
 
     ${tabletUp} {
+      display: block;
       grid-row: 1 / -1;
       background-color: ${colors.green1};
       color: white;
     }
   `,
-  asideInner: `
-    max-width: 31em;
-    padding-right: 0.5em;
-    padding-left: 0.5em;
-    margin-left: auto;
-    margin-right: auto;
+  heroInner: `
+    display: contents;
 
     ${tabletUp} {
       max-width: 34em;
@@ -254,19 +235,49 @@ export const styles = {
       overflow-y: scroll;
     }
   `,
-  asideHeader: `
-    ${heading}
-
-    display: none;
-    font-size: 1.5em;
+  header: `
     font-weight: ${fontWeights.heading1};
+    padding-top: 1em;
+    padding-bottom: 1em;
+    background-color: ${colors.green1};
+    color: white;
+    display: grid;
+    justify-content: center;
+    position: sticky;
+    top: 0;
+    z-index: 1;
 
     ${tabletUp} {
+      ${heading}
+
       display: block;
+      font-size: 1.5em;
+      padding-top: 0;
     }
   `,
   aboutContent: `
+    grid-row: 3 / span 1;
     padding-bottom: 1em;
+    background-color: ${colors.lightGray};
+    color: ${colors.darkGray};
+
+    ${tabletUp} {
+      grid-row: 2;
+      background: inherit;
+      color: inherit;
+      font-size: 1em;
+    }
+  `,
+  aboutContentInner: `
+    max-width: 31em;
+    padding-right: 0.5em;
+    padding-left: 0.5em;
+    margin-right: auto;
+    margin-left: auto;
+
+    ${tabletUp} {
+      display: contents;
+    }
   `,
   aboutHeading: `
     ${heading}
