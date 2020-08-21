@@ -310,32 +310,30 @@ const view = createDomView(
                         <td class=${classes.td}>
                           ${prettyDate(post.date)}
                         </td>
-                        <td class=${classes.td}>
-                          <div class=${classes.tableControls}>
-                            <a
-                              tabindex="0"
-                              class=${classes.tableControl}
-                              href=${`#/posts/edit/${post.slug}`}
-                            >
-                              Edit
-                            </a>
-                            <a
-                              tabindex="0"
-                              class=${classes.tableControl}
-                              target="_blank"
-                              href=${`/posts/${post.slug}`}
-                            >
-                              View
-                            </a>
-                            <button
-                              tabindex="0"
-                              class=${classes.deleteButton}
-                              type="button"
-                              onclick=${remove(post)}
-                            >
-                              Delete
-                            </button>
-                          </div>
+                        <td class=${classes.tableControls}>
+                          <a
+                            tabindex="0"
+                            class=${classes.tableControl}
+                            href=${`#/posts/edit/${post.slug}`}
+                          >
+                            Edit
+                          </a>
+                          <a
+                            tabindex="0"
+                            class=${classes.tableControl}
+                            target="_blank"
+                            href=${`/posts/${post.slug}`}
+                          >
+                            View
+                          </a>
+                          <button
+                            tabindex="0"
+                            class=${classes.deleteButton}
+                            type="button"
+                            onclick=${remove(post)}
+                          >
+                            Delete
+                          </button>
                         </td>
                       </tr>
                     `

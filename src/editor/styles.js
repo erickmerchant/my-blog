@@ -131,14 +131,11 @@ export const styles = {
     padding-top: 1em;
     padding-bottom: 1em;
     padding-right: 1em;
-
-    :last-child {
-      padding-right: 0;
-      text-align: right;
-    }
   `,
-  tableControls: `
+  tableControls: () => `
+    ${styles.td}
     text-align: center;
+    padding-right: 0;
   `,
   tableControl: (styles) => `
     ${styles.textButton}
