@@ -40,6 +40,16 @@ export const dispatchLocation = async (app, postModel, segments) => {
   }
 }
 
+const yearsSince = (year, month) => {
+  const thenAsFloat = year + (month + 1) / 12
+
+  const now = new Date()
+
+  const nowAsFloat = now.getFullYear() + (now.getMonth() + 1) / 12
+
+  return Math.floor(nowAsFloat - thenAsFloat)
+}
+
 export const createComponent = (
   app,
   classes,
@@ -100,7 +110,7 @@ export const createComponent = (
                 <em class=${classes.strong}>Erick Merchant.</em>
                 I've been employed as a web developer for
                 <em class=${classes.strong}>
-                  ${new Date().getFullYear() - 2006}
+                  ${yearsSince(2006, 6)}
                 </em>
                 years. This is my web development blog. Check out my
                 <a

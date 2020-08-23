@@ -263,7 +263,7 @@ export const styles = {
 
     ${tabletUp} {
       grid-row: 2;
-      background: inherit;
+      background-color: inherit;
       color: inherit;
       font-size: 1em;
     }
