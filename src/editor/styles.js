@@ -91,7 +91,7 @@ export const styles = {
     padding-bottom: 0.5em;
     padding-right: 1.5em;
     padding-left: 1.5em;
-    background: transparent;
+    background-color: transparent;
     border: 1px solid white;
     border-radius: ${borderRadius};
     box-shadow: none;
@@ -176,7 +176,7 @@ export const styles = {
   inputReadOnly: (styles) => `
     ${styles.input}
 
-    background: ${colors.silver};
+    background-color: ${colors.silver};
   `,
   inputLarge: (styles) => `
     ${styles.input}
