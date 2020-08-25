@@ -102,16 +102,12 @@ export const createComponent = (
           </header>
           <aside class=${classes.aboutContent}>
             <div class=${classes.aboutContentInner}>
-              <h3 class=${classes.aboutHeading}>
-                About Me
-              </h3>
+              <h3 class=${classes.aboutHeading}>About Me</h3>
               <p class=${classes.aboutParagraph}>
                 I'm
                 <em class=${classes.strong}>Erick Merchant.</em>
                 I've been employed as a web developer for
-                <em class=${classes.strong}>
-                  ${yearsSince(2006, 6)}
-                </em>
+                <em class=${classes.strong}>${yearsSince(2006, 6)}</em>
                 years. This is my web development blog. Check out my
                 <a
                   class=${classes.aboutAnchor}
@@ -144,9 +140,7 @@ export const createComponent = (
                       fill="white"
                     />
                   </svg>
-                  <span>
-                    ${prettyDate(state.post.date)}
-                  </span>
+                  <span>${prettyDate(state.post.date)}</span>
                 </time>
               </header>
               ${contentComponent(state.post.content ?? '', {

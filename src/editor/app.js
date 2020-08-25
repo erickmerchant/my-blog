@@ -307,9 +307,7 @@ const view = createDomView(
                     (post) => html`
                       <tr>
                         <td class=${classes.td}>${post.title}</td>
-                        <td class=${classes.td}>
-                          ${prettyDate(post.date)}
-                        </td>
+                        <td class=${classes.td}>${prettyDate(post.date)}</td>
                         <td class=${classes.tableControls}>
                           <a
                             tabindex="0"
