@@ -41,7 +41,7 @@ const program = async () => {
       const [
         {classes},
         {createComponent},
-        {getSegments, contentComponent}
+        {getSegments, contentComponent, prettyDate}
       ] = await Promise.all([
         import('./src/css/styles.js'),
         import('./src/main.js'),
@@ -49,13 +49,14 @@ const program = async () => {
       ])
 
       const state = {route: '', title: ''}
-      const component = createComponent(
-        {},
+      const component = createComponent({
+        app: {},
+        postModel: {},
         classes,
-        () => {},
+        contentComponent,
         getSegments,
-        contentComponent
-      )
+        prettyDate
+      })
 
       const $body = cheerio.load(stringify(component(state)))('body')
 

@@ -10,7 +10,7 @@ const unfound = {
   )
 }
 
-export const dispatchLocation = async (app, postModel, segments) => {
+export const dispatchLocation = async ({app, postModel, segments}) => {
   const posts = await postModel.getAll()
 
   let post
@@ -50,12 +50,15 @@ const yearsSince = (year, month) => {
   return Math.floor(nowAsFloat - thenAsFloat)
 }
 
-export const createComponent = (
+export const createComponent = ({
   app,
   classes,
   postModel,
-  {contentComponent, extraFooterLink, getSegments, prettyDate}
-) => {
+  contentComponent,
+  extraFooterLink,
+  getSegments,
+  prettyDate
+}) => {
   const anchorAttrs = (href) => {
     return {
       href,
@@ -64,7 +67,7 @@ export const createComponent = (
 
         window.history.pushState({}, null, href)
 
-        dispatchLocation(app, postModel, getSegments(href))
+        dispatchLocation({app, postModel, segments: getSegments(href)})
 
         window.scroll(0, 0)
       }
@@ -209,7 +212,7 @@ export const createComponent = (
             <footer class=${classes.footer}>
               <nav class=${classes.footerNav}>
                 <ul class=${classes.footerNavList}>
-                  ${extraFooterLink}
+                  ${extraFooterLink ?? ''}
                   <li class=${classes.footerNavItem}>
                     <a
                       class=${classes.footerNavAnchor}
@@ -230,10 +233,18 @@ export const createComponent = (
   `
 }
 
-export const setupApp = (app, postModel, getSegments) => {
+export const setupApp = ({app, postModel, getSegments}) => {
   window.onpopstate = () => {
-    dispatchLocation(app, postModel, getSegments(document.location.pathname))
+    dispatchLocation({
+      app,
+      postModel,
+      segments: getSegments(document.location.pathname)
+    })
   }
 
-  dispatchLocation(app, postModel, getSegments(document.location.pathname))
+  dispatchLocation({
+    app,
+    postModel,
+    segments: getSegments(document.location.pathname)
+  })
 }

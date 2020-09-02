@@ -54,18 +54,21 @@
           if (!isSetup) {
             isSetup = true
 
-            setupApp(app, postModel, getSegments)
+            setupApp({app, postModel, getSegments})
           } else {
-            dispatchLocation(
+            dispatchLocation({
               app,
               postModel,
-              getSegments(document.location.pathname)
-            )
+              segments: getSegments(document.location.pathname)
+            })
           }
 
           app.commit((state = Object.assign({}, initalState)) => state)
 
-          const component = createComponent(app, classes, postModel, {
+          const component = createComponent({
+            app,
+            classes,
+            postModel,
             contentComponent,
             extraFooterLink: html`
               <li class=${classes.footerNavItem}>

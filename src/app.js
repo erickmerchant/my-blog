@@ -22,11 +22,14 @@ const fetch = (url, options) => {
 
 const postModel = createPostsModel(fetch)
 
-setupApp(app, postModel, getSegments)
+setupApp({app, postModel, getSegments})
 
 const target = document.querySelector('body')
 
-const component = createComponent(app, classes, postModel, {
+const component = createComponent({
+  app,
+  classes,
+  postModel,
   contentComponent,
   getSegments,
   prettyDate
