@@ -22,8 +22,10 @@
 
       createContainer(
         [
+          'component.js',
           'main.js',
           'common.js',
+          'frontend.js',
           'css/styles.js',
           [
             /^content\/.*\.json$/,
@@ -44,8 +46,10 @@
         ],
         ['css/styles.css'],
         async (
-          {setupApp, dispatchLocation, initalState, createComponent},
+          {createComponent},
+          {createMainComponent},
           {contentComponent, getSegments, prettyDate, createPostsModel},
+          {setupApp, initialState, dispatchLocation, getAnchorAttrs},
           {classes},
           {fetch}
         ) => {
@@ -63,26 +67,26 @@
             })
           }
 
-          app.commit((state = Object.assign({}, initalState)) => state)
+          app.commit((state = Object.assign({}, initialState)) => state)
+
+          const anchorAttrs = getAnchorAttrs({
+            app,
+            postModel,
+            getSegments
+          })
+
+          const mainComponent = createMainComponent({
+            classes,
+            contentComponent,
+            prettyDate,
+            anchorAttrs
+          })
 
           const component = createComponent({
-            app,
             classes,
-            postModel,
             contentComponent,
-            extraFooterLink: html`
-              <li class=${classes.footerNavItem}>
-                <a
-                  class=${classes.footerNavAnchor}
-                  href="/editor.html"
-                  target="_blank"
-                >
-                  Edit
-                </a>
-              </li>
-            `,
-            getSegments,
-            prettyDate
+            mainComponent,
+            anchorAttrs
           })
 
           const view = createDomView(target, component)

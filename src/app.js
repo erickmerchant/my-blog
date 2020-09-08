@@ -1,12 +1,14 @@
 import {createDomView, createApp} from '@erickmerchant/framework/main.js'
 import {classes} from './css/styles.js'
-import {createComponent, initialState, setupApp} from './main.js'
+import {createMainComponent} from './main.js'
+import {createComponent} from './component.js'
 import {
   contentComponent,
   getSegments,
   prettyDate,
   createPostsModel
 } from './common.js'
+import {setupApp, initialState, getAnchorAttrs} from './frontend.js'
 
 const app = createApp(Object.assign({}, initialState))
 
@@ -26,13 +28,24 @@ setupApp({app, postModel, getSegments})
 
 const target = document.querySelector('body')
 
-const component = createComponent({
+const anchorAttrs = getAnchorAttrs({
   app,
-  classes,
   postModel,
+  getSegments
+})
+
+const mainComponent = createMainComponent({
+  classes,
   contentComponent,
-  getSegments,
-  prettyDate
+  prettyDate,
+  anchorAttrs
+})
+
+const component = createComponent({
+  classes,
+  contentComponent,
+  mainComponent,
+  anchorAttrs
 })
 
 const view = createDomView(target, component)

@@ -5,6 +5,7 @@ import fs from 'fs'
 import cheerio from 'cheerio'
 import execa from 'execa'
 import {stringify} from '@erickmerchant/framework/stringify.js'
+import {html} from '@erickmerchant/framework/main.js'
 
 const readFile = promisify(fs.readFile)
 const writeFile = promisify(fs.writeFile)
@@ -41,21 +42,24 @@ const program = async () => {
       const [
         {classes},
         {createComponent},
-        {getSegments, contentComponent, prettyDate}
+        {contentComponent}
       ] = await Promise.all([
         import('./src/css/styles.js'),
-        import('./src/main.js'),
+        import('./src/component.js'),
         import('./src/common.js')
       ])
 
       const state = {route: '', title: ''}
       const component = createComponent({
-        app: {},
-        postModel: {},
         classes,
         contentComponent,
-        getSegments,
-        prettyDate
+        mainComponent: () =>
+          html`
+            <article></article>
+          `,
+        anchorAttrs: (href) => {
+          return {href}
+        }
       })
 
       const $body = cheerio.load(stringify(component(state)))('body')
