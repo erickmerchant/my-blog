@@ -50,6 +50,15 @@ const yearsSince = (year, month) => {
   return Math.floor(nowAsFloat - thenAsFloat)
 }
 
+const aboutContent = `
+# About Me
+
+I'm *Erick Merchant*. I've been employed as a web developer for *${yearsSince(
+  2006,
+  6
+)}* years. This is my web development blog. Check out my [open-source projects](https://github.com/erickmerchant) on Github.
+`
+
 export const createComponent = ({
   app,
   classes,
@@ -59,6 +68,47 @@ export const createComponent = ({
   getSegments,
   prettyDate
 }) => {
+  const contentTemplates = {
+    bold: (text) =>
+      html`
+        <strong class=${classes.strong}>${text}</strong>
+      `,
+    codeBlock: (items) =>
+      html`
+        <pre
+          class=${classes.pre}
+        ><code class=${classes.codeBlock}>${items}</code></pre>
+      `,
+    codeInline: (text) =>
+      html`
+        <code class=${classes.code}>${text}</code>
+      `,
+    heading: (text) =>
+      html`
+        <h2 class=${classes.heading2}>${text}</h2>
+      `,
+    link: (text, href) =>
+      html`
+        <a class=${classes.anchor} href=${href}>${text}</a>
+      `,
+    list: (items) =>
+      html`
+        <ul class=${classes.list}>
+          ${items}
+        </ul>
+      `,
+    listItem: (items) =>
+      html`
+        <li class=${classes.listItem}>${items}</li>
+      `,
+    paragraph: (items) =>
+      items.length
+        ? html`
+            <p class=${classes.paragraph}>${items}</p>
+          `
+        : null
+  }
+
   const anchorAttrs = (href) => {
     return {
       href,
@@ -105,21 +155,25 @@ export const createComponent = ({
           </header>
           <aside class=${classes.aboutContent}>
             <div class=${classes.aboutContentInner}>
-              <h3 class=${classes.aboutHeading}>About Me</h3>
-              <p class=${classes.aboutParagraph}>
-                I'm
-                <em class=${classes.strong}>Erick Merchant.</em>
-                I've been employed as a web developer for
-                <em class=${classes.strong}>${yearsSince(2006, 6)}</em>
-                years. This is my web development blog. Check out my
-                <a
-                  class=${classes.aboutAnchor}
-                  href="https://github.com/erickmerchant"
-                >
-                  open-source projects
-                </a>
-                on Github.
-              </p>
+              ${contentComponent(
+                aboutContent,
+                Object.assign({}, contentTemplates, {
+                  heading: (text) =>
+                    html`
+                      <h3 class=${classes.aboutHeading}>${text}</h3>
+                    `,
+                  link: (text, href) =>
+                    html`
+                      <a class=${classes.aboutAnchor} href=${href}>${text}</a>
+                    `,
+                  paragraph: (items) =>
+                    items.length
+                      ? html`
+                          <p class=${classes.aboutParagraph}>${items}</p>
+                        `
+                      : null
+                })
+              )}
             </div>
           </aside>
         </div>
@@ -146,46 +200,7 @@ export const createComponent = ({
                   <span>${prettyDate(state.post.date)}</span>
                 </time>
               </header>
-              ${contentComponent(state.post.content ?? '', {
-                bold: (text) =>
-                  html`
-                    <strong class=${classes.strong}>${text}</strong>
-                  `,
-                codeBlock: (items) =>
-                  html`
-                    <pre
-                      class=${classes.pre}
-                    ><code class=${classes.codeBlock}>${items}</code></pre>
-                  `,
-                codeInline: (text) =>
-                  html`
-                    <code class=${classes.code}>${text}</code>
-                  `,
-                heading: (text) =>
-                  html`
-                    <h2 class=${classes.heading2}>${text}</h2>
-                  `,
-                link: (text, href) =>
-                  html`
-                    <a class=${classes.anchor} href=${href}>${text}</a>
-                  `,
-                list: (items) =>
-                  html`
-                    <ul class=${classes.list}>
-                      ${items}
-                    </ul>
-                  `,
-                listItem: (items) =>
-                  html`
-                    <li class=${classes.listItem}>${items}</li>
-                  `,
-                paragraph: (items) =>
-                  items.length
-                    ? html`
-                        <p class=${classes.paragraph}>${items}</p>
-                      `
-                    : null
-              })}
+              ${contentComponent(state.post.content ?? '', contentTemplates)}
               ${state.post.prev || state.post.next
                 ? html`
                     <nav>
