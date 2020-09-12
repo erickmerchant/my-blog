@@ -51,9 +51,9 @@ export const createComponent = ({
                         <p class=${classes.aboutParagraph}>${items}</p>
                       `
                     : null,
-                bold: () =>
+                bold: (text) =>
                   html`
-                    <strong class=${classes.strong}></strong>
+                    <strong class=${classes.strong}>${text}</strong>
                   `
               })}
             </div>
