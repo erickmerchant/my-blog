@@ -5,7 +5,7 @@ import {createComponent} from './component.js'
 import {
   contentComponent,
   getSegments,
-  prettyDate,
+  dateUtils,
   createPostsModel
 } from './common.js'
 import {setupApp, initialState, getAnchorAttrs} from './frontend.js'
@@ -37,7 +37,7 @@ const anchorAttrs = getAnchorAttrs({
 const mainComponent = createMainComponent({
   classes,
   contentComponent,
-  prettyDate,
+  dateUtils,
   anchorAttrs
 })
 

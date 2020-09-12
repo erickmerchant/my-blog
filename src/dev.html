@@ -48,7 +48,7 @@
         async (
           {createComponent},
           {createMainComponent},
-          {contentComponent, getSegments, prettyDate, createPostsModel},
+          {contentComponent, getSegments, dateUtils, createPostsModel},
           {setupApp, initialState, dispatchLocation, getAnchorAttrs},
           {classes},
           {fetch}
@@ -78,7 +78,7 @@
           const mainComponent = createMainComponent({
             classes,
             contentComponent,
-            prettyDate,
+            dateUtils,
             anchorAttrs
           })
 
