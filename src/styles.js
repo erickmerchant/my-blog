@@ -163,7 +163,6 @@ export const styles = {
   dateIcon: `
     height: 0.8em;
     margin-right: 0.25em;
-    fill: currentcolor;
   `,
   dateIconContainer: `
     fill: ${colors.darkGray};
