@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="The personal site of Erick Merchant." />
+    <link href="/css/styles.css" rel="stylesheet" />
     <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
     <title>A Web Development Blog</title>
     <script type="module">
@@ -17,39 +18,29 @@
       let isSetup = false
 
       createContainer(
-        [
-          'component.js',
-          'main.js',
-          'common.js',
-          'frontend.js',
-          'css/styles.js',
-          [
-            /^content\/.*\.json$/,
-            () => {
-              const key = `/content/posts/index.json`
+        ['component.js', 'main.js', 'common.js', 'frontend.js', 'css/styles.js'],
+        async ({
+          createComponent,
+          createMainComponent,
+          contentComponent,
+          getSegments,
+          dateUtils,
+          createPostsModel,
+          setupApp,
+          initialState,
+          dispatchLocation,
+          getAnchorAttrs,
+          classes
+        }) => {
+          const key = `/content/posts/index.json`
 
-              const promise = fetch(`${key}?${Date.now()}`)
+          const promise = fetch(`${key}?${Date.now()}`)
 
-              return {
-                fetch(url, options) {
-                  if (url === key) return promise.then((res) => res.clone())
+          const postModel = createPostsModel((url, options) => {
+            if (url === key) return promise.then((res) => res.clone())
 
-                  return fetch(url, options)
-                }
-              }
-            }
-          ]
-        ],
-        ['css/styles.css'],
-        async (
-          {createComponent},
-          {createMainComponent},
-          {contentComponent, getSegments, dateUtils, createPostsModel},
-          {setupApp, initialState, dispatchLocation, getAnchorAttrs},
-          {classes},
-          {fetch}
-        ) => {
-          const postModel = createPostsModel(fetch)
+            return fetch(url, options)
+          })
 
           if (!isSetup) {
             isSetup = true
