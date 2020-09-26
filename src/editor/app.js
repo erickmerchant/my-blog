@@ -442,7 +442,7 @@ const view = createDomView(
 app.render(view)
 
 window.onpopstate = () => {
-  dispatchLocation(getSegments(document.location.hash.substring(1)))
+  dispatchLocation(getSegments(window.location.hash.substring(1)))
 }
 
-dispatchLocation(getSegments(document.location.hash.substring(1)))
+dispatchLocation(getSegments(window.location.hash.substring(1)))

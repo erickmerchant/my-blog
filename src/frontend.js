@@ -43,14 +43,14 @@ export const setupApp = ({app, postModel, getSegments}) => {
     dispatchLocation({
       app,
       postModel,
-      segments: getSegments(document.location.pathname)
+      segments: getSegments(window.location.pathname)
     })
   }
 
   dispatchLocation({
     app,
     postModel,
-    segments: getSegments(document.location.pathname)
+    segments: getSegments(window.location.pathname)
   })
 }
 
