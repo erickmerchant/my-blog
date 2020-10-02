@@ -50,7 +50,43 @@ const heading = `
   }
 `
 
-export const styles = {
+const anchor = `
+  box-shadow: 0 0.1em 0 0 currentcolor;
+  color: ${colors.green1};
+  text-decoration: none;
+
+  :hover {
+    text-decoration: none;
+  }
+`
+
+const codeBlock = `
+  font-family: Consolas, monaco, monospace;
+  font-size: 0.875em;
+  color: ${colors.green2};
+`
+
+const paginationItemDisabled = `
+  position: relative;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  border-radius: ${borderRadius};
+  font-weight: ${fontWeights.bold};
+  background-color: ${colors.gray};
+  font-size: 0.875em;
+`
+
+const paginationItemEnabled = `
+  ${paginationItemDisabled}
+
+  background-color: ${colors.green1};
+
+  :focus, :hover {
+    filter: saturate(1.5);
+  }
+`
+
+export const classes = {
   app: `
     display: grid;
     min-height: 100%;
@@ -91,8 +127,8 @@ export const styles = {
     background-color: ${colors.darkGray};
     border-radius: ${borderRadius};
   `,
-  code: (styles) => `
-    ${styles.codeBlock}
+  code: `
+    ${codeBlock}
 
     font-weight: bold;
     color: ${colors.green1};
@@ -103,20 +139,8 @@ export const styles = {
       content: "\`";
     }
   `,
-  codeBlock: `
-    font-family: Consolas, monaco, monospace;
-    font-size: 0.875em;
-    color: ${colors.green2};
-  `,
-  anchor: `
-    box-shadow: 0 0.1em 0 0 currentcolor;
-    color: ${colors.green1};
-    text-decoration: none;
-
-    :hover {
-      text-decoration: none;
-    }
-  `,
+  codeBlock,
+  anchor,
   list: `
     margin-top: 1em;
     margin-bottom: 1em;
@@ -177,26 +201,10 @@ export const styles = {
     text-align: center;
     list-style: none;
   `,
-  paginationItemDisabled: `
-    position: relative;
-    padding-top: 1em;
-    padding-bottom: 1em;
-    border-radius: ${borderRadius};
-    font-weight: ${fontWeights.bold};
-    background-color: ${colors.gray};
-    font-size: 0.875em;
-  `,
-  paginationItemEnabled: (styles) => `
-    ${styles.paginationItemDisabled}
-
-    background-color: ${colors.green1};
-
-    :focus, :hover {
-      filter: saturate(1.5);
-    }
-  `,
-  paginationAnchor: (styles) => `
-    ${styles.anchor}
+  paginationItemDisabled,
+  paginationItemEnabled,
+  paginationAnchor: `
+    ${anchor}
 
     color: white;
 

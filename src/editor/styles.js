@@ -60,7 +60,47 @@ const button = `
   }
 `
 
-export const styles = {
+const textButton = `
+  appearance: none;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  padding-right: 1.5em;
+  padding-left: 1.5em;
+  background-color: transparent;
+  border: 1px solid white;
+  border-radius: ${borderRadius};
+  box-shadow: none;
+  color: ${colors.blue};
+  font-weight: ${fontWeights.bold};
+  text-decoration: none;
+  cursor: pointer;
+
+  :hover {
+    text-decoration: none;
+  }
+
+  :focus {
+    outline: 0;
+    border: 1px solid currentcolor;
+    filter: saturate(2);
+  }
+`
+
+const label = `
+  display: block;
+  margin-bottom: 0.5em;
+  font-weight: ${fontWeights.bold};
+`
+
+const input = `
+  width: 100%;
+  padding: 0.5em;
+  border-radius: ${borderRadius};
+  border: 1px solid ${colors.silver};
+  color: ${colors.black};
+`
+
+export const classes = {
   app: `
     max-width: 100vw;
     padding: 2em;
@@ -85,33 +125,9 @@ export const styles = {
     font-weight: ${fontWeights.heading};
   `,
   createButton: button,
-  textButton: `
-    appearance: none;
-    padding-top: 0.5em;
-    padding-bottom: 0.5em;
-    padding-right: 1.5em;
-    padding-left: 1.5em;
-    background-color: transparent;
-    border: 1px solid white;
-    border-radius: ${borderRadius};
-    box-shadow: none;
-    color: ${colors.blue};
-    font-weight: ${fontWeights.bold};
-    text-decoration: none;
-    cursor: pointer;
-
-    :hover {
-      text-decoration: none;
-    }
-
-    :focus {
-      outline: 0;
-      border: 1px solid currentcolor;
-      filter: saturate(2);
-    }
-  `,
-  deleteButton: (styles) => `
-    ${styles.textButton}
+  textButton,
+  deleteButton: `
+    ${textButton}
 
     color: ${colors.red};
   `,
@@ -120,25 +136,23 @@ export const styles = {
     border-collapse: collapse;
     border: 5px solid transparent;
   `,
-  th: (styles) => `
-    ${styles.td}
-
+  th: `
+    padding: 1em;
     border-bottom: 1px solid ${colors.silver};
     text-align: left;
     font-weight: ${fontWeights.bold};
   `,
   td: `
+    padding: 1em;
+  `,
+  tableControls: `
     padding-top: 1em;
     padding-bottom: 1em;
-    padding-right: 1em;
-  `,
-  tableControls: () => `
-    ${styles.td}
     text-align: center;
-    padding-right: 0;
+    float: right;
   `,
-  tableControl: (styles) => `
-    ${styles.textButton}
+  tableControl: `
+    ${textButton}
 
     display: inline-block;
   `,
@@ -156,30 +170,20 @@ export const styles = {
   formRow: `
     grid-column: 1 / span 2;
   `,
-  label: `
-    display: block;
-    margin-bottom: 0.5em;
-    font-weight: ${fontWeights.bold};
-  `,
-  labelLarge: (styles) => `
-    ${styles.label}
+  label,
+  labelLarge: `
+    ${label}
 
     font-size: 1.125em;
   `,
-  input: `
-    width: 100%;
-    padding: 0.5em;
-    border-radius: ${borderRadius};
-    border: 1px solid ${colors.silver};
-    color: ${colors.black};
-  `,
-  inputReadOnly: (styles) => `
-    ${styles.input}
+  input,
+  inputReadOnly: `
+    ${input}
 
     background-color: ${colors.silver};
   `,
-  inputLarge: (styles) => `
-    ${styles.input}
+  inputLarge: `
+    ${input}
 
     font-size: 1.25em;
   `,
@@ -263,8 +267,8 @@ export const styles = {
     grid-template-columns: 1fr 1fr;
     gap: 1em;
   `,
-  cancelButton: (styles) => `
-    ${styles.textButton}
+  cancelButton: `
+    ${textButton}
 
     margin-top: 1em;
   `,
