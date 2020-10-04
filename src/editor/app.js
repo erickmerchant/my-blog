@@ -355,11 +355,13 @@ const view = createDomView(
               autocomplete="off"
             >
               <div class=${classes.formRow}>
-                <label class=${classes.labelLarge} for="Title">Title</label>
+                <label class=${classes.labelLarge} for="field-title">
+                  Title
+                </label>
                 <input
                   class=${classes.inputLarge}
                   name="title"
-                  id="Title"
+                  id="field-title"
                   value=${state.post.title ?? ''}
                   oninput=${(e) =>
                     app.commit((state) => {
@@ -368,12 +370,12 @@ const view = createDomView(
                 />
               </div>
               <div>
-                <label class=${classes.label} for="Date">Date</label>
+                <label class=${classes.label} for="field-date">Date</label>
                 <input
                   class=${classes.input}
                   name="date"
                   type="date"
-                  id="Date"
+                  id="field-date"
                   value=${state.post.date ?? ''}
                   oninput=${(e) =>
                     app.commit((state) => {
@@ -382,13 +384,13 @@ const view = createDomView(
                 />
               </div>
               <div>
-                <label class=${classes.label} for="Slug">Slug</label>
+                <label class=${classes.label} for="field-slug">Slug</label>
                 <input
                   class=${state.post.slug != null
                     ? classes.inputReadOnly
                     : classes.input}
                   name="slug"
-                  id="Slug"
+                  id="field-slug"
                   readonly=${state.post.slug != null}
                   value=${state.post.slug ?? ''}
                   placeholder=${slugify(state.post.title ?? '')}
@@ -401,7 +403,9 @@ const view = createDomView(
                 />
               </div>
               <div class=${classes.formRow}>
-                <label class=${classes.label} for="Content">Content</label>
+                <label class=${classes.label} for="field-content">
+                  Content
+                </label>
                 <div class=${classes.textareaWrap}>
                   <div class=${classes.textareaHighlightsWrap}>
                     <pre class=${classes.textareaHighlights}>
@@ -412,7 +416,7 @@ const view = createDomView(
                   <textarea
                     class=${classes.textarea}
                     name="content"
-                    id="Content"
+                    id="field-content"
                     oninput=${highlight}
                   >
                     ${state.post.content ?? ''}
