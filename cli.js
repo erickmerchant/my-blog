@@ -6,6 +6,9 @@ import cheerio from 'cheerio'
 import execa from 'execa'
 import {stringify} from '@erickmerchant/framework/stringify.js'
 import {html} from '@erickmerchant/framework/main.js'
+import {classes} from './src/css/styles.js'
+import {createComponent} from './src/component.js'
+import {contentComponent} from './src/common.js'
 
 const readFile = promisify(fs.readFile)
 const writeFile = promisify(fs.writeFile)
@@ -38,16 +41,6 @@ const program = async () => {
         index: './dist/index.html',
         styles: './dist/css/styles.css'
       }
-
-      const [
-        {classes},
-        {createComponent},
-        {contentComponent}
-      ] = await Promise.all([
-        import('./src/css/styles.js'),
-        import('./src/component.js'),
-        import('./src/common.js')
-      ])
 
       const state = {route: '', title: ''}
       const component = createComponent({
