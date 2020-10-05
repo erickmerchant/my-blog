@@ -9,7 +9,7 @@
   <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
   <title>A Web Development Blog</title>
   <script type="module">
-    import {createContainer} from '@erickmerchant/dev-cli/container.js'
+    import {runtime} from '@erickmerchant/dev-cli/runtime.js'
     import {createDomView, createApp} from '@erickmerchant/framework/main.js'
 
     const app = createApp()
@@ -18,9 +18,8 @@
 
     let isSetup = false
 
-    createContainer(
-      ['component.js', 'main.js', 'common.js', 'frontend.js', 'css/styles.js'],
-      async ({
+    runtime(async (get) => {
+      const {
         createComponent,
         createMainComponent,
         contentComponent,
@@ -32,56 +31,62 @@
         dispatchLocation,
         getAnchorAttrs,
         classes
-      }) => {
-        const key = `/content/posts/index.json`
+      } = await get(
+        'component.js',
+        'main.js',
+        'common.js',
+        'frontend.js',
+        'css/styles.js'
+      )
 
-        const promise = fetch(`${key}?${Date.now()}`)
+      const key = `/content/posts/index.json`
 
-        const postModel = createPostsModel((url, options) => {
-          if (url === key) return promise.then((res) => res.clone())
+      const promise = fetch(`${key}?${Date.now()}`)
 
-          return fetch(url, options)
-        })
+      const postModel = createPostsModel((url, options) => {
+        if (url === key) return promise.then((res) => res.clone())
 
-        if (!isSetup) {
-          isSetup = true
+        return fetch(url, options)
+      })
 
-          setupApp({app, postModel, getSegments})
-        } else {
-          dispatchLocation({
-            app,
-            postModel,
-            segments: getSegments(window.location.pathname)
-          })
-        }
+      if (!isSetup) {
+        isSetup = true
 
-        app.commit((state = Object.assign({}, initialState)) => state)
-
-        const anchorAttrs = getAnchorAttrs({
+        setupApp({app, postModel, getSegments})
+      } else {
+        dispatchLocation({
           app,
           postModel,
-          getSegments
+          segments: getSegments(window.location.pathname)
         })
-
-        const mainComponent = createMainComponent({
-          classes,
-          contentComponent,
-          dateUtils,
-          anchorAttrs
-        })
-
-        const component = createComponent({
-          classes,
-          contentComponent,
-          mainComponent,
-          anchorAttrs
-        })
-
-        const view = createDomView(target, component)
-
-        app.render(view)
       }
-    )
+
+      app.commit((state = Object.assign({}, initialState)) => state)
+
+      const anchorAttrs = getAnchorAttrs({
+        app,
+        postModel,
+        getSegments
+      })
+
+      const mainComponent = createMainComponent({
+        classes,
+        contentComponent,
+        dateUtils,
+        anchorAttrs
+      })
+
+      const component = createComponent({
+        classes,
+        contentComponent,
+        mainComponent,
+        anchorAttrs
+      })
+
+      const view = createDomView(target, component)
+
+      app.render(view)
+    })
   </script>
 </head>
 
