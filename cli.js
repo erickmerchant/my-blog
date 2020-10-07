@@ -26,7 +26,7 @@ const program = async () => {
         options
       )
 
-      execa('dev', ['serve', 'src', '-d', '-e', 'dev.html'], options)
+      execa('dev', ['serve', 'src', '-de', 'dev.html'], options)
     }
 
     if (command === 'build') {
