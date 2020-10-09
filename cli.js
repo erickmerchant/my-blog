@@ -6,7 +6,6 @@ import cheerio from 'cheerio'
 import execa from 'execa'
 import {stringify} from '@erickmerchant/framework/stringify.js'
 import {html} from '@erickmerchant/framework/main.js'
-import {classes} from './src/css/styles.js'
 import {createComponent} from './src/component.js'
 import {contentComponent} from './src/common.js'
 
@@ -36,6 +35,8 @@ const program = async () => {
       ])
 
       await del(['./dist/editor/', './dist/editor.html'])
+
+      const {classes} = await import('./src/css/styles.js')
 
       const paths = {
         index: './dist/index.html',
