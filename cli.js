@@ -58,18 +58,6 @@ const program = async () => {
 
       const $body = cheerio.load(stringify(component(state)))('body')
 
-      $body.find('*').each((index, el) => {
-        let node = el.firstChild
-
-        while (node) {
-          if (node.nodeType === 3) {
-            node.nodeValue = node.nodeValue.replace(/\s+/g, ' ')
-          }
-
-          node = node.nextSibling
-        }
-      })
-
       const [index, styles] = await Promise.all(
         [paths.index, paths.styles].map((path) => readFile(path, 'utf8'))
       )
