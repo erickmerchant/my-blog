@@ -56,7 +56,7 @@ const program = async () => {
         }
       })
 
-      const $body = cheerio.load(stringify(component(state)))('body')
+      const view = component(state)
 
       const [index, styles] = await Promise.all(
         [paths.index, paths.styles].map((path) => readFile(path, 'utf8'))
@@ -68,7 +68,14 @@ const program = async () => {
 
       $('link[rel="stylesheet"]').replaceWith(styleHTML)
 
-      $('body').attr('class', $body.attr('class')).html($body.html())
+      $('body')
+        .attr(
+          'class',
+          view.variables[
+            view.attributes.find((attr) => attr.key === 'class').value
+          ]
+        )
+        .html(stringify(view))
 
       await writeFile(paths.index, $.html())
 
