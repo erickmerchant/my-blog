@@ -1,95 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="The personal site of Erick Merchant." />
+    <link href="/css/styles.css" rel="stylesheet" />
+    <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
+    <title>A Web Development Blog</title>
+    <script type="module">
+      import {runtime} from '@erickmerchant/dev-cli/runtime.js'
+      import {createDomView, createApp} from '@erickmerchant/framework/main.js'
 
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="The personal site of Erick Merchant." />
-  <link href="/css/styles.css" rel="stylesheet" />
-  <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
-  <title>A Web Development Blog</title>
-  <script type="module">
-    import {runtime} from '@erickmerchant/dev-cli/runtime.js'
-    import {createDomView, createApp} from '@erickmerchant/framework/main.js'
+      const app = createApp()
 
-    const app = createApp()
+      const target = document.querySelector('body')
 
-    const target = document.querySelector('body')
+      let isSetup = false
 
-    let isSetup = false
+      runtime(async (get) => {
+        const {
+          createComponent,
+          createMainComponent,
+          contentComponent,
+          getSegments,
+          dateUtils,
+          createPostsModel,
+          setupApp,
+          initialState,
+          dispatchLocation,
+          getAnchorAttrs,
+          classes
+        } = await get(
+          'component.js',
+          'main.js',
+          'common.js',
+          'frontend.js',
+          'css/styles.js'
+        )
 
-    runtime(async (get) => {
-      const {
-        createComponent,
-        createMainComponent,
-        contentComponent,
-        getSegments,
-        dateUtils,
-        createPostsModel,
-        setupApp,
-        initialState,
-        dispatchLocation,
-        getAnchorAttrs,
-        classes
-      } = await get(
-        'component.js',
-        'main.js',
-        'common.js',
-        'frontend.js',
-        'css/styles.js'
-      )
+        const key = `/content/posts/index.json`
 
-      const key = `/content/posts/index.json`
+        const promise = fetch(`${key}?${Date.now()}`)
 
-      const promise = fetch(`${key}?${Date.now()}`)
+        const postModel = createPostsModel((url, options) => {
+          if (url === key) return promise.then((res) => res.clone())
 
-      const postModel = createPostsModel((url, options) => {
-        if (url === key) return promise.then((res) => res.clone())
+          return fetch(url, options)
+        })
 
-        return fetch(url, options)
-      })
+        if (!isSetup) {
+          isSetup = true
 
-      if (!isSetup) {
-        isSetup = true
+          setupApp({app, postModel, getSegments})
+        } else {
+          dispatchLocation({
+            app,
+            postModel,
+            segments: getSegments(window.location.pathname)
+          })
+        }
 
-        setupApp({app, postModel, getSegments})
-      } else {
-        dispatchLocation({
+        app.commit((state = Object.assign({}, initialState)) => state)
+
+        const anchorAttrs = getAnchorAttrs({
           app,
           postModel,
-          segments: getSegments(window.location.pathname)
+          getSegments
         })
-      }
 
-      app.commit((state = Object.assign({}, initialState)) => state)
+        const mainComponent = createMainComponent({
+          classes,
+          contentComponent,
+          dateUtils,
+          anchorAttrs
+        })
 
-      const anchorAttrs = getAnchorAttrs({
-        app,
-        postModel,
-        getSegments
+        const component = createComponent({
+          classes,
+          contentComponent,
+          mainComponent,
+          anchorAttrs
+        })
+
+        const view = createDomView(target, component)
+
+        app.render(view)
       })
-
-      const mainComponent = createMainComponent({
-        classes,
-        contentComponent,
-        dateUtils,
-        anchorAttrs
-      })
-
-      const component = createComponent({
-        classes,
-        contentComponent,
-        mainComponent,
-        anchorAttrs
-      })
-
-      const view = createDomView(target, component)
-
-      app.render(view)
-    })
-  </script>
-</head>
-
-<body></body>
-
+    </script>
+  </head>
+  <body></body>
 </html>
