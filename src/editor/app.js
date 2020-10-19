@@ -103,7 +103,7 @@ const init = async () => {
   }
 }
 
-const state = {route: 'posts', posts: []}
+const state = {route: 'posts', posts: [], zIndex: 0}
 
 const app = createApp(state)
 
@@ -186,7 +186,9 @@ const highlighter = (str = '') =>
           ${text}
           <span class=${classes.highlightPunctuation}>]</span>
           <span class=${classes.highlightPunctuation}>(</span>
-          <a class=${classes.highlightUrl} href=${href}>${href}</a>
+          <a tabindex="-1" class=${classes.highlightUrl} href=${href}>
+            ${href}
+          </a>
           <span class=${classes.highlightPunctuation}>)</span>
         </span>
       `,
@@ -237,7 +239,7 @@ const save = (post) => async (e) => {
     data[key] = val
   }
 
-  for (const [key, val] of new FormData(e.currentTarget)) {
+  for (const [key, val] of new FormData(e.target)) {
     data[key] = val
   }
 
@@ -254,29 +256,36 @@ const save = (post) => async (e) => {
 
 const highlight = (e) =>
   app.commit((state) => {
-    state.post.highlightedContent = e.currentTarget.value
+    state.post.highlightedContent = e.target.value
 
-    state.post.content = e.currentTarget.value
+    state.post.content = e.target.value
   })
 
-const lowerZindex = (e) => {
-  if (e.key === 'Meta') {
-    const current = Number(e.currentTarget.style.getPropertyValue('--z-index'))
+const target = document.querySelector('body')
 
-    e.currentTarget.style.setProperty('--z-index', current === 0 ? -1 : 0)
+const zIndexHandlers = {
+  onkeydown(e) {
+    if (e.key === 'Meta') {
+      app.commit((state) => {
+        state.zIndex = -1
+      })
+    }
+  },
+  onkeyup(e) {
+    app.commit((state) => {
+      state.zIndex = 0
+    })
   }
 }
-
-const resetZindex = (e) => {
-  e.currentTarget.style.setProperty('--z-index', 0)
-}
-
-const target = document.querySelector('body')
 
 const view = createDomView(
   target,
   (state) => html`
-    <body class=${classes.app} onkeydown=${lowerZindex} onkeyup=${resetZindex}>
+    <body
+      class=${classes.app}
+      style=${`--z-index: ${state.zIndex}`}
+      ${zIndexHandlers}
+    >
       ${(() => {
         if (state.route === 'posts') {
           return [
@@ -353,6 +362,7 @@ const view = createDomView(
               onsubmit=${save(state.post)}
               method="POST"
               autocomplete="off"
+              ${zIndexHandlers}
             >
               <div class=${classes.formRow}>
                 <label class=${classes.labelLarge} for="field-title">
@@ -365,8 +375,9 @@ const view = createDomView(
                   value=${state.post.title ?? ''}
                   oninput=${(e) =>
                     app.commit((state) => {
-                      state.post.title = e.currentTarget.value
+                      state.post.title = e.target.value
                     })}
+                  ${zIndexHandlers}
                 />
               </div>
               <div>
@@ -379,8 +390,9 @@ const view = createDomView(
                   value=${state.post.date ?? ''}
                   oninput=${(e) =>
                     app.commit((state) => {
-                      state.post.date = e.currentTarget.value
+                      state.post.date = e.target.value
                     })}
+                  ${zIndexHandlers}
                 />
               </div>
               <div>
@@ -397,9 +409,10 @@ const view = createDomView(
                   oninput=${state.post.slug == null
                     ? (e) =>
                         app.commit((state) => {
-                          state.post.slug = e.currentTarget.value
+                          state.post.slug = e.target.value
                         })
                     : null}
+                  ${zIndexHandlers}
                 />
               </div>
               <div class=${classes.formRow}>
@@ -418,6 +431,7 @@ const view = createDomView(
                     name="content"
                     id="field-content"
                     oninput=${highlight}
+                    ${zIndexHandlers}
                   >
                     ${state.post.content ?? ''}
                   </textarea
@@ -425,8 +439,16 @@ const view = createDomView(
                 </div>
               </div>
               <div class=${classes.formButtons}>
-                <a class=${classes.cancelButton} href="#/">Cancel</a>
-                <button class=${classes.saveButton} type="submit">Save</button>
+                <a class=${classes.cancelButton} href="#/" ${zIndexHandlers}>
+                  Cancel
+                </a>
+                <button
+                  class=${classes.saveButton}
+                  type="submit"
+                  ${zIndexHandlers}
+                >
+                  Save
+                </button>
               </div>
             </form>
           `
