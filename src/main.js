@@ -32,7 +32,9 @@ export const createMainComponent = ({
     const month = date.getMonth()
 
     return html`
-      <article class=${classes.main}>
+      <article
+        class=${state.transitioning ? classes.mainTransitioning : classes.main}
+      >
         <header>
           <h1 class=${classes.heading1}>${state.post.title}</h1>
           <time class=${classes.date} datetime=${state.post.date}>
@@ -143,7 +145,9 @@ export const createMainComponent = ({
   }
 
   return html`
-    <article class=${classes.main}>
+    <article
+      class=${state.transitioning ? classes.mainTransitioning : classes.main}
+    >
       <h1 class=${classes.heading1}>${state.title ?? ''}</h1>
       <p class=${classes.paragraph}>${state.error?.message ?? ''}</p>
     </article>

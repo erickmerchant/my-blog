@@ -86,6 +86,25 @@ const paginationItemEnabled = `
   }
 `
 
+const main = `
+  max-width: 31em;
+  padding-right: 0.5em;
+  padding-left: 0.5em;
+  margin-right: auto;
+  margin-left: auto;
+  opacity: 1;
+  transition: opacity 0.3s;
+
+  ${tabletUp} {
+    max-width: 34em;
+    padding-right: 2em;
+    padding-left: 2em;
+    grid-column: 2;
+    margin-right: 0;
+    margin-left: 0;
+  }
+`
+
 export const classes = {
   app: `
     display: grid;
@@ -162,21 +181,12 @@ export const classes = {
     color: white;
     font-weight: ${fontWeights.bold};
   `,
-  main: `
-    max-width: 31em;
-    padding-right: 0.5em;
-    padding-left: 0.5em;
-    margin-right: auto;
-    margin-left: auto;
+  main,
+  mainTransitioning: `
+    ${main}
 
-    ${tabletUp} {
-      max-width: 34em;
-      padding-right: 2em;
-      padding-left: 2em;
-      grid-column: 2;
-      margin-right: 0;
-      margin-left: 0;
-    }
+    opacity: 0;
+    transition: none;
   `,
   date: `
     display: grid;

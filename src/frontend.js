@@ -13,6 +13,10 @@ export const dispatchLocation = async ({app, postModel, segments}) => {
 
   let post
 
+  app.commit((state) => {
+    state.transitioning = true
+  })
+
   try {
     if (segments.initial === 'posts') {
       post = await postModel.getBySlug(segments.last)
@@ -24,7 +28,8 @@ export const dispatchLocation = async ({app, postModel, segments}) => {
       app.commit({
         route: 'post',
         title: `Posts | ${post.title}`,
-        post
+        post,
+        transitioning: false
       })
     } else {
       app.commit(unfound)
