@@ -7,10 +7,12 @@ const fontWeights = {
 
 const colors = {
   green1: 'hsl(100, 30%, 50%)',
-  green2: 'hsl(100, 50%, 70%)',
-  lightGray: 'hsl(100, 5%, 95%)',
-  gray: 'hsl(100, 5%, 50%)',
-  darkGray: 'hsl(100, 5%, 20%)'
+  green2: 'hsl(100, 40%, 60%)',
+  green3: 'hsl(100, 50%, 70%)',
+  gray1: 'hsl(100, 10%, 90%)',
+  gray2: 'hsl(100, 10%, 80%)',
+  gray3: 'hsl(100, 10%, 60%)',
+  gray4: 'hsl(100, 10%, 20%)'
 }
 
 const borderRadius = '3px'
@@ -37,6 +39,10 @@ export const _start = `
   html {
     height: 100%;
     font-family: "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    font-size: max(20px, 1vw);
+    font-weight: ${fontWeights.normal};
+    line-height: 1.5;
+    color: ${colors.gray4};
   }
 `
 
@@ -63,7 +69,7 @@ const anchor = `
 const codeBlock = `
   font-family: Consolas, monaco, monospace;
   font-size: 0.875em;
-  color: ${colors.green2};
+  color: ${colors.green3};
 `
 
 const paginationItemDisabled = `
@@ -72,14 +78,14 @@ const paginationItemDisabled = `
   padding-bottom: 1em;
   border-radius: ${borderRadius};
   font-weight: ${fontWeights.bold};
-  background-color: ${colors.gray};
+  background-color: ${colors.gray3};
   font-size: 0.875em;
 `
 
 const paginationItemEnabled = `
   ${paginationItemDisabled}
 
-  background-color: ${colors.green1};
+  background-color: ${colors.green2};
 
   :focus, :hover {
     filter: saturate(1.5);
@@ -105,14 +111,21 @@ const main = `
   }
 `
 
+const withDivider = `
+  ::before {
+    content: '';
+    display: block;
+    height: 1px;
+    background-color: ${colors.gray2};
+    width: 80%;
+    margin: 0 auto;
+  }
+`
+
 export const classes = {
   app: `
     display: grid;
     min-height: 100%;
-    font-size: max(20px, 1vw);
-    font-weight: ${fontWeights.normal};
-    line-height: 1.5;
-    color: ${colors.darkGray};
     grid-template-columns: 100%;
     grid-template-rows: max-content auto max-content max-content;
 
@@ -143,7 +156,7 @@ export const classes = {
     padding-left: 1em;
     white-space: pre-wrap;
     word-break: break-word;
-    background-color: ${colors.darkGray};
+    background-color: ${colors.gray4};
     border-radius: ${borderRadius};
   `,
   code: `
@@ -199,14 +212,16 @@ export const classes = {
     margin-right: 0.25em;
   `,
   dateIconContainer: `
-    fill: ${colors.darkGray};
+    fill: ${colors.gray4};
+  `,
+  pagination: `
+    margin-top: 2em;
+    margin-bottom: 2em;
   `,
   paginationList: `
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(7em, 1fr));
     gap: 1em;
-    padding-top: 1em;
-    margin-bottom: 2em;
     color: white;
     text-align: center;
     list-style: none;
@@ -219,12 +234,12 @@ export const classes = {
     color: white;
 
     ::after {
-      content: "";
+      content: '';
       display: block;
       position: absolute;
       top: 0;
-      right: 0;
       bottom: 0;
+      right: 0;
       left: 0;
       border-radius: ${borderRadius};
     }
@@ -265,6 +280,7 @@ export const classes = {
     position: sticky;
     top: 0;
     z-index: 1;
+    opacity: 0.9;
 
     ${tabletUp} {
       ${heading}
@@ -272,19 +288,19 @@ export const classes = {
       display: block;
       font-size: 1.5em;
       padding-top: 0;
+      opacity: 1;
     }
   `,
   aboutContent: `
     grid-row: 3;
     padding-bottom: 1em;
-    background-color: ${colors.lightGray};
-    color: ${colors.darkGray};
 
     ${tabletUp} {
       grid-row: 2;
       background-color: inherit;
       color: inherit;
       font-size: 1em;
+      padding-bottom: 0;
     }
   `,
   aboutContentInner: `
@@ -294,14 +310,19 @@ export const classes = {
     margin-right: auto;
     margin-left: auto;
 
+    ${withDivider}
+
     ${tabletUp} {
       display: contents;
+
+      ::before {
+        display: none;
+      }
     }
   `,
   aboutHeading: `
     ${heading}
 
-    margin-top: 1em;
     font-weight: ${fontWeights.bold};
   `,
   aboutAnchor: `
@@ -315,8 +336,8 @@ export const classes = {
     font-size: 0.875em;
   `,
   footer: `
-    background-color: ${colors.lightGray};
-    color: ${colors.darkGray};
+    background-color: ${colors.gray1};
+    color: ${colors.gray4};
     padding-right: 0.5em;
     padding-left: 0.5em;
     width: 100%;
@@ -324,40 +345,36 @@ export const classes = {
     ${tabletUp} {
       max-width: 34em;
       background-color: white;
-      color: ${colors.darkGray};
+      color: ${colors.gray4};
       grid-column: 2;
       padding-right: 2em;
       padding-left: 2em;
+
+      ${withDivider}
     }
   `,
-  footerNav: `
+  footerList: `
     display: grid;
     justify-content: center;
+    grid-auto-flow: column;
     font-weight: ${fontWeights.bold};
-    border-top: 1px solid ${colors.gray};
     padding-top: 1em;
     padding-bottom: 1em;
     max-width: 31em;
     margin-right: auto;
     margin-left: auto;
+    list-style: none;
+    font-size: 0.75em;
 
     ${tabletUp} {
       max-width: 100%;
-      border-color: ${colors.lightGray};
     }
   `,
-  footerNavList: `
-    list-style: none;
-    font-size: 0.875em;
-  `,
-  footerNavItem: `
-    display: inline-block;
+  footerItem: `
     margin-right: 0.5em;
     margin-left: 0.5em;
-    margin-top: 0.5em;
-    margin-bottom: 0.5em;
   `,
-  footerNavAnchor: `
+  footerAnchor: `
     color: ${colors.green1};
   `
 }

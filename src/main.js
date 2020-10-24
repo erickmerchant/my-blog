@@ -132,7 +132,7 @@ export const createMainComponent = ({
         })}
         ${state.post.prev || state.post.next
           ? html`
-              <nav>
+              <nav class=${classes.pagination}>
                 <ul class=${classes.paginationList}>
                   ${paginationItem(state.post.prev, 'Older')}
                   ${paginationItem(state.post.next, 'Newer')}

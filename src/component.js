@@ -64,21 +64,19 @@ export const createComponent = ({
       ${state.route !== ''
         ? html`
             <footer class=${classes.footer}>
-              <nav class=${classes.footerNav}>
-                <ul class=${classes.footerNavList}>
-                  <li class=${classes.footerNavItem}>
-                    <a
-                      class=${classes.footerNavAnchor}
-                      href="https://github.com/erickmerchant/my-blog"
-                    >
-                      View Source
-                    </a>
-                  </li>
-                  <li class=${classes.footerNavItem}>
-                    © ${new Date().getFullYear()} Erick Merchant
-                  </li>
-                </ul>
-              </nav>
+              <ul class=${classes.footerList}>
+                <li class=${classes.footerItem}>
+                  <a
+                    class=${classes.footerAnchor}
+                    href="https://github.com/erickmerchant/my-blog"
+                  >
+                    View Source
+                  </a>
+                </li>
+                <li class=${classes.footerItem}>
+                  © ${new Date().getFullYear()} Erick Merchant
+                </li>
+              </ul>
             </footer>
           `
         : null}
