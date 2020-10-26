@@ -3,19 +3,27 @@ const unfound = {
   title: 'Page Not Found',
   error: Error(
     "That page doesn't exist. It was either moved, removed, or never existed."
-  )
+  ),
+  transitioning: false
 }
 
 export const initialState = {route: '', title: ''}
 
-export const dispatchLocation = async ({app, postModel, segments}) => {
+export const dispatchLocation = async ({
+  app,
+  postModel,
+  segments,
+  transitioning = true
+}) => {
   const posts = await postModel.getAll()
 
   let post
 
-  app.commit((state) => {
-    state.transitioning = true
-  })
+  if (transitioning) {
+    app.commit((state) => {
+      state.transitioning = true
+    })
+  }
 
   try {
     if (segments.initial === 'posts') {
@@ -28,8 +36,8 @@ export const dispatchLocation = async ({app, postModel, segments}) => {
       app.commit({
         route: 'post',
         title: `Posts | ${post.title}`,
-        post,
-        transitioning: false
+        transitioning: false,
+        post
       })
     } else {
       app.commit(unfound)
@@ -38,6 +46,7 @@ export const dispatchLocation = async ({app, postModel, segments}) => {
     app.commit({
       route: 'error',
       title: '500 Error',
+      transitioning: false,
       error
     })
   }
@@ -55,7 +64,8 @@ export const setupApp = ({app, postModel, getSegments}) => {
   dispatchLocation({
     app,
     postModel,
-    segments: getSegments(window.location.pathname)
+    segments: getSegments(window.location.pathname),
+    transitioning: false
   })
 }
 

@@ -337,7 +337,6 @@ export const classes = {
   `,
   footer: `
     background-color: ${colors.gray1};
-    color: ${colors.gray4};
     padding-right: 0.5em;
     padding-left: 0.5em;
     width: 100%;
@@ -345,7 +344,6 @@ export const classes = {
     ${tabletUp} {
       max-width: 34em;
       background-color: white;
-      color: ${colors.gray4};
       grid-column: 2;
       padding-right: 2em;
       padding-left: 2em;

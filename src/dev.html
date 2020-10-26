@@ -56,7 +56,8 @@
           dispatchLocation({
             app,
             postModel,
-            segments: getSegments(window.location.pathname)
+            segments: getSegments(window.location.pathname),
+            transitioning: false
           })
         }
 
