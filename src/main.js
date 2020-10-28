@@ -38,20 +38,34 @@ export const createMainComponent = ({
         <header>
           <h1 class=${classes.heading1}>${state.post.title}</h1>
           <time class=${classes.date} datetime=${state.post.date}>
-            <svg viewBox="0 0 36 36" class=${classes.dateIcon}>
+            <svg viewBox="0 0 31 31" class=${classes.dateIcon}>
               <rect
-                width="36"
-                height="3"
-                rx="1"
-                class=${classes.dateIconContainer}
+                width="31"
+                height="5"
+                x="0"
+                y="0"
+                class=${classes.dateIconPart}
               />
               <rect
-                width="36"
-                height="32"
+                width="31"
+                height="1"
+                x="0"
+                y="30"
+                class=${classes.dateIconPart}
+              />
+              <rect
+                width="1"
+                height="27"
                 x="0"
                 y="4"
-                rx="1"
-                class=${classes.dateIconContainer}
+                class=${classes.dateIconPart}
+              />
+              <rect
+                width="3"
+                height="31"
+                x="30"
+                y="4"
+                class=${classes.dateIconPart}
               />
               ${{
                 *[Symbol.iterator]() {
@@ -68,9 +82,9 @@ export const createMainComponent = ({
                       <rect
                         width="3"
                         height="3"
-                        x=${4.5 + dayOfWeek * 4}
-                        y=${8.5 + weekOfMonth * 4}
-                        fill="white"
+                        x=${2 + dayOfWeek * 4}
+                        y=${6 + weekOfMonth * 4}
+                        class=${classes.dateIconPart}
                       />
                     `
 

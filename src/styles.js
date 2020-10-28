@@ -203,7 +203,7 @@ export const classes = {
     height: 0.8em;
     margin-right: 0.25em;
   `,
-  dateIconContainer: `
+  dateIconPart: `
     fill: ${colors.gray4};
   `,
   pagination: `
