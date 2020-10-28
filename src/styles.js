@@ -56,16 +56,6 @@ const heading = `
   }
 `
 
-const anchor = `
-  box-shadow: 0 0.1em 0 0 currentcolor;
-  color: ${colors.green1};
-  text-decoration: none;
-
-  :hover {
-    text-decoration: none;
-  }
-`
-
 const codeBlock = `
   font-family: Consolas, monaco, monospace;
   font-size: 0.875em;
@@ -172,7 +162,9 @@ export const classes = {
     }
   `,
   codeBlock,
-  anchor,
+  anchor: `
+    color: ${colors.green1};
+  `,
   list: `
     margin-top: 1em;
     margin-bottom: 1em;
@@ -229,8 +221,6 @@ export const classes = {
   paginationItemDisabled,
   paginationItemEnabled,
   paginationAnchor: `
-    ${anchor}
-
     color: white;
 
     ::after {
