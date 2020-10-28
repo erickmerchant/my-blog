@@ -54,73 +54,88 @@ export const contentComponent = (str, templates, stripBackslash = true) => {
   }
 
   const html = []
-  const lns = str.split('\n')
+  const lns = {
+    *[Symbol.iterator]() {
+      let ln = ''
+      let i = 0
 
-  while (lns.length) {
+      let char = str.charAt(i)
+
+      do {
+        if (char === '\n') {
+          yield ln
+
+          ln = ''
+        } else {
+          ln += char
+        }
+
+        char = str.charAt(++i)
+      } while (char !== '')
+
+      yield ''
+    }
+  }
+
+  let items = []
+  let code
+
+  for (const ln of lns) {
+    if (code != null && ln !== codeFence) {
+      code.push(ln)
+      code.push('\n')
+
+      continue
+    }
+
+    if (!ln.startsWith('- ') && items.length) {
+      html.push(templates.list(items))
+
+      items = []
+    }
+
     switch (true) {
-      case lns[0].startsWith('# '):
-        html.push(templates.heading(lns.shift().substring(2)))
+      case ln.startsWith('# '):
+        html.push(templates.heading(ln.substring(2)))
         html.push('\n')
         break
 
-      case lns[0].startsWith('- '):
-        {
-          const items = []
-
-          while (lns.length && lns[0].startsWith('- ')) {
-            items.push(templates.listItem(inline(lns.shift().substring(2))))
-            items.push('\n')
-          }
-
-          html.push(templates.list(items))
-        }
+      case ln.startsWith('- '):
+        items.push(templates.listItem(inline(ln.substring(2))))
+        items.push('\n')
         break
 
-      case lns[0] === codeFence:
-        {
-          lns.shift()
-
-          const code = []
-
-          while (lns.length && lns[0] !== codeFence) {
-            code.push(lns.shift())
-            code.push('\n')
-          }
-
-          const close = lns.shift()
-
+      case ln === codeFence:
+        if (code != null) {
           html.push(
             templates.codeBlock(inline(code.join('')), close === codeFence)
           )
           html.push('\n')
+
+          code = null
+        } else {
+          code = []
         }
         break
 
-      case lns[0] === `\\${codeFence}`:
-        {
-          const ln = lns.shift()
-
-          if (stripBackslash) {
-            html.push(codeFence)
-          } else {
-            html.push(ln)
-          }
-
-          html.push('\n')
+      case ln === `\\${codeFence}`:
+        if (stripBackslash) {
+          html.push(codeFence)
+        } else {
+          html.push(ln)
         }
+
+        html.push('\n')
         break
 
       default: {
-        let ln = lns.shift()
+        let l = ln
 
-        if (
-          stripBackslash &&
-          (ln.startsWith('\\# ') || ln.startsWith('\\- '))
-        ) {
-          ln = ln.substring(1)
+        if (stripBackslash && (l.startsWith('\\# ') || l.startsWith('\\- '))) {
+          l = l.substring(1)
         }
 
-        const p = templates.paragraph(inline(ln))
+        const p = templates.paragraph(inline(l))
 
         if (p != null) {
           html.push(p)
