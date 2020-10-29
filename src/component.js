@@ -53,7 +53,7 @@ export const createComponent = ({
                     : null,
                 bold: (text) =>
                   html`
-                    <strong class=${classes.strong}>${text}</strong>
+                    <strong class=${classes.aboutStrong}>${text}</strong>
                   `
               })}
             </div>

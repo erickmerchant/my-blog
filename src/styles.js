@@ -18,6 +18,7 @@ const colors = {
 const borderRadius = '3px'
 
 const tabletUp = '@media (min-width: 1024px)'
+const mobileUp = '@media (min-width: 641px) and (max-width: 1023px)'
 
 export const _start = `
   @font-face {
@@ -56,7 +57,14 @@ const heading = `
   }
 `
 
-const codeBlock = `
+const heading1 = `
+  ${heading}
+
+  font-size: 1.5em;
+  font-weight: ${fontWeights.heading1};
+`
+
+const code = `
   font-family: Consolas, monaco, monospace;
   font-size: 0.875em;
   color: ${colors.green3};
@@ -83,19 +91,25 @@ const paginationItemEnabled = `
 `
 
 const main = `
-  max-width: 31em;
-  padding-right: 0.5em;
-  padding-left: 0.5em;
-  margin-right: auto;
-  margin-left: auto;
   opacity: 1;
   transition: opacity 0.3s;
 
   ${tabletUp} {
-    max-width: 34em;
-    padding-right: 2em;
-    padding-left: 2em;
     grid-column: 2;
+  }
+`
+
+const mainBlockLevelItem = `
+  max-width: 31em;
+  padding-right: 0.5rem;
+  padding-left: 0.5rem;
+  margin-right: auto;
+  margin-left: auto;
+
+  ${tabletUp} {
+    max-width: 34em;
+    padding-right: 2rem;
+    padding-left: 2rem;
     margin-right: 0;
     margin-left: 0;
   }
@@ -124,64 +138,7 @@ export const classes = {
       grid-template-rows: 1fr max-content;
     }
   `,
-  heading1: `
-    ${heading}
-
-    font-size: 1.5em;
-    font-weight: ${fontWeights.heading1};
-  `,
-  heading2: `
-    ${heading}
-
-    font-weight: ${fontWeights.heading2};
-  `,
-  strong: `
-    font-weight: ${fontWeights.bold};
-  `,
-  pre: `
-    overflow: auto;
-    padding-top: 1em;
-    padding-bottom: 1em;
-    padding-right: 1em;
-    padding-left: 1em;
-    white-space: pre-wrap;
-    word-break: break-word;
-    background-color: ${colors.gray4};
-    border-radius: ${borderRadius};
-  `,
-  code: `
-    ${codeBlock}
-
-    font-weight: bold;
-    color: ${colors.green1};
-    word-break: break-word;
-
-    ::before,
-    ::after {
-      content: "\`";
-    }
-  `,
-  codeBlock,
-  anchor: `
-    color: ${colors.green1};
-  `,
-  list: `
-    margin-top: 1em;
-    margin-bottom: 1em;
-    padding-left: 0.5em;
-    list-style: none;
-  `,
-  listItem: `
-    :before {
-      content: '-';
-      margin-right: 0.5em;
-      font-weight: ${fontWeights.bold};
-    }
-  `,
-  paragraph: `
-    margin-top: 1em;
-    margin-bottom: 1em;
-  `,
+  heading1,
   headerAnchor: `
     color: white;
     font-weight: ${fontWeights.bold};
@@ -193,6 +150,84 @@ export const classes = {
     opacity: 0;
     transition: none;
   `,
+  mainHeader: `
+    ${mainBlockLevelItem}
+  `,
+  mainHeading2: `
+    ${mainBlockLevelItem}
+
+    ${heading}
+
+    font-weight: ${fontWeights.heading2};
+  `,
+  mainStrong: `
+    font-weight: ${fontWeights.bold};
+  `,
+  mainPre: `
+    overflow: auto;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    padding-right: 1rem;
+    padding-left: 1rem;
+    white-space: pre-wrap;
+    word-break: break-word;
+    background-color: ${colors.gray4};
+    max-width: 32em;
+    width: 100%;
+
+    ${mobileUp} {
+      border-radius: ${borderRadius};
+      margin-right: auto;
+      margin-left: auto;
+    }
+
+    ${tabletUp} {
+      border-radius: ${borderRadius};
+      max-width: 100%;
+      width: auto;
+      margin-right: 2rem;
+      margin-left: 2rem;
+    }
+  `,
+  mainCodeInline: `
+    ${code}
+
+    font-weight: bold;
+    color: ${colors.green1};
+    word-break: break-word;
+
+    ::before,
+    ::after {
+      content: "\`";
+    }
+  `,
+  mainCodeBlock: `
+    ${code}
+  `,
+  mainAnchor: `
+    color: ${colors.green1};
+  `,
+  mainList: `
+    ${mainBlockLevelItem}
+
+    margin-top: 1em;
+    margin-bottom: 1em;
+    padding-left: 0.5rem;
+    list-style: none;
+  `,
+  mainListItem: `
+    :before {
+      content: '-';
+      margin-right: 0.5rem;
+      font-weight: ${fontWeights.bold};
+    }
+  `,
+  mainParagraph: `
+    ${mainBlockLevelItem}
+
+    margin-top: 1em;
+    margin-bottom: 1em;
+  `,
   date: `
     display: grid;
     grid-template-columns: max-content 1fr;
@@ -201,12 +236,14 @@ export const classes = {
   `,
   dateIcon: `
     height: 0.8em;
-    margin-right: 0.25em;
+    margin-right: 0.25rem;
   `,
   dateIconPart: `
     fill: ${colors.gray4};
   `,
   pagination: `
+    ${mainBlockLevelItem}
+
     margin-top: 2em;
     margin-bottom: 2em;
   `,
@@ -249,8 +286,8 @@ export const classes = {
 
     ${tabletUp} {
       max-width: 34em;
-      padding-right: 2em;
-      padding-left: 2em;
+      padding-right: 2rem;
+      padding-left: 2rem;
       position: sticky;
       top: 0;
       height: 100vh;
@@ -295,8 +332,8 @@ export const classes = {
   `,
   aboutContentInner: `
     max-width: 31em;
-    padding-right: 0.5em;
-    padding-left: 0.5em;
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
     margin-right: auto;
     margin-left: auto;
 
@@ -325,18 +362,21 @@ export const classes = {
   aboutParagraph: `
     font-size: 0.875em;
   `,
+  aboutStrong: `
+    font-weight: ${fontWeights.bold};
+  `,
   footer: `
     background-color: ${colors.gray1};
-    padding-right: 0.5em;
-    padding-left: 0.5em;
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
     width: 100%;
 
     ${tabletUp} {
       max-width: 34em;
       background-color: white;
       grid-column: 2;
-      padding-right: 2em;
-      padding-left: 2em;
+      padding-right: 2rem;
+      padding-left: 2rem;
 
       ${withDivider}
     }
@@ -359,8 +399,8 @@ export const classes = {
     }
   `,
   footerItem: `
-    margin-right: 0.5em;
-    margin-left: 0.5em;
+    margin-right: 0.5rem;
+    margin-left: 0.5rem;
   `,
   footerAnchor: `
     color: ${colors.green1};
