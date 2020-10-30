@@ -51,10 +51,6 @@ const heading = `
   line-height: 1.25;
   margin-bottom: 0.5em;
   margin-top: 1em;
-
-  ${tabletUp} {
-    margin-top: 2em;
-  }
 `
 
 const heading1 = `
@@ -62,6 +58,10 @@ const heading1 = `
 
   font-size: 1.5em;
   font-weight: ${fontWeights.heading1};
+
+  ${tabletUp} {
+    margin-top: 2em;
+  }
 `
 
 const code = `
@@ -293,7 +293,6 @@ export const classes = {
       height: 100vh;
       display: grid;
       grid-template-rows: 1fr 1fr;
-      overflow-y: scroll;
     }
   `,
   header: `
@@ -316,6 +315,7 @@ export const classes = {
       font-size: 1.5em;
       padding-top: 0;
       opacity: 1;
+      margin-top: 2em;
     }
   `,
   aboutContent: `
