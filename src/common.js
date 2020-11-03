@@ -73,7 +73,7 @@ export const contentComponent = (str, templates, stripBackslash = true) => {
         char = str.charAt(++i)
       } while (char !== '')
 
-      yield ''
+      yield ln
     }
   }
 
@@ -107,9 +107,7 @@ export const contentComponent = (str, templates, stripBackslash = true) => {
 
       case ln === codeFence:
         if (code != null) {
-          html.push(
-            templates.codeBlock(inline(code.join('')), close === codeFence)
-          )
+          html.push(templates.codeBlock(inline(code.join('')), true))
           html.push('\n')
 
           code = null
@@ -144,6 +142,15 @@ export const contentComponent = (str, templates, stripBackslash = true) => {
         html.push('\n')
       }
     }
+  }
+
+  if (code != null) {
+    html.push(templates.codeBlock(inline(code.join('')), false))
+    html.push('\n')
+  }
+
+  if (items.length) {
+    html.push(templates.list(items))
   }
 
   return html
