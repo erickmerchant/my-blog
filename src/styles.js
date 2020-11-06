@@ -108,10 +108,10 @@ const mainBlockLevelItem = `
 
   ${tabletUp} {
     max-width: 34em;
-    padding-right: 2rem;
-    padding-left: 2rem;
-    margin-right: 0;
-    margin-left: 0;
+    padding-right: 1rem;
+    padding-left: 1rem;
+    margin-right: 2rem;
+    margin-left: 2rem;
   }
 `
 
@@ -167,8 +167,8 @@ export const classes = {
     overflow: auto;
     padding-top: 1em;
     padding-bottom: 1em;
-    padding-right: 1rem;
-    padding-left: 1rem;
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
     white-space: pre-wrap;
     word-break: break-word;
     background-color: ${colors.gray4};
@@ -179,6 +179,8 @@ export const classes = {
       border-radius: ${borderRadius};
       margin-right: auto;
       margin-left: auto;
+      padding-right: 1rem;
+      padding-left: 1rem;
     }
 
     ${tabletUp} {
@@ -187,6 +189,8 @@ export const classes = {
       width: auto;
       margin-right: 2rem;
       margin-left: 2rem;
+      padding-right: 1rem;
+      padding-left: 1rem;
     }
   `,
   mainCodeInline: `
@@ -246,6 +250,11 @@ export const classes = {
 
     margin-top: 2em;
     margin-bottom: 2em;
+
+    ${tabletUp} {
+      margin-right: auto;
+      margin-left: auto;
+    }
   `,
   paginationList: `
     display: grid;
@@ -377,6 +386,8 @@ export const classes = {
       grid-column: 2;
       padding-right: 2rem;
       padding-left: 2rem;
+      margin-left: auto;
+      margin-right: auto;
 
       ${withDivider}
     }
