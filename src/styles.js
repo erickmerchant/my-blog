@@ -254,6 +254,8 @@ export const classes = {
     ${tabletUp} {
       margin-right: auto;
       margin-left: auto;
+      padding-right: 2rem;
+      padding-left: 2rem;
     }
   `,
   paginationList: `
