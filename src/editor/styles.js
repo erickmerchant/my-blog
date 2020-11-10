@@ -67,7 +67,7 @@ const textButton = `
   padding-right: 1.5em;
   padding-left: 1.5em;
   background-color: transparent;
-  border: 1px solid white;
+  border: 1px solid #fff;
   border-radius: ${borderRadius};
   box-shadow: none;
   color: ${colors.blue};

@@ -140,7 +140,7 @@ export const classes = {
   `,
   heading1,
   headerAnchor: `
-    color: white;
+    color: #fff;
     font-weight: ${fontWeights.bold};
   `,
   main,
@@ -262,14 +262,14 @@ export const classes = {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(7em, 1fr));
     gap: 1em;
-    color: white;
+    color: #fff;
     text-align: center;
     list-style: none;
   `,
   paginationItemDisabled,
   paginationItemEnabled,
   paginationAnchor: `
-    color: white;
+    color: #fff;
 
     ::after {
       content: '';
@@ -289,7 +289,7 @@ export const classes = {
       display: block;
       grid-row: 1 / -1;
       background-color: ${colors.green1};
-      color: white;
+      color: #fff;
     }
   `,
   heroInner: `
@@ -311,7 +311,7 @@ export const classes = {
     padding-top: 1em;
     padding-bottom: 1em;
     background-color: ${colors.green1};
-    color: white;
+    color: #fff;
     display: grid;
     justify-content: center;
     position: sticky;
@@ -367,7 +367,7 @@ export const classes = {
     color: ${colors.green1};
 
     ${tabletUp} {
-      color: white;
+      color: #fff;
     }
   `,
   aboutParagraph: `
@@ -384,7 +384,7 @@ export const classes = {
 
     ${tabletUp} {
       max-width: 34em;
-      background-color: white;
+      background-color: #fff;
       grid-column: 2;
       padding-right: 2rem;
       padding-left: 2rem;
