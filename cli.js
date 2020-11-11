@@ -1,11 +1,10 @@
 #!/usr/bin/env node
-import del from 'del'
 import {promisify} from 'util'
 import fs from 'fs'
-import cheerio from 'cheerio'
 import execa from 'execa'
 import {stringify} from '@erickmerchant/framework/stringify.js'
 import {html} from '@erickmerchant/framework/main.js'
+import {indexComponent} from './src/index.js'
 import {createComponent} from './src/component.js'
 import {contentComponent} from './src/common.js'
 
@@ -31,10 +30,22 @@ const program = async () => {
     if (command === 'build') {
       await Promise.all([
         execa('css', ['src/styles.js', 'src/css/styles'], options),
-        execa('dev', ['cache', 'src', 'dist'], options)
+        execa(
+          'dev',
+          [
+            'cache',
+            'src',
+            'dist',
+            '-i',
+            'src/editor',
+            '-i',
+            'src/editor.html',
+            '-i',
+            'src/dev.html'
+          ],
+          options
+        )
       ])
-
-      await del(['./dist/editor/', './dist/editor.html'])
 
       const {classes} = await import('./src/css/styles.js')
 
@@ -44,7 +55,7 @@ const program = async () => {
       }
 
       const state = {route: '', title: ''}
-      const component = createComponent({
+      const mainComponent = createComponent({
         classes,
         contentComponent,
         mainComponent: () =>
@@ -56,28 +67,12 @@ const program = async () => {
         }
       })
 
-      const view = component(state)
+      state.styles = await readFile(paths.styles, 'utf8')
 
-      const [index, styles] = await Promise.all(
-        [paths.index, paths.styles].map((path) => readFile(path, 'utf8'))
+      await writeFile(
+        paths.index,
+        `<!doctype html>${stringify(indexComponent(state, {mainComponent}))}`
       )
-
-      const styleHTML = `<style>${styles}</style>`
-
-      const $ = cheerio.load(index)
-
-      $('link[rel="stylesheet"]').replaceWith(styleHTML)
-
-      $('body')
-        .attr(
-          'class',
-          view.variables[
-            view.attributes.find((attr) => attr.key === 'class').value
-          ]
-        )
-        .html(stringify(view))
-
-      await writeFile(paths.index, $.html())
 
       await execa('rollup', ['-c', 'rollup.config.js'], options)
     }
