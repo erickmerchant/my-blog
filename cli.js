@@ -1,36 +1,45 @@
 #!/usr/bin/env node
 import {promisify} from 'util'
 import fs from 'fs'
-import execa from 'execa'
 import {stringify} from '@erickmerchant/framework/stringify.js'
 import {html} from '@erickmerchant/framework/main.js'
 import {indexComponent} from './src/index.js'
 import {createComponent} from './src/component.js'
 import {contentComponent} from './src/common.js'
+import childProcess from 'child_process'
 
+const options = {stdio: 'inherit'}
 const readFile = promisify(fs.readFile)
 const writeFile = promisify(fs.writeFile)
-const options = {stdio: 'inherit', preferLocal: true}
 const command = process.argv[2]
+
+const spawn = (...args) =>
+  new Promise((resolve) => {
+    const spawned = childProcess.spawn(...args)
+
+    spawned.on('exit', () => {
+      resolve()
+    })
+  })
 
 const program = async () => {
   try {
     if (command === 'start') {
-      execa('css', ['src/styles.js', 'src/css/styles', '-wd'], options)
+      spawn('css', ['src/styles.js', 'src/css/styles', '-wd'], options)
 
-      execa(
+      spawn(
         'css',
         ['src/editor/styles.js', 'src/editor/css/styles', '-wd'],
         options
       )
 
-      execa('dev', ['serve', 'src', '-de', 'dev.html'], options)
+      spawn('dev', ['serve', 'src', '-de', 'dev.html'], options)
     }
 
     if (command === 'build') {
       await Promise.all([
-        execa('css', ['src/styles.js', 'src/css/styles'], options),
-        execa(
+        spawn('css', ['src/styles.js', 'src/css/styles'], options),
+        spawn(
           'dev',
           [
             'cache',
@@ -74,7 +83,7 @@ const program = async () => {
         `<!doctype html>${stringify(indexComponent(state, {mainComponent}))}`
       )
 
-      await execa('rollup', ['-c', 'rollup.config.js'], options)
+      await spawn('rollup', ['-c', 'rollup.config.js'], options)
     }
   } catch (error) {
     console.error(error)
