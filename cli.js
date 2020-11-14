@@ -25,28 +25,26 @@ const spawn = (...args) =>
 const program = async () => {
   try {
     if (command === 'start') {
-      spawn('css', ['src/styles.js', 'src/css/styles', '-wd'], options)
+      spawn('css', ['src/styles.js', 'dist/css/styles', '-wd'], options)
 
       spawn(
         'css',
-        ['src/editor/styles.js', 'src/editor/css/styles', '-wd'],
+        ['src/editor/styles.js', 'dist/css/editor/styles', '-wd'],
         options
       )
 
-      spawn('dev', ['serve', 'src', '-de', 'dev.html'], options)
+      spawn('dev', ['serve', 'src', 'dist', '-de', 'dev.html'], options)
     }
 
     if (command === 'build') {
       await Promise.all([
-        spawn('css', ['src/styles.js', 'src/css/styles'], options),
+        spawn('css', ['src/styles.js', 'dist/css/styles'], options),
         spawn(
           'dev',
           [
             'cache',
             'src',
             'dist',
-            '-i',
-            'src/editor',
             '-i',
             'src/editor.html',
             '-i',
@@ -56,7 +54,7 @@ const program = async () => {
         )
       ])
 
-      const {classes} = await import('./src/css/styles.js')
+      const {classes} = await import('./dist/css/styles.js')
 
       const paths = {
         index: './dist/index.html',
