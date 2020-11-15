@@ -40,7 +40,7 @@ export const dispatchLocation = async ({
         post
       })
     } else {
-      app.commit(unfound)
+      app.commit(Object.assign({}, unfound))
     }
   } catch (error) {
     app.commit({

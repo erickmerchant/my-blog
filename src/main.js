@@ -162,7 +162,9 @@ export const createMainComponent = ({
     <article
       class=${state.transitioning ? classes.mainTransitioning : classes.main}
     >
-      <h1 class=${classes.heading1}>${state.title ?? ''}</h1>
+      <header class=${classes.mainHeader}>
+        <h1 class=${classes.heading1}>${state.title ?? ''}</h1>
+      </header>
       <p class=${classes.mainParagraph}>${state.error?.message ?? ''}</p>
     </article>
   `
