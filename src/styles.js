@@ -1,8 +1,7 @@
 const fontWeights = {
-  heading1: 900,
-  heading2: 800,
-  bold: 600,
-  normal: 200
+  heading: 900,
+  bold: 500,
+  normal: 100
 }
 
 const colors = {
@@ -17,6 +16,7 @@ const colors = {
 
 const borderRadius = '3px'
 
+const mobileOnly = '@media (max-width: 1023px)'
 const tabletUp = '@media (min-width: 1024px)'
 const mobileUp = '@media (min-width: 641px) and (max-width: 1023px)'
 
@@ -35,11 +35,12 @@ export const _start = `
     margin: 0;
     padding: 0;
     font: inherit;
+    font-weight: inherit;
   }
 
   html {
     height: 100%;
-    font-family: "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    font-family: "Public Sans", system-ui, sans-serif;
     font-size: max(20px, 1vw);
     font-weight: ${fontWeights.normal};
     line-height: 1.5;
@@ -57,7 +58,7 @@ const heading1 = `
   ${heading}
 
   font-size: 1.5em;
-  font-weight: ${fontWeights.heading1};
+  font-weight: ${fontWeights.heading};
 
   ${tabletUp} {
     margin-top: 2em;
@@ -93,6 +94,7 @@ const paginationItemEnabled = `
 const main = `
   opacity: 1;
   transition: opacity 0.3s;
+  font-weight: ${fontWeights.normal};
 
   ${tabletUp} {
     grid-column: 2;
@@ -100,29 +102,18 @@ const main = `
 `
 
 const mainBlockLevelItem = `
-  max-width: 31em;
+  max-width: 31rem;
   padding-right: 0.5rem;
   padding-left: 0.5rem;
   margin-right: auto;
   margin-left: auto;
 
   ${tabletUp} {
-    max-width: 34em;
+    max-width: 34rem;
     padding-right: 1rem;
     padding-left: 1rem;
     margin-right: 2rem;
     margin-left: 2rem;
-  }
-`
-
-const withDivider = `
-  ::before {
-    content: '';
-    display: block;
-    height: 1px;
-    background-color: ${colors.gray2};
-    width: 80%;
-    margin: 0 auto;
   }
 `
 
@@ -139,10 +130,6 @@ export const classes = {
     }
   `,
   heading1,
-  headerAnchor: `
-    color: #fff;
-    font-weight: ${fontWeights.bold};
-  `,
   main,
   mainTransitioning: `
     ${main}
@@ -158,7 +145,7 @@ export const classes = {
 
     ${heading}
 
-    font-weight: ${fontWeights.heading2};
+    font-weight: ${fontWeights.bold + 100};
   `,
   mainStrong: `
     font-weight: ${fontWeights.bold};
@@ -172,7 +159,7 @@ export const classes = {
     white-space: pre-wrap;
     word-break: break-word;
     background-color: ${colors.gray4};
-    max-width: 32em;
+    max-width: 32rem;
     width: 100%;
 
     ${mobileUp} {
@@ -196,7 +183,6 @@ export const classes = {
   mainCodeInline: `
     ${code}
 
-    font-weight: bold;
     color: ${colors.green1};
     word-break: break-word;
 
@@ -236,7 +222,7 @@ export const classes = {
     display: grid;
     grid-template-columns: max-content 1fr;
     align-items: center;
-    font-weight: ${fontWeights.bold};
+    font-weight: ${fontWeights.normal + 200};
   `,
   dateIcon: `
     height: 0.8em;
@@ -249,7 +235,6 @@ export const classes = {
     ${mainBlockLevelItem}
 
     margin-top: 2em;
-    margin-bottom: 2em;
 
     ${tabletUp} {
       margin-right: auto;
@@ -296,7 +281,7 @@ export const classes = {
     display: contents;
 
     ${tabletUp} {
-      max-width: 34em;
+      max-width: 34rem;
       padding-right: 2rem;
       padding-left: 2rem;
       position: sticky;
@@ -306,11 +291,14 @@ export const classes = {
       grid-template-rows: 1fr 1fr;
     }
   `,
+  headerAnchor: `
+    color: #fff;
+  `,
   header: `
-    font-weight: ${fontWeights.heading1};
     padding-top: 1em;
     padding-bottom: 1em;
     background-color: ${colors.green1};
+    font-weight: ${fontWeights.bold + 100};
     color: #fff;
     display: grid;
     justify-content: center;
@@ -322,6 +310,7 @@ export const classes = {
     ${tabletUp} {
       ${heading}
 
+      font-weight: ${fontWeights.bold + 200};
       display: block;
       font-size: 1.5em;
       padding-top: 0;
@@ -331,27 +320,23 @@ export const classes = {
   `,
   aboutContent: `
     grid-row: 3;
-    padding-bottom: 1em;
+    margin-top: 2em;
 
     ${tabletUp} {
       grid-row: 2;
       background-color: inherit;
       color: inherit;
-      font-size: 1em;
       padding-bottom: 0;
     }
   `,
   aboutContentInner: `
-    max-width: 31em;
     padding-right: 0.5rem;
     padding-left: 0.5rem;
-    margin-right: auto;
-    margin-left: auto;
-
-    ${withDivider}
+    background-color: ${colors.gray1};
 
     ${tabletUp} {
       display: contents;
+      background-color: #fff;
 
       ::before {
         display: none;
@@ -361,7 +346,14 @@ export const classes = {
   aboutHeading: `
     ${heading}
 
-    font-weight: ${fontWeights.bold};
+    font-weight: ${fontWeights.bold + 100};
+    padding-top: 1em;
+
+    ${mobileOnly} {
+      max-width: 30rem;
+      margin-right: auto;
+      margin-left: auto;
+    }
   `,
   aboutAnchor: `
     color: ${colors.green1};
@@ -372,27 +364,45 @@ export const classes = {
   `,
   aboutParagraph: `
     font-size: 0.875em;
+    font-weight: ${fontWeights.normal + 100};
+
+    ${mobileOnly} {
+      max-width: 30rem;
+      margin-right: auto;
+      margin-left: auto;
+    }
   `,
   aboutStrong: `
     font-weight: ${fontWeights.bold};
   `,
   footer: `
     background-color: ${colors.gray1};
+    padding-top: 1em;
     padding-right: 0.5rem;
     padding-left: 0.5rem;
     width: 100%;
+    display: grid;
+    justify-content: center;
+    justify-items: center;
 
     ${tabletUp} {
-      max-width: 34em;
       background-color: #fff;
+      max-width: 34rem;
       grid-column: 2;
       padding-right: 2rem;
       padding-left: 2rem;
       margin-left: auto;
       margin-right: auto;
-
-      ${withDivider}
     }
+  `,
+  footerIcon: `
+    height: 1em;
+    width: 1em;
+  `,
+  footerIconLine: `
+    fill: ${colors.green1};
+    stroke: ${colors.green1};
+    stroke-width: 10;
   `,
   footerList: `
     display: grid;
@@ -401,7 +411,7 @@ export const classes = {
     font-weight: ${fontWeights.bold};
     padding-top: 1em;
     padding-bottom: 1em;
-    max-width: 31em;
+    max-width: 31rem;
     margin-right: auto;
     margin-left: auto;
     list-style: none;
