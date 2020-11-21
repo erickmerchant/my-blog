@@ -8,9 +8,9 @@ import {
   dateUtils,
   createPostsModel
 } from './common.js'
-import {setupApp, initialState, getAnchorAttrs} from './frontend.js'
+import {setupApp, getInitialState, getAnchorAttrs} from './frontend.js'
 
-const app = createApp(Object.assign({}, initialState))
+const app = createApp(getInitialState())
 
 const key = `/content/posts/index.json`
 

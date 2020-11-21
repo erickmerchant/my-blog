@@ -26,7 +26,7 @@
           dateUtils,
           createPostsModel,
           setupApp,
-          initialState,
+          getInitialState,
           dispatchLocation,
           getAnchorAttrs,
           classes
@@ -61,7 +61,7 @@
           })
         }
 
-        app.commit((state = Object.assign({}, initialState)) => state)
+        app.commit((state = getInitialState()) => state)
 
         const anchorAttrs = getAnchorAttrs({
           app,

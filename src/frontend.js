@@ -1,13 +1,17 @@
-const unfound = {
-  route: 'error',
-  title: 'Page Not Found',
-  error: Error(
-    "That page doesn't exist. It was either moved, removed, or never existed."
-  ),
-  transitioning: false
+const getUnfound = () => {
+  return {
+    route: 'error',
+    title: 'Page Not Found',
+    error: Error(
+      "That page doesn't exist. It was either moved, removed, or never existed."
+    ),
+    transitioning: false
+  }
 }
 
-export const initialState = {route: '', title: ''}
+export const getInitialState = () => {
+  return {route: '', title: ''}
+}
 
 export const dispatchLocation = async ({
   app,
@@ -40,7 +44,7 @@ export const dispatchLocation = async ({
         post
       })
     } else {
-      app.commit(Object.assign({}, unfound))
+      app.commit(getUnfound())
     }
   } catch (error) {
     app.commit({
