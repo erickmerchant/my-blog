@@ -153,8 +153,6 @@ export const classes = {
   `,
   tableControl: `
     ${textButton}
-
-    display: inline-block;
   `,
   form: `
     display: grid;
