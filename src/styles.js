@@ -395,15 +395,6 @@ export const classes = {
       margin-right: auto;
     }
   `,
-  footerIcon: `
-    height: 1em;
-    width: 1em;
-  `,
-  footerIconLine: `
-    fill: ${colors.green1};
-    stroke: ${colors.green1};
-    stroke-width: 10;
-  `,
   footerList: `
     display: grid;
     justify-content: center;
@@ -424,6 +415,7 @@ export const classes = {
   footerItem: `
     margin-right: 0.5rem;
     margin-left: 0.5rem;
+
   `,
   footerAnchor: `
     color: ${colors.green1};

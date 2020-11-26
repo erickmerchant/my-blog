@@ -64,18 +64,6 @@ export const createComponent = ({
       ${state.route !== ''
         ? html`
             <footer class=${classes.footer}>
-              <svg
-                viewBox="0 0 100 100"
-                xmlns="http://www.w3.org/2000/svg"
-                class=${classes.footerIcon}
-              >
-                <polygon
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  points="75,10 25,50 75,50 25,90"
-                  class=${classes.footerIconLine}
-                />
-              </svg>
               <ul class=${classes.footerList}>
                 <li class=${classes.footerItem}>
                   <a

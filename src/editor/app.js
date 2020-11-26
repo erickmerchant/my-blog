@@ -1,5 +1,5 @@
 import {createApp, createDomView, html} from '@erickmerchant/framework/main.js'
-import {classes} from '../css/editor/styles.js'
+import {classes} from './css/styles.js'
 import {
   contentComponent,
   getSegments,
