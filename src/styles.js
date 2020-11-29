@@ -206,7 +206,7 @@ export const classes = {
     list-style: none;
   `,
   mainListItem: `
-    :before {
+    ::before {
       content: '-';
       margin-right: 0.5rem;
       font-weight: ${fontWeights.bold};
