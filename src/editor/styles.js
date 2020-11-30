@@ -74,6 +74,8 @@ const textButton = `
   font-weight: ${fontWeights.bold};
   text-decoration: none;
   cursor: pointer;
+  text-align: center;
+  display: inline-block;
 
   :hover {
     text-decoration: none;
@@ -103,12 +105,12 @@ const input = `
 export const classes = {
   app: `
     max-width: 100vw;
-    padding: 2em;
     line-height: 1.5;
     font-size: 16px;
     font-weight: ${fontWeights.normal};
     color: ${colors.black};
     overflow-x: scroll;
+    height: 100%;
 
     --z-index: 0;
   `,
@@ -131,6 +133,10 @@ export const classes = {
 
     color: ${colors.red};
   `,
+  tableContainer: `
+    padding: 1em;
+    height: 100%;
+  `,
   table: `
     width: 100%;
     border-collapse: collapse;
@@ -149,21 +155,24 @@ export const classes = {
     padding-top: 1em;
     padding-bottom: 1em;
     text-align: center;
-    float: right;
   `,
-  tableControl: `
-    ${textButton}
+  tableControl: textButton,
+  tableButtons: `
+    justify-items: end;
+    display: grid;
+    grid-template-columns: 1fr max-content;
+    gap: 1em;
+    position: sticky;
+    bottom: 0;
+    background: white;
+    border-top: 1px solid ${colors.silver};
+    padding: 1em;
   `,
-  form: `
+  formFields: `
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1.5em;
-    position: absolute;
-    top: 0;
-    right: 0;
-    left: 0;
-    padding: 2em;
-    background-color: ${colors.white};
+    padding: 1em;
   `,
   formRow: `
     grid-column: 1 / span 2;
@@ -253,22 +262,18 @@ export const classes = {
     resize: none;
   `,
   formButtons: `
-    grid-column: 1 / span 2;
-    justify-self: end;
+    justify-items: end;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr max-content max-content;
     gap: 1em;
+    position: sticky;
+    bottom: 0;
+    background: white;
+    border-top: 1px solid ${colors.silver};
+    padding: 1em;
   `,
-  cancelButton: `
-    ${textButton}
-
-    margin-top: 1em;
-  `,
-  saveButton: `
-    ${button}
-
-    margin-top: 1em;
-  `,
+  cancelButton: textButton,
+  saveButton: button,
   stackTrace: `
     color: ${colors.red};
     white-space: pre-wrap;

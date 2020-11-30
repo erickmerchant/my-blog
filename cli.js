@@ -13,9 +13,19 @@ const readFile = promisify(fs.readFile)
 const writeFile = promisify(fs.writeFile)
 const command = process.argv[2]
 
-const spawn = (...args) =>
+const spawn = (strs, ...quoted) =>
   new Promise((resolve) => {
-    const spawned = childProcess.spawn(...args)
+    const args = []
+
+    for (let i = 0; i < strs.length; i++) {
+      args.push(...strs[i].split(' '))
+
+      if (quoted[i] != null) {
+        args.push(quoted[i])
+      }
+    }
+
+    const spawned = childProcess.spawn(args[0], args.slice(1), options)
 
     spawned.on('exit', () => {
       resolve()
@@ -25,29 +35,17 @@ const spawn = (...args) =>
 const program = async () => {
   try {
     if (command === 'start') {
-      spawn('css', ['src/styles.js', 'dist/css', '-wd'], options)
+      spawn`css src/styles.js dist/css -wd`
 
-      spawn('css', ['src/editor/styles.js', 'dist/editor/css', '-wd'], options)
+      spawn`css src/editor/styles.js dist/editor/css -wd`
 
-      spawn('dev', ['serve', 'src', 'dist', '-de', 'dev.html'], options)
+      spawn`dev serve src dist -de dev.html`
     }
 
     if (command === 'build') {
       await Promise.all([
-        spawn('css', ['src/styles.js', 'dist/css'], options),
-        spawn(
-          'dev',
-          [
-            'cache',
-            'src',
-            'dist',
-            '-i',
-            'src/editor.html',
-            '-i',
-            'src/dev.html'
-          ],
-          options
-        )
+        spawn`css src/styles.js dist/css`,
+        spawn`dev cache src dist -i src/editor.html -i src/dev.html`
       ])
 
       const {classes} = await import('./dist/css/styles.js')
@@ -77,7 +75,7 @@ const program = async () => {
         `<!doctype html>${stringify(indexComponent(state, {mainComponent}))}`
       )
 
-      await spawn('rollup', ['-c', 'rollup.config.js'], options)
+      await spawn`rollup -c rollup.config.js`
     }
   } catch (error) {
     console.error(error)

@@ -290,9 +290,63 @@ const view = createDomView(
         if (state.route === 'posts') {
           return [
             html`
-              <header class=${classes.header}>
-                <h1 class=${classes.headerHeading}>Posts</h1>
-                <span />
+              <div class=${classes.tableContainer}>
+                <header class=${classes.header}>
+                  <h1 class=${classes.headerHeading}>Posts</h1>
+                </header>
+
+                <table class=${classes.table}>
+                  <thead>
+                    <tr>
+                      <th class=${classes.th}>Title</th>
+                      <th class=${classes.th}>Date</th>
+                      <th class=${classes.th} />
+                    </tr>
+                  </thead>
+                  <tbody>
+                    ${state.posts.map(
+                      (post) => html`
+                        <tr>
+                          <td class=${classes.td}>${post.title}</td>
+                          <td class=${classes.td}>
+                            ${dateUtils.prettyDate(
+                              dateUtils.stringToDate(post.date)
+                            )}
+                          </td>
+                          <td class=${classes.tableControls}>
+                            <a
+                              tabindex="0"
+                              class=${classes.tableControl}
+                              href=${`#/posts/edit/${post.slug}`}
+                            >
+                              Edit
+                            </a>
+                            <a
+                              tabindex="0"
+                              class=${classes.tableControl}
+                              target="_blank"
+                              href=${`/posts/${post.slug}`}
+                            >
+                              View
+                            </a>
+                            <button
+                              tabindex="0"
+                              class=${classes.deleteButton}
+                              type="button"
+                              onclick=${remove(post)}
+                            >
+                              Delete
+                            </button>
+                          </td>
+                        </tr>
+                      `
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            `,
+            html`
+              <div class=${classes.tableButtons}>
                 <a
                   tabindex="0"
                   class=${classes.createButton}
@@ -300,57 +354,7 @@ const view = createDomView(
                 >
                   New
                 </a>
-              </header>
-            `,
-            html`
-              <table class=${classes.table}>
-                <thead>
-                  <tr>
-                    <th class=${classes.th}>Title</th>
-                    <th class=${classes.th}>Date</th>
-                    <th class=${classes.th} />
-                  </tr>
-                </thead>
-                <tbody>
-                  ${state.posts.map(
-                    (post) => html`
-                      <tr>
-                        <td class=${classes.td}>${post.title}</td>
-                        <td class=${classes.td}>
-                          ${dateUtils.prettyDate(
-                            dateUtils.stringToDate(post.date)
-                          )}
-                        </td>
-                        <td class=${classes.tableControls}>
-                          <a
-                            tabindex="0"
-                            class=${classes.tableControl}
-                            href=${`#/posts/edit/${post.slug}`}
-                          >
-                            Edit
-                          </a>
-                          <a
-                            tabindex="0"
-                            class=${classes.tableControl}
-                            target="_blank"
-                            href=${`/posts/${post.slug}`}
-                          >
-                            View
-                          </a>
-                          <button
-                            tabindex="0"
-                            class=${classes.deleteButton}
-                            type="button"
-                            onclick=${remove(post)}
-                          >
-                            Delete
-                          </button>
-                        </td>
-                      </tr>
-                    `
-                  )}
-                </tbody>
-              </table>
+              </div>
             `
           ]
         }
@@ -358,84 +362,85 @@ const view = createDomView(
         if (['posts/edit', 'posts/create'].includes(state.route)) {
           return html`
             <form
-              class=${classes.form}
               onsubmit=${save(state.post)}
               method="POST"
               autocomplete="off"
               ${zIndexHandlers}
             >
-              <div class=${classes.formRow}>
-                <label class=${classes.labelLarge} for="field-title">
-                  Title
-                </label>
-                <input
-                  class=${classes.inputLarge}
-                  name="title"
-                  id="field-title"
-                  value=${state.post.title ?? ''}
-                  oninput=${(e) =>
-                    app.commit((state) => {
-                      state.post.title = e.target.value
-                    })}
-                  ${zIndexHandlers}
-                />
-              </div>
-              <div>
-                <label class=${classes.label} for="field-date">Date</label>
-                <input
-                  class=${classes.input}
-                  name="date"
-                  type="date"
-                  id="field-date"
-                  value=${state.post.date ?? ''}
-                  oninput=${(e) =>
-                    app.commit((state) => {
-                      state.post.date = e.target.value
-                    })}
-                  ${zIndexHandlers}
-                />
-              </div>
-              <div>
-                <label class=${classes.label} for="field-slug">Slug</label>
-                <input
-                  class=${state.post.slug != null
-                    ? classes.inputReadOnly
-                    : classes.input}
-                  name="slug"
-                  id="field-slug"
-                  readonly=${state.post.slug != null}
-                  value=${state.post.slug ?? ''}
-                  placeholder=${slugify(state.post.title ?? '')}
-                  oninput=${state.post.slug == null
-                    ? (e) =>
-                        app.commit((state) => {
-                          state.post.slug = e.target.value
-                        })
-                    : null}
-                  ${zIndexHandlers}
-                />
-              </div>
-              <div class=${classes.formRow}>
-                <label class=${classes.label} for="field-content">
-                  Content
-                </label>
-                <div class=${classes.textareaWrap}>
-                  <div class=${classes.textareaHighlightsWrap}>
-                    <pre class=${classes.textareaHighlights}>
+              <div class=${classes.formFields}>
+                <div class=${classes.formRow}>
+                  <label class=${classes.labelLarge} for="field-title">
+                    Title
+                  </label>
+                  <input
+                    class=${classes.inputLarge}
+                    name="title"
+                    id="field-title"
+                    value=${state.post.title ?? ''}
+                    oninput=${(e) =>
+                      app.commit((state) => {
+                        state.post.title = e.target.value
+                      })}
+                    ${zIndexHandlers}
+                  />
+                </div>
+                <div>
+                  <label class=${classes.label} for="field-date">Date</label>
+                  <input
+                    class=${classes.input}
+                    name="date"
+                    type="date"
+                    id="field-date"
+                    value=${state.post.date ?? ''}
+                    oninput=${(e) =>
+                      app.commit((state) => {
+                        state.post.date = e.target.value
+                      })}
+                    ${zIndexHandlers}
+                  />
+                </div>
+                <div>
+                  <label class=${classes.label} for="field-slug">Slug</label>
+                  <input
+                    class=${state.post.slug != null
+                      ? classes.inputReadOnly
+                      : classes.input}
+                    name="slug"
+                    id="field-slug"
+                    readonly=${state.post.slug != null}
+                    value=${state.post.slug ?? ''}
+                    placeholder=${slugify(state.post.title ?? '')}
+                    oninput=${state.post.slug == null
+                      ? (e) =>
+                          app.commit((state) => {
+                            state.post.slug = e.target.value
+                          })
+                      : null}
+                    ${zIndexHandlers}
+                  />
+                </div>
+                <div class=${classes.formRow}>
+                  <label class=${classes.label} for="field-content">
+                    Content
+                  </label>
+                  <div class=${classes.textareaWrap}>
+                    <div class=${classes.textareaHighlightsWrap}>
+                      <pre class=${classes.textareaHighlights}>
                       ${highlighter(state.post.highlightedContent)}
                     </pre
+                      >
+                    </div>
+                    <textarea
+                      class=${classes.textarea}
+                      name="content"
+                      id="field-content"
+                      oninput=${highlight}
+                      ${zIndexHandlers}
+                    >
+                      ${state.post.content ?? ''}
+                    </textarea
                     >
                   </div>
-                  <textarea
-                    class=${classes.textarea}
-                    name="content"
-                    id="field-content"
-                    oninput=${highlight}
-                    ${zIndexHandlers}
-                  >
-                    ${state.post.content ?? ''}
-                  </textarea
-                  >
                 </div>
               </div>
               <div class=${classes.formButtons}>
