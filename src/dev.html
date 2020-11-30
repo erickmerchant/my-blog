@@ -19,7 +19,7 @@
 
       runtime(async (get) => {
         const {
-          createComponent,
+          createLayoutComponent,
           createMainComponent,
           contentComponent,
           getSegments,
@@ -31,8 +31,8 @@
           getAnchorAttrs,
           classes
         } = await get(
-          'component.js',
-          'main.js',
+          'components/layout.js',
+          'components/main.js',
           'common.js',
           'frontend.js',
           'css/styles.js'
@@ -76,7 +76,7 @@
           anchorAttrs
         })
 
-        const component = createComponent({
+        const component = createLayoutComponent({
           classes,
           contentComponent,
           mainComponent,

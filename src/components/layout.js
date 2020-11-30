@@ -19,7 +19,7 @@ I'm *Erick Merchant*. I've been employed as a web developer for *${yearsSince(
 )}* years. This is my web development blog. Check out my [open-source projects](https://github.com/erickmerchant) on Github.
 `
 
-export const createComponent = ({
+export const createLayoutComponent = ({
   classes,
   contentComponent,
   mainComponent,

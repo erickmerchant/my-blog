@@ -3,8 +3,8 @@ import {promisify} from 'util'
 import fs from 'fs'
 import {stringify} from '@erickmerchant/framework/stringify.js'
 import {html} from '@erickmerchant/framework/main.js'
-import {indexComponent} from './src/index.js'
-import {createComponent} from './src/component.js'
+import {indexComponent} from './src/components/index.js'
+import {createLayoutComponent} from './src/components/layout.js'
 import {contentComponent} from './src/common.js'
 import childProcess from 'child_process'
 
@@ -58,7 +58,7 @@ const program = async () => {
       }
 
       const state = {route: '', title: ''}
-      const mainComponent = createComponent({
+      const mainComponent = createLayoutComponent({
         classes,
         contentComponent,
         mainComponent: () =>

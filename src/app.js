@@ -1,7 +1,7 @@
 import {createDomView, createApp} from '@erickmerchant/framework/main.js'
 import {classes} from './css/styles.js'
-import {createMainComponent} from './main.js'
-import {createComponent} from './component.js'
+import {createMainComponent} from './components/main.js'
+import {createLayoutComponent} from './components/layout.js'
 import {
   contentComponent,
   getSegments,
@@ -41,7 +41,7 @@ const mainComponent = createMainComponent({
   anchorAttrs
 })
 
-const component = createComponent({
+const component = createLayoutComponent({
   classes,
   contentComponent,
   mainComponent,
