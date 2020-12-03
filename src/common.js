@@ -84,62 +84,63 @@ export const contentComponent = (str, templates, stripBackslash = true) => {
     if (code != null && ln !== codeFence) {
       code.push(ln)
       code.push('\n')
+    } else {
+      if (!ln.startsWith('- ') && items.length) {
+        html.push(templates.list(items))
 
-      continue
-    }
+        items = []
+      }
 
-    if (!ln.startsWith('- ') && items.length) {
-      html.push(templates.list(items))
-
-      items = []
-    }
-
-    switch (true) {
-      case ln.startsWith('# '):
-        html.push(templates.heading(ln.substring(2)))
-        html.push('\n')
-        break
-
-      case ln.startsWith('- '):
-        items.push(templates.listItem(inline(ln.substring(2))))
-        items.push('\n')
-        break
-
-      case ln === codeFence:
-        if (code != null) {
-          html.push(templates.codeBlock(inline(code.join('')), true))
+      switch (true) {
+        case ln.startsWith('# '):
+          html.push(templates.heading(ln.substring(2)))
           html.push('\n')
+          break
 
-          code = null
-        } else {
-          code = []
+        case ln.startsWith('- '):
+          items.push(templates.listItem(inline(ln.substring(2))))
+          items.push('\n')
+          break
+
+        case ln === codeFence:
+          if (code != null) {
+            html.push(templates.codeBlock(inline(code.join('')), true))
+            html.push('\n')
+
+            code = null
+          } else {
+            code = []
+          }
+          break
+
+        case ln === `\\${codeFence}`:
+          if (stripBackslash) {
+            html.push(codeFence)
+          } else {
+            html.push(ln)
+          }
+
+          html.push('\n')
+          break
+
+        default: {
+          let l = ln
+
+          if (
+            stripBackslash &&
+            (l.startsWith('\\# ') || l.startsWith('\\- '))
+          ) {
+            l = l.substring(1)
+          }
+
+          const p = templates.paragraph(inline(l))
+
+          if (p != null) {
+            html.push(p)
+          }
+
+          html.push('\n')
         }
-        break
-
-      case ln === `\\${codeFence}`:
-        if (stripBackslash) {
-          html.push(codeFence)
-        } else {
-          html.push(ln)
-        }
-
-        html.push('\n')
-        break
-
-      default: {
-        let l = ln
-
-        if (stripBackslash && (l.startsWith('\\# ') || l.startsWith('\\- '))) {
-          l = l.substring(1)
-        }
-
-        const p = templates.paragraph(inline(l))
-
-        if (p != null) {
-          html.push(p)
-        }
-
-        html.push('\n')
       }
     }
   }
