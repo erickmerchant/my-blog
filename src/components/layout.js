@@ -24,62 +24,60 @@ export const createLayoutComponent = ({
   contentComponent,
   mainComponent,
   anchorAttrs
-}) => {
-  return (state) => html`
-    <body class=${classes.app}>
-      <div class=${classes.hero}>
-        <div class=${classes.heroInner}>
-          <header class=${classes.header}>
-            <a ${anchorAttrs('/')} class=${classes.headerAnchor}>
-              ErickMerchant.com
-            </a>
-          </header>
-          <aside class=${classes.aboutContent}>
-            <div class=${classes.aboutContentInner}>
-              ${contentComponent(aboutContent, {
-                heading: (text) =>
-                  html`
-                    <h3 class=${classes.aboutHeading}>${text}</h3>
-                  `,
-                link: (text, href) =>
-                  html`
-                    <a class=${classes.aboutAnchor} href=${href}>${text}</a>
-                  `,
-                paragraph: (items) =>
-                  items.length
-                    ? html`
-                        <p class=${classes.aboutParagraph}>${items}</p>
-                      `
-                    : null,
-                bold: (text) =>
-                  html`
-                    <strong class=${classes.aboutStrong}>${text}</strong>
-                  `
-              })}
-            </div>
-          </aside>
-        </div>
+}) => (state) => html`
+  <body class=${classes.app}>
+    <div class=${classes.hero}>
+      <div class=${classes.heroInner}>
+        <header class=${classes.header}>
+          <a ${anchorAttrs('/')} class=${classes.headerAnchor}>
+            ErickMerchant.com
+          </a>
+        </header>
+        <aside class=${classes.aboutContent}>
+          <div class=${classes.aboutContentInner}>
+            ${contentComponent(aboutContent, {
+              heading: (text) =>
+                html`
+                  <h3 class=${classes.aboutHeading}>${text}</h3>
+                `,
+              link: (text, href) =>
+                html`
+                  <a class=${classes.aboutAnchor} href=${href}>${text}</a>
+                `,
+              paragraph: (items) =>
+                items.length
+                  ? html`
+                      <p class=${classes.aboutParagraph}>${items}</p>
+                    `
+                  : null,
+              bold: (text) =>
+                html`
+                  <strong class=${classes.aboutStrong}>${text}</strong>
+                `
+            })}
+          </div>
+        </aside>
       </div>
-      ${mainComponent(state)}
-      ${state.route !== ''
-        ? html`
-            <footer class=${classes.footer}>
-              <ul class=${classes.footerList}>
-                <li class=${classes.footerItem}>
-                  <a
-                    class=${classes.footerAnchor}
-                    href="https://github.com/erickmerchant/my-blog"
-                  >
-                    View Source
-                  </a>
-                </li>
-                <li class=${classes.footerItem}>
-                  ${`© ${new Date().getFullYear()} Erick Merchant`}
-                </li>
-              </ul>
-            </footer>
-          `
-        : null}
-    </body>
-  `
-}
+    </div>
+    ${mainComponent(state)}
+    ${state.route !== ''
+      ? html`
+          <footer class=${classes.footer}>
+            <ul class=${classes.footerList}>
+              <li class=${classes.footerItem}>
+                <a
+                  class=${classes.footerAnchor}
+                  href="https://github.com/erickmerchant/my-blog"
+                >
+                  View Source
+                </a>
+              </li>
+              <li class=${classes.footerItem}>
+                ${`© ${new Date().getFullYear()} Erick Merchant`}
+              </li>
+            </ul>
+          </footer>
+        `
+      : null}
+  </body>
+`

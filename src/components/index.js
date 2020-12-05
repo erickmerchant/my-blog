@@ -1,6 +1,6 @@
 import {html} from '@erickmerchant/framework/main.js'
 
-export const indexComponent = (state, {mainComponent}) => html`
+export const indexComponent = ({mainComponent}) => (state) => html`
   <html lang="en">
     <head>
       <meta charset="utf-8" />

@@ -72,7 +72,7 @@ const program = async () => {
 
       await writeFile(
         paths.index,
-        `<!doctype html>${stringify(indexComponent(state, {mainComponent}))}`
+        `<!doctype html>${stringify(indexComponent({mainComponent})(state))}`
       )
 
       await spawn`rollup -c rollup.config.js`
