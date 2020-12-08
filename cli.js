@@ -5,6 +5,7 @@ import {stringify} from '@erickmerchant/framework/stringify.js'
 import {html} from '@erickmerchant/framework/main.js'
 import {indexComponent} from './src/components/index.js'
 import {createLayoutComponent} from './src/components/layout.js'
+import {createAboutComponent} from './src/components/about.js'
 import {contentComponent} from './src/common.js'
 import childProcess from 'child_process'
 
@@ -48,7 +49,7 @@ const program = async () => {
         spawn`dev cache src dist -i src/editor.html -i src/dev.html`
       ])
 
-      const {classes} = await import('./dist/css/styles.js')
+      const {layoutClasses, aboutClasses} = await import('./dist/css/styles.js')
 
       const paths = {
         index: './dist/index.html',
@@ -56,9 +57,15 @@ const program = async () => {
       }
 
       const state = {route: '', title: ''}
+
+      const aboutComponent = createAboutComponent({
+        classes: aboutClasses,
+        contentComponent
+      })
+
       const mainComponent = createLayoutComponent({
-        classes,
-        contentComponent,
+        classes: layoutClasses,
+        aboutComponent,
         mainComponent: () =>
           html`
             <article></article>

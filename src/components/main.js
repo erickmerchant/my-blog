@@ -35,7 +35,7 @@ export const createMainComponent = ({
       <article
         class=${state.transitioning ? classes.mainTransitioning : classes.main}
       >
-        <header class=${classes.mainHeader}>
+        <header class=${classes.header}>
           <h1 class=${classes.heading1}>${state.post.title}</h1>
           <time class=${classes.date} datetime=${state.post.date}>
             <svg viewBox="0 0 33 33" class=${classes.dateIcon}>
@@ -107,40 +107,40 @@ export const createMainComponent = ({
         ${contentComponent(state.post.content ?? '', {
           bold: (text) =>
             html`
-              <strong class=${classes.mainStrong}>${text}</strong>
+              <strong class=${classes.strong}>${text}</strong>
             `,
           codeBlock: (items) =>
             html`
               <pre
-                class=${classes.mainPre}
-              ><code class=${classes.mainCodeBlock}>${items}</code></pre>
+                class=${classes.pre}
+              ><code class=${classes.codeBlock}>${items}</code></pre>
             `,
           codeInline: (text) =>
             html`
-              <code class=${classes.mainCodeInline}>${text}</code>
+              <code class=${classes.codeInline}>${text}</code>
             `,
           heading: (text) =>
             html`
-              <h2 class=${classes.mainHeading2}>${text}</h2>
+              <h2 class=${classes.heading2}>${text}</h2>
             `,
           link: (text, href) =>
             html`
-              <a class=${classes.mainAnchor} href=${href}>${text}</a>
+              <a class=${classes.anchor} href=${href}>${text}</a>
             `,
           list: (items) =>
             html`
-              <ul class=${classes.mainList}>
+              <ul class=${classes.list}>
                 ${items}
               </ul>
             `,
           listItem: (items) =>
             html`
-              <li class=${classes.mainListItem}>${items}</li>
+              <li class=${classes.listItem}>${items}</li>
             `,
           paragraph: (items) =>
             items.length
               ? html`
-                  <p class=${classes.mainParagraph}>${items}</p>
+                  <p class=${classes.paragraph}>${items}</p>
                 `
               : null
         })}
@@ -162,10 +162,10 @@ export const createMainComponent = ({
     <article
       class=${state.transitioning ? classes.mainTransitioning : classes.main}
     >
-      <header class=${classes.mainHeader}>
+      <header class=${classes.header}>
         <h1 class=${classes.heading1}>${state.title ?? ''}</h1>
       </header>
-      <p class=${classes.mainParagraph}>${state.error?.message ?? ''}</p>
+      <p class=${classes.paragraph}>${state.error?.message ?? ''}</p>
     </article>
   `
 }

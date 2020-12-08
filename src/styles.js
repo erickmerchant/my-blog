@@ -117,7 +117,7 @@ const mainBlockLevelItem = `
   }
 `
 
-export const classes = {
+export const layoutClasses = {
   app: `
     display: grid;
     min-height: 100%;
@@ -127,144 +127,6 @@ export const classes = {
     ${tabletUp} {
       grid-template-columns: 1fr 2fr;
       grid-template-rows: 1fr max-content;
-    }
-  `,
-  heading1,
-  main,
-  mainTransitioning: `
-    ${main}
-
-    opacity: 0;
-    transition: none;
-  `,
-  mainHeader: `
-    ${mainBlockLevelItem}
-  `,
-  mainHeading2: `
-    ${mainBlockLevelItem}
-
-    ${heading}
-
-    font-weight: ${fontWeights.bold + 100};
-  `,
-  mainStrong: `
-    font-weight: ${fontWeights.bold};
-  `,
-  mainPre: `
-    overflow: auto;
-    padding-top: 1em;
-    padding-bottom: 1em;
-    padding-right: 0.5rem;
-    padding-left: 0.5rem;
-    white-space: pre-wrap;
-    word-break: break-word;
-    background-color: ${colors.gray4};
-    max-width: 32rem;
-    width: 100%;
-
-    ${mobileUp} {
-      border-radius: ${borderRadius};
-      margin-right: auto;
-      margin-left: auto;
-      padding-right: 1rem;
-      padding-left: 1rem;
-    }
-
-    ${tabletUp} {
-      border-radius: ${borderRadius};
-      max-width: 100%;
-      width: auto;
-      margin-right: 2rem;
-      margin-left: 2rem;
-      padding-right: 1rem;
-      padding-left: 1rem;
-    }
-  `,
-  mainCodeInline: `
-    ${code}
-
-    color: ${colors.green1};
-    word-break: break-word;
-
-    ::before,
-    ::after {
-      content: "\`";
-    }
-  `,
-  mainCodeBlock: `
-    ${code}
-  `,
-  mainAnchor: `
-    color: ${colors.green1};
-  `,
-  mainList: `
-    ${mainBlockLevelItem}
-
-    margin-top: 1em;
-    margin-bottom: 1em;
-    padding-left: 0.5rem;
-    list-style: none;
-  `,
-  mainListItem: `
-    ::before {
-      content: '-';
-      margin-right: 0.5rem;
-      font-weight: ${fontWeights.bold};
-    }
-  `,
-  mainParagraph: `
-    ${mainBlockLevelItem}
-
-    margin-top: 1em;
-    margin-bottom: 1em;
-  `,
-  date: `
-    display: grid;
-    grid-template-columns: max-content 1fr;
-    align-items: center;
-    font-weight: ${fontWeights.normal + 200};
-  `,
-  dateIcon: `
-    height: 0.8em;
-    margin-right: 0.25rem;
-  `,
-  dateIconPart: `
-    fill: ${colors.gray4};
-  `,
-  pagination: `
-    ${mainBlockLevelItem}
-
-    margin-top: 2em;
-
-    ${tabletUp} {
-      margin-right: auto;
-      margin-left: auto;
-      padding-right: 2rem;
-      padding-left: 2rem;
-    }
-  `,
-  paginationList: `
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(7em, 1fr));
-    gap: 1em;
-    color: #fff;
-    text-align: center;
-    list-style: none;
-  `,
-  paginationItemDisabled,
-  paginationItemEnabled,
-  paginationAnchor: `
-    color: #fff;
-
-    ::after {
-      content: '';
-      display: block;
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      right: 0;
-      left: 0;
-      border-radius: ${borderRadius};
     }
   `,
   hero: `
@@ -318,63 +180,6 @@ export const classes = {
       margin-top: 2em;
     }
   `,
-  aboutContent: `
-    grid-row: 3;
-    margin-top: 2em;
-
-    ${tabletUp} {
-      grid-row: 2;
-      background-color: inherit;
-      color: inherit;
-      padding-bottom: 0;
-    }
-  `,
-  aboutContentInner: `
-    padding-right: 0.5rem;
-    padding-left: 0.5rem;
-    background-color: ${colors.gray1};
-
-    ${tabletUp} {
-      display: contents;
-      background-color: #fff;
-
-      ::before {
-        display: none;
-      }
-    }
-  `,
-  aboutHeading: `
-    ${heading}
-
-    font-weight: ${fontWeights.bold + 100};
-    padding-top: 1em;
-
-    ${mobileOnly} {
-      max-width: 30rem;
-      margin-right: auto;
-      margin-left: auto;
-    }
-  `,
-  aboutAnchor: `
-    color: ${colors.green1};
-
-    ${tabletUp} {
-      color: #fff;
-    }
-  `,
-  aboutParagraph: `
-    font-size: 0.875em;
-    font-weight: ${fontWeights.normal + 100};
-
-    ${mobileOnly} {
-      max-width: 30rem;
-      margin-right: auto;
-      margin-left: auto;
-    }
-  `,
-  aboutStrong: `
-    font-weight: ${fontWeights.bold};
-  `,
   footer: `
     background-color: ${colors.gray1};
     padding-top: 1em;
@@ -419,5 +224,206 @@ export const classes = {
   `,
   footerAnchor: `
     color: ${colors.green1};
+  `
+}
+
+export const aboutClasses = {
+  about: `
+    grid-row: 3;
+    margin-top: 2em;
+
+    ${tabletUp} {
+      grid-row: 2;
+      background-color: inherit;
+      color: inherit;
+      padding-bottom: 0;
+    }
+  `,
+  inner: `
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+    background-color: ${colors.gray1};
+
+    ${tabletUp} {
+      display: contents;
+      background-color: #fff;
+
+      ::before {
+        display: none;
+      }
+    }
+  `,
+  heading: `
+    ${heading}
+
+    font-weight: ${fontWeights.bold + 100};
+    padding-top: 1em;
+
+    ${mobileOnly} {
+      max-width: 30rem;
+      margin-right: auto;
+      margin-left: auto;
+    }
+  `,
+  anchor: `
+    color: ${colors.green1};
+
+    ${tabletUp} {
+      color: #fff;
+    }
+  `,
+  paragraph: `
+    font-size: 0.875em;
+    font-weight: ${fontWeights.normal + 100};
+
+    ${mobileOnly} {
+      max-width: 30rem;
+      margin-right: auto;
+      margin-left: auto;
+    }
+  `,
+  strong: `
+    font-weight: ${fontWeights.bold};
+  `
+}
+
+export const mainClasses = {
+  heading1,
+  main,
+  mainTransitioning: `
+    ${main}
+
+    opacity: 0;
+    transition: none;
+  `,
+  header: `
+    ${mainBlockLevelItem}
+  `,
+  heading2: `
+    ${mainBlockLevelItem}
+
+    ${heading}
+
+    font-weight: ${fontWeights.bold + 100};
+  `,
+  strong: `
+    font-weight: ${fontWeights.bold};
+  `,
+  pre: `
+    overflow: auto;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+    white-space: pre-wrap;
+    word-break: break-word;
+    background-color: ${colors.gray4};
+    max-width: 32rem;
+    width: 100%;
+
+    ${mobileUp} {
+      border-radius: ${borderRadius};
+      margin-right: auto;
+      margin-left: auto;
+      padding-right: 1rem;
+      padding-left: 1rem;
+    }
+
+    ${tabletUp} {
+      border-radius: ${borderRadius};
+      max-width: 100%;
+      width: auto;
+      margin-right: 2rem;
+      margin-left: 2rem;
+      padding-right: 1rem;
+      padding-left: 1rem;
+    }
+  `,
+  codeInline: `
+    ${code}
+
+    color: ${colors.green1};
+    word-break: break-word;
+
+    ::before,
+    ::after {
+      content: "\`";
+    }
+  `,
+  codeBlock: `
+    ${code}
+  `,
+  anchor: `
+    color: ${colors.green1};
+  `,
+  list: `
+    ${mainBlockLevelItem}
+
+    margin-top: 1em;
+    margin-bottom: 1em;
+    padding-left: 0.5rem;
+    list-style: none;
+  `,
+  listItem: `
+    ::before {
+      content: '-';
+      margin-right: 0.5rem;
+      font-weight: ${fontWeights.bold};
+    }
+  `,
+  paragraph: `
+    ${mainBlockLevelItem}
+
+    margin-top: 1em;
+    margin-bottom: 1em;
+  `,
+  date: `
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    align-items: center;
+    font-weight: ${fontWeights.normal + 200};
+  `,
+  dateIcon: `
+    height: 0.8em;
+    margin-right: 0.25rem;
+  `,
+  dateIconPart: `
+    fill: ${colors.gray4};
+  `,
+  pagination: `
+    ${mainBlockLevelItem}
+
+    margin-top: 2em;
+
+    ${tabletUp} {
+      margin-right: auto;
+      margin-left: auto;
+      padding-right: 2rem;
+      padding-left: 2rem;
+    }
+  `,
+  paginationList: `
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(7em, 1fr));
+    gap: 1em;
+    color: #fff;
+    text-align: center;
+    list-style: none;
+  `,
+  paginationItemDisabled,
+  paginationItemEnabled,
+  paginationAnchor: `
+    color: #fff;
+
+    ::after {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      border-radius: ${borderRadius};
+    }
   `
 }

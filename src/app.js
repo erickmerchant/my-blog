@@ -1,7 +1,8 @@
 import {createDomView, createApp} from '@erickmerchant/framework/main.js'
-import {classes} from './css/styles.js'
+import {layoutClasses, aboutClasses, mainClasses} from './css/styles.js'
 import {createMainComponent} from './components/main.js'
 import {createLayoutComponent} from './components/layout.js'
+import {createAboutComponent} from './components/about.js'
 import {
   contentComponent,
   getSegments,
@@ -35,15 +36,20 @@ const anchorAttrs = getAnchorAttrs({
 })
 
 const mainComponent = createMainComponent({
-  classes,
+  classes: mainClasses,
   contentComponent,
   dateUtils,
   anchorAttrs
 })
 
+const aboutComponent = createAboutComponent({
+  classes: aboutClasses,
+  contentComponent
+})
+
 const component = createLayoutComponent({
-  classes,
-  contentComponent,
+  classes: layoutClasses,
+  aboutComponent,
   mainComponent,
   anchorAttrs
 })
