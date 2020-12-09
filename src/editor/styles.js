@@ -39,6 +39,13 @@ export const _start = `
   }
 `
 
+const headerHeading = `
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  font-size: 1.5em;
+  font-weight: ${fontWeights.heading};
+`
+
 const button = `
   appearance: none;
   padding-top: 0.5em;
@@ -102,7 +109,7 @@ const input = `
   color: ${colors.black};
 `
 
-export const classes = {
+export const layoutClasses = {
   app: `
     max-width: 100vw;
     line-height: 1.5;
@@ -113,19 +120,17 @@ export const classes = {
     height: 100%;
 
     --z-index: 0;
-  `,
+  `
+}
+
+export const listClasses = {
   header: `
     display: grid;
     grid-template-columns: max-content 1fr max-content;
     align-items: center;
     border: 5px solid transparent;
   `,
-  headerHeading: `
-    padding-top: 0.5em;
-    padding-bottom: 0.5em;
-    font-size: 1.5em;
-    font-weight: ${fontWeights.heading};
-  `,
+  headerHeading,
   createButton: button,
   textButton,
   deleteButton: `
@@ -167,32 +172,42 @@ export const classes = {
     background: white;
     border-top: 1px solid ${colors.silver};
     padding: 1em;
+  `
+}
+
+export const formClasses = {
+  form: `
+    display: grid;
+    grid-template-rows: 1fr max-content;
+    height: 100%;
   `,
   formFields: `
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1.5em;
     padding: 1em;
+    height: max-content;
   `,
   formRow: `
     grid-column: 1 / span 2;
   `,
-  label,
   labelLarge: `
     ${label}
 
     font-size: 1.125em;
   `,
+  inputLarge: `
+    ${input}
+
+    font-size: 1.5em;
+    font-weight: ${fontWeights.heading};
+  `,
+  label,
   input,
   inputReadOnly: `
     ${input}
 
     background-color: ${colors.silver};
-  `,
-  inputLarge: `
-    ${input}
-
-    font-size: 1.25em;
   `,
   textareaWrap: `
     position: relative;
@@ -214,33 +229,6 @@ export const classes = {
     white-space: pre-wrap;
     word-break: break-word;
     color: ${colors.black};
-  `,
-  highlightPunctuation: `
-    color: ${colors.gray};
-    font-weight: ${fontWeights.normal};
-  `,
-  highlightBold: `
-    font-weight: ${fontWeights.bold};
-  `,
-  highlightUrl: `
-    color: ${colors.blue};
-  `,
-  highlightCodeBlock: `
-    white-space: pre-wrap;
-    color: ${colors.green};
-    font-weight: ${fontWeights.normal};
-  `,
-  highlightCodeInline: `
-    color: ${colors.green};
-    font-weight: ${fontWeights.normal};
-  `,
-  highlightHeading: `
-    color: ${colors.black};
-    font-weight: ${fontWeights.heading};
-  `,
-  highlightHeadingPunctuation: `
-    color: ${colors.gray};
-    font-weight: ${fontWeights.heading};
   `,
   textarea: `
     position: absolute;
@@ -273,7 +261,41 @@ export const classes = {
     padding: 1em;
   `,
   cancelButton: textButton,
-  saveButton: button,
+  saveButton: button
+}
+
+export const highlightClasses = {
+  punctuation: `
+    color: ${colors.gray};
+    font-weight: ${fontWeights.normal};
+  `,
+  bold: `
+    font-weight: ${fontWeights.bold};
+  `,
+  url: `
+    color: ${colors.blue};
+  `,
+  codeBlock: `
+    white-space: pre-wrap;
+    color: ${colors.green};
+    font-weight: ${fontWeights.normal};
+  `,
+  codeInline: `
+    color: ${colors.green};
+    font-weight: ${fontWeights.normal};
+  `,
+  heading: `
+    color: ${colors.black};
+    font-weight: ${fontWeights.heading};
+  `,
+  headingPunctuation: `
+    color: ${colors.gray};
+    font-weight: ${fontWeights.heading};
+  `
+}
+
+export const errorClasses = {
+  headerHeading,
   stackTrace: `
     color: ${colors.red};
     white-space: pre-wrap;

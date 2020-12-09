@@ -1,11 +1,9 @@
 import {createApp, createDomView, html} from '@erickmerchant/framework/main.js'
-import {classes} from './css/styles.js'
-import {
-  contentComponent,
-  getSegments,
-  dateUtils,
-  createPostsModel
-} from '../common.js'
+import {layoutClasses} from './css/styles.js'
+import {getSegments, createPostsModel} from '../common.js'
+import {createListComponent} from './components/list.js'
+import {createFormComponent} from './components/form.js'
+import {createErrorComponent} from './components/error.js'
 
 const slugify = (str) =>
   str
@@ -145,326 +143,26 @@ const dispatchLocation = async (segments) => {
   app.commit(state)
 }
 
-const highlighter = (str = '') =>
-  contentComponent(
-    str.replace(/\r/g, ''),
-    {
-      bold: (text) => html`
-        <span>
-          <span class=${classes.highlightPunctuation}>*</span>
-          <span class=${classes.highlightBold}>${text}</span>
-          <span class=${classes.highlightPunctuation}>*</span>
-        </span>
-      `,
-      codeBlock: (code, isClosed) => html`
-        <span>
-          <span class=${classes.highlightPunctuation}>${'```\n'}</span>
-          <span class=${classes.highlightCodeBlock}>${code}</span>
-          ${isClosed
-            ? html`
-                <span class=${classes.highlightPunctuation}>${'```'}</span>
-              `
-            : null}
-        </span>
-      `,
-      codeInline: (text) => html`
-        <span>
-          <span class=${classes.highlightPunctuation}>${'`'}</span>
-          <span class=${classes.highlightCodeInline}>${text}</span>
-          <span class=${classes.highlightPunctuation}>${'`'}</span>
-        </span>
-      `,
-      heading: (text) => html`
-        <span>
-          <span class=${classes.highlightHeadingPunctuation}>${'# '}</span>
-          <span class=${classes.highlightHeading}>${text}</span>
-        </span>
-      `,
-      link: (text, href) => html`
-        <span>
-          <span class=${classes.highlightPunctuation}>[</span>
-          ${text}
-          <span class=${classes.highlightPunctuation}>]</span>
-          <span class=${classes.highlightPunctuation}>(</span>
-          <a tabindex="-1" class=${classes.highlightUrl} href=${href}>
-            ${href}
-          </a>
-          <span class=${classes.highlightPunctuation}>)</span>
-        </span>
-      `,
-      list: (items) =>
-        html`
-          <span>${items}</span>
-        `,
-      listItem: (text) => html`
-        <span>
-          <span class=${classes.highlightPunctuation}>${'- '}</span>
-          ${text}
-        </span>
-      `,
-      paragraph: (text) =>
-        html`
-          <span>${text}</span>
-        `
-    },
-    false
-  )
-
-const remove = (post) => async (e) => {
-  e.preventDefault()
-
-  try {
-    if (post.slug != null) {
-      await postModel.remove(post.slug)
-
-      const state = await init()
-
-      app.commit(state)
-    }
-  } catch (error) {
-    app.commit((state) => {
-      state.error = error
-    })
-  }
-}
-
-const save = (post) => async (e) => {
-  e.preventDefault()
-
-  const id = post.slug
-
-  const data = {}
-
-  for (const [key, val] of Object.entries(post)) {
-    data[key] = val
-  }
-
-  for (const [key, val] of new FormData(e.target)) {
-    data[key] = val
-  }
-
-  try {
-    await postModel.save(id, data)
-
-    window.location.hash = '#'
-  } catch (error) {
-    app.commit((state) => {
-      state.error = error
-    })
-  }
-}
-
-const highlight = (e) =>
-  app.commit((state) => {
-    state.post.highlightedContent = e.target.value
-
-    state.post.content = e.target.value
-  })
-
 const target = document.querySelector('body')
 
-const zIndexHandlers = {
-  onkeydown(e) {
-    if (e.key === 'Meta') {
-      app.commit((state) => {
-        state.zIndex = -1
-      })
-    }
-  },
-  onkeyup(e) {
-    app.commit((state) => {
-      state.zIndex = 0
-    })
-  }
-}
+const errorComponent = createErrorComponent()
+const listComponent = createListComponent({postModel, app, init})
+const formComponent = createFormComponent({postModel, app, slugify})
 
 const view = createDomView(
   target,
   (state) => html`
-    <body
-      class=${classes.app}
-      style=${`--z-index: ${state.zIndex}`}
-      ${zIndexHandlers}
-    >
+    <body class=${layoutClasses.app} style=${`--z-index: ${state.zIndex}`}>
       ${(() => {
         if (state.route === 'posts') {
-          return [
-            html`
-              <div class=${classes.tableContainer}>
-                <header class=${classes.header}>
-                  <h1 class=${classes.headerHeading}>Posts</h1>
-                </header>
-
-                <table class=${classes.table}>
-                  <thead>
-                    <tr>
-                      <th class=${classes.th}>Title</th>
-                      <th class=${classes.th}>Date</th>
-                      <th class=${classes.th} />
-                    </tr>
-                  </thead>
-                  <tbody>
-                    ${state.posts.map(
-                      (post) => html`
-                        <tr>
-                          <td class=${classes.td}>${post.title}</td>
-                          <td class=${classes.td}>
-                            ${dateUtils.prettyDate(
-                              dateUtils.stringToDate(post.date)
-                            )}
-                          </td>
-                          <td class=${classes.tableControls}>
-                            <a
-                              tabindex="0"
-                              class=${classes.tableControl}
-                              href=${`#/posts/edit/${post.slug}`}
-                            >
-                              Edit
-                            </a>
-                            <a
-                              tabindex="0"
-                              class=${classes.tableControl}
-                              target="_blank"
-                              href=${`/posts/${post.slug}`}
-                            >
-                              View
-                            </a>
-                            <button
-                              tabindex="0"
-                              class=${classes.deleteButton}
-                              type="button"
-                              onclick=${remove(post)}
-                            >
-                              Delete
-                            </button>
-                          </td>
-                        </tr>
-                      `
-                    )}
-                  </tbody>
-                </table>
-              </div>
-            `,
-            html`
-              <div class=${classes.tableButtons}>
-                <a
-                  tabindex="0"
-                  class=${classes.createButton}
-                  href="#/posts/create"
-                >
-                  New
-                </a>
-              </div>
-            `
-          ]
+          return listComponent(state)
         }
 
         if (['posts/edit', 'posts/create'].includes(state.route)) {
-          return html`
-            <form
-              onsubmit=${save(state.post)}
-              method="POST"
-              autocomplete="off"
-              ${zIndexHandlers}
-            >
-              <div class=${classes.formFields}>
-                <div class=${classes.formRow}>
-                  <label class=${classes.labelLarge} for="field-title">
-                    Title
-                  </label>
-                  <input
-                    class=${classes.inputLarge}
-                    name="title"
-                    id="field-title"
-                    value=${state.post.title ?? ''}
-                    oninput=${(e) =>
-                      app.commit((state) => {
-                        state.post.title = e.target.value
-                      })}
-                    ${zIndexHandlers}
-                  />
-                </div>
-                <div>
-                  <label class=${classes.label} for="field-date">Date</label>
-                  <input
-                    class=${classes.input}
-                    name="date"
-                    type="date"
-                    id="field-date"
-                    value=${state.post.date ?? ''}
-                    oninput=${(e) =>
-                      app.commit((state) => {
-                        state.post.date = e.target.value
-                      })}
-                    ${zIndexHandlers}
-                  />
-                </div>
-                <div>
-                  <label class=${classes.label} for="field-slug">Slug</label>
-                  <input
-                    class=${state.post.slug != null
-                      ? classes.inputReadOnly
-                      : classes.input}
-                    name="slug"
-                    id="field-slug"
-                    readonly=${state.post.slug != null}
-                    value=${state.post.slug ?? ''}
-                    placeholder=${slugify(state.post.title ?? '')}
-                    oninput=${state.post.slug == null
-                      ? (e) =>
-                          app.commit((state) => {
-                            state.post.slug = e.target.value
-                          })
-                      : null}
-                    ${zIndexHandlers}
-                  />
-                </div>
-                <div class=${classes.formRow}>
-                  <label class=${classes.label} for="field-content">
-                    Content
-                  </label>
-                  <div class=${classes.textareaWrap}>
-                    <div class=${classes.textareaHighlightsWrap}>
-                      <pre class=${classes.textareaHighlights}>
-                      ${highlighter(state.post.highlightedContent)}
-                    </pre
-                      >
-                    </div>
-                    <textarea
-                      class=${classes.textarea}
-                      name="content"
-                      id="field-content"
-                      oninput=${highlight}
-                      ${zIndexHandlers}
-                    >
-                      ${state.post.content ?? ''}
-                    </textarea
-                    >
-                  </div>
-                </div>
-              </div>
-              <div class=${classes.formButtons}>
-                <a class=${classes.cancelButton} href="#/" ${zIndexHandlers}>
-                  Cancel
-                </a>
-                <button
-                  class=${classes.saveButton}
-                  type="submit"
-                  ${zIndexHandlers}
-                >
-                  Save
-                </button>
-              </div>
-            </form>
-          `
+          return formComponent(state)
         }
 
-        return html`
-          <div>
-            <h1 class=${classes.headerHeading}>${state.error.message}</h1>
-            <pre class=${classes.stackTrace}>${state.error.stack}</pre>
-          </div>
-        `
+        return errorComponent(state)
       })()}
     </body>
   `
