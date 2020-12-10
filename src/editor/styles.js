@@ -124,12 +124,6 @@ export const layoutClasses = {
 }
 
 export const listClasses = {
-  header: `
-    display: grid;
-    grid-template-columns: max-content 1fr max-content;
-    align-items: center;
-    border: 5px solid transparent;
-  `,
   headerHeading,
   createButton: button,
   textButton,
@@ -189,7 +183,7 @@ export const formClasses = {
     height: max-content;
   `,
   formRow: `
-    grid-column: 1 / span 2;
+    grid-column: span 2;
   `,
   labelLarge: `
     ${label}
@@ -295,6 +289,10 @@ export const highlightClasses = {
 }
 
 export const errorClasses = {
+  errorContainer: `
+    padding: 1em;
+    height: 100%;
+  `,
   headerHeading,
   stackTrace: `
     color: ${colors.red};

@@ -152,7 +152,10 @@ const formComponent = createFormComponent({postModel, app, slugify})
 const view = createDomView(
   target,
   (state) => html`
-    <body class=${layoutClasses.app} style=${`--z-index: ${state.zIndex}`}>
+    <body
+      class=${layoutClasses.app}
+      style=${state.zIndex != null ? `--z-index: ${state.zIndex}` : null}
+    >
       ${(() => {
         if (state.route === 'posts') {
           return listComponent(state)

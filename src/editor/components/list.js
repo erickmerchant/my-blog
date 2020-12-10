@@ -24,7 +24,7 @@ export const createListComponent = ({postModel, app, init}) => {
   return (state) => [
     html`
       <div class=${listClasses.tableContainer}>
-        <header class=${listClasses.header}>
+        <header>
           <h1 class=${listClasses.headerHeading}>Posts</h1>
         </header>
 

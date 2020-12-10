@@ -8,7 +8,7 @@ const colors = {
   green1: 'hsl(100, 30%, 50%)',
   green2: 'hsl(100, 40%, 60%)',
   green3: 'hsl(100, 50%, 70%)',
-  gray1: 'hsl(100, 10%, 90%)',
+  gray1: 'hsl(100, 10%, 95%)',
   gray2: 'hsl(100, 10%, 80%)',
   gray3: 'hsl(100, 10%, 60%)',
   gray4: 'hsl(100, 10%, 20%)'
@@ -95,10 +95,6 @@ const main = `
   opacity: 1;
   transition: opacity 0.3s;
   font-weight: ${fontWeights.normal};
-
-  ${tabletUp} {
-    grid-column: 2;
-  }
 `
 
 const mainBlockLevelItem = `
@@ -121,7 +117,6 @@ export const layoutClasses = {
   app: `
     display: grid;
     min-height: 100%;
-    grid-template-columns: 100%;
     grid-template-rows: max-content auto max-content max-content;
 
     ${tabletUp} {
@@ -150,10 +145,12 @@ export const layoutClasses = {
       top: 0;
       height: 100vh;
       display: grid;
-      grid-template-rows: 1fr 1fr;
+      grid-auto-rows: 1fr;
     }
   `,
   headerAnchor: `
+    text-decoration: none;
+    box-shadow: 0 0.1em currentColor;
     color: #fff;
   `,
   header: `
@@ -173,6 +170,7 @@ export const layoutClasses = {
       ${heading}
 
       font-weight: ${fontWeights.bold + 200};
+      background-color: transparent;
       display: block;
       font-size: 1.5em;
       padding-top: 0;
@@ -191,13 +189,18 @@ export const layoutClasses = {
     justify-items: center;
 
     ${tabletUp} {
-      background-color: #fff;
-      max-width: 34rem;
-      grid-column: 2;
-      padding-right: 2rem;
-      padding-left: 2rem;
+      padding-right: 0;
+      padding-left: 0;
+      margin-top: 2em;
       margin-left: auto;
       margin-right: auto;
+      background-image:
+        linear-gradient(-135deg, white 0.5em, transparent 0),
+        linear-gradient(135deg,  white 0.5em, ${colors.gray1} 0);
+      background-color: ${colors.gray1};
+      background-position: left top;
+      background-repeat: repeat-x;
+      background-size: 1em 1em;
     }
   `,
   footerList: `
@@ -218,11 +221,15 @@ export const layoutClasses = {
     }
   `,
   footerItem: `
+    max-width: 34rem;
     margin-right: 0.5rem;
     margin-left: 0.5rem;
 
   `,
   footerAnchor: `
+    text-decoration: none;
+    box-shadow: 0 0.1em currentColor;
+
     color: ${colors.green1};
   `
 }
@@ -231,6 +238,15 @@ export const aboutClasses = {
   about: `
     grid-row: 3;
     margin-top: 2em;
+
+    ${mobileOnly} {
+      background-image:
+        linear-gradient(-135deg, white 0.5em, transparent 0),
+        linear-gradient(135deg,  white 0.5em, ${colors.gray1} 0);
+      background-position: left top;
+      background-repeat: repeat-x;
+      background-size: 1em 1em;
+    }
 
     ${tabletUp} {
       grid-row: 2;
@@ -266,6 +282,9 @@ export const aboutClasses = {
     }
   `,
   anchor: `
+    text-decoration: none;
+    box-shadow: 0 0.075em currentColor;
+
     color: ${colors.green1};
 
     ${tabletUp} {
@@ -354,6 +373,9 @@ export const mainClasses = {
     ${code}
   `,
   anchor: `
+    text-decoration: none;
+    box-shadow: 0 0.05em currentColor;
+
     color: ${colors.green1};
   `,
   list: `
@@ -413,6 +435,9 @@ export const mainClasses = {
   paginationItemDisabled,
   paginationItemEnabled,
   paginationAnchor: `
+    text-decoration: none;
+    box-shadow: 0 0.1em currentColor;
+
     color: #fff;
 
     ::after {
