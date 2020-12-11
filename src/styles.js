@@ -183,6 +183,7 @@ export const layoutClasses = {
     padding-top: 1em;
     padding-right: 0.5rem;
     padding-left: 0.5rem;
+    padding-bottom: 0.5em;
     width: 100%;
     display: grid;
     justify-content: center;
