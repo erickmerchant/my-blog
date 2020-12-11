@@ -406,8 +406,8 @@ export const mainClasses = {
     font-weight: ${fontWeights.normal + 200};
   `,
   dateIcon: `
-    height: 0.8em;
-    margin-right: 0.25rem;
+    height: 1em;
+    margin-right: 0.3rem;
   `,
   dateIconPart: `
     fill: ${colors.gray4};
