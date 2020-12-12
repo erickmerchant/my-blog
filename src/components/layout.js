@@ -14,7 +14,7 @@ export const createLayoutComponent = ({
             ErickMerchant.com
           </a>
         </header>
-        ${aboutComponent(state)}
+        ${state.route !== '' ? aboutComponent(state) : null}
       </div>
     </div>
     ${mainComponent(state)}
