@@ -10,8 +10,8 @@ export const createMainComponent = ({
     html`
       <li
         class=${obj
-          ? classes.paginationItemEnabled
-          : classes.paginationItemDisabled}
+          ? classes[`paginationItemEnabled${text}`]
+          : classes[`paginationItemDisabled${text}`]}
       >
         ${obj
           ? html`

@@ -14,11 +14,11 @@ const colors = {
   gray4: 'hsl(100, 10%, 20%)'
 }
 
-const borderRadius = '3px'
-
-const mobileOnly = '@media (max-width: 1023px)'
-const tabletUp = '@media (min-width: 1024px)'
-const mobileUp = '@media (min-width: 641px) and (max-width: 1023px)'
+const unlessDesktop = '@media (max-width: 1023px)'
+const ifDesktop = '@media (min-width: 1024px)'
+const ifTablet = '@media (min-width: 641px) and (max-width: 1023px)'
+const ifVeryMobile = '@media (max-width: 320px)'
+const unlessMobile = '@media (min-width: 641px)'
 
 export const _start = `
   @font-face {
@@ -60,7 +60,7 @@ const heading1 = `
   font-size: 1.5em;
   font-weight: ${fontWeights.heading};
 
-  ${tabletUp} {
+  ${ifDesktop} {
     margin-top: 2em;
   }
 `
@@ -75,10 +75,13 @@ const paginationItemDisabled = `
   position: relative;
   padding-top: 1em;
   padding-bottom: 1em;
-  border-radius: ${borderRadius};
   font-weight: ${fontWeights.bold};
   background-color: ${colors.gray3};
   font-size: 0.875em;
+  border-top-right-radius: var(--right-radius, 0.125em);
+  border-bottom-right-radius: var(--right-radius, 0.125em);
+  border-top-left-radius: var(--left-radius, 0.125em);
+  border-bottom-left-radius: var(--left-radius, 0.125em);
 `
 
 const paginationItemEnabled = `
@@ -88,6 +91,32 @@ const paginationItemEnabled = `
 
   :focus, :hover {
     filter: saturate(1.5);
+  }
+`
+
+const paginationItemNewer = `
+  --right-radius: 1.5em 50%;
+
+  ${unlessMobile} {
+    --left-radius: 1.5em 50%;
+  }
+
+  ${ifVeryMobile} {
+    --left-radius: 0.125em;
+    --right-radius: 0.125em;
+  }
+`
+
+const paginationItemOlder = `
+  --left-radius: 1.5em 50%;
+
+  ${unlessMobile} {
+    --right-radius: 1.5em 50%;
+  }
+
+  ${ifVeryMobile} {
+    --left-radius: 0.125em;
+    --right-radius: 0.125em;
   }
 `
 
@@ -104,7 +133,7 @@ const mainBlockLevelItem = `
   margin-right: auto;
   margin-left: auto;
 
-  ${tabletUp} {
+  ${ifDesktop} {
     max-width: 34rem;
     padding-right: 1rem;
     padding-left: 1rem;
@@ -119,7 +148,7 @@ export const layoutClasses = {
     min-height: 100%;
     grid-template-rows: max-content auto max-content max-content;
 
-    ${tabletUp} {
+    ${ifDesktop} {
       grid-template-columns: 1fr 2fr;
       grid-template-rows: 1fr max-content;
     }
@@ -127,7 +156,7 @@ export const layoutClasses = {
   hero: `
     display: contents;
 
-    ${tabletUp} {
+    ${ifDesktop} {
       display: block;
       grid-row: 1 / -1;
       background-color: ${colors.green1};
@@ -137,7 +166,7 @@ export const layoutClasses = {
   heroInner: `
     display: contents;
 
-    ${tabletUp} {
+    ${ifDesktop} {
       max-width: 34rem;
       padding-right: 2rem;
       padding-left: 2rem;
@@ -166,7 +195,7 @@ export const layoutClasses = {
     z-index: 1;
     opacity: 0.9;
 
-    ${tabletUp} {
+    ${ifDesktop} {
       ${heading}
 
       font-weight: ${fontWeights.bold + 200};
@@ -189,7 +218,7 @@ export const layoutClasses = {
     justify-content: center;
     justify-items: center;
 
-    ${tabletUp} {
+    ${ifDesktop} {
       padding-right: 0;
       padding-left: 0;
       margin-top: 2em;
@@ -217,7 +246,7 @@ export const layoutClasses = {
     list-style: none;
     font-size: 0.75em;
 
-    ${tabletUp} {
+    ${ifDesktop} {
       max-width: 100%;
     }
   `,
@@ -240,7 +269,7 @@ export const aboutClasses = {
     grid-row: 3;
     margin-top: 2em;
 
-    ${mobileOnly} {
+    ${unlessDesktop} {
       background-image:
         linear-gradient(-135deg, white 0.5em, transparent 0),
         linear-gradient(135deg,  white 0.5em, ${colors.gray1} 0);
@@ -249,7 +278,7 @@ export const aboutClasses = {
       background-size: 1em 1em;
     }
 
-    ${tabletUp} {
+    ${ifDesktop} {
       grid-row: 2;
       background-color: inherit;
       color: inherit;
@@ -261,7 +290,7 @@ export const aboutClasses = {
     padding-left: 0.5rem;
     background-color: ${colors.gray1};
 
-    ${tabletUp} {
+    ${ifDesktop} {
       display: contents;
       background-color: #fff;
 
@@ -276,7 +305,7 @@ export const aboutClasses = {
     font-weight: ${fontWeights.bold + 100};
     padding-top: 1em;
 
-    ${mobileOnly} {
+    ${unlessDesktop} {
       max-width: 30rem;
       margin-right: auto;
       margin-left: auto;
@@ -288,7 +317,7 @@ export const aboutClasses = {
 
     color: ${colors.green1};
 
-    ${tabletUp} {
+    ${ifDesktop} {
       color: #fff;
     }
   `,
@@ -296,7 +325,7 @@ export const aboutClasses = {
     font-size: 0.875em;
     font-weight: ${fontWeights.normal + 100};
 
-    ${mobileOnly} {
+    ${unlessDesktop} {
       max-width: 30rem;
       margin-right: auto;
       margin-left: auto;
@@ -341,16 +370,16 @@ export const mainClasses = {
     max-width: 32rem;
     width: 100%;
 
-    ${mobileUp} {
-      border-radius: ${borderRadius};
+    ${ifTablet} {
+      border-radius: 0.125em;
       margin-right: auto;
       margin-left: auto;
       padding-right: 1rem;
       padding-left: 1rem;
     }
 
-    ${tabletUp} {
-      border-radius: ${borderRadius};
+    ${ifDesktop} {
+      border-radius: 0.125em;
       max-width: 100%;
       width: auto;
       margin-right: 2rem;
@@ -360,8 +389,6 @@ export const mainClasses = {
     }
   `,
   codeInline: `
-    ${code}
-
     color: ${colors.green1};
     word-break: break-word;
 
@@ -418,7 +445,12 @@ export const mainClasses = {
 
     margin-top: 2em;
 
-    ${tabletUp} {
+    ${ifVeryMobile} {
+      padding-right: 0.0625em;
+      padding-left: 0.0625em;
+    }
+
+    ${ifDesktop} {
       margin-right: auto;
       margin-left: auto;
       padding-right: 2rem;
@@ -428,13 +460,35 @@ export const mainClasses = {
   paginationList: `
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(7em, 1fr));
-    gap: 1em;
+    gap: 0.125em;
     color: #fff;
     text-align: center;
     list-style: none;
+
+    ${unlessMobile} {
+      gap: 1em;
+    }
+
+    ${ifVeryMobile} {
+      gap: 0.0625em;
+    }
   `,
-  paginationItemDisabled,
-  paginationItemEnabled,
+  paginationItemDisabledNewer: `
+    ${paginationItemDisabled}
+    ${paginationItemNewer}
+  `,
+  paginationItemEnabledNewer: `
+    ${paginationItemEnabled}
+    ${paginationItemNewer}
+  `,
+  paginationItemDisabledOlder: `
+    ${paginationItemDisabled}
+    ${paginationItemOlder}
+  `,
+  paginationItemEnabledOlder: `
+    ${paginationItemEnabled}
+    ${paginationItemOlder}
+  `,
   paginationAnchor: `
     text-decoration: none;
     box-shadow: 0 0.1em currentColor;
@@ -449,7 +503,10 @@ export const mainClasses = {
       bottom: 0;
       right: 0;
       left: 0;
-      border-radius: ${borderRadius};
+      border-top-right-radius: var(--right-radius, 0.125em);
+      border-bottom-right-radius: var(--right-radius, 0.125em);
+      border-top-left-radius: var(--left-radius, 0.125em);
+      border-bottom-left-radius: var(--left-radius, 0.125em);
     }
   `
 }
