@@ -415,7 +415,8 @@ export const mainClasses = {
     list-style: none;
   `,
   listItem: `
-    padding-left: 0.5rem;
+    margin-left: 0.5rem;
+    text-indent: 0.25rem;
 
     ::marker {
       content: '-';
