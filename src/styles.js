@@ -178,8 +178,8 @@ export const layoutClasses = {
     }
   `,
   headerAnchor: `
-    text-decoration: none;
-    box-shadow: 0 0.1em currentColor;
+    text-decoration-thickness: 0.125em;
+    text-underline-offset: 0.125em;
     color: #fff;
   `,
   header: `
@@ -257,8 +257,8 @@ export const layoutClasses = {
 
   `,
   footerAnchor: `
-    text-decoration: none;
-    box-shadow: 0 0.1em currentColor;
+    text-decoration-thickness: 0.125em;
+    text-underline-offset: 0.125em;
 
     color: ${colors.green1};
   `
@@ -312,8 +312,8 @@ export const aboutClasses = {
     }
   `,
   anchor: `
-    text-decoration: none;
-    box-shadow: 0 0.075em currentColor;
+    text-decoration-thickness: 0.0625em;
+    text-underline-offset: 0.1875em;
 
     color: ${colors.green1};
 
@@ -401,8 +401,8 @@ export const mainClasses = {
     ${code}
   `,
   anchor: `
-    text-decoration: none;
-    box-shadow: 0 0.05em currentColor;
+    text-decoration-thickness: 0.0625em;
+    text-underline-offset: 0.1875em;
 
     color: ${colors.green1};
   `,
@@ -415,9 +415,10 @@ export const mainClasses = {
     list-style: none;
   `,
   listItem: `
-    ::before {
+    padding-left: 0.5rem;
+
+    ::marker {
       content: '-';
-      margin-right: 0.5rem;
       font-weight: ${fontWeights.bold};
     }
   `,
@@ -490,8 +491,8 @@ export const mainClasses = {
     ${paginationItemOlder}
   `,
   paginationAnchor: `
-    text-decoration: none;
-    box-shadow: 0 0.1em currentColor;
+    text-decoration-thickness: 0.125em;
+    text-underline-offset: 0.125em;
 
     color: #fff;
 
