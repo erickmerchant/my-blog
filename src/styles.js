@@ -14,12 +14,6 @@ const colors = {
   gray4: 'hsl(100, 10%, 20%)'
 }
 
-const unlessDesktop = '@media (max-width: 1023px)'
-const ifDesktop = '@media (min-width: 1024px)'
-const ifTablet = '@media (min-width: 641px) and (max-width: 1023px)'
-const ifVeryMobile = '@media (max-width: 320px)'
-const unlessMobile = '@media (min-width: 641px)'
-
 export const _start = `
   @font-face {
     font-display: swap;
@@ -60,7 +54,7 @@ const heading1 = `
   font-size: 1.5em;
   font-weight: ${fontWeights.heading};
 
-  ${ifDesktop} {
+  @media (min-width: 1024px) {
     margin-top: 2em;
   }
 `
@@ -82,6 +76,11 @@ const paginationItemDisabled = `
   border-bottom-right-radius: var(--right-radius, 0.125em);
   border-top-left-radius: var(--left-radius, 0.125em);
   border-bottom-left-radius: var(--left-radius, 0.125em);
+
+  @media (max-width: 320px) {
+    --left-radius: 0.125em;
+    --right-radius: 0.125em;
+  }
 `
 
 const paginationItemEnabled = `
@@ -97,26 +96,16 @@ const paginationItemEnabled = `
 const paginationItemNewer = `
   --right-radius: 1.5em 50%;
 
-  ${unlessMobile} {
+  @media (min-width: 641px) {
     --left-radius: 1.5em 50%;
-  }
-
-  ${ifVeryMobile} {
-    --left-radius: 0.125em;
-    --right-radius: 0.125em;
   }
 `
 
 const paginationItemOlder = `
   --left-radius: 1.5em 50%;
 
-  ${unlessMobile} {
+  @media (min-width: 641px) {
     --right-radius: 1.5em 50%;
-  }
-
-  ${ifVeryMobile} {
-    --left-radius: 0.125em;
-    --right-radius: 0.125em;
   }
 `
 
@@ -126,14 +115,16 @@ const main = `
   font-weight: ${fontWeights.normal};
 `
 
-const mainBlockLevelItem = `
+const mainBlockLevelItemMobile = `
   max-width: 31rem;
   padding-right: 0.5rem;
   padding-left: 0.5rem;
   margin-right: auto;
   margin-left: auto;
+`
 
-  ${ifDesktop} {
+const mainBlockLevelItemDesktop = `
+  @media (min-width: 1024px) {
     max-width: 34rem;
     padding-right: 1rem;
     padding-left: 1rem;
@@ -148,7 +139,7 @@ export const layoutClasses = {
     min-height: 100%;
     grid-template-rows: max-content auto max-content max-content;
 
-    ${ifDesktop} {
+    @media (min-width: 1024px) {
       grid-template-columns: 1fr 2fr;
       grid-template-rows: 1fr max-content;
     }
@@ -156,7 +147,7 @@ export const layoutClasses = {
   hero: `
     display: contents;
 
-    ${ifDesktop} {
+    @media (min-width: 1024px) {
       display: block;
       grid-row: 1 / -1;
       background-color: ${colors.green1};
@@ -166,7 +157,7 @@ export const layoutClasses = {
   heroInner: `
     display: contents;
 
-    ${ifDesktop} {
+    @media (min-width: 1024px) {
       max-width: 34rem;
       padding-right: 2rem;
       padding-left: 2rem;
@@ -195,7 +186,7 @@ export const layoutClasses = {
     z-index: 1;
     opacity: 0.9;
 
-    ${ifDesktop} {
+    @media (min-width: 1024px) {
       ${heading}
 
       font-weight: ${fontWeights.bold + 200};
@@ -218,7 +209,7 @@ export const layoutClasses = {
     justify-content: center;
     justify-items: center;
 
-    ${ifDesktop} {
+    @media (min-width: 1024px) {
       padding-right: 0;
       padding-left: 0;
       margin-top: 2em;
@@ -246,7 +237,7 @@ export const layoutClasses = {
     list-style: none;
     font-size: 0.75em;
 
-    ${ifDesktop} {
+    @media (min-width: 1024px) {
       max-width: 100%;
     }
   `,
@@ -254,7 +245,6 @@ export const layoutClasses = {
     max-width: 34rem;
     margin-right: 0.5rem;
     margin-left: 0.5rem;
-
   `,
   footerAnchor: `
     text-decoration-thickness: 0.125em;
@@ -268,21 +258,19 @@ export const aboutClasses = {
   about: `
     grid-row: 3;
     margin-top: 2em;
+    background-image:
+      linear-gradient(-135deg, white 0.5em, transparent 0),
+      linear-gradient(135deg,  white 0.5em, ${colors.gray1} 0);
+    background-position: left top;
+    background-repeat: repeat-x;
+    background-size: 1em 1em;
 
-    ${unlessDesktop} {
-      background-image:
-        linear-gradient(-135deg, white 0.5em, transparent 0),
-        linear-gradient(135deg,  white 0.5em, ${colors.gray1} 0);
-      background-position: left top;
-      background-repeat: repeat-x;
-      background-size: 1em 1em;
-    }
-
-    ${ifDesktop} {
+    @media (min-width: 1024px) {
       grid-row: 2;
       background-color: inherit;
       color: inherit;
       padding-bottom: 0;
+      background-image: none;
     }
   `,
   inner: `
@@ -290,7 +278,7 @@ export const aboutClasses = {
     padding-left: 0.5rem;
     background-color: ${colors.gray1};
 
-    ${ifDesktop} {
+    @media (min-width: 1024px) {
       display: contents;
       background-color: #fff;
 
@@ -305,7 +293,7 @@ export const aboutClasses = {
     font-weight: ${fontWeights.bold + 100};
     padding-top: 1em;
 
-    ${unlessDesktop} {
+    @media (max-width: 1023px) {
       max-width: 30rem;
       margin-right: auto;
       margin-left: auto;
@@ -317,7 +305,7 @@ export const aboutClasses = {
 
     color: ${colors.green1};
 
-    ${ifDesktop} {
+    @media (min-width: 1024px) {
       color: #fff;
     }
   `,
@@ -325,7 +313,7 @@ export const aboutClasses = {
     font-size: 0.875em;
     font-weight: ${fontWeights.normal + 100};
 
-    ${unlessDesktop} {
+    @media (max-width: 1023px) {
       max-width: 30rem;
       margin-right: auto;
       margin-left: auto;
@@ -346,10 +334,12 @@ export const mainClasses = {
     transition: none;
   `,
   header: `
-    ${mainBlockLevelItem}
+    ${mainBlockLevelItemMobile}
+    ${mainBlockLevelItemDesktop}
   `,
   heading2: `
-    ${mainBlockLevelItem}
+    ${mainBlockLevelItemMobile}
+    ${mainBlockLevelItemDesktop}
 
     ${heading}
 
@@ -370,7 +360,7 @@ export const mainClasses = {
     max-width: 32rem;
     width: 100%;
 
-    ${ifTablet} {
+    @media (min-width: 641px) {
       border-radius: 0.125em;
       margin-right: auto;
       margin-left: auto;
@@ -378,14 +368,11 @@ export const mainClasses = {
       padding-left: 1rem;
     }
 
-    ${ifDesktop} {
-      border-radius: 0.125em;
+    @media (min-width: 1024px) {
       max-width: 100%;
       width: auto;
       margin-right: 2rem;
       margin-left: 2rem;
-      padding-right: 1rem;
-      padding-left: 1rem;
     }
   `,
   codeInline: `
@@ -407,7 +394,8 @@ export const mainClasses = {
     color: ${colors.green1};
   `,
   list: `
-    ${mainBlockLevelItem}
+    ${mainBlockLevelItemMobile}
+    ${mainBlockLevelItemDesktop}
 
     margin-top: 1em;
     margin-bottom: 1em;
@@ -424,7 +412,8 @@ export const mainClasses = {
     }
   `,
   paragraph: `
-    ${mainBlockLevelItem}
+    ${mainBlockLevelItemMobile}
+    ${mainBlockLevelItemDesktop}
 
     margin-top: 1em;
     margin-bottom: 1em;
@@ -443,16 +432,18 @@ export const mainClasses = {
     fill: ${colors.gray4};
   `,
   pagination: `
-    ${mainBlockLevelItem}
+    ${mainBlockLevelItemMobile}
 
     margin-top: 2em;
 
-    ${ifVeryMobile} {
+    @media (max-width: 320px) {
       padding-right: 0.0625em;
       padding-left: 0.0625em;
     }
 
-    ${ifDesktop} {
+    ${mainBlockLevelItemDesktop}
+
+    @media (min-width: 1024px) {
       margin-right: auto;
       margin-left: auto;
       padding-right: 2rem;
@@ -467,11 +458,11 @@ export const mainClasses = {
     text-align: center;
     list-style: none;
 
-    ${unlessMobile} {
+    @media (min-width: 641px) {
       gap: 1em;
     }
 
-    ${ifVeryMobile} {
+    @media (max-width: 320px) {
       gap: 0.0625em;
     }
   `,
