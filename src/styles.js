@@ -115,15 +115,13 @@ const main = `
   font-weight: ${fontWeights.normal};
 `
 
-const mainBlockLevelItemMobile = `
+const mainBlockLevelItem = `
   max-width: 31rem;
   padding-right: 0.5rem;
   padding-left: 0.5rem;
   margin-right: auto;
   margin-left: auto;
-`
 
-const mainBlockLevelItemDesktop = `
   @media (min-width: 1024px) {
     max-width: 34rem;
     padding-right: 1rem;
@@ -148,16 +146,10 @@ export const layoutClasses = {
     display: contents;
 
     @media (min-width: 1024px) {
-      display: block;
+      align-self: start;
       grid-row: 1 / -1;
       background-color: ${colors.green1};
       color: #fff;
-    }
-  `,
-  heroInner: `
-    display: contents;
-
-    @media (min-width: 1024px) {
       max-width: 34rem;
       padding-right: 2rem;
       padding-left: 2rem;
@@ -166,6 +158,7 @@ export const layoutClasses = {
       height: 100vh;
       display: grid;
       grid-auto-rows: 1fr;
+      overflow-y: scroll;
     }
   `,
   headerAnchor: `
@@ -196,6 +189,7 @@ export const layoutClasses = {
       padding-top: 0;
       opacity: 1;
       margin-top: 2em;
+      position: relative;
     }
   `,
   footer: `
@@ -203,7 +197,7 @@ export const layoutClasses = {
     padding-top: 1em;
     padding-right: 0.5rem;
     padding-left: 0.5rem;
-    padding-bottom: 0.5em;
+    padding-bottom: 0.25em;
     width: 100%;
     display: grid;
     justify-content: center;
@@ -236,9 +230,24 @@ export const layoutClasses = {
     margin-left: auto;
     list-style: none;
     font-size: 0.75em;
+    position: relative;
+
+    ::before {
+      display: block;
+      content: '⋯';
+      height: 2em;
+      width: 2em;
+      position: absolute;
+      top: -1em;
+      left: 50%;
+    }
 
     @media (min-width: 1024px) {
       max-width: 100%;
+
+      ::before {
+        display: none;
+      }
     }
   `,
   footerItem: `
@@ -269,8 +278,8 @@ export const aboutClasses = {
       grid-row: 2;
       background-color: inherit;
       color: inherit;
-      padding-bottom: 0;
       background-image: none;
+      padding-bottom: 2em;
     }
   `,
   inner: `
@@ -334,12 +343,10 @@ export const mainClasses = {
     transition: none;
   `,
   header: `
-    ${mainBlockLevelItemMobile}
-    ${mainBlockLevelItemDesktop}
+    ${mainBlockLevelItem}
   `,
   heading2: `
-    ${mainBlockLevelItemMobile}
-    ${mainBlockLevelItemDesktop}
+    ${mainBlockLevelItem}
 
     ${heading}
 
@@ -394,8 +401,7 @@ export const mainClasses = {
     color: ${colors.green1};
   `,
   list: `
-    ${mainBlockLevelItemMobile}
-    ${mainBlockLevelItemDesktop}
+    ${mainBlockLevelItem}
 
     margin-top: 1em;
     margin-bottom: 1em;
@@ -412,8 +418,7 @@ export const mainClasses = {
     }
   `,
   paragraph: `
-    ${mainBlockLevelItemMobile}
-    ${mainBlockLevelItemDesktop}
+    ${mainBlockLevelItem}
 
     margin-top: 1em;
     margin-bottom: 1em;
@@ -432,7 +437,7 @@ export const mainClasses = {
     fill: ${colors.gray4};
   `,
   pagination: `
-    ${mainBlockLevelItemMobile}
+    ${mainBlockLevelItem}
 
     margin-top: 2em;
 
@@ -440,8 +445,6 @@ export const mainClasses = {
       padding-right: 0.0625em;
       padding-left: 0.0625em;
     }
-
-    ${mainBlockLevelItemDesktop}
 
     @media (min-width: 1024px) {
       margin-right: auto;

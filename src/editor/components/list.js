@@ -47,14 +47,14 @@ export const createListComponent = ({postModel, app, init}) => {
                   <td class=${listClasses.tableControls}>
                     <a
                       tabindex="0"
-                      class=${listClasses.tableControl}
+                      class=${listClasses.editButton}
                       href=${`#/posts/edit/${post.slug}`}
                     >
                       Edit
                     </a>
                     <a
                       tabindex="0"
-                      class=${listClasses.tableControl}
+                      class=${listClasses.viewButton}
                       target="_blank"
                       href=${`/posts/${post.slug}`}
                     >

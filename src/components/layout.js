@@ -8,14 +8,12 @@ export const createLayoutComponent = ({
 }) => (state) => html`
   <body class=${classes.app}>
     <div class=${classes.hero}>
-      <div class=${classes.heroInner}>
-        <header class=${classes.header}>
-          <a ${anchorAttrs('/')} class=${classes.headerAnchor}>
-            ErickMerchant.com
-          </a>
-        </header>
-        ${state.route !== '' ? aboutComponent(state) : null}
-      </div>
+      <header class=${classes.header}>
+        <a ${anchorAttrs('/')} class=${classes.headerAnchor}>
+          ErickMerchant.com
+        </a>
+      </header>
+      ${state.route !== '' ? aboutComponent(state) : null}
     </div>
     ${mainComponent(state)}
     ${state.route !== ''

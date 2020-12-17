@@ -127,11 +127,6 @@ export const listClasses = {
   headerHeading,
   createButton: button,
   textButton,
-  deleteButton: `
-    ${textButton}
-
-    color: ${colors.red};
-  `,
   tableContainer: `
     padding: 1em;
     height: 100%;
@@ -155,7 +150,13 @@ export const listClasses = {
     padding-bottom: 1em;
     text-align: center;
   `,
-  tableControl: textButton,
+  editButton: textButton,
+  viewButton: textButton,
+  deleteButton: `
+    ${textButton}
+
+    color: ${colors.red};
+  `,
   tableButtons: `
     justify-items: end;
     display: grid;
