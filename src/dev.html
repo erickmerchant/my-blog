@@ -28,7 +28,7 @@
           createPostsModel,
           setupApp,
           getInitialState,
-          dispatchLocation,
+          getDispatchLocation,
           getAnchorAttrs,
           layoutClasses,
           aboutClasses,
@@ -52,26 +52,23 @@
           return fetch(url, options)
         })
 
-        if (!isSetup) {
-          isSetup = true
-
-          setupApp({app, postModel, getSegments})
-        } else {
-          dispatchLocation({
-            app,
-            postModel,
-            segments: getSegments(window.location.pathname),
-            transitioning: false
-          })
-        }
-
-        app.commit((state = getInitialState()) => state)
-
-        const anchorAttrs = getAnchorAttrs({
+        const dispatchLocation = getDispatchLocation({
           app,
           postModel,
           getSegments
         })
+
+        if (!isSetup) {
+          isSetup = true
+
+          setupApp({dispatchLocation})
+        } else {
+          dispatchLocation(window.location.pathname, false)
+        }
+
+        app.commit((state = getInitialState()) => state)
+
+        const anchorAttrs = getAnchorAttrs({dispatchLocation})
 
         const aboutComponent = createAboutComponent({
           classes: aboutClasses,

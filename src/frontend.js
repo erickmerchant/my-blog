@@ -13,12 +13,12 @@ export const getInitialState = () => {
   return {route: '', title: ''}
 }
 
-export const dispatchLocation = async ({
-  app,
-  postModel,
-  segments,
+export const getDispatchLocation = ({app, postModel, getSegments}) => async (
+  location,
   transitioning = true
-}) => {
+) => {
+  const segments = getSegments(location)
+
   const posts = await postModel.getAll()
 
   let post
@@ -56,24 +56,15 @@ export const dispatchLocation = async ({
   }
 }
 
-export const setupApp = ({app, postModel, getSegments}) => {
+export const setupApp = ({dispatchLocation}) => {
   window.onpopstate = () => {
-    dispatchLocation({
-      app,
-      postModel,
-      segments: getSegments(window.location.pathname)
-    })
+    dispatchLocation(window.location.pathname)
   }
 
-  dispatchLocation({
-    app,
-    postModel,
-    segments: getSegments(window.location.pathname),
-    transitioning: false
-  })
+  dispatchLocation(window.location.pathname, false)
 }
 
-export const getAnchorAttrs = ({app, postModel, getSegments}) => (href) => {
+export const getAnchorAttrs = ({dispatchLocation}) => (href) => {
   return {
     href,
     onclick(e) {
@@ -81,7 +72,7 @@ export const getAnchorAttrs = ({app, postModel, getSegments}) => (href) => {
 
       window.history.pushState({}, null, href)
 
-      dispatchLocation({app, postModel, segments: getSegments(href)})
+      dispatchLocation(href)
 
       window.scroll(0, 0)
     }

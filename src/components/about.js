@@ -21,27 +21,25 @@ I'm *Erick Merchant*. I've been employed as a web developer for *${yearsSince(
 
 export const createAboutComponent = ({classes, contentComponent}) => () => html`
   <aside class=${classes.about}>
-    <div class=${classes.inner}>
-      ${contentComponent(aboutContent, {
-        heading: (text) =>
-          html`
-            <h3 class=${classes.heading}>${text}</h3>
-          `,
-        link: (text, href) =>
-          html`
-            <a class=${classes.anchor} href=${href}>${text}</a>
-          `,
-        paragraph: (items) =>
-          items.length
-            ? html`
-                <p class=${classes.paragraph}>${items}</p>
-              `
-            : null,
-        bold: (text) =>
-          html`
-            <strong class=${classes.strong}>${text}</strong>
-          `
-      })}
-    </div>
+    ${contentComponent(aboutContent, {
+      heading: (text) =>
+        html`
+          <h3 class=${classes.heading}>${text}</h3>
+        `,
+      link: (text, href) =>
+        html`
+          <a class=${classes.anchor} href=${href}>${text}</a>
+        `,
+      paragraph: (items) =>
+        items.length
+          ? html`
+              <p class=${classes.paragraph}>${items}</p>
+            `
+          : null,
+      bold: (text) =>
+        html`
+          <strong class=${classes.strong}>${text}</strong>
+        `
+    })}
   </aside>
 `

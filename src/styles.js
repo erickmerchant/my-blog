@@ -5,11 +5,11 @@ const fontWeights = {
 }
 
 const colors = {
-  green1: 'hsl(100, 30%, 50%)',
-  green2: 'hsl(100, 40%, 60%)',
-  green3: 'hsl(100, 50%, 70%)',
+  green1: 'hsl(100, 35%, 50%)',
+  green2: 'hsl(100, 35%, 60%)',
+  green3: 'hsl(100, 35%, 70%)',
   gray1: 'hsl(100, 10%, 95%)',
-  gray2: 'hsl(100, 10%, 80%)',
+  gray2: 'hsl(100, 10%, 90%)',
   gray3: 'hsl(100, 10%, 60%)',
   gray4: 'hsl(100, 10%, 20%)'
 }
@@ -115,7 +115,7 @@ const main = `
   font-weight: ${fontWeights.normal};
 `
 
-const mainBlockLevelItem = `
+const mainItem = `
   max-width: 31rem;
   padding-right: 0.5rem;
   padding-left: 0.5rem;
@@ -146,13 +146,12 @@ export const layoutClasses = {
     display: contents;
 
     @media (min-width: 1024px) {
-      align-self: start;
       grid-row: 1 / -1;
       background-color: ${colors.green1};
       color: #fff;
-      max-width: 34rem;
       padding-right: 2rem;
       padding-left: 2rem;
+      justify-content: center;
       position: sticky;
       top: 0;
       height: 100vh;
@@ -194,16 +193,14 @@ export const layoutClasses = {
   `,
   footer: `
     background-color: ${colors.gray1};
-    padding-top: 1em;
     padding-right: 0.5rem;
     padding-left: 0.5rem;
     padding-bottom: 0.25em;
     width: 100%;
-    display: grid;
-    justify-content: center;
-    justify-items: center;
+    border-top: 1px solid ${colors.gray2};
 
     @media (min-width: 1024px) {
+      padding-top: 1em;
       padding-right: 0;
       padding-left: 0;
       margin-top: 2em;
@@ -216,44 +213,30 @@ export const layoutClasses = {
       background-position: left top;
       background-repeat: repeat-x;
       background-size: 1em 1em;
+      border-top: none;
     }
   `,
   footerList: `
-    display: grid;
-    justify-content: center;
-    grid-auto-flow: column;
     font-weight: ${fontWeights.bold};
+    font-size: 0.75em;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    gap: 0.5em;
     padding-top: 1em;
     padding-bottom: 1em;
-    max-width: 31rem;
-    margin-right: auto;
-    margin-left: auto;
-    list-style: none;
-    font-size: 0.75em;
     position: relative;
-
-    ::before {
-      display: block;
-      content: '⋯';
-      height: 2em;
-      width: 2em;
-      position: absolute;
-      top: -1em;
-      left: 50%;
-    }
 
     @media (min-width: 1024px) {
       max-width: 100%;
-
-      ::before {
-        display: none;
-      }
     }
   `,
   footerItem: `
-    max-width: 34rem;
     margin-right: 0.5rem;
     margin-left: 0.5rem;
+    white-space: nowrap;
   `,
   footerAnchor: `
     text-decoration-thickness: 0.125em;
@@ -267,33 +250,26 @@ export const aboutClasses = {
   about: `
     grid-row: 3;
     margin-top: 2em;
+    background-color: ${colors.gray1};
     background-image:
       linear-gradient(-135deg, white 0.5em, transparent 0),
       linear-gradient(135deg,  white 0.5em, ${colors.gray1} 0);
     background-position: left top;
     background-repeat: repeat-x;
     background-size: 1em 1em;
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+    padding-bottom: 1em;
 
     @media (min-width: 1024px) {
       grid-row: 2;
-      background-color: inherit;
+      background-color: transparent;
       color: inherit;
       background-image: none;
       padding-bottom: 2em;
-    }
-  `,
-  inner: `
-    padding-right: 0.5rem;
-    padding-left: 0.5rem;
-    background-color: ${colors.gray1};
-
-    @media (min-width: 1024px) {
-      display: contents;
-      background-color: #fff;
-
-      ::before {
-        display: none;
-      }
+      padding-left: 0;
+      padding-right: 0;
+      max-width: 20rem;
     }
   `,
   heading: `
@@ -343,10 +319,10 @@ export const mainClasses = {
     transition: none;
   `,
   header: `
-    ${mainBlockLevelItem}
+    ${mainItem}
   `,
   heading2: `
-    ${mainBlockLevelItem}
+    ${mainItem}
 
     ${heading}
 
@@ -401,7 +377,7 @@ export const mainClasses = {
     color: ${colors.green1};
   `,
   list: `
-    ${mainBlockLevelItem}
+    ${mainItem}
 
     margin-top: 1em;
     margin-bottom: 1em;
@@ -418,7 +394,7 @@ export const mainClasses = {
     }
   `,
   paragraph: `
-    ${mainBlockLevelItem}
+    ${mainItem}
 
     margin-top: 1em;
     margin-bottom: 1em;
@@ -437,7 +413,7 @@ export const mainClasses = {
     fill: ${colors.gray4};
   `,
   pagination: `
-    ${mainBlockLevelItem}
+    ${mainItem}
 
     margin-top: 2em;
 
@@ -466,7 +442,8 @@ export const mainClasses = {
     }
 
     @media (max-width: 320px) {
-      gap: 0.0625em;
+      padding-right: 0.125em;
+      padding-left: 0.125em;
     }
   `,
   paginationItemDisabledNewer: `

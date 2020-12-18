@@ -9,7 +9,12 @@ import {
   dateUtils,
   createPostsModel
 } from './common.js'
-import {setupApp, getInitialState, getAnchorAttrs} from './frontend.js'
+import {
+  setupApp,
+  getInitialState,
+  getAnchorAttrs,
+  getDispatchLocation
+} from './frontend.js'
 
 const app = createApp(getInitialState())
 
@@ -25,14 +30,14 @@ const fetch = (url, options) => {
 
 const postModel = createPostsModel(fetch)
 
-setupApp({app, postModel, getSegments})
+const dispatchLocation = getDispatchLocation({app, postModel, getSegments})
+
+setupApp({dispatchLocation})
 
 const target = document.querySelector('body')
 
 const anchorAttrs = getAnchorAttrs({
-  app,
-  postModel,
-  getSegments
+  dispatchLocation
 })
 
 const mainComponent = createMainComponent({
