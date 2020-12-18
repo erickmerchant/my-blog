@@ -151,7 +151,6 @@ export const layoutClasses = {
       color: #fff;
       padding-right: 2rem;
       padding-left: 2rem;
-      justify-content: center;
       position: sticky;
       top: 0;
       height: 100vh;
