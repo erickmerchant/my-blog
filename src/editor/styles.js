@@ -158,9 +158,8 @@ export const listClasses = {
     color: ${colors.red};
   `,
   tableButtons: `
-    justify-items: end;
-    display: grid;
-    grid-template-columns: 1fr max-content;
+    justify-content: flex-end;
+    display: flex;
     gap: 1em;
     position: sticky;
     bottom: 0;
@@ -245,9 +244,8 @@ export const formClasses = {
     resize: none;
   `,
   formButtons: `
-    justify-items: end;
-    display: grid;
-    grid-template-columns: 1fr max-content max-content;
+    justify-content: flex-end;
+    display: flex;
     gap: 1em;
     position: sticky;
     bottom: 0;

@@ -76,6 +76,7 @@ const paginationItemDisabled = `
   border-bottom-right-radius: var(--right-radius, 0.125em);
   border-top-left-radius: var(--left-radius, 0.125em);
   border-bottom-left-radius: var(--left-radius, 0.125em);
+  flex: 1 1;
 
   @media (max-width: 320px) {
     --left-radius: 0.125em;
@@ -170,7 +171,7 @@ export const layoutClasses = {
     background-color: ${colors.green1};
     font-weight: ${fontWeights.bold + 100};
     color: #fff;
-    display: grid;
+    display: flex;
     justify-content: center;
     position: sticky;
     top: 0;
@@ -399,8 +400,8 @@ export const mainClasses = {
     margin-bottom: 1em;
   `,
   date: `
-    display: grid;
-    grid-template-columns: max-content 1fr;
+    display: flex;
+    flex-wrap: wrap;
     align-items: center;
     font-weight: ${fontWeights.normal + 200};
   `,
@@ -429,12 +430,14 @@ export const mainClasses = {
     }
   `,
   paginationList: `
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(7em, 1fr));
+    display: flex;
+    flex-wrap: wrap;
     gap: 0.125em;
     color: #fff;
     text-align: center;
     list-style: none;
+    padding-right: 0.5em;
+    padding-left: 0.5em;
 
     @media (min-width: 641px) {
       gap: 1em;
