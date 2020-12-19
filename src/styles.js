@@ -77,6 +77,11 @@ const paginationItemDisabled = `
   border-top-left-radius: var(--left-radius, 0.125em);
   border-bottom-left-radius: var(--left-radius, 0.125em);
   flex: 1 1;
+  margin: 0.125em;
+
+  @media (min-width: 641px) {
+    margin: 1em;
+  }
 
   @media (max-width: 320px) {
     --left-radius: 0.125em;
@@ -224,7 +229,6 @@ export const layoutClasses = {
     flex-wrap: wrap;
     justify-content: center;
     width: 100%;
-    gap: 0.5em;
     padding-top: 1em;
     padding-bottom: 1em;
     position: relative;
@@ -390,6 +394,7 @@ export const mainClasses = {
 
     ::marker {
       content: '-';
+      color: currentColor;
       font-weight: ${fontWeights.bold};
     }
   `,
@@ -432,16 +437,11 @@ export const mainClasses = {
   paginationList: `
     display: flex;
     flex-wrap: wrap;
-    gap: 0.125em;
     color: #fff;
     text-align: center;
     list-style: none;
     padding-right: 0.5em;
     padding-left: 0.5em;
-
-    @media (min-width: 641px) {
-      gap: 1em;
-    }
 
     @media (max-width: 320px) {
       padding-right: 0.125em;
