@@ -77,10 +77,10 @@ const paginationItemDisabled = `
   border-top-left-radius: var(--left-radius, 0.125em);
   border-bottom-left-radius: var(--left-radius, 0.125em);
   flex: 1 1;
-  margin: 0.125em;
+  margin: 0.0625em;
 
   @media (min-width: 641px) {
-    margin: 1em;
+    margin: 0.5em;
   }
 
   @media (max-width: 320px) {
@@ -389,11 +389,9 @@ export const mainClasses = {
     list-style: none;
   `,
   listItem: `
-    margin-left: 0.5rem;
-    text-indent: 0.25rem;
-
-    ::marker {
-      display: inline;
+    ::before {
+      display: inline-block;
+      margin-right: 0.5em;
       content: '-';
       color: currentColor;
       font-weight: ${fontWeights.bold};
