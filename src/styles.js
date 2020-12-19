@@ -393,6 +393,7 @@ export const mainClasses = {
     text-indent: 0.25rem;
 
     ::marker {
+      display: inline;
       content: '-';
       color: currentColor;
       font-weight: ${fontWeights.bold};
