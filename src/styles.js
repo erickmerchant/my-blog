@@ -76,12 +76,6 @@ const paginationItemDisabled = `
   border-bottom-right-radius: var(--right-radius, 0.125em);
   border-top-left-radius: var(--left-radius, 0.125em);
   border-bottom-left-radius: var(--left-radius, 0.125em);
-  flex: 1 1;
-  margin: 0.0625em;
-
-  @media (min-width: 641px) {
-    margin: 0.5em;
-  }
 
   @media (max-width: 320px) {
     --left-radius: 0.125em;
@@ -188,7 +182,7 @@ export const layoutClasses = {
 
       font-weight: ${fontWeights.bold + 200};
       background-color: transparent;
-      display: block;
+      justify-content: start;
       font-size: 1.5em;
       padding-top: 0;
       opacity: 1;
@@ -212,8 +206,8 @@ export const layoutClasses = {
       margin-left: auto;
       margin-right: auto;
       background-image:
-        linear-gradient(-135deg, white 0.5em, transparent 0),
-        linear-gradient(135deg,  white 0.5em, ${colors.gray1} 0);
+        linear-gradient(-135deg, #fff 0.5em, transparent 0),
+        linear-gradient(135deg,  #fff 0.5em, ${colors.gray1} 0);
       background-color: ${colors.gray1};
       background-position: left top;
       background-repeat: repeat-x;
@@ -256,8 +250,8 @@ export const aboutClasses = {
     margin-top: 2em;
     background-color: ${colors.gray1};
     background-image:
-      linear-gradient(-135deg, white 0.5em, transparent 0),
-      linear-gradient(135deg,  white 0.5em, ${colors.gray1} 0);
+      linear-gradient(-135deg, #fff 0.5em, transparent 0),
+      linear-gradient(135deg,  #fff 0.5em, ${colors.gray1} 0);
     background-position: left top;
     background-repeat: repeat-x;
     background-size: 1em 1em;
@@ -390,7 +384,6 @@ export const mainClasses = {
   `,
   listItem: `
     ::before {
-      display: inline-block;
       margin-right: 0.5em;
       content: '-';
       color: currentColor;
@@ -434,13 +427,18 @@ export const mainClasses = {
     }
   `,
   paginationList: `
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(7em, 1fr));
     color: #fff;
     text-align: center;
     list-style: none;
     padding-right: 0.5em;
     padding-left: 0.5em;
+    gap: 0.0625em;
+
+    @media (min-width: 641px) {
+      gap: 0.5em;
+    }
 
     @media (max-width: 320px) {
       padding-right: 0.125em;

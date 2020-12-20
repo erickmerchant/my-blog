@@ -163,7 +163,7 @@ export const listClasses = {
     gap: 1em;
     position: sticky;
     bottom: 0;
-    background: white;
+    background: #fff;
     border-top: 1px solid ${colors.silver};
     padding: 1em;
   `
@@ -249,7 +249,7 @@ export const formClasses = {
     gap: 1em;
     position: sticky;
     bottom: 0;
-    background: white;
+    background: #fff;
     border-top: 1px solid ${colors.silver};
     padding: 1em;
   `,
