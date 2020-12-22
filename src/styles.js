@@ -79,7 +79,7 @@ export const _start = `
       --ftr-zz-size: 0.5em 0.5em;
       --ftr-c: #fff;
       --a-c: hsl(100, 80%, 70%);
-      --date-fill: hsl(100, 30%, 70%);
+      --date-fill: hsl(100, 60%, 70%);
       --mid-b: 1px dashed #fff;
     }
   }
