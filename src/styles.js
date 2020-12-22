@@ -41,9 +41,10 @@ export const _start = `
     --code-inline-c: hsl(100, 35%, 40%);
     --pg-disabled-bg: hsl(100, 10%, 60%);
     --pg-disabled-c: #fff;
+    --pg-enabled-hover-bg: hsl(100, 50%, 60%);
     --pg-enabled-bg: hsl(100, 35%, 60%);
     --pg-enabled-c: #fff;
-    --hero-bg: hsl(100, 35%, 50%);
+    --hero-bg: hsla(100, 35%, 50%, 0.9);
     --hero-b: hsl(100, 35%, 50%);
     --ftr-bg: hsl(100, 10%, 95%);
     --ftr-zz:
@@ -64,9 +65,10 @@ export const _start = `
       --code-inline-c: hsl(100, 40%, 70%);
       --pg-disabled-bg: transparent;
       --pg-disabled-c: hsl(100, 10%, 70%);
+      --pg-enabled-hover-bg: hsla(100, 80%, 70%, 0.2);
       --pg-enabled-bg: transparent;
       --pg-enabled-c: hsl(100, 80%, 70%);
-      --hero-bg: hsl(100, 20%, 20%);
+      --hero-bg: hsla(100, 20%, 20%, 0.9);
       --hero-b: hsl(100, 30%, 70%);
       --ftr-bg: hsl(100, 10%, 20%);
       --ftr-zz:
@@ -134,8 +136,8 @@ const paginationItemEnabled = `
   background-color: var(--pg-enabled-bg);
   color: var(--pg-enabled-c);
 
-  :focus, :hover {
-    filter: saturate(1.5);
+  :focus-within, :hover {
+    background-color: var(--pg-enabled-hover-bg);
   }
 `
 
@@ -223,7 +225,6 @@ export const layoutClasses = {
     position: sticky;
     top: 0;
     z-index: 1;
-    opacity: 0.9;
 
     @media (min-width: 1024px) {
       ${heading}
@@ -234,7 +235,6 @@ export const layoutClasses = {
       justify-content: start;
       font-size: 1.5em;
       padding-top: 0;
-      opacity: 1;
       margin-top: 2em;
       position: relative;
       max-width: max-content;
