@@ -1,17 +1,9 @@
 const fontWeights = {
-  heading: 900,
+  heading1: 900,
+  heading2: 700,
   bold: 500,
+  semibold: 300,
   normal: 100
-}
-
-const colors = {
-  green1: 'hsl(100, 35%, 50%)',
-  green2: 'hsl(100, 35%, 60%)',
-  green3: 'hsl(100, 35%, 70%)',
-  gray1: 'hsl(100, 10%, 95%)',
-  gray2: 'hsl(100, 10%, 90%)',
-  gray3: 'hsl(100, 10%, 60%)',
-  gray4: 'hsl(100, 10%, 20%)'
 }
 
 export const _start = `
@@ -38,7 +30,57 @@ export const _start = `
     font-size: max(20px, 1vw);
     font-weight: ${fontWeights.normal};
     line-height: 1.5;
-    color: ${colors.gray4};
+    color: var(--main-color);
+    background-color: var(--main-background-color);
+
+    --main-color: hsl(100, 10%, 20%);
+    --main-background-color: #fff;
+    --code-color: hsl(100, 35%, 70%);
+    --code-background-color: hsl(100, 10%, 20%);
+    --pagination-disabled-background-color: hsl(100, 10%, 60%);
+    --pagination-disabled-color: #fff;
+    --pagination-enabled-background-color: hsl(100, 35%, 60%);
+    --pagination-enabled-color: #fff;
+    --hero-background-color: hsl(100, 35%, 50%);
+    --hero-border-color: hsl(100, 35%, 50%);
+    --footer-background-color: hsl(100, 10%, 95%);
+    --footer-mid-border: 1px solid hsl(100, 10%, 90%);
+    --footer-top-background-image:
+      linear-gradient(-135deg, var(--main-background-color) 0.5em, transparent 0),
+      linear-gradient(135deg,  var(--main-background-color) 0.5em, var(--footer-background-color) 0);
+    --footer-color: hsl(100, 10%, 20%);
+    --anchor-color: hsl(100, 35%, 50%);
+    --code-inline-color: hsl(100, 35%, 50%);
+    --date-fill: hsl(100, 10%, 20%);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    html {
+      --main-color: #fff;
+      --main-background-color: hsl(100, 10%, 20%);
+      --code-color: hsl(100, 60%, 70%);
+      --code-background-color: hsl(100, 10%, 25%);
+      --pagination-disabled-background-color: transparent;
+      --pagination-disabled-color: hsl(100, 10%, 70%);
+      --pagination-enabled-background-color: transparent;
+      --pagination-enabled-color: hsl(100, 50%, 70%);
+      --hero-background-color: hsl(100, 20%, 20%);
+      --hero-border-color: hsl(100, 50%, 70%);
+      --footer-background-color: hsl(100, 10%, 20%);
+      --footer-mid-border: 1px dashed #fff;
+      --footer-top-background-image:
+        linear-gradient(135deg, hsl(100, 10%, 20%) 25%, transparent 25%),
+        linear-gradient(225deg, hsl(100, 10%, 20%) 25%, transparent 25%),
+        linear-gradient(315deg, hsl(100, 10%, 20%) 25%, transparent 25%),
+        linear-gradient(45deg, hsl(100, 10%, 20%) 25%, transparent 25%),
+        linear-gradient(0deg, hsl(100, 50%, 70%) 0, hsl(100, 50%, 70%) 100%);
+      --footer-top-background-position: -0.25em 0, -0.25em 0, 0 0, 0 0;
+      --footer-top-background-size: 0.5em 0.5em;
+      --footer-color: #fff;
+      --anchor-color: hsl(100, 50%, 70%);
+      --code-inline-color: hsl(100, 50%, 70%);
+      --date-fill: hsl(100, 50%, 70%);
+    }
   }
 `
 
@@ -52,7 +94,7 @@ const heading1 = `
   ${heading}
 
   font-size: 1.5em;
-  font-weight: ${fontWeights.heading};
+  font-weight: ${fontWeights.heading1};
 
   @media (min-width: 1024px) {
     margin-top: 2em;
@@ -62,7 +104,7 @@ const heading1 = `
 const code = `
   font-family: Consolas, monaco, monospace;
   font-size: 0.875em;
-  color: ${colors.green3};
+  color: var(--code-color);
 `
 
 const paginationItemDisabled = `
@@ -70,7 +112,9 @@ const paginationItemDisabled = `
   padding-top: 1em;
   padding-bottom: 1em;
   font-weight: ${fontWeights.bold};
-  background-color: ${colors.gray3};
+  background-color: var(--pagination-disabled-background-color);
+  border: 3px solid currentColor;
+  color: var(--pagination-disabled-color);
   font-size: 0.875em;
   border-top-right-radius: var(--right-radius, 0.125em);
   border-bottom-right-radius: var(--right-radius, 0.125em);
@@ -86,7 +130,8 @@ const paginationItemDisabled = `
 const paginationItemEnabled = `
   ${paginationItemDisabled}
 
-  background-color: ${colors.green2};
+  background-color: var(--pagination-enabled-background-color);
+  color: var(--pagination-enabled-color);
 
   :focus, :hover {
     filter: saturate(1.5);
@@ -147,28 +192,30 @@ export const layoutClasses = {
 
     @media (min-width: 1024px) {
       grid-row: 1 / -1;
-      background-color: ${colors.green1};
+      background-color: var(--hero-background-color);
+      border-right: 3px solid var(--hero-border-color);
       color: #fff;
-      padding-right: 2rem;
-      padding-left: 2rem;
       position: sticky;
       top: 0;
       height: 100vh;
       display: grid;
+      justify-content: center;
       grid-auto-rows: 1fr;
+      grid-template-columns: 90%;
       overflow-y: scroll;
     }
   `,
   headerAnchor: `
     text-decoration-thickness: 0.125em;
     text-underline-offset: 0.125em;
-    color: #fff;
+    color: inherit;
   `,
   header: `
     padding-top: 1em;
     padding-bottom: 1em;
-    background-color: ${colors.green1};
-    font-weight: ${fontWeights.bold + 100};
+    background-color: var(--hero-background-color);
+    border-bottom: 3px solid var(--hero-border-color);
+    font-weight: ${fontWeights.heading2};
     color: #fff;
     display: flex;
     justify-content: center;
@@ -180,23 +227,26 @@ export const layoutClasses = {
     @media (min-width: 1024px) {
       ${heading}
 
-      font-weight: ${fontWeights.bold + 200};
+      font-weight: ${fontWeights.heading1};
       background-color: transparent;
+      border-bottom: none;
       justify-content: start;
       font-size: 1.5em;
       padding-top: 0;
       opacity: 1;
       margin-top: 2em;
       position: relative;
+      max-width: max-content;
     }
   `,
   footer: `
-    background-color: ${colors.gray1};
+    background-color: var(--footer-background-color);
     padding-right: 0.5rem;
     padding-left: 0.5rem;
     padding-bottom: 0.25em;
     width: 100%;
-    border-top: 1px solid ${colors.gray2};
+    border-top: var(--footer-mid-border);
+    color: var(--footer-color);
 
     @media (min-width: 1024px) {
       padding-top: 1em;
@@ -205,13 +255,11 @@ export const layoutClasses = {
       margin-top: 2em;
       margin-left: auto;
       margin-right: auto;
-      background-image:
-        linear-gradient(-135deg, #fff 0.5em, transparent 0),
-        linear-gradient(135deg,  #fff 0.5em, ${colors.gray1} 0);
-      background-color: ${colors.gray1};
-      background-position: left top;
+      background-image: var(--footer-top-background-image);
+      background-color: var(--footer-background-color);
+      background-position: var(--footer-top-background-position, left top);
       background-repeat: repeat-x;
-      background-size: 1em 1em;
+      background-size: var(--footer-top-background-size, 1em 1em);
       border-top: none;
     }
   `,
@@ -239,8 +287,7 @@ export const layoutClasses = {
   footerAnchor: `
     text-decoration-thickness: 0.125em;
     text-underline-offset: 0.125em;
-
-    color: ${colors.green1};
+    color: var(--anchor-color);
   `
 }
 
@@ -248,16 +295,15 @@ export const aboutClasses = {
   about: `
     grid-row: 3;
     margin-top: 2em;
-    background-color: ${colors.gray1};
-    background-image:
-      linear-gradient(-135deg, #fff 0.5em, transparent 0),
-      linear-gradient(135deg,  #fff 0.5em, ${colors.gray1} 0);
-    background-position: left top;
+    background-color: var(--footer-background-color);
+    background-image: var(--footer-top-background-image);
+    background-position: var(--footer-top-background-position, left top);
     background-repeat: repeat-x;
-    background-size: 1em 1em;
+    background-size: var(--footer-top-background-size, 1em 1em);
     padding-right: 0.5rem;
     padding-left: 0.5rem;
     padding-bottom: 1em;
+    color: var(--footer-color);
 
     @media (min-width: 1024px) {
       grid-row: 2;
@@ -273,7 +319,7 @@ export const aboutClasses = {
   heading: `
     ${heading}
 
-    font-weight: ${fontWeights.bold + 100};
+    font-weight: ${fontWeights.heading2};
     padding-top: 1em;
 
     @media (max-width: 1023px) {
@@ -285,16 +331,15 @@ export const aboutClasses = {
   anchor: `
     text-decoration-thickness: 0.0625em;
     text-underline-offset: 0.1875em;
-
-    color: ${colors.green1};
+    color: var(--anchor-color);
 
     @media (min-width: 1024px) {
-      color: #fff;
+      color: var(--header-color);
     }
   `,
   paragraph: `
     font-size: 0.875em;
-    font-weight: ${fontWeights.normal + 100};
+    font-weight: ${fontWeights.normal};
 
     @media (max-width: 1023px) {
       max-width: 30rem;
@@ -303,7 +348,7 @@ export const aboutClasses = {
     }
   `,
   strong: `
-    font-weight: ${fontWeights.bold};
+    font-weight: ${fontWeights.semibold};
   `
 }
 
@@ -324,7 +369,7 @@ export const mainClasses = {
 
     ${heading}
 
-    font-weight: ${fontWeights.bold + 100};
+    font-weight: ${fontWeights.heading2};
   `,
   strong: `
     font-weight: ${fontWeights.bold};
@@ -337,7 +382,7 @@ export const mainClasses = {
     padding-left: 0.5rem;
     white-space: pre-wrap;
     word-break: break-word;
-    background-color: ${colors.gray4};
+    background-color: var(--code-background-color);
     max-width: 32rem;
     width: 100%;
 
@@ -357,7 +402,7 @@ export const mainClasses = {
     }
   `,
   codeInline: `
-    color: ${colors.green1};
+    color: var(--code-inline-color);
     word-break: break-word;
 
     ::before,
@@ -371,8 +416,8 @@ export const mainClasses = {
   anchor: `
     text-decoration-thickness: 0.0625em;
     text-underline-offset: 0.1875em;
-
-    color: ${colors.green1};
+    font-weight: ${fontWeights.semibold};
+    color: var(--anchor-color);
   `,
   list: `
     ${mainItem}
@@ -400,14 +445,14 @@ export const mainClasses = {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    font-weight: ${fontWeights.normal + 200};
+    font-weight: ${fontWeights.semibold};
   `,
   dateIcon: `
     height: 1em;
     margin-right: 0.3rem;
   `,
   dateIconPart: `
-    fill: ${colors.gray4};
+    fill: var(--date-fill);
   `,
   pagination: `
     ${mainItem}
@@ -429,7 +474,6 @@ export const mainClasses = {
   paginationList: `
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(7em, 1fr));
-    color: #fff;
     text-align: center;
     list-style: none;
     padding-right: 0.5em;
@@ -464,8 +508,7 @@ export const mainClasses = {
   paginationAnchor: `
     text-decoration-thickness: 0.125em;
     text-underline-offset: 0.125em;
-
-    color: #fff;
+    color: inherit;
 
     ::after {
       content: '';
