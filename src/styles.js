@@ -37,6 +37,7 @@ export const _start = `
     --main-bg-clr: #fff;
     --code-clr: hsl(100, 35%, 70%);
     --code-bg-clr: hsl(100, 10%, 20%);
+    --code-brdr-clr: hsl(100, 10%, 20%);
     --pagination-disabled-bg-clr: hsl(100, 10%, 60%);
     --pagination-disabled-clr: #fff;
     --pagination-enabled-bg-clr: hsl(100, 35%, 60%);
@@ -46,8 +47,8 @@ export const _start = `
     --footer-bg-clr: hsl(100, 10%, 95%);
     --footer-mid-brdr: 1px solid hsl(100, 10%, 90%);
     --footer-top-bg-img:
-      linear-gradient(-135deg, var(--main-bg-clr) 0.5em, transparent 0),
-      linear-gradient(135deg,  var(--main-bg-clr) 0.5em, var(--footer-bg-clr) 0);
+      linear-gradient(-135deg, #fff 0.5em, transparent 0),
+      linear-gradient(135deg, #fff 0.5em, hsl(100, 10%, 95%) 0);
     --footer-clr: hsl(100, 10%, 20%);
     --anchor-clr: hsl(100, 35%, 50%);
   }
@@ -58,12 +59,13 @@ export const _start = `
       --main-bg-clr: hsl(100, 10%, 20%);
       --code-clr: hsl(100, 60%, 70%);
       --code-bg-clr: hsl(100, 10%, 25%);
+      --code-brdr-clr: hsl(100, 30%, 70%);
       --pagination-disabled-bg-clr: transparent;
       --pagination-disabled-clr: hsl(100, 10%, 70%);
       --pagination-enabled-bg-clr: transparent;
-      --pagination-enabled-clr: hsl(100, 50%, 70%);
+      --pagination-enabled-clr: hsl(100, 80%, 70%);
       --hero-bg-clr: hsl(100, 20%, 20%);
-      --hero-brdr-clr: hsl(100, 50%, 70%);
+      --hero-brdr-clr: hsl(100, 30%, 70%);
       --footer-bg-clr: hsl(100, 10%, 20%);
       --footer-mid-brdr: 1px dashed #fff;
       --footer-top-bg-img:
@@ -71,12 +73,12 @@ export const _start = `
         linear-gradient(225deg, hsl(100, 10%, 20%) 25%, transparent 25%),
         linear-gradient(315deg, hsl(100, 10%, 20%) 25%, transparent 25%),
         linear-gradient(45deg, hsl(100, 10%, 20%) 25%, transparent 25%),
-        linear-gradient(0deg, hsl(100, 50%, 70%) 0, hsl(100, 50%, 70%) 100%);
+        linear-gradient(0deg, hsl(100, 30%, 70%) 0, hsl(100, 30%, 70%));
       --footer-top-bg-position: -0.25em 0, -0.25em 0, 0 0, 0 0;
       --footer-top-bg-size: 0.5em 0.5em;
       --footer-clr: #fff;
-      --anchor-clr: hsl(100, 50%, 70%);
-      --date-fill: hsl(100, 50%, 70%);
+      --anchor-clr: hsl(100, 80%, 70%);
+      --date-fill: hsl(100, 30%, 70%);
     }
   }
 `
@@ -385,6 +387,7 @@ export const mainClasses = {
 
     @media (min-width: 641px) {
       border-radius: 0.125em;
+      border: 1px solid var(--code-brdr-clr);
       margin-right: auto;
       margin-left: auto;
       padding-right: 1rem;
