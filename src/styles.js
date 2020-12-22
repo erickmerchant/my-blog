@@ -30,55 +30,52 @@ export const _start = `
     font-size: max(20px, 1vw);
     font-weight: ${fontWeights.normal};
     line-height: 1.5;
-    color: var(--main-color);
-    background-color: var(--main-background-color);
+    color: var(--main-clr);
+    background-color: var(--main-bg-clr);
 
-    --main-color: hsl(100, 10%, 20%);
-    --main-background-color: #fff;
-    --code-color: hsl(100, 35%, 70%);
-    --code-background-color: hsl(100, 10%, 20%);
-    --pagination-disabled-background-color: hsl(100, 10%, 60%);
-    --pagination-disabled-color: #fff;
-    --pagination-enabled-background-color: hsl(100, 35%, 60%);
-    --pagination-enabled-color: #fff;
-    --hero-background-color: hsl(100, 35%, 50%);
-    --hero-border-color: hsl(100, 35%, 50%);
-    --footer-background-color: hsl(100, 10%, 95%);
-    --footer-mid-border: 1px solid hsl(100, 10%, 90%);
-    --footer-top-background-image:
-      linear-gradient(-135deg, var(--main-background-color) 0.5em, transparent 0),
-      linear-gradient(135deg,  var(--main-background-color) 0.5em, var(--footer-background-color) 0);
-    --footer-color: hsl(100, 10%, 20%);
-    --anchor-color: hsl(100, 35%, 50%);
-    --code-inline-color: hsl(100, 35%, 50%);
-    --date-fill: hsl(100, 10%, 20%);
+    --main-clr: hsl(100, 10%, 20%);
+    --main-bg-clr: #fff;
+    --code-clr: hsl(100, 35%, 70%);
+    --code-bg-clr: hsl(100, 10%, 20%);
+    --pagination-disabled-bg-clr: hsl(100, 10%, 60%);
+    --pagination-disabled-clr: #fff;
+    --pagination-enabled-bg-clr: hsl(100, 35%, 60%);
+    --pagination-enabled-clr: #fff;
+    --hero-bg-clr: hsl(100, 35%, 50%);
+    --hero-brdr-clr: hsl(100, 35%, 50%);
+    --footer-bg-clr: hsl(100, 10%, 95%);
+    --footer-mid-brdr: 1px solid hsl(100, 10%, 90%);
+    --footer-top-bg-img:
+      linear-gradient(-135deg, var(--main-bg-clr) 0.5em, transparent 0),
+      linear-gradient(135deg,  var(--main-bg-clr) 0.5em, var(--footer-bg-clr) 0);
+    --footer-clr: hsl(100, 10%, 20%);
+    --anchor-clr: hsl(100, 35%, 50%);
   }
 
   @media (prefers-color-scheme: dark) {
     html {
-      --main-color: #fff;
-      --main-background-color: hsl(100, 10%, 20%);
-      --code-color: hsl(100, 60%, 70%);
-      --code-background-color: hsl(100, 10%, 25%);
-      --pagination-disabled-background-color: transparent;
-      --pagination-disabled-color: hsl(100, 10%, 70%);
-      --pagination-enabled-background-color: transparent;
-      --pagination-enabled-color: hsl(100, 50%, 70%);
-      --hero-background-color: hsl(100, 20%, 20%);
-      --hero-border-color: hsl(100, 50%, 70%);
-      --footer-background-color: hsl(100, 10%, 20%);
-      --footer-mid-border: 1px dashed #fff;
-      --footer-top-background-image:
+      --main-clr: #fff;
+      --main-bg-clr: hsl(100, 10%, 20%);
+      --code-clr: hsl(100, 60%, 70%);
+      --code-bg-clr: hsl(100, 10%, 25%);
+      --pagination-disabled-bg-clr: transparent;
+      --pagination-disabled-clr: hsl(100, 10%, 70%);
+      --pagination-enabled-bg-clr: transparent;
+      --pagination-enabled-clr: hsl(100, 50%, 70%);
+      --hero-bg-clr: hsl(100, 20%, 20%);
+      --hero-brdr-clr: hsl(100, 50%, 70%);
+      --footer-bg-clr: hsl(100, 10%, 20%);
+      --footer-mid-brdr: 1px dashed #fff;
+      --footer-top-bg-img:
         linear-gradient(135deg, hsl(100, 10%, 20%) 25%, transparent 25%),
         linear-gradient(225deg, hsl(100, 10%, 20%) 25%, transparent 25%),
         linear-gradient(315deg, hsl(100, 10%, 20%) 25%, transparent 25%),
         linear-gradient(45deg, hsl(100, 10%, 20%) 25%, transparent 25%),
         linear-gradient(0deg, hsl(100, 50%, 70%) 0, hsl(100, 50%, 70%) 100%);
-      --footer-top-background-position: -0.25em 0, -0.25em 0, 0 0, 0 0;
-      --footer-top-background-size: 0.5em 0.5em;
-      --footer-color: #fff;
-      --anchor-color: hsl(100, 50%, 70%);
-      --code-inline-color: hsl(100, 50%, 70%);
+      --footer-top-bg-position: -0.25em 0, -0.25em 0, 0 0, 0 0;
+      --footer-top-bg-size: 0.5em 0.5em;
+      --footer-clr: #fff;
+      --anchor-clr: hsl(100, 50%, 70%);
       --date-fill: hsl(100, 50%, 70%);
     }
   }
@@ -104,7 +101,7 @@ const heading1 = `
 const code = `
   font-family: Consolas, monaco, monospace;
   font-size: 0.875em;
-  color: var(--code-color);
+  color: var(--code-clr);
 `
 
 const paginationItemDisabled = `
@@ -112,9 +109,9 @@ const paginationItemDisabled = `
   padding-top: 1em;
   padding-bottom: 1em;
   font-weight: ${fontWeights.bold};
-  background-color: var(--pagination-disabled-background-color);
+  background-color: var(--pagination-disabled-bg-clr);
   border: 3px solid currentColor;
-  color: var(--pagination-disabled-color);
+  color: var(--pagination-disabled-clr);
   font-size: 0.875em;
   border-top-right-radius: var(--right-radius, 0.125em);
   border-bottom-right-radius: var(--right-radius, 0.125em);
@@ -130,8 +127,8 @@ const paginationItemDisabled = `
 const paginationItemEnabled = `
   ${paginationItemDisabled}
 
-  background-color: var(--pagination-enabled-background-color);
-  color: var(--pagination-enabled-color);
+  background-color: var(--pagination-enabled-bg-clr);
+  color: var(--pagination-enabled-clr);
 
   :focus, :hover {
     filter: saturate(1.5);
@@ -192,8 +189,8 @@ export const layoutClasses = {
 
     @media (min-width: 1024px) {
       grid-row: 1 / -1;
-      background-color: var(--hero-background-color);
-      border-right: 3px solid var(--hero-border-color);
+      background-color: var(--hero-bg-clr);
+      border-right: 3px solid var(--hero-brdr-clr);
       color: #fff;
       position: sticky;
       top: 0;
@@ -213,8 +210,8 @@ export const layoutClasses = {
   header: `
     padding-top: 1em;
     padding-bottom: 1em;
-    background-color: var(--hero-background-color);
-    border-bottom: 3px solid var(--hero-border-color);
+    background-color: var(--hero-bg-clr);
+    border-bottom: 3px solid var(--hero-brdr-clr);
     font-weight: ${fontWeights.heading2};
     color: #fff;
     display: flex;
@@ -240,13 +237,13 @@ export const layoutClasses = {
     }
   `,
   footer: `
-    background-color: var(--footer-background-color);
+    background-color: var(--footer-bg-clr);
     padding-right: 0.5rem;
     padding-left: 0.5rem;
     padding-bottom: 0.25em;
     width: 100%;
-    border-top: var(--footer-mid-border);
-    color: var(--footer-color);
+    border-top: var(--footer-mid-brdr);
+    color: var(--footer-clr);
 
     @media (min-width: 1024px) {
       padding-top: 1em;
@@ -255,11 +252,11 @@ export const layoutClasses = {
       margin-top: 2em;
       margin-left: auto;
       margin-right: auto;
-      background-image: var(--footer-top-background-image);
-      background-color: var(--footer-background-color);
-      background-position: var(--footer-top-background-position, left top);
+      background-image: var(--footer-top-bg-img);
+      background-color: var(--footer-bg-clr);
+      background-position: var(--footer-top-bg-position, left top);
       background-repeat: repeat-x;
-      background-size: var(--footer-top-background-size, 1em 1em);
+      background-size: var(--footer-top-bg-size, 1em 1em);
       border-top: none;
     }
   `,
@@ -287,7 +284,7 @@ export const layoutClasses = {
   footerAnchor: `
     text-decoration-thickness: 0.125em;
     text-underline-offset: 0.125em;
-    color: var(--anchor-color);
+    color: var(--anchor-clr);
   `
 }
 
@@ -295,15 +292,15 @@ export const aboutClasses = {
   about: `
     grid-row: 3;
     margin-top: 2em;
-    background-color: var(--footer-background-color);
-    background-image: var(--footer-top-background-image);
-    background-position: var(--footer-top-background-position, left top);
+    background-color: var(--footer-bg-clr);
+    background-image: var(--footer-top-bg-img);
+    background-position: var(--footer-top-bg-position, left top);
     background-repeat: repeat-x;
-    background-size: var(--footer-top-background-size, 1em 1em);
+    background-size: var(--footer-top-bg-size, 1em 1em);
     padding-right: 0.5rem;
     padding-left: 0.5rem;
     padding-bottom: 1em;
-    color: var(--footer-color);
+    color: var(--footer-clr);
 
     @media (min-width: 1024px) {
       grid-row: 2;
@@ -331,7 +328,7 @@ export const aboutClasses = {
   anchor: `
     text-decoration-thickness: 0.0625em;
     text-underline-offset: 0.1875em;
-    color: var(--anchor-color);
+    color: var(--anchor-clr);
 
     @media (min-width: 1024px) {
       color: var(--header-color);
@@ -382,7 +379,7 @@ export const mainClasses = {
     padding-left: 0.5rem;
     white-space: pre-wrap;
     word-break: break-word;
-    background-color: var(--code-background-color);
+    background-color: var(--code-bg-clr);
     max-width: 32rem;
     width: 100%;
 
@@ -402,7 +399,7 @@ export const mainClasses = {
     }
   `,
   codeInline: `
-    color: var(--code-inline-color);
+    color: var(--anchor-clr);
     word-break: break-word;
 
     ::before,
@@ -417,7 +414,7 @@ export const mainClasses = {
     text-decoration-thickness: 0.0625em;
     text-underline-offset: 0.1875em;
     font-weight: ${fontWeights.semibold};
-    color: var(--anchor-color);
+    color: var(--anchor-clr);
   `,
   list: `
     ${mainItem}
@@ -452,7 +449,7 @@ export const mainClasses = {
     margin-right: 0.3rem;
   `,
   dateIconPart: `
-    fill: var(--date-fill);
+    fill: var(--date-fill, currentColor);
   `,
   pagination: `
     ${mainItem}
