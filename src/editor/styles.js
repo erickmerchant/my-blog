@@ -4,16 +4,6 @@ const fontWeights = {
   normal: 300
 }
 
-const colors = {
-  black: 'hsl(100, 10%, 20%)',
-  gray: 'hsl(100, 10%, 75%)',
-  silver: 'hsl(100, 10%, 85%)',
-  white: 'hsl(100, 10%, 100%)',
-  green: 'hsl(100, 30%, 50%)',
-  blue: 'hsl(200, 100%, 50%)',
-  red: 'hsl(350, 80%, 55%)'
-}
-
 const borderRadius = '3px'
 
 export const _start = `
@@ -36,6 +26,26 @@ export const _start = `
   html {
     font-family: "Fira Code", monospace;
     height: 100%;
+
+    --black: hsl(100, 10%, 20%);
+    --gray: hsl(100, 10%, 70%);
+    --silver: hsl(100, 10%, 85%);
+    --white: hsl(100, 10%, 100%);
+    --green: hsl(100, 30%, 50%);
+    --blue: hsl(200, 100%, 50%);
+    --red: hsl(350, 80%, 55%);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    html {
+      --black: hsl(100, 10%, 100%);
+      --gray: hsl(100, 10%, 60%);
+      --silver: hsl(100, 10%, 40%);
+      --white: hsl(100, 10%, 20%);
+      --green: hsl(100, 50%, 60%);
+      --blue: hsl(200, 100%, 60%);
+      --red: hsl(350, 80%, 65%);
+    }
   }
 `
 
@@ -54,9 +64,9 @@ const button = `
   padding-left: 1.5em;
   border: none;
   border-radius: ${borderRadius};
-  border: 1px solid ${colors.blue};
-  background-color: ${colors.blue};
-  color: ${colors.white};
+  border: 1px solid var(--blue);
+  background-color: var(--blue);
+  color: var(--white);
   font-weight: ${fontWeights.bold};
   text-decoration: none;
   cursor: pointer;
@@ -74,10 +84,10 @@ const textButton = `
   padding-right: 1.5em;
   padding-left: 1.5em;
   background-color: transparent;
-  border: 1px solid #fff;
+  border: 1px solid var(--white);
   border-radius: ${borderRadius};
   box-shadow: none;
-  color: ${colors.blue};
+  color: var(--blue);
   font-weight: ${fontWeights.bold};
   text-decoration: none;
   cursor: pointer;
@@ -105,8 +115,9 @@ const input = `
   width: 100%;
   padding: 0.5em;
   border-radius: ${borderRadius};
-  border: 1px solid ${colors.silver};
-  color: ${colors.black};
+  border: 1px solid var(--silver);
+  background-color: var(--white);
+  color: var(--black);
 `
 
 export const layoutClasses = {
@@ -115,7 +126,8 @@ export const layoutClasses = {
     line-height: 1.5;
     font-size: 16px;
     font-weight: ${fontWeights.normal};
-    color: ${colors.black};
+    color: var(--black);
+    background-color: var(--white);
     overflow-x: scroll;
     height: 100%;
 
@@ -138,7 +150,7 @@ export const listClasses = {
   `,
   th: `
     padding: 1em;
-    border-bottom: 1px solid ${colors.silver};
+    border-bottom: 1px solid var(--silver);
     text-align: left;
     font-weight: ${fontWeights.bold};
   `,
@@ -155,7 +167,7 @@ export const listClasses = {
   deleteButton: `
     ${textButton}
 
-    color: ${colors.red};
+    color: var(--red);
   `,
   tableButtons: `
     justify-content: flex-end;
@@ -163,8 +175,8 @@ export const listClasses = {
     gap: 1em;
     position: sticky;
     bottom: 0;
-    background: #fff;
-    border-top: 1px solid ${colors.silver};
+    background: var(--white);
+    border-top: 1px solid var(--silver);
     padding: 1em;
   `
 }
@@ -201,7 +213,7 @@ export const formClasses = {
   inputReadOnly: `
     ${input}
 
-    background-color: ${colors.silver};
+    background-color: var(--silver);
   `,
   textareaWrap: `
     position: relative;
@@ -209,7 +221,7 @@ export const formClasses = {
     margin-right: auto;
     margin-left: auto;
     border-radius: ${borderRadius};
-    border: 1px solid ${colors.silver};
+    border: 1px solid var(--silver);
   `,
   textareaHighlightsWrap: `
     min-height: 15em;
@@ -222,7 +234,7 @@ export const formClasses = {
     background-color: transparent;
     white-space: pre-wrap;
     word-break: break-word;
-    color: ${colors.black};
+    color: var(--black);
   `,
   textarea: `
     position: absolute;
@@ -239,7 +251,7 @@ export const formClasses = {
     border-radius: ${borderRadius};
     background-color: transparent;
     color: transparent;
-    caret-color: ${colors.black};
+    caret-color: var(--black);
     word-break: break-word;
     resize: none;
   `,
@@ -249,8 +261,8 @@ export const formClasses = {
     gap: 1em;
     position: sticky;
     bottom: 0;
-    background: #fff;
-    border-top: 1px solid ${colors.silver};
+    background: var(--white);
+    border-top: 1px solid var(--silver);
     padding: 1em;
   `,
   cancelButton: textButton,
@@ -259,30 +271,30 @@ export const formClasses = {
 
 export const highlightClasses = {
   punctuation: `
-    color: ${colors.gray};
+    color: var(--gray);
     font-weight: ${fontWeights.normal};
   `,
   bold: `
     font-weight: ${fontWeights.bold};
   `,
   url: `
-    color: ${colors.blue};
+    color: var(--blue);
   `,
   codeBlock: `
     white-space: pre-wrap;
-    color: ${colors.green};
+    color: var(--green);
     font-weight: ${fontWeights.normal};
   `,
   codeInline: `
-    color: ${colors.green};
+    color: var(--green);
     font-weight: ${fontWeights.normal};
   `,
   heading: `
-    color: ${colors.black};
+    color: var(--black);
     font-weight: ${fontWeights.heading};
   `,
   headingPunctuation: `
-    color: ${colors.gray};
+    color: var(--gray);
     font-weight: ${fontWeights.heading};
   `
 }
@@ -294,7 +306,7 @@ export const errorClasses = {
   `,
   headerHeading,
   stackTrace: `
-    color: ${colors.red};
+    color: var(--red);
     white-space: pre-wrap;
     word-break: break-word;
   `
