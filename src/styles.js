@@ -6,6 +6,14 @@ const fontWeights = {
   normal: 100
 }
 
+export const _atrules = {
+  colorSchemeDark: '@media (prefers-color-scheme: dark)',
+  mobileUp: '@media (min-width: 641px)',
+  desktopUp: '@media (min-width: 1024px)',
+  desktopDown: '@media (max-width: 1023px)',
+  veryMobileDown: '@media (max-width: 320px)'
+}
+
 export const _start = `
   @font-face {
     font-display: swap;
@@ -30,11 +38,9 @@ export const _start = `
     font-size: max(20px, 1vw);
     font-weight: ${fontWeights.normal};
     line-height: 1.5;
-    color: var(--c);
-    background-color: var(--bg);
+    color: hsl(100, 10%, 20%);
+    background-color: #fff;
 
-    --c: hsl(100, 10%, 20%);
-    --bg: #fff;
     --code-c: hsl(100, 35%, 70%);
     --code-bg: hsl(100, 10%, 20%);
     --code-b: hsl(100, 10%, 20%);
@@ -55,10 +61,11 @@ export const _start = `
     --mid-b: 1px solid hsl(100, 10%, 90%);
   }
 
-  @media (prefers-color-scheme: dark) {
+  ${_atrules.colorSchemeDark} {
     html {
-      --c: #fff;
-      --bg: hsl(100, 10%, 20%);
+      color: #fff;
+      background-color: hsl(100, 10%, 20%);
+
       --code-c: hsl(100, 60%, 70%);
       --code-bg: hsl(100, 10%, 25%);
       --code-b: hsl(100, 30%, 70%);
@@ -99,7 +106,7 @@ const heading1 = `
   font-size: 1.5em;
   font-weight: ${fontWeights.heading1};
 
-  @media (min-width: 1024px) {
+  ${_atrules.desktopUp} {
     margin-top: 2em;
   }
 `
@@ -124,7 +131,7 @@ const paginationItemDisabled = `
   border-top-left-radius: var(--left-radius, 0.125em);
   border-bottom-left-radius: var(--left-radius, 0.125em);
 
-  @media (max-width: 320px) {
+  ${_atrules.veryMobileDown} {
     --left-radius: 0.125em;
     --right-radius: 0.125em;
   }
@@ -144,7 +151,7 @@ const paginationItemEnabled = `
 const paginationItemNewer = `
   --right-radius: 1.5em 50%;
 
-  @media (min-width: 641px) {
+  ${_atrules.mobileUp} {
     --left-radius: 1.5em 50%;
   }
 `
@@ -152,7 +159,7 @@ const paginationItemNewer = `
 const paginationItemOlder = `
   --left-radius: 1.5em 50%;
 
-  @media (min-width: 641px) {
+  ${_atrules.mobileUp} {
     --right-radius: 1.5em 50%;
   }
 `
@@ -170,7 +177,7 @@ const mainItem = `
   margin-right: auto;
   margin-left: auto;
 
-  @media (min-width: 1024px) {
+  ${_atrules.desktopUp} {
     max-width: 34rem;
     padding-right: 1rem;
     padding-left: 1rem;
@@ -185,7 +192,7 @@ export const layoutClasses = {
     min-height: 100%;
     grid-template-rows: max-content auto max-content max-content;
 
-    @media (min-width: 1024px) {
+    ${_atrules.desktopUp} {
       grid-template-columns: 1fr 2fr;
       grid-template-rows: 1fr max-content;
     }
@@ -193,7 +200,7 @@ export const layoutClasses = {
   hero: `
     display: contents;
 
-    @media (min-width: 1024px) {
+    ${_atrules.desktopUp} {
       grid-row: 1 / -1;
       background-color: var(--hero-bg);
       border-right: 3px solid var(--hero-b);
@@ -226,7 +233,7 @@ export const layoutClasses = {
     top: 0;
     z-index: 1;
 
-    @media (min-width: 1024px) {
+    ${_atrules.desktopUp} {
       ${heading}
 
       font-weight: ${fontWeights.heading1};
@@ -249,7 +256,7 @@ export const layoutClasses = {
     border-top: var(--mid-b);
     color: var(--ftr-c);
 
-    @media (min-width: 1024px) {
+    ${_atrules.desktopUp} {
       padding-top: 1em;
       padding-right: 0;
       padding-left: 0;
@@ -276,7 +283,7 @@ export const layoutClasses = {
     padding-bottom: 1em;
     position: relative;
 
-    @media (min-width: 1024px) {
+    ${_atrules.desktopUp} {
       max-width: 100%;
     }
   `,
@@ -306,7 +313,7 @@ export const aboutClasses = {
     padding-bottom: 1em;
     color: var(--ftr-c);
 
-    @media (min-width: 1024px) {
+    ${_atrules.desktopUp} {
       grid-row: 2;
       background-color: transparent;
       color: inherit;
@@ -323,7 +330,7 @@ export const aboutClasses = {
     font-weight: ${fontWeights.heading2};
     padding-top: 1em;
 
-    @media (max-width: 1023px) {
+    ${_atrules.desktopDown} {
       max-width: 30rem;
       margin-right: auto;
       margin-left: auto;
@@ -334,7 +341,7 @@ export const aboutClasses = {
     text-underline-offset: 0.1875em;
     color: var(--a-c);
 
-    @media (min-width: 1024px) {
+    ${_atrules.desktopUp} {
       color: var(--header-color);
     }
   `,
@@ -342,7 +349,7 @@ export const aboutClasses = {
     font-size: 0.875em;
     font-weight: ${fontWeights.normal};
 
-    @media (max-width: 1023px) {
+    ${_atrules.desktopDown} {
       max-width: 30rem;
       margin-right: auto;
       margin-left: auto;
@@ -387,7 +394,7 @@ export const mainClasses = {
     max-width: 32rem;
     width: 100%;
 
-    @media (min-width: 641px) {
+    ${_atrules.mobileUp} {
       border-radius: 0.125em;
       border: 1px solid var(--code-b);
       margin-right: auto;
@@ -396,7 +403,7 @@ export const mainClasses = {
       padding-left: 1rem;
     }
 
-    @media (min-width: 1024px) {
+    ${_atrules.desktopUp} {
       max-width: 100%;
       width: auto;
       margin-right: 2rem;
@@ -463,12 +470,12 @@ export const mainClasses = {
 
     margin-top: 2em;
 
-    @media (max-width: 320px) {
+    ${_atrules.veryMobileDown} {
       padding-right: 0.0625em;
       padding-left: 0.0625em;
     }
 
-    @media (min-width: 1024px) {
+    ${_atrules.desktopUp} {
       margin-right: auto;
       margin-left: auto;
       padding-right: 2rem;
@@ -484,11 +491,11 @@ export const mainClasses = {
     padding-left: 0.5em;
     gap: 0.0625em;
 
-    @media (min-width: 641px) {
+    ${_atrules.mobileUp} {
       gap: 0.5em;
     }
 
-    @media (max-width: 320px) {
+    ${_atrules.veryMobileDown} {
       padding-right: 0.125em;
       padding-left: 0.125em;
     }
