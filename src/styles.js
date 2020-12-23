@@ -439,6 +439,8 @@ export const mainClasses = {
     list-style: none;
   `,
   listItem: `
+    margin-bottom: 0.25em;
+
     ::before {
       margin-right: 0.5em;
       content: '-';
