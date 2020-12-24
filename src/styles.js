@@ -44,20 +44,21 @@ export const _start = `
     --code-c: hsl(100, 35%, 70%);
     --code-bg: hsl(100, 10%, 20%);
     --code-b: hsl(100, 10%, 20%);
-    --code-inline-c: hsl(100, 35%, 40%);
-    --pg-disabled-bg: hsl(100, 10%, 60%);
+    --code-inline-c: hsl(100, 35%, 35%);
+    --pg-disabled-bg: hsl(100, 10%, 35%);
     --pg-disabled-c: #fff;
-    --pg-enabled-hover-bg: hsl(100, 50%, 60%);
-    --pg-enabled-bg: hsl(100, 35%, 60%);
+    --pg-enabled-hover-bg: hsl(100, 50%, 35%);
+    --pg-enabled-bg: hsl(100, 35%, 35%);
     --pg-enabled-c: #fff;
-    --hero-bg: hsla(100, 35%, 50%, 0.9);
-    --hero-b: hsl(100, 35%, 50%);
+    --pg-b-w: 0;
+    --hero-bg: hsla(100, 35%, 40%, 0.9);
+    --hero-b: hsla(100, 35%, 40%, 0.9);
     --ftr-bg: hsl(100, 10%, 95%);
     --ftr-zz:
       linear-gradient(-135deg, #fff 0.5em, transparent 0),
       linear-gradient(135deg, #fff 0.5em, hsl(100, 10%, 95%) 0);
     --ftr-c: hsl(100, 10%, 20%);
-    --a-c: hsl(100, 35%, 50%);
+    --a-c: hsl(100, 35%, 35%);
     --mid-b: 1px solid hsl(100, 10%, 90%);
   }
 
@@ -75,6 +76,7 @@ export const _start = `
       --pg-enabled-hover-bg: hsla(100, 80%, 70%, 0.2);
       --pg-enabled-bg: transparent;
       --pg-enabled-c: hsl(100, 80%, 70%);
+      --pg-b-w: 3px;
       --hero-bg: hsla(100, 20%, 20%, 0.9);
       --hero-b: hsl(100, 30%, 70%);
       --ftr-bg: hsl(100, 10%, 20%);
@@ -123,7 +125,7 @@ const paginationItemDisabled = `
   padding-bottom: 1em;
   font-weight: ${fontWeights.bold};
   background-color: var(--pg-disabled-bg);
-  border: 3px solid currentColor;
+  border: var(--pg-b-w) solid currentColor;
   color: var(--pg-disabled-c);
   font-size: 0.875em;
   border-top-right-radius: var(--right-radius, 0.125em);
@@ -306,8 +308,8 @@ export const aboutClasses = {
     background-color: var(--ftr-bg);
     background-image: var(--ftr-zz);
     background-position: var(--ftr-zz-posi, left top);
-    background-repeat: repeat-x;
     background-size: var(--ftr-zz-size, 1em 1em);
+    background-repeat: repeat-x;
     padding-right: 0.5rem;
     padding-left: 0.5rem;
     padding-bottom: 1em;
