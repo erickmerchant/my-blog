@@ -43,16 +43,18 @@ export const _start = `
 
     --code-c: hsl(100, 35%, 70%);
     --code-bg: hsl(100, 10%, 20%);
-    --code-b: hsl(100, 10%, 20%);
+    --code-b: var(--code-bg);
     --code-inline-c: hsl(100, 35%, 35%);
     --pg-disabled-bg: hsl(100, 10%, 35%);
+    --pg-disabled-b-c: var(--pg-disabled-bg);
     --pg-disabled-c: #fff;
     --pg-enabled-hover-bg: hsl(100, 50%, 35%);
+    --pg-enabled-hover-b-c: var(--pg-enabled-hover-bg);
     --pg-enabled-bg: hsl(100, 35%, 35%);
+    --pg-enabled-b-c: var(--pg-enabled-bg);
     --pg-enabled-c: #fff;
-    --pg-b-w: 0;
     --hero-bg: hsla(100, 35%, 40%, 0.9);
-    --hero-b: hsla(100, 35%, 40%, 0.9);
+    --hero-b: var(--hero-bg);
     --ftr-bg: hsl(100, 10%, 95%);
     --ftr-zz:
       linear-gradient(-135deg, #fff 0.5em, transparent 0),
@@ -72,11 +74,13 @@ export const _start = `
       --code-b: hsl(100, 30%, 70%);
       --code-inline-c: hsl(100, 40%, 70%);
       --pg-disabled-bg: transparent;
+      --pg-disabled-b-c: currentColor;
       --pg-disabled-c: hsl(100, 10%, 70%);
       --pg-enabled-hover-bg: hsla(100, 80%, 70%, 0.2);
+      --pg-enabled-hover-b-c: currentColor;
       --pg-enabled-bg: transparent;
+      --pg-enabled-b-c: currentColor;
       --pg-enabled-c: hsl(100, 80%, 70%);
-      --pg-b-w: 3px;
       --hero-bg: hsla(100, 20%, 20%, 0.9);
       --hero-b: hsl(100, 30%, 70%);
       --ftr-bg: hsl(100, 10%, 20%);
@@ -125,13 +129,15 @@ const paginationItemDisabled = `
   padding-bottom: 1em;
   font-weight: ${fontWeights.bold};
   background-color: var(--pg-disabled-bg);
-  border: var(--pg-b-w) solid currentColor;
+  border: 3px solid var(--border-color);
   color: var(--pg-disabled-c);
   font-size: 0.875em;
   border-top-right-radius: var(--right-radius, 0.125em);
   border-bottom-right-radius: var(--right-radius, 0.125em);
   border-top-left-radius: var(--left-radius, 0.125em);
   border-bottom-left-radius: var(--left-radius, 0.125em);
+
+  --border-color: var(--pg-disabled-b-c);
 
   ${_atrules.veryMobileDown} {
     --left-radius: 0.125em;
@@ -145,8 +151,12 @@ const paginationItemEnabled = `
   background-color: var(--pg-enabled-bg);
   color: var(--pg-enabled-c);
 
+  --border-color: var(--pg-enabled-b-c);
+
   :focus-within, :hover {
     background-color: var(--pg-enabled-hover-bg);
+
+    --border-color: var(--pg-enabled-hover-b-c);
   }
 `
 
