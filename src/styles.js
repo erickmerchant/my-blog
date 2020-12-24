@@ -45,12 +45,12 @@ export const _start = `
     --code-bg: hsl(100, 10%, 20%);
     --code-b: var(--code-bg);
     --code-inline-c: hsl(100, 35%, 35%);
-    --pg-disabled-bg: hsl(100, 10%, 35%);
+    --pg-disabled-bg: hsl(100, 10%, 45%);
     --pg-disabled-b-c: var(--pg-disabled-bg);
     --pg-disabled-c: #fff;
-    --pg-enabled-hover-bg: hsl(100, 50%, 35%);
+    --pg-enabled-hover-bg: hsl(100, 45%, 45%);
     --pg-enabled-hover-b-c: var(--pg-enabled-hover-bg);
-    --pg-enabled-bg: hsl(100, 35%, 35%);
+    --pg-enabled-bg: hsl(100, 35%, 45%);
     --pg-enabled-b-c: var(--pg-enabled-bg);
     --pg-enabled-c: #fff;
     --hero-bg: hsla(100, 35%, 40%, 0.9);
@@ -125,13 +125,13 @@ const code = `
 
 const paginationItemDisabled = `
   position: relative;
-  padding-top: 1em;
-  padding-bottom: 1em;
-  font-weight: ${fontWeights.bold};
+  padding-top: 0.875em;
+  padding-bottom: 0.875em;
+  font-weight: ${fontWeights.heading2};
   background-color: var(--pg-disabled-bg);
   border: 3px solid var(--border-color);
   color: var(--pg-disabled-c);
-  font-size: 0.875em;
+  font-size: 1em;
   border-top-right-radius: var(--right-radius, 0.125em);
   border-bottom-right-radius: var(--right-radius, 0.125em);
   border-top-left-radius: var(--left-radius, 0.125em);
@@ -506,7 +506,7 @@ export const mainClasses = {
     list-style: none;
     padding-right: 0.5em;
     padding-left: 0.5em;
-    gap: 0.0625em;
+    gap: 0.125em;
 
     ${_atrules.mobileUp} {
       gap: 0.5em;
