@@ -57,8 +57,8 @@ export const _start = `
     --hero-b: var(--hero-bg);
     --ftr-bg: hsl(100, 10%, 95%);
     --ftr-zz:
-      linear-gradient(-135deg, #fff 0.5em, transparent 0),
-      linear-gradient(135deg, #fff 0.5em, var(--ftr-bg) 0);
+      linear-gradient(-135deg, #fff 0.5rem, transparent 0),
+      linear-gradient(135deg, #fff 0.5rem, var(--ftr-bg) 0);
     --ftr-c: hsl(100, 10%, 20%);
     --a-c: hsl(100, 35%, 35%);
     --mid-b: 1px solid hsl(100, 10%, 90%);
@@ -90,8 +90,8 @@ export const _start = `
         linear-gradient(315deg, var(--ftr-bg) 25%, transparent 25%),
         linear-gradient(45deg, var(--ftr-bg) 25%, transparent 25%),
         linear-gradient(0deg, hsl(100, 30%, 70%) 0, hsl(100, 30%, 70%));
-      --ftr-zz-posi: -0.25em 0, -0.25em 0, 0 0, 0 0;
-      --ftr-zz-size: 0.5em 0.5em;
+      --ftr-zz-posi: -0.25rem 0, -0.25rem 0, 0 0, 0 0;
+      --ftr-zz-size: 0.5rem 0.5rem;
       --ftr-c: #fff;
       --a-c: hsl(100, 80%, 70%);
       --date-fill: hsl(100, 60%, 70%);
@@ -132,16 +132,16 @@ const paginationItemDisabled = `
   border: 3px solid var(--border-color);
   color: var(--pg-disabled-c);
   font-size: 1em;
-  border-top-right-radius: var(--right-radius, 0.125em);
-  border-bottom-right-radius: var(--right-radius, 0.125em);
-  border-top-left-radius: var(--left-radius, 0.125em);
-  border-bottom-left-radius: var(--left-radius, 0.125em);
+  border-top-right-radius: var(--right-radius, 0.125rem);
+  border-bottom-right-radius: var(--right-radius, 0.125rem);
+  border-top-left-radius: var(--left-radius, 0.125rem);
+  border-bottom-left-radius: var(--left-radius, 0.125rem);
 
   --border-color: var(--pg-disabled-b-c);
 
   ${_atrules.veryMobileDown} {
-    --left-radius: 0.125em;
-    --right-radius: 0.125em;
+    --left-radius: 0.125rem;
+    --right-radius: 0.125rem;
   }
 `
 
@@ -161,18 +161,18 @@ const paginationItemEnabled = `
 `
 
 const paginationItemNewer = `
-  --right-radius: 1.5em 50%;
+  --right-radius: 1.5rem 50%;
 
   ${_atrules.mobileUp} {
-    --left-radius: 1.5em 50%;
+    --left-radius: 1.5rem 50%;
   }
 `
 
 const paginationItemOlder = `
-  --left-radius: 1.5em 50%;
+  --left-radius: 1.5rem 50%;
 
   ${_atrules.mobileUp} {
-    --right-radius: 1.5em 50%;
+    --right-radius: 1.5rem 50%;
   }
 `
 
@@ -279,7 +279,7 @@ export const layoutClasses = {
       background-color: var(--ftr-bg);
       background-position: var(--ftr-zz-posi, left top);
       background-repeat: repeat-x;
-      background-size: var(--ftr-zz-size, 1em 1em);
+      background-size: var(--ftr-zz-size, 1rem 1rem);
       border-top: none;
     }
   `,
@@ -297,12 +297,13 @@ export const layoutClasses = {
 
     ${_atrules.desktopUp} {
       max-width: 100%;
+      padding-top: 0.5em;
     }
   `,
   footerItem: `
     margin-right: 0.5rem;
     margin-left: 0.5rem;
-    margin-top: 0.25rem;
+    margin-top: 0.25em;
     white-space: nowrap;
   `,
   footerAnchor: `
@@ -319,7 +320,7 @@ export const aboutClasses = {
     background-color: var(--ftr-bg);
     background-image: var(--ftr-zz);
     background-position: var(--ftr-zz-posi, left top);
-    background-size: var(--ftr-zz-size, 1em 1em);
+    background-size: var(--ftr-zz-size, 1rem 1rem);
     background-repeat: repeat-x;
     padding-right: 0.5rem;
     padding-left: 0.5rem;
@@ -410,7 +411,7 @@ export const mainClasses = {
     width: 100%;
 
     ${_atrules.mobileUp} {
-      border-radius: 0.125em;
+      border-radius: 0.125rem;
       border-right: 1px solid var(--code-b);
       border-left: 1px solid var(--code-b);
       margin-right: auto;
@@ -458,7 +459,7 @@ export const mainClasses = {
     margin-bottom: 0.25em;
 
     ::before {
-      margin-right: 0.5em;
+      margin-right: 0.5rem;
       content: '-';
       color: currentColor;
       font-weight: ${fontWeights.bold};
@@ -489,8 +490,8 @@ export const mainClasses = {
     margin-top: 2em;
 
     ${_atrules.veryMobileDown} {
-      padding-right: 0.0625em;
-      padding-left: 0.0625em;
+      padding-right: 0.0625rem;
+      padding-left: 0.0625rem;
     }
 
     ${_atrules.desktopUp} {
@@ -502,20 +503,20 @@ export const mainClasses = {
   `,
   paginationList: `
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(7em, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr));
     text-align: center;
     list-style: none;
-    padding-right: 0.5em;
-    padding-left: 0.5em;
-    gap: 0.125em;
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+    gap: 0.125rem;
 
     ${_atrules.mobileUp} {
-      gap: 0.5em;
+      gap: 0.5rem;
     }
 
     ${_atrules.veryMobileDown} {
-      padding-right: 0.125em;
-      padding-left: 0.125em;
+      padding-right: 0.125rem;
+      padding-left: 0.125rem;
     }
   `,
   paginationItemDisabledNewer: `
@@ -547,10 +548,10 @@ export const mainClasses = {
       bottom: 0;
       right: 0;
       left: 0;
-      border-top-right-radius: var(--right-radius, 0.125em);
-      border-bottom-right-radius: var(--right-radius, 0.125em);
-      border-top-left-radius: var(--left-radius, 0.125em);
-      border-bottom-left-radius: var(--left-radius, 0.125em);
+      border-top-right-radius: var(--right-radius, 0.125rem);
+      border-bottom-right-radius: var(--right-radius, 0.125rem);
+      border-top-left-radius: var(--left-radius, 0.125rem);
+      border-bottom-left-radius: var(--left-radius, 0.125rem);
     }
   `
 }
