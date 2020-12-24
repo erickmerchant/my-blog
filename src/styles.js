@@ -58,7 +58,7 @@ export const _start = `
     --ftr-bg: hsl(100, 10%, 95%);
     --ftr-zz:
       linear-gradient(-135deg, #fff 0.5em, transparent 0),
-      linear-gradient(135deg, #fff 0.5em, hsl(100, 10%, 95%) 0);
+      linear-gradient(135deg, #fff 0.5em, var(--ftr-bg) 0);
     --ftr-c: hsl(100, 10%, 20%);
     --a-c: hsl(100, 35%, 35%);
     --mid-b: 1px solid hsl(100, 10%, 90%);
@@ -85,10 +85,10 @@ export const _start = `
       --hero-b: hsl(100, 30%, 70%);
       --ftr-bg: hsl(100, 10%, 20%);
       --ftr-zz:
-        linear-gradient(135deg, hsl(100, 10%, 20%) 25%, transparent 25%),
-        linear-gradient(225deg, hsl(100, 10%, 20%) 25%, transparent 25%),
-        linear-gradient(315deg, hsl(100, 10%, 20%) 25%, transparent 25%),
-        linear-gradient(45deg, hsl(100, 10%, 20%) 25%, transparent 25%),
+        linear-gradient(135deg, var(--ftr-bg) 25%, transparent 25%),
+        linear-gradient(225deg, var(--ftr-bg) 25%, transparent 25%),
+        linear-gradient(315deg, var(--ftr-bg) 25%, transparent 25%),
+        linear-gradient(45deg, var(--ftr-bg) 25%, transparent 25%),
         linear-gradient(0deg, hsl(100, 30%, 70%) 0, hsl(100, 30%, 70%));
       --ftr-zz-posi: -0.25em 0, -0.25em 0, 0 0, 0 0;
       --ftr-zz-size: 0.5em 0.5em;
@@ -403,12 +403,15 @@ export const mainClasses = {
     white-space: pre-wrap;
     word-break: break-word;
     background-color: var(--code-bg);
+    border-top: 1px solid var(--code-b);
+    border-bottom: 1px solid var(--code-b);
     max-width: 32rem;
     width: 100%;
 
     ${_atrules.mobileUp} {
       border-radius: 0.125em;
-      border: 1px solid var(--code-b);
+      border-right: 1px solid var(--code-b);
+      border-left: 1px solid var(--code-b);
       margin-right: auto;
       margin-left: auto;
       padding-right: 1rem;
