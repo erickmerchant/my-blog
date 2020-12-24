@@ -51,11 +51,6 @@ const program = async () => {
 
       const {layoutClasses, aboutClasses} = await import('./dist/css/styles.js')
 
-      const paths = {
-        index: './dist/index.html',
-        styles: './dist/css/styles.css'
-      }
-
       const state = {route: '', title: ''}
 
       const aboutComponent = createAboutComponent({
@@ -75,10 +70,10 @@ const program = async () => {
         }
       })
 
-      state.styles = await readFile(paths.styles, 'utf8')
+      state.styles = await readFile('./dist/css/styles.css', 'utf8')
 
       await writeFile(
-        paths.index,
+        './dist/index.html',
         `<!doctype html>${stringify(indexComponent({mainComponent})(state))}`
       )
 
