@@ -302,6 +302,7 @@ export const layoutClasses = {
   footerItem: `
     margin-right: 0.5rem;
     margin-left: 0.5rem;
+    margin-top: 0.25rem;
     white-space: nowrap;
   `,
   footerAnchor: `
