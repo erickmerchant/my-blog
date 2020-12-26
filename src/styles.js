@@ -9,6 +9,7 @@ const fontWeights = {
 export const _atrules = {
   colorSchemeDark: '@media (prefers-color-scheme: dark)',
   mobileUp: '@media (min-width: 641px)',
+  tabletUp: '@media (min-width: 832px)',
   desktopUp: '@media (min-width: 1024px)',
   desktopDown: '@media (max-width: 1023px)',
   veryMobileDown: '@media (max-width: 320px)'
@@ -200,9 +201,13 @@ export const layoutClasses = {
     min-height: 100%;
     grid-template-rows: max-content auto max-content max-content;
 
+    ${_atrules.tabletUp} {
+      grid-template-columns: max-content 1fr;
+      grid-template-rows: 1fr max-content;
+    }
+
     ${_atrules.desktopUp} {
       grid-template-columns: 1fr 2fr;
-      grid-template-rows: 1fr max-content;
     }
   `,
   hero: `
@@ -241,18 +246,33 @@ export const layoutClasses = {
     top: 0;
     z-index: 1;
 
+    ${_atrules.tabletUp} {
+      font-weight: ${fontWeights.heading1};
+      font-size: 1.5em;
+      writing-mode: vertical-rl;
+      border-left: 3px solid var(--hero-b);
+      border-bottom: none;
+      transform: rotate(180deg);
+      padding-right: 1em;
+      padding-left: 1.25em;
+      height: 100vh;
+    }
+
     ${_atrules.desktopUp} {
       ${heading}
 
-      font-weight: ${fontWeights.heading1};
+      writing-mode: horizontal-tb;
+      transform: rotate(0deg);
       background-color: transparent;
-      border-bottom: none;
+      border-left: none;
       justify-content: start;
-      font-size: 1.5em;
       padding-top: 0;
+      padding-right: 0;
+      padding-left: 0;
       margin-top: 2em;
       position: relative;
       max-width: max-content;
+      height: auto;
     }
   `,
   footer: `
@@ -263,6 +283,10 @@ export const layoutClasses = {
     width: 100%;
     border-top: var(--mid-b);
     color: var(--ftr-c);
+
+    ${_atrules.tabletUp} {
+      grid-column: 2;
+    }
 
     ${_atrules.desktopUp} {
       padding-top: 1em;
@@ -280,7 +304,6 @@ export const layoutClasses = {
     }
   `,
   footerList: `
-    font-weight: ${fontWeights.bold};
     font-size: 0.75em;
     list-style: none;
     display: flex;
@@ -292,6 +315,7 @@ export const layoutClasses = {
     position: relative;
 
     ${_atrules.desktopUp} {
+      font-weight: ${fontWeights.bold};
       max-width: 100%;
       padding-top: 0.5em;
     }
@@ -323,11 +347,16 @@ export const aboutClasses = {
     padding-bottom: 1em;
     color: var(--ftr-c);
 
-    ${_atrules.desktopUp} {
+    ${_atrules.tabletUp} {
+      grid-column: 2;
       grid-row: 2;
+    }
+
+    ${_atrules.desktopUp} {
+      grid-column: 1;
+      background-image: none;
       background-color: transparent;
       color: inherit;
-      background-image: none;
       padding-bottom: 2em;
       padding-left: 0;
       padding-right: 0;
