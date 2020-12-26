@@ -203,7 +203,7 @@ export const layoutClasses = {
 
     ${_atrules.tabletUp} {
       grid-template-columns: max-content 1fr;
-      grid-template-rows: 1fr max-content;
+      grid-template-rows: 1fr max-content max-content;
     }
 
     ${_atrules.desktopUp} {
@@ -247,6 +247,8 @@ export const layoutClasses = {
     z-index: 1;
 
     ${_atrules.tabletUp} {
+      height: 100vh;
+      grid-row: 1 / -1;
       font-weight: ${fontWeights.heading1};
       font-size: 1.5em;
       writing-mode: vertical-rl;
@@ -255,7 +257,8 @@ export const layoutClasses = {
       transform: rotate(180deg);
       padding-right: 1em;
       padding-left: 1.25em;
-      height: 100vh;
+      align-self: start;
+      justify-content: center;
     }
 
     ${_atrules.desktopUp} {
@@ -286,6 +289,7 @@ export const layoutClasses = {
 
     ${_atrules.tabletUp} {
       grid-column: 2;
+      grid-row: 3;
     }
 
     ${_atrules.desktopUp} {
@@ -315,7 +319,6 @@ export const layoutClasses = {
     position: relative;
 
     ${_atrules.desktopUp} {
-      font-weight: ${fontWeights.bold};
       max-width: 100%;
       padding-top: 0.5em;
     }
