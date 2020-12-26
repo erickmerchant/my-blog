@@ -44,7 +44,8 @@ export const _start = `
     --code-c: hsl(100, 35%, 70%);
     --code-bg: hsl(100, 10%, 20%);
     --code-b: var(--code-bg);
-    --code-inline-c: hsl(100, 35%, 35%);
+    --code-inline-c: hsl(100, 35%, 20%);
+    --code-inline-bg: hsl(100, 10%, 90%);
     --pg-disabled-bg: hsl(100, 10%, 45%);
     --pg-disabled-b-c: var(--pg-disabled-bg);
     --pg-disabled-c: #fff;
@@ -72,7 +73,8 @@ export const _start = `
       --code-c: hsl(100, 60%, 70%);
       --code-bg: hsl(100, 10%, 25%);
       --code-b: hsl(100, 30%, 70%);
-      --code-inline-c: hsl(100, 40%, 70%);
+      --code-inline-c: inherit;
+      --code-inline-bg: hsl(100, 10%, 25%);
       --pg-disabled-bg: transparent;
       --pg-disabled-b-c: currentColor;
       --pg-disabled-c: hsl(100, 10%, 70%);
@@ -115,12 +117,6 @@ const heading1 = `
   ${_atrules.desktopUp} {
     margin-top: 2em;
   }
-`
-
-const code = `
-  font-family: Consolas, monaco, monospace;
-  font-size: 0.875em;
-  color: var(--code-c);
 `
 
 const paginationItemDisabled = `
@@ -397,13 +393,20 @@ export const mainClasses = {
     font-weight: ${fontWeights.bold};
   `,
   pre: `
+    display: contents;
+  `,
+  codeBlock: `
+    display: block;
+    font-family: Consolas, monaco, monospace;
+    font-size: 0.875em;
     overflow: auto;
+    white-space: pre-wrap;
+    word-break: break-word;
     padding-top: 1em;
     padding-bottom: 1em;
     padding-right: 0.5rem;
     padding-left: 0.5rem;
-    white-space: pre-wrap;
-    word-break: break-word;
+    color: var(--code-c);
     background-color: var(--code-bg);
     border-top: 1px solid var(--code-b);
     border-bottom: 1px solid var(--code-b);
@@ -428,18 +431,15 @@ export const mainClasses = {
     }
   `,
   codeInline: `
+    display: inline-block;
     font-family: Consolas, monaco, monospace;
     font-size: 0.875em;
+    background-color: var(--code-inline-bg);
     color: var(--code-inline-c);
+    border-radius: 0.125rem;
+    padding-right: 0.125rem;
+    padding-left: 0.125rem;
     word-break: break-word;
-
-    ::before,
-    ::after {
-      content: "\`";
-    }
-  `,
-  codeBlock: `
-    ${code}
   `,
   anchor: `
     text-decoration-thickness: 0.0625em;
