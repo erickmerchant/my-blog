@@ -34,13 +34,13 @@ export const _start = `
   }
 
   html {
-    height: 100%;
+    font-weight: ${fontWeights.normal};
     font-family: "Public Sans", system-ui, sans-serif;
     font-size: max(20px, 1vw);
-    font-weight: ${fontWeights.normal};
     line-height: 1.5;
     color: hsl(100, 10%, 20%);
     background-color: #fff;
+    height: 100%;
 
     --code-c: hsl(100, 35%, 70%);
     --code-bg: hsl(100, 10%, 20%);
@@ -112,8 +112,8 @@ const heading = `
 const heading1 = `
   ${heading}
 
-  font-size: 1.5em;
   font-weight: ${fontWeights.heading1};
+  font-size: 1.5em;
 
   ${_atrules.desktopUp} {
     margin-top: 2em;
@@ -121,14 +121,14 @@ const heading1 = `
 `
 
 const paginationItemDisabled = `
+  font-weight: ${fontWeights.heading2};
   position: relative;
   padding-top: 0.875em;
   padding-bottom: 0.875em;
-  font-weight: ${fontWeights.heading2};
+  font-size: 1em;
   background-color: var(--pg-disabled-bg);
   border: 3px solid var(--border-color);
   color: var(--pg-disabled-c);
-  font-size: 1em;
   border-top-right-radius: var(--right-radius, 0.125rem);
   border-bottom-right-radius: var(--right-radius, 0.125rem);
   border-top-left-radius: var(--left-radius, 0.125rem);
@@ -174,9 +174,9 @@ const paginationItemOlder = `
 `
 
 const main = `
+  font-weight: ${fontWeights.normal};
   opacity: 1;
   transition: opacity 0.3s;
-  font-weight: ${fontWeights.normal};
 `
 
 const mainItem = `
@@ -215,8 +215,6 @@ export const layoutClasses = {
 
     ${_atrules.desktopUp} {
       grid-row: 1 / -1;
-      background-color: var(--hero-bg);
-      border-right: 3px solid var(--hero-b);
       color: #fff;
       position: sticky;
       top: 0;
@@ -226,6 +224,8 @@ export const layoutClasses = {
       grid-auto-rows: 1fr;
       grid-template-columns: 90%;
       overflow-y: scroll;
+      background-color: var(--hero-bg);
+      border-right: 3px solid var(--hero-b);
     }
   `,
   headerAnchor: `
@@ -234,31 +234,31 @@ export const layoutClasses = {
     color: inherit;
   `,
   header: `
+    font-weight: ${fontWeights.heading2};
     padding-top: 1em;
     padding-bottom: 1em;
-    background-color: var(--hero-bg);
-    border-bottom: 3px solid var(--hero-b);
-    font-weight: ${fontWeights.heading2};
     color: #fff;
     display: flex;
     justify-content: center;
     position: sticky;
     top: 0;
     z-index: 1;
+    background-color: var(--hero-bg);
+    border-bottom: 3px solid var(--hero-b);
 
     ${_atrules.tabletUp} {
+      font-weight: ${fontWeights.heading1};
       height: 100vh;
       grid-row: 1 / -1;
-      font-weight: ${fontWeights.heading1};
       font-size: 1.5em;
       writing-mode: vertical-rl;
-      border-left: 3px solid var(--hero-b);
       border-bottom: none;
       transform: rotate(180deg);
       padding-right: 1em;
       padding-left: 1.25em;
       align-self: start;
       justify-content: center;
+      border-left: 3px solid var(--hero-b);
     }
 
     ${_atrules.desktopUp} {
@@ -279,11 +279,11 @@ export const layoutClasses = {
     }
   `,
   footer: `
-    background-color: var(--ftr-bg);
     padding-right: 0.5rem;
     padding-left: 0.5rem;
     padding-bottom: 0.25em;
     width: 100%;
+    background-color: var(--ftr-bg);
     border-top: var(--mid-b);
     color: var(--ftr-c);
 
@@ -299,12 +299,12 @@ export const layoutClasses = {
       margin-top: 2em;
       margin-left: auto;
       margin-right: auto;
+      background-repeat: repeat-x;
+      border-top: none;
       background-image: var(--ftr-zz);
       background-color: var(--ftr-bg);
       background-position: var(--ftr-zz-posi, left top);
-      background-repeat: repeat-x;
       background-size: var(--ftr-zz-size, 1rem 1rem);
-      border-top: none;
     }
   `,
   footerList: `
@@ -340,14 +340,14 @@ export const aboutClasses = {
   about: `
     grid-row: 3;
     margin-top: 2em;
-    background-color: var(--ftr-bg);
-    background-image: var(--ftr-zz);
-    background-position: var(--ftr-zz-posi, left top);
-    background-size: var(--ftr-zz-size, 1rem 1rem);
     background-repeat: repeat-x;
     padding-right: 0.5rem;
     padding-left: 0.5rem;
     padding-bottom: 1em;
+    background-color: var(--ftr-bg);
+    background-image: var(--ftr-zz);
+    background-position: var(--ftr-zz-posi, left top);
+    background-size: var(--ftr-zz-size, 1rem 1rem);
     color: var(--ftr-c);
 
     ${_atrules.tabletUp} {
@@ -388,8 +388,8 @@ export const aboutClasses = {
     }
   `,
   paragraph: `
-    font-size: 0.875em;
     font-weight: ${fontWeights.normal};
+    font-size: 0.875em;
 
     ${_atrules.desktopDown} {
       max-width: 30rem;
@@ -438,21 +438,21 @@ export const mainClasses = {
     padding-bottom: 1em;
     padding-right: 0.5rem;
     padding-left: 0.5rem;
+    max-width: 32rem;
+    width: 100%;
     color: var(--code-c);
     background-color: var(--code-bg);
     border-top: 1px solid var(--code-b);
     border-bottom: 1px solid var(--code-b);
-    max-width: 32rem;
-    width: 100%;
 
     ${_atrules.mobileUp} {
       border-radius: 0.125rem;
-      border-right: 1px solid var(--code-b);
-      border-left: 1px solid var(--code-b);
       margin-right: auto;
       margin-left: auto;
       padding-right: 1rem;
       padding-left: 1rem;
+      border-right: 1px solid var(--code-b);
+      border-left: 1px solid var(--code-b);
     }
 
     ${_atrules.desktopUp} {
@@ -466,17 +466,17 @@ export const mainClasses = {
     display: inline-block;
     font-family: Consolas, monaco, monospace;
     font-size: 0.875em;
-    background-color: var(--code-inline-bg);
-    color: var(--code-inline-c);
     border-radius: 0.125rem;
     padding-right: 0.125rem;
     padding-left: 0.125rem;
     word-break: break-word;
+    background-color: var(--code-inline-bg);
+    color: var(--code-inline-c);
   `,
   anchor: `
+    font-weight: ${fontWeights.semibold};
     text-decoration-thickness: 0.0625em;
     text-underline-offset: 0.1875em;
-    font-weight: ${fontWeights.semibold};
     color: var(--a-c);
   `,
   list: `
@@ -491,10 +491,10 @@ export const mainClasses = {
     margin-bottom: 0.25em;
 
     ::before {
+      font-weight: ${fontWeights.bold};
       margin-right: 0.5rem;
       content: '-';
       color: currentColor;
-      font-weight: ${fontWeights.bold};
     }
   `,
   paragraph: `
@@ -504,10 +504,10 @@ export const mainClasses = {
     margin-bottom: 1em;
   `,
   date: `
+    font-weight: ${fontWeights.semibold};
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    font-weight: ${fontWeights.semibold};
   `,
   dateIcon: `
     height: 1em;

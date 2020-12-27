@@ -50,26 +50,26 @@ export const _start = `
 `
 
 const headerHeading = `
+  font-weight: ${fontWeights.heading};
   padding-top: 0.5em;
   padding-bottom: 0.5em;
   font-size: 1.5em;
-  font-weight: ${fontWeights.heading};
 `
 
 const button = `
+  border-radius: ${borderRadius};
+  font-weight: ${fontWeights.bold};
   appearance: none;
   padding-top: 0.5em;
   padding-bottom: 0.5em;
   padding-right: 1.5em;
   padding-left: 1.5em;
   border: none;
-  border-radius: ${borderRadius};
+  text-decoration: none;
+  cursor: pointer;
   border: 1px solid var(--blue);
   background-color: var(--blue);
   color: var(--white);
-  font-weight: ${fontWeights.bold};
-  text-decoration: none;
-  cursor: pointer;
 
   :focus, :hover {
     filter: saturate(2);
@@ -78,21 +78,21 @@ const button = `
 `
 
 const textButton = `
+  border-radius: ${borderRadius};
+  font-weight: ${fontWeights.bold};
   appearance: none;
   padding-top: 0.5em;
   padding-bottom: 0.5em;
   padding-right: 1.5em;
   padding-left: 1.5em;
   background-color: transparent;
-  border: 1px solid var(--white);
-  border-radius: ${borderRadius};
   box-shadow: none;
-  color: var(--blue);
-  font-weight: ${fontWeights.bold};
   text-decoration: none;
   cursor: pointer;
   text-align: center;
   display: inline-block;
+  border: 1px solid var(--white);
+  color: var(--blue);
 
   :hover {
     text-decoration: none;
@@ -106,15 +106,15 @@ const textButton = `
 `
 
 const label = `
+  font-weight: ${fontWeights.bold};
   display: block;
   margin-bottom: 0.5em;
-  font-weight: ${fontWeights.bold};
 `
 
 const input = `
+  border-radius: ${borderRadius};
   width: 100%;
   padding: 0.5em;
-  border-radius: ${borderRadius};
   border: 1px solid var(--silver);
   background-color: var(--white);
   color: var(--black);
@@ -122,14 +122,14 @@ const input = `
 
 export const layoutClasses = {
   app: `
+    font-weight: ${fontWeights.normal};
     max-width: 100vw;
     line-height: 1.5;
     font-size: 16px;
-    font-weight: ${fontWeights.normal};
-    color: var(--black);
-    background-color: var(--white);
     overflow-x: scroll;
     height: 100%;
+    color: var(--black);
+    background-color: var(--white);
 
     --z-index: 0;
   `
@@ -149,10 +149,10 @@ export const listClasses = {
     border: 5px solid transparent;
   `,
   th: `
-    padding: 1em;
-    border-bottom: 1px solid var(--silver);
-    text-align: left;
     font-weight: ${fontWeights.bold};
+    padding: 1em;
+    text-align: left;
+    border-bottom: 1px solid var(--silver);
   `,
   td: `
     padding: 1em;
@@ -175,9 +175,9 @@ export const listClasses = {
     gap: 1em;
     position: sticky;
     bottom: 0;
+    padding: 1em;
     background: var(--white);
     border-top: 1px solid var(--silver);
-    padding: 1em;
   `
 }
 
@@ -205,8 +205,8 @@ export const formClasses = {
   inputLarge: `
     ${input}
 
-    font-size: 1.5em;
     font-weight: ${fontWeights.heading};
+    font-size: 1.5em;
   `,
   label,
   input,
@@ -216,11 +216,11 @@ export const formClasses = {
     background-color: var(--silver);
   `,
   textareaWrap: `
+    border-radius: ${borderRadius};
     position: relative;
     width: 100%;
     margin-right: auto;
     margin-left: auto;
-    border-radius: ${borderRadius};
     border: 1px solid var(--silver);
   `,
   textareaHighlightsWrap: `
@@ -237,23 +237,23 @@ export const formClasses = {
     color: var(--black);
   `,
   textarea: `
+    border-radius: ${borderRadius};
     position: absolute;
     top: 0;
     bottom: 0;
     right: 0;
     left: 0;
-    z-index: var(--z-index);
     width: 100%;
     height: 100%;
     padding: 0.5em;
     overflow: hidden;
     border: none;
-    border-radius: ${borderRadius};
     background-color: transparent;
     color: transparent;
-    caret-color: var(--black);
     word-break: break-word;
     resize: none;
+    z-index: var(--z-index);
+    caret-color: var(--black);
   `,
   formButtons: `
     justify-content: flex-end;
@@ -261,9 +261,9 @@ export const formClasses = {
     gap: 1em;
     position: sticky;
     bottom: 0;
+    padding: 1em;
     background: var(--white);
     border-top: 1px solid var(--silver);
-    padding: 1em;
   `,
   cancelButton: textButton,
   saveButton: button
@@ -271,8 +271,8 @@ export const formClasses = {
 
 export const highlightClasses = {
   punctuation: `
-    color: var(--gray);
     font-weight: ${fontWeights.normal};
+    color: var(--gray);
   `,
   bold: `
     font-weight: ${fontWeights.bold};
@@ -281,21 +281,21 @@ export const highlightClasses = {
     color: var(--blue);
   `,
   codeBlock: `
+    font-weight: ${fontWeights.normal};
     white-space: pre-wrap;
     color: var(--green);
-    font-weight: ${fontWeights.normal};
   `,
   codeInline: `
-    color: var(--green);
     font-weight: ${fontWeights.normal};
+    color: var(--green);
   `,
   heading: `
-    color: var(--black);
     font-weight: ${fontWeights.heading};
+    color: var(--black);
   `,
   headingPunctuation: `
-    color: var(--gray);
     font-weight: ${fontWeights.heading};
+    color: var(--gray);
   `
 }
 
@@ -306,8 +306,8 @@ export const errorClasses = {
   `,
   headerHeading,
   stackTrace: `
-    color: var(--red);
     white-space: pre-wrap;
     word-break: break-word;
+    color: var(--red);
   `
 }
