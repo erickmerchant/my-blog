@@ -10,14 +10,10 @@ export const createListComponent = ({postModel, app, init}) => {
       if (post.slug != null) {
         await postModel.remove(post.slug)
 
-        const state = await init()
-
-        app.commit(state)
+        app.state = await init()
       }
     } catch (error) {
-      app.commit((state) => {
-        state.error = error
-      })
+      app.state.error = error
     }
   }
 

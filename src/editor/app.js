@@ -140,7 +140,7 @@ const dispatchLocation = async (segments) => {
     }
   }
 
-  app.commit(state)
+  app.state = state
 }
 
 const target = document.querySelector('body')

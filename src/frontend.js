@@ -24,9 +24,7 @@ export const getDispatchLocation = ({app, postModel, getSegments}) => async (
   let post
 
   if (transitioning) {
-    app.commit((state) => {
-      state.transitioning = true
-    })
+    app.state.transitioning = true
   }
 
   try {
@@ -37,22 +35,22 @@ export const getDispatchLocation = ({app, postModel, getSegments}) => async (
     }
 
     if (post != null) {
-      app.commit({
+      app.state = {
         route: 'post',
         title: `Posts | ${post.title}`,
         transitioning: false,
         post
-      })
+      }
     } else {
-      app.commit(getUnfound())
+      app.state = getUnfound()
     }
   } catch (error) {
-    app.commit({
+    app.state = {
       route: 'error',
       title: '500 Error',
       transitioning: false,
       error
-    })
+    }
   }
 }
 

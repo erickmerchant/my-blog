@@ -6,15 +6,11 @@ export const createFormComponent = ({postModel, app, slugify}) => {
   const zIndexHandlers = {
     onkeydown(e) {
       if (e.key === 'Meta') {
-        app.commit((state) => {
-          state.zIndex = -1
-        })
+        app.state.zIndex = -1
       }
     },
     onkeyup(e) {
-      app.commit((state) => {
-        state.zIndex = 0
-      })
+      app.state.zIndex = 0
     }
   }
 
@@ -38,9 +34,7 @@ export const createFormComponent = ({postModel, app, slugify}) => {
 
       window.location.hash = '#'
     } catch (error) {
-      app.commit((state) => {
-        state.error = error
-      })
+      app.state.error = error
     }
   }
 
@@ -109,12 +103,13 @@ export const createFormComponent = ({postModel, app, slugify}) => {
       false
     )
 
-  const highlight = (e) =>
-    app.commit((state) => {
-      state.post.highlightedContent = e.target.value
-
-      state.post.content = e.target.value
-    })
+  const highlight = (e) => {
+    app.state.post = {
+      ...app.state.post,
+      highlightedContent: e.target.value,
+      content: e.target.value
+    }
+  }
 
   return (state) => html`
     <form
@@ -132,10 +127,12 @@ export const createFormComponent = ({postModel, app, slugify}) => {
             name="title"
             id="field-title"
             value=${state.post.title ?? ''}
-            oninput=${(e) =>
-              app.commit((state) => {
-                state.post.title = e.target.value
-              })}
+            oninput=${(e) => {
+              app.state.post = {
+                ...app.state.post,
+                title: e.target.value
+              }
+            }}
             ${zIndexHandlers}
           />
         </div>
@@ -147,10 +144,12 @@ export const createFormComponent = ({postModel, app, slugify}) => {
             type="date"
             id="field-date"
             value=${state.post.date ?? ''}
-            oninput=${(e) =>
-              app.commit((state) => {
-                state.post.date = e.target.value
-              })}
+            oninput=${(e) => {
+              app.state.post = {
+                ...app.state.post,
+                date: e.target.value
+              }
+            }}
             ${zIndexHandlers}
           />
         </div>
@@ -166,10 +165,12 @@ export const createFormComponent = ({postModel, app, slugify}) => {
             value=${state.post.slug ?? ''}
             placeholder=${slugify(state.post.title ?? '')}
             oninput=${state.post.slug == null
-              ? (e) =>
-                  app.commit((state) => {
-                    state.post.slug = e.target.value
-                  })
+              ? (e) => {
+                  app.state.post = {
+                    ...app.state.post,
+                    slug: e.target.value
+                  }
+                }
               : null}
             ${zIndexHandlers}
           />

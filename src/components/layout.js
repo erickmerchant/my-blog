@@ -5,7 +5,7 @@ export const createLayoutComponent = ({
   aboutComponent,
   mainComponent,
   anchorAttrs
-}) => (state) => html`
+}) => (state = {}) => html`
   <body class=${classes.app}>
     <div class=${classes.hero}>
       <header class=${classes.header}>
