@@ -30,7 +30,6 @@ export const _start = `
     margin: 0;
     padding: 0;
     font: inherit;
-    font-weight: inherit;
   }
 
   html {
@@ -75,7 +74,7 @@ export const _start = `
       --code-bg: hsl(100, 10%, 25%);
       --code-b: hsl(100, 30%, 70%);
       --code-inline-c: inherit;
-      --code-inline-bg: hsl(100, 10%, 25%);
+      --code-inline-bg: var(--code-bg);
       --pg-disabled-bg: transparent;
       --pg-disabled-b-c: currentColor;
       --pg-disabled-c: hsl(100, 10%, 70%);
@@ -122,13 +121,13 @@ const heading1 = `
 
 const paginationItemDisabled = `
   font-weight: ${fontWeights.heading2};
+  font-size: 1em;
+  color: var(--pg-disabled-c);
   position: relative;
   padding-top: 0.875em;
   padding-bottom: 0.875em;
-  font-size: 1em;
   background-color: var(--pg-disabled-bg);
   border: 3px solid var(--border-color);
-  color: var(--pg-disabled-c);
   border-top-right-radius: var(--right-radius, 0.125rem);
   border-bottom-right-radius: var(--right-radius, 0.125rem);
   border-top-left-radius: var(--left-radius, 0.125rem);
@@ -145,8 +144,8 @@ const paginationItemDisabled = `
 const paginationItemEnabled = `
   ${paginationItemDisabled}
 
-  background-color: var(--pg-enabled-bg);
   color: var(--pg-enabled-c);
+  background-color: var(--pg-enabled-bg);
 
   --border-color: var(--pg-enabled-b-c);
 
@@ -174,7 +173,6 @@ const paginationItemOlder = `
 `
 
 const main = `
-  font-weight: ${fontWeights.normal};
   opacity: 1;
   transition: opacity 0.3s;
 `
@@ -214,8 +212,8 @@ export const layoutClasses = {
     display: contents;
 
     ${_atrules.desktopUp} {
-      grid-row: 1 / -1;
       color: #fff;
+      grid-row: 1 / -1;
       position: sticky;
       top: 0;
       height: 100vh;
@@ -229,15 +227,15 @@ export const layoutClasses = {
     }
   `,
   headerAnchor: `
+    color: inherit;
     text-decoration-thickness: 0.125em;
     text-underline-offset: 0.125em;
-    color: inherit;
   `,
   header: `
     font-weight: ${fontWeights.heading2};
+    color: #fff;
     padding-top: 1em;
     padding-bottom: 1em;
-    color: #fff;
     display: flex;
     justify-content: center;
     position: sticky;
@@ -248,9 +246,9 @@ export const layoutClasses = {
 
     ${_atrules.tabletUp} {
       font-weight: ${fontWeights.heading1};
+      font-size: 1.5em;
       height: 100vh;
       grid-row: 1 / -1;
-      font-size: 1.5em;
       writing-mode: vertical-rl;
       border-bottom: none;
       transform: rotate(180deg);
@@ -279,13 +277,13 @@ export const layoutClasses = {
     }
   `,
   footer: `
+    color: var(--ftr-c);
     padding-right: 0.5rem;
     padding-left: 0.5rem;
     padding-bottom: 0.25em;
     width: 100%;
     background-color: var(--ftr-bg);
     border-top: var(--mid-b);
-    color: var(--ftr-c);
 
     ${_atrules.tabletUp} {
       grid-column: 2;
@@ -330,14 +328,15 @@ export const layoutClasses = {
     white-space: nowrap;
   `,
   footerAnchor: `
-    text-decoration-thickness: 0.125em;
-    text-underline-offset: 0.125em;
     color: var(--a-c);
+    text-decoration-thickness: 0.0625em;
+    text-underline-offset: 0.1875em;
   `
 }
 
 export const aboutClasses = {
   about: `
+    color: var(--ftr-c);
     grid-row: 3;
     margin-top: 2em;
     background-repeat: repeat-x;
@@ -348,7 +347,6 @@ export const aboutClasses = {
     background-image: var(--ftr-zz);
     background-position: var(--ftr-zz-posi, left top);
     background-size: var(--ftr-zz-size, 1rem 1rem);
-    color: var(--ftr-c);
 
     ${_atrules.tabletUp} {
       grid-column: 2;
@@ -356,10 +354,10 @@ export const aboutClasses = {
     }
 
     ${_atrules.desktopUp} {
+      color: inherit;
       grid-column: 1;
       background-image: none;
       background-color: transparent;
-      color: inherit;
       padding-bottom: 2em;
       padding-left: 0;
       padding-right: 0;
@@ -379,16 +377,15 @@ export const aboutClasses = {
     }
   `,
   anchor: `
+    color: var(--a-c);
     text-decoration-thickness: 0.0625em;
     text-underline-offset: 0.1875em;
-    color: var(--a-c);
 
     ${_atrules.desktopUp} {
       color: var(--header-color);
     }
   `,
   paragraph: `
-    font-weight: ${fontWeights.normal};
     font-size: 0.875em;
 
     ${_atrules.desktopDown} {
@@ -428,9 +425,10 @@ export const mainClasses = {
     display: contents;
   `,
   codeBlock: `
-    display: block;
     font-family: Consolas, monaco, monospace;
     font-size: 0.875em;
+    color: var(--code-c);
+    display: block;
     overflow: auto;
     white-space: pre-wrap;
     word-break: break-word;
@@ -440,7 +438,6 @@ export const mainClasses = {
     padding-left: 0.5rem;
     max-width: 32rem;
     width: 100%;
-    color: var(--code-c);
     background-color: var(--code-bg);
     border-top: 1px solid var(--code-b);
     border-bottom: 1px solid var(--code-b);
@@ -463,21 +460,21 @@ export const mainClasses = {
     }
   `,
   codeInline: `
-    display: inline-block;
     font-family: Consolas, monaco, monospace;
     font-size: 0.875em;
+    color: var(--code-inline-c);
+    display: inline-block;
     border-radius: 0.125rem;
     padding-right: 0.125rem;
     padding-left: 0.125rem;
     word-break: break-word;
     background-color: var(--code-inline-bg);
-    color: var(--code-inline-c);
   `,
   anchor: `
     font-weight: ${fontWeights.semibold};
+    color: var(--a-c);
     text-decoration-thickness: 0.0625em;
     text-underline-offset: 0.1875em;
-    color: var(--a-c);
   `,
   list: `
     ${mainItem}
@@ -492,9 +489,9 @@ export const mainClasses = {
 
     ::before {
       font-weight: ${fontWeights.bold};
+      color: currentColor;
       margin-right: 0.5rem;
       content: '-';
-      color: currentColor;
     }
   `,
   paragraph: `
@@ -568,9 +565,9 @@ export const mainClasses = {
     ${paginationItemOlder}
   `,
   paginationAnchor: `
+    color: inherit;
     text-decoration-thickness: 0.125em;
     text-underline-offset: 0.125em;
-    color: inherit;
 
     ::after {
       content: '';

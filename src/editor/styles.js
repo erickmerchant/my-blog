@@ -51,14 +51,15 @@ export const _start = `
 
 const headerHeading = `
   font-weight: ${fontWeights.heading};
+  font-size: 1.5em;
   padding-top: 0.5em;
   padding-bottom: 0.5em;
-  font-size: 1.5em;
 `
 
 const button = `
-  border-radius: ${borderRadius};
   font-weight: ${fontWeights.bold};
+  color: var(--white);
+  border-radius: ${borderRadius};
   appearance: none;
   padding-top: 0.5em;
   padding-bottom: 0.5em;
@@ -69,7 +70,6 @@ const button = `
   cursor: pointer;
   border: 1px solid var(--blue);
   background-color: var(--blue);
-  color: var(--white);
 
   :focus, :hover {
     filter: saturate(2);
@@ -78,8 +78,9 @@ const button = `
 `
 
 const textButton = `
-  border-radius: ${borderRadius};
   font-weight: ${fontWeights.bold};
+  color: var(--blue);
+  border-radius: ${borderRadius};
   appearance: none;
   padding-top: 0.5em;
   padding-bottom: 0.5em;
@@ -92,7 +93,6 @@ const textButton = `
   text-align: center;
   display: inline-block;
   border: 1px solid var(--white);
-  color: var(--blue);
 
   :hover {
     text-decoration: none;
@@ -112,23 +112,23 @@ const label = `
 `
 
 const input = `
+  color: var(--black);
   border-radius: ${borderRadius};
   width: 100%;
   padding: 0.5em;
   border: 1px solid var(--silver);
   background-color: var(--white);
-  color: var(--black);
 `
 
 export const layoutClasses = {
   app: `
     font-weight: ${fontWeights.normal};
-    max-width: 100vw;
-    line-height: 1.5;
     font-size: 16px;
+    line-height: 1.5;
+    color: var(--black);
+    max-width: 100vw;
     overflow-x: scroll;
     height: 100%;
-    color: var(--black);
     background-color: var(--white);
 
     --z-index: 0;
@@ -228,15 +228,16 @@ export const formClasses = {
     padding: 0.5em;
   `,
   textareaHighlights: `
+    color: var(--black);
     min-height: 15em;
     overflow: auto;
     border-radius: 0;
     background-color: transparent;
     white-space: pre-wrap;
     word-break: break-word;
-    color: var(--black);
   `,
   textarea: `
+    color: transparent;
     border-radius: ${borderRadius};
     position: absolute;
     top: 0;
@@ -249,7 +250,6 @@ export const formClasses = {
     overflow: hidden;
     border: none;
     background-color: transparent;
-    color: transparent;
     word-break: break-word;
     resize: none;
     z-index: var(--z-index);
@@ -282,8 +282,8 @@ export const highlightClasses = {
   `,
   codeBlock: `
     font-weight: ${fontWeights.normal};
-    white-space: pre-wrap;
     color: var(--green);
+    white-space: pre-wrap;
   `,
   codeInline: `
     font-weight: ${fontWeights.normal};
@@ -306,8 +306,8 @@ export const errorClasses = {
   `,
   headerHeading,
   stackTrace: `
+    color: var(--red);
     white-space: pre-wrap;
     word-break: break-word;
-    color: var(--red);
   `
 }
