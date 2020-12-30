@@ -120,82 +120,6 @@ const heading1 = `
   }
 `
 
-const paginationItemDisabled = `
-  font-weight: ${fontWeights.heading2};
-  color: var(--pg-disabled-c);
-  position: relative;
-  padding-top: 0.875em;
-  padding-bottom: 0.875em;
-  background-color: var(--pg-disabled-bg);
-  border: 3px solid var(--border-color);
-  border-top-right-radius: var(--right-radius, 0.125rem);
-  border-bottom-right-radius: var(--right-radius, 0.125rem);
-  border-top-left-radius: var(--left-radius, 0.125rem);
-  border-bottom-left-radius: var(--left-radius, 0.125rem);
-
-  --border-color: var(--pg-disabled-b-c);
-
-  ${_atrules.veryMobileDown} {
-    --left-radius: 0.125rem;
-    --right-radius: 0.125rem;
-  }
-`
-
-const paginationItemEnabled = `
-  ${paginationItemDisabled}
-
-  color: var(--pg-enabled-c);
-  background-color: var(--pg-enabled-bg);
-
-  --border-color: var(--pg-enabled-b-c);
-
-  :focus-within, :hover {
-    background-color: var(--pg-enabled-hover-bg);
-
-    --border-color: var(--pg-enabled-hover-b-c);
-  }
-`
-
-const paginationItemNewer = `
-  --right-radius: 1.5rem 50%;
-
-  ${_atrules.mobileUp} {
-    --left-radius: 1.5rem 50%;
-  }
-`
-
-const paginationItemOlder = `
-  --left-radius: 1.5rem 50%;
-
-  ${_atrules.mobileUp} {
-    --right-radius: 1.5rem 50%;
-  }
-`
-
-const main = `
-  opacity: 1;
-  transition: opacity 0.3s;
-`
-
-const mainItem = `
-  max-width: 31rem;
-  padding-right: 0.5rem;
-  padding-left: 0.5rem;
-  margin-right: auto;
-  margin-left: auto;
-
-  ${_atrules.tabletUp} {
-    padding-right: 1rem;
-    padding-left: 1rem;
-  }
-
-  ${_atrules.desktopUp} {
-    max-width: 34rem;
-    margin-right: 2rem;
-    margin-left: 2rem;
-  }
-`
-
 export const layoutClasses = {
   app: `
     display: grid;
@@ -402,6 +326,82 @@ export const aboutClasses = {
     font-weight: ${fontWeights.semibold};
   `
 }
+
+const paginationItemDisabled = `
+  font-weight: ${fontWeights.heading2};
+  color: var(--pg-disabled-c);
+  position: relative;
+  padding-top: 0.875em;
+  padding-bottom: 0.875em;
+  background-color: var(--pg-disabled-bg);
+  border: 3px solid var(--border-color);
+  border-top-right-radius: var(--right-radius, 0.125rem);
+  border-bottom-right-radius: var(--right-radius, 0.125rem);
+  border-top-left-radius: var(--left-radius, 0.125rem);
+  border-bottom-left-radius: var(--left-radius, 0.125rem);
+
+  --border-color: var(--pg-disabled-b-c);
+
+  ${_atrules.veryMobileDown} {
+    --left-radius: 0.125rem;
+    --right-radius: 0.125rem;
+  }
+`
+
+const paginationItemEnabled = `
+  ${paginationItemDisabled}
+
+  color: var(--pg-enabled-c);
+  background-color: var(--pg-enabled-bg);
+
+  --border-color: var(--pg-enabled-b-c);
+
+  :focus-within, :hover {
+    background-color: var(--pg-enabled-hover-bg);
+
+    --border-color: var(--pg-enabled-hover-b-c);
+  }
+`
+
+const paginationItemNewer = `
+  --right-radius: 1.5rem 50%;
+
+  ${_atrules.mobileUp} {
+    --left-radius: 1.5rem 50%;
+  }
+`
+
+const paginationItemOlder = `
+  --left-radius: 1.5rem 50%;
+
+  ${_atrules.mobileUp} {
+    --right-radius: 1.5rem 50%;
+  }
+`
+
+const main = `
+  opacity: 1;
+  transition: opacity 0.3s;
+`
+
+const mainItem = `
+  max-width: 31rem;
+  padding-right: 0.5rem;
+  padding-left: 0.5rem;
+  margin-right: auto;
+  margin-left: auto;
+
+  ${_atrules.tabletUp} {
+    padding-right: 1rem;
+    padding-left: 1rem;
+  }
+
+  ${_atrules.desktopUp} {
+    max-width: 34rem;
+    margin-right: 2rem;
+    margin-left: 2rem;
+  }
+`
 
 export const mainClasses = {
   heading1,

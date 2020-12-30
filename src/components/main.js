@@ -6,26 +6,6 @@ export const createMainComponent = ({
   dateUtils,
   anchorAttrs
 }) => (state) => {
-  const paginationItem = (obj, text) =>
-    html`
-      <li
-        class=${obj
-          ? classes[`paginationItemEnabled${text}`]
-          : classes[`paginationItemDisabled${text}`]}
-      >
-        ${obj
-          ? html`
-              <a
-                ${anchorAttrs(`/posts/${obj.slug}/`)}
-                class=${classes.paginationAnchor}
-              >
-                ${text}
-              </a>
-            `
-          : text}
-      </li>
-    `
-
   if (state.route === 'post') {
     const date = dateUtils.stringToDate(state.post.date)
     const year = date.getFullYear()
@@ -148,8 +128,31 @@ export const createMainComponent = ({
           ? html`
               <nav class=${classes.pagination}>
                 <ul class=${classes.paginationList}>
-                  ${paginationItem(state.post.prev, 'Older')}
-                  ${paginationItem(state.post.next, 'Newer')}
+                  ${[
+                    ['prev', 'Older'],
+                    ['next', 'Newer']
+                  ].map(
+                    ([key, text]) => html`
+                      <li
+                        class=${state.post[key]
+                          ? classes[`paginationItemEnabled${text}`]
+                          : classes[`paginationItemDisabled${text}`]}
+                      >
+                        ${state.post[key]
+                          ? html`
+                              <a
+                                ${anchorAttrs(
+                                  `/posts/${state.post[key].slug}/`
+                                )}
+                                class=${classes.paginationAnchor}
+                              >
+                                ${text}
+                              </a>
+                            `
+                          : text}
+                      </li>
+                    `
+                  )}
                 </ul>
               </nav>
             `
