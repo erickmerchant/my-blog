@@ -8,8 +8,9 @@ const fontWeights = {
 
 export const _atrules = {
   colorSchemeDark: '@media (prefers-color-scheme: dark)',
-  mobileUp: '@media (min-width: 641px)',
-  tabletUp: '@media (min-width: 832px)',
+  mobileUp: '@media (min-width: 641px) and (orientation: portrait)',
+  tabletUp:
+    '@media (min-width: 832px), (min-width: 321px) and (orientation: landscape)',
   desktopUp: '@media (min-width: 1024px)',
   desktopDown: '@media (max-width: 1023px)',
   veryMobileDown: '@media (max-width: 320px)'
@@ -121,7 +122,6 @@ const heading1 = `
 
 const paginationItemDisabled = `
   font-weight: ${fontWeights.heading2};
-  font-size: 1em;
   color: var(--pg-disabled-c);
   position: relative;
   padding-top: 0.875em;
@@ -184,10 +184,13 @@ const mainItem = `
   margin-right: auto;
   margin-left: auto;
 
-  ${_atrules.desktopUp} {
-    max-width: 34rem;
+  ${_atrules.tabletUp} {
     padding-right: 1rem;
     padding-left: 1rem;
+  }
+
+  ${_atrules.desktopUp} {
+    max-width: 34rem;
     margin-right: 2rem;
     margin-left: 2rem;
   }
@@ -245,8 +248,8 @@ export const layoutClasses = {
     border-bottom: 3px solid var(--hero-b);
 
     ${_atrules.tabletUp} {
+      font-size: max(20px, 4vh);
       font-weight: ${fontWeights.heading1};
-      font-size: 1.5em;
       height: 100vh;
       grid-row: 1 / -1;
       writing-mode: vertical-rl;
@@ -262,6 +265,7 @@ export const layoutClasses = {
     ${_atrules.desktopUp} {
       ${heading}
 
+      font-size: 1.5em;
       writing-mode: horizontal-tb;
       transform: rotate(0deg);
       background-color: transparent;
@@ -422,7 +426,12 @@ export const mainClasses = {
     font-weight: ${fontWeights.bold};
   `,
   pre: `
-    display: contents;
+    display: block;
+
+    ${_atrules.tabletUp} {
+      padding-right: 0.75em;
+      padding-left: 0.75em;
+    }
   `,
   codeBlock: `
     font-family: Consolas, monaco, monospace;
@@ -450,6 +459,12 @@ export const mainClasses = {
       padding-left: 1rem;
       border-right: 1px solid var(--code-b);
       border-left: 1px solid var(--code-b);
+    }
+
+    ${_atrules.tabletUp} {
+      border-radius: 0.125rem;
+      margin-right: auto;
+      margin-left: auto;
     }
 
     ${_atrules.desktopUp} {
