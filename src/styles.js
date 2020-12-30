@@ -462,6 +462,11 @@ export const mainClasses = {
     }
 
     ${_atrules.tabletUp} {
+      border-right: 1px solid var(--code-b);
+      border-left: 1px solid var(--code-b);
+    }
+
+    ${_atrules.tabletUp} {
       border-radius: 0.125rem;
       margin-right: auto;
       margin-left: auto;
