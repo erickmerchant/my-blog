@@ -8,12 +8,12 @@ const fontWeights = {
 
 export const _atrules = {
   colorSchemeDark: '@media (prefers-color-scheme: dark)',
-  mobileUp: '@media (min-width: 641px) and (orientation: portrait)',
-  tabletUp:
-    '@media (min-width: 832px), (min-width: 321px) and (orientation: landscape)',
-  desktopUp: '@media (min-width: 1024px)',
-  desktopDown: '@media (max-width: 1023px)',
-  veryMobileDown: '@media (max-width: 320px)'
+  portraitUp: '@media (min-width: 500px) and (orientation: portrait)',
+  tabletLandscapeUp:
+    '@media (min-width: 950px), (min-width: 500px) and (orientation: landscape)',
+  desktopUp: '@media (min-width: 1100px)',
+  desktopDown: '@media (max-width: 1099px)',
+  veryMobileDown: '@media (max-width: 349px)'
 }
 
 export const _start = `
@@ -41,64 +41,12 @@ export const _start = `
     color: hsl(100, 10%, 20%);
     background-color: #fff;
     height: 100%;
-
-    --code-c: hsl(100, 35%, 70%);
-    --code-bg: hsl(100, 10%, 20%);
-    --code-b: var(--code-bg);
-    --code-inline-c: hsl(100, 35%, 20%);
-    --code-inline-bg: hsl(100, 10%, 90%);
-    --pg-disabled-bg: hsl(100, 10%, 45%);
-    --pg-disabled-b-c: var(--pg-disabled-bg);
-    --pg-disabled-c: #fff;
-    --pg-enabled-hover-bg: hsl(100, 45%, 45%);
-    --pg-enabled-hover-b-c: var(--pg-enabled-hover-bg);
-    --pg-enabled-bg: hsl(100, 35%, 45%);
-    --pg-enabled-b-c: var(--pg-enabled-bg);
-    --pg-enabled-c: #fff;
-    --hero-bg: hsla(100, 35%, 40%, 0.9);
-    --hero-b: var(--hero-bg);
-    --ftr-bg: hsl(100, 10%, 95%);
-    --ftr-zz:
-      linear-gradient(-135deg, #fff 0.5rem, transparent 0),
-      linear-gradient(135deg, #fff 0.5rem, var(--ftr-bg) 0);
-    --ftr-c: hsl(100, 10%, 20%);
-    --a-c: hsl(100, 35%, 35%);
-    --mid-b: 1px solid hsl(100, 10%, 90%);
   }
 
   ${_atrules.colorSchemeDark} {
     html {
       color: #fff;
       background-color: hsl(100, 10%, 20%);
-
-      --code-c: hsl(100, 60%, 70%);
-      --code-bg: hsl(100, 10%, 25%);
-      --code-b: hsl(100, 30%, 70%);
-      --code-inline-c: inherit;
-      --code-inline-bg: var(--code-bg);
-      --pg-disabled-bg: transparent;
-      --pg-disabled-b-c: currentColor;
-      --pg-disabled-c: hsl(100, 10%, 70%);
-      --pg-enabled-hover-bg: hsla(100, 80%, 70%, 0.2);
-      --pg-enabled-hover-b-c: currentColor;
-      --pg-enabled-bg: transparent;
-      --pg-enabled-b-c: currentColor;
-      --pg-enabled-c: hsl(100, 80%, 70%);
-      --hero-bg: hsla(100, 20%, 20%, 0.9);
-      --hero-b: hsl(100, 30%, 70%);
-      --ftr-bg: hsl(100, 10%, 20%);
-      --ftr-zz:
-        linear-gradient(135deg, var(--ftr-bg) 25%, transparent 25%),
-        linear-gradient(225deg, var(--ftr-bg) 25%, transparent 25%),
-        linear-gradient(315deg, var(--ftr-bg) 25%, transparent 25%),
-        linear-gradient(45deg, var(--ftr-bg) 25%, transparent 25%),
-        linear-gradient(0deg, hsl(100, 30%, 70%) 0, hsl(100, 30%, 70%));
-      --ftr-zz-posi: -0.25rem 0, -0.25rem 0, 0 0, 0 0;
-      --ftr-zz-size: 0.5rem 0.5rem;
-      --ftr-c: #fff;
-      --a-c: hsl(100, 80%, 70%);
-      --date-fill: hsl(100, 60%, 70%);
-      --mid-b: 1px dashed #fff;
     }
   }
 `
@@ -125,8 +73,34 @@ export const layoutClasses = {
     display: grid;
     min-height: 100%;
     grid-template-rows: max-content auto max-content max-content;
+    --a-c: hsl(100, 35%, 35%);
+    --hero-bg: hsla(100, 35%, 40%, 0.9);
+    --hero-b: var(--hero-bg);
+    --ftr-bg: hsl(100, 10%, 95%);
+    --ftr-zz:
+      linear-gradient(-135deg, #fff 0.5rem, transparent 0),
+      linear-gradient(135deg, #fff 0.5rem, var(--ftr-bg) 0);
+    --ftr-c: hsl(100, 10%, 20%);
+    --ftr-hr-b: 1px solid hsl(100, 10%, 90%);
 
-    ${_atrules.tabletUp} {
+    ${_atrules.colorSchemeDark} {
+      --a-c: hsl(100, 80%, 70%);
+      --hero-bg: hsla(100, 20%, 20%, 0.9);
+      --hero-b: hsl(100, 30%, 70%);
+      --ftr-bg: hsl(100, 10%, 20%);
+      --ftr-zz:
+        linear-gradient(135deg, var(--ftr-bg) 25%, transparent 25%),
+        linear-gradient(225deg, var(--ftr-bg) 25%, transparent 25%),
+        linear-gradient(315deg, var(--ftr-bg) 25%, transparent 25%),
+        linear-gradient(45deg, var(--ftr-bg) 25%, transparent 25%),
+        linear-gradient(0deg, hsl(100, 30%, 70%) 0, hsl(100, 30%, 70%));
+      --ftr-zz-posi: -0.25rem 0, -0.25rem 0, 0 0, 0 0;
+      --ftr-zz-size: 0.5rem 0.5rem;
+      --ftr-c: #fff;
+      --ftr-hr-b: 1px dashed #fff;
+    }
+
+    ${_atrules.tabletLandscapeUp} {
       grid-template-columns: max-content 1fr;
       grid-template-rows: 1fr max-content max-content;
     }
@@ -171,9 +145,8 @@ export const layoutClasses = {
     background-color: var(--hero-bg);
     border-bottom: 3px solid var(--hero-b);
 
-    ${_atrules.tabletUp} {
+    ${_atrules.tabletLandscapeUp} {
       font-size: clamp(1em, 4vh, 1.5em);
-      font-weight: ${fontWeights.heading1};
       height: 100vh;
       grid-row: 1 / -1;
       writing-mode: vertical-rl;
@@ -189,6 +162,7 @@ export const layoutClasses = {
     ${_atrules.desktopUp} {
       ${heading}
 
+      font-weight: ${fontWeights.heading1};
       font-size: 1.5em;
       writing-mode: horizontal-tb;
       transform: rotate(0deg);
@@ -211,9 +185,9 @@ export const layoutClasses = {
     padding-bottom: 0.25em;
     width: 100%;
     background-color: var(--ftr-bg);
-    border-top: var(--mid-b);
+    border-top: var(--ftr-hr-b);
 
-    ${_atrules.tabletUp} {
+    ${_atrules.tabletLandscapeUp} {
       grid-column: 2;
       grid-row: 3;
     }
@@ -276,7 +250,7 @@ export const aboutClasses = {
     background-position: var(--ftr-zz-posi, left top);
     background-size: var(--ftr-zz-size, 1rem 1rem);
 
-    ${_atrules.tabletUp} {
+    ${_atrules.tabletLandscapeUp} {
       grid-column: 2;
       grid-row: 2;
     }
@@ -366,7 +340,7 @@ const paginationItemEnabled = `
 const paginationItemNewer = `
   --right-radius: 1.5rem 50%;
 
-  ${_atrules.mobileUp} {
+  ${_atrules.desktopUp} {
     --left-radius: 1.5rem 50%;
   }
 `
@@ -374,7 +348,7 @@ const paginationItemNewer = `
 const paginationItemOlder = `
   --left-radius: 1.5rem 50%;
 
-  ${_atrules.mobileUp} {
+  ${_atrules.desktopUp} {
     --right-radius: 1.5rem 50%;
   }
 `
@@ -382,6 +356,45 @@ const paginationItemOlder = `
 const main = `
   opacity: 1;
   transition: opacity 0.3s;
+
+  ${_atrules.tabletLandscapeUp} {
+    padding-top: 5vw;
+  }
+
+  ${_atrules.desktopUp} {
+    padding-top: 0;
+  }
+
+  --code-c: hsl(100, 35%, 70%);
+  --code-bg: hsl(100, 10%, 20%);
+  --code-b: var(--code-bg);
+  --code-inline-c: hsl(100, 35%, 20%);
+  --code-inline-bg: hsl(100, 10%, 90%);
+  --pg-disabled-bg: hsl(100, 10%, 45%);
+  --pg-disabled-b-c: var(--pg-disabled-bg);
+  --pg-disabled-c: #fff;
+  --pg-enabled-hover-bg: hsl(100, 45%, 45%);
+  --pg-enabled-hover-b-c: var(--pg-enabled-hover-bg);
+  --pg-enabled-bg: hsl(100, 35%, 45%);
+  --pg-enabled-b-c: var(--pg-enabled-bg);
+  --pg-enabled-c: #fff;
+
+  ${_atrules.colorSchemeDark} {
+    --code-c: hsl(100, 60%, 70%);
+    --code-bg: hsl(100, 10%, 25%);
+    --code-b: hsl(100, 30%, 70%);
+    --code-inline-c: inherit;
+    --code-inline-bg: var(--code-bg);
+    --pg-disabled-bg: transparent;
+    --pg-disabled-b-c: currentColor;
+    --pg-disabled-c: hsl(100, 10%, 70%);
+    --pg-enabled-hover-bg: hsla(100, 80%, 70%, 0.2);
+    --pg-enabled-hover-b-c: currentColor;
+    --pg-enabled-bg: transparent;
+    --pg-enabled-b-c: currentColor;
+    --pg-enabled-c: hsl(100, 80%, 70%);
+    --date-fill: hsl(100, 60%, 70%);
+  }
 `
 
 const mainItem = `
@@ -391,7 +404,7 @@ const mainItem = `
   margin-right: auto;
   margin-left: auto;
 
-  ${_atrules.tabletUp} {
+  ${_atrules.tabletLandscapeUp} {
     padding-right: 1rem;
     padding-left: 1rem;
   }
@@ -428,7 +441,7 @@ export const mainClasses = {
   pre: `
     display: block;
 
-    ${_atrules.tabletUp} {
+    ${_atrules.tabletLandscapeUp} {
       padding-right: 0.75em;
       padding-left: 0.75em;
     }
@@ -451,7 +464,7 @@ export const mainClasses = {
     border-top: 1px solid var(--code-b);
     border-bottom: 1px solid var(--code-b);
 
-    ${_atrules.mobileUp} {
+    ${_atrules.portraitUp} {
       border-radius: 0.125rem;
       margin-right: auto;
       margin-left: auto;
@@ -461,12 +474,9 @@ export const mainClasses = {
       border-left: 1px solid var(--code-b);
     }
 
-    ${_atrules.tabletUp} {
+    ${_atrules.tabletLandscapeUp} {
       border-right: 1px solid var(--code-b);
       border-left: 1px solid var(--code-b);
-    }
-
-    ${_atrules.tabletUp} {
       border-radius: 0.125rem;
       margin-right: auto;
       margin-left: auto;
@@ -519,6 +529,7 @@ export const mainClasses = {
 
     margin-top: 1em;
     margin-bottom: 1em;
+    word-break: break-word;
   `,
   date: `
     font-weight: ${fontWeights.semibold};
@@ -559,7 +570,7 @@ export const mainClasses = {
     padding-left: 0.5rem;
     gap: 0.125rem;
 
-    ${_atrules.mobileUp} {
+    ${_atrules.desktopUp} {
       gap: 0.5rem;
     }
 
