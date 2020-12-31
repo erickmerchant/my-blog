@@ -39,14 +39,17 @@ export const _start = `
     font-size: max(20px, 1vw);
     line-height: 1.5;
     color: hsl(100, 10%, 20%);
-    background-color: #fff;
+    background-color: var(--bg);
     height: 100%;
+
+    --bg: #fff;
   }
 
   ${_atrules.colorSchemeDark} {
     html {
       color: #fff;
-      background-color: hsl(100, 10%, 20%);
+
+      --bg: hsl(100, 10%, 20%);
     }
   }
 `
@@ -73,26 +76,29 @@ export const layoutClasses = {
     display: grid;
     min-height: 100%;
     grid-template-rows: max-content auto max-content max-content;
+
     --a-c: hsl(100, 35%, 35%);
+    --hero-a-c: inherit;
     --hero-bg: hsla(100, 35%, 40%, 0.9);
     --hero-b: var(--hero-bg);
     --ftr-bg: hsl(100, 10%, 95%);
     --ftr-zz:
-      linear-gradient(-135deg, #fff 0.5rem, transparent 0),
-      linear-gradient(135deg, #fff 0.5rem, var(--ftr-bg) 0);
+      linear-gradient(225deg, var(--bg) 0.5rem, transparent 0),
+      linear-gradient(135deg, var(--bg) 0.5rem, var(--ftr-bg) 0);
     --ftr-c: hsl(100, 10%, 20%);
     --ftr-hr-b: 1px solid hsl(100, 10%, 90%);
 
     ${_atrules.colorSchemeDark} {
       --a-c: hsl(100, 80%, 70%);
+      --hero-a-c: hsl(100, 90%, 85%);
       --hero-bg: hsla(100, 20%, 20%, 0.9);
       --hero-b: hsl(100, 30%, 70%);
-      --ftr-bg: hsl(100, 10%, 20%);
+      --ftr-bg: var(--bg);
       --ftr-zz:
-        linear-gradient(135deg, var(--ftr-bg) 25%, transparent 25%),
-        linear-gradient(225deg, var(--ftr-bg) 25%, transparent 25%),
-        linear-gradient(315deg, var(--ftr-bg) 25%, transparent 25%),
-        linear-gradient(45deg, var(--ftr-bg) 25%, transparent 25%),
+        linear-gradient(225deg, var(--bg) 25%, transparent 25%),
+        linear-gradient(135deg, var(--bg) 25%, transparent 25%),
+        linear-gradient(315deg, var(--bg) 25%, transparent 25%),
+        linear-gradient(45deg, var(--bg) 25%, transparent 25%),
         linear-gradient(0deg, hsl(100, 30%, 70%) 0, hsl(100, 30%, 70%));
       --ftr-zz-posi: -0.25rem 0, -0.25rem 0, 0 0, 0 0;
       --ftr-zz-size: 0.5rem 0.5rem;
@@ -128,7 +134,7 @@ export const layoutClasses = {
     }
   `,
   headerAnchor: `
-    color: inherit;
+    color: var(--hero-a-c);
     text-decoration-thickness: 0.125em;
     text-underline-offset: 0.125em;
   `,
@@ -143,7 +149,9 @@ export const layoutClasses = {
     top: 0;
     z-index: 1;
     background-color: var(--hero-bg);
-    border-bottom: 3px solid var(--hero-b);
+    border-bottom: var(--b);
+
+    --b: 3px solid var(--hero-b);
 
     ${_atrules.tabletLandscapeUp} {
       font-size: clamp(1em, 4vh, 1.5em);
@@ -156,7 +164,7 @@ export const layoutClasses = {
       padding-left: 1.25em;
       align-self: start;
       justify-content: center;
-      border-left: 3px solid var(--hero-b);
+      border-left: var(--b);
     }
 
     ${_atrules.desktopUp} {
@@ -165,7 +173,7 @@ export const layoutClasses = {
       font-weight: ${fontWeights.heading1};
       font-size: 1.5em;
       writing-mode: horizontal-tb;
-      transform: rotate(0deg);
+      transform: unset;
       background-color: transparent;
       border-left: none;
       justify-content: start;
@@ -284,7 +292,7 @@ export const aboutClasses = {
     text-underline-offset: 0.1875em;
 
     ${_atrules.desktopUp} {
-      color: var(--header-color);
+      color: var(--hero-a-c);
     }
   `,
   paragraph: `
@@ -308,17 +316,18 @@ const paginationItemDisabled = `
   padding-top: 0.875em;
   padding-bottom: 0.875em;
   background-color: var(--pg-disabled-bg);
-  border: 3px solid var(--border-color);
-  border-top-right-radius: var(--right-radius, 0.125rem);
-  border-bottom-right-radius: var(--right-radius, 0.125rem);
-  border-top-left-radius: var(--left-radius, 0.125rem);
-  border-bottom-left-radius: var(--left-radius, 0.125rem);
+  border: 3px solid var(--b-c);
+  border-top-right-radius: var(--right-r, 0.125rem);
+  border-bottom-right-radius: var(--right-r, 0.125rem);
+  border-top-left-radius: var(--left-r, 0.125rem);
+  border-bottom-left-radius: var(--left-r, 0.125rem);
 
-  --border-color: var(--pg-disabled-b-c);
+  --r: 1.5rem 50%;
+  --b-c: var(--pg-disabled-b-c);
 
   ${_atrules.veryMobileDown} {
-    --left-radius: 0.125rem;
-    --right-radius: 0.125rem;
+    --left-r: 0.125rem;
+    --right-r: 0.125rem;
   }
 `
 
@@ -328,42 +337,34 @@ const paginationItemEnabled = `
   color: var(--pg-enabled-c);
   background-color: var(--pg-enabled-bg);
 
-  --border-color: var(--pg-enabled-b-c);
+  --b-c: var(--pg-enabled-b-c);
 
   :focus-within, :hover {
     background-color: var(--pg-enabled-hover-bg);
 
-    --border-color: var(--pg-enabled-hover-b-c);
+    --b-c: var(--pg-enabled-hover-b-c);
   }
 `
 
 const paginationItemNewer = `
-  --right-radius: 1.5rem 50%;
+  --right-r: var(--r);
 
   ${_atrules.desktopUp} {
-    --left-radius: 1.5rem 50%;
+    --left-r: var(--r);
   }
 `
 
 const paginationItemOlder = `
-  --left-radius: 1.5rem 50%;
+  --left-r: var(--r);
 
   ${_atrules.desktopUp} {
-    --right-radius: 1.5rem 50%;
+    --right-r: var(--r);
   }
 `
 
 const main = `
   opacity: 1;
   transition: opacity 0.3s;
-
-  ${_atrules.tabletLandscapeUp} {
-    padding-top: 5vw;
-  }
-
-  ${_atrules.desktopUp} {
-    padding-top: 0;
-  }
 
   --code-c: hsl(100, 35%, 70%);
   --code-bg: hsl(100, 10%, 20%);
@@ -394,6 +395,14 @@ const main = `
     --pg-enabled-b-c: currentColor;
     --pg-enabled-c: hsl(100, 80%, 70%);
     --date-fill: hsl(100, 60%, 70%);
+  }
+
+  ${_atrules.tabletLandscapeUp} {
+    padding-top: 5vw;
+  }
+
+  ${_atrules.desktopUp} {
+    padding-top: 0;
   }
 `
 
@@ -459,18 +468,19 @@ export const mainClasses = {
     padding-left: 0.5rem;
     width: 100%;
     background-color: var(--code-bg);
-    border-top: 1px solid var(--code-b);
-    border-bottom: 1px solid var(--code-b);
+    border-top: var(--b);
+    border-bottom: var(--b);
+
+    --b: 1px solid var(--code-b);
 
     ${_atrules.portraitUp} {
-      border-radius: 0.125rem;
       margin-right: auto;
       margin-left: auto;
     }
 
     ${_atrules.tabletLandscapeUp} {
-      border-right: 1px solid var(--code-b);
-      border-left: 1px solid var(--code-b);
+      border-right: var(--b);
+      border-left: var(--b);
       max-width: 32rem;
       border-radius: 0.125rem;
       margin-right: auto;
@@ -607,10 +617,10 @@ export const mainClasses = {
       bottom: 0;
       right: 0;
       left: 0;
-      border-top-right-radius: var(--right-radius, 0.125rem);
-      border-bottom-right-radius: var(--right-radius, 0.125rem);
-      border-top-left-radius: var(--left-radius, 0.125rem);
-      border-bottom-left-radius: var(--left-radius, 0.125rem);
+      border-top-right-radius: var(--right-r, 0.125rem);
+      border-bottom-right-radius: var(--right-r, 0.125rem);
+      border-top-left-radius: var(--left-r, 0.125rem);
+      border-bottom-left-radius: var(--left-r, 0.125rem);
     }
   `
 }
