@@ -172,7 +172,7 @@ export const layoutClasses = {
     border-bottom: 3px solid var(--hero-b);
 
     ${_atrules.tabletUp} {
-      font-size: max(20px, 4vh);
+      font-size: clamp(1em, 4vh, 1.5em);
       font-weight: ${fontWeights.heading1};
       height: 100vh;
       grid-row: 1 / -1;
