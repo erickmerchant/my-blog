@@ -410,7 +410,6 @@ const mainItem = `
   }
 
   ${_atrules.desktopUp} {
-    max-width: 34rem;
     margin-right: 2rem;
     margin-left: 2rem;
   }
@@ -458,7 +457,6 @@ export const mainClasses = {
     padding-bottom: 1em;
     padding-right: 0.5rem;
     padding-left: 0.5rem;
-    max-width: 32rem;
     width: 100%;
     background-color: var(--code-bg);
     border-top: 1px solid var(--code-b);
@@ -468,25 +466,26 @@ export const mainClasses = {
       border-radius: 0.125rem;
       margin-right: auto;
       margin-left: auto;
-      padding-right: 1rem;
-      padding-left: 1rem;
-      border-right: 1px solid var(--code-b);
-      border-left: 1px solid var(--code-b);
     }
 
     ${_atrules.tabletLandscapeUp} {
       border-right: 1px solid var(--code-b);
       border-left: 1px solid var(--code-b);
+      max-width: 32rem;
       border-radius: 0.125rem;
       margin-right: auto;
       margin-left: auto;
+      padding-right: 1.5rem;
+      padding-left: 1.5rem;
     }
 
     ${_atrules.desktopUp} {
       max-width: 100%;
       width: auto;
-      margin-right: 2rem;
-      margin-left: 2rem;
+      margin-right: 1rem;
+      margin-left: 1rem;
+      padding-right: 1.5rem;
+      padding-left: 1.5rem;
     }
   `,
   codeInline: `
