@@ -456,7 +456,7 @@ export const mainClasses = {
   `,
   codeBlock: `
     font-family: Consolas, monaco, monospace;
-    font-size: 0.875em;
+    font-size: 0.75em;
     color: var(--code-c);
     display: block;
     overflow: auto;
