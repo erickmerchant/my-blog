@@ -37,12 +37,14 @@ export const _start = `
     font-weight: ${fontWeights.normal};
     font-family: "Public Sans", system-ui, sans-serif;
     font-size: max(20px, 1vw);
+    -webkit-text-size-adjust: none;
     line-height: 1.5;
     color: hsl(100, 10%, 20%);
     background-color: var(--bg);
     height: 100%;
 
     --bg: #fff;
+
   }
 
   ${_atrules.colorSchemeDark} {
