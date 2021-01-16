@@ -154,7 +154,7 @@ export const layoutClasses = {
     --b: 3px solid var(--hero-b);
 
     ${_atrules.tabletLandscapeUp} {
-      font-size: clamp(1em, 3vw, 1.5em);
+      font-size: clamp(1em, 4vh, 1.5em);
       height: 100vh;
       grid-row: 1 / -1;
       writing-mode: vertical-rl;
@@ -216,7 +216,7 @@ export const layoutClasses = {
     }
   `,
   footerList: `
-    font-size: 0.75em;
+    font-size: 0.875em;
     list-style: none;
     display: flex;
     flex-wrap: wrap;
@@ -456,7 +456,7 @@ export const mainClasses = {
   `,
   codeBlock: `
     font-family: Consolas, monaco, monospace;
-    font-size: 0.75em;
+    font-size: 0.875em;
     color: var(--code-c);
     display: block;
     overflow: auto;
