@@ -8,7 +8,7 @@ export const indexComponent = ({mainComponent}) => (state) => html`
       <meta name="description" content="The personal site of Erick Merchant." />
       <link
         rel="preload"
-        href="/fonts/Public_Sans/PublicSans-VariableFont_wght-subset.woff2"
+        href="/fonts/public-sans/public-sans-subset.woff2"
         as="font"
         type="font/woff2"
         crossorigin

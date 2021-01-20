@@ -1,6 +1,22 @@
 const codeFence = '```'
 
-export const contentComponent = (str, templates, stripBackslash = true) => {
+export const contentComponent = (str, templates, publicFacing = true) => {
+  const quotes = (ln) => {
+    if (ln === '' || !publicFacing) return ln
+
+    let index = 0
+
+    return ln.replaceAll(/["']/g, (match) => {
+      if (match === "'") return 'ʼ'
+
+      if (index++ % 2) {
+        return '”'
+      }
+
+      return '“'
+    })
+  }
+
   const inline = (ln) => {
     if (ln === '') return []
 
@@ -23,7 +39,7 @@ export const contentComponent = (str, templates, stripBackslash = true) => {
         ) {
           unescaped = true
         } else {
-          if (!stripBackslash) continue
+          if (!publicFacing) continue
 
           results.push(`${ln.substring(offset, match.index - 1)}${match[0]}`)
         }
@@ -98,7 +114,7 @@ export const contentComponent = (str, templates, stripBackslash = true) => {
           break
 
         case ln.startsWith('- '):
-          items.push(templates.listItem(inline(ln.substring(2))))
+          items.push(templates.listItem(inline(quotes(ln.substring(2)))))
           items.push('\n')
           break
 
@@ -114,7 +130,7 @@ export const contentComponent = (str, templates, stripBackslash = true) => {
           break
 
         case ln === `\\${codeFence}`:
-          if (stripBackslash) {
+          if (publicFacing) {
             html.push(codeFence)
           } else {
             html.push(ln)
@@ -126,14 +142,11 @@ export const contentComponent = (str, templates, stripBackslash = true) => {
         default: {
           let l = ln
 
-          if (
-            stripBackslash &&
-            (l.startsWith('\\# ') || l.startsWith('\\- '))
-          ) {
+          if (publicFacing && (l.startsWith('\\# ') || l.startsWith('\\- '))) {
             l = l.substring(1)
           }
 
-          const p = templates.paragraph(inline(l))
+          const p = templates.paragraph(inline(quotes(l)))
 
           if (p != null) {
             html.push(p)

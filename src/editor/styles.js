@@ -12,7 +12,7 @@ export const _start = `
     font-family: "Fira Code";
     font-style: normal;
     font-weight: 300 700;
-    src: url("/fonts/Fira_Code/FiraCode-VariableFont_wght-subset.woff2") format("woff2");
+    src: url("/fonts/fira-code/fira-code-subset.woff2") format("woff2");
   }
 
   * {

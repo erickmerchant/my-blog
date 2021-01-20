@@ -22,7 +22,7 @@ export const _start = `
     font-family: "Public Sans";
     font-style: normal;
     font-weight: 100 900;
-    src: url("/fonts/Public_Sans/PublicSans-VariableFont_wght-subset.woff2") format("woff2");
+    src: url("/fonts/public-sans/public-sans-subset.woff2") format("woff2");
   }
 
   * {
@@ -44,7 +44,6 @@ export const _start = `
     height: 100%;
 
     --bg: #fff;
-
   }
 
   ${_atrules.colorSchemeDark} {
