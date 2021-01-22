@@ -24,6 +24,7 @@ export const _start = `
   }
 
   html {
+    color-scheme: light dark;
     font-family: "Fira Code", monospace;
     height: 100%;
 
