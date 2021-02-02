@@ -47,7 +47,7 @@ export const getDispatchLocation = ({app, postModel, getSegments}) => async (
   } catch (error) {
     app.state = {
       route: 'error',
-      title: '500 Error',
+      title: 'Error',
       transitioning: false,
       error
     }
