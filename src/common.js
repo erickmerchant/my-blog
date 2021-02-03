@@ -1,6 +1,44 @@
+import {html} from '@erickmerchant/framework/main.js'
+
 const codeFence = '```'
 
-export const contentComponent = (str, templates, publicFacing = true) => {
+export const contentComponent = (
+  str,
+  classes,
+  templates,
+  publicFacing = true
+) => {
+  templates = Object.assign(
+    {},
+    {
+      strong: (text) =>
+        html`
+          <strong class=${classes.strong}>${text}</strong>
+        `,
+      anchor: (text, href) =>
+        html`
+          <a class=${classes.anchor} href=${href}>${text}</a>
+        `,
+      list: (items) =>
+        html`
+          <ul class=${classes.list}>
+            ${items}
+          </ul>
+        `,
+      listItem: (items) =>
+        html`
+          <li class=${classes.listItem}>${items}</li>
+        `,
+      paragraph: (items) =>
+        items.length
+          ? html`
+              <p class=${classes.paragraph}>${items}</p>
+            `
+          : null
+    },
+    templates
+  )
+
   const quotes = (ln) => {
     if (ln === '' || !publicFacing) return ln
 
@@ -49,7 +87,7 @@ export const contentComponent = (str, templates, publicFacing = true) => {
         results.push(ln.substring(offset, match.index))
 
         if (match[1] != null) {
-          results.push(templates.link(match[1], match[2]))
+          results.push(templates.anchor(match[1], match[2]))
         }
 
         if (match[3] != null) {
@@ -57,7 +95,7 @@ export const contentComponent = (str, templates, publicFacing = true) => {
         }
 
         if (match[4] != null) {
-          results.push(templates.bold(match[4]))
+          results.push(templates.strong(match[4]))
         }
       }
 
@@ -69,7 +107,7 @@ export const contentComponent = (str, templates, publicFacing = true) => {
     return results
   }
 
-  const html = []
+  const result = []
   const lns = {
     *[Symbol.iterator]() {
       let ln = ''
@@ -98,30 +136,26 @@ export const contentComponent = (str, templates, publicFacing = true) => {
 
   for (const ln of lns) {
     if (code != null && ln !== codeFence) {
-      code.push(ln)
-      code.push('\n')
+      code.push(ln, '\n')
     } else {
       if (!ln.startsWith('- ') && items.length) {
-        html.push(templates.list(items))
+        result.push(templates.list(items))
 
         items = []
       }
 
       switch (true) {
         case ln.startsWith('# '):
-          html.push(templates.heading(ln.substring(2)))
-          html.push('\n')
+          result.push(templates.heading(ln.substring(2)), '\n')
           break
 
         case ln.startsWith('- '):
-          items.push(templates.listItem(inline(quotes(ln.substring(2)))))
-          items.push('\n')
+          items.push(templates.listItem(inline(quotes(ln.substring(2)))), '\n')
           break
 
         case ln === codeFence:
           if (code != null) {
-            html.push(templates.codeBlock(inline(code.join('')), true))
-            html.push('\n')
+            result.push(templates.codeBlock(inline(code.join('')), true), '\n')
 
             code = null
           } else {
@@ -131,12 +165,12 @@ export const contentComponent = (str, templates, publicFacing = true) => {
 
         case ln === `\\${codeFence}`:
           if (publicFacing) {
-            html.push(codeFence)
+            result.push(codeFence)
           } else {
-            html.push(ln)
+            result.push(ln)
           }
 
-          html.push('\n')
+          result.push('\n')
           break
 
         default: {
@@ -149,25 +183,24 @@ export const contentComponent = (str, templates, publicFacing = true) => {
           const p = templates.paragraph(inline(quotes(l)))
 
           if (p != null) {
-            html.push(p)
+            result.push(p)
           }
 
-          html.push('\n')
+          result.push('\n')
         }
       }
     }
   }
 
   if (code != null) {
-    html.push(templates.codeBlock(inline(code.join('')), false))
-    html.push('\n')
+    result.push(templates.codeBlock(inline(code.join('')), false), '\n')
   }
 
   if (items.length) {
-    html.push(templates.list(items))
+    result.push(templates.list(items))
   }
 
-  return html
+  return result
 }
 
 export const getSegments = (all) => {

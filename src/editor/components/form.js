@@ -41,8 +41,9 @@ export const createFormComponent = ({postModel, app, slugify}) => {
   const highlighter = (str = '') =>
     contentComponent(
       str.replace(/\r/g, ''),
+      {},
       {
-        bold: (text) => html`
+        strong: (text) => html`
           <span>
             <span class=${highlightClasses.punctuation}>*</span>
             <span class=${highlightClasses.bold}>${text}</span>
@@ -73,7 +74,7 @@ export const createFormComponent = ({postModel, app, slugify}) => {
             <span class=${highlightClasses.heading}>${text}</span>
           </span>
         `,
-        link: (text, href) => html`
+        anchor: (text, href) => html`
           <span>
             <span class=${highlightClasses.punctuation}>[</span>
             ${text}

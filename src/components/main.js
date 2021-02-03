@@ -84,10 +84,10 @@ export const createMainComponent = ({
             <span>${dateUtils.prettyDate(date)}</span>
           </time>
         </header>
-        ${contentComponent(state.post.content ?? '', {
-          bold: (text) =>
+        ${contentComponent(state.post.content ?? '', classes, {
+          heading: (text) =>
             html`
-              <strong class=${classes.strong}>${text}</strong>
+              <h2 class=${classes.heading2}>${text}</h2>
             `,
           codeBlock: (items) =>
             html`
@@ -98,31 +98,7 @@ export const createMainComponent = ({
           codeInline: (text) =>
             html`
               <code class=${classes.codeInline}>${text}</code>
-            `,
-          heading: (text) =>
-            html`
-              <h2 class=${classes.heading2}>${text}</h2>
-            `,
-          link: (text, href) =>
-            html`
-              <a class=${classes.anchor} href=${href}>${text}</a>
-            `,
-          list: (items) =>
-            html`
-              <ul class=${classes.list}>
-                ${items}
-              </ul>
-            `,
-          listItem: (items) =>
-            html`
-              <li class=${classes.listItem}>${items}</li>
-            `,
-          paragraph: (items) =>
-            items.length
-              ? html`
-                  <p class=${classes.paragraph}>${items}</p>
-                `
-              : null
+            `
         })}
         ${state.post.prev || state.post.next
           ? html`
