@@ -13,27 +13,23 @@ export const createLayoutComponent = ({
           ErickMerchant.com
         </a>
       </header>
-      ${state.route !== '' ? aboutComponent(state) : null}
+      ${aboutComponent(state)}
     </div>
     ${mainComponent(state)}
-    ${state.route !== ''
-      ? html`
-          <footer class=${classes.footer}>
-            <ul class=${classes.footerList}>
-              <li class=${classes.footerItem}>
-                <a
-                  class=${classes.footerAnchor}
-                  href="https://github.com/erickmerchant/my-blog"
-                >
-                  View Source
-                </a>
-              </li>
-              <li class=${classes.footerItem}>
-                ${`© ${new Date().getFullYear()} Erick Merchant`}
-              </li>
-            </ul>
-          </footer>
-        `
-      : null}
+    <footer class=${classes.footer}>
+      <ul class=${classes.footerList}>
+        <li class=${classes.footerItem}>
+          <a
+            class=${classes.footerAnchor}
+            href="https://github.com/erickmerchant/my-blog"
+          >
+            View Source
+          </a>
+        </li>
+        <li class=${classes.footerItem}>
+          ${`© ${new Date().getFullYear()} Erick Merchant`}
+        </li>
+      </ul>
+    </footer>
   </body>
 `

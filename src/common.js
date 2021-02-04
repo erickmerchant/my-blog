@@ -44,7 +44,7 @@ export const contentComponent = (
 
     let index = 0
 
-    return ln.replaceAll(/["']/g, (match) => {
+    return ln.replace(/["']/g, (match) => {
       if (match === "'") return 'ʼ'
 
       if (index++ % 2) {

@@ -1,8 +1,6 @@
 import {createDomView, createApp} from '@erickmerchant/framework/main.js'
-import {layoutClasses, aboutClasses, mainClasses} from './css/styles.js'
+import {mainClasses} from './css/styles.js'
 import {createMainComponent} from './components/main.js'
-import {createLayoutComponent} from './components/layout.js'
-import {createAboutComponent} from './components/about.js'
 import {
   contentComponent,
   getSegments,
@@ -34,7 +32,7 @@ const dispatchLocation = getDispatchLocation({app, postModel, getSegments})
 
 setupApp({dispatchLocation})
 
-const target = document.querySelector('body')
+const target = document.getElementById('main')
 
 const anchorAttrs = getAnchorAttrs({
   dispatchLocation
@@ -47,18 +45,6 @@ const mainComponent = createMainComponent({
   anchorAttrs
 })
 
-const aboutComponent = createAboutComponent({
-  classes: aboutClasses,
-  contentComponent
-})
-
-const component = createLayoutComponent({
-  classes: layoutClasses,
-  aboutComponent,
-  mainComponent,
-  anchorAttrs
-})
-
-const view = createDomView(target, component)
+const view = createDomView(target, mainComponent)
 
 app.render(view)

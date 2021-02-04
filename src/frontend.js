@@ -10,7 +10,7 @@ const getUnfound = () => {
 }
 
 export const getInitialState = () => {
-  return {route: '', title: ''}
+  return {route: null, title: ''}
 }
 
 export const getDispatchLocation = ({app, postModel, getSegments}) => async (

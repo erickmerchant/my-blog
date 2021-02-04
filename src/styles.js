@@ -201,6 +201,7 @@ export const layoutClasses = {
   `,
   footer: css`
      {
+      display: var(--below-fold-display, none);
       color: var(--ftr-c);
       padding-right: 0.5rem;
       padding-left: 0.5rem;
@@ -268,6 +269,7 @@ export const layoutClasses = {
 export const aboutClasses = {
   about: css`
      {
+      display: var(--below-fold-display, none);
       color: var(--ftr-c);
       grid-row: 3;
       margin-top: 2em;

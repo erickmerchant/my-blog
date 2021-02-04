@@ -46,12 +46,12 @@ const program = async () => {
     if (command === 'build') {
       await Promise.all([
         spawn`css src/styles.js dist/css`,
-        spawn`dev cache src dist -i src/editor.html -i src/dev.html`
+        spawn`dev cache src dist -i src/editor.html -i src/dev.html -i src/styles.js -i src/editor/styles.js`
       ])
 
       const {layoutClasses, aboutClasses} = await import('./dist/css/styles.js')
 
-      const state = {route: '', title: ''}
+      const state = {title: ''}
 
       const aboutComponent = createAboutComponent({
         classes: aboutClasses,
@@ -63,7 +63,7 @@ const program = async () => {
         aboutComponent,
         mainComponent: () =>
           html`
-            <article></article>
+            <article id="main"></article>
           `,
         anchorAttrs: (href) => {
           return {href}
