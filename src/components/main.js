@@ -105,21 +105,29 @@ export const createMainComponent = ({
               <nav class=${classes.pagination}>
                 <ul class=${classes.paginationList}>
                   ${[
-                    ['prev', 'Older'],
-                    ['next', 'Newer']
+                    [
+                      state.post.prev,
+                      {
+                        enabled: classes.paginationItemEnabledOlder,
+                        disabled: classes.paginationItemDisabledOlder
+                      },
+                      'Older'
+                    ],
+                    [
+                      state.post.next,
+                      {
+                        enabled: classes.paginationItemEnabledNewer,
+                        disabled: classes.paginationItemDisabledNewer
+                      },
+                      'Newer'
+                    ]
                   ].map(
-                    ([key, text]) => html`
-                      <li
-                        class=${state.post[key]
-                          ? classes[`paginationItemEnabled${text}`]
-                          : classes[`paginationItemDisabled${text}`]}
-                      >
-                        ${state.post[key]
+                    ([item, cls, text]) => html`
+                      <li class=${item ? cls.enabled : cls.disabled}>
+                        ${item
                           ? html`
                               <a
-                                ${anchorAttrs(
-                                  `/posts/${state.post[key].slug}/`
-                                )}
+                                ${anchorAttrs(`/posts/${item.slug}/`)}
                                 class=${classes.paginationAnchor}
                               >
                                 ${text}
