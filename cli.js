@@ -7,31 +7,11 @@ import {indexComponent} from './src/components/index.js'
 import {createLayoutComponent} from './src/components/layout.js'
 import {createAboutComponent} from './src/components/about.js'
 import {contentComponent} from './src/common.js'
-import childProcess from 'child_process'
+import {spawn} from 'sergeant'
 
-const options = {stdio: 'inherit'}
 const readFile = promisify(fs.readFile)
 const writeFile = promisify(fs.writeFile)
 const command = process.argv[2]
-
-const spawn = (strs, ...quoted) =>
-  new Promise((resolve) => {
-    const args = []
-
-    for (let i = 0; i < strs.length; i++) {
-      args.push(...strs[i].split(' '))
-
-      if (quoted[i] != null) {
-        args.push(quoted[i])
-      }
-    }
-
-    const spawned = childProcess.spawn(args[0], args.slice(1), options)
-
-    spawned.on('exit', () => {
-      resolve()
-    })
-  })
 
 const program = async () => {
   try {
