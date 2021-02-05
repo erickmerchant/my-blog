@@ -288,6 +288,7 @@ export const aboutClasses = {
       }
 
       ${_atrules.desktopUp} {
+        display: block;
         color: inherit;
         grid-column: 1;
         background-image: none;

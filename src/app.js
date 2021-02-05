@@ -47,4 +47,11 @@ const mainComponent = createMainComponent({
 
 const view = createDomView(target, mainComponent)
 
+for (const anchor of document.querySelectorAll('a[href^="/"]')) {
+  anchor.addEventListener(
+    'click',
+    anchorAttrs(anchor.getAttribute('href')).onclick
+  )
+}
+
 app.render(view)
