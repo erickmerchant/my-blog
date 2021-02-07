@@ -14,18 +14,24 @@ export const createFormComponent = ({model, route, app, slugify}) => {
     }
   }
 
-  const save = (item) => async (e) => {
-    e.preventDefault()
-
+  const serialize = (item, target) => {
     const data = {}
 
     for (const [key, val] of Object.entries(item)) {
       data[key] = val
     }
 
-    for (const [key, val] of new FormData(e.target)) {
+    for (const [key, val] of new FormData(target)) {
       data[key] = val
     }
+
+    return data
+  }
+
+  const save = (item) => async (e) => {
+    e.preventDefault()
+
+    const data = serialize(item, e.target.closest('form'))
 
     try {
       await model.save(data)
@@ -39,6 +45,22 @@ export const createFormComponent = ({model, route, app, slugify}) => {
 
         app.state.route = 'error'
       }
+    }
+  }
+
+  const saveAs = (route, item) => async (e) => {
+    e.preventDefault()
+
+    const data = serialize(item, e.target.closest('form'))
+
+    try {
+      await model.saveAs(route, data)
+
+      window.location.hash = `#/posts`
+    } catch (error) {
+      app.state.error = error
+
+      app.state.route = 'error'
     }
   }
 
@@ -206,22 +228,15 @@ export const createFormComponent = ({model, route, app, slugify}) => {
           ? html`
               <button
                 class=${formClasses.saveButton}
-                type="submit"
-                name="route"
-                value="posts"
+                type="button"
+                onclick=${saveAs('posts', state.item)}
                 ${zIndexHandlers}
               >
                 Publish
               </button>
             `
           : null}
-        <button
-          class=${formClasses.saveButton}
-          name="route"
-          value=${route}
-          type="submit"
-          ${zIndexHandlers}
-        >
+        <button class=${formClasses.saveButton} type="submit" ${zIndexHandlers}>
           Save
         </button>
       </div>

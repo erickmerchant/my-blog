@@ -12,10 +12,10 @@ const app = createApp(state)
 
 const channels = {
   posts: {
-    model: createModel('/content/posts.json')
+    model: createModel('posts')
   },
   drafts: {
-    model: createModel('/content/drafts.json')
+    model: createModel('drafts')
   }
 }
 

@@ -16,25 +16,27 @@ const fetch = async (url, options) => {
   return res
 }
 
-export const createModel = (endPoint) => {
+export const createModel = (route) => {
   return {
-    ...createPostsModel(fetch, endPoint),
+    ...createPostsModel(fetch, `/content/${route}.json`),
 
     async saveAll(data) {
-      await fetch(endPoint, {
+      await fetch(`/content/${route}.json`, {
         headers: {'Content-Type': 'application/json'},
         method: 'PUT',
         body: JSON.stringify(data)
       })
     },
 
-    async save(data) {
-      console.log(data)
+    async saveAs(route, data) {
+      const subModel = createModel(route)
 
-      const existing = data.slug != null
+      await this.remove(data.slug)
 
-      console.log(existing, data)
+      await subModel.save(data, false)
+    },
 
+    async save(data, existing = data.slug != null) {
       const posts = await this.getAll()
 
       const index = existing
