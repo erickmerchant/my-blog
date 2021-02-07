@@ -13,13 +13,13 @@ export const getInitialState = () => {
   return {route: null, title: ''}
 }
 
-export const getDispatchLocation = ({app, postModel, getSegments}) => async (
+export const getDispatchLocation = ({app, postsModel, getSegments}) => async (
   location,
   transitioning = true
 ) => {
   const segments = getSegments(location)
 
-  const posts = await postModel.getAll()
+  const posts = await postsModel.getAll()
 
   let post
 
@@ -29,9 +29,9 @@ export const getDispatchLocation = ({app, postModel, getSegments}) => async (
 
   try {
     if (segments.initial === 'posts') {
-      post = await postModel.getBySlug(segments.last)
+      post = await postsModel.getBySlug(segments.last)
     } else if (segments.all === '' && posts.length > 0) {
-      post = await postModel.getBySlug()
+      post = await postsModel.getBySlug()
     }
 
     if (post != null) {

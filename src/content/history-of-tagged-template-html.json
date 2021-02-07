@@ -1,0 +1,1 @@
+"The first place I saw tagged template literals used to produce virtual DOM was with [hyperx](https://github.com/choojs/hyperx). It does seem like that is the first case too. Hyperx gave rise to or was used in other projects: [yo-yo](https://github.com/maxogden/yo-yo), [bel](https://www.npmjs.com/package/bel), and [choo](https://github.com/choojs/choo)."

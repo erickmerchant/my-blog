@@ -152,13 +152,32 @@ export const layoutClasses = {
 }
 
 export const listClasses = {
-  headerHeading,
+  nav: css`
+    list-style: none;
+  `,
+  navItem: css`
+    display: inline-block;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    margin-right: 0.5em;
+    margin-left: 0.5em;
+  `,
+  navAnchor: css`
+    ${textButton}
+  `,
+  navAnchorCurrent: css`
+    ${textButton}
+
+    outline: 0;
+    border: 1px solid currentcolor;
+    filter: saturate(2);
+  `,
   createButton: button,
   textButton,
   tableContainer: css`
      {
+      min-height: 100%;
       padding: 1em;
-      height: 100%;
     }
   `,
   table: css`
@@ -183,13 +202,12 @@ export const listClasses = {
   `,
   tableControls: css`
      {
-      padding-top: 1em;
-      padding-bottom: 1em;
+      padding-top: 0.5em;
+      padding-bottom: 0.5em;
       text-align: center;
     }
   `,
   editButton: textButton,
-  viewButton: textButton,
   deleteButton: css`
      {
       ${textButton}
@@ -303,6 +321,15 @@ export const formClasses = {
       resize: none;
       z-index: var(--z-index);
       caret-color: var(--black);
+    }
+  `,
+  errorMessage: css`
+     {
+      justify-self: flex-start;
+      align-self: center;
+      text-align: center;
+      flex: 1 1 auto;
+      color: var(--red);
     }
   `,
   formButtons: css`

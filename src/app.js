@@ -16,19 +16,19 @@ import {
 
 const app = createApp(getInitialState())
 
-const key = `/content/posts/index.json`
+const listEndpoint = `/content/posts.json`
 
-const promise = window.fetch(key)
+const promise = window.fetch(listEndpoint)
 
 const fetch = (url, options) => {
-  if (url === key) return promise.then((res) => res.clone())
+  if (url === listEndpoint) return promise.then((res) => res.clone())
 
   return window.fetch(url, options)
 }
 
-const postModel = createPostsModel(fetch)
+const postsModel = createPostsModel(fetch, '/content/posts.json')
 
-const dispatchLocation = getDispatchLocation({app, postModel, getSegments})
+const dispatchLocation = getDispatchLocation({app, postsModel, getSegments})
 
 setupApp({dispatchLocation})
 

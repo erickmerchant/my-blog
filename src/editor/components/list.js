@@ -2,15 +2,22 @@ import {html} from '@erickmerchant/framework/main.js'
 import {listClasses} from '../css/styles.js'
 import {dateUtils} from '../../common.js'
 
-export const createListComponent = ({postModel, app, init}) => {
-  const remove = (post) => async (e) => {
+export const createListComponent = ({model, route, app}) => {
+  const remove = (item) => async (e) => {
     e.preventDefault()
 
-    try {
-      if (post.slug != null) {
-        await postModel.remove(post.slug)
+    e.target.blur()
 
-        app.state = await init()
+    try {
+      if (item.slug != null) {
+        await model.remove(item.slug)
+
+        const items = await model.getAll()
+
+        app.state = {
+          route,
+          items
+        }
       }
     } catch (error) {
       app.state.error = error
@@ -20,9 +27,30 @@ export const createListComponent = ({postModel, app, init}) => {
   return (state) => [
     html`
       <div class=${listClasses.tableContainer}>
-        <header>
-          <h1 class=${listClasses.headerHeading}>Posts</h1>
-        </header>
+        <nav>
+          <ul class=${listClasses.nav}>
+            <li class=${listClasses.navItem}>
+              <a
+                class=${state.route === 'posts'
+                  ? listClasses.navAnchorCurrent
+                  : listClasses.navAnchor}
+                href="#/posts"
+              >
+                Posts
+              </a>
+            </li>
+            <li class=${listClasses.navItem}>
+              <a
+                class=${state.route === 'drafts'
+                  ? listClasses.navAnchorCurrent
+                  : listClasses.navAnchor}
+                href="#/drafts"
+              >
+                Drafts
+              </a>
+            </li>
+          </ul>
+        </nav>
 
         <table class=${listClasses.table}>
           <thead>
@@ -33,34 +61,26 @@ export const createListComponent = ({postModel, app, init}) => {
             </tr>
           </thead>
           <tbody>
-            ${state.posts.map(
-              (post) => html`
+            ${state.items?.map(
+              (item) => html`
                 <tr>
-                  <td class=${listClasses.td}>${post.title}</td>
+                  <td class=${listClasses.td}>${item.title}</td>
                   <td class=${listClasses.td}>
-                    ${dateUtils.prettyDate(dateUtils.stringToDate(post.date))}
+                    ${dateUtils.prettyDate(dateUtils.stringToDate(item.date))}
                   </td>
                   <td class=${listClasses.tableControls}>
                     <a
                       tabindex="0"
                       class=${listClasses.editButton}
-                      href=${`#/posts/edit/${post.slug}`}
+                      href=${`#/${route}/edit/${item.slug}`}
                     >
                       Edit
-                    </a>
-                    <a
-                      tabindex="0"
-                      class=${listClasses.viewButton}
-                      target="_blank"
-                      href=${`/posts/${post.slug}`}
-                    >
-                      View
                     </a>
                     <button
                       tabindex="0"
                       class=${listClasses.deleteButton}
                       type="button"
-                      onclick=${remove(post)}
+                      onclick=${remove(item)}
                     >
                       Delete
                     </button>
@@ -74,7 +94,11 @@ export const createListComponent = ({postModel, app, init}) => {
     `,
     html`
       <div class=${listClasses.tableButtons}>
-        <a tabindex="0" class=${listClasses.createButton} href="#/posts/create">
+        <a
+          tabindex="0"
+          class=${listClasses.createButton}
+          href=${`#/${route}/create`}
+        >
           New
         </a>
       </div>

@@ -13,12 +13,7 @@ export const indexComponent = ({mainComponent}) => (state) => html`
         type="font/woff2"
         crossorigin
       />
-      <link
-        rel="preload"
-        href="/content/posts/index.json"
-        as="fetch"
-        crossorigin
-      />
+      <link rel="preload" href="/content/posts.json" as="fetch" crossorigin />
       <style>
         ${state.styles}
       </style>

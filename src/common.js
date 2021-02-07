@@ -241,10 +241,10 @@ export const dateUtils = {
   }
 }
 
-export const createPostsModel = (fetch) => {
+export const createPostsModel = (fetch, listEndpoint) => {
   return {
     getAll() {
-      return fetch('/content/posts/index.json').then((res) => res.json())
+      return fetch(listEndpoint).then((res) => res.json())
     },
 
     async getBySlug(id) {
@@ -255,7 +255,7 @@ export const createPostsModel = (fetch) => {
       if (~index) {
         const post = Object.assign({}, posts[index])
 
-        const response = await fetch(`/content/posts/${post.slug}.json`)
+        const response = await fetch(`/content/${post.slug}.json`)
 
         const content = await response.json()
 

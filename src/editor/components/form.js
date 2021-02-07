@@ -2,7 +2,7 @@ import {html} from '@erickmerchant/framework/main.js'
 import {formClasses, highlightClasses} from '../css/styles.js'
 import {contentComponent} from '../../common.js'
 
-export const createFormComponent = ({postModel, app, slugify}) => {
+export const createFormComponent = ({model, route, app, slugify}) => {
   const zIndexHandlers = {
     onkeydown(e) {
       if (e.key === 'Meta') {
@@ -14,14 +14,12 @@ export const createFormComponent = ({postModel, app, slugify}) => {
     }
   }
 
-  const save = (post) => async (e) => {
+  const save = (item) => async (e) => {
     e.preventDefault()
-
-    const id = post.slug
 
     const data = {}
 
-    for (const [key, val] of Object.entries(post)) {
+    for (const [key, val] of Object.entries(item)) {
       data[key] = val
     }
 
@@ -30,11 +28,17 @@ export const createFormComponent = ({postModel, app, slugify}) => {
     }
 
     try {
-      await postModel.save(id, data)
+      await model.save(data)
 
-      window.location.hash = '#'
+      window.location.hash = `#/${route}`
     } catch (error) {
-      app.state.error = error
+      if (error.message.startsWith('409')) {
+        app.state.slugConflict = true
+      } else {
+        app.state.error = error
+
+        app.state.route = 'error'
+      }
     }
   }
 
@@ -105,8 +109,8 @@ export const createFormComponent = ({postModel, app, slugify}) => {
     )
 
   const highlight = (e) => {
-    app.state.post = {
-      ...app.state.post,
+    app.state.item = {
+      ...app.state.item,
       highlightedContent: e.target.value,
       content: e.target.value
     }
@@ -114,8 +118,7 @@ export const createFormComponent = ({postModel, app, slugify}) => {
 
   return (state) => html`
     <form
-      onsubmit=${save(state.post)}
-      method="POST"
+      onsubmit=${save(state.item)}
       autocomplete="off"
       ${zIndexHandlers}
       class=${formClasses.form}
@@ -127,10 +130,10 @@ export const createFormComponent = ({postModel, app, slugify}) => {
             class=${formClasses.inputLarge}
             name="title"
             id="field-title"
-            value=${state.post.title ?? ''}
+            value=${state.item.title ?? ''}
             oninput=${(e) => {
-              app.state.post = {
-                ...app.state.post,
+              app.state.item = {
+                ...app.state.item,
                 title: e.target.value
               }
             }}
@@ -144,10 +147,10 @@ export const createFormComponent = ({postModel, app, slugify}) => {
             name="date"
             type="date"
             id="field-date"
-            value=${state.post.date ?? ''}
+            value=${state.item.date ?? ''}
             oninput=${(e) => {
-              app.state.post = {
-                ...app.state.post,
+              app.state.item = {
+                ...app.state.item,
                 date: e.target.value
               }
             }}
@@ -157,23 +160,12 @@ export const createFormComponent = ({postModel, app, slugify}) => {
         <div>
           <label class=${formClasses.label} for="field-slug">Slug</label>
           <input
-            class=${state.post.slug != null
-              ? formClasses.inputReadOnly
-              : formClasses.input}
-            name="slug"
+            class=${formClasses.inputReadOnly}
+            name=${state.item.slug ? 'slug' : null}
             id="field-slug"
-            readonly=${state.post.slug != null}
-            value=${state.post.slug ?? ''}
-            placeholder=${slugify(state.post.title ?? '')}
-            oninput=${state.post.slug == null
-              ? (e) => {
-                  app.state.post = {
-                    ...app.state.post,
-                    slug: e.target.value
-                  }
-                }
-              : null}
-            ${zIndexHandlers}
+            readonly
+            value=${state.item.slug ?? ''}
+            placeholder=${slugify(state.item.title ?? '')}
           />
         </div>
         <div class=${formClasses.formRow}>
@@ -181,7 +173,7 @@ export const createFormComponent = ({postModel, app, slugify}) => {
           <div class=${formClasses.textareaWrap}>
             <div class=${formClasses.textareaHighlightsWrap}>
               <pre class=${formClasses.textareaHighlights}>
-            ${highlighter(state.post.highlightedContent)}
+            ${highlighter(state.item.highlightedContent)}
           </pre>
             </div>
             <textarea
@@ -191,17 +183,45 @@ export const createFormComponent = ({postModel, app, slugify}) => {
               oninput=${highlight}
               ${zIndexHandlers}
             >
-            ${state.post.content ?? ''}
+            ${state.item.content ?? ''}
           </textarea
             >
           </div>
         </div>
       </div>
       <div class=${formClasses.formButtons}>
-        <a class=${formClasses.cancelButton} href="#/" ${zIndexHandlers}>
+        ${state.slugConflict
+          ? html`
+              <p class=${formClasses.errorMessage}>This item already exists</p>
+            `
+          : null}
+        <a
+          class=${formClasses.cancelButton}
+          href=${`#/${route}`}
+          ${zIndexHandlers}
+        >
           Cancel
         </a>
-        <button class=${formClasses.saveButton} type="submit" ${zIndexHandlers}>
+        ${route === 'drafts' && state.item.slug != null
+          ? html`
+              <button
+                class=${formClasses.saveButton}
+                type="submit"
+                name="route"
+                value="posts"
+                ${zIndexHandlers}
+              >
+                Publish
+              </button>
+            `
+          : null}
+        <button
+          class=${formClasses.saveButton}
+          name="route"
+          value=${route}
+          type="submit"
+          ${zIndexHandlers}
+        >
           Save
         </button>
       </div>
