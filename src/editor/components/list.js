@@ -2,7 +2,7 @@ import {html} from '@erickmerchant/framework/main.js'
 import {listClasses} from '../css/styles.js'
 import {dateUtils} from '../../common.js'
 
-export const createListComponent = ({model, route, app}) => {
+export const createListComponent = ({model, channelName, app}) => {
   const remove = (item) => async (e) => {
     e.preventDefault()
 
@@ -15,7 +15,7 @@ export const createListComponent = ({model, route, app}) => {
         const items = await model.getAll()
 
         app.state = {
-          route,
+          route: channelName,
           items
         }
       }
@@ -72,7 +72,7 @@ export const createListComponent = ({model, route, app}) => {
                     <a
                       tabindex="0"
                       class=${listClasses.editButton}
-                      href=${`#/${route}/edit/${item.slug}`}
+                      href=${`#/${channelName}/edit/${item.slug}`}
                     >
                       Edit
                     </a>
@@ -97,7 +97,7 @@ export const createListComponent = ({model, route, app}) => {
         <a
           tabindex="0"
           class=${listClasses.createButton}
-          href=${`#/${route}/create`}
+          href=${`#/${channelName}/create`}
         >
           New
         </a>

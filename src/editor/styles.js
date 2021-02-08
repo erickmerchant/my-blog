@@ -43,7 +43,7 @@ export const _start = css`
     html {
       --black: hsl(100, 10%, 100%);
       --gray: hsl(100, 10%, 60%);
-      --silver: hsl(100, 10%, 40%);
+      --silver: hsl(100, 10%, 75%);
       --white: hsl(100, 10%, 20%);
       --green: hsl(100, 50%, 60%);
       --blue: hsl(200, 100%, 60%);

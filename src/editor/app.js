@@ -12,10 +12,10 @@ const app = createApp(state)
 
 const channels = {
   posts: {
-    model: createModel('posts')
+    model: createModel('/content/posts.json')
   },
   drafts: {
-    model: createModel('drafts')
+    model: createModel('/content/drafts.json')
   }
 }
 
@@ -26,8 +26,8 @@ const dispatchLocation = async (segments) => {
   }
 
   try {
-    for (const [route, channel] of Object.entries(channels)) {
-      if (segments.initial === `${route}/edit`) {
+    for (const [channelName, channel] of Object.entries(channels)) {
+      if (segments.initial === `${channelName}/edit`) {
         const id = segments.last
 
         const item = await channel.model.getBySlug(id)
@@ -37,21 +37,21 @@ const dispatchLocation = async (segments) => {
         item.highlightedContent = item.content
 
         state = {
-          route: `${route}/edit`,
+          route: `${channelName}/edit`,
           item,
           slugConflict: false
         }
-      } else if (segments.all === `${route}/create`) {
+      } else if (segments.all === `${channelName}/create`) {
         state = {
-          route: `${route}/create`,
+          route: `${channelName}/create`,
           item: {},
           slugConflict: false
         }
-      } else if (segments.all === route || segments.all === '') {
+      } else if (segments.all === channelName || segments.all === '') {
         const items = await channel.model.getAll()
 
         state = {
-          route,
+          route: channelName,
           items
         }
 
@@ -72,16 +72,16 @@ const target = document.querySelector('body')
 
 const errorComponent = createErrorComponent()
 
-for (const [route, channel] of Object.entries(channels)) {
+for (const [channelName, channel] of Object.entries(channels)) {
   channel.listComponent = createListComponent({
     model: channel.model,
-    route,
+    channelName,
     app
   })
 
   channel.formComponent = createFormComponent({
     model: channel.model,
-    route,
+    channelName,
     app,
     slugify
   })
@@ -95,12 +95,16 @@ const view = createDomView(
       style=${state.zIndex != null ? `--z-index: ${state.zIndex}` : null}
     >
       ${(() => {
-        for (const [route, channel] of Object.entries(channels)) {
-          if (state.route === route) {
+        for (const [channelName, channel] of Object.entries(channels)) {
+          if (state.route === channelName) {
             return channel.listComponent(state)
           }
 
-          if ([`${route}/edit`, `${route}/create`].includes(state.route)) {
+          if (
+            [`${channelName}/edit`, `${channelName}/create`].includes(
+              state.route
+            )
+          ) {
             return channel.formComponent(state)
           }
         }

@@ -16,20 +16,20 @@ const fetch = async (url, options) => {
   return res
 }
 
-export const createModel = (route) => {
+export const createModel = (listEndpoint) => {
   return {
-    ...createPostsModel(fetch, `/content/${route}.json`),
+    ...createPostsModel(fetch, listEndpoint),
 
     async saveAll(data) {
-      await fetch(`/content/${route}.json`, {
+      await fetch(listEndpoint, {
         headers: {'Content-Type': 'application/json'},
         method: 'PUT',
         body: JSON.stringify(data)
       })
     },
 
-    async saveAs(route, data) {
-      const subModel = createModel(route)
+    async saveAs(channelName, data) {
+      const subModel = createModel(`/content/${channelName}.json`)
 
       await this.remove(data.slug)
 

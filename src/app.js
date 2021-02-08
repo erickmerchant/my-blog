@@ -26,7 +26,7 @@ const fetch = (url, options) => {
   return window.fetch(url, options)
 }
 
-const postsModel = createPostsModel(fetch, '/content/posts.json')
+const postsModel = createPostsModel(fetch, listEndpoint)
 
 const dispatchLocation = getDispatchLocation({app, postsModel, getSegments})
 

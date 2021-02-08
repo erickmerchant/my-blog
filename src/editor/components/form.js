@@ -2,7 +2,7 @@ import {html} from '@erickmerchant/framework/main.js'
 import {formClasses, highlightClasses} from '../css/styles.js'
 import {contentComponent} from '../../common.js'
 
-export const createFormComponent = ({model, route, app, slugify}) => {
+export const createFormComponent = ({model, channelName, app, slugify}) => {
   const zIndexHandlers = {
     onkeydown(e) {
       if (e.key === 'Meta') {
@@ -36,7 +36,7 @@ export const createFormComponent = ({model, route, app, slugify}) => {
     try {
       await model.save(data)
 
-      window.location.hash = `#/${route}`
+      window.location.hash = `#/${channelName}`
     } catch (error) {
       if (error.message.startsWith('409')) {
         app.state.slugConflict = true
@@ -48,13 +48,13 @@ export const createFormComponent = ({model, route, app, slugify}) => {
     }
   }
 
-  const saveAs = (route, item) => async (e) => {
+  const saveAs = (channelName, item) => async (e) => {
     e.preventDefault()
 
     const data = serialize(item, e.target.closest('form'))
 
     try {
-      await model.saveAs(route, data)
+      await model.saveAs(channelName, data)
 
       window.location.hash = `#/posts`
     } catch (error) {
@@ -219,12 +219,12 @@ export const createFormComponent = ({model, route, app, slugify}) => {
           : null}
         <a
           class=${formClasses.cancelButton}
-          href=${`#/${route}`}
+          href=${`#/${channelName}`}
           ${zIndexHandlers}
         >
           Cancel
         </a>
-        ${route === 'drafts' && state.item.slug != null
+        ${channelName === 'drafts' && state.item.slug != null
           ? html`
               <button
                 class=${formClasses.saveButton}
