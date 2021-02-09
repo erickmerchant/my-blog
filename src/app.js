@@ -32,7 +32,7 @@ const dispatchLocation = getDispatchLocation({app, postsModel, getSegments})
 
 setupApp({dispatchLocation})
 
-const target = document.getElementById('main')
+const target = document.querySelector('#main')
 
 const anchorAttrs = getAnchorAttrs({
   dispatchLocation
