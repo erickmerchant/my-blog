@@ -38,7 +38,7 @@ const program = async () => {
         contentComponent
       })
 
-      const mainComponent = createLayoutComponent({
+      const layoutComponent = createLayoutComponent({
         classes: layoutClasses,
         aboutComponent,
         mainComponent: () =>
@@ -54,7 +54,7 @@ const program = async () => {
 
       await writeFile(
         './dist/index.html',
-        `<!doctype html>${stringify(indexComponent({mainComponent})(state))}`
+        `<!doctype html>${stringify(indexComponent({layoutComponent})(state))}`
       )
 
       await spawn`rollup -c rollup.config.js`
