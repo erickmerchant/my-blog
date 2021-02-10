@@ -3,7 +3,7 @@ import {promisify} from 'util'
 import fs from 'fs'
 import {stringify} from '@erickmerchant/framework/stringify.js'
 import {html} from '@erickmerchant/framework/main.js'
-import {indexComponent} from './src/components/index.js'
+import {createIndexComponent} from './src/components/index.js'
 import {createLayoutComponent} from './src/components/layout.js'
 import {createAboutComponent} from './src/components/about.js'
 import {contentComponent} from './src/common.js'
@@ -50,11 +50,13 @@ const program = async () => {
         }
       })
 
+      const indexComponent = createIndexComponent({layoutComponent})
+
       state.styles = await readFile('./dist/css/styles.css', 'utf8')
 
       await writeFile(
         './dist/index.html',
-        `<!doctype html>${stringify(indexComponent({layoutComponent})(state))}`
+        `<!doctype html>${stringify(indexComponent(state))}`
       )
 
       await spawn`rollup -c rollup.config.js`
