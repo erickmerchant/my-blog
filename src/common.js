@@ -258,16 +258,33 @@ export const createPostsModel = (fetch, listEndpoint) => {
     },
 
     async getBySlug(id) {
-      const posts = await this.getAll()
+      let posts
+      let content
+      let index
 
-      const index = id != null ? posts.findIndex((post) => post.slug === id) : 0
+      if (id != null) {
+        const responses = await Promise.all([
+          this.getAll(),
+          fetch(`/content/${id}.json`).then((response) => response.json())
+        ])
+
+        posts = responses[0]
+
+        content = responses[1]
+
+        index = posts.findIndex((post) => post.slug === id)
+      } else {
+        posts = await this.getAll()
+
+        index = 0
+
+        content = await fetch(
+          `/content/${posts[index].slug}.json`
+        ).then((response) => response.json())
+      }
 
       if (~index) {
         const post = Object.assign({}, posts[index])
-
-        const response = await fetch(`/content/${post.slug}.json`)
-
-        const content = await response.json()
 
         post.content = content
 
