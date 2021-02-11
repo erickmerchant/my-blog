@@ -29,7 +29,11 @@ export const createMainComponent = ({
   return (state) => (afterUpdate) => {
     if (state.route == null) {
       return html`
-        <article></article>
+        <article
+          class=${state.transitioning
+            ? classes.mainTransitioning
+            : classes.main}
+        ></article>
       `
     }
 
