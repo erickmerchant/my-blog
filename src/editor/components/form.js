@@ -1,6 +1,6 @@
 import {html} from '@erickmerchant/framework/main.js'
 import {formClasses, highlightClasses} from '../css/styles.js'
-import {contentComponent} from '../../common.js'
+import {createContentComponent} from '../../common.js'
 
 export const createFormComponent = ({model, channelName, app, slugify}) => {
   const zIndexHandlers = {
@@ -64,71 +64,71 @@ export const createFormComponent = ({model, channelName, app, slugify}) => {
     }
   }
 
-  const highlighter = (str = '') =>
-    contentComponent(
-      str.replace(/\r/g, ''),
-      {},
-      {
-        strong: (text) => html`
-          <span>
-            <span class=${highlightClasses.punctuation}>*</span>
-            <span class=${highlightClasses.bold}>${text}</span>
-            <span class=${highlightClasses.punctuation}>*</span>
-          </span>
+  const contentComponent = createContentComponent({
+    classes: {},
+    templates: {
+      strong: (text) => html`
+        <span>
+          <span class=${highlightClasses.punctuation}>*</span>
+          <span class=${highlightClasses.bold}>${text}</span>
+          <span class=${highlightClasses.punctuation}>*</span>
+        </span>
+      `,
+      codeBlock: (code, isClosed) => html`
+        <span>
+          <span class=${highlightClasses.punctuation}>${'```\n'}</span>
+          <span class=${highlightClasses.codeBlock}>${code}</span>
+          ${isClosed
+            ? html`
+                <span class=${highlightClasses.punctuation}>${'```'}</span>
+              `
+            : null}
+        </span>
+      `,
+      codeInline: (text) => html`
+        <span>
+          <span class=${highlightClasses.punctuation}>${'`'}</span>
+          <span class=${highlightClasses.codeInline}>${text}</span>
+          <span class=${highlightClasses.punctuation}>${'`'}</span>
+        </span>
+      `,
+      heading: (text) => html`
+        <span>
+          <span class=${highlightClasses.headingPunctuation}>${'# '}</span>
+          <span class=${highlightClasses.heading}>${text}</span>
+        </span>
+      `,
+      anchor: (text, href) => html`
+        <span>
+          <span class=${highlightClasses.punctuation}>[</span>
+          ${text}
+          <span class=${highlightClasses.punctuation}>]</span>
+          <span class=${highlightClasses.punctuation}>(</span>
+          <a tabindex="-1" class=${highlightClasses.url} href=${href}>
+            ${href}
+          </a>
+          <span class=${highlightClasses.punctuation}>)</span>
+        </span>
+      `,
+      list: (items) =>
+        html`
+          <span>${items}</span>
         `,
-        codeBlock: (code, isClosed) => html`
-          <span>
-            <span class=${highlightClasses.punctuation}>${'```\n'}</span>
-            <span class=${highlightClasses.codeBlock}>${code}</span>
-            ${isClosed
-              ? html`
-                  <span class=${highlightClasses.punctuation}>${'```'}</span>
-                `
-              : null}
-          </span>
-        `,
-        codeInline: (text) => html`
-          <span>
-            <span class=${highlightClasses.punctuation}>${'`'}</span>
-            <span class=${highlightClasses.codeInline}>${text}</span>
-            <span class=${highlightClasses.punctuation}>${'`'}</span>
-          </span>
-        `,
-        heading: (text) => html`
-          <span>
-            <span class=${highlightClasses.headingPunctuation}>${'# '}</span>
-            <span class=${highlightClasses.heading}>${text}</span>
-          </span>
-        `,
-        anchor: (text, href) => html`
-          <span>
-            <span class=${highlightClasses.punctuation}>[</span>
-            ${text}
-            <span class=${highlightClasses.punctuation}>]</span>
-            <span class=${highlightClasses.punctuation}>(</span>
-            <a tabindex="-1" class=${highlightClasses.url} href=${href}>
-              ${href}
-            </a>
-            <span class=${highlightClasses.punctuation}>)</span>
-          </span>
-        `,
-        list: (items) =>
-          html`
-            <span>${items}</span>
-          `,
-        listItem: (text) => html`
-          <span>
-            <span class=${highlightClasses.punctuation}>${'- '}</span>
-            ${text}
-          </span>
-        `,
-        paragraph: (text) =>
-          html`
-            <span>${text}</span>
-          `
-      },
-      false
-    )
+      listItem: (text) => html`
+        <span>
+          <span class=${highlightClasses.punctuation}>${'- '}</span>
+          ${text}
+        </span>
+      `,
+      paragraph: (text) =>
+        html`
+          <span>${text}</span>
+        `
+    },
+    publicFacing: false
+  })
+
+  const highlighter = (str = '') => contentComponent(str.replace(/\r/g, ''))
 
   const highlight = (e) => {
     app.state.item = {

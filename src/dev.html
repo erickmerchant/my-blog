@@ -22,7 +22,7 @@
           createLayoutComponent,
           createAboutComponent,
           createMainComponent,
-          contentComponent,
+          createContentComponent,
           getSegments,
           dateUtils,
           createPostsModel,
@@ -72,12 +72,12 @@
 
         const aboutComponent = createAboutComponent({
           classes: aboutClasses,
-          contentComponent
+          createContentComponent
         })
 
         const mainComponent = createMainComponent({
           classes: mainClasses,
-          contentComponent,
+          createContentComponent,
           dateUtils,
           anchorAttrs
         })

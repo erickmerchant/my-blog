@@ -2,7 +2,7 @@ import {createDomView, createApp} from '@erickmerchant/framework/main.js'
 import {mainClasses} from './css/styles.js'
 import {createMainComponent} from './components/main.js'
 import {
-  contentComponent,
+  createContentComponent,
   getSegments,
   dateUtils,
   createPostsModel
@@ -40,7 +40,7 @@ const anchorAttrs = getAnchorAttrs({
 
 const mainComponent = createMainComponent({
   classes: mainClasses,
-  contentComponent,
+  createContentComponent,
   dateUtils,
   anchorAttrs
 })

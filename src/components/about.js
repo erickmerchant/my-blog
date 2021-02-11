@@ -19,13 +19,18 @@ I'm *Erick Merchant*. I've been employed as a web developer for *${yearsSince(
 )}* years. This is my web development blog. Check out my [open-source projects](https://github.com/erickmerchant) on Github.
 `
 
-export const createAboutComponent = ({classes, contentComponent}) => () => html`
-  <aside class=${classes.about}>
-    ${contentComponent(aboutContent, classes, {
+export const createAboutComponent = ({classes, createContentComponent}) => {
+  const contentComponent = createContentComponent({
+    classes,
+    templates: {
       heading: (text) =>
         html`
           <h3 class=${classes.heading}>${text}</h3>
         `
-    })}
-  </aside>
-`
+    }
+  })
+
+  return () => html`
+    <aside class=${classes.about}>${contentComponent(aboutContent)}</aside>
+  `
+}

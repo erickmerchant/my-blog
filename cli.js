@@ -6,7 +6,7 @@ import {html} from '@erickmerchant/framework/main.js'
 import {createIndexComponent} from './src/components/index.js'
 import {createLayoutComponent} from './src/components/layout.js'
 import {createAboutComponent} from './src/components/about.js'
-import {contentComponent} from './src/common.js'
+import {createContentComponent} from './src/common.js'
 import {spawn} from 'sergeant'
 
 const readFile = promisify(fs.readFile)
@@ -35,7 +35,7 @@ const program = async () => {
 
       const aboutComponent = createAboutComponent({
         classes: aboutClasses,
-        contentComponent
+        createContentComponent
       })
 
       const layoutComponent = createLayoutComponent({

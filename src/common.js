@@ -2,12 +2,11 @@ import {html} from '@erickmerchant/framework/main.js'
 
 const codeFence = '```'
 
-export const contentComponent = (
-  str,
+export const createContentComponent = ({
   classes,
   templates,
   publicFacing = true
-) => {
+}) => {
   templates = Object.assign(
     {},
     {
@@ -107,100 +106,111 @@ export const contentComponent = (
     return results
   }
 
-  const result = []
-  const lns = {
-    *[Symbol.iterator]() {
-      let ln = ''
-      let i = 0
+  return (str) => {
+    const result = []
+    const lns = {
+      *[Symbol.iterator]() {
+        let ln = ''
+        let i = 0
 
-      let char = str.charAt(i)
+        let char = str.charAt(i)
 
-      do {
-        if (char === '\n') {
-          yield ln
+        do {
+          if (char === '\n') {
+            yield ln
 
-          ln = ''
-        } else {
-          ln += char
-        }
-
-        char = str.charAt(++i)
-      } while (char !== '')
-
-      yield ln
-    }
-  }
-
-  let items = []
-  let code
-
-  for (const ln of lns) {
-    if (code != null && ln !== codeFence) {
-      code.push(ln, '\n')
-    } else {
-      if (!ln.startsWith('- ') && items.length) {
-        result.push(templates.list(items))
-
-        items = []
-      }
-
-      switch (true) {
-        case ln.startsWith('# '):
-          result.push(templates.heading(ln.substring(2)), '\n')
-          break
-
-        case ln.startsWith('- '):
-          items.push(templates.listItem(inline(quotes(ln.substring(2)))), '\n')
-          break
-
-        case ln === codeFence:
-          if (code != null) {
-            result.push(templates.codeBlock(inline(code.join('')), true), '\n')
-
-            code = null
+            ln = ''
           } else {
-            code = []
-          }
-          break
-
-        case ln === `\\${codeFence}`:
-          if (publicFacing) {
-            result.push(codeFence)
-          } else {
-            result.push(ln)
+            ln += char
           }
 
-          result.push('\n')
-          break
+          char = str.charAt(++i)
+        } while (char !== '')
 
-        default: {
-          let l = ln
-
-          if (publicFacing && (l.startsWith('\\# ') || l.startsWith('\\- '))) {
-            l = l.substring(1)
-          }
-
-          const p = templates.paragraph(inline(quotes(l)))
-
-          if (p != null) {
-            result.push(p)
-          }
-
-          result.push('\n')
-        }
+        yield ln
       }
     }
-  }
 
-  if (code != null) {
-    result.push(templates.codeBlock(inline(code.join('')), false), '\n')
-  }
+    let items = []
+    let code
 
-  if (items.length) {
-    result.push(templates.list(items))
-  }
+    for (const ln of lns) {
+      if (code != null && ln !== codeFence) {
+        code.push(ln, '\n')
+      } else {
+        if (!ln.startsWith('- ') && items.length) {
+          result.push(templates.list(items))
 
-  return result
+          items = []
+        }
+
+        switch (true) {
+          case ln.startsWith('# '):
+            result.push(templates.heading(ln.substring(2)), '\n')
+            break
+
+          case ln.startsWith('- '):
+            items.push(
+              templates.listItem(inline(quotes(ln.substring(2)))),
+              '\n'
+            )
+            break
+
+          case ln === codeFence:
+            if (code != null) {
+              result.push(
+                templates.codeBlock(inline(code.join('')), true),
+                '\n'
+              )
+
+              code = null
+            } else {
+              code = []
+            }
+            break
+
+          case ln === `\\${codeFence}`:
+            if (publicFacing) {
+              result.push(codeFence)
+            } else {
+              result.push(ln)
+            }
+
+            result.push('\n')
+            break
+
+          default: {
+            let l = ln
+
+            if (
+              publicFacing &&
+              (l.startsWith('\\# ') || l.startsWith('\\- '))
+            ) {
+              l = l.substring(1)
+            }
+
+            const p = templates.paragraph(inline(quotes(l)))
+
+            if (p != null) {
+              result.push(p)
+            }
+
+            result.push('\n')
+          }
+        }
+      }
+    }
+
+    if (code != null) {
+      result.push(templates.codeBlock(inline(code.join('')), false), '\n')
+    }
+
+    if (items.length) {
+      result.push(templates.list(items))
+    }
+
+    return result
+  }
 }
 
 export const getSegments = (all) => {
