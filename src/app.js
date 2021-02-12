@@ -18,15 +18,7 @@ const app = createApp(getInitialState())
 
 const listEndpoint = `/content/posts.json`
 
-const promise = window.fetch(listEndpoint)
-
-const fetch = (url, options) => {
-  if (url === listEndpoint) return promise.then((res) => res.clone())
-
-  return window.fetch(url, options)
-}
-
-const postsModel = createPostsModel(fetch, listEndpoint)
+const postsModel = createPostsModel(listEndpoint)
 
 const dispatchLocation = getDispatchLocation({app, postsModel, getSegments})
 

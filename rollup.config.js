@@ -10,7 +10,17 @@ export default {
         mangle: {
           toplevel: true,
           properties: {
-            reserved: ['title', 'slug', 'date', 'year', 'month', 'day']
+            reserved: [
+              'title',
+              'slug',
+              'date',
+              'year',
+              'month',
+              'day',
+              'Accept',
+              'Content-Type',
+              'headers'
+            ]
           }
         },
         ecma: 10,

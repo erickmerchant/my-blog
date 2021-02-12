@@ -6,26 +6,28 @@ export const slugify = (str) =>
     .replace(/\s+/g, '-')
     .replace(/[^a-z0-9-]/g, '-')
 
-const fetch = async (url, options) => {
-  const res = await window.fetch(url, options)
-
-  if (res.status >= 300) {
-    throw Error(`${res.status} ${res.statusText}`)
-  }
-
-  return res
-}
-
 export const createModel = (listEndpoint) => {
   return {
-    ...createPostsModel(fetch, listEndpoint),
+    ...createPostsModel(listEndpoint),
 
     async saveAll(data) {
-      await fetch(listEndpoint, {
-        headers: {'Content-Type': 'application/json'},
+      await this._fetch(listEndpoint, {
         method: 'PUT',
         body: JSON.stringify(data)
       })
+
+      if (listEndpoint === '/content/posts.json' && data[0]) {
+        const first = await this.getBySlug(data[0].slug)
+
+        await this._fetch(`/content/__first.json`, {
+          method: 'DELETE'
+        })
+
+        await this._fetch(`/content/__first.json`, {
+          method: 'POST',
+          body: JSON.stringify(first.content)
+        })
+      }
     },
 
     async saveAs(channelName, data) {
@@ -64,8 +66,7 @@ export const createModel = (listEndpoint) => {
         posts.splice(index, 1, {title, date, slug})
       }
 
-      await fetch(`/content/${data.slug}.json`, {
-        headers: {'Content-Type': 'application/json'},
+      await this._fetch(`/content/${data.slug}.json`, {
         method: existing ? 'PUT' : 'POST',
         body: JSON.stringify(data.content)
       })
@@ -83,7 +84,7 @@ export const createModel = (listEndpoint) => {
 
         await this.saveAll(posts)
 
-        await fetch(`/content/${id}.json`, {
+        await this._fetch(`/content/${id}.json`, {
           method: 'DELETE'
         })
       }

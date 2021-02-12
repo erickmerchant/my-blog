@@ -19,37 +19,43 @@ export const getDispatchLocation = ({app, postsModel, getSegments}) => async (
 ) => {
   const segments = getSegments(location)
 
-  const posts = await postsModel.getAll()
-
-  let post
-
   if (transitioning) {
     app.state.transitioning = true
   }
 
-  try {
-    if (segments.initial === 'posts') {
-      post = await postsModel.getBySlug(segments.last)
-    } else if (segments.all === '' && posts.length > 0) {
-      post = await postsModel.getBySlug()
-    }
+  if (segments.initial !== 'posts' && segments.all !== '') {
+    app.state = getUnfound()
+  } else {
+    try {
+      let id
 
-    if (post != null) {
-      app.state = {
-        route: 'post',
-        title: `Posts | ${post.title}`,
-        transitioning: false,
-        post
+      if (segments.initial === 'posts') {
+        id = segments.last
       }
-    } else {
-      app.state = getUnfound()
-    }
-  } catch (error) {
-    app.state = {
-      route: 'error',
-      title: 'Error',
-      transitioning: false,
-      error
+
+      const post = await postsModel.getBySlug(id)
+
+      if (post != null) {
+        app.state = {
+          route: 'post',
+          title: `Posts | ${post.title}`,
+          transitioning: false,
+          post
+        }
+      } else {
+        app.state = getUnfound()
+      }
+    } catch (error) {
+      if (error.message.startsWith('404')) {
+        app.state = getUnfound()
+      } else {
+        app.state = {
+          route: 'error',
+          title: 'Error',
+          transitioning: false,
+          error
+        }
+      }
     }
   }
 }

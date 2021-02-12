@@ -251,37 +251,36 @@ export const dateUtils = {
   }
 }
 
-export const createPostsModel = (fetch, listEndpoint) => {
+export const createPostsModel = (listEndpoint) => {
   return {
-    getAll() {
-      return fetch(listEndpoint).then((res) => res.json())
+    async _fetch(url, options = {}) {
+      const res = await window.fetch(url, {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        ...options
+      })
+
+      if (!res.ok) {
+        throw Error(`${res.status} ${res.statusText}`)
+      }
+
+      return res
     },
 
-    async getBySlug(id) {
-      let posts
-      let content
-      let index
+    getAll() {
+      return this._fetch(listEndpoint).then((res) => res.json())
+    },
 
-      if (id != null) {
-        const responses = await Promise.all([
-          this.getAll(),
-          fetch(`/content/${id}.json`).then((response) => response.json())
-        ])
+    async getBySlug(id = '__first') {
+      const [posts, content] = await Promise.all([
+        this.getAll(),
+        this._fetch(`/content/${id}.json`).then((response) => response.json())
+      ])
 
-        posts = responses[0]
-
-        content = responses[1]
-
-        index = posts.findIndex((post) => post.slug === id)
-      } else {
-        posts = await this.getAll()
-
-        index = 0
-
-        content = await fetch(
-          `/content/${posts[index].slug}.json`
-        ).then((response) => response.json())
-      }
+      const index =
+        id === '__first' ? 0 : posts.findIndex((post) => post.slug === id)
 
       if (~index) {
         const post = Object.assign({}, posts[index])

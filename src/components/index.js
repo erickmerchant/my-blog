@@ -13,7 +13,6 @@ export const createIndexComponent = ({layoutComponent}) => (state) => html`
         type="font/woff2"
         crossorigin
       />
-      <link rel="preload" href="/content/posts.json" as="fetch" crossorigin />
       <style>
         ${state.styles}
       </style>

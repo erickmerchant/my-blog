@@ -44,13 +44,7 @@
 
         const listEndpoint = `/content/posts.json`
 
-        const promise = fetch(`${listEndpoint}?${Date.now()}`)
-
-        const postsModel = createPostsModel((url, options) => {
-          if (url === listEndpoint) return promise.then((res) => res.clone())
-
-          return fetch(url, options)
-        }, listEndpoint)
+        const postsModel = createPostsModel(listEndpoint)
 
         const dispatchLocation = getDispatchLocation({
           app,
