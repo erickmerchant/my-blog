@@ -1,14 +1,3 @@
-const getUnfound = () => {
-  return {
-    route: 'error',
-    title: 'Page Not Found',
-    error: Error(
-      "That page doesn't exist. It was either moved, removed, or never existed."
-    ),
-    transitioning: false
-  }
-}
-
 export const getInitialState = () => {
   return {route: null, title: ''}
 }
@@ -18,14 +7,20 @@ export const getDispatchLocation = ({app, postsModel, getSegments}) => async (
   transitioning = true
 ) => {
   const segments = getSegments(location)
+  let state = {
+    route: 'error',
+    title: 'Page Not Found',
+    error: Error(
+      "That page doesn't exist. It was either moved, removed, or never existed."
+    ),
+    transitioning: false
+  }
 
   if (transitioning) {
     app.state.transitioning = true
   }
 
-  if (segments.initial !== 'posts' && segments.all !== '') {
-    app.state = getUnfound()
-  } else {
+  if (segments.initial === 'posts' || segments.all === '') {
     try {
       let id
 
@@ -36,20 +31,16 @@ export const getDispatchLocation = ({app, postsModel, getSegments}) => async (
       const post = await postsModel.getBySlug(id)
 
       if (post != null) {
-        app.state = {
+        state = {
           route: 'post',
           title: `Posts | ${post.title}`,
           transitioning: false,
           post
         }
-      } else {
-        app.state = getUnfound()
       }
     } catch (error) {
-      if (error.message.startsWith('404')) {
-        app.state = getUnfound()
-      } else {
-        app.state = {
+      if (!error.message.startsWith('404')) {
+        state = {
           route: 'error',
           title: 'Error',
           transitioning: false,
@@ -58,6 +49,8 @@ export const getDispatchLocation = ({app, postsModel, getSegments}) => async (
       }
     }
   }
+
+  app.state = state
 }
 
 export const setupApp = ({dispatchLocation}) => {
