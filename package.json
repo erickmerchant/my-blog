@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@erickmerchant/css": "^28.0.0",
-    "@erickmerchant/dev-cli": "^21.2.1",
+    "@erickmerchant/dev-cli": "^22.0.0",
     "@erickmerchant/framework": "^41.0.0",
     "rollup": "^2.33.3",
     "rollup-plugin-terser": "^7.0.2",

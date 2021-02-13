@@ -8,7 +8,7 @@
     <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
     <title>A Web Development Blog</title>
     <script type="module">
-      import {runtime} from '@erickmerchant/dev-cli/runtime.js'
+      import {run, use} from '@erickmerchant/dev-cli/runtime.js'
       import {createDomView, createApp} from '@erickmerchant/framework/main.js'
 
       const app = createApp()
@@ -17,8 +17,22 @@
 
       let isSetup = false
 
-      runtime(async (get) => {
-        const {
+      use('/components/layout.js')
+
+      use('/components/about.js')
+
+      use('/components/main.js')
+
+      use('/common.js')
+
+      use('/frontend.js')
+
+      use('/css/styles.js', (classes) => {
+        return {classes}
+      })
+
+      run(
+        ({
           createLayoutComponent,
           createAboutComponent,
           createMainComponent,
@@ -30,63 +44,52 @@
           getInitialState,
           getDispatchLocation,
           getAnchorAttrs,
-          layoutClasses,
-          aboutClasses,
-          mainClasses
-        } = await get(
-          'components/layout.js',
-          'components/about.js',
-          'components/main.js',
-          'common.js',
-          'frontend.js',
-          'css/styles.js'
-        )
+          classes
+        }) => {
+          const postsModel = createPostsModel(`/content/posts.json`)
 
-        const listEndpoint = `/content/posts.json`
+          const dispatchLocation = getDispatchLocation({
+            app,
+            postsModel,
+            getSegments
+          })
 
-        const postsModel = createPostsModel(listEndpoint)
+          if (!isSetup) {
+            isSetup = true
 
-        const dispatchLocation = getDispatchLocation({
-          app,
-          postsModel,
-          getSegments
-        })
+            setupApp({dispatchLocation})
+          } else {
+            dispatchLocation(window.location.pathname, false)
+          }
 
-        if (!isSetup) {
-          isSetup = true
+          app.state = app.state ?? getInitialState()
 
-          setupApp({dispatchLocation})
-        } else {
-          dispatchLocation(window.location.pathname, false)
+          const anchorAttrs = getAnchorAttrs({dispatchLocation})
+
+          const aboutComponent = createAboutComponent({
+            classes: classes.aboutClasses,
+            createContentComponent
+          })
+
+          const mainComponent = createMainComponent({
+            classes: classes.mainClasses,
+            createContentComponent,
+            dateUtils,
+            anchorAttrs
+          })
+
+          const component = createLayoutComponent({
+            classes: classes.layoutClasses,
+            aboutComponent,
+            mainComponent,
+            anchorAttrs
+          })
+
+          const view = createDomView(target, component)
+
+          app.render(view)
         }
-
-        app.state = app.state ?? getInitialState()
-
-        const anchorAttrs = getAnchorAttrs({dispatchLocation})
-
-        const aboutComponent = createAboutComponent({
-          classes: aboutClasses,
-          createContentComponent
-        })
-
-        const mainComponent = createMainComponent({
-          classes: mainClasses,
-          createContentComponent,
-          dateUtils,
-          anchorAttrs
-        })
-
-        const component = createLayoutComponent({
-          classes: layoutClasses,
-          aboutComponent,
-          mainComponent,
-          anchorAttrs
-        })
-
-        const view = createDomView(target, component)
-
-        app.render(view)
-      })
+      )
     </script>
   </head>
   <body></body>
