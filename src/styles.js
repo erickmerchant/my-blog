@@ -85,9 +85,27 @@ export const layoutClasses = {
       min-height: 100%;
       grid-template-rows: max-content auto max-content max-content;
 
+      --grid-gradient: linear-gradient(
+          to right,
+          transparent 0,
+          transparent 1px,
+          hsla(0, 0%, 100%, 0.05) 1px,
+          hsla(0, 0%, 100%, 0.05) 2px,
+          transparent 2px
+        ),
+        linear-gradient(
+          to bottom,
+          transparent 0,
+          transparent 1px,
+          hsla(0, 0%, 100%, 0.05) 1px,
+          hsla(0, 0%, 100%, 0.05) 2px,
+          transparent 2px
+        );
+
       --a-c: hsl(100, 35%, 35%);
       --hero-a-c: inherit;
       --hero-bg: hsla(100, 35%, 40%, 0.9);
+      --hero-bg-size: 2em 2em;
       --hero-b: var(--hero-bg);
       --ftr-bg: hsl(100, 10%, 95%);
       --ftr-zz: linear-gradient(225deg, var(--bg) 0.5rem, transparent 0),
@@ -99,6 +117,7 @@ export const layoutClasses = {
         --a-c: hsl(100, 80%, 70%);
         --hero-a-c: hsl(100, 90%, 85%);
         --hero-bg: hsla(100, 20%, 20%, 0.9);
+        --hero-bg-size: 1em 1em;
         --hero-b: hsl(100, 30%, 70%);
         --ftr-bg: var(--bg);
         --ftr-zz: linear-gradient(225deg, var(--bg) 25%, transparent 25%),
@@ -138,6 +157,8 @@ export const layoutClasses = {
         grid-template-columns: 90%;
         overflow-y: scroll;
         background-color: var(--hero-bg);
+        background-image: var(--grid-gradient);
+        background-size: var(--hero-bg-size);
         border-right: 3px solid var(--hero-b);
       }
     }
@@ -161,6 +182,9 @@ export const layoutClasses = {
       top: 0;
       z-index: 1;
       background-color: var(--hero-bg);
+      background-image: var(--grid-gradient);
+      background-size: var(--hero-bg-size);
+      background-position: 50% 0;
       border-bottom: var(--b);
 
       --b: 3px solid var(--hero-b);
@@ -186,6 +210,7 @@ export const layoutClasses = {
         font-size: 1.5em;
         writing-mode: horizontal-tb;
         transform: unset;
+        background-image: none;
         background-color: transparent;
         border-left: none;
         justify-content: start;
