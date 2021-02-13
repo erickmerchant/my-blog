@@ -145,6 +145,8 @@ export const layoutClasses = {
      {
       display: contents;
 
+      --b: 2px solid var(--hero-b);
+
       ${_atrules.desktopUp} {
         color: #fff;
         grid-row: 1 / -1;
@@ -159,7 +161,7 @@ export const layoutClasses = {
         background-color: var(--hero-bg);
         background-image: var(--grid-gradient);
         background-size: var(--hero-bg-size);
-        border-right: 3px solid var(--hero-b);
+        border-right: var(--b);
       }
     }
   `,
@@ -186,8 +188,6 @@ export const layoutClasses = {
       background-size: var(--hero-bg-size);
       background-position: 50% 0;
       border-bottom: var(--b);
-
-      --b: 3px solid var(--hero-b);
 
       ${_atrules.tabletLandscapeUp} {
         font-size: clamp(1em, 4vh, 1.5em);
