@@ -436,6 +436,7 @@ const main = css`
     transition: opacity 0.3s;
 
     --code-c: hsl(100, 35%, 70%);
+    --code-str-c: hsl(100, 45%, 90%);
     --code-bg: hsl(100, 10%, 20%);
     --code-b: var(--code-bg);
     --code-inline-c: hsl(100, 35%, 20%);
@@ -451,6 +452,7 @@ const main = css`
 
     ${_atrules.colorSchemeDark} {
       --code-c: hsl(100, 60%, 70%);
+      --code-str-c: hsl(100, 70%, 90%);
       --code-bg: hsl(100, 10%, 25%);
       --code-b: hsl(100, 30%, 70%);
       --code-inline-c: inherit;
@@ -524,6 +526,7 @@ export const mainClasses = {
   strong: css`
      {
       font-weight: ${fontWeights.bold};
+      color: var(--str-c, inherit);
     }
   `,
   pre: css`
@@ -554,6 +557,7 @@ export const mainClasses = {
       border-top: var(--b);
       border-bottom: var(--b);
 
+      --str-c: var(--code-str-c);
       --b: 1px solid var(--code-b);
 
       ${_atrules.portraitUp} {
