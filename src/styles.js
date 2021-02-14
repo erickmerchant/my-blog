@@ -460,9 +460,9 @@ const main = css`
       --pg-disabled-bg: transparent;
       --pg-disabled-b-c: currentColor;
       --pg-disabled-c: hsl(100, 10%, 70%);
-      --pg-enabled-hover-bg: hsla(100, 80%, 70%, 0.2);
+      --pg-enabled-hover-bg: hsla(100, 80%, 70%, 0.3);
       --pg-enabled-hover-b-c: currentColor;
-      --pg-enabled-bg: transparent;
+      --pg-enabled-bg: hsla(100, 80%, 70%, 0.2);
       --pg-enabled-b-c: currentColor;
       --pg-enabled-c: hsl(100, 80%, 70%);
       --date-fill: hsl(100, 60%, 70%);
