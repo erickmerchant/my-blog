@@ -381,7 +381,6 @@ const paginationItemDisabled = css`
     border-bottom-right-radius: var(--right-r, 0.125rem);
     border-top-left-radius: var(--left-r, 0.125rem);
     border-bottom-left-radius: var(--left-r, 0.125rem);
-    user-select: none;
 
     --r: 1.5rem 50%;
     --b-c: var(--pg-disabled-b-c);
@@ -726,6 +725,10 @@ export const mainClasses = {
       color: inherit;
       text-decoration-thickness: 0.125em;
       text-underline-offset: 0.125em;
+
+      ::selection {
+        color: transparent;
+      }
 
       ::after {
         content: '';
