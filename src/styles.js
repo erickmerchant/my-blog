@@ -728,6 +728,10 @@ export const mainClasses = {
       -webkit-user-select: none;
       user-select: none;
 
+      ::selection {
+        background: none;
+      }
+
       ::after {
         content: '';
         display: block;
