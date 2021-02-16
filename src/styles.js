@@ -725,12 +725,7 @@ export const mainClasses = {
       color: inherit;
       text-decoration-thickness: 0.125em;
       text-underline-offset: 0.125em;
-      -webkit-user-select: none;
-      user-select: none;
-
-      ::selection {
-        background: none;
-      }
+      -webkit-tap-highlight-color: transparent;
 
       ::after {
         content: '';
@@ -744,8 +739,6 @@ export const mainClasses = {
         border-bottom-right-radius: var(--right-r, 0.125rem);
         border-top-left-radius: var(--left-r, 0.125rem);
         border-bottom-left-radius: var(--left-r, 0.125rem);
-        -webkit-user-select: none;
-        user-select: none;
       }
     }
   `
