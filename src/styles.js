@@ -385,10 +385,6 @@ const paginationItemDisabled = css`
     --r: 1.5rem 50%;
     --b-c: var(--pg-disabled-b-c);
 
-    ::selection {
-      background-color: transparent;
-    }
-
     ${_atrules.veryMobileDown} {
       --left-r: 0.125rem;
       --right-r: 0.125rem;
@@ -729,10 +725,8 @@ export const mainClasses = {
       color: inherit;
       text-decoration-thickness: 0.125em;
       text-underline-offset: 0.125em;
-
-      ::selection {
-        background-color: transparent;
-      }
+      -webkit-user-select: none;
+      user-select: none;
 
       ::after {
         content: '';
