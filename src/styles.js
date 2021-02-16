@@ -740,6 +740,8 @@ export const mainClasses = {
         border-bottom-right-radius: var(--right-r, 0.125rem);
         border-top-left-radius: var(--left-r, 0.125rem);
         border-bottom-left-radius: var(--left-r, 0.125rem);
+        -webkit-user-select: none;
+        user-select: none;
       }
     }
   `
