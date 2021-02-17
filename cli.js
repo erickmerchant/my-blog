@@ -3,10 +3,10 @@ import {promisify} from 'util'
 import fs from 'fs'
 import {stringify} from '@erickmerchant/framework/stringify.js'
 import {html} from '@erickmerchant/framework/main.js'
-import {createIndexComponent} from './src/components/index.js'
-import {createLayoutComponent} from './src/components/layout.js'
-import {createAboutComponent} from './src/components/about.js'
-import {createContentComponent} from './src/common.js'
+import {createIndexView} from './src/views/index.js'
+import {createLayoutView} from './src/views/layout.js'
+import {createAboutView} from './src/views/about.js'
+import {createContentView} from './src/common.js'
 import {spawn} from 'sergeant'
 
 const readFile = promisify(fs.readFile)
@@ -33,15 +33,15 @@ const program = async () => {
 
       const state = {title: ''}
 
-      const aboutComponent = createAboutComponent({
+      const aboutView = createAboutView({
         classes: aboutClasses,
-        createContentComponent
+        createContentView
       })
 
-      const layoutComponent = createLayoutComponent({
+      const layoutView = createLayoutView({
         classes: layoutClasses,
-        aboutComponent,
-        mainComponent: () =>
+        aboutView,
+        mainView: () =>
           html`
             <article id="main"></article>
           `,
@@ -50,13 +50,13 @@ const program = async () => {
         }
       })
 
-      const indexComponent = createIndexComponent({layoutComponent})
+      const indexView = createIndexView({layoutView})
 
       state.styles = await readFile('./dist/css/styles.css', 'utf8')
 
       await writeFile(
         './dist/index.html',
-        `<!doctype html>${stringify(indexComponent(state))}`
+        `<!doctype html>${stringify(indexView(state))}`
       )
 
       await spawn`rollup -c rollup.config.js`

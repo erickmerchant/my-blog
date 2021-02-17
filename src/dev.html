@@ -17,11 +17,11 @@
 
       let isSetup = false
 
-      use('/components/layout.js')
+      use('/views/layout.js')
 
-      use('/components/about.js')
+      use('/views/about.js')
 
-      use('/components/main.js')
+      use('/views/main.js')
 
       use('/common.js')
 
@@ -33,10 +33,10 @@
 
       run(
         ({
-          createLayoutComponent,
-          createAboutComponent,
-          createMainComponent,
-          createContentComponent,
+          createLayoutView,
+          createAboutView,
+          createMainView,
+          createContentView,
           getSegments,
           dateUtils,
           createPostsModel,
@@ -66,26 +66,26 @@
 
           const anchorAttrs = getAnchorAttrs({dispatchLocation})
 
-          const aboutComponent = createAboutComponent({
+          const aboutView = createAboutView({
             classes: classes.aboutClasses,
-            createContentComponent
+            createContentView
           })
 
-          const mainComponent = createMainComponent({
+          const mainView = createMainView({
             classes: classes.mainClasses,
-            createContentComponent,
+            createContentView,
             dateUtils,
             anchorAttrs
           })
 
-          const component = createLayoutComponent({
+          const layout = createLayoutView({
             classes: classes.layoutClasses,
-            aboutComponent,
-            mainComponent,
+            aboutView,
+            mainView,
             anchorAttrs
           })
 
-          const view = createDomView(target, component)
+          const view = createDomView(target, layout)
 
           app.render(view)
         }

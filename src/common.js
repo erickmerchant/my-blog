@@ -2,7 +2,7 @@ import {html} from '@erickmerchant/framework/main.js'
 
 const codeFence = '```'
 
-export const createContentComponent = ({
+export const createContentView = ({
   classes,
   templates,
   publicFacing = true

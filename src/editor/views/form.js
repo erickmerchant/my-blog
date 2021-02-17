@@ -1,8 +1,8 @@
 import {html} from '@erickmerchant/framework/main.js'
 import {formClasses, highlightClasses} from '../css/styles.js'
-import {createContentComponent} from '../../common.js'
+import {createContentView} from '../../common.js'
 
-export const createFormComponent = ({model, channelName, app, slugify}) => {
+export const createFormView = ({model, channelName, app, slugify}) => {
   const zIndexHandlers = {
     onkeydown(e) {
       if (e.key === 'Meta') {
@@ -64,7 +64,7 @@ export const createFormComponent = ({model, channelName, app, slugify}) => {
     }
   }
 
-  const contentComponent = createContentComponent({
+  const contentView = createContentView({
     classes: {},
     templates: {
       strong: (text) => html`
@@ -128,7 +128,7 @@ export const createFormComponent = ({model, channelName, app, slugify}) => {
     publicFacing: false
   })
 
-  const highlighter = (str = '') => contentComponent(str.replace(/\r/g, ''))
+  const highlighter = (str = '') => contentView(str.replace(/\r/g, ''))
 
   const highlight = (e) => {
     app.state.item = {

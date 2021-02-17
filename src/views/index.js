@@ -1,6 +1,6 @@
 import {html} from '@erickmerchant/framework/main.js'
 
-export const createIndexComponent = ({layoutComponent}) => (state) => html`
+export const createIndexView = ({layoutView}) => (state) => html`
   <html lang="en">
     <head>
       <meta charset="utf-8" />
@@ -20,6 +20,6 @@ export const createIndexComponent = ({layoutComponent}) => (state) => html`
       <title>A Web Development Blog</title>
       <script src="/app.js" type="module"></script>
     </head>
-    ${layoutComponent(state)}
+    ${layoutView(state)}
   </html>
 `

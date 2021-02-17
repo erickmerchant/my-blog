@@ -1,9 +1,9 @@
 import {html} from '@erickmerchant/framework/main.js'
 
-export const createLayoutComponent = ({
+export const createLayoutView = ({
   classes,
-  aboutComponent,
-  mainComponent,
+  aboutView,
+  mainView,
   anchorAttrs
 }) => (state = {}) => html`
   <body class=${classes.app}>
@@ -13,9 +13,9 @@ export const createLayoutComponent = ({
           ErickMerchant.com
         </a>
       </header>
-      ${aboutComponent(state)}
+      ${aboutView(state)}
     </div>
-    ${mainComponent(state)}
+    ${mainView(state)}
     <footer class=${classes.footer}>
       <ul class=${classes.footerList}>
         <li class=${classes.footerItem}>

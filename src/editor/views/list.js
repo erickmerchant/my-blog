@@ -2,7 +2,7 @@ import {html} from '@erickmerchant/framework/main.js'
 import {listClasses} from '../css/styles.js'
 import {dateUtils} from '../../common.js'
 
-export const createListComponent = ({model, channelName, app}) => {
+export const createListView = ({model, channelName, app}) => {
   const remove = (item) => async (e) => {
     e.preventDefault()
 

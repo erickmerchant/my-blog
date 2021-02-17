@@ -1,9 +1,9 @@
 import {createApp, createDomView, html} from '@erickmerchant/framework/main.js'
 import {layoutClasses} from './css/styles.js'
 import {getSegments} from '../common.js'
-import {createListComponent} from './components/list.js'
-import {createFormComponent} from './components/form.js'
-import {createErrorComponent} from './components/error.js'
+import {createListView} from './views/list.js'
+import {createFormView} from './views/form.js'
+import {createErrorView} from './views/error.js'
 import {slugify, createModel} from './model.js'
 
 const state = {route: 'posts', posts: [], zIndex: 0}
@@ -70,16 +70,16 @@ const dispatchLocation = async (segments) => {
 
 const target = document.querySelector('body')
 
-const errorComponent = createErrorComponent()
+const errorView = createErrorView()
 
 for (const [channelName, channel] of Object.entries(channels)) {
-  channel.listComponent = createListComponent({
+  channel.listView = createListView({
     model: channel.model,
     channelName,
     app
   })
 
-  channel.formComponent = createFormComponent({
+  channel.formView = createFormView({
     model: channel.model,
     channelName,
     app,
@@ -97,7 +97,7 @@ const view = createDomView(
       ${(() => {
         for (const [channelName, channel] of Object.entries(channels)) {
           if (state.route === channelName) {
-            return channel.listComponent(state)
+            return channel.listView(state)
           }
 
           if (
@@ -105,11 +105,11 @@ const view = createDomView(
               state.route
             )
           ) {
-            return channel.formComponent(state)
+            return channel.formView(state)
           }
         }
 
-        return errorComponent(state)
+        return errorView(state)
       })()}
     </body>
   `

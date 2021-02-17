@@ -1,8 +1,8 @@
 import {createDomView, createApp} from '@erickmerchant/framework/main.js'
 import {mainClasses} from './css/styles.js'
-import {createMainComponent} from './components/main.js'
+import {createMainView} from './views/main.js'
 import {
-  createContentComponent,
+  createContentView,
   getSegments,
   dateUtils,
   createPostsModel
@@ -30,14 +30,14 @@ const anchorAttrs = getAnchorAttrs({
   dispatchLocation
 })
 
-const mainComponent = createMainComponent({
+const mainView = createMainView({
   classes: mainClasses,
-  createContentComponent,
+  createContentView,
   dateUtils,
   anchorAttrs
 })
 
-const view = createDomView(target, mainComponent)
+const view = createDomView(target, mainView)
 
 for (const anchor of document.querySelectorAll('a[href^="/"]')) {
   anchor.addEventListener(

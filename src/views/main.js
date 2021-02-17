@@ -1,12 +1,12 @@
 import {html} from '@erickmerchant/framework/main.js'
 
-export const createMainComponent = ({
+export const createMainView = ({
   classes,
-  createContentComponent,
+  createContentView,
   dateUtils,
   anchorAttrs
 }) => {
-  const contentComponent = createContentComponent({
+  const contentView = createContentView({
     classes,
     templates: {
       heading: (text) =>
@@ -125,7 +125,7 @@ export const createMainComponent = ({
               <span>${dateUtils.prettyDate(date)}</span>
             </time>
           </header>
-          ${contentComponent(state.post.content ?? '')}
+          ${contentView(state.post.content ?? '')}
           ${state.post.prev || state.post.next
             ? html`
                 <nav class=${classes.pagination}>
