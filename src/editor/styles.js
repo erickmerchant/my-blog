@@ -76,12 +76,12 @@ const button = css`
     cursor: pointer;
     border: 1px solid var(--blue);
     background-color: var(--blue);
+  }
 
-    :focus,
-    :hover {
-      filter: saturate(2);
-      outline: 0;
-    }
+  :focus,
+  :hover {
+    filter: saturate(2);
+    outline: 0;
   }
 `
 
@@ -102,16 +102,16 @@ const textButton = css`
     text-align: center;
     display: inline-block;
     border: 1px solid var(--white);
+  }
 
-    :hover {
-      text-decoration: none;
-    }
+  :hover {
+    text-decoration: none;
+  }
 
-    :focus {
-      outline: 0;
-      border: 1px solid currentcolor;
-      filter: saturate(2);
-    }
+  :focus {
+    outline: 0;
+    border: 1px solid currentcolor;
+    filter: saturate(2);
   }
 `
 

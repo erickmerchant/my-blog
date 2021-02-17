@@ -71,10 +71,10 @@ const heading1 = css`
 
     font-weight: ${fontWeights.heading1};
     font-size: 1.5em;
+  }
 
-    ${_atrules.desktopUp} {
-      margin-top: 2em;
-    }
+  ${_atrules.desktopUp} {
+    margin-top: 2em;
   }
 `
 
@@ -112,33 +112,33 @@ export const layoutClasses = {
         linear-gradient(135deg, var(--bg) 0.5rem, var(--ftr-bg) 0);
       --ftr-c: hsl(100, 10%, 20%);
       --ftr-hr-b: 1px solid hsl(100, 10%, 90%);
+    }
 
-      ${_atrules.colorSchemeDark} {
-        --a-c: hsl(100, 80%, 70%);
-        --hero-a-c: hsl(100, 90%, 85%);
-        --hero-bg: hsla(100, 20%, 20%, 0.9);
-        --hero-bg-size: 1em 1em;
-        --hero-b: hsl(100, 30%, 70%);
-        --ftr-bg: var(--bg);
-        --ftr-zz: linear-gradient(225deg, var(--bg) 25%, transparent 25%),
-          linear-gradient(135deg, var(--bg) 25%, transparent 25%),
-          linear-gradient(315deg, var(--bg) 25%, transparent 25%),
-          linear-gradient(45deg, var(--bg) 25%, transparent 25%),
-          linear-gradient(0deg, hsl(100, 30%, 70%) 0, hsl(100, 30%, 70%));
-        --ftr-zz-posi: -0.25rem 0, -0.25rem 0, 0 0, 0 0;
-        --ftr-zz-size: 0.5rem 0.5rem;
-        --ftr-c: #fff;
-        --ftr-hr-b: 1px dashed #fff;
-      }
+    ${_atrules.colorSchemeDark} {
+      --a-c: hsl(100, 80%, 70%);
+      --hero-a-c: hsl(100, 90%, 85%);
+      --hero-bg: hsla(100, 20%, 20%, 0.9);
+      --hero-bg-size: 1em 1em;
+      --hero-b: hsl(100, 30%, 70%);
+      --ftr-bg: var(--bg);
+      --ftr-zz: linear-gradient(225deg, var(--bg) 25%, transparent 25%),
+        linear-gradient(135deg, var(--bg) 25%, transparent 25%),
+        linear-gradient(315deg, var(--bg) 25%, transparent 25%),
+        linear-gradient(45deg, var(--bg) 25%, transparent 25%),
+        linear-gradient(0deg, hsl(100, 30%, 70%) 0, hsl(100, 30%, 70%));
+      --ftr-zz-posi: -0.25rem 0, -0.25rem 0, 0 0, 0 0;
+      --ftr-zz-size: 0.5rem 0.5rem;
+      --ftr-c: #fff;
+      --ftr-hr-b: 1px dashed #fff;
+    }
 
-      ${_atrules.tabletLandscapeUp} {
-        grid-template-columns: max-content 1fr;
-        grid-template-rows: 1fr max-content max-content;
-      }
+    ${_atrules.tabletLandscapeUp} {
+      grid-template-columns: max-content 1fr;
+      grid-template-rows: 1fr max-content max-content;
+    }
 
-      ${_atrules.desktopUp} {
-        grid-template-columns: 1fr 2fr;
-      }
+    ${_atrules.desktopUp} {
+      grid-template-columns: 1fr 2fr;
     }
   `,
   hero: css`
@@ -146,23 +146,23 @@ export const layoutClasses = {
       display: contents;
 
       --b: 2px solid var(--hero-b);
+    }
 
-      ${_atrules.desktopUp} {
-        color: #fff;
-        grid-row: 1 / -1;
-        position: sticky;
-        top: 0;
-        height: 100vh;
-        display: grid;
-        justify-content: center;
-        grid-auto-rows: 1fr;
-        grid-template-columns: 90%;
-        overflow-y: scroll;
-        background-color: var(--hero-bg);
-        background-image: var(--grid-gradient);
-        background-size: var(--hero-bg-size);
-        border-right: var(--b);
-      }
+    ${_atrules.desktopUp} {
+      color: #fff;
+      grid-row: 1 / -1;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      display: grid;
+      justify-content: center;
+      grid-auto-rows: 1fr;
+      grid-template-columns: 90%;
+      overflow-y: scroll;
+      background-color: var(--hero-bg);
+      background-image: var(--grid-gradient);
+      background-size: var(--hero-bg-size);
+      border-right: var(--b);
     }
   `,
   headerAnchor: css`
@@ -188,40 +188,40 @@ export const layoutClasses = {
       background-size: var(--hero-bg-size);
       background-position: 50% 0;
       border-bottom: var(--b);
+    }
 
-      ${_atrules.tabletLandscapeUp} {
-        font-size: clamp(1em, 4vh, 1.5em);
-        height: 100vh;
-        grid-row: 1 / -1;
-        writing-mode: vertical-rl;
-        border-bottom: none;
-        transform: rotate(180deg);
-        padding-right: 1em;
-        padding-left: 1.25em;
-        align-self: start;
-        justify-content: center;
-        border-left: var(--b);
-      }
+    ${_atrules.tabletLandscapeUp} {
+      font-size: clamp(1em, 4vh, 1.5em);
+      height: 100vh;
+      grid-row: 1 / -1;
+      writing-mode: vertical-rl;
+      border-bottom: none;
+      transform: rotate(180deg);
+      padding-right: 1em;
+      padding-left: 1.25em;
+      align-self: start;
+      justify-content: center;
+      border-left: var(--b);
+    }
 
-      ${_atrules.desktopUp} {
-        ${heading}
+    ${_atrules.desktopUp} {
+      ${heading}
 
-        font-weight: ${fontWeights.heading1};
-        font-size: 1.5em;
-        writing-mode: horizontal-tb;
-        transform: unset;
-        background-image: none;
-        background-color: transparent;
-        border-left: none;
-        justify-content: start;
-        padding-top: 0;
-        padding-right: 0;
-        padding-left: 0;
-        margin-top: 2em;
-        position: relative;
-        max-width: max-content;
-        height: auto;
-      }
+      font-weight: ${fontWeights.heading1};
+      font-size: 1.5em;
+      writing-mode: horizontal-tb;
+      transform: unset;
+      background-image: none;
+      background-color: transparent;
+      border-left: none;
+      justify-content: start;
+      padding-top: 0;
+      padding-right: 0;
+      padding-left: 0;
+      margin-top: 2em;
+      position: relative;
+      max-width: max-content;
+      height: auto;
     }
   `,
   footer: css`
@@ -234,26 +234,26 @@ export const layoutClasses = {
       width: 100%;
       background-color: var(--ftr-bg);
       border-top: var(--ftr-hr-b);
+    }
 
-      ${_atrules.tabletLandscapeUp} {
-        grid-column: 2;
-        grid-row: 3;
-      }
+    ${_atrules.tabletLandscapeUp} {
+      grid-column: 2;
+      grid-row: 3;
+    }
 
-      ${_atrules.desktopUp} {
-        padding-top: 1em;
-        padding-right: 0;
-        padding-left: 0;
-        margin-top: 2em;
-        margin-left: auto;
-        margin-right: auto;
-        background-repeat: repeat-x;
-        border-top: none;
-        background-image: var(--ftr-zz);
-        background-color: var(--ftr-bg);
-        background-position: var(--ftr-zz-posi, left top);
-        background-size: var(--ftr-zz-size, 1rem 1rem);
-      }
+    ${_atrules.desktopUp} {
+      padding-top: 1em;
+      padding-right: 0;
+      padding-left: 0;
+      margin-top: 2em;
+      margin-left: auto;
+      margin-right: auto;
+      background-repeat: repeat-x;
+      border-top: none;
+      background-image: var(--ftr-zz);
+      background-color: var(--ftr-bg);
+      background-position: var(--ftr-zz-posi, left top);
+      background-size: var(--ftr-zz-size, 1rem 1rem);
     }
   `,
   footerList: css`
@@ -267,11 +267,11 @@ export const layoutClasses = {
       padding-top: 1em;
       padding-bottom: 1em;
       position: relative;
+    }
 
-      ${_atrules.desktopUp} {
-        max-width: 100%;
-        padding-top: 0.5em;
-      }
+    ${_atrules.desktopUp} {
+      max-width: 100%;
+      padding-top: 0.5em;
     }
   `,
   footerItem: css`
@@ -306,23 +306,23 @@ export const aboutClasses = {
       background-image: var(--ftr-zz);
       background-position: var(--ftr-zz-posi, left top);
       background-size: var(--ftr-zz-size, 1rem 1rem);
+    }
 
-      ${_atrules.tabletLandscapeUp} {
-        grid-column: 2;
-        grid-row: 2;
-      }
+    ${_atrules.tabletLandscapeUp} {
+      grid-column: 2;
+      grid-row: 2;
+    }
 
-      ${_atrules.desktopUp} {
-        display: block;
-        color: inherit;
-        grid-column: 1;
-        background-image: none;
-        background-color: transparent;
-        padding-bottom: 2em;
-        padding-left: 0;
-        padding-right: 0;
-        max-width: 20rem;
-      }
+    ${_atrules.desktopUp} {
+      display: block;
+      color: inherit;
+      grid-column: 1;
+      background-image: none;
+      background-color: transparent;
+      padding-bottom: 2em;
+      padding-left: 0;
+      padding-right: 0;
+      max-width: 20rem;
     }
   `,
   heading: css`
@@ -331,12 +331,12 @@ export const aboutClasses = {
 
       font-weight: ${fontWeights.heading2};
       padding-top: 1em;
+    }
 
-      ${_atrules.desktopDown} {
-        max-width: 30rem;
-        margin-right: auto;
-        margin-left: auto;
-      }
+    ${_atrules.desktopDown} {
+      max-width: 30rem;
+      margin-right: auto;
+      margin-left: auto;
     }
   `,
   anchor: css`
@@ -344,21 +344,21 @@ export const aboutClasses = {
       color: var(--a-c);
       text-decoration-thickness: 0.0625em;
       text-underline-offset: 0.1875em;
+    }
 
-      ${_atrules.desktopUp} {
-        color: var(--hero-a-c);
-      }
+    ${_atrules.desktopUp} {
+      color: var(--hero-a-c);
     }
   `,
   paragraph: css`
      {
       font-size: 0.875em;
+    }
 
-      ${_atrules.desktopDown} {
-        max-width: 30rem;
-        margin-right: auto;
-        margin-left: auto;
-      }
+    ${_atrules.desktopDown} {
+      max-width: 30rem;
+      margin-right: auto;
+      margin-left: auto;
     }
   `,
   strong: css`
@@ -384,11 +384,11 @@ const paginationItemDisabled = css`
 
     --r: 1.5rem 50%;
     --b-c: var(--pg-disabled-b-c);
+  }
 
-    ${_atrules.veryMobileDown} {
-      --left-r: 0.125rem;
-      --right-r: 0.125rem;
-    }
+  ${_atrules.veryMobileDown} {
+    --left-r: 0.125rem;
+    --right-r: 0.125rem;
   }
 `
 
@@ -400,33 +400,33 @@ const paginationItemEnabled = css`
     background-color: var(--pg-enabled-bg);
 
     --b-c: var(--pg-enabled-b-c);
+  }
 
-    :focus-within,
-    :hover {
-      background-color: var(--pg-enabled-hover-bg);
+  :focus-within,
+  :hover {
+    background-color: var(--pg-enabled-hover-bg);
 
-      --b-c: var(--pg-enabled-hover-b-c);
-    }
+    --b-c: var(--pg-enabled-hover-b-c);
   }
 `
 
 const paginationItemNewer = css`
    {
     --right-r: var(--r);
+  }
 
-    ${_atrules.desktopUp} {
-      --left-r: var(--r);
-    }
+  ${_atrules.desktopUp} {
+    --left-r: var(--r);
   }
 `
 
 const paginationItemOlder = css`
    {
     --left-r: var(--r);
+  }
 
-    ${_atrules.desktopUp} {
-      --right-r: var(--r);
-    }
+  ${_atrules.desktopUp} {
+    --right-r: var(--r);
   }
 `
 
@@ -449,32 +449,32 @@ const main = css`
     --pg-enabled-bg: hsl(100, 35%, 45%);
     --pg-enabled-b-c: var(--pg-enabled-bg);
     --pg-enabled-c: #fff;
+  }
 
-    ${_atrules.colorSchemeDark} {
-      --code-c: hsl(100, 60%, 70%);
-      --code-str-c: hsl(100, 70%, 90%);
-      --code-bg: hsl(100, 10%, 25%);
-      --code-b: hsl(100, 30%, 70%);
-      --code-inline-c: inherit;
-      --code-inline-bg: var(--code-bg);
-      --pg-disabled-bg: transparent;
-      --pg-disabled-b-c: currentColor;
-      --pg-disabled-c: hsl(100, 10%, 70%);
-      --pg-enabled-hover-bg: hsla(100, 80%, 70%, 0.3);
-      --pg-enabled-hover-b-c: currentColor;
-      --pg-enabled-bg: hsla(100, 80%, 70%, 0.2);
-      --pg-enabled-b-c: currentColor;
-      --pg-enabled-c: hsl(100, 80%, 70%);
-      --date-fill: hsl(100, 60%, 70%);
-    }
+  ${_atrules.colorSchemeDark} {
+    --code-c: hsl(100, 60%, 70%);
+    --code-str-c: hsl(100, 70%, 90%);
+    --code-bg: hsl(100, 10%, 25%);
+    --code-b: hsl(100, 30%, 70%);
+    --code-inline-c: inherit;
+    --code-inline-bg: var(--code-bg);
+    --pg-disabled-bg: transparent;
+    --pg-disabled-b-c: currentColor;
+    --pg-disabled-c: hsl(100, 10%, 70%);
+    --pg-enabled-hover-bg: hsla(100, 80%, 70%, 0.3);
+    --pg-enabled-hover-b-c: currentColor;
+    --pg-enabled-bg: hsla(100, 80%, 70%, 0.2);
+    --pg-enabled-b-c: currentColor;
+    --pg-enabled-c: hsl(100, 80%, 70%);
+    --date-fill: hsl(100, 60%, 70%);
+  }
 
-    ${_atrules.tabletLandscapeUp} {
-      padding-top: 5vw;
-    }
+  ${_atrules.tabletLandscapeUp} {
+    padding-top: 5vw;
+  }
 
-    ${_atrules.desktopUp} {
-      padding-top: 0;
-    }
+  ${_atrules.desktopUp} {
+    padding-top: 0;
   }
 `
 
@@ -485,16 +485,16 @@ const mainItem = css`
     padding-left: 0.5rem;
     margin-right: auto;
     margin-left: auto;
+  }
 
-    ${_atrules.tabletLandscapeUp} {
-      padding-right: 1rem;
-      padding-left: 1rem;
-    }
+  ${_atrules.tabletLandscapeUp} {
+    padding-right: 1rem;
+    padding-left: 1rem;
+  }
 
-    ${_atrules.desktopUp} {
-      margin-right: 2rem;
-      margin-left: 2rem;
-    }
+  ${_atrules.desktopUp} {
+    margin-right: 2rem;
+    margin-left: 2rem;
   }
 `
 
@@ -532,11 +532,11 @@ export const mainClasses = {
   pre: css`
      {
       display: block;
+    }
 
-      ${_atrules.tabletLandscapeUp} {
-        padding-right: 0.75em;
-        padding-left: 0.75em;
-      }
+    ${_atrules.tabletLandscapeUp} {
+      padding-right: 0.75em;
+      padding-left: 0.75em;
     }
   `,
   codeBlock: css`
@@ -559,31 +559,31 @@ export const mainClasses = {
 
       --str-c: var(--code-str-c);
       --b: 1px solid var(--code-b);
+    }
 
-      ${_atrules.portraitUp} {
-        margin-right: auto;
-        margin-left: auto;
-      }
+    ${_atrules.portraitUp} {
+      margin-right: auto;
+      margin-left: auto;
+    }
 
-      ${_atrules.tabletLandscapeUp} {
-        border-right: var(--b);
-        border-left: var(--b);
-        max-width: 32rem;
-        border-radius: 0.125rem;
-        margin-right: auto;
-        margin-left: auto;
-        padding-right: 1.5rem;
-        padding-left: 1.5rem;
-      }
+    ${_atrules.tabletLandscapeUp} {
+      border-right: var(--b);
+      border-left: var(--b);
+      max-width: 32rem;
+      border-radius: 0.125rem;
+      margin-right: auto;
+      margin-left: auto;
+      padding-right: 1.5rem;
+      padding-left: 1.5rem;
+    }
 
-      ${_atrules.desktopUp} {
-        max-width: 100%;
-        width: auto;
-        margin-right: 1rem;
-        margin-left: 1rem;
-        padding-right: 1.5rem;
-        padding-left: 1.5rem;
-      }
+    ${_atrules.desktopUp} {
+      max-width: 100%;
+      width: auto;
+      margin-right: 1rem;
+      margin-left: 1rem;
+      padding-right: 1.5rem;
+      padding-left: 1.5rem;
     }
   `,
   codeInline: css`
@@ -620,13 +620,13 @@ export const mainClasses = {
   listItem: css`
      {
       margin-bottom: 0.25em;
+    }
 
-      ::before {
-        font-weight: ${fontWeights.bold};
-        color: currentColor;
-        margin-right: 0.5rem;
-        content: '-';
-      }
+    ::before {
+      font-weight: ${fontWeights.bold};
+      color: currentColor;
+      margin-right: 0.5rem;
+      content: '-';
     }
   `,
   paragraph: css`
@@ -662,18 +662,18 @@ export const mainClasses = {
       ${mainItem}
 
       margin-top: 2em;
+    }
 
-      ${_atrules.veryMobileDown} {
-        padding-right: 0.0625rem;
-        padding-left: 0.0625rem;
-      }
+    ${_atrules.veryMobileDown} {
+      padding-right: 0.0625rem;
+      padding-left: 0.0625rem;
+    }
 
-      ${_atrules.desktopUp} {
-        margin-right: auto;
-        margin-left: auto;
-        padding-right: 2rem;
-        padding-left: 2rem;
-      }
+    ${_atrules.desktopUp} {
+      margin-right: auto;
+      margin-left: auto;
+      padding-right: 2rem;
+      padding-left: 2rem;
     }
   `,
   paginationList: css`
@@ -685,15 +685,15 @@ export const mainClasses = {
       padding-right: 0.5rem;
       padding-left: 0.5rem;
       gap: 0.125rem;
+    }
 
-      ${_atrules.desktopUp} {
-        gap: 0.5rem;
-      }
+    ${_atrules.desktopUp} {
+      gap: 0.5rem;
+    }
 
-      ${_atrules.veryMobileDown} {
-        padding-right: 0.125rem;
-        padding-left: 0.125rem;
-      }
+    ${_atrules.veryMobileDown} {
+      padding-right: 0.125rem;
+      padding-left: 0.125rem;
     }
   `,
   paginationItemDisabledNewer: css`
@@ -726,20 +726,20 @@ export const mainClasses = {
       text-decoration-thickness: 0.125em;
       text-underline-offset: 0.125em;
       -webkit-tap-highlight-color: transparent;
+    }
 
-      ::after {
-        content: '';
-        display: block;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        right: 0;
-        left: 0;
-        border-top-right-radius: var(--right-r, 0.125rem);
-        border-bottom-right-radius: var(--right-r, 0.125rem);
-        border-top-left-radius: var(--left-r, 0.125rem);
-        border-bottom-left-radius: var(--left-r, 0.125rem);
-      }
+    ::after {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      border-top-right-radius: var(--right-r, 0.125rem);
+      border-bottom-right-radius: var(--right-r, 0.125rem);
+      border-top-left-radius: var(--left-r, 0.125rem);
+      border-bottom-left-radius: var(--left-r, 0.125rem);
     }
   `
 }
