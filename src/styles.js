@@ -664,16 +664,10 @@ export const mainClasses = {
       margin-top: 2em;
     }
 
-    ${_atrules.veryMobileDown} {
-      padding-right: 0.0625rem;
-      padding-left: 0.0625rem;
-    }
-
     ${_atrules.desktopUp} {
-      margin-right: auto;
-      margin-left: auto;
-      padding-right: 2rem;
-      padding-left: 2rem;
+      max-width: 100%;
+      margin-right: 2rem;
+      margin-left: 2rem;
     }
   `,
   paginationList: css`
@@ -682,18 +676,11 @@ export const mainClasses = {
       grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr));
       text-align: center;
       list-style: none;
-      padding-right: 0.5rem;
-      padding-left: 0.5rem;
       gap: 0.125rem;
     }
 
     ${_atrules.desktopUp} {
-      gap: 0.5rem;
-    }
-
-    ${_atrules.veryMobileDown} {
-      padding-right: 0.125rem;
-      padding-left: 0.125rem;
+      gap: 3vw;
     }
   `,
   paginationItemDisabledNewer: css`
