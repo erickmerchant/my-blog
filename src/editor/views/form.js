@@ -65,7 +65,6 @@ export const createFormView = ({model, channelName, app, slugify}) => {
   }
 
   const contentView = createContentView({
-    classes: {},
     templates: {
       strong: (text) => html`
         <span>
@@ -131,11 +130,10 @@ export const createFormView = ({model, channelName, app, slugify}) => {
   const highlighter = (str = '') => contentView(str.replace(/\r/g, ''))
 
   const highlight = (e) => {
-    app.state.item = {
-      ...app.state.item,
+    app.state.item = Object.assign({}, app.state.item, {
       highlightedContent: e.target.value,
       content: e.target.value
-    }
+    })
   }
 
   return (state) => html`
@@ -154,10 +152,9 @@ export const createFormView = ({model, channelName, app, slugify}) => {
             id="field-title"
             value=${state.item.title ?? ''}
             oninput=${(e) => {
-              app.state.item = {
-                ...app.state.item,
+              app.state.item = Object.assign({}, app.state.item, {
                 title: e.target.value
-              }
+              })
             }}
             ${zIndexHandlers}
           />
@@ -171,10 +168,9 @@ export const createFormView = ({model, channelName, app, slugify}) => {
             id="field-date"
             value=${state.item.date ?? ''}
             oninput=${(e) => {
-              app.state.item = {
-                ...app.state.item,
+              app.state.item = Object.assign({}, app.state.item, {
                 date: e.target.value
-              }
+              })
             }}
             ${zIndexHandlers}
           />

@@ -652,9 +652,14 @@ export const mainClasses = {
       margin-right: 0.3rem;
     }
   `,
-  dateIconPart: css`
+  dateFG: css`
      {
       fill: var(--date-fill, currentColor);
+    }
+  `,
+  dateBG: css`
+     {
+      fill: var(--bg);
     }
   `,
   pagination: css`

@@ -5,8 +5,8 @@ import {stringify} from '@erickmerchant/framework/stringify.js'
 import {html} from '@erickmerchant/framework/main.js'
 import {createIndexView} from './src/views/index.js'
 import {createLayoutView} from './src/views/layout.js'
-import {createAboutView} from './src/views/about.js'
-import {createContentView} from './src/common.js'
+import {createAboutView, getAboutContentTemplates} from './src/views/about.js'
+import {createContentView, getDefaultContentTemplates} from './src/common.js'
 import {spawn} from 'sergeant'
 
 const readFile = promisify(fs.readFile)
@@ -35,7 +35,12 @@ const program = async () => {
 
       const aboutView = createAboutView({
         classes: aboutClasses,
-        createContentView
+        contentView: createContentView({
+          templates: Object.assign(
+            getDefaultContentTemplates({classes: aboutClasses}),
+            getAboutContentTemplates({classes: aboutClasses})
+          )
+        })
       })
 
       const layoutView = createLayoutView({

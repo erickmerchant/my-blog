@@ -2,42 +2,36 @@ import {html} from '@erickmerchant/framework/main.js'
 
 const codeFence = '```'
 
-export const createContentView = ({
-  classes,
-  templates,
-  publicFacing = true
-}) => {
-  templates = Object.assign(
-    {},
-    {
-      strong: (text) =>
-        html`
-          <strong class=${classes.strong}>${text}</strong>
-        `,
-      anchor: (text, href) =>
-        html`
-          <a class=${classes.anchor} href=${href}>${text}</a>
-        `,
-      list: (items) =>
-        html`
-          <ul class=${classes.list}>
-            ${items}
-          </ul>
-        `,
-      listItem: (items) =>
-        html`
-          <li class=${classes.listItem}>${items}</li>
-        `,
-      paragraph: (items) =>
-        items.length
-          ? html`
-              <p class=${classes.paragraph}>${items}</p>
-            `
-          : null
-    },
-    templates
-  )
+export const getDefaultContentTemplates = ({classes}) => {
+  return {
+    strong: (text) =>
+      html`
+        <strong class=${classes.strong}>${text}</strong>
+      `,
+    anchor: (text, href) =>
+      html`
+        <a class=${classes.anchor} href=${href}>${text}</a>
+      `,
+    list: (items) =>
+      html`
+        <ul class=${classes.list}>
+          ${items}
+        </ul>
+      `,
+    listItem: (items) =>
+      html`
+        <li class=${classes.listItem}>${items}</li>
+      `,
+    paragraph: (items) =>
+      items.length
+        ? html`
+            <p class=${classes.paragraph}>${items}</p>
+          `
+        : null
+  }
+}
 
+export const createContentView = ({templates, publicFacing = true}) => {
   const quotes = (ln) => {
     if (ln === '' || !publicFacing) return ln
 
@@ -254,13 +248,18 @@ export const dateUtils = {
 export const createPostsModel = (listEndpoint) => {
   return {
     async _fetch(url, options = {}) {
-      const res = await window.fetch(url, {
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        ...options
-      })
+      const res = await window.fetch(
+        url,
+        Object.assign(
+          {
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            }
+          },
+          options
+        )
+      )
 
       if (!res.ok) {
         throw Error(`${res.status} ${res.statusText}`)

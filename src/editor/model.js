@@ -7,9 +7,7 @@ export const slugify = (str) =>
     .replace(/[^a-z0-9-]/g, '-')
 
 export const createModel = (listEndpoint) => {
-  return {
-    ...createPostsModel(listEndpoint),
-
+  return Object.assign(createPostsModel(listEndpoint), {
     async saveAll(data) {
       await this._fetch(listEndpoint, {
         method: 'PUT',
@@ -89,5 +87,5 @@ export const createModel = (listEndpoint) => {
         })
       }
     }
-  }
+  })
 }

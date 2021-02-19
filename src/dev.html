@@ -23,6 +23,8 @@
 
       use('/views/main.js')
 
+      use('/views/date.js')
+
       use('/common.js')
 
       use('/frontend.js')
@@ -35,8 +37,12 @@
         ({
           createLayoutView,
           createAboutView,
+          getAboutContentTemplates,
           createMainView,
+          getMainContentTemplates,
+          createDateView,
           createContentView,
+          getDefaultContentTemplates,
           getSegments,
           dateUtils,
           createPostsModel,
@@ -68,13 +74,28 @@
 
           const aboutView = createAboutView({
             classes: classes.aboutClasses,
-            createContentView
+            contentView: createContentView({
+              templates: Object.assign(
+                getDefaultContentTemplates({classes: classes.aboutClasses}),
+                getAboutContentTemplates({classes: classes.aboutClasses})
+              )
+            })
+          })
+
+          const dateView = createDateView({
+            classes: classes.mainClasses,
+            dateUtils
           })
 
           const mainView = createMainView({
             classes: classes.mainClasses,
-            createContentView,
-            dateUtils,
+            contentView: createContentView({
+              templates: Object.assign(
+                getDefaultContentTemplates({classes: classes.mainClasses}),
+                getMainContentTemplates({classes: classes.mainClasses})
+              )
+            }),
+            dateView,
             anchorAttrs
           })
 

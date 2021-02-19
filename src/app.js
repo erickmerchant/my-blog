@@ -1,8 +1,10 @@
 import {createDomView, createApp} from '@erickmerchant/framework/main.js'
 import {mainClasses} from './css/styles.js'
-import {createMainView} from './views/main.js'
+import {createMainView, getMainContentTemplates} from './views/main.js'
+import {createDateView} from './views/date.js'
 import {
   createContentView,
+  getDefaultContentTemplates,
   getSegments,
   dateUtils,
   createPostsModel
@@ -30,10 +32,20 @@ const anchorAttrs = getAnchorAttrs({
   dispatchLocation
 })
 
+const dateView = createDateView({
+  classes: mainClasses,
+  dateUtils
+})
+
 const mainView = createMainView({
   classes: mainClasses,
-  createContentView,
-  dateUtils,
+  contentView: createContentView({
+    templates: Object.assign(
+      getDefaultContentTemplates({classes: mainClasses}),
+      getMainContentTemplates({classes: mainClasses})
+    )
+  }),
+  dateView,
   anchorAttrs
 })
 
