@@ -64,11 +64,11 @@
             isSetup = true
 
             setupApp({dispatchLocation})
+
+            app.state = getInitialState()
           } else {
             dispatchLocation(window.location.pathname, false)
           }
-
-          app.state = app.state ?? getInitialState()
 
           const anchorAttrs = getAnchorAttrs({dispatchLocation})
 
