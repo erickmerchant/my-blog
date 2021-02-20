@@ -1,10 +1,10 @@
 import {createApp, createDomView, html} from '@erickmerchant/framework/main.js'
 import {layoutClasses} from './css/styles.js'
-import {getSegments} from '../common.js'
+import {getSegments, slugify} from '../common.js'
 import {createListView} from './views/list.js'
 import {createFormView} from './views/form.js'
 import {createErrorView} from './views/error.js'
-import {slugify, createModel} from './model.js'
+import {createModel} from './model.js'
 
 const state = {route: 'posts', posts: [], zIndex: 0}
 

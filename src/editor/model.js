@@ -1,10 +1,4 @@
-import {createPostsModel} from '../common.js'
-
-export const slugify = (str) =>
-  str
-    .toLowerCase()
-    .replace(/\s+/g, '-')
-    .replace(/[^a-z0-9-]/g, '-')
+import {createPostsModel, slugify} from '../common.js'
 
 export const createModel = (listEndpoint) => {
   return Object.assign(createPostsModel(listEndpoint), {

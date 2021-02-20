@@ -1,5 +1,11 @@
 import {html} from '@erickmerchant/framework/main.js'
 
+export const slugify = (str) =>
+  str
+    .toLowerCase()
+    .replace(/\s+/g, '-')
+    .replace(/[^a-z0-9-]/g, '-')
+
 const codeFence = '```'
 
 export const getDefaultContentTemplates = ({classes}) => {
@@ -140,7 +146,10 @@ export const createContentView = ({templates, publicFacing = true}) => {
 
         switch (true) {
           case ln.startsWith('# '):
-            result.push(templates.heading(ln.substring(2)), '\n')
+            {
+              const text = ln.substring(2)
+              result.push(templates.heading(text, slugify(text)), '\n')
+            }
             break
 
           case ln.startsWith('- '):

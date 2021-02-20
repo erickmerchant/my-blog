@@ -6,9 +6,12 @@ export const getDispatchLocation = ({app, postsModel, getSegments}) => async (
   location,
   transitioning = true
 ) => {
+  if (location === app.state?.location) return
+
   const segments = getSegments(location)
   let state = {
     route: 'error',
+    location,
     title: 'Page Not Found',
     error: Error(
       "That page doesn't exist. It was either moved, removed, or never existed."
@@ -33,6 +36,7 @@ export const getDispatchLocation = ({app, postsModel, getSegments}) => async (
       if (post != null) {
         state = {
           route: 'post',
+          location,
           title: `Posts | ${post.title}`,
           transitioning: false,
           post
@@ -42,6 +46,7 @@ export const getDispatchLocation = ({app, postsModel, getSegments}) => async (
       if (!error.message.startsWith('404')) {
         state = {
           route: 'error',
+          location,
           title: 'Error',
           transitioning: false,
           error
@@ -50,11 +55,13 @@ export const getDispatchLocation = ({app, postsModel, getSegments}) => async (
     }
   }
 
-  app.state = state
+  if (location !== app.state?.location) {
+    app.state = state
+  }
 }
 
 export const setupApp = ({dispatchLocation}) => {
-  window.onpopstate = () => {
+  window.onpopstate = (e) => {
     dispatchLocation(window.location.pathname)
   }
 

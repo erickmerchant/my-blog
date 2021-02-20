@@ -44,6 +44,7 @@ export const _start = css`
     color: hsl(100, 10%, 20%);
     background-color: var(--bg);
     height: 100%;
+    scroll-padding-top: 90px;
 
     --bg: #fff;
   }
@@ -435,6 +436,7 @@ const main = css`
     opacity: 1;
     transition: opacity 0.3s;
 
+    --header-a-c: hsl(100, 10%, 90%);
     --code-c: hsl(100, 35%, 70%);
     --code-str-c: hsl(100, 45%, 90%);
     --code-bg: hsl(100, 10%, 20%);
@@ -452,6 +454,7 @@ const main = css`
   }
 
   ${_atrules.colorSchemeDark} {
+    --header-a-c: hsl(100, 60%, 70%);
     --code-c: hsl(100, 60%, 70%);
     --code-str-c: hsl(100, 70%, 90%);
     --code-bg: hsl(100, 10%, 25%);
@@ -522,6 +525,16 @@ export const mainClasses = {
 
     font-weight: ${fontWeights.heading2};
     }
+
+    :hover {
+      --a-display: inline;
+    }
+  `,
+  heading2Anchor: css`
+    color: var(--header-a-c);
+    text-decoration: none;
+    margin-left: 0.5em;
+    display: var(--a-display, none);
   `,
   strong: css`
      {

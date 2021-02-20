@@ -2,9 +2,12 @@ import {html} from '@erickmerchant/framework/main.js'
 
 export const getMainContentTemplates = ({classes}) => {
   return {
-    heading: (text) =>
+    heading: (text, slug) =>
       html`
-        <h2 class=${classes.heading2}>${text}</h2>
+        <h2 class=${classes.heading2} id=${slug}>
+          ${text}
+          <a class=${classes.heading2Anchor} href=${`#${slug}`}>#</a>
+        </h2>
       `,
     codeBlock: (items) =>
       html`
@@ -35,6 +38,10 @@ export const createMainView = ({
 
   afterUpdate(() => {
     document.body.style = `--below-main-display: block;`
+
+    if (window.location.hash) {
+      document.querySelector(window.location.hash)?.scrollIntoView()
+    }
   })
 
   if (state.route === 'post') {
