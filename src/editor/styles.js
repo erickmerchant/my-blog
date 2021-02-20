@@ -145,8 +145,6 @@ export const layoutClasses = {
       overflow-x: scroll;
       height: 100%;
       background-color: var(--white);
-
-      --z-index: 0;
     }
   `
 }
@@ -319,7 +317,6 @@ export const formClasses = {
       background-color: transparent;
       word-break: break-word;
       resize: none;
-      z-index: var(--z-index);
       caret-color: var(--black);
     }
   `,

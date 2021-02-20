@@ -3,17 +3,6 @@ import {formClasses, highlightClasses} from '../css/styles.js'
 import {createContentView} from '../../common.js'
 
 export const createFormView = ({model, channelName, app, slugify}) => {
-  const zIndexHandlers = {
-    onkeydown(e) {
-      if (e.key === 'Meta') {
-        app.state.zIndex = -1
-      }
-    },
-    onkeyup(e) {
-      app.state.zIndex = 0
-    }
-  }
-
   const serialize = (item, target) => {
     const data = {}
 
@@ -140,7 +129,6 @@ export const createFormView = ({model, channelName, app, slugify}) => {
     <form
       onsubmit=${save(state.item)}
       autocomplete="off"
-      ${zIndexHandlers}
       class=${formClasses.form}
     >
       <div class=${formClasses.formFields}>
@@ -156,7 +144,6 @@ export const createFormView = ({model, channelName, app, slugify}) => {
                 title: e.target.value
               })
             }}
-            ${zIndexHandlers}
           />
         </div>
         <div>
@@ -172,7 +159,6 @@ export const createFormView = ({model, channelName, app, slugify}) => {
                 date: e.target.value
               })
             }}
-            ${zIndexHandlers}
           />
         </div>
         <div>
@@ -199,7 +185,6 @@ export const createFormView = ({model, channelName, app, slugify}) => {
               name="content"
               id="field-content"
               oninput=${highlight}
-              ${zIndexHandlers}
             >
             ${state.item.content ?? ''}
           </textarea
@@ -213,11 +198,7 @@ export const createFormView = ({model, channelName, app, slugify}) => {
               <p class=${formClasses.errorMessage}>This item already exists</p>
             `
           : null}
-        <a
-          class=${formClasses.cancelButton}
-          href=${`#/${channelName}`}
-          ${zIndexHandlers}
-        >
+        <a class=${formClasses.cancelButton} href=${`#/${channelName}`}>
           Cancel
         </a>
         ${channelName === 'drafts' && state.item.slug != null
@@ -226,15 +207,12 @@ export const createFormView = ({model, channelName, app, slugify}) => {
                 class=${formClasses.saveButton}
                 type="button"
                 onclick=${saveAs('posts', state.item)}
-                ${zIndexHandlers}
               >
                 Publish
               </button>
             `
           : null}
-        <button class=${formClasses.saveButton} type="submit" ${zIndexHandlers}>
-          Save
-        </button>
+        <button class=${formClasses.saveButton} type="submit">Save</button>
       </div>
     </form>
   `

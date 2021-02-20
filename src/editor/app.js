@@ -6,7 +6,7 @@ import {createFormView} from './views/form.js'
 import {createErrorView} from './views/error.js'
 import {createModel} from './model.js'
 
-const state = {route: 'posts', posts: [], zIndex: 0}
+const state = {route: 'posts', posts: []}
 
 const app = createApp(state)
 
@@ -90,10 +90,7 @@ for (const [channelName, channel] of Object.entries(channels)) {
 const view = createDomView(
   target,
   (state) => html`
-    <body
-      class=${layoutClasses.app}
-      style=${state.zIndex != null ? `--z-index: ${state.zIndex}` : null}
-    >
+    <body class=${layoutClasses.app}>
       ${(() => {
         for (const [channelName, channel] of Object.entries(channels)) {
           if (state.route === channelName) {
