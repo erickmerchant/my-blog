@@ -40,7 +40,7 @@ export const _start = css`
     font-size: max(20px, 1vw);
     -webkit-text-size-adjust: none;
     line-height: 1.5;
-    color: hsl(100, 10%, 20%);
+    color: hsl(90, 10%, 20%);
     background-color: var(--bg);
     height: 100%;
     scroll-padding-top: 90px;
@@ -102,16 +102,16 @@ export const layoutClasses = {
           transparent 2px
         );
 
-      --a-c: hsl(100, 35%, 35%);
+      --a-c: hsl(90, 35%, 35%);
       --hero-a-c: inherit;
-      --hero-bg: hsla(100, 35%, 40%, 0.9);
+      --hero-bg: hsla(90, 35%, 40%, 0.9);
       --hero-bg-size: 2em 2em;
       --hero-b: var(--hero-bg);
-      --ftr-bg: hsl(100, 10%, 95%);
+      --ftr-bg: hsl(90, 10%, 95%);
       --ftr-zz: linear-gradient(225deg, var(--bg) 0.5rem, transparent 0),
         linear-gradient(135deg, var(--bg) 0.5rem, var(--ftr-bg) 0);
-      --ftr-c: hsl(100, 10%, 20%);
-      --ftr-hr-b: 1px solid hsl(100, 10%, 90%);
+      --ftr-c: hsl(90, 10%, 20%);
+      --ftr-hr-b: 1px solid hsl(90, 10%, 90%);
     }
 
     ${_atrules.colorSchemeDark} {
@@ -412,19 +412,19 @@ const main = css`
     opacity: 1;
     transition: opacity 0.3s;
 
-    --header-a-c: hsl(100, 10%, 90%);
-    --code-c: hsl(100, 35%, 70%);
-    --code-str-c: hsl(100, 45%, 90%);
-    --code-bg: hsl(100, 10%, 20%);
+    --header-a-c: hsl(90, 10%, 90%);
+    --code-c: hsl(90, 35%, 70%);
+    --code-str-c: hsl(90, 45%, 90%);
+    --code-bg: hsl(90, 10%, 20%);
     --code-b: var(--code-bg);
-    --code-inline-c: hsl(100, 35%, 20%);
-    --code-inline-bg: hsl(100, 10%, 90%);
-    --pg-disabled-bg: hsl(100, 10%, 45%);
+    --code-inline-c: hsl(90, 35%, 20%);
+    --code-inline-bg: hsl(90, 10%, 90%);
+    --pg-disabled-bg: hsl(90, 10%, 45%);
     --pg-disabled-b-c: var(--pg-disabled-bg);
     --pg-disabled-c: #fff;
-    --pg-enabled-hover-bg: hsl(100, 45%, 45%);
+    --pg-enabled-hover-bg: hsl(90, 45%, 45%);
     --pg-enabled-hover-b-c: var(--pg-enabled-hover-bg);
-    --pg-enabled-bg: hsl(100, 35%, 45%);
+    --pg-enabled-bg: hsl(90, 35%, 45%);
     --pg-enabled-b-c: var(--pg-enabled-bg);
     --pg-enabled-c: #fff;
   }
