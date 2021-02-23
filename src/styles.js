@@ -58,20 +58,16 @@ export const _start = css`
 `
 
 const heading = css`
-   {
-    line-height: 1.25;
-    margin-bottom: 0.5em;
-    margin-top: 1em;
-  }
+  line-height: 1.25;
+  margin-bottom: 0.5em;
+  margin-top: 1em;
 `
 
 const heading1 = css`
-   {
-    ${heading}
+  ${heading}
 
-    font-weight: ${fontWeights.heading1};
-    font-size: 1.5em;
-  }
+  font-weight: ${fontWeights.heading1};
+  font-size: 1.5em;
 
   ${_atrules.desktopLandscape} {
     margin-top: 2em;
@@ -80,39 +76,37 @@ const heading1 = css`
 
 export const layoutClasses = {
   app: css`
-     {
-      display: grid;
-      min-height: 100%;
-      grid-template-rows: max-content auto max-content max-content;
+    display: grid;
+    min-height: 100%;
+    grid-template-rows: max-content auto max-content max-content;
 
-      --grid-gradient: linear-gradient(
-          to right,
-          transparent 0,
-          transparent 1px,
-          hsla(0, 0%, 100%, 0.05) 1px,
-          hsla(0, 0%, 100%, 0.05) 2px,
-          transparent 2px
-        ),
-        linear-gradient(
-          to bottom,
-          transparent 0,
-          transparent 1px,
-          hsla(0, 0%, 100%, 0.05) 1px,
-          hsla(0, 0%, 100%, 0.05) 2px,
-          transparent 2px
-        );
+    --grid-gradient: linear-gradient(
+        to right,
+        transparent 0,
+        transparent 1px,
+        hsla(0, 0%, 100%, 0.05) 1px,
+        hsla(0, 0%, 100%, 0.05) 2px,
+        transparent 2px
+      ),
+      linear-gradient(
+        to bottom,
+        transparent 0,
+        transparent 1px,
+        hsla(0, 0%, 100%, 0.05) 1px,
+        hsla(0, 0%, 100%, 0.05) 2px,
+        transparent 2px
+      );
 
-      --a-c: hsl(90, 35%, 35%);
-      --hero-a-c: inherit;
-      --hero-bg: hsla(90, 35%, 40%, 0.9);
-      --hero-bg-size: 2em 2em;
-      --hero-b: var(--hero-bg);
-      --ftr-bg: hsl(90, 10%, 95%);
-      --ftr-zz: linear-gradient(225deg, var(--bg) 0.5rem, transparent 0),
-        linear-gradient(135deg, var(--bg) 0.5rem, var(--ftr-bg) 0);
-      --ftr-c: hsl(90, 10%, 20%);
-      --ftr-hr-b: 1px solid hsl(90, 10%, 90%);
-    }
+    --a-c: hsl(90, 35%, 35%);
+    --hero-a-c: inherit;
+    --hero-bg: hsla(90, 35%, 40%, 0.9);
+    --hero-bg-size: 2em 2em;
+    --hero-b: var(--hero-bg);
+    --ftr-bg: hsl(90, 10%, 95%);
+    --ftr-zz: linear-gradient(225deg, var(--bg) 0.5rem, transparent 0),
+      linear-gradient(135deg, var(--bg) 0.5rem, var(--ftr-bg) 0);
+    --ftr-c: hsl(90, 10%, 20%);
+    --ftr-hr-b: 1px solid hsl(90, 10%, 90%);
 
     ${_atrules.colorSchemeDark} {
       --a-c: hsl(100, 80%, 70%);
@@ -137,11 +131,9 @@ export const layoutClasses = {
     }
   `,
   hero: css`
-     {
-      display: contents;
+    display: contents;
 
-      --b: 2px solid var(--hero-b);
-    }
+    --b: 2px solid var(--hero-b);
 
     ${_atrules.desktopLandscape} {
       color: #fff;
@@ -161,31 +153,27 @@ export const layoutClasses = {
     }
   `,
   headerAnchor: css`
-     {
-      color: var(--hero-a-c);
-      text-decoration-thickness: 0.125em;
-      text-underline-offset: 0.125em;
-    }
+    color: var(--hero-a-c);
+    text-decoration-thickness: 0.125em;
+    text-underline-offset: 0.125em;
   `,
   header: css`
-     {
-      font-weight: ${fontWeights.heading2};
-      color: #fff;
-      padding-top: 1em;
-      padding-bottom: 1em;
-      display: flex;
-      justify-content: center;
-      background-color: var(--hero-bg);
-      background-image: var(--grid-gradient);
-      background-size: var(--hero-bg-size);
-      background-position: 50% 0;
-      border-bottom: var(--b);
+    font-weight: ${fontWeights.heading2};
+    color: #fff;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    display: flex;
+    justify-content: center;
+    background-color: var(--hero-bg);
+    background-image: var(--grid-gradient);
+    background-size: var(--hero-bg-size);
+    background-position: 50% 0;
+    border-bottom: var(--b);
 
-      ${_atrules.minHeightNotDesktopOrLandscape} {
-        position: sticky;
-        top: 0;
-        z-index: 1;
-      }
+    ${_atrules.minHeightNotDesktopOrLandscape} {
+      position: sticky;
+      top: 0;
+      z-index: 1;
     }
 
     ${_atrules.desktopLandscape} {
@@ -210,16 +198,14 @@ export const layoutClasses = {
     }
   `,
   footer: css`
-     {
-      display: var(--below-main-display, none);
-      color: var(--ftr-c);
-      padding-right: 0.5rem;
-      padding-left: 0.5rem;
-      padding-bottom: 0.25em;
-      width: 100%;
-      background-color: var(--ftr-bg);
-      border-top: var(--ftr-hr-b);
-    }
+    display: var(--below-main-display, none);
+    color: var(--ftr-c);
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+    padding-bottom: 0.25em;
+    width: 100%;
+    background-color: var(--ftr-bg);
+    border-top: var(--ftr-hr-b);
 
     ${_atrules.desktopLandscape} {
       padding-top: 1em;
@@ -237,17 +223,15 @@ export const layoutClasses = {
     }
   `,
   footerList: css`
-     {
-      font-size: 0.875em;
-      list-style: none;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      width: 100%;
-      padding-top: 1em;
-      padding-bottom: 1em;
-      position: relative;
-    }
+    font-size: 0.875em;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    position: relative;
 
     ${_atrules.desktopLandscape} {
       max-width: 100%;
@@ -255,38 +239,32 @@ export const layoutClasses = {
     }
   `,
   footerItem: css`
-     {
-      margin-right: 0.5rem;
-      margin-left: 0.5rem;
-      margin-top: 0.25em;
-      white-space: nowrap;
-    }
+    margin-right: 0.5rem;
+    margin-left: 0.5rem;
+    margin-top: 0.25em;
+    white-space: nowrap;
   `,
   footerAnchor: css`
-     {
-      color: var(--a-c);
-      text-decoration-thickness: 0.0625em;
-      text-underline-offset: 0.1875em;
-    }
+    color: var(--a-c);
+    text-decoration-thickness: 0.0625em;
+    text-underline-offset: 0.1875em;
   `
 }
 
 export const aboutClasses = {
   about: css`
-     {
-      display: var(--below-main-display, none);
-      color: var(--ftr-c);
-      grid-row: 3;
-      margin-top: 2em;
-      background-repeat: repeat-x;
-      padding-right: 0.5rem;
-      padding-left: 0.5rem;
-      padding-bottom: 1em;
-      background-color: var(--ftr-bg);
-      background-image: var(--ftr-zz);
-      background-position: var(--ftr-zz-posi, left top);
-      background-size: var(--ftr-zz-size, 1rem 1rem);
-    }
+    display: var(--below-main-display, none);
+    color: var(--ftr-c);
+    grid-row: 3;
+    margin-top: 2em;
+    background-repeat: repeat-x;
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+    padding-bottom: 1em;
+    background-color: var(--ftr-bg);
+    background-image: var(--ftr-zz);
+    background-position: var(--ftr-zz-posi, left top);
+    background-size: var(--ftr-zz-size, 1rem 1rem);
 
     ${_atrules.desktopLandscape} {
       display: block;
@@ -301,67 +279,57 @@ export const aboutClasses = {
     }
   `,
   heading: css`
-     {
-      ${heading}
+    ${heading}
 
-      font-weight: ${fontWeights.heading2};
-      padding-top: 1em;
-      max-width: 30rem;
-      margin-right: auto;
-      margin-left: auto;
-    }
+    font-weight: ${fontWeights.heading2};
+    padding-top: 1em;
+    max-width: 30rem;
+    margin-right: auto;
+    margin-left: auto;
 
     ${_atrules.desktopLandscape} {
       max-width: 100%;
     }
   `,
   anchor: css`
-     {
-      color: var(--a-c);
-      text-decoration-thickness: 0.0625em;
-      text-underline-offset: 0.1875em;
-    }
+    color: var(--a-c);
+    text-decoration-thickness: 0.0625em;
+    text-underline-offset: 0.1875em;
 
     ${_atrules.desktopLandscape} {
       color: var(--hero-a-c);
     }
   `,
   paragraph: css`
-     {
-      font-size: 0.875em;
-      max-width: 30rem;
-      margin-right: auto;
-      margin-left: auto;
-    }
+    font-size: 0.875em;
+    max-width: 30rem;
+    margin-right: auto;
+    margin-left: auto;
 
     ${_atrules.desktopLandscape} {
       max-width: 100%;
     }
   `,
   strong: css`
-     {
-      font-weight: ${fontWeights.semibold};
-    }
+    font-weight: ${fontWeights.semibold};
   `
 }
 
 const paginationItemDisabled = css`
-   {
-    font-weight: ${fontWeights.heading2};
-    color: var(--pg-disabled-c);
-    position: relative;
-    padding-top: 0.875em;
-    padding-bottom: 0.875em;
-    background-color: var(--pg-disabled-bg);
-    border: 3px solid var(--b-c);
-    border-top-right-radius: var(--right-r, 0.125rem);
-    border-bottom-right-radius: var(--right-r, 0.125rem);
-    border-top-left-radius: var(--left-r, 0.125rem);
-    border-bottom-left-radius: var(--left-r, 0.125rem);
+  font-weight: ${fontWeights.heading2};
+  color: var(--pg-disabled-c);
+  position: relative;
+  padding-top: 0.875em;
+  padding-bottom: 0.875em;
+  background-color: var(--pg-disabled-bg);
+  border: 3px solid var(--b-c);
+  border-top-right-radius: var(--right-r, 0.125rem);
+  border-bottom-right-radius: var(--right-r, 0.125rem);
+  border-top-left-radius: var(--left-r, 0.125rem);
+  border-bottom-left-radius: var(--left-r, 0.125rem);
 
-    --r: 1.5rem 50%;
-    --b-c: var(--pg-disabled-b-c);
-  }
+  --r: 1.5rem 50%;
+  --b-c: var(--pg-disabled-b-c);
 
   ${_atrules.veryMobile} {
     --left-r: 0.125rem;
@@ -370,14 +338,12 @@ const paginationItemDisabled = css`
 `
 
 const paginationItemEnabled = css`
-   {
-    ${paginationItemDisabled}
+  ${paginationItemDisabled}
 
-    color: var(--pg-enabled-c);
-    background-color: var(--pg-enabled-bg);
+  color: var(--pg-enabled-c);
+  background-color: var(--pg-enabled-bg);
 
-    --b-c: var(--pg-enabled-b-c);
-  }
+  --b-c: var(--pg-enabled-b-c);
 
   :focus-within,
   :hover {
@@ -388,9 +354,7 @@ const paginationItemEnabled = css`
 `
 
 const paginationItemNewer = css`
-   {
-    --right-r: var(--r);
-  }
+  --right-r: var(--r);
 
   ${_atrules.tabletUp} {
     --left-r: var(--r);
@@ -398,9 +362,7 @@ const paginationItemNewer = css`
 `
 
 const paginationItemOlder = css`
-   {
-    --left-r: var(--r);
-  }
+  --left-r: var(--r);
 
   ${_atrules.tabletUp} {
     --right-r: var(--r);
@@ -408,26 +370,24 @@ const paginationItemOlder = css`
 `
 
 const main = css`
-   {
-    opacity: 1;
-    transition: opacity 0.3s;
+  opacity: 1;
+  transition: opacity 0.3s;
 
-    --header-a-c: hsl(90, 10%, 90%);
-    --code-c: hsl(90, 35%, 70%);
-    --code-str-c: hsl(90, 45%, 90%);
-    --code-bg: hsl(90, 10%, 20%);
-    --code-b: var(--code-bg);
-    --code-inline-c: hsl(90, 35%, 20%);
-    --code-inline-bg: hsl(90, 10%, 90%);
-    --pg-disabled-bg: hsl(90, 10%, 45%);
-    --pg-disabled-b-c: var(--pg-disabled-bg);
-    --pg-disabled-c: #fff;
-    --pg-enabled-hover-bg: hsl(90, 45%, 45%);
-    --pg-enabled-hover-b-c: var(--pg-enabled-hover-bg);
-    --pg-enabled-bg: hsl(90, 35%, 45%);
-    --pg-enabled-b-c: var(--pg-enabled-bg);
-    --pg-enabled-c: #fff;
-  }
+  --header-a-c: hsl(90, 10%, 90%);
+  --code-c: hsl(90, 35%, 70%);
+  --code-str-c: hsl(90, 45%, 90%);
+  --code-bg: hsl(90, 10%, 20%);
+  --code-b: var(--code-bg);
+  --code-inline-c: hsl(90, 35%, 20%);
+  --code-inline-bg: hsl(90, 10%, 90%);
+  --pg-disabled-bg: hsl(90, 10%, 45%);
+  --pg-disabled-b-c: var(--pg-disabled-bg);
+  --pg-disabled-c: #fff;
+  --pg-enabled-hover-bg: hsl(90, 45%, 45%);
+  --pg-enabled-hover-b-c: var(--pg-enabled-hover-bg);
+  --pg-enabled-bg: hsl(90, 35%, 45%);
+  --pg-enabled-b-c: var(--pg-enabled-bg);
+  --pg-enabled-c: #fff;
 
   ${_atrules.colorSchemeDark} {
     --header-a-c: hsl(100, 60%, 70%);
@@ -454,13 +414,11 @@ const main = css`
 `
 
 const mainItem = css`
-   {
-    max-width: 31rem;
-    padding-right: 0.5rem;
-    padding-left: 0.5rem;
-    margin-right: auto;
-    margin-left: auto;
-  }
+  max-width: 31rem;
+  padding-right: 0.5rem;
+  padding-left: 0.5rem;
+  margin-right: auto;
+  margin-left: auto;
 
   ${_atrules.desktopLandscape} {
     margin-right: 2rem;
@@ -472,26 +430,20 @@ export const mainClasses = {
   heading1,
   main,
   mainTransitioning: css`
-     {
-      ${main}
+    ${main}
 
-      opacity: 0;
-      transition: none;
-    }
+    opacity: 0;
+    transition: none;
   `,
   header: css`
-     {
-      ${mainItem}
-    }
+    ${mainItem}
   `,
   heading2: css`
-     {
-      ${mainItem}
+    ${mainItem}
 
-      ${heading}
+    ${heading}
 
     font-weight: ${fontWeights.heading2};
-    }
 
     :hover {
       --a-display: inline;
@@ -504,37 +456,31 @@ export const mainClasses = {
     display: var(--a-display, none);
   `,
   strong: css`
-     {
-      font-weight: ${fontWeights.bold};
-      color: var(--str-c, inherit);
-    }
+    font-weight: ${fontWeights.bold};
+    color: var(--str-c, inherit);
   `,
   pre: css`
-     {
-      display: block;
-    }
+    display: block;
   `,
   codeBlock: css`
-     {
-      font-family: Consolas, monaco, monospace;
-      font-size: 0.875em;
-      color: var(--code-c);
-      display: block;
-      overflow: auto;
-      white-space: pre-wrap;
-      word-break: break-word;
-      padding-top: 1em;
-      padding-bottom: 1em;
-      padding-right: 0.5rem;
-      padding-left: 0.5rem;
-      width: 100%;
-      background-color: var(--code-bg);
-      border-top: var(--b);
-      border-bottom: var(--b);
+    font-family: Consolas, monaco, monospace;
+    font-size: 0.875em;
+    color: var(--code-c);
+    display: block;
+    overflow: auto;
+    white-space: pre-wrap;
+    word-break: break-word;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+    width: 100%;
+    background-color: var(--code-bg);
+    border-top: var(--b);
+    border-bottom: var(--b);
 
-      --str-c: var(--code-str-c);
-      --b: 1px solid var(--code-b);
-    }
+    --str-c: var(--code-str-c);
+    --b: 1px solid var(--code-b);
 
     ${_atrules.tabletUp} {
       max-width: 100%;
@@ -549,40 +495,32 @@ export const mainClasses = {
     }
   `,
   codeInline: css`
-     {
-      font-family: Consolas, monaco, monospace;
-      font-size: 0.875em;
-      color: var(--code-inline-c);
-      display: inline-block;
-      border-radius: 0.125rem;
-      padding-right: 0.125rem;
-      padding-left: 0.125rem;
-      word-break: break-word;
-      background-color: var(--code-inline-bg);
-    }
+    font-family: Consolas, monaco, monospace;
+    font-size: 0.875em;
+    color: var(--code-inline-c);
+    display: inline-block;
+    border-radius: 0.125rem;
+    padding-right: 0.125rem;
+    padding-left: 0.125rem;
+    word-break: break-word;
+    background-color: var(--code-inline-bg);
   `,
   anchor: css`
-     {
-      font-weight: ${fontWeights.semibold};
-      color: var(--a-c);
-      text-decoration-thickness: 0.0625em;
-      text-underline-offset: 0.1875em;
-    }
+    font-weight: ${fontWeights.semibold};
+    color: var(--a-c);
+    text-decoration-thickness: 0.0625em;
+    text-underline-offset: 0.1875em;
   `,
   list: css`
-     {
-      ${mainItem}
+    ${mainItem}
 
-      margin-top: 1em;
-      margin-bottom: 1em;
-      padding-left: 0.5rem;
-      list-style: none;
-    }
+    margin-top: 1em;
+    margin-bottom: 1em;
+    padding-left: 0.5rem;
+    list-style: none;
   `,
   listItem: css`
-     {
-      margin-bottom: 0.25em;
-    }
+    margin-bottom: 0.25em;
 
     ::before {
       font-weight: ${fontWeights.bold};
@@ -592,44 +530,32 @@ export const mainClasses = {
     }
   `,
   paragraph: css`
-     {
-      ${mainItem}
+    ${mainItem}
 
-      margin-top: 1em;
-      margin-bottom: 1em;
-      word-break: break-word;
-    }
+    margin-top: 1em;
+    margin-bottom: 1em;
+    word-break: break-word;
   `,
   date: css`
-     {
-      font-weight: ${fontWeights.semibold};
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-    }
+    font-weight: ${fontWeights.semibold};
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
   `,
   dateIcon: css`
-     {
-      height: 1em;
-      margin-right: 0.3rem;
-    }
+    height: 1em;
+    margin-right: 0.3rem;
   `,
   dateFG: css`
-     {
-      fill: var(--date-fill, currentColor);
-    }
+    fill: var(--date-fill, currentColor);
   `,
   dateBG: css`
-     {
-      fill: var(--bg);
-    }
+    fill: var(--bg);
   `,
   pagination: css`
-     {
-      ${mainItem}
+    ${mainItem}
 
-      margin-top: 2em;
-    }
+    margin-top: 2em;
 
     ${_atrules.desktopLandscape} {
       max-width: 100%;
@@ -638,49 +564,37 @@ export const mainClasses = {
     }
   `,
   paginationList: css`
-     {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr));
-      text-align: center;
-      list-style: none;
-      gap: 0.25rem;
-    }
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr));
+    text-align: center;
+    list-style: none;
+    gap: 0.25rem;
 
     ${_atrules.tabletUp} {
       gap: 3vw;
     }
   `,
   paginationItemDisabledNewer: css`
-     {
-      ${paginationItemDisabled}
-      ${paginationItemNewer}
-    }
+    ${paginationItemDisabled}
+    ${paginationItemNewer}
   `,
   paginationItemEnabledNewer: css`
-     {
-      ${paginationItemEnabled}
-      ${paginationItemNewer}
-    }
+    ${paginationItemEnabled}
+    ${paginationItemNewer}
   `,
   paginationItemDisabledOlder: css`
-     {
-      ${paginationItemDisabled}
-      ${paginationItemOlder}
-    }
+    ${paginationItemDisabled}
+    ${paginationItemOlder}
   `,
   paginationItemEnabledOlder: css`
-     {
-      ${paginationItemEnabled}
-      ${paginationItemOlder}
-    }
+    ${paginationItemEnabled}
+    ${paginationItemOlder}
   `,
   paginationAnchor: css`
-     {
-      color: inherit;
-      text-decoration-thickness: 0.125em;
-      text-underline-offset: 0.125em;
-      -webkit-tap-highlight-color: transparent;
-    }
+    color: inherit;
+    text-decoration-thickness: 0.125em;
+    text-underline-offset: 0.125em;
+    -webkit-tap-highlight-color: transparent;
 
     ::after {
       content: '';

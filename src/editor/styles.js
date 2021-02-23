@@ -53,30 +53,26 @@ export const _start = css`
 `
 
 const headerHeading = css`
-   {
-    font-weight: ${fontWeights.heading};
-    font-size: 1.5em;
-    padding-top: 0.5em;
-    padding-bottom: 0.5em;
-  }
+  font-weight: ${fontWeights.heading};
+  font-size: 1.5em;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
 `
 
 const button = css`
-   {
-    font-weight: ${fontWeights.bold};
-    color: var(--white);
-    border-radius: ${borderRadius};
-    appearance: none;
-    padding-top: 0.5em;
-    padding-bottom: 0.5em;
-    padding-right: 1.5em;
-    padding-left: 1.5em;
-    border: none;
-    text-decoration: none;
-    cursor: pointer;
-    border: 1px solid var(--blue);
-    background-color: var(--blue);
-  }
+  font-weight: ${fontWeights.bold};
+  color: var(--white);
+  border-radius: ${borderRadius};
+  appearance: none;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  padding-right: 1.5em;
+  padding-left: 1.5em;
+  border: none;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid var(--blue);
+  background-color: var(--blue);
 
   :focus,
   :hover {
@@ -86,23 +82,21 @@ const button = css`
 `
 
 const textButton = css`
-   {
-    font-weight: ${fontWeights.bold};
-    color: var(--blue);
-    border-radius: ${borderRadius};
-    appearance: none;
-    padding-top: 0.5em;
-    padding-bottom: 0.5em;
-    padding-right: 1.5em;
-    padding-left: 1.5em;
-    background-color: transparent;
-    box-shadow: none;
-    text-decoration: none;
-    cursor: pointer;
-    text-align: center;
-    display: inline-block;
-    border: 1px solid var(--white);
-  }
+  font-weight: ${fontWeights.bold};
+  color: var(--blue);
+  border-radius: ${borderRadius};
+  appearance: none;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  padding-right: 1.5em;
+  padding-left: 1.5em;
+  background-color: transparent;
+  box-shadow: none;
+  text-decoration: none;
+  cursor: pointer;
+  text-align: center;
+  display: inline-block;
+  border: 1px solid var(--white);
 
   :hover {
     text-decoration: none;
@@ -116,36 +110,30 @@ const textButton = css`
 `
 
 const label = css`
-   {
-    font-weight: ${fontWeights.bold};
-    display: block;
-    margin-bottom: 0.5em;
-  }
+  font-weight: ${fontWeights.bold};
+  display: block;
+  margin-bottom: 0.5em;
 `
 
 const input = css`
-   {
-    color: var(--black);
-    border-radius: ${borderRadius};
-    width: 100%;
-    padding: 0.5em;
-    border: 1px solid var(--silver);
-    background-color: var(--white);
-  }
+  color: var(--black);
+  border-radius: ${borderRadius};
+  width: 100%;
+  padding: 0.5em;
+  border: 1px solid var(--silver);
+  background-color: var(--white);
 `
 
 export const layoutClasses = {
   app: css`
-     {
-      font-weight: ${fontWeights.normal};
-      font-size: 16px;
-      line-height: 1.5;
-      color: var(--black);
-      max-width: 100vw;
-      overflow-x: scroll;
-      height: 100%;
-      background-color: var(--white);
-    }
+    font-weight: ${fontWeights.normal};
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--black);
+    max-width: 100vw;
+    overflow-x: scroll;
+    height: 100%;
+    background-color: var(--white);
   `
 }
 
@@ -173,173 +161,135 @@ export const listClasses = {
   createButton: button,
   textButton,
   tableContainer: css`
-     {
-      min-height: 100%;
-      padding: 1em;
-    }
+    min-height: 100%;
+    padding: 1em;
   `,
   table: css`
-     {
-      width: 100%;
-      border-collapse: collapse;
-      border: 5px solid transparent;
-    }
+    width: 100%;
+    border-collapse: collapse;
+    border: 5px solid transparent;
   `,
   th: css`
-     {
-      font-weight: ${fontWeights.bold};
-      padding: 1em;
-      text-align: left;
-      border-bottom: 1px solid var(--silver);
-    }
+    font-weight: ${fontWeights.bold};
+    padding: 1em;
+    text-align: left;
+    border-bottom: 1px solid var(--silver);
   `,
   td: css`
-     {
-      padding: 1em;
-    }
+    padding: 1em;
   `,
   tableControls: css`
-     {
-      padding-top: 0.5em;
-      padding-bottom: 0.5em;
-      text-align: center;
-    }
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    text-align: center;
   `,
   editButton: textButton,
   deleteButton: css`
-     {
-      ${textButton}
+    ${textButton}
 
-      color: var(--red);
-    }
+    color: var(--red);
   `,
   tableButtons: css`
-     {
-      justify-content: flex-end;
-      display: flex;
-      gap: 1em;
-      position: sticky;
-      bottom: 0;
-      padding: 1em;
-      background: var(--white);
-      border-top: 1px solid var(--silver);
-    }
+    justify-content: flex-end;
+    display: flex;
+    gap: 1em;
+    position: sticky;
+    bottom: 0;
+    padding: 1em;
+    background: var(--white);
+    border-top: 1px solid var(--silver);
   `
 }
 
 export const formClasses = {
   form: css`
-     {
-      display: grid;
-      grid-template-rows: 1fr max-content;
-      height: 100%;
-    }
+    display: grid;
+    grid-template-rows: 1fr max-content;
+    height: 100%;
   `,
   formFields: css`
-     {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.5em;
-      padding: 1em;
-      height: max-content;
-    }
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5em;
+    padding: 1em;
+    height: max-content;
   `,
   formRow: css`
-     {
-      grid-column: span 2;
-    }
+    grid-column: span 2;
   `,
   labelLarge: css`
-     {
-      ${label}
+    ${label}
 
-      font-size: 1.125em;
-    }
+    font-size: 1.125em;
   `,
   inputLarge: css`
-     {
-      ${input}
+    ${input}
 
-      font-weight: ${fontWeights.heading};
-      font-size: 1.5em;
-    }
+    font-weight: ${fontWeights.heading};
+    font-size: 1.5em;
   `,
   label,
   input,
   inputReadOnly: css`
-     {
-      ${input}
+    ${input}
 
-      background-color: var(--silver);
-    }
+    background-color: var(--silver);
   `,
   textareaWrap: css`
-     {
-      border-radius: ${borderRadius};
-      position: relative;
-      width: 100%;
-      margin-right: auto;
-      margin-left: auto;
-      border: 1px solid var(--silver);
-    }
+    border-radius: ${borderRadius};
+    position: relative;
+    width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+    border: 1px solid var(--silver);
   `,
   textareaHighlightsWrap: css`
-     {
-      min-height: 15em;
-      padding: 0.5em;
-    }
+    min-height: 15em;
+    padding: 0.5em;
   `,
   textareaHighlights: css`
-     {
-      color: var(--black);
-      min-height: 15em;
-      overflow: auto;
-      border-radius: 0;
-      background-color: transparent;
-      white-space: pre-wrap;
-      word-break: break-word;
-    }
+    color: var(--black);
+    min-height: 15em;
+    overflow: auto;
+    border-radius: 0;
+    background-color: transparent;
+    white-space: pre-wrap;
+    word-break: break-word;
   `,
   textarea: css`
-     {
-      color: transparent;
-      border-radius: ${borderRadius};
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      right: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      padding: 0.5em;
-      overflow: hidden;
-      border: none;
-      background-color: transparent;
-      word-break: break-word;
-      resize: none;
-      caret-color: var(--black);
-    }
+    color: transparent;
+    border-radius: ${borderRadius};
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 0.5em;
+    overflow: hidden;
+    border: none;
+    background-color: transparent;
+    word-break: break-word;
+    resize: none;
+    caret-color: var(--black);
   `,
   errorMessage: css`
-     {
-      justify-self: flex-start;
-      align-self: center;
-      text-align: center;
-      flex: 1 1 auto;
-      color: var(--red);
-    }
+    justify-self: flex-start;
+    align-self: center;
+    text-align: center;
+    flex: 1 1 auto;
+    color: var(--red);
   `,
   formButtons: css`
-     {
-      justify-content: flex-end;
-      display: flex;
-      gap: 1em;
-      position: sticky;
-      bottom: 0;
-      padding: 1em;
-      background: var(--white);
-      border-top: 1px solid var(--silver);
-    }
+    justify-content: flex-end;
+    display: flex;
+    gap: 1em;
+    position: sticky;
+    bottom: 0;
+    padding: 1em;
+    background: var(--white);
+    border-top: 1px solid var(--silver);
   `,
   cancelButton: textButton,
   saveButton: button
@@ -347,61 +297,43 @@ export const formClasses = {
 
 export const highlightClasses = {
   punctuation: css`
-     {
-      font-weight: ${fontWeights.normal};
-      color: var(--gray);
-    }
+    font-weight: ${fontWeights.normal};
+    color: var(--gray);
   `,
   bold: css`
-     {
-      font-weight: ${fontWeights.bold};
-    }
+    font-weight: ${fontWeights.bold};
   `,
   url: css`
-     {
-      color: var(--blue);
-    }
+    color: var(--blue);
   `,
   codeBlock: css`
-     {
-      font-weight: ${fontWeights.normal};
-      color: var(--green);
-      white-space: pre-wrap;
-    }
+    font-weight: ${fontWeights.normal};
+    color: var(--green);
+    white-space: pre-wrap;
   `,
   codeInline: css`
-     {
-      font-weight: ${fontWeights.normal};
-      color: var(--green);
-    }
+    font-weight: ${fontWeights.normal};
+    color: var(--green);
   `,
   heading: css`
-     {
-      font-weight: ${fontWeights.heading};
-      color: var(--black);
-    }
+    font-weight: ${fontWeights.heading};
+    color: var(--black);
   `,
   headingPunctuation: css`
-     {
-      font-weight: ${fontWeights.heading};
-      color: var(--gray);
-    }
+    font-weight: ${fontWeights.heading};
+    color: var(--gray);
   `
 }
 
 export const errorClasses = {
   errorContainer: css`
-     {
-      padding: 1em;
-      height: 100%;
-    }
+    padding: 1em;
+    height: 100%;
   `,
   headerHeading,
   stackTrace: css`
-     {
-      color: var(--red);
-      white-space: pre-wrap;
-      word-break: break-word;
-    }
+    color: var(--red);
+    white-space: pre-wrap;
+    word-break: break-word;
   `
 }
