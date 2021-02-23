@@ -5,11 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="The personal site of Erick Merchant." />
     <link href="/css/styles.css" rel="stylesheet" />
-    <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
+    <link href="/favicon.svg" rel="icon" type="text/svg+xml" />
     <title>A Web Development Blog</title>
     <script type="module">
-      import {run, use} from '@erickmerchant/dev-cli/runtime.js'
       import {createDomView, createApp} from '@erickmerchant/framework/main.js'
+      import * as classes from '/css/styles.js'
+      import {createMainView, getMainContentTemplates} from '/views/main.js'
+      import {createAboutView, getAboutContentTemplates} from '/views/about.js'
+      import {createDateView} from '/views/date.js'
+      import {createLayoutView} from '/views/layout.js'
+      import {
+        createContentView,
+        getDefaultContentTemplates,
+        getSegments,
+        dateUtils,
+        createPostsModel
+      } from '/common.js'
+      import {
+        setupApp,
+        getInitialState,
+        getAnchorAttrs,
+        getDispatchLocation
+      } from '/frontend.js'
 
       const app = createApp()
 
@@ -17,100 +34,67 @@
 
       let isSetup = false
 
-      use('/views/layout.js')
+      export const __update = () => {
+        const postsModel = createPostsModel('/content/posts.json')
 
-      use('/views/about.js')
+        const dispatchLocation = getDispatchLocation({
+          app,
+          postsModel,
+          getSegments
+        })
 
-      use('/views/main.js')
+        if (!isSetup) {
+          isSetup = true
 
-      use('/views/date.js')
+          setupApp({dispatchLocation})
 
-      use('/common.js')
-
-      use('/frontend.js')
-
-      use('/css/styles.js', (classes) => {
-        return {classes}
-      })
-
-      run(
-        ({
-          createLayoutView,
-          createAboutView,
-          getAboutContentTemplates,
-          createMainView,
-          getMainContentTemplates,
-          createDateView,
-          createContentView,
-          getDefaultContentTemplates,
-          getSegments,
-          dateUtils,
-          createPostsModel,
-          setupApp,
-          getInitialState,
-          getDispatchLocation,
-          getAnchorAttrs,
-          classes
-        }) => {
-          const postsModel = createPostsModel(`/content/posts.json`)
-
-          const dispatchLocation = getDispatchLocation({
-            app,
-            postsModel,
-            getSegments
-          })
-
-          if (!isSetup) {
-            isSetup = true
-
-            setupApp({dispatchLocation})
-
-            app.state = getInitialState()
-          } else {
-            dispatchLocation(window.location.pathname, false)
-          }
-
-          const anchorAttrs = getAnchorAttrs({dispatchLocation})
-
-          const aboutView = createAboutView({
-            classes: classes.aboutClasses,
-            contentView: createContentView({
-              templates: Object.assign(
-                getDefaultContentTemplates({classes: classes.aboutClasses}),
-                getAboutContentTemplates({classes: classes.aboutClasses})
-              )
-            })
-          })
-
-          const dateView = createDateView({
-            classes: classes.mainClasses,
-            dateUtils
-          })
-
-          const mainView = createMainView({
-            classes: classes.mainClasses,
-            contentView: createContentView({
-              templates: Object.assign(
-                getDefaultContentTemplates({classes: classes.mainClasses}),
-                getMainContentTemplates({classes: classes.mainClasses})
-              )
-            }),
-            dateView,
-            anchorAttrs
-          })
-
-          const layout = createLayoutView({
-            classes: classes.layoutClasses,
-            aboutView,
-            mainView,
-            anchorAttrs
-          })
-
-          const view = createDomView(target, layout)
-
-          app.render(view)
+          app.state = getInitialState()
+        } else {
+          dispatchLocation(window.location.pathname, false)
         }
-      )
+
+        const anchorAttrs = getAnchorAttrs({dispatchLocation})
+
+        const aboutView = createAboutView({
+          classes: classes.aboutClasses,
+          contentView: createContentView({
+            templates: Object.assign(
+              getDefaultContentTemplates({classes: classes.aboutClasses}),
+              getAboutContentTemplates({classes: classes.aboutClasses})
+            )
+          })
+        })
+
+        const dateView = createDateView({
+          classes: classes.mainClasses,
+          dateUtils
+        })
+
+        const mainView = createMainView({
+          classes: classes.mainClasses,
+          contentView: createContentView({
+            templates: Object.assign(
+              getDefaultContentTemplates({classes: classes.mainClasses}),
+              getMainContentTemplates({classes: classes.mainClasses})
+            )
+          }),
+          dateView,
+          anchorAttrs
+        })
+
+        const layout = createLayoutView({
+          classes: classes.layoutClasses,
+          aboutView,
+          mainView,
+          anchorAttrs
+        })
+
+        const view = createDomView(target, layout)
+
+        app.render(view)
+      }
+
+      __update()
     </script>
   </head>
   <body></body>
