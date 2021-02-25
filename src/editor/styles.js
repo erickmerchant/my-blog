@@ -52,80 +52,60 @@ export const _start = css`
   }
 `
 
-const headerHeading = css`
-  font-weight: ${fontWeights.heading};
-  font-size: 1.5em;
-  padding-top: 0.5em;
-  padding-bottom: 0.5em;
-`
-
-const button = css`
-  font-weight: ${fontWeights.bold};
-  color: var(--white);
-  border-radius: ${borderRadius};
-  appearance: none;
-  padding-top: 0.5em;
-  padding-bottom: 0.5em;
-  padding-right: 1.5em;
-  padding-left: 1.5em;
-  border: none;
-  text-decoration: none;
-  cursor: pointer;
-  border: 1px solid var(--blue);
-  background-color: var(--blue);
-
-  :focus,
-  :hover {
-    filter: saturate(2);
-    outline: 0;
-  }
-`
-
-const textButton = css`
-  font-weight: ${fontWeights.bold};
-  color: var(--blue);
-  border-radius: ${borderRadius};
-  appearance: none;
-  padding-top: 0.5em;
-  padding-bottom: 0.5em;
-  padding-right: 1.5em;
-  padding-left: 1.5em;
-  background-color: transparent;
-  box-shadow: none;
-  text-decoration: none;
-  cursor: pointer;
-  text-align: center;
-  display: inline-block;
-  border: 1px solid var(--white);
-
-  :hover {
+const buttonMixins = css`
+  .button {
+    font-weight: ${fontWeights.bold};
+    color: var(--white);
+    border-radius: ${borderRadius};
+    appearance: none;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    padding-right: 1.5em;
+    padding-left: 1.5em;
+    border: none;
     text-decoration: none;
+    cursor: pointer;
+    border: 1px solid var(--blue);
+    background-color: var(--blue);
+
+    :focus,
+    :hover {
+      filter: saturate(2);
+      outline: 0;
+    }
   }
 
-  :focus {
-    outline: 0;
-    border: 1px solid currentcolor;
-    filter: saturate(2);
+  .textButton {
+    font-weight: ${fontWeights.bold};
+    color: var(--blue);
+    border-radius: ${borderRadius};
+    appearance: none;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    padding-right: 1.5em;
+    padding-left: 1.5em;
+    background-color: transparent;
+    box-shadow: none;
+    text-decoration: none;
+    cursor: pointer;
+    text-align: center;
+    display: inline-block;
+    border: 1px solid var(--white);
+
+    :hover {
+      text-decoration: none;
+    }
+
+    :focus {
+      outline: 0;
+      border: 1px solid currentcolor;
+      filter: saturate(2);
+    }
   }
 `
 
-const label = css`
-  font-weight: ${fontWeights.bold};
-  display: block;
-  margin-bottom: 0.5em;
-`
-
-const input = css`
-  color: var(--black);
-  border-radius: ${borderRadius};
-  width: 100%;
-  padding: 0.5em;
-  border: 1px solid var(--silver);
-  background-color: var(--white);
-`
-
-export const layoutClasses = {
-  app: css`
+export const layoutClasses = css`
+  .app {
     font-weight: ${fontWeights.normal};
     font-size: 16px;
     line-height: 1.5;
@@ -134,62 +114,81 @@ export const layoutClasses = {
     overflow-x: scroll;
     height: 100%;
     background-color: var(--white);
-  `
-}
+  }
+`
 
-export const listClasses = {
-  nav: css`
+export const listClasses = css`
+  .nav {
     list-style: none;
-  `,
-  navItem: css`
+  }
+
+  .navItem {
     display: inline-block;
     margin-top: 1em;
     margin-bottom: 1em;
     margin-right: 0.5em;
     margin-left: 0.5em;
-  `,
-  navAnchor: css`
-    ${textButton}
-  `,
-  navAnchorCurrent: css`
-    ${textButton}
+  }
+
+  .navAnchor {
+    ${buttonMixins.textButton}
+  }
+
+  .navAnchorCurrent {
+    ${buttonMixins.textButton}
 
     outline: 0;
     border: 1px solid currentcolor;
     filter: saturate(2);
-  `,
-  createButton: button,
-  textButton,
-  tableContainer: css`
+  }
+
+  .createButton {
+    ${buttonMixins.button}
+  }
+
+  .textButton {
+    ${buttonMixins.textButton}
+  }
+
+  .tableContainer {
     min-height: 100%;
     padding: 1em;
-  `,
-  table: css`
+  }
+
+  .table {
     width: 100%;
     border-collapse: collapse;
     border: 5px solid transparent;
-  `,
-  th: css`
+  }
+
+  .th {
     font-weight: ${fontWeights.bold};
     padding: 1em;
     text-align: left;
     border-bottom: 1px solid var(--silver);
-  `,
-  td: css`
+  }
+
+  .td {
     padding: 1em;
-  `,
-  tableControls: css`
+  }
+
+  .tableControls {
     padding-top: 0.5em;
     padding-bottom: 0.5em;
     text-align: center;
-  `,
-  editButton: textButton,
-  deleteButton: css`
-    ${textButton}
+  }
+
+  .editButton {
+    ${buttonMixins.textButton}
+  }
+
+  .deleteButton {
+    ${buttonMixins.textButton}
 
     color: var(--red);
-  `,
-  tableButtons: css`
+  }
+
+  .tableButtons {
     justify-content: flex-end;
     display: flex;
     gap: 1em;
@@ -198,56 +197,74 @@ export const listClasses = {
     padding: 1em;
     background: var(--white);
     border-top: 1px solid var(--silver);
-  `
-}
+  }
+`
 
-export const formClasses = {
-  form: css`
+export const formClasses = css`
+  .form {
     display: grid;
     grid-template-rows: 1fr max-content;
     height: 100%;
-  `,
-  formFields: css`
+  }
+
+  .formFields {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1.5em;
     padding: 1em;
     height: max-content;
-  `,
-  formRow: css`
+  }
+
+  .formRow {
     grid-column: span 2;
-  `,
-  labelLarge: css`
-    ${label}
+  }
 
+  .label,
+  .labelLarge {
+    font-weight: ${fontWeights.bold};
+    display: block;
+    margin-bottom: 0.5em;
+  }
+
+  .input,
+  .inputLarge,
+  .inputReadOnly {
+    color: var(--black);
+    border-radius: ${borderRadius};
+    width: 100%;
+    padding: 0.5em;
+    border: 1px solid var(--silver);
+    background-color: var(--white);
+  }
+
+  .labelLarge {
     font-size: 1.125em;
-  `,
-  inputLarge: css`
-    ${input}
+  }
 
+  .inputLarge {
     font-weight: ${fontWeights.heading};
     font-size: 1.5em;
-  `,
-  label,
-  input,
-  inputReadOnly: css`
-    ${input}
+  }
 
+  .inputReadOnly {
     background-color: var(--silver);
-  `,
-  textareaWrap: css`
+  }
+
+  .textareaWrap {
     border-radius: ${borderRadius};
     position: relative;
     width: 100%;
     margin-right: auto;
     margin-left: auto;
     border: 1px solid var(--silver);
-  `,
-  textareaHighlightsWrap: css`
+  }
+
+  .textareaHighlightsWrap {
     min-height: 15em;
     padding: 0.5em;
-  `,
-  textareaHighlights: css`
+  }
+
+  .textareaHighlights {
     color: var(--black);
     min-height: 15em;
     overflow: auto;
@@ -255,8 +272,9 @@ export const formClasses = {
     background-color: transparent;
     white-space: pre-wrap;
     word-break: break-word;
-  `,
-  textarea: css`
+  }
+
+  .textarea {
     color: transparent;
     border-radius: ${borderRadius};
     position: absolute;
@@ -273,15 +291,17 @@ export const formClasses = {
     word-break: break-word;
     resize: none;
     caret-color: var(--black);
-  `,
-  errorMessage: css`
+  }
+
+  .errorMessage {
     justify-self: flex-start;
     align-self: center;
     text-align: center;
     flex: 1 1 auto;
     color: var(--red);
-  `,
-  formButtons: css`
+  }
+
+  .formButtons {
     justify-content: flex-end;
     display: flex;
     gap: 1em;
@@ -290,50 +310,69 @@ export const formClasses = {
     padding: 1em;
     background: var(--white);
     border-top: 1px solid var(--silver);
-  `,
-  cancelButton: textButton,
-  saveButton: button
-}
+  }
 
-export const highlightClasses = {
-  punctuation: css`
+  .cancelButton {
+    ${buttonMixins.textButton}
+  }
+
+  .saveButton {
+    ${buttonMixins.button}
+  }
+`
+
+export const highlightClasses = css`
+  .punctuation {
     font-weight: ${fontWeights.normal};
     color: var(--gray);
-  `,
-  bold: css`
+  }
+
+  .bold {
     font-weight: ${fontWeights.bold};
-  `,
-  url: css`
+  }
+
+  .url {
     color: var(--blue);
-  `,
-  codeBlock: css`
+  }
+
+  .codeBlock {
     font-weight: ${fontWeights.normal};
     color: var(--green);
     white-space: pre-wrap;
-  `,
-  codeInline: css`
+  }
+
+  .codeInline {
     font-weight: ${fontWeights.normal};
     color: var(--green);
-  `,
-  heading: css`
+  }
+
+  .heading {
     font-weight: ${fontWeights.heading};
     color: var(--black);
-  `,
-  headingPunctuation: css`
+  }
+
+  .headingPunctuation {
     font-weight: ${fontWeights.heading};
     color: var(--gray);
-  `
-}
+  }
+`
 
-export const errorClasses = {
-  errorContainer: css`
+export const errorClasses = css`
+  .errorContainer {
     padding: 1em;
     height: 100%;
-  `,
-  headerHeading,
-  stackTrace: css`
+  }
+
+  .headerHeading {
+    font-weight: ${fontWeights.heading};
+    font-size: 1.5em;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+  }
+
+  .stackTrace {
     color: var(--red);
     white-space: pre-wrap;
     word-break: break-word;
-  `
-}
+  }
+`
