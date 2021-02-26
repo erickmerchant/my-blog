@@ -43,7 +43,7 @@ export const _start = css`
     html {
       --black: hsl(100, 10%, 100%);
       --gray: hsl(100, 10%, 60%);
-      --silver: hsl(100, 10%, 75%);
+      --silver: hsl(100, 10%, 55%);
       --white: hsl(100, 10%, 20%);
       --green: hsl(100, 50%, 60%);
       --blue: hsl(200, 100%, 60%);
@@ -120,14 +120,12 @@ export const layoutClasses = css`
 export const listClasses = css`
   .nav {
     list-style: none;
+    padding: 1em;
   }
 
   .navItem {
     display: inline-block;
-    margin-top: 1em;
-    margin-bottom: 1em;
-    margin-right: 0.5em;
-    margin-left: 0.5em;
+    margin-right: 1em;
   }
 
   .navAnchor {
@@ -150,9 +148,18 @@ export const listClasses = css`
     ${buttonMixins.textButton}
   }
 
-  .tableContainer {
-    min-height: 100%;
-    padding: 1em;
+  .container {
+    display: grid;
+    height: 100vh;
+    grid-template-rows: min-content auto min-content;
+  }
+
+  .tableWrapper {
+    max-width: 100%;
+    overflow-y: scroll;
+    height: auto;
+    padding-right: 1em;
+    padding-left: 1em;
   }
 
   .table {
@@ -192,8 +199,6 @@ export const listClasses = css`
     justify-content: flex-end;
     display: flex;
     gap: 1em;
-    position: sticky;
-    bottom: 0;
     padding: 1em;
     background: var(--white);
     border-top: 1px solid var(--silver);
@@ -203,16 +208,18 @@ export const listClasses = css`
 export const formClasses = css`
   .form {
     display: grid;
-    grid-template-rows: 1fr max-content;
-    height: 100%;
+    height: 100vh;
+    grid-template-rows: auto max-content;
   }
 
   .formFields {
+    overflow-y: scroll;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1.5em;
     padding: 1em;
-    height: max-content;
+    height: auto;
+    margin-bottom: 1em;
   }
 
   .formRow {
@@ -305,8 +312,6 @@ export const formClasses = css`
     justify-content: flex-end;
     display: flex;
     gap: 1em;
-    position: sticky;
-    bottom: 0;
     padding: 1em;
     background: var(--white);
     border-top: 1px solid var(--silver);

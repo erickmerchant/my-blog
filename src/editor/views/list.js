@@ -24,34 +24,33 @@ export const createListView = ({model, channelName, app}) => {
     }
   }
 
-  return (state) => [
-    html`
-      <div class=${listClasses.tableContainer}>
-        <nav>
-          <ul class=${listClasses.nav}>
-            <li class=${listClasses.navItem}>
-              <a
-                class=${state.route === 'posts'
-                  ? listClasses.navAnchorCurrent
-                  : listClasses.navAnchor}
-                href="#/posts"
-              >
-                Posts
-              </a>
-            </li>
-            <li class=${listClasses.navItem}>
-              <a
-                class=${state.route === 'drafts'
-                  ? listClasses.navAnchorCurrent
-                  : listClasses.navAnchor}
-                href="#/drafts"
-              >
-                Drafts
-              </a>
-            </li>
-          </ul>
-        </nav>
-
+  return (state) => html`
+    <div class=${listClasses.container}>
+      <nav>
+        <ul class=${listClasses.nav}>
+          <li class=${listClasses.navItem}>
+            <a
+              class=${state.route === 'posts'
+                ? listClasses.navAnchorCurrent
+                : listClasses.navAnchor}
+              href="#/posts"
+            >
+              Posts
+            </a>
+          </li>
+          <li class=${listClasses.navItem}>
+            <a
+              class=${state.route === 'drafts'
+                ? listClasses.navAnchorCurrent
+                : listClasses.navAnchor}
+              href="#/drafts"
+            >
+              Drafts
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <div class=${listClasses.tableWrapper}>
         <table class=${listClasses.table}>
           <thead>
             <tr>
@@ -91,8 +90,6 @@ export const createListView = ({model, channelName, app}) => {
           </tbody>
         </table>
       </div>
-    `,
-    html`
       <div class=${listClasses.tableButtons}>
         <a
           tabindex="0"
@@ -102,6 +99,6 @@ export const createListView = ({model, channelName, app}) => {
           New
         </a>
       </div>
-    `
-  ]
+    </div>
+  `
 }
