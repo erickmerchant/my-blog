@@ -89,10 +89,10 @@ export const layoutClasses = css`
       );
 
     --a-c: hsl(90, 35%, 35%);
-    --hero-a-c: inherit;
-    --hero-bg: hsla(90, 35%, 40%, 0.9);
-    --hero-bg-size: 2em 2em;
-    --hero-b: var(--hero-bg);
+    --intro-a-c: inherit;
+    --intro-bg: hsla(90, 35%, 40%, 0.9);
+    --intro-bg-size: 2em 2em;
+    --intro-b: var(--intro-bg);
     --ftr-bg: hsl(90, 10%, 95%);
     --ftr-zz: linear-gradient(225deg, var(--bg) 0.5rem, transparent 0),
       linear-gradient(135deg, var(--bg) 0.5rem, var(--ftr-bg) 0);
@@ -101,10 +101,10 @@ export const layoutClasses = css`
 
     ${_atrules.colorSchemeDark} {
       --a-c: hsl(100, 80%, 70%);
-      --hero-a-c: hsl(100, 90%, 85%);
-      --hero-bg: hsla(100, 20%, 20%, 0.9);
-      --hero-bg-size: 1em 1em;
-      --hero-b: hsl(100, 30%, 70%);
+      --intro-a-c: hsl(100, 90%, 85%);
+      --intro-bg: hsla(100, 20%, 20%, 0.9);
+      --intro-bg-size: 1em 1em;
+      --intro-b: hsl(100, 30%, 70%);
       --ftr-bg: var(--bg);
       --ftr-zz: linear-gradient(225deg, var(--bg) 25%, transparent 25%),
         linear-gradient(135deg, var(--bg) 25%, transparent 25%),
@@ -122,10 +122,10 @@ export const layoutClasses = css`
     }
   }
 
-  .hero {
+  .intro {
     display: contents;
 
-    --b: 2px solid var(--hero-b);
+    --b: 2px solid var(--intro-b);
 
     ${_atrules.desktopLandscape} {
       color: #fff;
@@ -138,15 +138,15 @@ export const layoutClasses = css`
       grid-auto-rows: 1fr;
       grid-template-columns: 90%;
       overflow-y: scroll;
-      background-color: var(--hero-bg);
+      background-color: var(--intro-bg);
       background-image: var(--grid-gradient);
-      background-size: var(--hero-bg-size);
+      background-size: var(--intro-bg-size);
       border-right: var(--b);
     }
   }
 
   .headerAnchor {
-    color: var(--hero-a-c);
+    color: var(--intro-a-c);
     text-decoration-thickness: 0.125em;
     text-underline-offset: 0.125em;
   }
@@ -158,9 +158,9 @@ export const layoutClasses = css`
     padding-bottom: 1em;
     display: flex;
     justify-content: center;
-    background-color: var(--hero-bg);
+    background-color: var(--intro-bg);
     background-image: var(--grid-gradient);
-    background-size: var(--hero-bg-size);
+    background-size: var(--intro-bg-size);
     background-position: 50% 0;
     border-bottom: var(--b);
 
@@ -297,7 +297,7 @@ export const aboutClasses = css`
     text-underline-offset: 0.1875em;
 
     ${_atrules.desktopLandscape} {
-      color: var(--hero-a-c);
+      color: var(--intro-a-c);
     }
   }
 

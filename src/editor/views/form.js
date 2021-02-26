@@ -131,8 +131,8 @@ export const createFormView = ({model, channelName, app, slugify}) => {
       autocomplete="off"
       class=${formClasses.form}
     >
-      <div class=${formClasses.formFields}>
-        <div class=${formClasses.formRow}>
+      <div class=${formClasses.fields}>
+        <div class=${formClasses.row}>
           <label class=${formClasses.labelLarge} for="field-title">Title</label>
           <input
             class=${formClasses.inputLarge}
@@ -172,7 +172,7 @@ export const createFormView = ({model, channelName, app, slugify}) => {
             placeholder=${slugify(state.item.title ?? '')}
           />
         </div>
-        <div class=${formClasses.formRow}>
+        <div class=${formClasses.row}>
           <label class=${formClasses.label} for="field-content">Content</label>
           <div class=${formClasses.textareaWrap}>
             <div class=${formClasses.textareaHighlightsWrap}>
@@ -192,7 +192,7 @@ export const createFormView = ({model, channelName, app, slugify}) => {
           </div>
         </div>
       </div>
-      <div class=${formClasses.formButtons}>
+      <div class=${formClasses.buttons}>
         ${state.slugConflict
           ? html`
               <p class=${formClasses.errorMessage}>This item already exists</p>

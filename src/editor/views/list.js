@@ -67,7 +67,7 @@ export const createListView = ({model, channelName, app}) => {
                   <td class=${listClasses.td}>
                     ${dateUtils.prettyDate(dateUtils.stringToDate(item.date))}
                   </td>
-                  <td class=${listClasses.tableControls}>
+                  <td class=${listClasses.controls}>
                     <a
                       tabindex="0"
                       class=${listClasses.editButton}
@@ -90,7 +90,7 @@ export const createListView = ({model, channelName, app}) => {
           </tbody>
         </table>
       </div>
-      <div class=${listClasses.tableButtons}>
+      <div class=${listClasses.buttons}>
         <a
           tabindex="0"
           class=${listClasses.createButton}

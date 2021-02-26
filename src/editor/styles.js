@@ -179,7 +179,7 @@ export const listClasses = css`
     padding: 1em;
   }
 
-  .tableControls {
+  .controls {
     padding-top: 0.5em;
     padding-bottom: 0.5em;
     text-align: center;
@@ -195,7 +195,7 @@ export const listClasses = css`
     color: var(--red);
   }
 
-  .tableButtons {
+  .buttons {
     justify-content: flex-end;
     display: flex;
     gap: 1em;
@@ -212,7 +212,7 @@ export const formClasses = css`
     grid-template-rows: auto max-content;
   }
 
-  .formFields {
+  .fields {
     overflow-y: scroll;
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -222,7 +222,7 @@ export const formClasses = css`
     margin-bottom: 1em;
   }
 
-  .formRow {
+  .row {
     grid-column: span 2;
   }
 
@@ -308,7 +308,7 @@ export const formClasses = css`
     color: var(--red);
   }
 
-  .formButtons {
+  .buttons {
     justify-content: flex-end;
     display: flex;
     gap: 1em;
@@ -363,12 +363,12 @@ export const highlightClasses = css`
 `
 
 export const errorClasses = css`
-  .errorContainer {
+  .container {
     padding: 1em;
     height: 100%;
   }
 
-  .headerHeading {
+  .heading {
     font-weight: ${fontWeights.heading};
     font-size: 1.5em;
     padding-top: 0.5em;

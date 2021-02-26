@@ -7,7 +7,7 @@ export const createLayoutView = ({
   anchorAttrs
 }) => (state = {}) => html`
   <body class=${classes.app}>
-    <div class=${classes.hero}>
+    <div class=${classes.intro}>
       <header class=${classes.header}>
         <a ${anchorAttrs('/')} class=${classes.headerAnchor}>
           ErickMerchant.com
