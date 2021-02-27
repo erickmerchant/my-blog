@@ -575,11 +575,6 @@ export const mainClasses = css`
 
   .pagination {
     margin-top: 2em;
-
-    ${_atrules.desktopLandscape} {
-      margin-right: 2rem;
-      margin-left: 2rem;
-    }
   }
 
   .paginationList {
