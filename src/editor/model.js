@@ -37,7 +37,7 @@ export const createModel = (listEndpoint) => {
         ? posts.findIndex((post) => post.slug === data.slug)
         : -1
 
-      if (!data.date) {
+      if (!data.date || !existing) {
         const now = new Date()
 
         data.date = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(
