@@ -577,7 +577,6 @@ export const mainClasses = css`
     margin-top: 2em;
 
     ${_atrules.desktopLandscape} {
-      max-width: 100%;
       margin-right: 2rem;
       margin-left: 2rem;
     }
