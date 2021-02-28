@@ -57,6 +57,8 @@ export const getDispatchLocation = ({app, postsModel, getSegments}) => async (
 
   if (location !== app.state?.location) {
     app.state = state
+
+    window.scroll(0, 0)
   }
 }
 
@@ -77,8 +79,6 @@ export const getAnchorAttrs = ({dispatchLocation}) => (href) => {
       window.history.pushState({}, null, href)
 
       dispatchLocation(href)
-
-      window.scroll(0, 0)
     }
   }
 }
