@@ -89,19 +89,23 @@ export const layoutClasses = css`
       );
 
     --a-c: hsl(90, 35%, 35%);
-    --intro-a-c: inherit;
+    --intro-a-c: #fff;
+    --intro-c: #fff;
     --intro-bg: hsla(90, 35%, 40%, 0.9);
     --intro-bg-size: 2em 2em;
     --intro-b: var(--intro-bg);
     --ftr-bg: hsl(90, 10%, 95%);
     --ftr-zz: linear-gradient(225deg, var(--bg) 0.5rem, transparent 0),
       linear-gradient(135deg, var(--bg) 0.5rem, var(--ftr-bg) 0);
+    --ftr-zz-posi: left top;
+    --ftr-zz-size: 1rem 1rem;
     --ftr-c: hsl(90, 10%, 20%);
     --ftr-hr-b: 1px solid hsl(90, 10%, 90%);
 
     ${_atrules.colorSchemeDark} {
       --a-c: hsl(100, 80%, 70%);
       --intro-a-c: hsl(100, 90%, 85%);
+      --intro-c: #fff;
       --intro-bg: hsla(100, 20%, 20%, 0.9);
       --intro-bg-size: 1em 1em;
       --intro-b: hsl(100, 30%, 70%);
@@ -128,7 +132,7 @@ export const layoutClasses = css`
     --b: 2px solid var(--intro-b);
 
     ${_atrules.desktopLandscape} {
-      color: #fff;
+      color: var(--intro-c);
       grid-row: 1 / -1;
       position: sticky;
       top: 0;
@@ -153,7 +157,6 @@ export const layoutClasses = css`
 
   .header {
     font-weight: ${fontWeights.heading2};
-    color: #fff;
     padding-top: 1em;
     padding-bottom: 1em;
     display: flex;
@@ -215,8 +218,8 @@ export const layoutClasses = css`
       border-top: none;
       background-image: var(--ftr-zz);
       background-color: var(--ftr-bg);
-      background-position: var(--ftr-zz-posi, left top);
-      background-size: var(--ftr-zz-size, 1rem 1rem);
+      background-position: var(--ftr-zz-posi);
+      background-size: var(--ftr-zz-size);
     }
   }
 
@@ -263,8 +266,8 @@ export const aboutClasses = css`
     padding-bottom: 1em;
     background-color: var(--ftr-bg);
     background-image: var(--ftr-zz);
-    background-position: var(--ftr-zz-posi, left top);
-    background-size: var(--ftr-zz-size, 1rem 1rem);
+    background-position: var(--ftr-zz-posi);
+    background-size: var(--ftr-zz-size);
 
     ${_atrules.desktopLandscape} {
       display: block;
@@ -406,6 +409,7 @@ export const mainClasses = css`
     --pg-enabled-bg: hsl(90, 35%, 45%);
     --pg-enabled-b-c: var(--pg-enabled-bg);
     --pg-enabled-c: #fff;
+    --date-fill: currentColor;
 
     ${_atrules.colorSchemeDark} {
       --header-a-c: hsl(100, 60%, 70%);
@@ -568,7 +572,7 @@ export const mainClasses = css`
   }
 
   .dateFG {
-    fill: var(--date-fill, currentColor);
+    fill: var(--date-fill);
   }
 
   .dateBG {
