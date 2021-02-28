@@ -69,7 +69,7 @@ export const layoutClasses = css`
   .app {
     display: grid;
     min-height: 100%;
-    grid-template-rows: max-content auto max-content max-content;
+    grid-template-rows: max-content 1fr max-content max-content;
 
     --grid-gradient: linear-gradient(
         to right,
@@ -203,6 +203,8 @@ export const layoutClasses = css`
     border-top: var(--ftr-hr-b);
 
     ${_atrules.desktopLandscape} {
+      grid-row: 3;
+      grid-column: 2;
       padding-top: 1em;
       padding-right: 0;
       padding-left: 0;
