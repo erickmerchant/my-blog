@@ -21,18 +21,13 @@
         dateUtils,
         createPostsModel
       } from '/common.js'
-      import {
-        setupApp,
-        getInitialState,
-        getAnchorAttrs,
-        getDispatchLocation
-      } from '/frontend.js'
+      import {getAnchorAttrs, getDispatchLocation} from '/frontend.js'
 
       const app = createApp()
 
       const target = document.querySelector('body')
 
-      let isSetup = false
+      app.state = {route: null, title: ''}
 
       export const __update = () => {
         const postsModel = createPostsModel('/content/posts.json')
@@ -43,15 +38,11 @@
           getSegments
         })
 
-        if (!isSetup) {
-          isSetup = true
-
-          setupApp({dispatchLocation})
-
-          app.state = getInitialState()
-        } else {
-          dispatchLocation(window.location.pathname, false)
+        window.onpopstate = (e) => {
+          dispatchLocation(window.location.pathname)
         }
+
+        dispatchLocation(window.location.pathname, false)
 
         const anchorAttrs = getAnchorAttrs({dispatchLocation})
 

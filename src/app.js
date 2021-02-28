@@ -9,14 +9,9 @@ import {
   dateUtils,
   createPostsModel
 } from './common.js'
-import {
-  setupApp,
-  getInitialState,
-  getAnchorAttrs,
-  getDispatchLocation
-} from './frontend.js'
+import {getAnchorAttrs, getDispatchLocation} from './frontend.js'
 
-const app = createApp(getInitialState())
+const app = createApp({route: null, title: ''})
 
 const listEndpoint = `/content/posts.json`
 
@@ -24,7 +19,11 @@ const postsModel = createPostsModel(listEndpoint)
 
 const dispatchLocation = getDispatchLocation({app, postsModel, getSegments})
 
-setupApp({dispatchLocation})
+window.onpopstate = (e) => {
+  dispatchLocation(window.location.pathname)
+}
+
+dispatchLocation(window.location.pathname, false)
 
 const target = document.querySelector('#main')
 

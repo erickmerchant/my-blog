@@ -1,7 +1,3 @@
-export const getInitialState = () => {
-  return {route: null, title: ''}
-}
-
 export const getDispatchLocation = ({app, postsModel, getSegments}) => async (
   location,
   transitioning = true
@@ -60,14 +56,6 @@ export const getDispatchLocation = ({app, postsModel, getSegments}) => async (
 
     window.scroll(0, 0)
   }
-}
-
-export const setupApp = ({dispatchLocation}) => {
-  window.onpopstate = (e) => {
-    dispatchLocation(window.location.pathname)
-  }
-
-  dispatchLocation(window.location.pathname, false)
 }
 
 export const getAnchorAttrs = ({dispatchLocation}) => (href) => {
