@@ -11,9 +11,8 @@ const fontWeights = {
 export const _atrules = {
   colorSchemeDark: '@media (prefers-color-scheme: dark)',
   tabletUp: '@media (min-width: 768px)',
-  desktopLandscape: '@media (min-width: 1024px) and (orientation: landscape)',
-  minHeightNotDesktopOrLandscape:
-    '@media (min-height: 568px) and (max-width: 1023px), (min-height: 568px) and (orientation: portrait)',
+  desktopAndTallUp: '@media (min-width: 1024px) and (min-height: 350px)',
+  tallUp: '@media (min-height: 350px)',
   veryMobile: '@media (max-width: 375px)'
 }
 
@@ -121,38 +120,9 @@ export const layoutClasses = css`
       --ftr-hr-b: 1px dashed #fff;
     }
 
-    ${_atrules.desktopLandscape} {
+    ${_atrules.desktopAndTallUp} {
       grid-template-columns: 1fr 2fr;
     }
-  }
-
-  .intro {
-    display: contents;
-
-    --b: 2px solid var(--intro-b);
-
-    ${_atrules.desktopLandscape} {
-      color: var(--intro-c);
-      grid-row: 1 / -1;
-      position: sticky;
-      top: 0;
-      height: 100vh;
-      display: grid;
-      justify-content: center;
-      grid-auto-rows: 1fr;
-      grid-template-columns: 90%;
-      overflow-y: scroll;
-      background-color: var(--intro-bg);
-      background-image: var(--grid-gradient);
-      background-size: var(--intro-bg-size);
-      border-right: var(--b);
-    }
-  }
-
-  .headerAnchor {
-    color: var(--intro-a-c);
-    text-decoration-thickness: 0.125em;
-    text-underline-offset: 0.125em;
   }
 
   .header {
@@ -165,33 +135,67 @@ export const layoutClasses = css`
     background-image: var(--grid-gradient);
     background-size: var(--intro-bg-size);
     background-position: 50% 0;
-    border-bottom: var(--b);
+    border-bottom: 2px solid var(--intro-b);
+    grid-row: 1;
+    grid-column: 1;
 
-    ${_atrules.minHeightNotDesktopOrLandscape} {
+    ${_atrules.tallUp} {
       position: sticky;
       top: 0;
       z-index: 1;
     }
 
-    ${_atrules.desktopLandscape} {
-      ${mixins.heading}
-
+    ${_atrules.desktopAndTallUp} {
       font-weight: ${fontWeights.heading1};
       font-size: 1.5em;
-      writing-mode: horizontal-tb;
-      transform: unset;
       background-image: none;
       background-color: transparent;
       border-left: none;
       border-bottom: none;
-      justify-content: start;
       padding-top: 0;
-      padding-right: 0;
-      padding-left: 0;
-      margin-top: 2em;
-      position: relative;
+      padding-bottom: 0;
+      padding-right: 0.5rem;
+      padding-left: 0.5rem;
       max-width: max-content;
-      height: auto;
+      grid-row: 1 / -1;
+      height: 100vh;
+      display: grid;
+      grid-auto-rows: 1fr;
+      grid-template-columns: 90%;
+      align-items: start;
+    }
+  }
+
+  .headerAnchor {
+    color: var(--intro-a-c);
+    text-decoration-thickness: 0.125em;
+    text-underline-offset: 0.125em;
+
+    ${_atrules.desktopAndTallUp} {
+      ${mixins.heading}
+
+      margin-top: 2em;
+    }
+  }
+
+  .complementary {
+    display: contents;
+
+    ${_atrules.desktopAndTallUp} {
+      color: var(--intro-c);
+      grid-row: 1 / -1;
+      grid-column: 1;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      display: grid;
+      justify-content: center;
+      grid-auto-rows: 1fr;
+      grid-template-columns: 90%;
+      background-color: var(--intro-bg);
+      background-image: var(--grid-gradient);
+      background-size: var(--intro-bg-size);
+      border-right: 2px solid var(--intro-b);
     }
   }
 
@@ -205,7 +209,7 @@ export const layoutClasses = css`
     background-color: var(--ftr-bg);
     border-top: var(--ftr-hr-b);
 
-    ${_atrules.desktopLandscape} {
+    ${_atrules.desktopAndTallUp} {
       grid-row: 3;
       grid-column: 2;
       padding-top: 1em;
@@ -234,7 +238,7 @@ export const layoutClasses = css`
     padding-bottom: 1em;
     position: relative;
 
-    ${_atrules.desktopLandscape} {
+    ${_atrules.desktopAndTallUp} {
       max-width: 100%;
       padding-top: 0.5em;
     }
@@ -269,7 +273,7 @@ export const aboutClasses = css`
     background-position: var(--ftr-zz-posi);
     background-size: var(--ftr-zz-size);
 
-    ${_atrules.desktopLandscape} {
+    ${_atrules.desktopAndTallUp} {
       display: block;
       color: inherit;
       grid-column: 1;
@@ -291,7 +295,7 @@ export const aboutClasses = css`
     margin-right: auto;
     margin-left: auto;
 
-    ${_atrules.desktopLandscape} {
+    ${_atrules.desktopAndTallUp} {
       max-width: 100%;
     }
   }
@@ -301,7 +305,7 @@ export const aboutClasses = css`
     text-decoration-thickness: 0.0625em;
     text-underline-offset: 0.1875em;
 
-    ${_atrules.desktopLandscape} {
+    ${_atrules.desktopAndTallUp} {
       color: var(--intro-a-c);
     }
   }
@@ -312,7 +316,7 @@ export const aboutClasses = css`
     margin-right: auto;
     margin-left: auto;
 
-    ${_atrules.desktopLandscape} {
+    ${_atrules.desktopAndTallUp} {
       max-width: 100%;
     }
   }
@@ -384,7 +388,7 @@ export const mainClasses = css`
     font-weight: ${fontWeights.heading1};
     font-size: 1.5em;
 
-    ${_atrules.desktopLandscape} {
+    ${_atrules.desktopAndTallUp} {
       margin-top: 2em;
     }
   }
@@ -430,7 +434,7 @@ export const mainClasses = css`
       --date-fill: hsl(100, 60%, 70%);
     }
 
-    ${_atrules.desktopLandscape} {
+    ${_atrules.desktopAndTallUp} {
       padding-top: 0;
     }
   }
@@ -451,7 +455,7 @@ export const mainClasses = css`
     margin-right: auto;
     margin-left: auto;
 
-    ${_atrules.desktopLandscape} {
+    ${_atrules.desktopAndTallUp} {
       margin-right: 2rem;
       margin-left: 2rem;
     }
