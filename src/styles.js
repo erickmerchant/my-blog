@@ -70,22 +70,10 @@ export const layoutClasses = css`
     min-height: 100%;
     grid-template-rows: max-content 1fr max-content max-content;
 
-    --grid-gradient: linear-gradient(
-        to right,
-        transparent 0,
-        transparent 1px,
-        hsla(0, 0%, 100%, 0.05) 1px,
-        hsla(0, 0%, 100%, 0.05) 2px,
-        transparent 2px
-      ),
-      linear-gradient(
-        to bottom,
-        transparent 0,
-        transparent 1px,
-        hsla(0, 0%, 100%, 0.05) 1px,
-        hsla(0, 0%, 100%, 0.05) 2px,
-        transparent 2px
-      );
+    --gradient: transparent 0, transparent 1px, hsla(0, 0%, 100%, 0.05) 1px,
+      hsla(0, 0%, 100%, 0.05) 2px, transparent 2px;
+    --grid-gradient: linear-gradient(0deg, var(--gradient)),
+      linear-gradient(90deg, var(--gradient));
 
     --a-c: hsl(90, 35%, 35%);
     --intro-a-c: #fff;
@@ -109,10 +97,10 @@ export const layoutClasses = css`
       --intro-bg-size: 1em 1em;
       --intro-b: hsl(100, 30%, 70%);
       --ftr-bg: var(--bg);
-      --ftr-zz: linear-gradient(225deg, var(--bg) 25%, transparent 25%),
-        linear-gradient(135deg, var(--bg) 25%, transparent 25%),
-        linear-gradient(315deg, var(--bg) 25%, transparent 25%),
-        linear-gradient(45deg, var(--bg) 25%, transparent 25%),
+      --zz: var(--bg) 25%, transparent 25%;
+      --ftr-zz: linear-gradient(225deg, var(--zz)),
+        linear-gradient(135deg, var(--zz)), linear-gradient(315deg, var(--zz)),
+        linear-gradient(45deg, var(--zz)),
         linear-gradient(0deg, hsl(100, 30%, 70%) 0, hsl(100, 30%, 70%));
       --ftr-zz-posi: -0.25rem 0, -0.25rem 0, 0 0, 0 0;
       --ftr-zz-size: 0.5rem 0.5rem;
@@ -400,7 +388,7 @@ export const mainClasses = css`
 
     --header-a-c: hsl(90, 10%, 90%);
     --code-c: hsl(90, 35%, 70%);
-    --code-str-c: hsl(90, 45%, 90%);
+    --code-str-c: hsl(90, 75%, 70%);
     --code-bg: hsl(90, 10%, 20%);
     --code-b: var(--code-bg);
     --code-inline-c: hsl(90, 35%, 20%);
@@ -417,9 +405,6 @@ export const mainClasses = css`
 
     ${_atrules.colorSchemeDark} {
       --header-a-c: hsl(100, 60%, 70%);
-      --code-c: hsl(100, 60%, 70%);
-      --code-str-c: hsl(100, 70%, 90%);
-      --code-bg: hsl(100, 10%, 25%);
       --code-b: hsl(100, 30%, 70%);
       --code-inline-c: inherit;
       --code-inline-bg: var(--code-bg);
