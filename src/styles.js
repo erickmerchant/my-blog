@@ -178,7 +178,7 @@ export const layoutClasses = css`
     }
   }
 
-  .complementary {
+  .aside {
     display: contents;
 
     ${_atrules.desktopAndTallUp} {

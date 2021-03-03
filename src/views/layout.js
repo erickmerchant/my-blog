@@ -11,7 +11,7 @@ export const createLayoutView = ({
       <a ${anchorAttrs('/')} class=${classes.headerAnchor}>ErickMerchant.com</a>
     </header>
     ${mainView(state)}
-    <div class=${classes.complementary}>${aboutView(state)}</div>
+    <aside class=${classes.aside}>${aboutView(state)}</aside>
     <footer class=${classes.footer}>
       <ul class=${classes.footerList}>
         <li class=${classes.footerItem}>

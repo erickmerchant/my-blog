@@ -29,5 +29,5 @@ export const getAboutContentTemplates = ({classes}) => {
 }
 
 export const createAboutView = ({classes, contentView}) => () => html`
-  <aside class=${classes.about}>${contentView(aboutContent)}</aside>
+  <article class=${classes.about}>${contentView(aboutContent)}</article>
 `
