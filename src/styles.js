@@ -405,6 +405,7 @@ export const mainClasses = css`
 
     ${_atrules.colorSchemeDark} {
       --header-a-c: hsl(100, 60%, 70%);
+      --code-bg: hsl(100, 10%, 25%);
       --code-b: hsl(100, 30%, 70%);
       --code-inline-c: inherit;
       --code-inline-bg: var(--code-bg);
