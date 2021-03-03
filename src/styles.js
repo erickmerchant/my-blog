@@ -239,7 +239,7 @@ export const layoutClasses = css`
     position: relative;
 
     ${_atrules.desktopAndTallUp} {
-      max-width: 100%;
+      max-width: 35rem;
       padding-top: 0.5em;
     }
   }
@@ -585,6 +585,13 @@ export const mainClasses = css`
 
   .pagination {
     margin-top: 2em;
+    padding-right: 1rem;
+    padding-left: 1rem;
+
+    ${_atrules.veryMobile} {
+      padding-right: 0.5rem;
+      padding-left: 0.5rem;
+    }
   }
 
   .paginationList {
