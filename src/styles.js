@@ -39,19 +39,19 @@ export const _start = css`
     font-size: max(20px, 1vw);
     -webkit-text-size-adjust: none;
     line-height: 1.5;
-    color: hsl(90, 10%, 20%);
+    color: var(--c);
     background-color: var(--bg);
     height: 100%;
     scroll-padding-top: 90px;
 
+    --c: hsl(90, 10%, 20%);
     --bg: #fff;
   }
 
   ${_atrules.colorSchemeDark} {
     html {
-      color: #fff;
-
-      --bg: hsl(100, 10%, 20%);
+      --c: #fff;
+      --bg: hsl(100, 10%, 17.5%);
     }
   }
 `
@@ -70,38 +70,46 @@ export const layoutClasses = css`
     min-height: 100%;
     grid-template-rows: max-content 1fr max-content max-content;
 
-    --gradient: transparent 0, transparent 1px, hsla(0, 0%, 100%, 0.05) 1px,
-      hsla(0, 0%, 100%, 0.05) 2px, transparent 2px;
-    --grid-gradient: linear-gradient(0deg, var(--gradient)),
-      linear-gradient(90deg, var(--gradient));
+    --gradient-c: hsla(0, 0%, 100%, 0.1);
+    --grid-gradient: linear-gradient(
+        0deg,
+        var(--gradient-c) 1px,
+        transparent 1px
+      ),
+      linear-gradient(90deg, var(--gradient-c) 1px, transparent 1px);
 
     --a-c: hsl(90, 35%, 35%);
     --intro-a-c: #fff;
     --intro-c: #fff;
     --intro-bg: hsla(90, 35%, 40%, 0.9);
     --intro-bg-size: 2em 2em;
-    --intro-b: var(--intro-bg);
+    --intro-b: transparent;
     --ftr-bg: hsl(90, 10%, 95%);
     --ftr-zz: linear-gradient(225deg, var(--bg) 0.5rem, transparent 0),
       linear-gradient(135deg, var(--bg) 0.5rem, var(--ftr-bg) 0);
     --ftr-zz-posi: left top;
     --ftr-zz-size: 1rem 1rem;
-    --ftr-c: hsl(90, 10%, 20%);
+    --ftr-c: var(--c);
     --ftr-hr-b: 1px solid hsl(90, 10%, 90%);
 
     ${_atrules.colorSchemeDark} {
+      --gradient-c: hsla(0, 0%, 100%, 0.05);
       --a-c: hsl(100, 80%, 70%);
       --intro-a-c: hsl(100, 90%, 85%);
       --intro-c: #fff;
-      --intro-bg: hsla(100, 20%, 20%, 0.9);
+      --intro-bg: hsla(100, 20%, 17.5%, 0.9);
       --intro-bg-size: 1em 1em;
       --intro-b: hsl(100, 30%, 70%);
       --ftr-bg: var(--bg);
-      --zz: var(--bg) 25%, transparent 25%;
-      --ftr-zz: linear-gradient(225deg, var(--zz)),
-        linear-gradient(135deg, var(--zz)), linear-gradient(315deg, var(--zz)),
-        linear-gradient(45deg, var(--zz)),
-        linear-gradient(0deg, hsl(100, 30%, 70%) 0, hsl(100, 30%, 70%));
+      --ftr-zz: linear-gradient(
+          225deg,
+          var(--bg) 0.175rem,
+          transparent 0.175rem
+        ),
+        linear-gradient(135deg, var(--bg) 0.175rem, transparent 0.175rem),
+        linear-gradient(315deg, var(--bg) 0.175rem, transparent 0.175rem),
+        linear-gradient(45deg, var(--bg) 0.175rem, transparent 0.175rem),
+        linear-gradient(0deg, var(--intro-b) 0, var(--intro-b));
       --ftr-zz-posi: -0.25rem 0, -0.25rem 0, 0 0, 0 0;
       --ftr-zz-size: 0.5rem 0.5rem;
       --ftr-c: #fff;
@@ -183,7 +191,7 @@ export const layoutClasses = css`
       background-color: var(--intro-bg);
       background-image: var(--grid-gradient);
       background-size: var(--intro-bg-size);
-      border-right: 2px solid var(--intro-b);
+      border-right: 4px solid var(--intro-b);
     }
   }
 
@@ -386,11 +394,11 @@ export const mainClasses = css`
     opacity: 1;
     transition: opacity 0.3s;
 
-    --header-a-c: hsl(90, 10%, 90%);
+    --header2-a-c: hsl(90, 10%, 90%);
     --code-c: hsl(90, 35%, 70%);
     --code-str-c: hsl(90, 75%, 70%);
-    --code-bg: hsl(90, 10%, 20%);
-    --code-b: var(--code-bg);
+    --code-bg: hsl(90, 15%, 20%);
+    --code-b: transparent;
     --code-inline-c: hsl(90, 35%, 20%);
     --code-inline-bg: hsl(90, 10%, 90%);
     --pg-disabled-bg: hsl(90, 10%, 45%);
@@ -404,10 +412,12 @@ export const mainClasses = css`
     --date-fill: currentColor;
 
     ${_atrules.colorSchemeDark} {
-      --header-a-c: hsl(100, 60%, 70%);
-      --code-bg: hsl(100, 10%, 25%);
-      --code-b: hsl(100, 30%, 70%);
-      --code-inline-c: inherit;
+      --header2-a-c: hsl(100, 60%, 70%);
+      --code-c: hsl(100, 35%, 70%);
+      --code-str-c: hsl(100, 75%, 70%);
+      --code-bg: hsl(100, 10%, 15%);
+      --code-b: hsl(100, 25%, 70%);
+      --code-inline-c: var(--code-c);
       --code-inline-bg: var(--code-bg);
       --pg-disabled-bg: transparent;
       --pg-disabled-b-c: currentColor;
@@ -416,7 +426,7 @@ export const mainClasses = css`
       --pg-enabled-hover-b-c: currentColor;
       --pg-enabled-bg: hsla(100, 80%, 70%, 0.2);
       --pg-enabled-b-c: currentColor;
-      --pg-enabled-c: hsl(100, 80%, 70%);
+      --pg-enabled-c: var(--a-c);
       --date-fill: hsl(100, 60%, 70%);
     }
 
@@ -458,7 +468,7 @@ export const mainClasses = css`
   }
 
   .heading2Anchor {
-    color: var(--header-a-c);
+    color: var(--header2-a-c);
     text-decoration: none;
     margin-left: 0.5em;
     display: var(--a-display, none);
