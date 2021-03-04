@@ -51,7 +51,7 @@ export const _start = css`
   ${_atrules.colorSchemeDark} {
     html {
       --c: #fff;
-      --bg: hsl(100, 10%, 17.5%);
+      --bg: hsl(100, 10%, 15%);
     }
   }
 `
@@ -413,9 +413,9 @@ export const mainClasses = css`
 
     ${_atrules.colorSchemeDark} {
       --header2-a-c: hsl(100, 60%, 70%);
-      --code-c: hsl(100, 35%, 70%);
-      --code-str-c: hsl(100, 75%, 70%);
-      --code-bg: hsl(100, 10%, 15%);
+      --code-c: hsl(100, 45%, 70%);
+      --code-str-c: hsl(100, 85%, 70%);
+      --code-bg: hsl(100, 10%, 17.5%);
       --code-b: hsl(100, 25%, 70%);
       --code-inline-c: var(--code-c);
       --code-inline-bg: var(--code-bg);
@@ -497,11 +497,8 @@ export const mainClasses = css`
     padding-left: 0.5rem;
     width: 100%;
     background-color: var(--code-bg);
-    border-top: var(--b);
-    border-bottom: var(--b);
 
     --str-c: var(--code-str-c);
-    --b: 1px solid var(--code-b);
 
     ${_atrules.tabletUp} {
       max-width: 100%;
@@ -510,8 +507,6 @@ export const mainClasses = css`
       margin-left: 1rem;
       padding-right: 1.5rem;
       padding-left: 1.5rem;
-      border-left: var(--b);
-      border-right: var(--b);
       border-radius: 0.125rem;
     }
   }
