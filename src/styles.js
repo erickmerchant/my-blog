@@ -39,20 +39,8 @@ export const _start = css`
     font-size: max(20px, 1vw);
     -webkit-text-size-adjust: none;
     line-height: 1.5;
-    color: var(--c);
-    background-color: var(--bg);
     height: 100%;
     scroll-padding-top: 90px;
-
-    --c: hsl(90, 10%, 20%);
-    --bg: #fff;
-  }
-
-  ${_atrules.colorSchemeDark} {
-    html {
-      --c: #fff;
-      --bg: hsl(100, 10%, 15%);
-    }
   }
 `
 
@@ -69,39 +57,40 @@ export const layoutClasses = css`
     display: grid;
     min-height: 100%;
     grid-template-rows: max-content 1fr max-content max-content;
+    color: var(--c);
+    background-color: var(--bg);
 
-    --gradient-c: hsla(0, 0%, 100%, 0.1);
-    --grid-gradient: linear-gradient(
-        0deg,
-        var(--gradient-c) 1px,
-        transparent 1px
-      ),
-      linear-gradient(90deg, var(--gradient-c) 1px, transparent 1px);
-
+    --c: hsl(90, 10%, 20%);
+    --bg: #fff;
+    --grid-c: hsla(0, 0%, 100%, 0.1);
     --a-c: hsl(90, 35%, 35%);
-    --intro-a-c: #fff;
-    --intro-c: #fff;
-    --intro-bg: hsla(90, 35%, 40%, 0.9);
-    --intro-bg-size: 2em 2em;
-    --intro-b: transparent;
+    --hdr-a-c: #fff;
+    --hdr-c: #fff;
+    --hdr-bg: hsla(90, 35%, 40%, 0.9);
+    --hdr-bg-i: linear-gradient(0deg, var(--grid-c) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-c) 1px, transparent 1px);
+    --hdr-bg-size: 2rem 2rem;
+    --hdr-b: transparent;
     --ftr-bg: hsl(90, 10%, 95%);
-    --ftr-zz: linear-gradient(225deg, var(--bg) 0.5rem, transparent 0),
+    --ftr-bg-i: linear-gradient(225deg, var(--bg) 0.5rem, transparent 0),
       linear-gradient(135deg, var(--bg) 0.5rem, var(--ftr-bg) 0);
-    --ftr-zz-posi: left top;
-    --ftr-zz-size: 1rem 1rem;
+    --ftr-bg-i-posi: left top;
+    --ftr-bg-i-size: 1rem 1rem;
     --ftr-c: var(--c);
     --ftr-hr-b: 1px solid hsl(90, 10%, 90%);
 
     ${_atrules.colorSchemeDark} {
-      --gradient-c: hsla(0, 0%, 100%, 0.05);
+      --c: #fff;
+      --bg: hsl(100, 10%, 15%);
+      --grid-c: hsla(0, 0%, 100%, 0.05);
       --a-c: hsl(100, 80%, 70%);
-      --intro-a-c: hsl(100, 90%, 85%);
-      --intro-c: #fff;
-      --intro-bg: hsla(100, 20%, 17.5%, 0.9);
-      --intro-bg-size: 1em 1em;
-      --intro-b: hsl(100, 30%, 70%);
+      --hdr-a-c: hsl(100, 90%, 85%);
+      --hdr-c: #fff;
+      --hdr-bg: hsla(100, 20%, 17.5%, 0.9);
+      --hdr-bg-size: 1rem 1rem;
+      --hdr-b: hsl(100, 30%, 70%);
       --ftr-bg: var(--bg);
-      --ftr-zz: linear-gradient(
+      --ftr-bg-i: linear-gradient(
           225deg,
           var(--bg) 0.175rem,
           transparent 0.175rem
@@ -109,9 +98,9 @@ export const layoutClasses = css`
         linear-gradient(135deg, var(--bg) 0.175rem, transparent 0.175rem),
         linear-gradient(315deg, var(--bg) 0.175rem, transparent 0.175rem),
         linear-gradient(45deg, var(--bg) 0.175rem, transparent 0.175rem),
-        linear-gradient(0deg, var(--intro-b) 0, var(--intro-b));
-      --ftr-zz-posi: -0.25rem 0, -0.25rem 0, 0 0, 0 0;
-      --ftr-zz-size: 0.5rem 0.5rem;
+        linear-gradient(0deg, var(--hdr-b) 0, var(--hdr-b));
+      --ftr-bg-i-posi: -0.25rem 0, -0.25rem 0, 0 0, 0 0;
+      --ftr-bg-i-size: 0.5rem 0.5rem;
       --ftr-c: #fff;
       --ftr-hr-b: 1px dashed #fff;
     }
@@ -127,11 +116,11 @@ export const layoutClasses = css`
     padding-bottom: 1em;
     display: flex;
     justify-content: center;
-    background-color: var(--intro-bg);
-    background-image: var(--grid-gradient);
-    background-size: var(--intro-bg-size);
+    background-color: var(--hdr-bg);
+    background-image: var(--hdr-bg-i);
+    background-size: var(--hdr-bg-size);
     background-position: 50% 0;
-    border-bottom: 2px solid var(--intro-b);
+    border-bottom: 2px solid var(--hdr-b);
     grid-row: 1;
     grid-column: 1;
 
@@ -163,7 +152,7 @@ export const layoutClasses = css`
   }
 
   .headerAnchor {
-    color: var(--intro-a-c);
+    color: var(--hdr-a-c);
     text-decoration-thickness: 0.125em;
     text-underline-offset: 0.125em;
 
@@ -178,7 +167,7 @@ export const layoutClasses = css`
     display: contents;
 
     ${_atrules.desktopAndTallUp} {
-      color: var(--intro-c);
+      color: var(--hdr-c);
       grid-row: 1 / -1;
       grid-column: 1;
       position: sticky;
@@ -188,10 +177,10 @@ export const layoutClasses = css`
       justify-content: center;
       grid-auto-rows: 1fr;
       grid-template-columns: 90%;
-      background-color: var(--intro-bg);
-      background-image: var(--grid-gradient);
-      background-size: var(--intro-bg-size);
-      border-right: 4px solid var(--intro-b);
+      background-color: var(--hdr-bg);
+      background-image: var(--hdr-bg-i);
+      background-size: var(--hdr-bg-size);
+      border-right: 4px solid var(--hdr-b);
     }
   }
 
@@ -216,10 +205,10 @@ export const layoutClasses = css`
       margin-right: auto;
       background-repeat: repeat-x;
       border-top: none;
-      background-image: var(--ftr-zz);
+      background-image: var(--ftr-bg-i);
       background-color: var(--ftr-bg);
-      background-position: var(--ftr-zz-posi);
-      background-size: var(--ftr-zz-size);
+      background-position: var(--ftr-bg-i-posi);
+      background-size: var(--ftr-bg-i-size);
     }
   }
 
@@ -265,9 +254,9 @@ export const aboutClasses = css`
     padding-left: 0.5rem;
     padding-bottom: 1em;
     background-color: var(--ftr-bg);
-    background-image: var(--ftr-zz);
-    background-position: var(--ftr-zz-posi);
-    background-size: var(--ftr-zz-size);
+    background-image: var(--ftr-bg-i);
+    background-position: var(--ftr-bg-i-posi);
+    background-size: var(--ftr-bg-i-size);
 
     ${_atrules.desktopAndTallUp} {
       display: block;
@@ -302,7 +291,7 @@ export const aboutClasses = css`
     text-underline-offset: 0.1875em;
 
     ${_atrules.desktopAndTallUp} {
-      color: var(--intro-a-c);
+      color: var(--hdr-a-c);
     }
   }
 
@@ -326,11 +315,11 @@ const paginationMixins = css`
   .disabled,
   .enabled {
     font-weight: ${fontWeights.heading2};
-    color: var(--pg-disabled-c);
+    color: var(--c);
     position: relative;
-    padding-top: 0.875em;
-    padding-bottom: 0.875em;
-    background-color: var(--pg-disabled-bg);
+    padding-top: 1em;
+    padding-bottom: 1em;
+    background-color: var(--bg);
     border: 3px solid var(--b-c);
     border-top-right-radius: var(--right-r, 0.125rem);
     border-bottom-right-radius: var(--right-r, 0.125rem);
@@ -338,25 +327,42 @@ const paginationMixins = css`
     border-bottom-left-radius: var(--left-r, 0.125rem);
 
     --r: 1.5rem 50%;
-    --b-c: var(--pg-disabled-b-c);
+    --bg: hsl(90, 10%, 45%);
+    --b-c: var(--bg);
+    --c: #fff;
 
     ${_atrules.veryMobile} {
       --left-r: 0.125rem;
       --right-r: 0.125rem;
     }
+
+    ${_atrules.colorSchemeDark} {
+      --bg: transparent;
+      --b-c: currentColor;
+      --c: hsl(100, 10%, 70%);
+    }
   }
 
   .enabled {
-    color: var(--pg-enabled-c);
-    background-color: var(--pg-enabled-bg);
-
-    --b-c: var(--pg-enabled-b-c);
+    --hover-bg: hsl(90, 45%, 45%);
+    --hover-b-c: var(--hover-bg);
+    --bg: hsl(90, 35%, 45%);
+    --b-c: var(--bg);
+    --c: #fff;
 
     :focus-within,
     :hover {
-      background-color: var(--pg-enabled-hover-bg);
+      background-color: var(--hover-bg);
 
-      --b-c: var(--pg-enabled-hover-b-c);
+      --b-c: var(--hover-b-c);
+    }
+
+    ${_atrules.colorSchemeDark} {
+      --hover-bg: hsla(100, 80%, 70%, 0.3);
+      --hover-b-c: currentColor;
+      --bg: hsla(100, 80%, 70%, 0.2);
+      --b-c: currentColor;
+      --c: var(--a-c);
     }
   }
 
@@ -393,42 +399,6 @@ export const mainClasses = css`
   .mainTransitioning {
     opacity: 1;
     transition: opacity 0.3s;
-
-    --header2-a-c: hsl(90, 10%, 90%);
-    --code-c: hsl(90, 35%, 70%);
-    --code-str-c: hsl(90, 75%, 70%);
-    --code-bg: hsl(90, 15%, 20%);
-    --code-b: transparent;
-    --code-inline-c: hsl(90, 35%, 20%);
-    --code-inline-bg: hsl(90, 10%, 90%);
-    --pg-disabled-bg: hsl(90, 10%, 45%);
-    --pg-disabled-b-c: var(--pg-disabled-bg);
-    --pg-disabled-c: #fff;
-    --pg-enabled-hover-bg: hsl(90, 45%, 45%);
-    --pg-enabled-hover-b-c: var(--pg-enabled-hover-bg);
-    --pg-enabled-bg: hsl(90, 35%, 45%);
-    --pg-enabled-b-c: var(--pg-enabled-bg);
-    --pg-enabled-c: #fff;
-    --date-fill: currentColor;
-
-    ${_atrules.colorSchemeDark} {
-      --header2-a-c: hsl(100, 60%, 70%);
-      --code-c: hsl(100, 45%, 70%);
-      --code-str-c: hsl(100, 85%, 70%);
-      --code-bg: hsl(100, 10%, 17.5%);
-      --code-b: hsl(100, 25%, 70%);
-      --code-inline-c: var(--code-c);
-      --code-inline-bg: var(--code-bg);
-      --pg-disabled-bg: transparent;
-      --pg-disabled-b-c: currentColor;
-      --pg-disabled-c: hsl(100, 10%, 70%);
-      --pg-enabled-hover-bg: hsla(100, 80%, 70%, 0.3);
-      --pg-enabled-hover-b-c: currentColor;
-      --pg-enabled-bg: hsla(100, 80%, 70%, 0.2);
-      --pg-enabled-b-c: currentColor;
-      --pg-enabled-c: var(--a-c);
-      --date-fill: hsl(100, 60%, 70%);
-    }
 
     ${_atrules.desktopAndTallUp} {
       padding-top: 0;
@@ -468,10 +438,14 @@ export const mainClasses = css`
   }
 
   .heading2Anchor {
-    color: var(--header2-a-c);
     text-decoration: none;
-    margin-left: 0.5em;
+    margin-left: 0.5rem;
     display: var(--a-display, none);
+    color: hsl(90, 10%, 90%);
+
+    ${_atrules.colorSchemeDark} {
+      color: hsl(100, 60%, 70%);
+    }
   }
 
   .strong {
@@ -486,7 +460,7 @@ export const mainClasses = css`
   .codeBlock {
     font-family: Consolas, monaco, monospace;
     font-size: 0.875em;
-    color: var(--code-c);
+    color: var(--c);
     display: block;
     overflow: auto;
     white-space: pre-wrap;
@@ -496,31 +470,47 @@ export const mainClasses = css`
     padding-right: 0.5rem;
     padding-left: 0.5rem;
     width: 100%;
-    background-color: var(--code-bg);
+    background-color: var(--bg);
 
-    --str-c: var(--code-str-c);
+    --c: hsl(90, 35%, 70%);
+    --str-c: hsl(90, 75%, 70%);
+    --bg: hsl(90, 15%, 20%);
 
     ${_atrules.tabletUp} {
       max-width: 100%;
       width: auto;
       margin-right: 1rem;
       margin-left: 1rem;
-      padding-right: 1.5rem;
-      padding-left: 1.5rem;
+      padding-right: 1rem;
+      padding-left: 1rem;
       border-radius: 0.125rem;
+    }
+
+    ${_atrules.colorSchemeDark} {
+      --c: hsl(100, 45%, 70%);
+      --str-c: hsl(100, 85%, 70%);
+      --bg: hsl(100, 10%, 17.5%);
     }
   }
 
   .codeInline {
     font-family: Consolas, monaco, monospace;
     font-size: 0.875em;
-    color: var(--code-inline-c);
+    color: var(--c);
     display: inline-block;
     border-radius: 0.125rem;
     padding-right: 0.125rem;
     padding-left: 0.125rem;
     word-break: break-word;
-    background-color: var(--code-inline-bg);
+    background-color: var(--bg);
+
+    --c: hsl(90, 35%, 20%);
+    --bg: hsl(90, 10%, 90%);
+
+    ${_atrules.colorSchemeDark} {
+      --c: var(--c);
+      --bg: var(--bg);
+    }
   }
 
   .anchor {
@@ -563,11 +553,15 @@ export const mainClasses = css`
 
   .dateIcon {
     height: 1em;
-    margin-right: 0.3rem;
+    margin-right: 0.5rem;
   }
 
   .dateFG {
-    fill: var(--date-fill);
+    fill: currentColor;
+
+    ${_atrules.colorSchemeDark} {
+      fill: hsl(100, 60%, 70%);
+    }
   }
 
   .dateBG {

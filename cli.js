@@ -57,14 +57,17 @@ const program = async () => {
 
       const indexView = createIndexView({layoutView})
 
+      await Promise.all([
+        spawn`rollup -c rollup.config.js`,
+        spawn`postcss ./dist/css/styles.css --no-map -u cssnano -o ./dist/css/styles.css`
+      ])
+
       state.styles = await readFile('./dist/css/styles.css', 'utf8')
 
       await writeFile(
         './dist/index.html',
         `<!doctype html>${stringify(indexView(state))}`
       )
-
-      await spawn`rollup -c rollup.config.js`
     }
   } catch (error) {
     console.error(error)
