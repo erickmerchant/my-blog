@@ -306,7 +306,7 @@ export const aboutClasses = css`
     }
   }
 
-  .strong {
+  .bold {
     font-weight: ${fontWeights.semibold};
   }
 `
@@ -448,7 +448,7 @@ export const mainClasses = css`
     }
   }
 
-  .strong {
+  .bold {
     font-weight: ${fontWeights.bold};
     color: var(--str-c, inherit);
   }

@@ -10,9 +10,9 @@ const codeFence = '```'
 
 export const getDefaultContentTemplates = ({classes}) => {
   return {
-    strong: (text) =>
+    bold: (text) =>
       html`
-        <strong class=${classes.strong}>${text}</strong>
+        <b class=${classes.bold}>${text}</b>
       `,
     anchor: (text, href) =>
       html`
@@ -94,7 +94,7 @@ export const createContentView = ({templates, publicFacing = true}) => {
         }
 
         if (match[4] != null) {
-          results.push(templates.strong(match[4]))
+          results.push(templates.bold(match[4]))
         }
       }
 

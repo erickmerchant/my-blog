@@ -55,7 +55,7 @@ export const createFormView = ({model, channelName, app, slugify}) => {
 
   const contentView = createContentView({
     templates: {
-      strong: (text) => html`
+      bold: (text) => html`
         <span>
           <span class=${highlightClasses.punctuation}>*</span>
           <span class=${highlightClasses.bold}>${text}</span>
