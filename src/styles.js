@@ -132,7 +132,7 @@ export const layoutClasses = css`
 
     ${_atrules.desktopAndTallUp} {
       font-weight: ${fontWeights.heading1};
-      font-size: 1.5em;
+      font-size: 1.5rem;
       background-image: none;
       background-color: transparent;
       border-left: none;
@@ -213,7 +213,7 @@ export const layoutClasses = css`
   }
 
   .footerList {
-    font-size: 0.875em;
+    font-size: 0.875rem;
     list-style: none;
     display: flex;
     flex-wrap: wrap;
@@ -296,7 +296,7 @@ export const aboutClasses = css`
   }
 
   .paragraph {
-    font-size: 0.875em;
+    font-size: 0.875rem;
     max-width: 30rem;
     margin-right: auto;
     margin-left: auto;
@@ -388,7 +388,7 @@ export const mainClasses = css`
     ${mixins.heading}
 
     font-weight: ${fontWeights.heading1};
-    font-size: 1.5em;
+    font-size: 1.5rem;
 
     ${_atrules.desktopAndTallUp} {
       margin-top: 2em;
@@ -459,9 +459,8 @@ export const mainClasses = css`
 
   .codeBlock {
     font-family: Consolas, monaco, monospace;
-    font-size: 0.875em;
+    font-size: 0.875rem;
     color: var(--c);
-    display: block;
     overflow: auto;
     white-space: pre-wrap;
     word-break: break-word;
@@ -471,10 +470,14 @@ export const mainClasses = css`
     padding-left: 0.5rem;
     width: 100%;
     background-color: var(--bg);
+    counter-reset: code;
+    display: grid;
+    grid-template-columns: max-content auto;
 
     --c: hsl(90, 35%, 70%);
     --str-c: hsl(90, 75%, 70%);
     --bg: hsl(90, 15%, 20%);
+    --c2: hsl(90, 5%, 75%);
 
     ${_atrules.tabletUp} {
       max-width: 100%;
@@ -490,12 +493,25 @@ export const mainClasses = css`
       --c: hsl(100, 45%, 70%);
       --str-c: hsl(100, 85%, 70%);
       --bg: hsl(100, 10%, 17.5%);
+      --c2: hsl(100, 5%, 75%);
+    }
+  }
+
+  .codeBlockLine {
+    display: contents;
+
+    ::before {
+      counter-increment: code;
+      content: counter(code);
+      padding-right: 1em;
+      white-space: nowrap;
+      color: var(--c2);
     }
   }
 
   .codeInline {
     font-family: Consolas, monaco, monospace;
-    font-size: 0.875em;
+    font-size: 0.875rem;
     color: var(--c);
     display: inline-block;
     border-radius: 0.125rem;

@@ -62,16 +62,19 @@ export const createFormView = ({model, channelName, app, slugify}) => {
           <span class=${highlightClasses.punctuation}>*</span>
         </span>
       `,
-      codeBlock: (code, isClosed) => html`
+      codeBlock: (items, isClosed) => html`
         <span>
           <span class=${highlightClasses.punctuation}>${'```\n'}</span>
-          <span class=${highlightClasses.codeBlock}>${code}</span>
+          <span class=${highlightClasses.codeBlock}>${items}</span>
           ${isClosed
             ? html`
                 <span class=${highlightClasses.punctuation}>${'```'}</span>
               `
             : null}
         </span>
+      `,
+      codeBlockLine: (code) => html`
+        <span>${code}</span>
       `,
       codeInline: (text) => html`
         <span>

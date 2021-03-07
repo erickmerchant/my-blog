@@ -136,7 +136,7 @@ export const createContentView = ({templates, publicFacing = true}) => {
 
     for (const ln of lns) {
       if (code != null && ln !== codeFence) {
-        code.push(ln, '\n')
+        code.push(templates.codeBlockLine(inline(ln)), '\n')
       } else {
         if (!ln.startsWith('- ') && items.length) {
           result.push(templates.list(items))
@@ -161,10 +161,7 @@ export const createContentView = ({templates, publicFacing = true}) => {
 
           case ln === codeFence:
             if (code != null) {
-              result.push(
-                templates.codeBlock(inline(code.join('')), true),
-                '\n'
-              )
+              result.push(templates.codeBlock(code, true), '\n')
 
               code = null
             } else {
@@ -205,7 +202,7 @@ export const createContentView = ({templates, publicFacing = true}) => {
     }
 
     if (code != null) {
-      result.push(templates.codeBlock(inline(code.join('')), false), '\n')
+      result.push(templates.codeBlock(code, false), '\n')
     }
 
     if (items.length) {
