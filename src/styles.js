@@ -508,8 +508,8 @@ export const mainClasses = css`
     --bg: hsl(90, 10%, 90%);
 
     ${_atrules.colorSchemeDark} {
-      --c: var(--c);
-      --bg: var(--bg);
+      --c: hsl(100, 45%, 70%);
+      --bg: hsl(100, 10%, 17.5%);
     }
   }
 
