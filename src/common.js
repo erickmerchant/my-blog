@@ -38,12 +38,12 @@ export const getDefaultContentTemplates = ({classes}) => {
 }
 
 export const createContentView = ({templates, publicFacing = true}) => {
-  const quotes = (ln) => {
+  const inline = (ln) => {
     if (ln === '' || !publicFacing) return ln
 
     let index = 0
 
-    return ln.replace(/["']/g, (match) => {
+    ln = ln.replace(/["']/g, (match) => {
       if (match === "'") return 'ʼ'
 
       if (index++ % 2) {
@@ -52,9 +52,7 @@ export const createContentView = ({templates, publicFacing = true}) => {
 
       return '“'
     })
-  }
 
-  const inline = (ln) => {
     if (ln === '') return []
 
     const results = []
@@ -136,7 +134,7 @@ export const createContentView = ({templates, publicFacing = true}) => {
 
     for (const ln of lns) {
       if (code != null && ln !== codeFence) {
-        code.push(templates.codeBlockLine(inline(ln)), '\n')
+        code.push(templates.codeBlockLine(ln), '\n')
       } else {
         if (!ln.startsWith('- ') && items.length) {
           result.push(templates.list(items))
@@ -153,10 +151,7 @@ export const createContentView = ({templates, publicFacing = true}) => {
             break
 
           case ln.startsWith('- '):
-            items.push(
-              templates.listItem(inline(quotes(ln.substring(2)))),
-              '\n'
-            )
+            items.push(templates.listItem(inline(ln.substring(2))), '\n')
             break
 
           case ln === codeFence:
@@ -189,7 +184,7 @@ export const createContentView = ({templates, publicFacing = true}) => {
               l = l.substring(1)
             }
 
-            const p = templates.paragraph(inline(quotes(l)))
+            const p = templates.paragraph(inline(l))
 
             if (p != null) {
               result.push(p)
