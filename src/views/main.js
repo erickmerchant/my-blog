@@ -18,6 +18,9 @@ export const getMainContentTemplates = ({classes}) => {
     codeBlockLine: (code) => html`
       <span class=${classes.codeBlockLine}><span>${code}</span></span>
     `,
+    codeBlockComment: (comment) => html`
+      <span class=${classes.codeBlockComment}><span>${comment}</span></span>
+    `,
     codeInline: (text) =>
       html`
         <code class=${classes.codeInline}>${text}</code>

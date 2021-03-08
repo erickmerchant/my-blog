@@ -76,6 +76,9 @@ export const createFormView = ({model, channelName, app, slugify}) => {
       codeBlockLine: (code) => html`
         <span>${code}</span>
       `,
+      codeBlockComment: (comment) => html`
+        <span>${comment}</span>
+      `,
       codeInline: (text) => html`
         <span>
           <span class=${highlightClasses.punctuation}>${'`'}</span>

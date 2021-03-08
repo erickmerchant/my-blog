@@ -509,6 +509,10 @@ export const mainClasses = css`
     }
   }
 
+  .codeBlockComment {
+    color: var(--c2);
+  }
+
   .codeInline {
     font-family: Consolas, monaco, monospace;
     font-size: 0.875rem;

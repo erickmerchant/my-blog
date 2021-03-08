@@ -39,19 +39,19 @@ export const getDefaultContentTemplates = ({classes}) => {
 
 export const createContentView = ({templates, publicFacing = true}) => {
   const inline = (ln) => {
-    if (ln === '' || !publicFacing) return ln
+    if (ln !== '' && publicFacing) {
+      let index = 0
 
-    let index = 0
+      ln = ln.replace(/["']/g, (match) => {
+        if (match === "'") return 'ʼ'
 
-    ln = ln.replace(/["']/g, (match) => {
-      if (match === "'") return 'ʼ'
+        if (index++ % 2) {
+          return '”'
+        }
 
-      if (index++ % 2) {
-        return '”'
-      }
-
-      return '“'
-    })
+        return '“'
+      })
+    }
 
     if (ln === '') return []
 
@@ -134,7 +134,14 @@ export const createContentView = ({templates, publicFacing = true}) => {
 
     for (const ln of lns) {
       if (code != null && ln !== codeFence) {
-        code.push(templates.codeBlockLine(ln), '\n')
+        if (ln.trim().startsWith('//')) {
+          code.push(
+            templates.codeBlockLine(templates.codeBlockComment(ln)),
+            '\n'
+          )
+        } else {
+          code.push(templates.codeBlockLine(ln), '\n')
+        }
       } else {
         if (!ln.startsWith('- ') && items.length) {
           result.push(templates.list(items))
