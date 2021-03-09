@@ -1,5 +1,5 @@
 import {createDomView, createApp} from '@erickmerchant/framework/main.js'
-import {mainClasses} from './css/styles.js'
+import {mainClasses as classes} from './css/styles.js'
 import {createMainView, getMainContentTemplates} from './views/main.js'
 import {createDateView} from './views/date.js'
 import {
@@ -32,16 +32,16 @@ const anchorAttrs = getAnchorAttrs({
 })
 
 const dateView = createDateView({
-  classes: mainClasses,
+  classes,
   dateUtils
 })
 
 const mainView = createMainView({
-  classes: mainClasses,
+  classes,
   contentView: createContentView({
     templates: Object.assign(
-      getDefaultContentTemplates({classes: mainClasses}),
-      getMainContentTemplates({classes: mainClasses})
+      getDefaultContentTemplates({classes}),
+      getMainContentTemplates({classes})
     )
   }),
   dateView,
