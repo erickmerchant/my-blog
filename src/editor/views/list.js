@@ -15,7 +15,7 @@ export const createListView = ({model, channelName, app}) => {
         const items = await model.getAll()
 
         app.state = {
-          route: channelName,
+          route: {key: 'list', params: ['posts']},
           items
         }
       }
@@ -30,7 +30,7 @@ export const createListView = ({model, channelName, app}) => {
         <ul class=${listClasses.nav}>
           <li class=${listClasses.navItem}>
             <a
-              class=${state.route === 'posts'
+              class=${state.route.params[0] === 'posts'
                 ? listClasses.navAnchorCurrent
                 : listClasses.navAnchor}
               href="#/posts"
@@ -40,7 +40,7 @@ export const createListView = ({model, channelName, app}) => {
           </li>
           <li class=${listClasses.navItem}>
             <a
-              class=${state.route === 'drafts'
+              class=${state.route.params[0] === 'drafts'
                 ? listClasses.navAnchorCurrent
                 : listClasses.navAnchor}
               href="#/drafts"

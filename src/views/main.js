@@ -50,7 +50,7 @@ export const createMainView = ({
     }
   })
 
-  if (state.route === 'post') {
+  if (state.route.key === 'post') {
     return html`
       <article
         class=${state.transitioning ? classes.mainTransitioning : classes.main}
@@ -105,7 +105,7 @@ export const createMainView = ({
     `
   }
 
-  if (state.route === 'error') {
+  if (state.route.key === 'error') {
     return html`
       <article
         class=${state.transitioning ? classes.mainTransitioning : classes.main}

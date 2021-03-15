@@ -32,7 +32,7 @@ export const createFormView = ({model, channelName, app, slugify}) => {
       } else {
         app.state.error = error
 
-        app.state.route = 'error'
+        app.state.route = {key: 'error', params: []}
       }
     }
   }
@@ -49,7 +49,7 @@ export const createFormView = ({model, channelName, app, slugify}) => {
     } catch (error) {
       app.state.error = error
 
-      app.state.route = 'error'
+      app.state.route = {key: 'error', params: []}
     }
   }
 

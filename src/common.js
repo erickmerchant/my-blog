@@ -215,23 +215,16 @@ export const createContentView = ({templates, publicFacing = true}) => {
   }
 }
 
-export const getSegments = (all) => {
-  if (all.startsWith('/')) all = all.substring(1)
+export const getRoute = (all, routes) => {
+  for (const [key, regex] of Object.entries(routes)) {
+    const match = all.match(regex)
 
-  if (all.endsWith('/')) all = all.substring(0, all.length - 1)
-
-  let lastSlashIndex = all.lastIndexOf('/')
-
-  if (!~lastSlashIndex) lastSlashIndex = all.length
-
-  const initial = all.substring(0, lastSlashIndex)
-
-  const last = all.substring(lastSlashIndex + 1)
-
-  return {
-    initial,
-    last,
-    all
+    if (match) {
+      return {
+        key,
+        params: match.slice(1)
+      }
+    }
   }
 }
 

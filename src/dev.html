@@ -16,7 +16,7 @@
       import {
         createContentView,
         getDefaultContentTemplates,
-        getSegments,
+        getRoute,
         dateUtils,
         createPostsModel
       } from '/common.js'
@@ -35,7 +35,7 @@
         const dispatchLocation = getDispatchLocation({
           app,
           postsModel,
-          getSegments
+          getRoute
         })
 
         window.onpopstate = (e) => {

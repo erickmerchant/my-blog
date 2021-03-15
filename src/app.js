@@ -5,7 +5,7 @@ import {createDateView} from './views/date.js'
 import {
   createContentView,
   getDefaultContentTemplates,
-  getSegments,
+  getRoute,
   dateUtils,
   createPostsModel
 } from './common.js'
@@ -17,7 +17,7 @@ const listEndpoint = `/content/posts.json`
 
 const postsModel = createPostsModel(listEndpoint)
 
-const dispatchLocation = getDispatchLocation({app, postsModel, getSegments})
+const dispatchLocation = getDispatchLocation({app, postsModel, getRoute})
 
 window.onpopstate = (e) => {
   dispatchLocation(window.location.pathname)

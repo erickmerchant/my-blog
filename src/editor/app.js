@@ -1,12 +1,12 @@
 import {createApp, createDomView, html} from '@erickmerchant/framework/main.js'
 import {layoutClasses} from './css/styles.js'
-import {getSegments, slugify} from '../common.js'
+import {getRoute, slugify} from '../common.js'
 import {createListView} from './views/list.js'
 import {createFormView} from './views/form.js'
 import {createErrorView} from './views/error.js'
 import {createModel} from './model.js'
 
-const state = {route: 'posts', posts: []}
+const state = {route: {key: 'list', params: ['posts']}, posts: []}
 
 const app = createApp(state)
 
@@ -19,16 +19,18 @@ const channels = {
   }
 }
 
-const dispatchLocation = async (segments) => {
+const dispatchLocation = async (route = {key: 'list', params: ['posts']}) => {
   let state = {
-    route: 'error',
+    route,
     error: Error('Route not found')
   }
 
   try {
     for (const [channelName, channel] of Object.entries(channels)) {
-      if (segments.initial === `${channelName}/edit`) {
-        const id = segments.last
+      if (route.params[0] !== channelName) continue
+
+      if (route.key === 'edit') {
+        const [, id] = route.params
 
         const item = await channel.model.getBySlug(id)
 
@@ -37,21 +39,21 @@ const dispatchLocation = async (segments) => {
         item.highlightedContent = item.content
 
         state = {
-          route: `${channelName}/edit`,
+          route,
           item,
           slugConflict: false
         }
-      } else if (segments.all === `${channelName}/create`) {
+      } else if (route.key === 'create') {
         state = {
-          route: `${channelName}/create`,
+          route,
           item: {},
           slugConflict: false
         }
-      } else if (segments.all === channelName || segments.all === '') {
+      } else if (route.key === 'list') {
         const items = await channel.model.getAll()
 
         state = {
-          route: channelName,
+          route,
           items
         }
 
@@ -60,7 +62,7 @@ const dispatchLocation = async (segments) => {
     }
   } catch (error) {
     state = {
-      route: 'error',
+      route: {key: 'error', params: []},
       error
     }
   }
@@ -93,15 +95,13 @@ const view = createDomView(
     <body class=${layoutClasses.app}>
       ${(() => {
         for (const [channelName, channel] of Object.entries(channels)) {
-          if (state.route === channelName) {
+          if (state.route.params[0] !== channelName) continue
+
+          if (state.route.key === 'list') {
             return channel.listView(state)
           }
 
-          if (
-            [`${channelName}/edit`, `${channelName}/create`].includes(
-              state.route
-            )
-          ) {
+          if (['edit', 'create'].includes(state.route.key)) {
             return channel.formView(state)
           }
         }
@@ -115,7 +115,13 @@ const view = createDomView(
 app.render(view)
 
 const onPopState = () => {
-  dispatchLocation(getSegments(window.location.hash.substring(1)))
+  dispatchLocation(
+    getRoute(window.location.hash.substring(1), {
+      edit: /^\/?([a-z0-9-]+)\/edit\/([a-z0-9-]+)\/?$/,
+      create: /^\/?([a-z0-9-]+)\/create\/?$/,
+      list: /^\/?([a-z0-9-]+)\/?$/
+    })
+  )
 }
 
 window.onpopstate = onPopState

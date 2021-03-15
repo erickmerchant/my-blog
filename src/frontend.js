@@ -1,12 +1,15 @@
-export const getDispatchLocation = ({app, postsModel, getSegments}) => async (
+export const getDispatchLocation = ({app, postsModel, getRoute}) => async (
   location,
   transitioning = true
 ) => {
   if (location === app.state?.location) return
 
-  const segments = getSegments(location)
+  const route = getRoute(location, {
+    post: /^\/?(?:posts\/([a-z0-9-]+)|)\/?$/
+  })
+
   let state = {
-    route: 'error',
+    route: {key: 'error'},
     location,
     title: 'Page Not Found',
     error: Error(
@@ -19,19 +22,15 @@ export const getDispatchLocation = ({app, postsModel, getSegments}) => async (
     app.state.transitioning = true
   }
 
-  if (segments.initial === 'posts' || segments.all === '') {
+  if (route.key === 'post') {
     try {
-      let id
-
-      if (segments.initial === 'posts') {
-        id = segments.last
-      }
+      const [id] = route.params
 
       const post = await postsModel.getBySlug(id)
 
       if (post != null) {
         state = {
-          route: 'post',
+          route,
           location,
           title: `Posts | ${post.title}`,
           transitioning: false,
@@ -41,7 +40,7 @@ export const getDispatchLocation = ({app, postsModel, getSegments}) => async (
     } catch (error) {
       if (!error.message.startsWith('404')) {
         state = {
-          route: 'error',
+          route: {key: 'error'},
           location,
           title: 'Error',
           transitioning: false,

@@ -22,7 +22,8 @@ export default {
               'day',
               'Accept',
               'Content-Type',
-              'headers'
+              'headers',
+              'post'
             ]
           }
         },
