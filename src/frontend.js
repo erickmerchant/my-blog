@@ -6,10 +6,10 @@ export const getDispatchLocation = ({app, postsModel, getRoute}) => async (
 
   const route = getRoute(location, {
     post: /^\/?(?:posts\/([a-z0-9-]+)|)\/?$/
-  })
+  }) || {key: 'error', params: []}
 
   let state = {
-    route: {key: 'error'},
+    route: {key: 'error', params: []},
     location,
     title: 'Page Not Found',
     error: Error(
@@ -40,7 +40,7 @@ export const getDispatchLocation = ({app, postsModel, getRoute}) => async (
     } catch (error) {
       if (!error.message.startsWith('404')) {
         state = {
-          route: {key: 'error'},
+          route: {key: 'error', params: []},
           location,
           title: 'Error',
           transitioning: false,

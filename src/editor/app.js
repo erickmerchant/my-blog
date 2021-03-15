@@ -56,8 +56,6 @@ const dispatchLocation = async (route = {key: 'list', params: ['posts']}) => {
           route,
           items
         }
-
-        break
       }
     }
   } catch (error) {

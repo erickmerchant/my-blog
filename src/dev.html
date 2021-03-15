@@ -23,11 +23,9 @@
       import {getAnchorAttrs, getDispatchLocation} from '/frontend.js'
       import * as classes from '/css/styles.js'
 
-      const app = createApp()
+      const app = createApp({route: {key: 'error', params: []}, title: ''})
 
       const target = document.querySelector('body')
-
-      app.state = {route: null, title: ''}
 
       export const __update = () => {
         const postsModel = createPostsModel('/content/posts.json')

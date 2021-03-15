@@ -11,7 +11,7 @@ import {
 } from './common.js'
 import {getAnchorAttrs, getDispatchLocation} from './frontend.js'
 
-const app = createApp({route: null, title: ''})
+const app = createApp({route: {key: 'error', params: []}, title: ''})
 
 const listEndpoint = `/content/posts.json`
 
