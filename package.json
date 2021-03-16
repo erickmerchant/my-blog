@@ -32,10 +32,7 @@
     "extends": "@erickmerchant/eslint-config",
     "plugins": [
       "html"
-    ],
-    "rules": {
-      "no-await-in-loop": "off"
-    }
+    ]
   },
   "prettier": "@erickmerchant/prettier-config"
 }
