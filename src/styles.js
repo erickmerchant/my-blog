@@ -441,7 +441,7 @@ export const mainClasses = css`
     text-decoration: none;
     margin-left: 0.5rem;
     display: var(--a-display, none);
-    color: hsl(90, 10%, 90%);
+    color: hsl(90, 10%, 70%);
 
     ${_atrules.colorSchemeDark} {
       color: hsl(100, 60%, 70%);
@@ -551,10 +551,26 @@ export const mainClasses = css`
     margin-bottom: 0.25em;
 
     ::before {
-      font-weight: ${fontWeights.bold};
-      color: currentColor;
+      display: inline-block;
+      content: '';
+      clip-path: polygon(
+        50% 0%,
+        60% 40%,
+        100% 50%,
+        60% 60%,
+        50% 100%,
+        40% 60%,
+        0% 50%,
+        40% 40%
+      );
+      background: currentColor;
       margin-right: 0.5rem;
-      content: '-';
+      height: 0.75em;
+      width: 0.75em;
+
+      ${_atrules.colorSchemeDark} {
+        background: hsl(100, 60%, 70%);
+      }
     }
   }
 
