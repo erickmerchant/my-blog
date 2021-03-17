@@ -71,7 +71,7 @@ export const layoutClasses = css`
       linear-gradient(90deg, var(--grid-c) 1px, transparent 1px);
     --hdr-bg-size: 2rem 2rem;
     --hdr-b: transparent;
-    --ftr-bg: hsl(90, 10%, 95%);
+    --ftr-bg: hsl(90, 25%, 95%);
     --ftr-bg-i: linear-gradient(225deg, var(--bg) 0.5rem, transparent 0),
       linear-gradient(135deg, var(--bg) 0.5rem, var(--ftr-bg) 0);
     --ftr-bg-i-posi: left top;
@@ -475,10 +475,9 @@ export const mainClasses = css`
     display: grid;
     grid-template-columns: max-content auto;
 
-    --c: hsl(90, 35%, 70%);
-    --str-c: hsl(90, 75%, 70%);
-    --bg: hsl(90, 15%, 20%);
-    --c2: hsl(90, 5%, 75%);
+    --c: hsl(90, 55%, 30%);
+    --bg: hsl(90, 25%, 95%);
+    --c2: hsl(90, 5%, 35%);
 
     ${_atrules.tabletUp} {
       max-width: 100%;
@@ -492,7 +491,6 @@ export const mainClasses = css`
 
     ${_atrules.colorSchemeDark} {
       --c: hsl(100, 45%, 70%);
-      --str-c: hsl(100, 85%, 70%);
       --bg: hsl(100, 10%, 17.5%);
       --c2: hsl(100, 5%, 75%);
     }
@@ -527,7 +525,7 @@ export const mainClasses = css`
     background-color: var(--bg);
 
     --c: hsl(90, 35%, 20%);
-    --bg: hsl(90, 10%, 90%);
+    --bg: hsl(90, 25%, 95%);
 
     ${_atrules.colorSchemeDark} {
       --c: hsl(100, 45%, 70%);
