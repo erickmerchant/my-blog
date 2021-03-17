@@ -53,7 +53,7 @@ export const getDispatchLocation = ({app, postsModel, getRoute}) => async (
   if (location !== app.state?.location) {
     app.state = state
 
-    window.scroll(0, 0)
+    Promise.resolve().then(() => window.scroll(0, 0))
   }
 }
 
