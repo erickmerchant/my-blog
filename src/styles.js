@@ -321,19 +321,18 @@ const paginationMixins = css`
     padding-bottom: 1em;
     background-color: var(--bg);
     border: 3px solid var(--b-c);
-    border-top-right-radius: var(--right-r, 0.125rem);
-    border-bottom-right-radius: var(--right-r, 0.125rem);
-    border-top-left-radius: var(--left-r, 0.125rem);
-    border-bottom-left-radius: var(--left-r, 0.125rem);
+    border-radius: var(--r);
 
-    --r: 1.5rem 50%;
     --bg: hsl(90, 10%, 45%);
     --b-c: var(--bg);
     --c: #fff;
 
     ${_atrules.veryMobile} {
-      --left-r: 0.125rem;
-      --right-r: 0.125rem;
+      --r: 0.125rem;
+    }
+
+    ${_atrules.tabletUp} {
+      --r: 1.5rem / 50%;
     }
 
     ${_atrules.colorSchemeDark} {
@@ -367,19 +366,11 @@ const paginationMixins = css`
   }
 
   .newer {
-    --right-r: var(--r);
-
-    ${_atrules.tabletUp} {
-      --left-r: var(--r);
-    }
+    --r: 0.125rem 1.5rem 1.5rem 0.125rem / 0 50% 50% 0;
   }
 
   .older {
-    --left-r: var(--r);
-
-    ${_atrules.tabletUp} {
-      --right-r: var(--r);
-    }
+    --r: 1.5rem 0.125rem 0.125rem 1.5rem / 50% 0 0 50%;
   }
 `
 
@@ -661,10 +652,7 @@ export const mainClasses = css`
       bottom: 0;
       right: 0;
       left: 0;
-      border-top-right-radius: var(--right-r, 0.125rem);
-      border-bottom-right-radius: var(--right-r, 0.125rem);
-      border-top-left-radius: var(--left-r, 0.125rem);
-      border-bottom-left-radius: var(--left-r, 0.125rem);
+      border-radius: var(--r);
     }
   }
 `
