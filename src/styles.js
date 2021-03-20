@@ -366,11 +366,11 @@ const paginationMixins = css`
   }
 
   .newer {
-    --r: 0.125rem 1.5rem 1.5rem 0.125rem / 0 50% 50% 0;
+    --r: 0.125rem 1.5rem 1.5rem 0.125rem / 0.125rem 50% 50% 0.125rem;
   }
 
   .older {
-    --r: 1.5rem 0.125rem 0.125rem 1.5rem / 50% 0 0 50%;
+    --r: 1.5rem 0.125rem 0.125rem 1.5rem / 50% 0.125rem 0.125rem 50%;
   }
 `
 
