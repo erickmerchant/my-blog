@@ -66,7 +66,7 @@ export const layoutClasses = css`
     --a-c: hsl(90, 35%, 35%);
     --hdr-a-c: #fff;
     --hdr-c: #fff;
-    --hdr-bg: hsla(90, 35%, 40%, 0.9);
+    --hdr-bg: hsla(90, 25%, 40%, 0.9);
     --hdr-bg-i: linear-gradient(0deg, var(--grid-c) 1px, transparent 1px),
       linear-gradient(90deg, var(--grid-c) 1px, transparent 1px);
     --hdr-bg-size: 2rem 2rem;
@@ -82,11 +82,11 @@ export const layoutClasses = css`
     ${_atrules.colorSchemeDark} {
       --c: #fff;
       --bg: hsl(100, 10%, 15%);
-      --grid-c: hsla(0, 0%, 100%, 0.05);
+      --grid-c: hsla(0, 0%, 100%, 0.075);
       --a-c: hsl(100, 80%, 70%);
       --hdr-a-c: hsl(100, 90%, 85%);
       --hdr-c: #fff;
-      --hdr-bg: hsla(100, 20%, 17.5%, 0.9);
+      --hdr-bg: hsla(100, 25%, 17.5%, 0.9);
       --hdr-bg-size: 1rem 1rem;
       --hdr-b: hsl(100, 30%, 70%);
       --ftr-bg: var(--bg);
@@ -102,7 +102,7 @@ export const layoutClasses = css`
       --ftr-bg-i-posi: -0.25rem 0, -0.25rem 0, 0 0, 0 0;
       --ftr-bg-i-size: 0.5rem 0.5rem;
       --ftr-c: #fff;
-      --ftr-hr-b: 1px dashed #fff;
+      --ftr-hr-b: 1px dashed var(--hdr-b);
     }
 
     ${_atrules.desktopAndTallUp} {
@@ -323,7 +323,7 @@ const paginationMixins = css`
     border: 3px solid var(--b-c);
     border-radius: var(--r);
 
-    --bg: hsl(90, 10%, 45%);
+    --bg: hsl(90, 10%, 47.5%);
     --b-c: var(--bg);
     --c: #fff;
 
@@ -343,11 +343,9 @@ const paginationMixins = css`
   }
 
   .enabled {
-    --hover-bg: hsl(90, 45%, 45%);
+    --hover-bg: hsla(90, 25%, 47.5%, 0.9);
     --hover-b-c: var(--hover-bg);
-    --bg: hsl(90, 35%, 45%);
-    --b-c: var(--bg);
-    --c: #fff;
+    --bg: hsl(90, 25%, 47.5%);
 
     :focus-within,
     :hover {
@@ -460,7 +458,7 @@ export const mainClasses = css`
     grid-template-columns: max-content auto;
 
     --c: hsl(90, 55%, 30%);
-    --bg: hsl(90, 25%, 95%);
+    --bg: var(--ftr-bg);
     --c2: hsl(90, 5%, 35%);
 
     ${_atrules.tabletUp} {
@@ -508,8 +506,8 @@ export const mainClasses = css`
     word-break: break-word;
     background-color: var(--bg);
 
-    --c: hsl(90, 35%, 20%);
-    --bg: hsl(90, 25%, 95%);
+    --c: inherit;
+    --bg: var(--ftr-bg);
 
     ${_atrules.colorSchemeDark} {
       --c: hsl(100, 45%, 70%);
