@@ -36,9 +36,7 @@ export const createMainView = ({
 }) => (state) => (afterUpdate) => {
   if (state.route == null) {
     return html`
-      <article
-        class=${state.transitioning ? classes.mainTransitioning : classes.main}
-      ></article>
+      <article class=${classes.main}></article>
     `
   }
 
@@ -52,9 +50,7 @@ export const createMainView = ({
 
   if (state.route.key === 'post') {
     return html`
-      <article
-        class=${state.transitioning ? classes.mainTransitioning : classes.main}
-      >
+      <article class=${classes.main}>
         <header class=${classes.header}>
           <h1 class=${classes.heading1}>${state.post.title}</h1>
           ${dateView(state.post.date)}
@@ -107,9 +103,7 @@ export const createMainView = ({
 
   if (state.route.key === 'error') {
     return html`
-      <article
-        class=${state.transitioning ? classes.mainTransitioning : classes.main}
-      >
+      <article class=${classes.main}>
         <header class=${classes.header}>
           <h1 class=${classes.heading1}>${state.title ?? ''}</h1>
         </header>

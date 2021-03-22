@@ -386,19 +386,12 @@ export const mainClasses = css`
     }
   }
 
-  .main,
-  .mainTransitioning {
+  .main {
     opacity: 1;
-    transition: opacity 0.3s;
 
     ${_atrules.desktopAndTallUp} {
       padding-top: 0;
     }
-  }
-
-  .mainTransitioning {
-    opacity: 0;
-    transition: none;
   }
 
   .header,

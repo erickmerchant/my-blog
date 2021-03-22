@@ -1,6 +1,5 @@
 export const getDispatchLocation = ({app, postsModel, getRoute}) => async (
-  location,
-  transitioning = true
+  location
 ) => {
   if (location === app.state?.location) return
 
@@ -14,12 +13,7 @@ export const getDispatchLocation = ({app, postsModel, getRoute}) => async (
     title: 'Page Not Found',
     error: Error(
       "That page doesn't exist. It was either moved, removed, or never existed."
-    ),
-    transitioning: false
-  }
-
-  if (transitioning) {
-    app.state.transitioning = true
+    )
   }
 
   if (route.key === 'post') {
@@ -33,7 +27,6 @@ export const getDispatchLocation = ({app, postsModel, getRoute}) => async (
           route,
           location,
           title: `Posts | ${post.title}`,
-          transitioning: false,
           post
         }
       }
@@ -43,7 +36,6 @@ export const getDispatchLocation = ({app, postsModel, getRoute}) => async (
           route: {key: 'error', params: []},
           location,
           title: 'Error',
-          transitioning: false,
           error
         }
       }
