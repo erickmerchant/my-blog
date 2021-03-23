@@ -1,15 +1,16 @@
-import {createDomView, createApp} from '@erickmerchant/framework/main.js'
-import {mainClasses as classes} from './css/styles.js'
-import {createMainView, getMainContentTemplates} from './views/main.js'
-import {createDateView} from './views/date.js'
+import {createApp, createDomView} from '@erickmerchant/framework/main.js'
+
 import {
   createContentView,
-  getDefaultContentTemplates,
-  getRoute,
+  createPostsModel,
   dateUtils,
-  createPostsModel
+  getDefaultContentTemplates,
+  getRoute
 } from './common.js'
+import {mainClasses as classes} from './css/styles.js'
 import {getAnchorAttrs, getDispatchLocation} from './frontend.js'
+import {createDateView} from './views/date.js'
+import {createMainView, getMainContentTemplates} from './views/main.js'
 
 const app = createApp({route: null, title: ''})
 

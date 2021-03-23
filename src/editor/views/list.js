@@ -1,8 +1,9 @@
 import {html} from '@erickmerchant/framework/main.js'
-import {listClasses} from '../css/styles.js'
-import {dateUtils} from '../../common.js'
 
-export const createListView = ({model, channelName, app}) => {
+import {dateUtils} from '../../common.js'
+import {listClasses} from '../css/styles.js'
+
+export const createListView = ({model, app}) => {
   const remove = (item) => async (e) => {
     e.preventDefault()
 
@@ -15,7 +16,7 @@ export const createListView = ({model, channelName, app}) => {
         const items = await model.getAll()
 
         app.state = {
-          route: {key: 'list', params: ['posts']},
+          route: {key: 'list', params: [model.name]},
           items
         }
       }
@@ -71,7 +72,7 @@ export const createListView = ({model, channelName, app}) => {
                     <a
                       tabindex="0"
                       class=${listClasses.editButton}
-                      href=${`#/${channelName}/edit/${item.slug}`}
+                      href=${`#/${model.name}/edit/${item.slug}`}
                     >
                       Edit
                     </a>
@@ -94,7 +95,7 @@ export const createListView = ({model, channelName, app}) => {
         <a
           tabindex="0"
           class=${listClasses.createButton}
-          href=${`#/${channelName}/create`}
+          href=${`#/${model.name}/create`}
         >
           New
         </a>

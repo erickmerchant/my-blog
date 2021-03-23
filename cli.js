@@ -1,13 +1,14 @@
 #!/usr/bin/env node
-import {promisify} from 'util'
-import fs from 'fs'
-import {stringify} from '@erickmerchant/framework/stringify.js'
 import {html} from '@erickmerchant/framework/main.js'
+import {stringify} from '@erickmerchant/framework/stringify.js'
+import fs from 'fs'
+import {spawn} from 'sergeant'
+import {promisify} from 'util'
+
+import {createContentView, getDefaultContentTemplates} from './src/common.js'
+import {createAboutView, getAboutContentTemplates} from './src/views/about.js'
 import {createIndexView} from './src/views/index.js'
 import {createLayoutView} from './src/views/layout.js'
-import {createAboutView, getAboutContentTemplates} from './src/views/about.js'
-import {createContentView, getDefaultContentTemplates} from './src/common.js'
-import {spawn} from 'sergeant'
 
 const readFile = promisify(fs.readFile)
 const writeFile = promisify(fs.writeFile)

@@ -1,4 +1,5 @@
 import {html} from '@erickmerchant/framework/main.js'
+
 import {errorClasses} from '../css/styles.js'
 
 export const createErrorView = () => (state) => html`

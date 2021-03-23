@@ -247,8 +247,8 @@ export const dateUtils = {
 }
 
 export const createPostsModel = (listEndpoint) => {
-  return {
-    async _fetch(url, options = {}) {
+  const model = {
+    async fetch(url, options = {}) {
       const res = await window.fetch(
         url,
         Object.assign(
@@ -270,13 +270,13 @@ export const createPostsModel = (listEndpoint) => {
     },
 
     getAll() {
-      return this._fetch(listEndpoint).then((res) => res.json())
+      return model.fetch(listEndpoint).then((res) => res.json())
     },
 
     async getBySlug(id = '__first') {
       const [posts, content] = await Promise.all([
-        this.getAll(),
-        this._fetch(`/content/${id}.json`).then((response) => response.json())
+        model.getAll(),
+        model.fetch(`/content/${id}.json`).then((response) => response.json())
       ])
 
       const index =
@@ -295,4 +295,6 @@ export const createPostsModel = (listEndpoint) => {
       }
     }
   }
+
+  return model
 }

@@ -1,8 +1,9 @@
 import {html} from '@erickmerchant/framework/main.js'
-import {formClasses, highlightClasses} from '../css/styles.js'
-import {createContentView} from '../../common.js'
 
-export const createFormView = ({model, channelName, app, slugify}) => {
+import {createContentView} from '../../common.js'
+import {formClasses, highlightClasses} from '../css/styles.js'
+
+export const createFormView = ({model, app, slugify}) => {
   const serialize = (item, target) => {
     const data = {}
 
@@ -25,7 +26,7 @@ export const createFormView = ({model, channelName, app, slugify}) => {
     try {
       await model.save(data)
 
-      window.location.hash = `#/${channelName}`
+      window.location.hash = `#/${model.name}`
     } catch (error) {
       if (error.message.startsWith('409')) {
         app.state.slugConflict = true
@@ -37,13 +38,13 @@ export const createFormView = ({model, channelName, app, slugify}) => {
     }
   }
 
-  const saveAs = (channelName, item) => async (e) => {
+  const saveAs = (name, item) => async (e) => {
     e.preventDefault()
 
     const data = serialize(item, e.target.closest('form'))
 
     try {
-      await model.saveAs(channelName, data)
+      await model.saveAs(name, data)
 
       window.location.hash = `#/posts`
     } catch (error) {
@@ -204,10 +205,10 @@ export const createFormView = ({model, channelName, app, slugify}) => {
               <p class=${formClasses.errorMessage}>This item already exists</p>
             `
           : null}
-        <a class=${formClasses.cancelButton} href=${`#/${channelName}`}>
+        <a class=${formClasses.cancelButton} href=${`#/${model.name}`}>
           Cancel
         </a>
-        ${channelName === 'drafts' && state.item.slug != null
+        ${model.name === 'drafts' && state.item.slug != null
           ? html`
               <button
                 class=${formClasses.saveButton}

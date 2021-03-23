@@ -1,23 +1,20 @@
 import {createApp, createDomView, html} from '@erickmerchant/framework/main.js'
-import {layoutClasses} from './css/styles.js'
+
 import {getRoute, slugify} from '../common.js'
-import {createListView} from './views/list.js'
-import {createFormView} from './views/form.js'
-import {createErrorView} from './views/error.js'
+import {layoutClasses} from './css/styles.js'
 import {createModel} from './model.js'
+import {createErrorView} from './views/error.js'
+import {createFormView} from './views/form.js'
+import {createListView} from './views/list.js'
 
 const state = {route: {key: 'list', params: ['posts']}, posts: []}
 
 const app = createApp(state)
 
-const channels = {
-  posts: {
-    model: createModel('/content/posts.json')
-  },
-  drafts: {
-    model: createModel('/content/drafts.json')
-  }
-}
+const channels = [
+  createModel('posts', '/content/posts.json'),
+  createModel('drafts', '/content/drafts.json')
+]
 
 const dispatchLocation = async (route = {key: 'list', params: ['posts']}) => {
   let state = {
@@ -26,13 +23,13 @@ const dispatchLocation = async (route = {key: 'list', params: ['posts']}) => {
   }
 
   try {
-    for (const [channelName, channel] of Object.entries(channels)) {
-      if (route.params[0] !== channelName) continue
+    for (const channel of channels) {
+      if (route.params[0] !== channel.name) continue
 
       if (route.key === 'edit') {
         const [, id] = route.params
 
-        const item = await channel.model.getBySlug(id)
+        const item = await channel.getBySlug(id)
 
         if (item == null) throw Error(`item "${id}" not found`)
 
@@ -50,7 +47,7 @@ const dispatchLocation = async (route = {key: 'list', params: ['posts']}) => {
           slugConflict: false
         }
       } else if (route.key === 'list') {
-        const items = await channel.model.getAll()
+        const items = await channel.getAll()
 
         state = {
           route,
@@ -72,16 +69,14 @@ const target = document.querySelector('body')
 
 const errorView = createErrorView()
 
-for (const [channelName, channel] of Object.entries(channels)) {
+for (const channel of channels) {
   channel.listView = createListView({
-    model: channel.model,
-    channelName,
+    model: channel,
     app
   })
 
   channel.formView = createFormView({
-    model: channel.model,
-    channelName,
+    model: channel,
     app,
     slugify
   })
@@ -92,8 +87,8 @@ const view = createDomView(
   (state) => html`
     <body class=${layoutClasses.app}>
       ${(() => {
-        for (const [channelName, channel] of Object.entries(channels)) {
-          if (state.route.params[0] !== channelName) continue
+        for (const channel of channels) {
+          if (state.route.params[0] !== channel.name) continue
 
           if (state.route.key === 'list') {
             return channel.listView(state)

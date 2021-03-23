@@ -66,7 +66,7 @@ export const layoutClasses = css`
     --a-c: hsl(90, 35%, 35%);
     --hdr-a-c: #fff;
     --hdr-c: #fff;
-    --hdr-bg: hsla(90, 25%, 40%, 0.9);
+    --hdr-bg: hsla(90, 35%, 40%, 0.9);
     --hdr-bg-i: linear-gradient(0deg, var(--grid-c) 1px, transparent 1px),
       linear-gradient(90deg, var(--grid-c) 1px, transparent 1px);
     --hdr-bg-size: 2rem 2rem;
