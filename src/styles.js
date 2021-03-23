@@ -451,7 +451,6 @@ export const mainClasses = css`
     padding-bottom: 1em;
     padding-right: 0.5rem;
     padding-left: 0.5rem;
-    width: 100%;
     background-color: var(--bg);
     counter-reset: code;
     display: grid;
@@ -462,13 +461,18 @@ export const mainClasses = css`
     --c2: hsl(90, 5%, 35%);
 
     ${_atrules.tabletUp} {
-      max-width: 100%;
-      width: auto;
-      margin-right: 1rem;
-      margin-left: 1rem;
+      max-width: 38rem;
+      margin-right: auto;
+      margin-left: auto;
       padding-right: 1rem;
       padding-left: 1rem;
       border-radius: 0.125rem;
+    }
+
+    ${_atrules.desktopAndTallUp} {
+      max-width: 100%;
+      margin-right: 1rem;
+      margin-left: 1rem;
     }
 
     ${_atrules.colorSchemeDark} {
