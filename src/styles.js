@@ -60,8 +60,12 @@ export const layoutClasses = css`
     color: var(--c);
     background-color: var(--bg);
 
+    --zz-bg: linear-gradient(225deg, var(--bg) 0.5rem, transparent 0),
+      linear-gradient(135deg, var(--bg) 0.5rem, var(--bg2) 0);
+
     --c: hsl(90, 10%, 20%);
     --bg: #fff;
+    --bg2: hsl(90, 25%, 95%);
     --grid-c: hsla(0, 0%, 100%, 0.1);
     --a-c: hsl(90, 35%, 35%);
     --hdr-a-c: #fff;
@@ -71,17 +75,13 @@ export const layoutClasses = css`
       linear-gradient(90deg, var(--grid-c) 1px, transparent 1px);
     --hdr-bg-size: 2rem 2rem;
     --hdr-b: transparent;
-    --ftr-bg: hsl(90, 25%, 95%);
-    --ftr-bg-i: linear-gradient(225deg, var(--bg) 0.5rem, transparent 0),
-      linear-gradient(135deg, var(--bg) 0.5rem, var(--ftr-bg) 0);
-    --ftr-bg-i-posi: left top;
-    --ftr-bg-i-size: 1rem 1rem;
     --ftr-c: var(--c);
-    --ftr-hr-b: 1px solid hsl(90, 10%, 90%);
+    --ftr-hr-b-c: hsl(90, 10%, 90%);
 
     ${_atrules.colorSchemeDark} {
       --c: #fff;
       --bg: hsl(100, 10%, 15%);
+      --bg2: hsl(100, 10%, 17.5%);
       --grid-c: hsla(0, 0%, 100%, 0.075);
       --a-c: hsl(100, 80%, 70%);
       --hdr-a-c: hsl(100, 90%, 85%);
@@ -89,20 +89,8 @@ export const layoutClasses = css`
       --hdr-bg: hsla(100, 25%, 17.5%, 0.9);
       --hdr-bg-size: 1rem 1rem;
       --hdr-b: hsl(100, 30%, 70%);
-      --ftr-bg: var(--bg);
-      --ftr-bg-i: linear-gradient(
-          225deg,
-          var(--bg) 0.175rem,
-          transparent 0.175rem
-        ),
-        linear-gradient(135deg, var(--bg) 0.175rem, transparent 0.175rem),
-        linear-gradient(315deg, var(--bg) 0.175rem, transparent 0.175rem),
-        linear-gradient(45deg, var(--bg) 0.175rem, transparent 0.175rem),
-        linear-gradient(0deg, var(--hdr-b) 0, var(--hdr-b));
-      --ftr-bg-i-posi: -0.25rem 0, -0.25rem 0, 0 0, 0 0;
-      --ftr-bg-i-size: 0.5rem 0.5rem;
       --ftr-c: #fff;
-      --ftr-hr-b: 1px dashed var(--hdr-b);
+      --ftr-hr-b-c: hsl(100, 10%, 20%);
     }
 
     ${_atrules.desktopAndTallUp} {
@@ -156,10 +144,24 @@ export const layoutClasses = css`
     text-decoration-thickness: 0.125em;
     text-underline-offset: 0.125em;
 
+    ::after {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      left: 0;
+    }
+
     ${_atrules.desktopAndTallUp} {
       ${mixins.heading}
 
       margin-top: 2em;
+
+      ::after {
+        display: none;
+      }
     }
   }
 
@@ -191,8 +193,8 @@ export const layoutClasses = css`
     padding-left: 0.5rem;
     padding-bottom: 0.25em;
     width: 100%;
-    background-color: var(--ftr-bg);
-    border-top: var(--ftr-hr-b);
+    background-color: var(--bg2);
+    border-top: 1px solid var(--ftr-hr-b-c);
 
     ${_atrules.desktopAndTallUp} {
       grid-row: 3;
@@ -203,12 +205,12 @@ export const layoutClasses = css`
       margin-top: 2em;
       margin-left: auto;
       margin-right: auto;
-      background-repeat: repeat-x;
       border-top: none;
-      background-image: var(--ftr-bg-i);
-      background-color: var(--ftr-bg);
-      background-position: var(--ftr-bg-i-posi);
-      background-size: var(--ftr-bg-i-size);
+      background-repeat: repeat-x;
+      background-position: left top;
+      background-image: var(--zz-bg);
+      background-color: var(--bg2);
+      background-size: 1rem 1rem;
     }
   }
 
@@ -249,14 +251,14 @@ export const aboutClasses = css`
     color: var(--ftr-c);
     grid-row: 3;
     margin-top: 2em;
-    background-repeat: repeat-x;
     padding-right: 0.5rem;
     padding-left: 0.5rem;
     padding-bottom: 1em;
-    background-color: var(--ftr-bg);
-    background-image: var(--ftr-bg-i);
-    background-position: var(--ftr-bg-i-posi);
-    background-size: var(--ftr-bg-i-size);
+    background-repeat: repeat-x;
+    background-position: left top;
+    background-color: var(--bg2);
+    background-image: var(--zz-bg);
+    background-size: 1rem 1rem;
 
     ${_atrules.desktopAndTallUp} {
       display: block;
@@ -336,14 +338,14 @@ const paginationMixins = css`
     }
 
     ${_atrules.colorSchemeDark} {
-      --bg: transparent;
+      --bg: hsla(100, 10%, 70%, 0.2);
       --b-c: currentColor;
       --c: hsl(100, 10%, 70%);
     }
   }
 
   .enabled {
-    --hover-bg: hsla(90, 25%, 47.5%, 0.9);
+    --hover-bg: hsl(90, 30%, 47.5%);
     --hover-b-c: var(--hover-bg);
     --bg: hsl(90, 25%, 47.5%);
 
@@ -451,13 +453,12 @@ export const mainClasses = css`
     padding-bottom: 1em;
     padding-right: 0.5rem;
     padding-left: 0.5rem;
-    background-color: var(--bg);
+    background-color: var(--bg2);
     counter-reset: code;
     display: grid;
     grid-template-columns: max-content auto;
 
     --c: hsl(90, 55%, 30%);
-    --bg: var(--ftr-bg);
     --c2: hsl(90, 5%, 35%);
 
     ${_atrules.tabletUp} {
@@ -477,7 +478,6 @@ export const mainClasses = css`
 
     ${_atrules.colorSchemeDark} {
       --c: hsl(100, 45%, 70%);
-      --bg: hsl(100, 10%, 17.5%);
       --c2: hsl(100, 5%, 75%);
     }
   }
@@ -508,14 +508,12 @@ export const mainClasses = css`
     padding-right: 0.125rem;
     padding-left: 0.125rem;
     word-break: break-word;
-    background-color: var(--bg);
+    background-color: var(--bg2);
 
     --c: inherit;
-    --bg: var(--ftr-bg);
 
     ${_atrules.colorSchemeDark} {
       --c: hsl(100, 45%, 70%);
-      --bg: hsl(100, 10%, 17.5%);
     }
   }
 
