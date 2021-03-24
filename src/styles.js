@@ -234,7 +234,7 @@ export const layoutClasses = css`
   .footerItem {
     margin-right: 0.5rem;
     margin-left: 0.5rem;
-    margin-top: 0.25em;
+    margin-top: 0.5em;
     white-space: nowrap;
   }
 
@@ -533,9 +533,11 @@ export const mainClasses = css`
 
   .listItem {
     margin-bottom: 0.25em;
+    display: grid;
+    grid-template-columns: max-content auto;
 
     ::before {
-      display: inline-block;
+      align-self: center;
       content: '';
       clip-path: polygon(
         50% 0%,
