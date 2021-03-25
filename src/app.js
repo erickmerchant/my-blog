@@ -21,10 +21,10 @@ const postsModel = createPostsModel(listEndpoint)
 const dispatchLocation = getDispatchLocation({app, postsModel, getRoute})
 
 window.onpopstate = (e) => {
-  dispatchLocation(window.location.pathname)
+  dispatchLocation(window.location.pathname, window.location.hash)
 }
 
-dispatchLocation(window.location.pathname, false)
+dispatchLocation(window.location.pathname, window.location.hash)
 
 const target = document.querySelector('#main')
 

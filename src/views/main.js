@@ -42,10 +42,6 @@ export const createMainView = ({
 
   afterUpdate(() => {
     document.body.style = `--below-main-display: block;`
-
-    if (window.location.hash) {
-      document.querySelector(window.location.hash)?.scrollIntoView()
-    }
   })
 
   if (state.route.key === 'post') {

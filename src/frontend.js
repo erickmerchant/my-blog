@@ -1,15 +1,16 @@
 export const getDispatchLocation = ({app, postsModel, getRoute}) => async (
-  location
+  pathname,
+  hash = ''
 ) => {
-  if (location === app.state?.location) return
+  if (pathname === app.state?.pathname) return
 
-  const route = getRoute(location, {
+  const route = getRoute(pathname, {
     post: /^\/?(?:posts\/([a-z0-9-]+)|)\/?$/
   }) || {key: 'error', params: []}
 
   let state = {
     route: {key: 'error', params: []},
-    location,
+    pathname,
     title: 'Page Not Found',
     error: Error(
       "That page doesn't exist. It was either moved, removed, or never existed."
@@ -25,7 +26,7 @@ export const getDispatchLocation = ({app, postsModel, getRoute}) => async (
       if (post != null) {
         state = {
           route,
-          location,
+          pathname,
           title: `Posts | ${post.title}`,
           post
         }
@@ -34,7 +35,7 @@ export const getDispatchLocation = ({app, postsModel, getRoute}) => async (
       if (!error.message.startsWith('404')) {
         state = {
           route: {key: 'error', params: []},
-          location,
+          pathname,
           title: 'Error',
           error
         }
@@ -42,10 +43,16 @@ export const getDispatchLocation = ({app, postsModel, getRoute}) => async (
     }
   }
 
-  if (location !== app.state?.location) {
+  if (pathname !== app.state?.pathname) {
     app.state = state
+  }
 
-    Promise.resolve().then(() => window.scroll(0, 0))
+  await Promise.resolve()
+
+  if (hash) {
+    document.querySelector(hash)?.scrollIntoView()
+  } else {
+    window.scroll(0, 0)
   }
 }
 

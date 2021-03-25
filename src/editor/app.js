@@ -16,7 +16,7 @@ const channels = [
   createModel('drafts', '/content/drafts.json')
 ]
 
-const dispatchLocation = async (route = {key: 'list', params: ['posts']}) => {
+const handleRoute = async (route = {key: 'list', params: ['posts']}) => {
   let state = {
     route,
     error: Error('Route not found')
@@ -108,7 +108,7 @@ const view = createDomView(
 app.render(view)
 
 const onPopState = () => {
-  dispatchLocation(
+  handleRoute(
     getRoute(window.location.hash.substring(1), {
       edit: /^\/?([a-z0-9-]+)\/edit\/([a-z0-9-]+)\/?$/,
       create: /^\/?([a-z0-9-]+)\/create\/?$/,
