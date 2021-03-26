@@ -348,7 +348,7 @@ export const errorClasses = css`
     padding-bottom: 0.5em;
   }
 
-  .stackTrace {
+  .stack {
     color: var(--red);
     white-space: pre-wrap;
     word-break: break-word;
