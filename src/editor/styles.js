@@ -9,14 +9,6 @@ const fontWeights = {
 const borderRadius = '3px'
 
 export const _start = css`
-  @font-face {
-    font-display: fallback;
-    font-family: 'Fira Code';
-    font-style: normal;
-    font-weight: 300 700;
-    src: url('/fonts/fira-code/fira-code-subset.woff2') format('woff2');
-  }
-
   * {
     box-sizing: border-box;
     max-width: 100%;
@@ -27,7 +19,7 @@ export const _start = css`
 
   html {
     color-scheme: light dark;
-    font-family: 'Fira Code', monospace;
+    font-family: 'JetBrains Mono', Menlo, Monaco, 'Courier New', monospace;
     height: 100%;
 
     --black: hsl(100, 10%, 20%);
