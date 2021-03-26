@@ -11,7 +11,7 @@ const fontWeights = {
 export const _atrules = {
   colorSchemeDark: '@media (prefers-color-scheme: dark)',
   tabletUp: '@media (min-width: 768px)',
-  desktopAndTallUp: '@media (min-width: 1024px) and (min-height: 350px)',
+  desktopUp: '@media (min-width: 1024px)',
   tallUp: '@media (min-height: 350px)',
   veryMobile: '@media (max-width: 375px)'
 }
@@ -93,8 +93,10 @@ export const layoutClasses = css`
       --ftr-hr-b-c: hsl(100, 10%, 20%);
     }
 
-    ${_atrules.desktopAndTallUp} {
-      grid-template-columns: 1fr 2fr;
+    ${_atrules.tallUp} {
+      ${_atrules.desktopUp} {
+        grid-template-columns: 1fr 2fr;
+      }
     }
   }
 
@@ -116,26 +118,26 @@ export const layoutClasses = css`
       position: sticky;
       top: 0;
       z-index: 1;
-    }
 
-    ${_atrules.desktopAndTallUp} {
-      font-weight: ${fontWeights.heading1};
-      font-size: 1.5rem;
-      background-image: none;
-      background-color: transparent;
-      border-left: none;
-      border-bottom: none;
-      padding-top: 0;
-      padding-bottom: 0;
-      padding-right: 0.5rem;
-      padding-left: 0.5rem;
-      max-width: max-content;
-      grid-row: 1 / -1;
-      height: 100vh;
-      display: grid;
-      grid-auto-rows: 1fr;
-      grid-template-columns: 90%;
-      align-items: start;
+      ${_atrules.desktopUp} {
+        font-weight: ${fontWeights.heading1};
+        font-size: 1.5rem;
+        background-image: none;
+        background-color: transparent;
+        border-left: none;
+        border-bottom: none;
+        padding-top: 0;
+        padding-bottom: 0;
+        padding-right: 0.5rem;
+        padding-left: 0.5rem;
+        max-width: max-content;
+        grid-row: 1 / -1;
+        height: 100vh;
+        display: grid;
+        grid-auto-rows: 1fr;
+        grid-template-columns: 90%;
+        align-items: start;
+      }
     }
   }
 
@@ -154,13 +156,15 @@ export const layoutClasses = css`
       left: 0;
     }
 
-    ${_atrules.desktopAndTallUp} {
-      ${mixins.heading}
+    ${_atrules.tallUp} {
+      ${_atrules.desktopUp} {
+        ${mixins.heading}
 
-      margin-top: 2em;
+        margin-top: 2em;
 
-      ::after {
-        display: none;
+        ::after {
+          display: none;
+        }
       }
     }
   }
@@ -168,21 +172,23 @@ export const layoutClasses = css`
   .aside {
     display: contents;
 
-    ${_atrules.desktopAndTallUp} {
-      color: var(--hdr-c);
-      grid-row: 1 / -1;
-      grid-column: 1;
-      position: sticky;
-      top: 0;
-      height: 100vh;
-      display: grid;
-      justify-content: center;
-      grid-auto-rows: 1fr;
-      grid-template-columns: 90%;
-      background-color: var(--hdr-bg);
-      background-image: var(--hdr-bg-i);
-      background-size: var(--hdr-bg-size);
-      border-right: 4px solid var(--hdr-b);
+    ${_atrules.tallUp} {
+      ${_atrules.desktopUp} {
+        color: var(--hdr-c);
+        grid-row: 1 / -1;
+        grid-column: 1;
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        display: grid;
+        justify-content: center;
+        grid-auto-rows: 1fr;
+        grid-template-columns: 90%;
+        background-color: var(--hdr-bg);
+        background-image: var(--hdr-bg-i);
+        background-size: var(--hdr-bg-size);
+        border-right: 4px solid var(--hdr-b);
+      }
     }
   }
 
@@ -196,21 +202,23 @@ export const layoutClasses = css`
     background-color: var(--bg2);
     border-top: 1px solid var(--ftr-hr-b-c);
 
-    ${_atrules.desktopAndTallUp} {
-      grid-row: 3;
-      grid-column: 2;
-      padding-top: 1em;
-      padding-right: 0;
-      padding-left: 0;
-      margin-top: 2em;
-      margin-left: auto;
-      margin-right: auto;
-      border-top: none;
-      background-repeat: repeat-x;
-      background-position: left top;
-      background-image: var(--zz-bg);
-      background-color: var(--bg2);
-      background-size: 1rem 1rem;
+    ${_atrules.tallUp} {
+      ${_atrules.desktopUp} {
+        grid-row: 3;
+        grid-column: 2;
+        padding-top: 1em;
+        padding-right: 0;
+        padding-left: 0;
+        margin-top: 2em;
+        margin-left: auto;
+        margin-right: auto;
+        border-top: none;
+        background-repeat: repeat-x;
+        background-position: left top;
+        background-image: var(--zz-bg);
+        background-color: var(--bg2);
+        background-size: 1rem 1rem;
+      }
     }
   }
 
@@ -225,9 +233,11 @@ export const layoutClasses = css`
     padding-bottom: 1em;
     position: relative;
 
-    ${_atrules.desktopAndTallUp} {
-      max-width: 35rem;
-      padding-top: 0.5em;
+    ${_atrules.tallUp} {
+      ${_atrules.desktopUp} {
+        max-width: 35rem;
+        padding-top: 0.5em;
+      }
     }
   }
 
@@ -260,16 +270,18 @@ export const aboutClasses = css`
     background-image: var(--zz-bg);
     background-size: 1rem 1rem;
 
-    ${_atrules.desktopAndTallUp} {
-      display: block;
-      color: inherit;
-      grid-column: 1;
-      background-image: none;
-      background-color: transparent;
-      padding-bottom: 2em;
-      padding-left: 0;
-      padding-right: 0;
-      max-width: 20rem;
+    ${_atrules.tallUp} {
+      ${_atrules.desktopUp} {
+        display: block;
+        color: inherit;
+        grid-column: 1;
+        background-image: none;
+        background-color: transparent;
+        padding-bottom: 2em;
+        padding-left: 0;
+        padding-right: 0;
+        max-width: 20rem;
+      }
     }
   }
 
@@ -282,8 +294,10 @@ export const aboutClasses = css`
     margin-right: auto;
     margin-left: auto;
 
-    ${_atrules.desktopAndTallUp} {
-      max-width: 100%;
+    ${_atrules.tallUp} {
+      ${_atrules.desktopUp} {
+        max-width: 100%;
+      }
     }
   }
 
@@ -292,8 +306,10 @@ export const aboutClasses = css`
     text-decoration-thickness: 0.0625em;
     text-underline-offset: 0.1875em;
 
-    ${_atrules.desktopAndTallUp} {
-      color: var(--hdr-a-c);
+    ${_atrules.tallUp} {
+      ${_atrules.desktopUp} {
+        color: var(--hdr-a-c);
+      }
     }
   }
 
@@ -303,8 +319,10 @@ export const aboutClasses = css`
     margin-right: auto;
     margin-left: auto;
 
-    ${_atrules.desktopAndTallUp} {
-      max-width: 100%;
+    ${_atrules.tallUp} {
+      ${_atrules.desktopUp} {
+        max-width: 100%;
+      }
     }
   }
 
@@ -381,16 +399,20 @@ export const mainClasses = css`
     font-weight: ${fontWeights.heading1};
     font-size: 1.5rem;
 
-    ${_atrules.desktopAndTallUp} {
-      margin-top: 2em;
+    ${_atrules.tallUp} {
+      ${_atrules.desktopUp} {
+        margin-top: 2em;
+      }
     }
   }
 
   .main {
     opacity: 1;
 
-    ${_atrules.desktopAndTallUp} {
-      padding-top: 0;
+    ${_atrules.tallUp} {
+      ${_atrules.desktopUp} {
+        padding-top: 0;
+      }
     }
   }
 
@@ -405,9 +427,11 @@ export const mainClasses = css`
     margin-right: auto;
     margin-left: auto;
 
-    ${_atrules.desktopAndTallUp} {
-      margin-right: 2rem;
-      margin-left: 2rem;
+    ${_atrules.tallUp} {
+      ${_atrules.desktopUp} {
+        margin-right: 2rem;
+        margin-left: 2rem;
+      }
     }
   }
 
@@ -470,10 +494,12 @@ export const mainClasses = css`
       border-radius: 0.125rem;
     }
 
-    ${_atrules.desktopAndTallUp} {
-      max-width: 100%;
-      margin-right: 1rem;
-      margin-left: 1rem;
+    ${_atrules.tallUp} {
+      ${_atrules.desktopUp} {
+        max-width: 100%;
+        margin-right: 1rem;
+        margin-left: 1rem;
+      }
     }
 
     ${_atrules.colorSchemeDark} {
