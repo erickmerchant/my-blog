@@ -206,47 +206,27 @@ export const formClasses = css`
 
   .fields {
     overflow-y: scroll;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.5em;
     padding: 1em;
-    height: auto;
-    margin-bottom: 1em;
+    height: 100%;
+    border: none;
+    display: grid;
+    gap: 1em;
+    grid-auto-rows: min-content;
   }
 
-  .row {
-    grid-column: span 2;
-  }
-
-  .label,
-  .labelLarge {
+  .label {
     font-weight: ${fontWeights.bold};
     display: block;
     margin-bottom: 0.5em;
   }
 
-  .input,
-  .inputLarge,
-  .inputReadOnly {
+  .input {
     color: var(--black);
     border-radius: ${borderRadius};
     width: 100%;
     padding: 0.5em;
     border: 1px solid var(--silver);
     background-color: var(--white);
-  }
-
-  .labelLarge {
-    font-size: 1.125em;
-  }
-
-  .inputLarge {
-    font-weight: ${fontWeights.heading};
-    font-size: 1.5em;
-  }
-
-  .inputReadOnly {
-    background-color: var(--silver);
   }
 
   .textareaWrap {
@@ -256,6 +236,7 @@ export const formClasses = css`
     margin-right: auto;
     margin-left: auto;
     border: 1px solid var(--silver);
+    margin-bottom: 1em;
   }
 
   .textareaHighlightsWrap {

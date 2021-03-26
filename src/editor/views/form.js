@@ -138,11 +138,11 @@ export const createFormView = ({model, app, slugify}) => {
       autocomplete="off"
       class=${formClasses.form}
     >
-      <div class=${formClasses.fields}>
-        <div class=${formClasses.row}>
-          <label class=${formClasses.labelLarge} for="field-title">Title</label>
+      <fieldset class=${formClasses.fields}>
+        <div>
+          <label class=${formClasses.label} for="field-title">Title</label>
           <input
-            class=${formClasses.inputLarge}
+            class=${formClasses.input}
             name="title"
             id="field-title"
             value=${state.item.title ?? ''}
@@ -154,38 +154,13 @@ export const createFormView = ({model, app, slugify}) => {
           />
         </div>
         <div>
-          <label class=${formClasses.label} for="field-date">Date</label>
-          <input
-            class=${formClasses.input}
-            name="date"
-            type="date"
-            id="field-date"
-            value=${state.item.date ?? ''}
-            oninput=${(e) => {
-              app.state.item = Object.assign({}, app.state.item, {
-                date: e.target.value
-              })
-            }}
-          />
-        </div>
-        <div>
-          <label class=${formClasses.label} for="field-slug">Slug</label>
-          <input
-            class=${formClasses.inputReadOnly}
-            name=${state.item.slug ? 'slug' : null}
-            id="field-slug"
-            readonly
-            value=${state.item.slug ?? ''}
-            placeholder=${slugify(state.item.title ?? '')}
-          />
-        </div>
-        <div class=${formClasses.row}>
           <label class=${formClasses.label} for="field-content">Content</label>
           <div class=${formClasses.textareaWrap}>
             <div class=${formClasses.textareaHighlightsWrap}>
               <pre class=${formClasses.textareaHighlights}>
-            ${highlighter(state.item.highlightedContent)}
-          </pre>
+                ${highlighter(state.item.highlightedContent)}
+              </pre
+              >
             </div>
             <textarea
               class=${formClasses.textarea}
@@ -193,12 +168,12 @@ export const createFormView = ({model, app, slugify}) => {
               id="field-content"
               oninput=${highlight}
             >
-            ${state.item.content ?? ''}
-          </textarea
+              ${state.item.content ?? ''}
+            </textarea
             >
           </div>
         </div>
-      </div>
+      </fieldset>
       <div class=${formClasses.buttons}>
         ${state.slugConflict
           ? html`
