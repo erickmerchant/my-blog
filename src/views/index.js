@@ -1,4 +1,4 @@
-import {html} from '@erickmerchant/framework/main.js'
+import {html} from '@erickmerchant/framework'
 
 export const createIndexView = ({layoutView}) => (state) => html`
   <html lang="en">

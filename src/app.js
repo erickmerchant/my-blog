@@ -1,4 +1,4 @@
-import {createApp, createDomView} from '@erickmerchant/framework/main.js'
+import {createApp, createDomView} from '@erickmerchant/framework'
 
 import {
   createContentView,

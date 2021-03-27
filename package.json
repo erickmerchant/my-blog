@@ -11,7 +11,7 @@
     "test": "npm run lint"
   },
   "dependencies": {
-    "@erickmerchant/css": "^29.2.1",
+    "@erickmerchant/css": "^30.0.0",
     "@erickmerchant/dev-cli": "^22.2.0",
     "@erickmerchant/framework": "^41.5.0",
     "cssnano": "^4.1.10",

@@ -1,4 +1,4 @@
-import {html} from '@erickmerchant/framework/main.js'
+import {html} from '@erickmerchant/framework'
 
 import {dateUtils} from '../../common.js'
 import {listClasses} from '../css/styles.js'

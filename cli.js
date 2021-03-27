@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import {html} from '@erickmerchant/framework/main.js'
+import {html} from '@erickmerchant/framework'
 import {stringify} from '@erickmerchant/framework/stringify.js'
 import fs from 'fs'
 import {spawn} from 'sergeant'
@@ -27,7 +27,7 @@ const program = async () => {
     if (command === 'build') {
       await Promise.all([
         spawn`css src/styles.js dist/css`,
-        spawn`dev cache src dist -i src/editor.html -i src/dev.html -i src/styles.js -i src/editor/styles.js`
+        spawn`dev cache src dist -i src/editor.html -i src/dev.html`
       ])
 
       const {layoutClasses, aboutClasses} = await import('./dist/css/styles.js')

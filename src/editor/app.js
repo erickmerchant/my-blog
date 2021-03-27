@@ -1,4 +1,4 @@
-import {createApp, createDomView, html} from '@erickmerchant/framework/main.js'
+import {createApp, createDomView, html} from '@erickmerchant/framework'
 
 import {getRoute, slugify} from '../common.js'
 import {layoutClasses} from './css/styles.js'

@@ -1,4 +1,4 @@
-import {html} from '@erickmerchant/framework/main.js'
+import {html} from '@erickmerchant/framework'
 
 const yearsSince = (year, month) => {
   const thenAsFloat = year + (month + 1) / 12

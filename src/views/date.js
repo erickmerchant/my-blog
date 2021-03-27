@@ -1,4 +1,4 @@
-import {html} from '@erickmerchant/framework/main.js'
+import {html} from '@erickmerchant/framework'
 
 export const createDateView = ({classes, dateUtils}) => (date) => {
   date = dateUtils.stringToDate(date)

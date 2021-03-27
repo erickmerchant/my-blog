@@ -1,4 +1,4 @@
-import {html} from '@erickmerchant/framework/main.js'
+import {html} from '@erickmerchant/framework'
 
 import {createContentView} from '../../common.js'
 import {formClasses, highlightClasses} from '../css/styles.js'
