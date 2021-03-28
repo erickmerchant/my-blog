@@ -57,12 +57,12 @@ const buttonMixins = css`
     border: none;
     text-decoration: none;
     cursor: pointer;
-    border: 1px solid var(--blue);
+    border: none;
     background-color: var(--blue);
 
     :focus,
     :hover {
-      filter: saturate(2);
+      opacity: 0.8;
       outline: 0;
     }
   }
@@ -296,6 +296,12 @@ export const formClasses = css`
 
   .saveButton {
     ${buttonMixins.button}
+  }
+
+  .publishButton {
+    ${buttonMixins.button}
+
+    filter: hue-rotate(-15deg);
   }
 `
 

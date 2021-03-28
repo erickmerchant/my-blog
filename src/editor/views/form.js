@@ -33,7 +33,7 @@ export const createFormView = ({model, app, slugify}) => {
       } else {
         app.state.error = error
 
-        app.state.route = {key: 'error', params: []}
+        app.state.route = {key: 'error'}
       }
     }
   }
@@ -46,11 +46,11 @@ export const createFormView = ({model, app, slugify}) => {
     try {
       await model.saveAs(name, data)
 
-      window.location.hash = `#/posts`
+      window.location.hash = `#/${name}`
     } catch (error) {
       app.state.error = error
 
-      app.state.route = {key: 'error', params: []}
+      app.state.route = {key: 'error'}
     }
   }
 
@@ -183,10 +183,10 @@ export const createFormView = ({model, app, slugify}) => {
         <a class=${formClasses.cancelButton} href=${`#/${model.name}`}>
           Cancel
         </a>
-        ${model.name === 'drafts' && state.item.slug != null
+        ${model.name !== 'posts' && state.item.slug != null
           ? html`
               <button
-                class=${formClasses.saveButton}
+                class=${formClasses.publishButton}
                 type="button"
                 onclick=${saveAs('posts', state.item)}
               >

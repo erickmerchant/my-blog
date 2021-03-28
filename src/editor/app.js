@@ -57,7 +57,7 @@ const handleRoute = async (route = {key: 'list', params: ['posts']}) => {
     }
   } catch (error) {
     state = {
-      route: {key: 'error', params: []},
+      route: {key: 'error'},
       error
     }
   }
@@ -69,9 +69,13 @@ const target = document.querySelector('body')
 
 const errorView = createErrorView()
 
+const channelNames = channels.map((channel) => channel.name)
+
 for (const channel of channels) {
   channel.listView = createListView({
     model: channel,
+    channelNames,
+    hasNew: channel.name !== 'posts',
     app
   })
 

@@ -3,7 +3,7 @@ import {html} from '@erickmerchant/framework'
 import {dateUtils} from '../../common.js'
 import {listClasses} from '../css/styles.js'
 
-export const createListView = ({model, app}) => {
+export const createListView = ({model, app, channelNames, hasNew}) => {
   const remove = (item) => async (e) => {
     e.preventDefault()
 
@@ -29,26 +29,20 @@ export const createListView = ({model, app}) => {
     <div class=${listClasses.container}>
       <nav>
         <ul class=${listClasses.nav}>
-          <li class=${listClasses.navItem}>
-            <a
-              class=${state.route.params[0] === 'posts'
-                ? listClasses.navAnchorCurrent
-                : listClasses.navAnchor}
-              href="#/posts"
-            >
-              Posts
-            </a>
-          </li>
-          <li class=${listClasses.navItem}>
-            <a
-              class=${state.route.params[0] === 'drafts'
-                ? listClasses.navAnchorCurrent
-                : listClasses.navAnchor}
-              href="#/drafts"
-            >
-              Drafts
-            </a>
-          </li>
+          ${channelNames.map(
+            (name) => html`
+              <li class=${listClasses.navItem}>
+                <a
+                  class=${state.route.params[0] === name
+                    ? listClasses.navAnchorCurrent
+                    : listClasses.navAnchor}
+                  href=${`#/${name}`}
+                >
+                  ${name.toUpperCase()}
+                </a>
+              </li>
+            `
+          )}
         </ul>
       </nav>
       <div class=${listClasses.tableWrapper}>
@@ -92,13 +86,17 @@ export const createListView = ({model, app}) => {
         </table>
       </div>
       <div class=${listClasses.buttons}>
-        <a
-          tabindex="0"
-          class=${listClasses.createButton}
-          href=${`#/${model.name}/create`}
-        >
-          New
-        </a>
+        ${hasNew
+          ? html`
+              <a
+                tabindex="0"
+                class=${listClasses.createButton}
+                href=${`#/${model.name}/create`}
+              >
+                New
+              </a>
+            `
+          : ''}
       </div>
     </div>
   `
