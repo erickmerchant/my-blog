@@ -37,3 +37,7 @@ export {layoutClasses} from './styles/layout.js'
 export {aboutClasses} from './styles/about.js'
 
 export {mainClasses} from './styles/main.js'
+
+export {contentClasses} from './styles/content.js'
+
+export {dateClasses} from './styles/date.js'

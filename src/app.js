@@ -7,7 +7,7 @@ import {
   getDefaultContentTemplates,
   getRoute
 } from './common.js'
-import {mainClasses as classes} from './css/styles.js'
+import {contentClasses, dateClasses, mainClasses} from './css/styles.js'
 import {getAnchorAttrs, getDispatchLocation} from './frontend.js'
 import {createDateView} from './views/date.js'
 import {createMainView, getMainContentTemplates} from './views/main.js'
@@ -33,16 +33,16 @@ const anchorAttrs = getAnchorAttrs({
 })
 
 const dateView = createDateView({
-  classes,
+  classes: dateClasses,
   dateUtils
 })
 
 const mainView = createMainView({
-  classes,
+  classes: mainClasses,
   contentView: createContentView({
     templates: Object.assign(
-      getDefaultContentTemplates({classes}),
-      getMainContentTemplates({classes})
+      getDefaultContentTemplates({classes: contentClasses}),
+      getMainContentTemplates({classes: contentClasses})
     )
   }),
   dateView,

@@ -6,10 +6,10 @@ export const createDateView = ({classes, dateUtils}) => (date) => {
   const month = date.getMonth()
 
   return html`
-    <time class=${classes.date} datetime=${date}>
-      <svg viewBox="0 0 33 33" class=${classes.dateIcon}>
-        <rect width="33" height="33" x="0" y="0" class=${classes.dateFG} />
-        <rect width="29" height="26" x="2" y="5" class=${classes.dateBG} />
+    <time class=${classes.time} datetime=${date}>
+      <svg viewBox="0 0 33 33" class=${classes.icon}>
+        <rect width="33" height="33" x="0" y="0" class=${classes.foreground} />
+        <rect width="29" height="26" x="2" y="5" class=${classes.background} />
         ${{
           *[Symbol.iterator]() {
             const daysInTheMonth = new Date(year, month + 1, 0).getDate()
@@ -27,7 +27,7 @@ export const createDateView = ({classes, dateUtils}) => (date) => {
                   height="3"
                   x=${3 + dayOfWeek * 4}
                   y=${7 + weekOfMonth * 4}
-                  class=${classes.dateFG}
+                  class=${classes.foreground}
                 />
               `
 

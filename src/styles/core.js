@@ -22,4 +22,19 @@ export const mixins = css`
     margin-bottom: 0.5em;
     margin-top: 1em;
   }
+
+  .mainItem {
+    max-width: 31rem;
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+    margin-right: auto;
+    margin-left: auto;
+
+    ${_atrules.tallUp} {
+      ${_atrules.desktopUp} {
+        margin-right: 2rem;
+        margin-left: 2rem;
+      }
+    }
+  }
 `

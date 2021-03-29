@@ -103,7 +103,7 @@ export const createMainView = ({
         <header class=${classes.header}>
           <h1 class=${classes.heading1}>${state.title ?? ''}</h1>
         </header>
-        <p class=${classes.paragraph}>${state.error?.message ?? ''}</p>
+        <p class=${classes.message}>${state.error?.message ?? ''}</p>
       </article>
     `
   }

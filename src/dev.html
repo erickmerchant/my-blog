@@ -56,7 +56,7 @@
         })
 
         const dateView = createDateView({
-          classes: classes.mainClasses,
+          classes: classes.dateClasses,
           dateUtils
         })
 
@@ -64,8 +64,8 @@
           classes: classes.mainClasses,
           contentView: createContentView({
             templates: Object.assign(
-              getDefaultContentTemplates({classes: classes.mainClasses}),
-              getMainContentTemplates({classes: classes.mainClasses})
+              getDefaultContentTemplates({classes: classes.contentClasses}),
+              getMainContentTemplates({classes: classes.contentClasses})
             )
           }),
           dateView,
