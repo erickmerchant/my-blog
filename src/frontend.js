@@ -12,9 +12,8 @@ export const getDispatchLocation = ({app, postsModel, getRoute}) => async (
     route: {key: 'error'},
     pathname,
     title: 'Page Not Found',
-    error: Error(
+    message:
       "That page doesn't exist. It was either moved, removed, or never existed."
-    )
   }
 
   if (route.key === 'post') {
@@ -36,8 +35,8 @@ export const getDispatchLocation = ({app, postsModel, getRoute}) => async (
         state = {
           route: {key: 'error'},
           pathname,
-          title: 'Error',
-          error
+          title: 'Error Caught',
+          message: error.message
         }
       }
     }

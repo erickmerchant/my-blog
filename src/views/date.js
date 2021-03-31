@@ -4,6 +4,7 @@ export const createDateView = ({classes, dateUtils}) => (date) => {
   date = dateUtils.stringToDate(date)
   const year = date.getFullYear()
   const month = date.getMonth()
+  const daysInTheMonth = new Date(year, month + 1, 0).getDate()
 
   return html`
     <time class=${classes.time} datetime=${date}>
@@ -12,12 +13,8 @@ export const createDateView = ({classes, dateUtils}) => (date) => {
         <rect width="29" height="26" x="2" y="5" class=${classes.background} />
         ${{
           *[Symbol.iterator]() {
-            const daysInTheMonth = new Date(year, month + 1, 0).getDate()
-
             let dayOfWeek = new Date(year, month, 1).getDay()
-
             let weekOfMonth = 0
-
             let i = 1
 
             do {

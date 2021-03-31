@@ -24,7 +24,7 @@ const handleRoute = async (route = {key: 'list', params: ['posts']}) => {
 
   try {
     for (const channel of channels) {
-      if (route.params[0] !== channel.name) continue
+      if (route.params?.[0] !== channel.name) continue
 
       if (route.key === 'edit') {
         const [, id] = route.params
@@ -92,7 +92,7 @@ const view = createDomView(
     <body class=${layoutClasses.app}>
       ${(() => {
         for (const channel of channels) {
-          if (state.route.params[0] !== channel.name) continue
+          if (state.route.params?.[0] !== channel.name) continue
 
           if (state.route.key === 'list') {
             return channel.listView(state)

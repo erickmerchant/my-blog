@@ -13,10 +13,10 @@ export const createIndexView = ({layoutView}) => (state) => html`
         type="font/woff2"
         crossorigin
       />
+      <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
       <style>
         ${state.styles}
       </style>
-      <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
       <title>A Web Development Blog</title>
       <script src="/app.js" type="module"></script>
     </head>

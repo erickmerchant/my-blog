@@ -33,7 +33,7 @@ export const createListView = ({model, app, channelNames, hasNew}) => {
             (name) => html`
               <li class=${listClasses.navItem}>
                 <a
-                  class=${state.route.params[0] === name
+                  class=${state.route.params?.[0] === name
                     ? listClasses.navAnchorCurrent
                     : listClasses.navAnchor}
                   href=${`#/${name}`}
