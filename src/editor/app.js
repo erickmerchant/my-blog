@@ -1,6 +1,6 @@
 import {createApp, createDomView, html} from '@erickmerchant/framework'
 
-import {getRoute, slugify} from '../common.js'
+import {getRoute} from '../routing.js'
 import {layoutClasses} from './css/styles.js'
 import {createModel} from './model.js'
 import {createErrorView} from './views/error.js'
@@ -81,8 +81,7 @@ for (const channel of channels) {
 
   channel.formView = createFormView({
     model: channel,
-    app,
-    slugify
+    app
   })
 }
 

@@ -2,13 +2,12 @@ import {createApp, createDomView} from '@erickmerchant/framework'
 
 import {
   createContentView,
-  createPostsModel,
   dateUtils,
-  getDefaultContentTemplates,
-  getRoute
-} from './common.js'
+  getDefaultContentTemplates
+} from './content.js'
 import {contentClasses, dateClasses, mainClasses} from './css/styles.js'
-import {getAnchorAttrs, getDispatchLocation} from './frontend.js'
+import {createModel} from './model.js'
+import {getAnchorAttrs, getDispatchLocation} from './routing.js'
 import {createDateView} from './views/date.js'
 import {createMainView, getMainContentTemplates} from './views/main.js'
 
@@ -16,9 +15,9 @@ const app = createApp({route: null, title: ''})
 
 const listEndpoint = `/content/posts.json`
 
-const postsModel = createPostsModel(listEndpoint)
+const postsModel = createModel(listEndpoint)
 
-const dispatchLocation = getDispatchLocation({app, postsModel, getRoute})
+const dispatchLocation = getDispatchLocation({app, postsModel})
 
 window.onpopstate = (e) => {
   dispatchLocation(window.location.pathname, window.location.hash)

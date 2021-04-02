@@ -1,4 +1,17 @@
-export const getDispatchLocation = ({app, postsModel, getRoute}) => async (
+export const getRoute = (all, routes) => {
+  for (const [key, regex] of Object.entries(routes)) {
+    const match = all.match(regex)
+
+    if (match) {
+      return {
+        key,
+        params: match.slice(1)
+      }
+    }
+  }
+}
+
+export const getDispatchLocation = ({app, postsModel}) => async (
   pathname,
   hash = ''
 ) => {

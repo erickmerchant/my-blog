@@ -1,10 +1,10 @@
-import {createPostsModel, slugify} from '../common.js'
+import {createModel as createBaseModel} from '../model.js'
 
 export const createModel = (name, listEndpoint) => {
   const model = {
     name,
 
-    ...createPostsModel(listEndpoint),
+    ...createBaseModel(listEndpoint),
 
     async saveAll(data) {
       await model.fetch(listEndpoint, {
@@ -50,7 +50,12 @@ export const createModel = (name, listEndpoint) => {
         )}-${String(now.getDate()).padStart(2, '0')}`
       }
 
-      data.slug = data.slug ?? slugify(data.title)
+      data.slug =
+        data.slug ??
+        data.title
+          .toLowerCase()
+          .replace(/\s+/g, '-')
+          .replace(/[^a-z0-9-]/g, '-')
 
       data.content = data.content.replace(/\r/g, '')
 

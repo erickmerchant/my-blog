@@ -1,9 +1,9 @@
 import {html} from '@erickmerchant/framework'
 
-import {createContentView} from '../../common.js'
+import {createContentView} from '../../content.js'
 import {formClasses, highlightClasses} from '../css/styles.js'
 
-export const createFormView = ({model, app, slugify}) => {
+export const createFormView = ({model, app}) => {
   const serialize = (item, target) => {
     const data = {}
 

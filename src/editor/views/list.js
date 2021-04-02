@@ -1,6 +1,6 @@
 import {html} from '@erickmerchant/framework'
 
-import {dateUtils} from '../../common.js'
+import {dateUtils} from '../../content.js'
 import {listClasses} from '../css/styles.js'
 
 export const createListView = ({model, app, channelNames, hasNew}) => {

@@ -5,7 +5,7 @@ import fs from 'fs'
 import {spawn} from 'sergeant'
 import {promisify} from 'util'
 
-import {createContentView, getDefaultContentTemplates} from './src/common.js'
+import {createContentView, getDefaultContentTemplates} from './src/content.js'
 import {createAboutView, getAboutContentTemplates} from './src/views/about.js'
 import {createIndexView} from './src/views/index.js'
 import {createLayoutView} from './src/views/layout.js'

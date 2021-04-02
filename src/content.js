@@ -1,11 +1,5 @@
 import {html} from '@erickmerchant/framework'
 
-export const slugify = (str) =>
-  str
-    .toLowerCase()
-    .replace(/\s+/g, '-')
-    .replace(/[^a-z0-9-]/g, '-')
-
 const codeFence = '```'
 
 export const getDefaultContentTemplates = ({classes}) => {
@@ -153,7 +147,16 @@ export const createContentView = ({templates, publicFacing = true}) => {
           case ln.startsWith('# '):
             {
               const text = ln.substring(2)
-              result.push(templates.heading(text, slugify(text)), '\n')
+              result.push(
+                templates.heading(
+                  text,
+                  text
+                    .toLowerCase()
+                    .replace(/\s+/g, '-')
+                    .replace(/[^a-z0-9-]/g, '-')
+                ),
+                '\n'
+              )
             }
             break
 
@@ -215,19 +218,6 @@ export const createContentView = ({templates, publicFacing = true}) => {
   }
 }
 
-export const getRoute = (all, routes) => {
-  for (const [key, regex] of Object.entries(routes)) {
-    const match = all.match(regex)
-
-    if (match) {
-      return {
-        key,
-        params: match.slice(1)
-      }
-    }
-  }
-}
-
 export const dateUtils = {
   stringToDate(str) {
     const [year, month, day] = str.split('-').map((v) => Number(v))
@@ -244,57 +234,4 @@ export const dateUtils = {
       day: 'numeric'
     })
   }
-}
-
-export const createPostsModel = (listEndpoint) => {
-  const model = {
-    async fetch(url, options = {}) {
-      const res = await window.fetch(
-        url,
-        Object.assign(
-          {
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json'
-            }
-          },
-          options
-        )
-      )
-
-      if (!res.ok) {
-        throw Error(`${res.status} ${res.statusText}`)
-      }
-
-      return res
-    },
-
-    getAll() {
-      return model.fetch(listEndpoint).then((res) => res.json())
-    },
-
-    async getBySlug(id = '__first') {
-      const [posts, content] = await Promise.all([
-        model.getAll(),
-        model.fetch(`/content/${id}.json`).then((response) => response.json())
-      ])
-
-      const index =
-        id === '__first' ? 0 : posts.findIndex((post) => post.slug === id)
-
-      if (~index) {
-        const post = Object.assign({}, posts[index])
-
-        post.content = content
-
-        post.next = posts[index - 1]
-
-        post.prev = posts[index + 1]
-
-        return post
-      }
-    }
-  }
-
-  return model
 }
