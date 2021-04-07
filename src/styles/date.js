@@ -19,7 +19,7 @@ export const dateClasses = css`
     fill: currentColor;
 
     ${_atrules.colorSchemeDark} {
-      fill: hsl(100, 60%, 70%);
+      fill: hsl(100 60% 70%);
     }
   }
 

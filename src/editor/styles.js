@@ -14,24 +14,24 @@ export const _start = css`
     font-family: 'JetBrains Mono', Menlo, Monaco, 'Courier New', monospace;
     height: 100%;
 
-    --black: hsl(100, 10%, 20%);
-    --gray: hsl(100, 10%, 70%);
-    --silver: hsl(100, 10%, 85%);
-    --white: hsl(100, 10%, 100%);
-    --green: hsl(100, 30%, 50%);
-    --blue: hsl(200, 100%, 50%);
-    --red: hsl(350, 80%, 55%);
+    --black: hsl(100 10% 20%);
+    --gray: hsl(100 10% 70%);
+    --silver: hsl(100 10% 85%);
+    --white: hsl(100 10% 100%);
+    --green: hsl(100 30% 50%);
+    --blue: hsl(200 100% 50%);
+    --red: hsl(350 80% 55%);
   }
 
   @media (prefers-color-scheme: dark) {
     html {
-      --black: hsl(100, 10%, 100%);
-      --gray: hsl(100, 10%, 60%);
-      --silver: hsl(100, 10%, 55%);
-      --white: hsl(100, 10%, 20%);
-      --green: hsl(100, 50%, 60%);
-      --blue: hsl(200, 100%, 60%);
-      --red: hsl(350, 80%, 65%);
+      --black: hsl(100 10% 100%);
+      --gray: hsl(100 10% 60%);
+      --silver: hsl(100 10% 55%);
+      --white: hsl(100 10% 20%);
+      --green: hsl(100 50% 60%);
+      --blue: hsl(200 100% 60%);
+      --red: hsl(350 80% 65%);
     }
   }
 `

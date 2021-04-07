@@ -14,9 +14,9 @@ const paginationMixins = css`
     border: 3px solid var(--b-c);
     border-radius: var(--r);
 
-    --bg: hsl(90, 10%, 47.5%);
+    --bg: hsl(90 10% 47.5%);
     --b-c: var(--bg);
-    --c: #fff;
+    --c: hsl(0 0% 100%);
 
     ${_atrules.veryMobile} {
       --r: 0.125rem;
@@ -27,16 +27,16 @@ const paginationMixins = css`
     }
 
     ${_atrules.colorSchemeDark} {
-      --bg: hsla(100, 10%, 70%, 0.2);
+      --bg: hsl(100 10% 70% / 0.2);
       --b-c: currentColor;
-      --c: hsl(100, 10%, 70%);
+      --c: hsl(100 10% 70%);
     }
   }
 
   .enabled {
-    --hover-bg: hsl(90, 30%, 47.5%);
+    --hover-bg: hsl(90 30% 47.5%);
     --hover-b-c: var(--hover-bg);
-    --bg: hsl(90, 25%, 47.5%);
+    --bg: hsl(90 25% 47.5%);
 
     :focus-within,
     :hover {
@@ -46,9 +46,9 @@ const paginationMixins = css`
     }
 
     ${_atrules.colorSchemeDark} {
-      --hover-bg: hsla(100, 80%, 70%, 0.3);
+      --hover-bg: hsl(100 80% 70% / 0.3);
       --hover-b-c: currentColor;
-      --bg: hsla(100, 80%, 70%, 0.2);
+      --bg: hsl(100 80% 70% / 0.2);
       --b-c: currentColor;
       --c: var(--a-c);
     }

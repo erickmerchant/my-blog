@@ -23,10 +23,10 @@ export const contentClasses = css`
     text-decoration: none;
     margin-left: 0.5rem;
     display: var(--a-display, none);
-    color: hsl(90, 10%, 70%);
+    color: hsl(90 10% 70%);
 
     ${_atrules.colorSchemeDark} {
-      color: hsl(100, 60%, 70%);
+      color: hsl(100 60% 70%);
     }
   }
 
@@ -56,8 +56,8 @@ export const contentClasses = css`
     display: grid;
     grid-template-columns: max-content auto;
 
-    --c: hsl(90, 55%, 30%);
-    --c2: hsl(90, 5%, 35%);
+    --c: hsl(90 55% 30%);
+    --c2: hsl(90 5% 35%);
 
     ${_atrules.tabletUp} {
       max-width: 38rem;
@@ -77,8 +77,8 @@ export const contentClasses = css`
     }
 
     ${_atrules.colorSchemeDark} {
-      --c: hsl(100, 45%, 70%);
-      --c2: hsl(100, 5%, 75%);
+      --c: hsl(100 45% 70%);
+      --c2: hsl(100 5% 75%);
     }
   }
 
@@ -88,7 +88,7 @@ export const contentClasses = css`
     ::before {
       counter-increment: code;
       content: counter(code);
-      padding-right: 1em;
+      padding-right: 1rem;
       white-space: nowrap;
       color: var(--c2);
     }
@@ -113,7 +113,7 @@ export const contentClasses = css`
     --c: inherit;
 
     ${_atrules.colorSchemeDark} {
-      --c: hsl(100, 45%, 70%);
+      --c: hsl(100 45% 70%);
     }
   }
 
@@ -155,7 +155,7 @@ export const contentClasses = css`
       width: 0.75em;
 
       ${_atrules.colorSchemeDark} {
-        background: hsl(100, 60%, 70%);
+        background: hsl(100 60% 70%);
       }
     }
   }
