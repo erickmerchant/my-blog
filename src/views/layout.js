@@ -5,7 +5,7 @@ export const createLayoutView = ({
   aboutView,
   mainView,
   anchorAttrs
-}) => (state = {}) => html`
+}) => (state = {}, {endScripts} = {}) => html`
   <body class=${classes.app}>
     <header class=${classes.header}>
       <a ${anchorAttrs('/')} class=${classes.headerAnchor}>ErickMerchant.com</a>
@@ -27,5 +27,6 @@ export const createLayoutView = ({
         </li>
       </ul>
     </footer>
+    ${endScripts ?? ''}
   </body>
 `

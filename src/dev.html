@@ -70,14 +70,14 @@ import {createMainView, getMainContentTemplates} from '/views/main.js'
           anchorAttrs
         })
 
-        const layout = createLayoutView({
+        const layoutView = createLayoutView({
           classes: classes.layoutClasses,
           aboutView,
           mainView,
           anchorAttrs
         })
 
-        const view = createDomView(target, layout)
+        const view = createDomView(target, layoutView)
 
         app.render(view)
       }

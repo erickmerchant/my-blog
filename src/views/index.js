@@ -18,8 +18,11 @@ export const createIndexView = ({layoutView}) => (state) => html`
         ${state.styles}
       </style>
       <title>A Web Development Blog</title>
-      <script src="/app.js" type="module"></script>
     </head>
-    ${layoutView(state)}
+    ${layoutView(state, {
+      endScripts: html`
+        <script src="/app.js" type="module"></script>
+      `
+    })}
   </html>
 `
