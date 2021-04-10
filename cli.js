@@ -49,7 +49,7 @@ try {
       aboutView,
       mainView: () =>
         html`
-          <article id="main"></article>
+          <main></main>
         `,
       anchorAttrs: (href) => {
         return {href}

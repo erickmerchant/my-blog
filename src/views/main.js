@@ -36,7 +36,7 @@ export const createMainView = ({
 }) => (state) => (afterUpdate) => {
   if (state.route == null) {
     return html`
-      <article class=${classes.main}></article>
+      <main class=${classes.main}></main>
     `
   }
 
@@ -46,7 +46,7 @@ export const createMainView = ({
 
   if (state.route.key === 'post') {
     return html`
-      <article class=${classes.main}>
+      <main class=${classes.main}>
         <header class=${classes.header}>
           <h1 class=${classes.heading1}>${state.post.title}</h1>
           ${dateView(state.post.date)}
@@ -93,18 +93,18 @@ export const createMainView = ({
               </nav>
             `
           : null}
-      </article>
+      </main>
     `
   }
 
   if (state.route.key === 'error') {
     return html`
-      <article class=${classes.main}>
+      <main class=${classes.main}>
         <header class=${classes.header}>
           <h1 class=${classes.heading1}>${state.title ?? ''}</h1>
         </header>
         <p class=${classes.message}>${state.message ?? ''}</p>
-      </article>
+      </main>
     `
   }
 }

@@ -25,7 +25,7 @@ window.onpopstate = (e) => {
 
 dispatchLocation(window.location.pathname, window.location.hash)
 
-const target = document.querySelector('#main')
+const target = document.querySelector('main')
 
 const anchorAttrs = getAnchorAttrs({
   dispatchLocation
