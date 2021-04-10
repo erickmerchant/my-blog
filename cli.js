@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import {html} from '@erickmerchant/framework'
 import {stringify} from '@erickmerchant/framework/stringify.js'
+import del from 'del'
 import fs from 'fs'
 import {spawn} from 'sergeant'
 import {promisify} from 'util'
@@ -26,7 +27,7 @@ try {
   if (command === 'build') {
     await Promise.all([
       spawn`css src/styles.js dist/css`,
-      spawn`dev cache src dist -i src/editor.html -i src/dev.html`
+      spawn`dev cache src dist`
     ])
 
     const {layoutClasses, aboutClasses} = await import('./dist/css/styles.js')
@@ -64,10 +65,23 @@ try {
 
     state.styles = await readFile('./dist/css/styles.css', 'utf8')
 
-    await writeFile(
-      './dist/index.html',
-      `<!doctype html>${stringify(indexView(state))}`
-    )
+    await Promise.all([
+      writeFile(
+        './dist/index.html',
+        `<!doctype html>${stringify(indexView(state))}`
+      ),
+      del([
+        './dist/*',
+        '!./dist/content',
+        '!./dist/fonts',
+        '!./dist/_headers',
+        '!./dist/_redirects',
+        '!./dist/app.js',
+        '!./dist/favicon.svg',
+        '!./dist/index.html',
+        '!./dist/robots.txt'
+      ])
+    ])
   }
 } catch (error) {
   console.error(error)
