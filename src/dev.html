@@ -17,7 +17,7 @@
       } from '/content.js'
       import * as classes from '/css/styles.js'
       import {createModel} from '/model.js'
-      import {getAnchorAttrs, getDispatchLocation} from '/routing.js'
+      import {setupRouting} from '/routing.js'
       import {createAboutView, getAboutContentTemplates} from '/views/about.js'
       import {createDateView} from '/views/date.js'
       import {createLayoutView} from '/views/layout.js'
@@ -28,20 +28,9 @@
       const target = document.querySelector('body')
 
       export const __update = () => {
-        const postsModel = createModel('/content/posts.json')
+        const postsModel = createModel()
 
-        const dispatchLocation = getDispatchLocation({
-          app,
-          postsModel
-        })
-
-        window.onpopstate = (e) => {
-          dispatchLocation(window.location.pathname, window.location.hash)
-        }
-
-        dispatchLocation(window.location.pathname, window.location.hash)
-
-        const anchorAttrs = getAnchorAttrs({dispatchLocation})
+        const anchorAttrs = setupRouting({app, postsModel})
 
         const aboutView = createAboutView({
           classes: classes.aboutClasses,

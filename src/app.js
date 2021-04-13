@@ -7,28 +7,19 @@ import {
 } from './content.js'
 import {contentClasses, dateClasses, mainClasses} from './css/styles.js'
 import {createModel} from './model.js'
-import {getAnchorAttrs, getDispatchLocation} from './routing.js'
+import {setupRouting} from './routing.js'
 import {createDateView} from './views/date.js'
 import {createMainView, getMainContentTemplates} from './views/main.js'
 
 const app = createApp({route: null, title: ''})
 
-const listEndpoint = `/content/posts.json`
-
-const postsModel = createModel(listEndpoint)
-
-const dispatchLocation = getDispatchLocation({app, postsModel})
-
-window.onpopstate = (e) => {
-  dispatchLocation(window.location.pathname, window.location.hash)
-}
-
-dispatchLocation(window.location.pathname, window.location.hash)
+const postsModel = createModel()
 
 const target = document.querySelector('main')
 
-const anchorAttrs = getAnchorAttrs({
-  dispatchLocation
+const anchorAttrs = setupRouting({
+  app,
+  postsModel
 })
 
 const dateView = createDateView({

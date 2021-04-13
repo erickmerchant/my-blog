@@ -11,10 +11,7 @@ const state = {route: {key: 'list', params: ['posts']}, posts: []}
 
 const app = createApp(state)
 
-const channels = [
-  createModel('posts', '/content/posts.json'),
-  createModel('drafts', '/content/drafts.json')
-]
+const channels = [createModel('posts'), createModel('drafts')]
 
 const handleRoute = async (route = {key: 'list', params: ['posts']}) => {
   let state = {

@@ -11,7 +11,7 @@ export const getRoute = (all, routes) => {
   }
 }
 
-export const getDispatchLocation = ({app, postsModel}) => async (
+const getDispatchLocation = ({app, postsModel}) => async (
   pathname,
   hash = ''
 ) => {
@@ -68,15 +68,25 @@ export const getDispatchLocation = ({app, postsModel}) => async (
   }
 }
 
-export const getAnchorAttrs = ({dispatchLocation}) => (href) => {
-  return {
-    href,
-    onclick(e) {
-      e.preventDefault()
+export const setupRouting = ({app, postsModel}) => {
+  const dispatchLocation = getDispatchLocation({app, postsModel})
 
-      window.history.pushState({}, null, href)
+  window.onpopstate = (e) => {
+    dispatchLocation(window.location.pathname, window.location.hash)
+  }
 
-      dispatchLocation(href)
+  dispatchLocation(window.location.pathname, window.location.hash)
+
+  return (href) => {
+    return {
+      href,
+      onclick(e) {
+        e.preventDefault()
+
+        window.history.pushState({}, null, href)
+
+        dispatchLocation(href)
+      }
     }
   }
 }

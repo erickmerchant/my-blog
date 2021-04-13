@@ -1,10 +1,12 @@
 import {createModel as createBaseModel} from '../model.js'
 
-export const createModel = (name, listEndpoint) => {
+export const createModel = (name) => {
+  const listEndpoint = `/content/${name}.json`
+
   const model = {
     name,
 
-    ...createBaseModel(listEndpoint),
+    ...createBaseModel(name),
 
     async saveAll(data) {
       await model.fetch(listEndpoint, {
@@ -12,7 +14,7 @@ export const createModel = (name, listEndpoint) => {
         body: JSON.stringify(data)
       })
 
-      if (listEndpoint === '/content/posts.json' && data[0]) {
+      if (name === 'posts' && data[0]) {
         const first = await model.getBySlug(data[0].slug)
 
         await model.fetch(`/content/__first.json`, {
@@ -27,7 +29,7 @@ export const createModel = (name, listEndpoint) => {
     },
 
     async saveAs(name, data) {
-      const subModel = createModel(name, `/content/${name}.json`)
+      const subModel = createModel(name)
 
       await model.remove(data.slug)
 

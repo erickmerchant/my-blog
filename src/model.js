@@ -1,4 +1,6 @@
-export const createModel = (listEndpoint) => {
+export const createModel = (name = 'posts') => {
+  const listEndpoint = `/content/${name}.json`
+
   const model = {
     async fetch(url, options = {}) {
       const res = await window.fetch(
