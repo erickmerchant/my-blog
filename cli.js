@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import {html} from '@erickmerchant/framework'
 import {stringify} from '@erickmerchant/framework/stringify.js'
+import cheerio from 'cheerio'
 import del from 'del'
 import fs from 'fs'
 import {spawn} from 'sergeant'
@@ -8,7 +9,6 @@ import {promisify} from 'util'
 
 import {createContentView, getDefaultContentTemplates} from './src/content.js'
 import {createAboutView, getAboutContentTemplates} from './src/views/about.js'
-import {createIndexView} from './src/views/index.js'
 import {createLayoutView} from './src/views/layout.js'
 
 const readFile = promisify(fs.readFile)
@@ -21,7 +21,7 @@ try {
 
     spawn`css src/editor/styles.js dist/editor/css -dw src/editor`
 
-    spawn`dev serve src dist -de dev.html`
+    spawn`dev serve src dist -d`
   }
 
   if (command === 'build') {
@@ -31,8 +31,6 @@ try {
     ])
 
     const {layoutClasses, aboutClasses} = await import('./dist/css/styles.js')
-
-    const state = {title: ''}
 
     const aboutView = createAboutView({
       classes: aboutClasses,
@@ -56,20 +54,30 @@ try {
       }
     })
 
-    const indexView = createIndexView({layoutView})
-
     await Promise.all([
       spawn`rollup -c rollup.config.js`,
       spawn`postcss ./dist/css/styles.css --no-map -u cssnano -o ./dist/css/styles.css`
     ])
 
-    state.styles = await readFile('./dist/css/styles.css', 'utf8')
+    const [rawHtml, styles] = await Promise.all([
+      readFile('./dist/index.html', 'utf8'),
+      readFile('./dist/css/styles.css', 'utf8')
+    ])
+
+    const $ = cheerio.load(rawHtml)
+
+    $('link[rel="stylesheet"]').replaceWith(`<style>${styles}</style>`)
+
+    $('body').replaceWith(
+      cheerio.load(stringify(layoutView({title: ''})))('body')
+    )
+
+    $('script').remove()
+
+    $('body').append(`<script src="/app.js" type="module"></script>`)
 
     await Promise.all([
-      writeFile(
-        './dist/index.html',
-        `<!doctype html>${stringify(indexView(state))}`
-      ),
+      writeFile('./dist/index.html', $.html()),
       del([
         './dist/*',
         '!./dist/content',
