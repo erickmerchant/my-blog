@@ -36,7 +36,7 @@ export const contentClasses = css`
 
   .codeBlock {
     font-family: 'JetBrains Mono', Menlo, Monaco, 'Courier New', monospace;
-    font-weight: bolder;
+    font-weight: bold;
     font-size: 0.875rem;
     color: var(--c);
     overflow: auto;
@@ -95,7 +95,7 @@ export const contentClasses = css`
 
   .codeInline {
     font-family: 'JetBrains Mono', Menlo, Monaco, 'Courier New', monospace;
-    font-weight: bolder;
+    font-weight: bold;
     font-size: 0.875rem;
     color: var(--c);
     display: inline-block;
