@@ -2,9 +2,8 @@ import {css} from '@erickmerchant/css'
 
 export const fontWeights = {
   heading1: 900,
-  heading2: 700,
-  bold: 500,
-  semibold: 300,
+  heading2: 800,
+  bold: 600,
   normal: 100
 }
 

@@ -35,7 +35,7 @@ export const aboutClasses = css`
   .heading {
     ${mixins.heading}
 
-    font-weight: ${fontWeights.heading2};
+    font-weight: ${fontWeights.bold};
     padding-top: 1em;
     max-width: 30rem;
     margin-right: auto;
@@ -71,9 +71,5 @@ export const aboutClasses = css`
         max-width: 100%;
       }
     }
-  }
-
-  .bold {
-    font-weight: ${fontWeights.semibold};
   }
 `

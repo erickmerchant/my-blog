@@ -4,7 +4,7 @@ import {_atrules, fontWeights} from './core.js'
 
 export const dateClasses = css`
   .time {
-    font-weight: ${fontWeights.semibold};
+    font-weight: ${fontWeights.bold};
     display: flex;
     flex-wrap: wrap;
     align-items: center;

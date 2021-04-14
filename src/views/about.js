@@ -13,10 +13,10 @@ const yearsSince = (year, month) => {
 const aboutContent = `
 # About me
 
-I'm *Erick Merchant*. I've been employed as a web developer for *${yearsSince(
+I'm Erick Merchant. I've been employed as a web developer for ${yearsSince(
   2006,
   6
-)}* years. This is my web development blog. Check out my [open-source projects](https://github.com/erickmerchant) on Github.
+)} years. This is my web development blog. Check out my [open-source projects](https://github.com/erickmerchant) on Github.
 `
 
 export const getAboutContentTemplates = ({classes}) => {

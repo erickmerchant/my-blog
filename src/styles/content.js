@@ -30,11 +30,6 @@ export const contentClasses = css`
     }
   }
 
-  .bold {
-    font-weight: ${fontWeights.bold};
-    color: var(--str-c, inherit);
-  }
-
   .pre {
     display: block;
   }
@@ -118,7 +113,6 @@ export const contentClasses = css`
   }
 
   .anchor {
-    font-weight: ${fontWeights.semibold};
     color: var(--a-c);
     text-decoration-thickness: 0.0625em;
     text-underline-offset: 0.1875em;

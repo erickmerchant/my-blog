@@ -8,10 +8,6 @@ export const highlightClasses = css`
     color: var(--gray);
   }
 
-  .bold {
-    font-weight: ${fontWeights.bold};
-  }
-
   .url {
     color: var(--blue);
   }

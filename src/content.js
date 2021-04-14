@@ -4,10 +4,6 @@ const codeFence = '```'
 
 export const getDefaultContentTemplates = ({classes}) => {
   return {
-    bold: (text) =>
-      html`
-        <b class=${classes.bold}>${text}</b>
-      `,
     anchor: (text, href) =>
       html`
         <a class=${classes.anchor} href=${href}>${text}</a>
@@ -50,44 +46,18 @@ export const createContentView = ({templates, publicFacing = true}) => {
     if (ln === '') return []
 
     const results = []
-    const matches = ln.matchAll(/\[(.*?)\]\((.*?)\)|`(.*?)`|\*(.*?)\*/g)
+    const matches = ln.matchAll(/\[(.*?)\]\((.*?)\)|`(.*?)`/g)
     let offset = 0
 
     for (const match of matches) {
-      let unescaped = true
+      results.push(ln.substring(offset, match.index))
 
-      if (
-        match.index > 0 &&
-        ln.substring(match.index - 1, match.index) === '\\'
-      ) {
-        unescaped = false
-
-        if (
-          match.index > 1 &&
-          ln.substring(match.index - 2, match.index) === '\\\\'
-        ) {
-          unescaped = true
-        } else {
-          if (!publicFacing) continue
-
-          results.push(`${ln.substring(offset, match.index - 1)}${match[0]}`)
-        }
+      if (match[1] != null) {
+        results.push(templates.anchor(match[1], match[2]))
       }
 
-      if (unescaped) {
-        results.push(ln.substring(offset, match.index))
-
-        if (match[1] != null) {
-          results.push(templates.anchor(match[1], match[2]))
-        }
-
-        if (match[3] != null) {
-          results.push(templates.codeInline(match[3]))
-        }
-
-        if (match[4] != null) {
-          results.push(templates.bold(match[4]))
-        }
+      if (match[3] != null) {
+        results.push(templates.codeInline(match[3]))
       }
 
       offset = match.index + match[0].length
@@ -174,27 +144,8 @@ export const createContentView = ({templates, publicFacing = true}) => {
             }
             break
 
-          case ln === `\\${codeFence}`:
-            if (publicFacing) {
-              result.push(codeFence)
-            } else {
-              result.push(ln)
-            }
-
-            result.push('\n')
-            break
-
           default: {
-            let l = ln
-
-            if (
-              publicFacing &&
-              (l.startsWith('\\# ') || l.startsWith('\\- '))
-            ) {
-              l = l.substring(1)
-            }
-
-            const p = templates.paragraph(inline(l))
+            const p = templates.paragraph(inline(ln))
 
             if (p != null) {
               result.push(p)
