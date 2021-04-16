@@ -33,14 +33,14 @@ export const createMainView = ({
   contentView,
   dateView,
   anchorAttrs
-}) => (state) => (afterUpdate) => {
+}) => (state) => {
   if (state.route == null) {
     return html`
       <main class=${classes.main}></main>
     `
   }
 
-  afterUpdate(() => {
+  Promise.resolve().then(() => {
     document.body.style = `--below-main-display: block;`
   })
 
