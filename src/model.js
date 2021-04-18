@@ -1,6 +1,4 @@
 export const createModel = (name = 'posts') => {
-  const listEndpoint = `/content/${name}.json`
-
   const model = {
     async fetch(url, options = {}) {
       const res = await window.fetch(
@@ -24,7 +22,7 @@ export const createModel = (name = 'posts') => {
     },
 
     getAll() {
-      return model.fetch(listEndpoint).then((res) => res.json())
+      return model.fetch(`/content/${name}.json`).then((res) => res.json())
     },
 
     async getBySlug(id = '__first') {

@@ -1,15 +1,13 @@
 import {createModel as createBaseModel} from '../model.js'
 
 export const createModel = (name) => {
-  const listEndpoint = `/content/${name}.json`
-
   const model = {
     name,
 
     ...createBaseModel(name),
 
     async saveAll(data) {
-      await model.fetch(listEndpoint, {
+      await model.fetch(`/content/${name}.json`, {
         method: 'PUT',
         body: JSON.stringify(data)
       })
@@ -17,11 +15,13 @@ export const createModel = (name) => {
       if (name === 'posts' && data[0]) {
         const first = await model.getBySlug(data[0].slug)
 
-        await model.fetch(`/content/__first.json`, {
+        const firstUrl = '/content/__first.json'
+
+        await model.fetch(firstUrl, {
           method: 'DELETE'
         })
 
-        await model.fetch(`/content/__first.json`, {
+        await model.fetch(firstUrl, {
           method: 'POST',
           body: JSON.stringify(first.content)
         })
