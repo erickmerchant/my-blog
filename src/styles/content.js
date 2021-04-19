@@ -31,7 +31,31 @@ export const contentClasses = css`
   }
 
   .pre {
-    display: block;
+    display: grid;
+
+    --c: hsl(90 55% 30%);
+    --c2: hsl(90 5% 35%);
+    --b: hsl(90 5% 35% / 0.0625);
+
+    ${_atrules.colorSchemeDark} {
+      --c: hsl(100 45% 70%);
+      --c2: hsl(100 5% 75%);
+      --b: hsl(100 5% 75% / 0.0625);
+    }
+
+    ${_atrules.tabletUp} {
+      max-width: 38rem;
+      margin-right: auto;
+      margin-left: auto;
+    }
+
+    ${_atrules.tallUp} {
+      ${_atrules.desktopUp} {
+        max-width: 100%;
+        margin-right: 1rem;
+        margin-left: 1rem;
+      }
+    }
   }
 
   .codeBlock {
@@ -40,7 +64,7 @@ export const contentClasses = css`
     font-size: 0.875rem;
     color: var(--c);
     overflow: auto;
-    white-space: pre-wrap;
+    white-space: var(--code-white-space, pre-wrap);
     word-break: break-word;
     padding-top: 1em;
     padding-bottom: 1em;
@@ -51,29 +75,10 @@ export const contentClasses = css`
     display: grid;
     grid-template-columns: max-content auto;
 
-    --c: hsl(90 55% 30%);
-    --c2: hsl(90 5% 35%);
-
     ${_atrules.tabletUp} {
-      max-width: 38rem;
-      margin-right: auto;
-      margin-left: auto;
       padding-right: 1rem;
       padding-left: 1rem;
-      border-radius: 0.125rem;
-    }
-
-    ${_atrules.tallUp} {
-      ${_atrules.desktopUp} {
-        max-width: 100%;
-        margin-right: 1rem;
-        margin-left: 1rem;
-      }
-    }
-
-    ${_atrules.colorSchemeDark} {
-      --c: hsl(100 45% 70%);
-      --c2: hsl(100 5% 75%);
+      border-radius: 0.125rem 0.125rem 0 0.125rem;
     }
   }
 
@@ -86,6 +91,9 @@ export const contentClasses = css`
       padding-right: 1rem;
       white-space: nowrap;
       color: var(--c2);
+      text-align: right;
+      border-right: 1px solid var(--b);
+      margin-right: 1rem;
     }
   }
 

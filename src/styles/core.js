@@ -9,10 +9,10 @@ export const fontWeights = {
 
 export const _atrules = {
   colorSchemeDark: '@media (prefers-color-scheme: dark)',
-  tabletUp: '@media (min-width: 768px)',
-  desktopUp: '@media (min-width: 1024px)',
-  tallUp: '@media (min-height: 420px)',
-  veryMobile: '@media (max-width: 375px)'
+  tabletUp: '@media (min-width: 770px)',
+  desktopUp: '@media (min-width: 1100px)',
+  tallUp: '@media (min-height: 605px)',
+  veryMobile: '@media (max-width: 440px)'
 }
 
 export const mixins = css`

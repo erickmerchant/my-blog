@@ -26,7 +26,7 @@ export const layoutClasses = css`
     --hdr-bg-size: 2rem 2rem;
     --hdr-b: transparent;
     --ftr-c: var(--c);
-    --ftr-hr-b-c: hsl(90 10% 90%);
+    --ftr-hr-b: hsl(90 10% 90%);
 
     ${_atrules.colorSchemeDark} {
       --c: hsl(0 0% 100%);
@@ -40,7 +40,7 @@ export const layoutClasses = css`
       --hdr-bg-size: 1rem 1rem;
       --hdr-b: hsl(100 30% 70%);
       --ftr-c: hsl(0 0% 100%);
-      --ftr-hr-b-c: hsl(100 10% 20%);
+      --ftr-hr-b: hsl(100 10% 20%);
     }
 
     ${_atrules.tallUp} {
@@ -150,7 +150,7 @@ export const layoutClasses = css`
     padding-bottom: 0.25em;
     width: 100%;
     background-color: var(--bg2);
-    border-top: 1px solid var(--ftr-hr-b-c);
+    border-top: 1px solid var(--ftr-hr-b);
 
     ${_atrules.tallUp} {
       ${_atrules.desktopUp} {
