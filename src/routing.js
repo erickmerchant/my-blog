@@ -23,6 +23,7 @@ const getDispatchLocation = ({app, postsModel}) => async (
 
   let state = {
     route: {key: 'error'},
+    wrapCode: app.state.wrapCode,
     pathname,
     title: 'Page Not Found',
     message:
@@ -38,6 +39,7 @@ const getDispatchLocation = ({app, postsModel}) => async (
       if (post != null) {
         state = {
           route,
+          wrapCode: app.state.wrapCode,
           pathname,
           title: `Posts | ${post.title}`,
           post
@@ -47,6 +49,7 @@ const getDispatchLocation = ({app, postsModel}) => async (
       if (!error.message.startsWith('404')) {
         state = {
           route: {key: 'error'},
+          wrapCode: app.state.wrapCode,
           pathname,
           title: 'Error Caught',
           message: error.message

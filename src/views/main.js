@@ -1,6 +1,10 @@
 import {html} from '@erickmerchant/framework'
 
-export const getMainContentTemplates = ({classes}) => {
+export const getMainContentTemplates = ({app, classes}) => {
+  const toggleWrapCode = (e) => {
+    app.state.wrapCode = e.target.checked
+  }
+
   return {
     heading: (text, slug) =>
       html`
@@ -9,11 +13,13 @@ export const getMainContentTemplates = ({classes}) => {
           <a class=${classes.heading2Anchor} href=${`#${slug}`}>#</a>
         </h2>
       `,
-    codeBlock: (items) =>
+    codeBlock: (items, {wrapCode}) =>
       html`
         <pre
           class=${classes.pre}
-        ><code class=${classes.codeBlock}>${items}</code></pre>
+        ><code class=${classes.codeBlock}>${items}</code>
+        <label class=${classes.codeToggleWrapLabel}>wrap lines <input class=${classes.codeToggleWrapCheckbox} checked=${wrapCode} type="checkbox" onchange=${toggleWrapCode} /></label>
+        </pre>
       `,
     codeBlockLine: (code) => html`
       <span class=${classes.codeBlockLine}><span>${code}</span></span>
@@ -41,7 +47,12 @@ export const createMainView = ({
   }
 
   Promise.resolve().then(() => {
-    document.body.style = `--below-main-display: block;`
+    document.body.style.setProperty('--below-main-display', 'block')
+
+    document.body.style.setProperty(
+      '--code-white-space',
+      state.wrapCode ? 'pre-wrap' : 'pre'
+    )
   })
 
   if (state.route.key === 'post') {
@@ -51,7 +62,7 @@ export const createMainView = ({
           <h1 class=${classes.heading1}>${state.post.title}</h1>
           ${dateView(state.post.date)}
         </header>
-        ${contentView(state.post.content ?? '')}
+        ${contentView(state.post.content ?? '', {wrapCode: state.wrapCode})}
         ${state.post.prev || state.post.next
           ? html`
               <nav class=${classes.pagination}>

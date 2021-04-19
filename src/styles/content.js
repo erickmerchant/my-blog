@@ -78,7 +78,7 @@ export const contentClasses = css`
     ${_atrules.tabletUp} {
       padding-right: 1rem;
       padding-left: 1rem;
-      border-radius: 0.125rem;
+      border-radius: 0.125rem 0.125rem 0 0.125rem;
     }
   }
 
@@ -99,6 +99,44 @@ export const contentClasses = css`
 
   .codeBlockComment {
     color: var(--c2);
+  }
+
+  .codeToggleWrapLabel {
+    display: flex;
+    align-items: center;
+    justify-self: end;
+    background: var(--bg2);
+    font-size: 0.75rem;
+    padding: 0.5em 1rem;
+    border-radius: 0 0 0.25rem 0.25rem;
+    position: relative;
+
+    ::after {
+      content: '';
+      height: 0.5rem;
+      width: 0.5rem;
+      position: absolute;
+      top: 0;
+      left: -0.5rem;
+      clip-path: circle(100% at 0 100%);
+      background: var(--bg);
+    }
+
+    ::before {
+      content: '';
+      height: 0.5rem;
+      width: 0.5rem;
+      position: absolute;
+      top: 0;
+      left: -0.5rem;
+      background: var(--bg2);
+    }
+  }
+
+  .codeToggleWrapCheckbox {
+    height: 1em;
+    width: 1em;
+    margin: 0.25em;
   }
 
   .codeInline {

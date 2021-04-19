@@ -11,7 +11,7 @@ import {setupRouting} from './routing.js'
 import {createDateView} from './views/date.js'
 import {createMainView, getMainContentTemplates} from './views/main.js'
 
-const app = createApp({route: null, title: ''})
+const app = createApp({route: null, title: '', wrapCode: true})
 
 const postsModel = createModel()
 
@@ -32,7 +32,7 @@ const mainView = createMainView({
   contentView: createContentView({
     templates: Object.assign(
       getDefaultContentTemplates({classes: contentClasses}),
-      getMainContentTemplates({classes: contentClasses})
+      getMainContentTemplates({app, classes: contentClasses})
     )
   }),
   dateView,

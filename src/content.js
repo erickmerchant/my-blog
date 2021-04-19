@@ -68,7 +68,7 @@ export const createContentView = ({templates, publicFacing = true}) => {
     return results
   }
 
-  return (str) => {
+  return (str, {wrapCode = true} = {}) => {
     const result = []
     const lns = {
       *[Symbol.iterator]() {
@@ -136,7 +136,10 @@ export const createContentView = ({templates, publicFacing = true}) => {
 
           case ln === codeFence:
             if (code != null) {
-              result.push(templates.codeBlock(code, true), '\n')
+              result.push(
+                templates.codeBlock(code, {wrapCode, isClosed: true}),
+                '\n'
+              )
 
               code = null
             } else {
@@ -158,7 +161,7 @@ export const createContentView = ({templates, publicFacing = true}) => {
     }
 
     if (code != null) {
-      result.push(templates.codeBlock(code, false), '\n')
+      result.push(templates.codeBlock(code, {wrapCode, isClosed: false}), '\n')
     }
 
     if (items.length) {
