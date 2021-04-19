@@ -78,7 +78,7 @@ export const contentClasses = css`
     ${_atrules.tabletUp} {
       padding-right: 1rem;
       padding-left: 1rem;
-      border-radius: 0.125rem 0.125rem 0 0.125rem;
+      border-radius: 0.125rem;
     }
   }
 
