@@ -1,10 +1,6 @@
 import {html} from '@erickmerchant/framework'
 
 export const getMainContentTemplates = ({app, classes}) => {
-  const toggleWrapCode = (e) => {
-    app.state.wrapCode = e.target.checked
-  }
-
   return {
     heading: (text, slug) =>
       html`
@@ -18,7 +14,6 @@ export const getMainContentTemplates = ({app, classes}) => {
         <pre
           class=${classes.pre}
         ><code class=${classes.codeBlock}>${items}</code>
-        <label class=${classes.codeToggleWrapLabel}>wrap lines <input class=${classes.codeToggleWrapCheckbox} checked=${wrapCode} type="checkbox" onchange=${toggleWrapCode} /></label>
         </pre>
       `,
     codeBlockLine: (code) => html`
