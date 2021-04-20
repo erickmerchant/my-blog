@@ -5,8 +5,8 @@ export const getMainContentTemplates = ({app, classes}) => {
     heading: (text, slug) =>
       html`
         <h2 class=${classes.heading2} id=${slug}>
-          ${text}
           <a class=${classes.heading2Anchor} href=${`#${slug}`}>#</a>
+          ${text}
         </h2>
       `,
     codeBlock: (items, {wrapCode}) =>

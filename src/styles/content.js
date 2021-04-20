@@ -14,15 +14,25 @@ export const contentClasses = css`
 
     font-weight: ${fontWeights.heading2};
 
-    :hover {
-      --a-display: inline;
+    ${_atrules.tabletUp} {
+      :hover {
+        --a-display: inline-block;
+      }
     }
   }
 
   .heading2Anchor {
     text-decoration: none;
-    margin-left: 0.5rem;
-    display: var(--a-display, none);
+    margin-right: 0.5rem;
+    width: 0.75rem;
+
+    ${_atrules.tabletUp} {
+      display: var(--a-display, none);
+      position: relative;
+      left: -0.5rem;
+      margin-left: -0.5rem;
+      width: 0;
+    }
 
     ${_atrules.colorSchemeLight} {
       color: hsl(90 10% 70%);
@@ -155,7 +165,7 @@ export const contentClasses = css`
       );
       margin-right: 0.5rem;
       height: 0.75em;
-      width: 0.75em;
+      width: 0.75rem;
 
       ${_atrules.colorSchemeLight} {
         background: currentColor;
