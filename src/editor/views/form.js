@@ -56,7 +56,7 @@ export const createFormView = ({model, app}) => {
 
   const contentView = createContentView({
     templates: {
-      codeBlock: (items, isClosed) => html`
+      codeBlock: (items, {isClosed}) => html`
         <span>
           <span class=${highlightClasses.punctuation}>${'```\n'}</span>
           <span class=${highlightClasses.codeBlock}>${items}</span>

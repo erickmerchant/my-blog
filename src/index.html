@@ -30,7 +30,7 @@
       import {createLayoutView} from '/views/layout.js'
       import {createMainView, getMainContentTemplates} from '/views/main.js'
 
-      const app = createApp({route: null, title: ''})
+      const app = createApp({route: null, title: '', wrapCode: true})
 
       const target = document.querySelector('body')
 
@@ -59,7 +59,7 @@
           contentView: createContentView({
             templates: Object.assign(
               getDefaultContentTemplates({classes: classes.contentClasses}),
-              getMainContentTemplates({classes: classes.contentClasses})
+              getMainContentTemplates({app, classes: classes.contentClasses})
             )
           }),
           dateView,

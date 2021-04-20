@@ -14,16 +14,29 @@ export const contentClasses = css`
 
     font-weight: ${fontWeights.heading2};
 
-    :hover {
-      --a-display: inline;
+    ${_atrules.tabletUp} {
+      :hover {
+        --a-display: inline-block;
+      }
     }
   }
 
   .heading2Anchor {
     text-decoration: none;
-    margin-left: 0.5rem;
-    display: var(--a-display, none);
-    color: hsl(90 10% 70%);
+    margin-right: 0.5rem;
+    width: 0.75rem;
+
+    ${_atrules.tabletUp} {
+      display: var(--a-display, none);
+      position: relative;
+      left: -0.5rem;
+      margin-left: -0.5rem;
+      width: 0;
+    }
+
+    ${_atrules.colorSchemeLight} {
+      color: hsl(90 10% 70%);
+    }
 
     ${_atrules.colorSchemeDark} {
       color: hsl(100 60% 70%);
@@ -33,9 +46,11 @@ export const contentClasses = css`
   .pre {
     display: grid;
 
-    --c: hsl(90 55% 30%);
-    --c2: hsl(90 5% 35%);
-    --b: hsl(90 5% 35% / 0.0625);
+    ${_atrules.colorSchemeLight} {
+      --c: hsl(90 55% 30%);
+      --c2: hsl(90 5% 35%);
+      --b: hsl(90 5% 35% / 0.0625);
+    }
 
     ${_atrules.colorSchemeDark} {
       --c: hsl(100 45% 70%);
@@ -66,19 +81,14 @@ export const contentClasses = css`
     overflow: auto;
     white-space: var(--code-white-space, pre-wrap);
     word-break: break-word;
-    padding-top: 1em;
-    padding-bottom: 1em;
-    padding-right: 0.5rem;
-    padding-left: 0.5rem;
+    padding: 1em 1rem;
     background-color: var(--bg2);
     counter-reset: code;
     display: grid;
     grid-template-columns: max-content auto;
 
     ${_atrules.tabletUp} {
-      padding-right: 1rem;
-      padding-left: 1rem;
-      border-radius: 0.125rem;
+      border-radius: 0.125rem 0.125rem 0 0.125rem;
     }
   }
 
@@ -113,7 +123,9 @@ export const contentClasses = css`
     word-break: break-word;
     background-color: var(--bg2);
 
-    --c: inherit;
+    ${_atrules.colorSchemeLight} {
+      --c: inherit;
+    }
 
     ${_atrules.colorSchemeDark} {
       --c: hsl(100 45% 70%);
@@ -151,10 +163,13 @@ export const contentClasses = css`
         0% 50%,
         40% 40%
       );
-      background: currentColor;
       margin-right: 0.5rem;
       height: 0.75em;
-      width: 0.75em;
+      width: 0.75rem;
+
+      ${_atrules.colorSchemeLight} {
+        background: currentColor;
+      }
 
       ${_atrules.colorSchemeDark} {
         background: hsl(100 60% 70%);
