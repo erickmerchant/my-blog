@@ -16,7 +16,9 @@ export const dateClasses = css`
   }
 
   .foreground {
-    fill: currentColor;
+    ${_atrules.colorSchemeLight} {
+      fill: currentColor;
+    }
 
     ${_atrules.colorSchemeDark} {
       fill: hsl(100 60% 70%);

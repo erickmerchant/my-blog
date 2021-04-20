@@ -12,21 +12,23 @@ export const layoutClasses = css`
 
     --zz-bg: linear-gradient(225deg, var(--bg) 0.5rem, transparent 0),
       linear-gradient(135deg, var(--bg) 0.5rem, var(--bg2) 0);
-
-    --c: hsl(90 10% 20%);
-    --bg: hsl(0 0% 100%);
-    --bg2: hsl(90 25% 95%);
-    --grid-c: hsl(0 0% 100% / 0.1);
-    --a-c: hsl(90 35% 35%);
-    --hdr-a-c: hsl(0 0% 100%);
-    --hdr-c: hsl(0 0% 100%);
-    --hdr-bg: hsl(90 35% 40% / 0.9);
     --hdr-bg-i: linear-gradient(0deg, var(--grid-c) 1px, transparent 1px),
       linear-gradient(90deg, var(--grid-c) 1px, transparent 1px);
-    --hdr-bg-size: 2rem 2rem;
-    --hdr-b: transparent;
-    --ftr-c: var(--c);
-    --ftr-hr-b: hsl(90 10% 90%);
+
+    ${_atrules.colorSchemeLight} {
+      --c: hsl(90 10% 20%);
+      --bg: hsl(0 0% 100%);
+      --bg2: hsl(90 25% 95%);
+      --grid-c: hsl(0 0% 100% / 0.1);
+      --a-c: hsl(90 35% 35%);
+      --hdr-a-c: hsl(0 0% 100%);
+      --hdr-c: hsl(0 0% 100%);
+      --hdr-bg: hsl(90 35% 40% / 0.9);
+      --hdr-bg-size: 2rem 2rem;
+      --hdr-b: transparent;
+      --ftr-c: var(--c);
+      --ftr-hr-b: hsl(90 10% 90%);
+    }
 
     ${_atrules.colorSchemeDark} {
       --c: hsl(0 0% 100%);

@@ -23,7 +23,10 @@ export const contentClasses = css`
     text-decoration: none;
     margin-left: 0.5rem;
     display: var(--a-display, none);
-    color: hsl(90 10% 70%);
+
+    ${_atrules.colorSchemeLight} {
+      color: hsl(90 10% 70%);
+    }
 
     ${_atrules.colorSchemeDark} {
       color: hsl(100 60% 70%);
@@ -33,9 +36,11 @@ export const contentClasses = css`
   .pre {
     display: grid;
 
-    --c: hsl(90 55% 30%);
-    --c2: hsl(90 5% 35%);
-    --b: hsl(90 5% 35% / 0.0625);
+    ${_atrules.colorSchemeLight} {
+      --c: hsl(90 55% 30%);
+      --c2: hsl(90 5% 35%);
+      --b: hsl(90 5% 35% / 0.0625);
+    }
 
     ${_atrules.colorSchemeDark} {
       --c: hsl(100 45% 70%);
@@ -151,7 +156,9 @@ export const contentClasses = css`
     word-break: break-word;
     background-color: var(--bg2);
 
-    --c: inherit;
+    ${_atrules.colorSchemeLight} {
+      --c: inherit;
+    }
 
     ${_atrules.colorSchemeDark} {
       --c: hsl(100 45% 70%);
@@ -189,10 +196,13 @@ export const contentClasses = css`
         0% 50%,
         40% 40%
       );
-      background: currentColor;
       margin-right: 0.5rem;
       height: 0.75em;
       width: 0.75em;
+
+      ${_atrules.colorSchemeLight} {
+        background: currentColor;
+      }
 
       ${_atrules.colorSchemeDark} {
         background: hsl(100 60% 70%);

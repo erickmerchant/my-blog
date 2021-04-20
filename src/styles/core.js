@@ -9,6 +9,7 @@ export const fontWeights = {
 
 export const _atrules = {
   colorSchemeDark: '@media (prefers-color-scheme: dark)',
+  colorSchemeLight: '@media (prefers-color-scheme: light)',
   tabletUp: '@media (min-width: 770px)',
   desktopUp: '@media (min-width: 1100px)',
   tallUp: '@media (min-height: 605px)',
