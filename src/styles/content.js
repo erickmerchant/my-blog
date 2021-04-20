@@ -71,18 +71,13 @@ export const contentClasses = css`
     overflow: auto;
     white-space: var(--code-white-space, pre-wrap);
     word-break: break-word;
-    padding-top: 1em;
-    padding-bottom: 1em;
-    padding-right: 0.5rem;
-    padding-left: 0.5rem;
+    padding: 1em 1rem;
     background-color: var(--bg2);
     counter-reset: code;
     display: grid;
     grid-template-columns: max-content auto;
 
     ${_atrules.tabletUp} {
-      padding-right: 1rem;
-      padding-left: 1rem;
       border-radius: 0.125rem 0.125rem 0 0.125rem;
     }
   }
