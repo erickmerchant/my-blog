@@ -26,7 +26,7 @@ export const _start = css`
     -webkit-text-size-adjust: none;
     line-height: 1.5;
     height: 100%;
-    scroll-padding-top: 90px;
+    scroll-padding-top: 12vh;
   }
 `
 
