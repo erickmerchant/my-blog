@@ -35,7 +35,7 @@ export const contentClasses = css`
     }
 
     ${_atrules.colorSchemeLight} {
-      color: hsl(90 10% 70%);
+      color: var(--a-c);
     }
 
     ${_atrules.colorSchemeDark} {
