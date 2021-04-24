@@ -78,10 +78,7 @@ export const layoutClasses = css`
         background-color: transparent;
         border-left: none;
         border-bottom: none;
-        padding-top: 0;
-        padding-bottom: 0;
-        padding-right: 0.5rem;
-        padding-left: 0.5rem;
+        padding: 0 0.5rem;
         max-width: max-content;
         grid-row: 1 / -1;
         height: 100vh;
