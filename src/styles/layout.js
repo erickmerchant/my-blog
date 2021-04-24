@@ -95,7 +95,7 @@ export const layoutClasses = css`
     text-decoration-thickness: 0.125em;
     text-underline-offset: 0.125em;
 
-    ::after {
+    &::after {
       content: '';
       display: block;
       position: absolute;
@@ -111,7 +111,7 @@ export const layoutClasses = css`
 
         margin-top: 2em;
 
-        ::after {
+        &::after {
           display: none;
         }
       }

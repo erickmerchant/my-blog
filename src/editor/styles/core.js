@@ -24,8 +24,8 @@ export const buttonMixins = css`
     border: none;
     background-color: var(--blue);
 
-    :focus,
-    :hover {
+    &:focus,
+    &:hover {
       opacity: 0.8;
       outline: 0;
     }
@@ -48,11 +48,11 @@ export const buttonMixins = css`
     display: inline-block;
     border: 1px solid var(--white);
 
-    :hover {
+    &:hover {
       text-decoration: none;
     }
 
-    :focus {
+    &:focus {
       outline: 0;
       border: 1px solid currentcolor;
       filter: saturate(2);

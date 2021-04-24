@@ -15,7 +15,7 @@ export const contentClasses = css`
     font-weight: ${fontWeights.heading2};
 
     ${_atrules.tabletUp} {
-      :hover {
+      &:hover {
         --a-display: inline-block;
       }
     }
@@ -95,7 +95,7 @@ export const contentClasses = css`
   .codeBlockLine {
     display: contents;
 
-    ::before {
+    &::before {
       counter-increment: code;
       content: counter(code);
       padding-right: 1rem;
@@ -150,7 +150,7 @@ export const contentClasses = css`
     display: grid;
     grid-template-columns: max-content auto;
 
-    ::before {
+    &::before {
       align-self: center;
       content: '';
       clip-path: polygon(

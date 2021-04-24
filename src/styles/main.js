@@ -36,8 +36,8 @@ const paginationMixins = css`
   }
 
   .enabled {
-    :focus-within,
-    :hover {
+    &:focus-within,
+    &:hover {
       background-color: var(--hover-bg);
 
       --b: var(--hover-b);
@@ -153,7 +153,7 @@ export const mainClasses = css`
     text-underline-offset: 0.125em;
     -webkit-tap-highlight-color: transparent;
 
-    ::after {
+    &::after {
       content: '';
       display: block;
       position: absolute;
