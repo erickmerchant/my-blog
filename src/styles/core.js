@@ -7,13 +7,13 @@ export const fontWeights = {
   normal: 100
 }
 
-export const _atrules = {
-  colorSchemeDark: '@media (prefers-color-scheme: dark)',
-  colorSchemeLight: '@media (prefers-color-scheme: light)',
-  tabletUp: '@media (min-width: 770px)',
-  desktopUp: '@media (min-width: 1100px)',
-  tallUp: '@media (min-height: 605px)',
-  veryMobile: '@media (max-width: 440px)'
+export const mq = {
+  colorSchemeDark: '(prefers-color-scheme: dark)',
+  colorSchemeLight: '(prefers-color-scheme: light)',
+  tabletUp: '(min-width: 770px)',
+  desktopUp: '(min-width: 1100px)',
+  tallUp: '(min-height: 605px)',
+  veryMobile: '(max-width: 440px)'
 }
 
 export const mixins = css`
@@ -30,11 +30,9 @@ export const mixins = css`
     margin-right: auto;
     margin-left: auto;
 
-    ${_atrules.tallUp} {
-      ${_atrules.desktopUp} {
-        margin-right: 2rem;
-        margin-left: 2rem;
-      }
+    @media ${mq.desktopUp} and ${mq.tallUp} {
+      margin-right: 2rem;
+      margin-left: 2rem;
     }
   }
 `

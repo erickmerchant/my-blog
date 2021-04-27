@@ -1,6 +1,6 @@
 import {css} from '@erickmerchant/css'
 
-import {_atrules, fontWeights, mixins} from './core.js'
+import {fontWeights, mixins, mq} from './core.js'
 
 export const contentClasses = css`
   .heading2,
@@ -14,7 +14,7 @@ export const contentClasses = css`
 
     font-weight: ${fontWeights.heading2};
 
-    ${_atrules.tabletUp} {
+    @media ${mq.tabletUp} {
       &:hover {
         --a-display: inline-block;
       }
@@ -26,7 +26,7 @@ export const contentClasses = css`
     margin-right: 0.5rem;
     width: 0.75rem;
 
-    ${_atrules.tabletUp} {
+    @media ${mq.tabletUp} {
       display: var(--a-display, none);
       position: relative;
       left: -0.5rem;
@@ -34,11 +34,11 @@ export const contentClasses = css`
       width: 0;
     }
 
-    ${_atrules.colorSchemeLight} {
+    @media ${mq.colorSchemeLight} {
       color: var(--a-c);
     }
 
-    ${_atrules.colorSchemeDark} {
+    @media ${mq.colorSchemeDark} {
       color: hsl(100 60% 70%);
     }
   }
@@ -46,30 +46,28 @@ export const contentClasses = css`
   .pre {
     display: grid;
 
-    ${_atrules.colorSchemeLight} {
+    @media ${mq.colorSchemeLight} {
       --c: hsl(90 55% 30%);
       --c2: hsl(90 5% 35%);
       --b: hsl(90 5% 35% / 0.0625);
     }
 
-    ${_atrules.colorSchemeDark} {
+    @media ${mq.colorSchemeDark} {
       --c: hsl(100 45% 70%);
       --c2: hsl(100 5% 75%);
       --b: hsl(100 5% 75% / 0.0625);
     }
 
-    ${_atrules.tabletUp} {
+    @media ${mq.tabletUp} {
       max-width: 38rem;
       margin-right: auto;
       margin-left: auto;
     }
 
-    ${_atrules.tallUp} {
-      ${_atrules.desktopUp} {
-        max-width: 100%;
-        margin-right: 1rem;
-        margin-left: 1rem;
-      }
+    @media ${mq.desktopUp} and ${mq.tallUp} {
+      max-width: 100%;
+      margin-right: 1rem;
+      margin-left: 1rem;
     }
   }
 
@@ -87,7 +85,7 @@ export const contentClasses = css`
     display: grid;
     grid-template-columns: max-content auto;
 
-    ${_atrules.tabletUp} {
+    @media ${mq.tabletUp} {
       border-radius: 0.125rem 0.125rem 0 0.125rem;
     }
   }
@@ -123,11 +121,11 @@ export const contentClasses = css`
     word-break: break-word;
     background-color: var(--bg2);
 
-    ${_atrules.colorSchemeLight} {
+    @media ${mq.colorSchemeLight} {
       --c: inherit;
     }
 
-    ${_atrules.colorSchemeDark} {
+    @media ${mq.colorSchemeDark} {
       --c: hsl(100 45% 70%);
     }
   }
@@ -167,11 +165,11 @@ export const contentClasses = css`
       height: 0.75em;
       width: 0.75rem;
 
-      ${_atrules.colorSchemeLight} {
+      @media ${mq.colorSchemeLight} {
         background: currentColor;
       }
 
-      ${_atrules.colorSchemeDark} {
+      @media ${mq.colorSchemeDark} {
         background: hsl(100 60% 70%);
       }
     }

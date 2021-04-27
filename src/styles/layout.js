@@ -1,6 +1,6 @@
 import {css} from '@erickmerchant/css'
 
-import {_atrules, fontWeights, mixins} from './core.js'
+import {fontWeights, mixins, mq} from './core.js'
 
 export const layoutClasses = css`
   .app {
@@ -15,7 +15,7 @@ export const layoutClasses = css`
     --hdr-bg-i: linear-gradient(0deg, var(--grid-c) 1px, transparent 1px),
       linear-gradient(90deg, var(--grid-c) 1px, transparent 1px);
 
-    ${_atrules.colorSchemeLight} {
+    @media ${mq.colorSchemeLight} {
       --c: hsl(90 10% 20%);
       --bg: hsl(0 0% 100%);
       --bg2: hsl(90 25% 95%);
@@ -30,7 +30,7 @@ export const layoutClasses = css`
       --ftr-hr-b: hsl(90 10% 90%);
     }
 
-    ${_atrules.colorSchemeDark} {
+    @media ${mq.colorSchemeDark} {
       --c: hsl(0 0% 100%);
       --bg: hsl(100 10% 15%);
       --bg2: hsl(100 10% 17.5%);
@@ -45,10 +45,8 @@ export const layoutClasses = css`
       --ftr-hr-b: hsl(100 10% 20%);
     }
 
-    ${_atrules.tallUp} {
-      ${_atrules.desktopUp} {
-        grid-template-columns: 1fr 2fr;
-      }
+    @media ${mq.desktopUp} and ${mq.tallUp} {
+      grid-template-columns: 1fr 2fr;
     }
   }
 
@@ -66,27 +64,27 @@ export const layoutClasses = css`
     grid-row: 1;
     grid-column: 1;
 
-    ${_atrules.tallUp} {
+    @media ${mq.tallUp} {
       position: sticky;
       top: 0;
       z-index: 1;
+    }
 
-      ${_atrules.desktopUp} {
-        font-weight: ${fontWeights.heading1};
-        font-size: 1.5rem;
-        background-image: none;
-        background-color: transparent;
-        border-left: none;
-        border-bottom: none;
-        padding: 0 0.5rem;
-        max-width: max-content;
-        grid-row: 1 / -1;
-        height: 100vh;
-        display: grid;
-        grid-auto-rows: 1fr;
-        grid-template-columns: 90%;
-        align-items: start;
-      }
+    @media ${mq.desktopUp} and ${mq.tallUp} {
+      font-weight: ${fontWeights.heading1};
+      font-size: 1.5rem;
+      background-image: none;
+      background-color: transparent;
+      border-left: none;
+      border-bottom: none;
+      padding: 0 0.5rem;
+      max-width: max-content;
+      grid-row: 1 / -1;
+      height: 100vh;
+      display: grid;
+      grid-auto-rows: 1fr;
+      grid-template-columns: 90%;
+      align-items: start;
     }
   }
 
@@ -105,15 +103,13 @@ export const layoutClasses = css`
       left: 0;
     }
 
-    ${_atrules.tallUp} {
-      ${_atrules.desktopUp} {
-        ${mixins.heading}
+    @media ${mq.desktopUp} and ${mq.tallUp} {
+      ${mixins.heading}
 
-        margin-top: 2em;
+      margin-top: 2em;
 
-        &::after {
-          display: none;
-        }
+      &::after {
+        display: none;
       }
     }
   }
@@ -121,23 +117,21 @@ export const layoutClasses = css`
   .aside {
     display: contents;
 
-    ${_atrules.tallUp} {
-      ${_atrules.desktopUp} {
-        color: var(--hdr-c);
-        grid-row: 1 / -1;
-        grid-column: 1;
-        position: sticky;
-        top: 0;
-        height: 100vh;
-        display: grid;
-        justify-content: center;
-        grid-auto-rows: 1fr;
-        grid-template-columns: 90%;
-        background-color: var(--hdr-bg);
-        background-image: var(--hdr-bg-i);
-        background-size: var(--hdr-bg-size);
-        border-right: 4px solid var(--hdr-b);
-      }
+    @media ${mq.desktopUp} and ${mq.tallUp} {
+      color: var(--hdr-c);
+      grid-row: 1 / -1;
+      grid-column: 1;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      display: grid;
+      justify-content: center;
+      grid-auto-rows: 1fr;
+      grid-template-columns: 90%;
+      background-color: var(--hdr-bg);
+      background-image: var(--hdr-bg-i);
+      background-size: var(--hdr-bg-size);
+      border-right: 4px solid var(--hdr-b);
     }
   }
 
@@ -151,23 +145,21 @@ export const layoutClasses = css`
     background-color: var(--bg2);
     border-top: 1px solid var(--ftr-hr-b);
 
-    ${_atrules.tallUp} {
-      ${_atrules.desktopUp} {
-        grid-row: 3;
-        grid-column: 2;
-        padding-top: 1em;
-        padding-right: 0;
-        padding-left: 0;
-        margin-top: 2em;
-        margin-left: auto;
-        margin-right: auto;
-        border-top: none;
-        background-repeat: repeat-x;
-        background-position: left top;
-        background-image: var(--zz-bg);
-        background-color: var(--bg2);
-        background-size: 1rem 1rem;
-      }
+    @media ${mq.desktopUp} and ${mq.tallUp} {
+      grid-row: 3;
+      grid-column: 2;
+      padding-top: 1em;
+      padding-right: 0;
+      padding-left: 0;
+      margin-top: 2em;
+      margin-left: auto;
+      margin-right: auto;
+      border-top: none;
+      background-repeat: repeat-x;
+      background-position: left top;
+      background-image: var(--zz-bg);
+      background-color: var(--bg2);
+      background-size: 1rem 1rem;
     }
   }
 
@@ -182,11 +174,9 @@ export const layoutClasses = css`
     padding-bottom: 1em;
     position: relative;
 
-    ${_atrules.tallUp} {
-      ${_atrules.desktopUp} {
-        max-width: 35rem;
-        padding-top: 0.5em;
-      }
+    @media ${mq.desktopUp} and ${mq.tallUp} {
+      max-width: 35rem;
+      padding-top: 0.5em;
     }
   }
 

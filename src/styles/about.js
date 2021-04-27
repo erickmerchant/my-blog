@@ -1,6 +1,6 @@
 import {css} from '@erickmerchant/css'
 
-import {_atrules, fontWeights, mixins} from './core.js'
+import {fontWeights, mixins, mq} from './core.js'
 
 export const aboutClasses = css`
   .about {
@@ -17,18 +17,16 @@ export const aboutClasses = css`
     background-image: var(--zz-bg);
     background-size: 1rem 1rem;
 
-    ${_atrules.tallUp} {
-      ${_atrules.desktopUp} {
-        display: block;
-        color: inherit;
-        grid-column: 1;
-        background-image: none;
-        background-color: transparent;
-        padding-bottom: 2em;
-        padding-left: 0;
-        padding-right: 0;
-        max-width: 20rem;
-      }
+    @media ${mq.desktopUp} and ${mq.tallUp} {
+      display: block;
+      color: inherit;
+      grid-column: 1;
+      background-image: none;
+      background-color: transparent;
+      padding-bottom: 2em;
+      padding-left: 0;
+      padding-right: 0;
+      max-width: 20rem;
     }
   }
 
@@ -41,10 +39,8 @@ export const aboutClasses = css`
     margin-right: auto;
     margin-left: auto;
 
-    ${_atrules.tallUp} {
-      ${_atrules.desktopUp} {
-        max-width: 100%;
-      }
+    @media ${mq.desktopUp} and ${mq.tallUp} {
+      max-width: 100%;
     }
   }
 
@@ -53,10 +49,8 @@ export const aboutClasses = css`
     text-decoration-thickness: 0.0625em;
     text-underline-offset: 0.1875em;
 
-    ${_atrules.tallUp} {
-      ${_atrules.desktopUp} {
-        color: var(--hdr-a-c);
-      }
+    @media ${mq.desktopUp} and ${mq.tallUp} {
+      color: var(--hdr-a-c);
     }
   }
 
@@ -66,10 +60,8 @@ export const aboutClasses = css`
     margin-right: auto;
     margin-left: auto;
 
-    ${_atrules.tallUp} {
-      ${_atrules.desktopUp} {
-        max-width: 100%;
-      }
+    @media ${mq.desktopUp} and ${mq.tallUp} {
+      max-width: 100%;
     }
   }
 `

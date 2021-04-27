@@ -1,6 +1,6 @@
 import {css} from '@erickmerchant/css'
 
-import {_atrules, fontWeights, mixins} from './core.js'
+import {fontWeights, mixins, mq} from './core.js'
 
 const paginationMixins = css`
   .disabled,
@@ -14,23 +14,23 @@ const paginationMixins = css`
     border: 3px solid var(--b);
     border-radius: var(--r);
 
-    ${_atrules.colorSchemeLight} {
+    @media ${mq.colorSchemeLight} {
       --bg: hsl(90 10% 47.5%);
       --b: var(--bg);
       --c: hsl(0 0% 100%);
     }
 
-    ${_atrules.colorSchemeDark} {
+    @media ${mq.colorSchemeDark} {
       --bg: hsl(100 10% 70% / 0.2);
       --b: currentColor;
       --c: hsl(100 10% 70%);
     }
 
-    ${_atrules.veryMobile} {
+    @media ${mq.veryMobile} {
       --r: 0.125rem;
     }
 
-    ${_atrules.tabletUp} {
+    @media ${mq.tabletUp} {
       --r: 1.5rem / 50%;
     }
   }
@@ -43,13 +43,13 @@ const paginationMixins = css`
       --b: var(--hover-b);
     }
 
-    ${_atrules.colorSchemeLight} {
+    @media ${mq.colorSchemeLight} {
       --hover-bg: hsl(90 30% 47.5%);
       --hover-b: var(--hover-bg);
       --bg: hsl(90 25% 47.5%);
     }
 
-    ${_atrules.colorSchemeDark} {
+    @media ${mq.colorSchemeDark} {
       --hover-bg: hsl(100 80% 70% / 0.3);
       --hover-b: currentColor;
       --bg: hsl(100 80% 70% / 0.2);
@@ -74,10 +74,8 @@ export const mainClasses = css`
     font-weight: ${fontWeights.heading1};
     font-size: 1.5rem;
 
-    ${_atrules.tallUp} {
-      ${_atrules.desktopUp} {
-        margin-top: 2em;
-      }
+    @media ${mq.desktopUp} and ${mq.tallUp} {
+      margin-top: 2em;
     }
   }
 
@@ -85,10 +83,8 @@ export const mainClasses = css`
     opacity: 1;
     max-width: 100vw;
 
-    ${_atrules.tallUp} {
-      ${_atrules.desktopUp} {
-        padding-top: 0;
-      }
+    @media ${mq.desktopUp} and ${mq.tallUp} {
+      padding-top: 0;
     }
   }
 
@@ -109,7 +105,7 @@ export const mainClasses = css`
     padding-right: 1rem;
     padding-left: 1rem;
 
-    ${_atrules.veryMobile} {
+    @media ${mq.veryMobile} {
       padding-right: 0.5rem;
       padding-left: 0.5rem;
     }
@@ -122,7 +118,7 @@ export const mainClasses = css`
     list-style: none;
     gap: 0.25rem;
 
-    ${_atrules.tabletUp} {
+    @media ${mq.tabletUp} {
       gap: 3vw;
     }
   }
@@ -152,6 +148,7 @@ export const mainClasses = css`
     text-decoration-thickness: 0.125em;
     text-underline-offset: 0.125em;
     -webkit-tap-highlight-color: transparent;
+    background: transparent;
 
     &::after {
       content: '';

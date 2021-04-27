@@ -1,6 +1,6 @@
 import {css} from '@erickmerchant/css'
 
-import {_atrules, fontWeights} from './styles/core.js'
+import {fontWeights} from './styles/core.js'
 
 export const _start = css`
   @font-face {
@@ -29,8 +29,6 @@ export const _start = css`
     scroll-padding-top: 12vh;
   }
 `
-
-export {_atrules}
 
 export {layoutClasses} from './styles/layout.js'
 

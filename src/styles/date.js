@@ -1,6 +1,6 @@
 import {css} from '@erickmerchant/css'
 
-import {_atrules, fontWeights} from './core.js'
+import {fontWeights, mq} from './core.js'
 
 export const dateClasses = css`
   .time {
@@ -16,11 +16,11 @@ export const dateClasses = css`
   }
 
   .foreground {
-    ${_atrules.colorSchemeLight} {
+    @media ${mq.colorSchemeLight} {
       fill: currentColor;
     }
 
-    ${_atrules.colorSchemeDark} {
+    @media ${mq.colorSchemeDark} {
       fill: hsl(100 60% 70%);
     }
   }
