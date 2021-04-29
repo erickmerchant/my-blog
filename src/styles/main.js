@@ -8,8 +8,7 @@ const paginationMixins = css`
     font-weight: ${fontWeights.heading2};
     color: var(--c);
     position: relative;
-    padding-top: 1em;
-    padding-bottom: 1em;
+    padding-block: 1em;
     background-color: var(--bg);
     border: 3px solid var(--b);
     border-radius: var(--r);
@@ -95,32 +94,39 @@ export const mainClasses = css`
   }
 
   .message {
-    margin-top: 1em;
-    margin-bottom: 1em;
+    margin-block: 1em;
     word-break: break-word;
   }
 
   .pagination {
     margin-top: 2em;
-    padding-right: 1rem;
-    padding-left: 1rem;
+    padding-inline: 1rem;
 
     @media ${mq.veryMobile} {
-      padding-right: 0.5rem;
-      padding-left: 0.5rem;
+      padding-inline: 0.5rem;
     }
   }
 
   .paginationList {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr));
+    display: flex;
+    justify-content: stretch;
+    flex-wrap: wrap;
     text-align: center;
     list-style: none;
     gap: 0.25rem;
 
     @media ${mq.tabletUp} {
       gap: 3vw;
+      justify-content: space-between;
     }
+  }
+
+  .paginationItemDisabledNewer,
+  .paginationItemEnabledNewer,
+  .paginationItemDisabledOlder,
+  .paginationItemEnabledOlder {
+    flex: 1 1 auto;
+    min-width: 7rem;
   }
 
   .paginationItemDisabledNewer {

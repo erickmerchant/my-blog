@@ -52,8 +52,7 @@ export const layoutClasses = css`
 
   .header {
     font-weight: ${fontWeights.heading2};
-    padding-top: 1em;
-    padding-bottom: 1em;
+    padding-block: 1em;
     display: flex;
     justify-content: center;
     background-color: var(--hdr-bg);
@@ -138,8 +137,7 @@ export const layoutClasses = css`
   .footer {
     display: var(--below-main-display, none);
     color: var(--ftr-c);
-    padding-right: 0.5rem;
-    padding-left: 0.5rem;
+    padding-inline: 0.5rem;
     padding-bottom: 0.25em;
     width: 100%;
     background-color: var(--bg2);
@@ -149,11 +147,9 @@ export const layoutClasses = css`
       grid-row: 3;
       grid-column: 2;
       padding-top: 1em;
-      padding-right: 0;
-      padding-left: 0;
+      padding-inline: 0;
       margin-top: 2em;
-      margin-left: auto;
-      margin-right: auto;
+      margin-inline: auto;
       border-top: none;
       background-repeat: repeat-x;
       background-position: left top;
@@ -167,10 +163,11 @@ export const layoutClasses = css`
     font-size: 0.875rem;
     list-style: none;
     display: flex;
+    gap: 0.5rem;
     flex-wrap: wrap;
     justify-content: center;
     width: 100%;
-    padding-top: 1em;
+    padding-top: 1.5em;
     padding-bottom: 1em;
     position: relative;
 
@@ -181,9 +178,6 @@ export const layoutClasses = css`
   }
 
   .footerItem {
-    margin-right: 0.5rem;
-    margin-left: 0.5rem;
-    margin-top: 0.5em;
     white-space: nowrap;
   }
 

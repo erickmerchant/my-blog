@@ -14,9 +14,9 @@ export const formClasses = css`
     padding: 1em;
     height: 100%;
     border: none;
-    display: grid;
+    display: flex;
+    flex-direction: column;
     gap: 1em;
-    grid-auto-rows: min-content;
   }
 
   .label {
@@ -38,8 +38,7 @@ export const formClasses = css`
     border-radius: ${borderRadius};
     position: relative;
     width: 100%;
-    margin-right: auto;
-    margin-left: auto;
+    margin-inline: auto;
     border: 1px solid var(--silver);
     margin-bottom: 1em;
   }

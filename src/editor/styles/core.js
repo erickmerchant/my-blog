@@ -14,10 +14,7 @@ export const buttonMixins = css`
     color: var(--white);
     border-radius: ${borderRadius};
     appearance: none;
-    padding-top: 0.5em;
-    padding-bottom: 0.5em;
-    padding-right: 1.5em;
-    padding-left: 1.5em;
+    padding: 0.5em 1.5em;
     border: none;
     text-decoration: none;
     cursor: pointer;
@@ -36,16 +33,12 @@ export const buttonMixins = css`
     color: var(--blue);
     border-radius: ${borderRadius};
     appearance: none;
-    padding-top: 0.5em;
-    padding-bottom: 0.5em;
-    padding-right: 1.5em;
-    padding-left: 1.5em;
+    padding: 0.5em 1.5em;
     background-color: transparent;
     box-shadow: none;
     text-decoration: none;
     cursor: pointer;
     text-align: center;
-    display: inline-block;
     border: 1px solid var(--white);
 
     &:hover {

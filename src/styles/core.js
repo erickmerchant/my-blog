@@ -25,14 +25,11 @@ export const mixins = css`
 
   .mainItem {
     max-width: 31rem;
-    padding-right: 0.5rem;
-    padding-left: 0.5rem;
-    margin-right: auto;
-    margin-left: auto;
+    padding-inline: 0.5rem;
+    margin-inline: auto;
 
     @media ${mq.desktopUp} and ${mq.tallUp} {
-      margin-right: 2rem;
-      margin-left: 2rem;
+      margin-inline: 2rem;
     }
   }
 `

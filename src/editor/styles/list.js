@@ -6,11 +6,8 @@ export const listClasses = css`
   .nav {
     list-style: none;
     padding: 1em;
-  }
-
-  .navItem {
-    display: inline-block;
-    margin-right: 1em;
+    display: flex;
+    gap: 1em;
   }
 
   .navAnchor {
@@ -43,8 +40,7 @@ export const listClasses = css`
     max-width: 100%;
     overflow-y: scroll;
     height: auto;
-    padding-right: 1em;
-    padding-left: 1em;
+    padding-inline: 1em;
   }
 
   .table {
@@ -65,8 +61,7 @@ export const listClasses = css`
   }
 
   .controls {
-    padding-top: 0.5em;
-    padding-bottom: 0.5em;
+    padding-block: 0.5em;
     text-align: center;
   }
 

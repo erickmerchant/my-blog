@@ -11,8 +11,7 @@ export const errorClasses = css`
   .heading {
     font-weight: ${fontWeights.heading};
     font-size: 1.5em;
-    padding-top: 0.5em;
-    padding-bottom: 0.5em;
+    padding-block: 0.5em;
   }
 
   .stack {

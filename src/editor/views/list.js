@@ -31,7 +31,7 @@ export const createListView = ({model, app, channelNames, hasNew}) => {
         <ul class=${listClasses.nav}>
           ${channelNames.map(
             (name) => html`
-              <li class=${listClasses.navItem}>
+              <li>
                 <a
                   class=${state.route.params?.[0] === name
                     ? listClasses.navAnchorCurrent

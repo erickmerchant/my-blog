@@ -17,10 +17,14 @@ export const getMainContentTemplates = ({app, classes}) => {
         </pre>
       `,
     codeBlockLine: (code) => html`
-      <span class=${classes.codeBlockLine}><span>${code}</span></span>
+      <span class=${classes.codeBlockLine}>
+        <span class=${classes.codeBlockCode}>${code}</span>
+      </span>
     `,
     codeBlockComment: (comment) => html`
-      <span class=${classes.codeBlockComment}><span>${comment}</span></span>
+      <span class=${classes.codeBlockComment}>
+        <span class=${classes.codeBlockCode}>${comment}</span>
+      </span>
     `,
     codeInline: (text) =>
       html`

@@ -60,14 +60,12 @@ export const contentClasses = css`
 
     @media ${mq.tabletUp} {
       max-width: 38rem;
-      margin-right: auto;
-      margin-left: auto;
+      margin-inline: auto;
     }
 
     @media ${mq.desktopUp} and ${mq.tallUp} {
       max-width: 100%;
-      margin-right: 1rem;
-      margin-left: 1rem;
+      margin-inline: 1rem;
     }
   }
 
@@ -79,7 +77,8 @@ export const contentClasses = css`
     overflow: auto;
     white-space: var(--code-white-space, pre-wrap);
     word-break: break-word;
-    padding: 1em 1rem;
+    padding-block: 0;
+    padding-inline: 1rem;
     background-color: var(--bg2);
     counter-reset: code;
     display: grid;
@@ -88,10 +87,22 @@ export const contentClasses = css`
     @media ${mq.tabletUp} {
       border-radius: 0.125rem 0.125rem 0 0.125rem;
     }
+
+    @media ${mq.veryMobile} {
+      padding-inline: 0.5rem;
+    }
   }
 
   .codeBlockLine {
     display: contents;
+
+    &:first-child {
+      --pt: 1em;
+    }
+
+    &:last-child {
+      --pb: 1em;
+    }
 
     &::before {
       counter-increment: code;
@@ -102,7 +113,18 @@ export const contentClasses = css`
       text-align: right;
       border-right: 1px solid var(--b);
       margin-right: 1rem;
+      padding-top: var(--pt, 0);
+      padding-bottom: var(--pb, 0);
+
+      @media ${mq.veryMobile} {
+        padding-right: 0.5rem;
+      }
     }
+  }
+
+  .codeBlockCode {
+    padding-top: var(--pt, 0);
+    padding-bottom: var(--pb, 0);
   }
 
   .codeBlockComment {
@@ -116,8 +138,7 @@ export const contentClasses = css`
     color: var(--c);
     display: inline-block;
     border-radius: 0.125rem;
-    padding-right: 0.125rem;
-    padding-left: 0.125rem;
+    padding-inline: 0.125rem;
     word-break: break-word;
     background-color: var(--bg2);
 
@@ -137,8 +158,7 @@ export const contentClasses = css`
   }
 
   .list {
-    margin-top: 1em;
-    margin-bottom: 1em;
+    margin-block: 1em;
     padding-left: 0.5rem;
     list-style: none;
   }
@@ -176,8 +196,7 @@ export const contentClasses = css`
   }
 
   .paragraph {
-    margin-top: 1em;
-    margin-bottom: 1em;
+    margin-block: 1em;
     word-break: break-word;
   }
 `

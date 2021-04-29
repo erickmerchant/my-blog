@@ -8,8 +8,7 @@ export const aboutClasses = css`
     color: var(--ftr-c);
     grid-row: 3;
     margin-top: 2em;
-    padding-right: 0.5rem;
-    padding-left: 0.5rem;
+    padding-inline: 0.5rem;
     padding-bottom: 1em;
     background-repeat: repeat-x;
     background-position: left top;
@@ -24,8 +23,7 @@ export const aboutClasses = css`
       background-image: none;
       background-color: transparent;
       padding-bottom: 2em;
-      padding-left: 0;
-      padding-right: 0;
+      padding-inline: 0;
       max-width: 20rem;
     }
   }
@@ -36,8 +34,7 @@ export const aboutClasses = css`
     font-weight: ${fontWeights.bold};
     padding-top: 1em;
     max-width: 30rem;
-    margin-right: auto;
-    margin-left: auto;
+    margin-inline: auto;
 
     @media ${mq.desktopUp} and ${mq.tallUp} {
       max-width: 100%;
@@ -57,8 +54,7 @@ export const aboutClasses = css`
   .paragraph {
     font-size: 0.875rem;
     max-width: 30rem;
-    margin-right: auto;
-    margin-left: auto;
+    margin-inline: auto;
 
     @media ${mq.desktopUp} and ${mq.tallUp} {
       max-width: 100%;

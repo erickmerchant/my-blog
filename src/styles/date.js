@@ -8,11 +8,11 @@ export const dateClasses = css`
     display: flex;
     flex-wrap: wrap;
     align-items: center;
+    gap: 0.5rem;
   }
 
   .icon {
     height: 1em;
-    margin-right: 0.5rem;
   }
 
   .foreground {
