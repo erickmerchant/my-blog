@@ -29,6 +29,7 @@ export const buttonMixins = css`
   }
 
   .textButton {
+    display: inline-flex;
     font-weight: ${fontWeights.bold};
     color: var(--blue);
     border-radius: ${borderRadius};
