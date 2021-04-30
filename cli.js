@@ -19,9 +19,9 @@ try {
   if (command === 'start') {
     spawn`css src/styles.js dist/css -dw src`
 
-    spawn`css src/editor/styles.js dist/editor/css -dw src/editor`
+    spawn`css dev/editor/styles.js dist/editor/css -dw dev/editor`
 
-    spawn`dev serve src dist -d`
+    spawn`dev serve src dev dist -d`
   }
 
   if (command === 'build') {
@@ -79,15 +79,12 @@ try {
     await Promise.all([
       writeFile('./dist/index.html', $.html()),
       del([
-        './dist/*',
-        '!./dist/content',
-        '!./dist/fonts',
-        '!./dist/_headers',
-        '!./dist/_redirects',
-        '!./dist/app.js',
-        '!./dist/favicon.svg',
-        '!./dist/index.html',
-        '!./dist/robots.txt'
+        './dist/node_modules/',
+        './dist/css/',
+        './dist/styles/',
+        './dist/views/',
+        './dist/*.{js,css}',
+        '!./dist/app.js'
       ])
     ])
   }

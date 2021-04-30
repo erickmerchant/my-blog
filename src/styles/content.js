@@ -186,7 +186,7 @@ export const contentClasses = css`
       width: 0.75rem;
 
       @media ${mq.colorSchemeLight} {
-        background: currentColor;
+        background: var(--a-c);
       }
 
       @media ${mq.colorSchemeDark} {
