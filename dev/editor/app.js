@@ -1,7 +1,7 @@
 import {createApp, createDomView, html} from '@erickmerchant/framework'
 
 import {getRoute} from '../routing.js'
-import {layoutClasses} from './css/styles.js'
+import {layoutClasses} from './css/index.js'
 import {createModel} from './model.js'
 import {createErrorView} from './views/error.js'
 import {createFormView} from './views/form.js'

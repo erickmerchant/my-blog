@@ -5,7 +5,7 @@ import {
   dateUtils,
   getDefaultContentTemplates
 } from './content.js'
-import {contentClasses, dateClasses, mainClasses} from './css/styles.js'
+import {contentClasses, dateClasses, mainClasses} from './css/index.js'
 import {createModel} from './model.js'
 import {setupRouting} from './routing.js'
 import {createDateView} from './views/date.js'

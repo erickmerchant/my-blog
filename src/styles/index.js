@@ -1,6 +1,6 @@
 import {css} from '@erickmerchant/css'
 
-import {fontWeights} from './styles/core.js'
+import {fontWeights} from './core.js'
 
 export const _start = css`
   @font-face {
@@ -30,12 +30,12 @@ export const _start = css`
   }
 `
 
-export {layoutClasses} from './styles/layout.js'
+export {layoutClasses} from './layout.js'
 
-export {aboutClasses} from './styles/about.js'
+export {aboutClasses} from './about.js'
 
-export {mainClasses} from './styles/main.js'
+export {mainClasses} from './main.js'
 
-export {contentClasses} from './styles/content.js'
+export {contentClasses} from './content.js'
 
-export {dateClasses} from './styles/date.js'
+export {dateClasses} from './date.js'

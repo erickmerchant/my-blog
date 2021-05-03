@@ -1,7 +1,7 @@
 import {html} from '@erickmerchant/framework'
 
 import {createContentView} from '../../content.js'
-import {formClasses, highlightClasses} from '../css/styles.js'
+import {formClasses, highlightClasses} from '../css/index.js'
 
 export const createFormView = ({model, app}) => {
   const serialize = (item, target) => {

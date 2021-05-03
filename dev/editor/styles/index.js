@@ -36,12 +36,12 @@ export const _start = css`
   }
 `
 
-export {layoutClasses} from './styles/layout.js'
+export {layoutClasses} from './layout.js'
 
-export {listClasses} from './styles/list.js'
+export {listClasses} from './list.js'
 
-export {formClasses} from './styles/form.js'
+export {formClasses} from './form.js'
 
-export {highlightClasses} from './styles/highlight.js'
+export {highlightClasses} from './highlight.js'
 
-export {errorClasses} from './styles/error.js'
+export {errorClasses} from './error.js'

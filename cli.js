@@ -17,20 +17,20 @@ const command = process.argv[2]
 
 try {
   if (command === 'start') {
-    spawn`css src/styles.js dist/css -dw src`
+    spawn`css src/styles/index.js dist/css -dw src/styles`
 
-    spawn`css dev/editor/styles.js dist/editor/css -dw dev/editor`
+    spawn`css dev/editor/styles/index.js dist/editor/css -dw dev/editor/styles`
 
     spawn`dev serve src dev dist -d`
   }
 
   if (command === 'build') {
     await Promise.all([
-      spawn`css src/styles.js dist/css`,
+      spawn`css src/styles/index.js dist/css`,
       spawn`dev cache src dist`
     ])
 
-    const {layoutClasses, aboutClasses} = await import('./dist/css/styles.js')
+    const {layoutClasses, aboutClasses} = await import('./dist/css/index.js')
 
     const aboutView = createAboutView({
       classes: aboutClasses,
@@ -56,12 +56,12 @@ try {
 
     await Promise.all([
       spawn`rollup -c rollup.config.js`,
-      spawn`postcss ./dist/css/styles.css --no-map -u cssnano -o ./dist/css/styles.css`
+      spawn`postcss ./dist/css/index.css --no-map -u cssnano -o ./dist/css/index.css`
     ])
 
     const [rawHtml, styles] = await Promise.all([
       readFile('./dist/index.html', 'utf8'),
-      readFile('./dist/css/styles.css', 'utf8')
+      readFile('./dist/css/index.css', 'utf8')
     ])
 
     const $ = cheerio.load(rawHtml)

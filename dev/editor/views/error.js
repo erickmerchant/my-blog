@@ -1,6 +1,6 @@
 import {html} from '@erickmerchant/framework'
 
-import {errorClasses} from '../css/styles.js'
+import {errorClasses} from '../css/index.js'
 
 export const createErrorView = () => (state) => html`
   <div class=${errorClasses.container}>
