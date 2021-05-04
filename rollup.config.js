@@ -27,8 +27,7 @@ export default {
             ]
           }
         },
-        ecma: 10,
-        safari10: true
+        ecma: 11
       })
     ]
   },
