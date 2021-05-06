@@ -1,31 +1,4 @@
-import {html} from '@erickmerchant/framework'
-
 const codeFence = '```'
-
-export const getDefaultContentTemplates = ({classes}) => {
-  return {
-    anchor: (text, href) =>
-      html`
-        <a class=${classes.anchor} href=${href}>${text}</a>
-      `,
-    list: (items) =>
-      html`
-        <ul class=${classes.list}>
-          ${items}
-        </ul>
-      `,
-    listItem: (items) =>
-      html`
-        <li class=${classes.listItem}>${items}</li>
-      `,
-    paragraph: (items) =>
-      items.length
-        ? html`
-            <p class=${classes.paragraph}>${items}</p>
-          `
-        : null
-  }
-}
 
 export const createContentView = ({templates, publicFacing = true}) => {
   const inline = (ln) => {
@@ -68,7 +41,7 @@ export const createContentView = ({templates, publicFacing = true}) => {
     return results
   }
 
-  return (str, {wrapCode = true} = {}) => {
+  return (str) => {
     const result = []
     const lns = {
       *[Symbol.iterator]() {
@@ -136,10 +109,7 @@ export const createContentView = ({templates, publicFacing = true}) => {
 
           case ln === codeFence:
             if (code != null) {
-              result.push(
-                templates.codeBlock(code, {wrapCode, isClosed: true}),
-                '\n'
-              )
+              result.push(templates.codeBlock(code, {isClosed: true}), '\n')
 
               code = null
             } else {
@@ -161,7 +131,7 @@ export const createContentView = ({templates, publicFacing = true}) => {
     }
 
     if (code != null) {
-      result.push(templates.codeBlock(code, {wrapCode, isClosed: false}), '\n')
+      result.push(templates.codeBlock(code, {isClosed: false}), '\n')
     }
 
     if (items.length) {

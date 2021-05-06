@@ -21,6 +21,26 @@ I'm Erick Merchant. I've been employed as a web developer for ${yearsSince(
 
 export const getAboutContentTemplates = ({classes}) => {
   return {
+    anchor: (text, href) =>
+      html`
+        <a class=${classes.anchor} :href=${href}>${text}</a>
+      `,
+    list: (items) =>
+      html`
+        <ul class=${classes.list}>
+          ${items}
+        </ul>
+      `,
+    listItem: (items) =>
+      html`
+        <li class=${classes.listItem}>${items}</li>
+      `,
+    paragraph: (items) =>
+      items.length
+        ? html`
+            <p class=${classes.paragraph}>${items}</p>
+          `
+        : null,
     heading: (text) =>
       html`
         <h3 class=${classes.heading}>${text}</h3>

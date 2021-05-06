@@ -17,11 +17,7 @@
     <script type="module">
       import {createApp, createDomView} from '@erickmerchant/framework'
 
-      import {
-        createContentView,
-        dateUtils,
-        getDefaultContentTemplates
-      } from '/content.js'
+      import {createContentView, dateUtils} from '/content.js'
       import * as classes from '/css/index.js'
       import {createModel} from '/model.js'
       import {setupRouting} from '/routing.js'
@@ -30,7 +26,7 @@
       import {createLayoutView} from '/views/layout.js'
       import {createMainView, getMainContentTemplates} from '/views/main.js'
 
-      const app = createApp({route: null, title: '', wrapCode: true})
+      const app = createApp({route: null, title: ''})
 
       const target = document.querySelector('body')
 
@@ -43,7 +39,6 @@
           classes: classes.aboutClasses,
           contentView: createContentView({
             templates: Object.assign(
-              getDefaultContentTemplates({classes: classes.aboutClasses}),
               getAboutContentTemplates({classes: classes.aboutClasses})
             )
           })
@@ -58,7 +53,6 @@
           classes: classes.mainClasses,
           contentView: createContentView({
             templates: Object.assign(
-              getDefaultContentTemplates({classes: classes.contentClasses}),
               getMainContentTemplates({app, classes: classes.contentClasses})
             )
           }),

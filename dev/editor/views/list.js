@@ -33,10 +33,10 @@ export const createListView = ({model, app, channelNames, hasNew}) => {
             (name) => html`
               <li>
                 <a
-                  class=${state.route.params?.[0] === name
+                  :class=${state.route.params?.[0] === name
                     ? listClasses.navAnchorCurrent
                     : listClasses.navAnchor}
-                  href=${`#/${name}`}
+                  :href=${`#/${name}`}
                 >
                   ${name.toUpperCase()}
                 </a>
@@ -66,7 +66,7 @@ export const createListView = ({model, app, channelNames, hasNew}) => {
                     <a
                       tabindex="0"
                       class=${listClasses.editButton}
-                      href=${`#/${model.name}/edit/${item.slug}`}
+                      :href=${`#/${model.name}/edit/${item.slug}`}
                     >
                       Edit
                     </a>
@@ -74,7 +74,7 @@ export const createListView = ({model, app, channelNames, hasNew}) => {
                       tabindex="0"
                       class=${listClasses.deleteButton}
                       type="button"
-                      onclick=${remove(item)}
+                      @click=${remove(item)}
                     >
                       Delete
                     </button>
@@ -91,7 +91,7 @@ export const createListView = ({model, app, channelNames, hasNew}) => {
               <a
                 tabindex="0"
                 class=${listClasses.createButton}
-                href=${`#/${model.name}/create`}
+                :href=${`#/${model.name}/create`}
               >
                 New
               </a>

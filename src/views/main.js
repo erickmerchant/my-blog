@@ -2,14 +2,34 @@ import {html} from '@erickmerchant/framework'
 
 export const getMainContentTemplates = ({app, classes}) => {
   return {
+    anchor: (text, href) =>
+      html`
+        <a class=${classes.anchor} :href=${href}>${text}</a>
+      `,
+    list: (items) =>
+      html`
+        <ul class=${classes.list}>
+          ${items}
+        </ul>
+      `,
+    listItem: (items) =>
+      html`
+        <li class=${classes.listItem}>${items}</li>
+      `,
+    paragraph: (items) =>
+      items.length
+        ? html`
+            <p class=${classes.paragraph}>${items}</p>
+          `
+        : null,
     heading: (text, slug) =>
       html`
-        <h2 class=${classes.heading2} id=${slug}>
-          <a class=${classes.heading2Anchor} href=${`#${slug}`}>#</a>
+        <h2 class=${classes.heading2} :id=${slug}>
+          <a class=${classes.heading2Anchor} :href=${`#${slug}`}>#</a>
           ${text}
         </h2>
       `,
-    codeBlock: (items, {wrapCode}) =>
+    codeBlock: (items) =>
       html`
         <pre
           class=${classes.pre}
@@ -47,11 +67,6 @@ export const createMainView = ({
 
   Promise.resolve().then(() => {
     document.body.style.setProperty('--below-main-display', 'block')
-
-    document.body.style.setProperty(
-      '--code-white-space',
-      state.wrapCode ? 'pre-wrap' : 'pre'
-    )
   })
 
   if (state.route.key === 'post') {
@@ -61,7 +76,7 @@ export const createMainView = ({
           <h1 class=${classes.heading1}>${state.post.title}</h1>
           ${dateView(state.post.date)}
         </header>
-        ${contentView(state.post.content ?? '', {wrapCode: state.wrapCode})}
+        ${contentView(state.post.content ?? '')}
         ${state.post.prev || state.post.next
           ? html`
               <nav class=${classes.pagination}>
@@ -85,7 +100,7 @@ export const createMainView = ({
                     ]
                   ].map(
                     ([item, cls, text]) => html`
-                      <li class=${item ? cls.enabled : cls.disabled}>
+                      <li :class=${item ? cls.enabled : cls.disabled}>
                         ${item
                           ? html`
                               <a

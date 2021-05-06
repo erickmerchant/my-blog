@@ -11,21 +11,7 @@ export default {
           passes: 10
         },
         mangle: {
-          toplevel: true,
-          properties: {
-            reserved: [
-              'title',
-              'slug',
-              'date',
-              'year',
-              'month',
-              'day',
-              'Accept',
-              'Content-Type',
-              'headers',
-              'post'
-            ]
-          }
+          toplevel: true
         },
         ecma: 11
       })

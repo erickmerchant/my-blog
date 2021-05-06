@@ -7,7 +7,7 @@ import fs from 'fs'
 import {spawn} from 'sergeant'
 import {promisify} from 'util'
 
-import {createContentView, getDefaultContentTemplates} from './src/content.js'
+import {createContentView} from './src/content.js'
 import {createAboutView, getAboutContentTemplates} from './src/views/about.js'
 import {createLayoutView} from './src/views/layout.js'
 
@@ -36,7 +36,6 @@ try {
       classes: aboutClasses,
       contentView: createContentView({
         templates: Object.assign(
-          getDefaultContentTemplates({classes: aboutClasses}),
           getAboutContentTemplates({classes: aboutClasses})
         )
       })

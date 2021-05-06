@@ -7,7 +7,7 @@ export const createDateView = ({classes, dateUtils}) => (d) => {
   const daysInTheMonth = new Date(year, month + 1, 0).getDate()
 
   return html`
-    <time class=${classes.time} datetime=${d}>
+    <time class=${classes.time} :datetime=${d}>
       <svg viewBox="0 0 33 33" class=${classes.icon}>
         <rect width="33" height="33" x="0" y="0" class=${classes.foreground} />
         <rect width="29" height="26" x="2" y="5" class=${classes.background} />
@@ -22,9 +22,9 @@ export const createDateView = ({classes, dateUtils}) => (d) => {
                 <rect
                   width="3"
                   height="3"
-                  x=${3 + dayOfWeek * 4}
-                  y=${7 + weekOfMonth * 4}
                   class=${classes.foreground}
+                  :x=${3 + dayOfWeek * 4}
+                  :y=${7 + weekOfMonth * 4}
                 />
               `
 

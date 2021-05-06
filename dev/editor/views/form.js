@@ -92,7 +92,7 @@ export const createFormView = ({model, app}) => {
           ${text}
           <span class=${highlightClasses.punctuation}>]</span>
           <span class=${highlightClasses.punctuation}>(</span>
-          <a tabindex="-1" class=${highlightClasses.url} href=${href}>
+          <a tabindex="-1" class=${highlightClasses.url} :href=${href}>
             ${href}
           </a>
           <span class=${highlightClasses.punctuation}>)</span>
@@ -127,9 +127,9 @@ export const createFormView = ({model, app}) => {
 
   return (state) => html`
     <form
-      onsubmit=${save(state.item)}
       autocomplete="off"
       class=${formClasses.form}
+      @submit=${save(state.item)}
     >
       <fieldset class=${formClasses.fields}>
         <div>
@@ -138,8 +138,8 @@ export const createFormView = ({model, app}) => {
             class=${formClasses.input}
             name="title"
             id="field-title"
-            value=${state.item.title ?? ''}
-            oninput=${(e) => {
+            :value=${state.item.title ?? ''}
+            @input=${(e) => {
               app.state.item = Object.assign({}, app.state.item, {
                 title: e.target.value
               })
@@ -159,7 +159,7 @@ export const createFormView = ({model, app}) => {
               class=${formClasses.textarea}
               name="content"
               id="field-content"
-              oninput=${highlight}
+              @input=${highlight}
             >
               ${state.item.content ?? ''}
             </textarea
@@ -173,7 +173,7 @@ export const createFormView = ({model, app}) => {
               <p class=${formClasses.errorMessage}>This item already exists</p>
             `
           : null}
-        <a class=${formClasses.cancelButton} href=${`#/${model.name}`}>
+        <a class=${formClasses.cancelButton} :href=${`#/${model.name}`}>
           Cancel
         </a>
         ${model.name !== 'posts' && state.item.slug != null
@@ -181,7 +181,7 @@ export const createFormView = ({model, app}) => {
               <button
                 class=${formClasses.publishButton}
                 type="button"
-                onclick=${saveAs('posts', state.item)}
+                @click=${saveAs('posts', state.item)}
               >
                 Publish
               </button>
