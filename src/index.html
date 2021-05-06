@@ -38,9 +38,7 @@
         const aboutView = createAboutView({
           classes: classes.aboutClasses,
           contentView: createContentView({
-            templates: Object.assign(
-              getAboutContentTemplates({classes: classes.aboutClasses})
-            )
+            templates: getAboutContentTemplates({classes: classes.aboutClasses})
           })
         })
 
@@ -52,9 +50,10 @@
         const mainView = createMainView({
           classes: classes.mainClasses,
           contentView: createContentView({
-            templates: Object.assign(
-              getMainContentTemplates({app, classes: classes.contentClasses})
-            )
+            templates: getMainContentTemplates({
+              app,
+              classes: classes.contentClasses
+            })
           }),
           dateView,
           anchorAttrs

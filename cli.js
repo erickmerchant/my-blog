@@ -35,9 +35,7 @@ try {
     const aboutView = createAboutView({
       classes: aboutClasses,
       contentView: createContentView({
-        templates: Object.assign(
-          getAboutContentTemplates({classes: aboutClasses})
-        )
+        templates: getAboutContentTemplates({classes: aboutClasses})
       })
     })
 

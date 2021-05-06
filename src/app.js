@@ -26,9 +26,7 @@ const dateView = createDateView({
 const mainView = createMainView({
   classes: mainClasses,
   contentView: createContentView({
-    templates: Object.assign(
-      getMainContentTemplates({app, classes: contentClasses})
-    )
+    templates: getMainContentTemplates({app, classes: contentClasses})
   }),
   dateView,
   anchorAttrs
