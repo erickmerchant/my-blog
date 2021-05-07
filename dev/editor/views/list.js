@@ -33,9 +33,10 @@ export const createListView = ({model, app, channelNames, hasNew}) => {
             (name) => html`
               <li>
                 <a
-                  :class=${state.route.params?.[0] === name
-                    ? listClasses.navAnchorCurrent
-                    : listClasses.navAnchor}
+                  class=${listClasses.navAnchor}
+                  :aria-current=${state.route.params?.[0] === name
+                    ? 'true'
+                    : 'false'}
                   :href=${`#/${name}`}
                 >
                   ${name.toUpperCase()}

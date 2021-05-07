@@ -2,70 +2,6 @@ import {css} from '@erickmerchant/css'
 
 import {fontWeights, mixins, mq} from './core.js'
 
-const paginationMixins = css`
-  .disabled,
-  .enabled {
-    font-weight: ${fontWeights.heading2};
-    color: var(--c);
-    position: relative;
-    padding-block: 1em;
-    background-color: var(--bg);
-    border: 3px solid var(--b);
-    border-radius: var(--r);
-
-    @media ${mq.colorSchemeLight} {
-      --bg: hsl(90 10% 47.5%);
-      --b: var(--bg);
-      --c: hsl(0 0% 100%);
-    }
-
-    @media ${mq.colorSchemeDark} {
-      --bg: hsl(100 10% 70% / 0.2);
-      --b: currentColor;
-      --c: hsl(100 10% 70%);
-    }
-
-    @media ${mq.veryMobile} {
-      --r: 0.125rem;
-    }
-
-    @media ${mq.tabletUp} {
-      --r: 1.5rem / 50%;
-    }
-  }
-
-  .enabled {
-    &:focus-within,
-    &:hover {
-      background-color: var(--hover-bg);
-
-      --b: var(--hover-b);
-    }
-
-    @media ${mq.colorSchemeLight} {
-      --hover-bg: hsl(90 30% 47.5%);
-      --hover-b: var(--hover-bg);
-      --bg: hsl(90 25% 47.5%);
-    }
-
-    @media ${mq.colorSchemeDark} {
-      --hover-bg: hsl(100 80% 70% / 0.3);
-      --hover-b: currentColor;
-      --bg: hsl(100 80% 70% / 0.2);
-      --b: currentColor;
-      --c: var(--a-c);
-    }
-  }
-
-  .newer {
-    --r: 0.125rem 1.5rem 1.5rem 0.125rem / 0.125rem 50% 50% 0.125rem;
-  }
-
-  .older {
-    --r: 1.5rem 0.125rem 0.125rem 1.5rem / 50% 0.125rem 0.125rem 50%;
-  }
-`
-
 export const mainClasses = css`
   .heading1 {
     ${mixins.heading}
@@ -121,32 +57,73 @@ export const mainClasses = css`
     }
   }
 
-  .paginationItemDisabledNewer,
-  .paginationItemEnabledNewer,
-  .paginationItemDisabledOlder,
-  .paginationItemEnabledOlder {
+  .paginationItemDisabled,
+  .paginationItemEnabled {
     flex: 1 1 auto;
     min-width: 7rem;
+    font-weight: ${fontWeights.heading2};
+    color: var(--c);
+    position: relative;
+    padding-block: 1em;
+    background-color: var(--bg);
+    border: 3px solid var(--b);
+
+    &:last-child {
+      border-radius: var(
+        --r,
+        0.125rem 1.5rem 1.5rem 0.125rem / 0.125rem 50% 50% 0.125rem
+      );
+    }
+
+    &:first-child {
+      border-radius: var(
+        --r,
+        1.5rem 0.125rem 0.125rem 1.5rem / 50% 0.125rem 0.125rem 50%
+      );
+    }
+
+    @media ${mq.colorSchemeLight} {
+      --bg: hsl(90 10% 47.5%);
+      --b: var(--bg);
+      --c: hsl(0 0% 100%);
+    }
+
+    @media ${mq.colorSchemeDark} {
+      --bg: hsl(100 10% 70% / 0.2);
+      --b: currentColor;
+      --c: hsl(100 10% 70%);
+    }
+
+    @media ${mq.veryMobile} {
+      --r: 0.125rem;
+    }
+
+    @media ${mq.tabletUp} {
+      --r: 1.5rem / 50%;
+    }
   }
 
-  .paginationItemDisabledNewer {
-    ${paginationMixins.disabled}
-    ${paginationMixins.newer}
-  }
+  .paginationItemEnabled {
+    &:focus-within,
+    &:hover {
+      background-color: var(--hover-bg);
 
-  .paginationItemEnabledNewer {
-    ${paginationMixins.enabled}
-    ${paginationMixins.newer}
-  }
+      --b: var(--hover-b);
+    }
 
-  .paginationItemDisabledOlder {
-    ${paginationMixins.disabled}
-    ${paginationMixins.older}
-  }
+    @media ${mq.colorSchemeLight} {
+      --hover-bg: hsl(90 30% 47.5%);
+      --hover-b: var(--hover-bg);
+      --bg: hsl(90 25% 47.5%);
+    }
 
-  .paginationItemEnabledOlder {
-    ${paginationMixins.enabled}
-    ${paginationMixins.older}
+    @media ${mq.colorSchemeDark} {
+      --hover-bg: hsl(100 80% 70% / 0.3);
+      --hover-b: currentColor;
+      --bg: hsl(100 80% 70% / 0.2);
+      --b: currentColor;
+      --c: var(--a-c);
+    }
   }
 
   .paginationAnchor {

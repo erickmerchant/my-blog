@@ -12,14 +12,12 @@ export const listClasses = css`
 
   .navAnchor {
     ${buttonMixins.textButton}
-  }
 
-  .navAnchorCurrent {
-    ${buttonMixins.textButton}
-
-    outline: 0;
-    border: 1px solid currentcolor;
-    filter: saturate(2);
+    &[aria-current="true"] {
+      outline: 0;
+      border: 1px solid currentcolor;
+      filter: saturate(2);
+    }
   }
 
   .createButton {

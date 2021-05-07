@@ -82,25 +82,15 @@ export const createMainView = ({
               <nav class=${classes.pagination}>
                 <ul class=${classes.paginationList}>
                   ${[
-                    [
-                      state.post.prev,
-                      {
-                        enabled: classes.paginationItemEnabledOlder,
-                        disabled: classes.paginationItemDisabledOlder
-                      },
-                      'Older'
-                    ],
-                    [
-                      state.post.next,
-                      {
-                        enabled: classes.paginationItemEnabledNewer,
-                        disabled: classes.paginationItemDisabledNewer
-                      },
-                      'Newer'
-                    ]
+                    [state.post.prev, 'Older'],
+                    [state.post.next, 'Newer']
                   ].map(
-                    ([item, cls, text]) => html`
-                      <li :class=${item ? cls.enabled : cls.disabled}>
+                    ([item, text]) => html`
+                      <li
+                        :class=${item
+                          ? classes.paginationItemEnabled
+                          : classes.paginationItemDisabled}
+                      >
                         ${item
                           ? html`
                               <a
