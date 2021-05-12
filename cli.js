@@ -53,7 +53,7 @@ try {
 
     await Promise.all([
       spawn`rollup -c rollup.config.js`,
-      spawn`postcss ./dist/css/index.css --no-map -u cssnano -o ./dist/css/index.css`
+      spawn`postcss ./dist/css/index.css --no-map -u postcss-clean -o ./dist/css/index.css`
     ])
 
     const [rawHtml, styles] = await Promise.all([
