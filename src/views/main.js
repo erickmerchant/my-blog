@@ -53,73 +53,70 @@ export const getMainContentTemplates = ({app, classes}) => {
   }
 }
 
-export const createMainView = ({
-  classes,
-  contentView,
-  dateView,
-  anchorAttrs
-}) => (state) => {
-  if (state.route == null) {
-    return html`
-      <main class=${classes.main}></main>
-    `
-  }
+export const createMainView =
+  ({classes, contentView, dateView, anchorAttrs}) =>
+  (state) => {
+    if (state.route == null) {
+      return html`
+        <main class=${classes.main}></main>
+      `
+    }
 
-  Promise.resolve().then(() => {
-    document.body.style.setProperty('--below-main-display', 'block')
-  })
+    Promise.resolve().then(() => {
+      document.body.style.setProperty('--below-main-display', 'block')
+    })
 
-  if (state.route.key === 'post') {
-    return html`
-      <main class=${classes.main}>
-        <header class=${classes.header}>
-          <h1 class=${classes.heading1}>${state.post.title}</h1>
-          ${dateView(state.post.date)}
-        </header>
-        ${contentView(state.post.content ?? '')}
-        ${state.post.prev || state.post.next
-          ? html`
-              <nav class=${classes.pagination}>
-                <ul class=${classes.paginationList}>
-                  ${[
-                    [state.post.prev, 'Older'],
-                    [state.post.next, 'Newer']
-                  ].map(
-                    ([item, text]) => html`
-                      <li
-                        :class=${item
-                          ? classes.paginationItemEnabled
-                          : classes.paginationItemDisabled}
-                      >
-                        ${item
-                          ? html`
-                              <a
-                                ${anchorAttrs(`/posts/${item.slug}/`)}
-                                class=${classes.paginationAnchor}
-                              >
-                                ${text}
-                              </a>
-                            `
-                          : text}
-                      </li>
-                    `
-                  )}
-                </ul>
-              </nav>
-            `
-          : null}
-      </main>
-    `
-  }
+    if (state.route.key === 'post') {
+      return html`
+        <main class=${classes.main}>
+          <header class=${classes.header}>
+            <h1 class=${classes.heading1}>${state.post.title}</h1>
+            ${dateView(state.post.date)}
+          </header>
+          ${contentView(state.post.content ?? '')}
+          ${state.post.prev || state.post.next
+            ? html`
+                <nav class=${classes.pagination}>
+                  <ul class=${classes.paginationList}>
+                    ${[
+                      [state.post.prev, 'Older'],
+                      [state.post.next, 'Newer']
+                    ].map(
+                      ([item, text]) => html`
+                        <li
+                          :class=${item
+                            ? classes.paginationItemEnabled
+                            : classes.paginationItemDisabled}
+                        >
+                          ${item
+                            ? html`
+                                <a
+                                  ${anchorAttrs(`/posts/${item.slug}/`)}
+                                  class=${classes.paginationAnchor}
+                                >
+                                  ${text}
+                                </a>
+                              `
+                            : text}
+                        </li>
+                      `
+                    )}
+                  </ul>
+                </nav>
+              `
+            : null}
+        </main>
+      `
+    }
 
-  if (state.route.key === 'error') {
-    return html`
-      <main class=${classes.main}>
-        <header class=${classes.header}>
-          <h1 class=${classes.heading1}>${state.title ?? ''}</h1>
-        </header>
-        <p class=${classes.message}>${state.message ?? ''}</p>
-      </main>
-    `
+    if (state.route.key === 'error') {
+      return html`
+        <main class=${classes.main}>
+          <header class=${classes.header}>
+            <h1 class=${classes.heading1}>${state.title ?? ''}</h1>
+          </header>
+          <p class=${classes.message}>${state.message ?? ''}</p>
+        </main>
+      `
+    }
   }
-}

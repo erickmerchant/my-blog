@@ -15,7 +15,7 @@
     <link href="/css/index.css" rel="stylesheet" />
     <title>A Web Development Blog</title>
     <script type="module">
-      import {createApp, createDomView} from '@erickmerchant/framework'
+      import {createApp, createDomView, html} from '@erickmerchant/framework'
 
       import {createContentView, dateUtils} from '/content.js'
       import * as classes from '/css/index.js'
@@ -25,6 +25,8 @@
       import {createDateView} from '/views/date.js'
       import {createLayoutView} from '/views/layout.js'
       import {createMainView, getMainContentTemplates} from '/views/main.js'
+
+      html.cache = null
 
       const app = createApp({route: null, title: ''})
 
