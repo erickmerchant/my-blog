@@ -44,7 +44,7 @@ export const createContentView = ({templates, publicFacing = true}) => {
   return (str) => {
     const result = []
     const lns = {
-      *[Symbol.iterator]() {
+      *get() {
         let ln = ''
         let i = 0
 
@@ -69,7 +69,7 @@ export const createContentView = ({templates, publicFacing = true}) => {
     let items = []
     let code
 
-    for (const ln of lns) {
+    for (const ln of lns.get()) {
       if (code != null && ln !== codeFence) {
         if (ln.trim().startsWith('//')) {
           code.push(
