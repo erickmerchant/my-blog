@@ -85,7 +85,7 @@ export const contentClasses = css`
     grid-template-columns: max-content auto;
 
     @media ${mq.tabletUp} {
-      border-radius: 0.125rem 0.125rem 0 0.125rem;
+      border-radius: 0.25rem;
     }
 
     @media ${mq.veryMobile} {
@@ -137,7 +137,7 @@ export const contentClasses = css`
     font-size: 0.875rem;
     color: var(--c);
     display: inline-block;
-    border-radius: 0.125rem;
+    border-radius: 0.25rem;
     padding-inline: 0.125rem;
     word-break: break-word;
     background-color: var(--bg2);
