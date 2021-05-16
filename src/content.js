@@ -43,33 +43,10 @@ export const createContentView = ({templates, publicFacing = true}) => {
 
   return (str) => {
     const result = []
-    const lns = {
-      *get() {
-        let ln = ''
-        let i = 0
-
-        let char = str.charAt(i)
-
-        do {
-          if (char === '\n') {
-            yield ln
-
-            ln = ''
-          } else {
-            ln += char
-          }
-
-          char = str.charAt(++i)
-        } while (char !== '')
-
-        yield ln
-      }
-    }
-
     let items = []
     let code
 
-    for (const ln of lns.get()) {
+    for (const ln of str.split('\n')) {
       if (code != null && ln !== codeFence) {
         if (ln.trim().startsWith('//')) {
           code.push(

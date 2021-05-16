@@ -7,6 +7,7 @@ export const createDateView =
     const year = date.getFullYear()
     const month = date.getMonth()
     const daysInTheMonth = new Date(year, month + 1, 0).getDate()
+    const startDayOfMonth = new Date(year, month, 1).getDay()
 
     return html`
       <time class=${classes.time} :datetime=${d}>
@@ -25,35 +26,22 @@ export const createDateView =
             y="5"
             class=${classes.background}
           />
-          ${{
-            *[Symbol.iterator]() {
-              let dayOfWeek = new Date(year, month, 1).getDay()
-              let weekOfMonth = 0
-              let i = 1
+          ${Array(daysInTheMonth)
+            .fill('')
+            .map((_, i) => {
+              const weekOfMonth = Math.floor((i + startDayOfMonth) / 7)
+              const dayOfWeek = (i + startDayOfMonth) % 7
 
-              do {
-                yield html`
-                  <rect
-                    width="3"
-                    height="3"
-                    class=${classes.foreground}
-                    :x=${3 + dayOfWeek * 4}
-                    :y=${7 + weekOfMonth * 4}
-                  />
-                `
-
-                i++
-
-                dayOfWeek++
-
-                if (dayOfWeek > 6) {
-                  weekOfMonth++
-
-                  dayOfWeek = 0
-                }
-              } while (i <= daysInTheMonth)
-            }
-          }}
+              return html`
+                <rect
+                  width="3"
+                  height="3"
+                  class=${classes.foreground}
+                  :x=${3 + dayOfWeek * 4}
+                  :y=${7 + weekOfMonth * 4}
+                />
+              `
+            })}
         </svg>
         <span>${dateUtils.prettyDate(date)}</span>
       </time>
