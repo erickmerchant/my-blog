@@ -36,6 +36,12 @@ export {aboutClasses} from './about.js'
 
 export {mainClasses} from './main.js'
 
-export {contentClasses} from './content.js'
+export {postClasses} from './post.js'
+
+export {codeClasses} from './code.js'
+
+export {paginationClasses} from './pagination.js'
+
+export {errorClasses} from './error.js'
 
 export {dateClasses} from './date.js'

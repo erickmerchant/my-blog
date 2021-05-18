@@ -15,11 +15,15 @@
       import {createModel} from '/model.js'
       import {setupRouting} from '/routing.js'
       import {createAboutView, getAboutContentTemplates} from '/views/about.js'
+      import {getCodeContentTemplates} from '/views/code.js'
       import {createDateView} from '/views/date.js'
+      import {createErrorView} from '/views/error.js'
       import {createLayoutView} from '/views/layout.js'
-      import {createMainView, getMainContentTemplates} from '/views/main.js'
+      import {createMainView} from '/views/main.js'
+      import {createPaginationView} from '/views/pagination.js'
+      import {createPostView, getPostContentTemplates} from '/views/post.js'
 
-      html.cache = null
+      html.dev = true
 
       const app = createApp({route: null, title: ''})
 
@@ -42,16 +46,31 @@
           dateUtils
         })
 
-        const mainView = createMainView({
-          classes: classes.mainClasses,
+        const errorView = createErrorView({
+          classes: classes.errorClasses
+        })
+
+        const paginationView = createPaginationView({
+          classes: classes.paginationClasses,
+          anchorAttrs
+        })
+
+        const postView = createPostView({
+          classes: classes.postClasses,
           contentView: createContentView({
-            templates: getMainContentTemplates({
-              app,
-              classes: classes.contentClasses
-            })
+            templates: {
+              ...getPostContentTemplates({classes: classes.postClasses}),
+              ...getCodeContentTemplates({classes: classes.codeClasses})
+            }
           }),
           dateView,
-          anchorAttrs
+          paginationView
+        })
+
+        const mainView = createMainView({
+          classes: classes.mainClasses,
+          postView,
+          errorView
         })
 
         const layoutView = createLayoutView({

@@ -1,18 +1,13 @@
 export const createModel = (name = 'posts') => {
   const model = {
     async fetch(url, options = {}) {
-      const res = await window.fetch(
-        url,
-        Object.assign(
-          {
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json'
-            }
-          },
-          options
-        )
-      )
+      const res = await window.fetch(url, {
+        ...options,
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        }
+      })
 
       if (!res.ok) {
         throw Error(`${res.status} ${res.statusText}`)
@@ -35,7 +30,7 @@ export const createModel = (name = 'posts') => {
         id === '__first' ? 0 : posts.findIndex((post) => post.slug === id)
 
       if (~index) {
-        const post = Object.assign({}, posts[index])
+        const post = {...posts[index]}
 
         post.content = content
 

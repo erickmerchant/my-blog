@@ -119,10 +119,11 @@ export const createFormView = ({model, app}) => {
   const highlighter = (str = '') => contentView(str.replace(/\r/g, ''))
 
   const highlight = (e) => {
-    app.state.item = Object.assign({}, app.state.item, {
+    app.state.item = {
+      ...app.state.item,
       highlightedContent: e.target.value,
       content: e.target.value
-    })
+    }
   }
 
   return (state) => html`
@@ -140,9 +141,7 @@ export const createFormView = ({model, app}) => {
             id="field-title"
             :value=${state.item.title ?? ''}
             @input=${(e) => {
-              app.state.item = Object.assign({}, app.state.item, {
-                title: e.target.value
-              })
+              app.state.item = {...app.state.item, title: e.target.value}
             }}
           />
         </div>

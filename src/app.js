@@ -1,11 +1,22 @@
 import {createApp, createDomView} from '@erickmerchant/framework'
 
 import {createContentView, dateUtils} from './content.js'
-import {contentClasses, dateClasses, mainClasses} from './css/index.js'
+import {
+  codeClasses,
+  dateClasses,
+  errorClasses,
+  mainClasses,
+  paginationClasses,
+  postClasses
+} from './css/index.js'
 import {createModel} from './model.js'
 import {setupRouting} from './routing.js'
+import {getCodeContentTemplates} from './views/code.js'
 import {createDateView} from './views/date.js'
-import {createMainView, getMainContentTemplates} from './views/main.js'
+import {createErrorView} from './views/error.js'
+import {createMainView} from './views/main.js'
+import {createPaginationView} from './views/pagination.js'
+import {createPostView, getPostContentTemplates} from './views/post.js'
 
 const app = createApp({route: null, title: ''})
 
@@ -23,13 +34,31 @@ const dateView = createDateView({
   dateUtils
 })
 
-const mainView = createMainView({
-  classes: mainClasses,
+const errorView = createErrorView({
+  classes: errorClasses
+})
+
+const paginationView = createPaginationView({
+  classes: paginationClasses,
+  anchorAttrs
+})
+
+const postView = createPostView({
+  classes: postClasses,
   contentView: createContentView({
-    templates: getMainContentTemplates({app, classes: contentClasses})
+    templates: {
+      ...getPostContentTemplates({classes: postClasses}),
+      ...getCodeContentTemplates({classes: codeClasses})
+    }
   }),
   dateView,
-  anchorAttrs
+  paginationView
+})
+
+const mainView = createMainView({
+  classes: mainClasses,
+  postView,
+  errorView
 })
 
 const view = createDomView(target, mainView)
