@@ -17,15 +17,13 @@
       import {createAboutView, getAboutContentTemplates} from '/views/about.js'
       import {getCodeContentTemplates} from '/views/code.js'
       import {createDateView} from '/views/date.js'
-      import {createErrorView} from '/views/error.js'
       import {createLayoutView} from '/views/layout.js'
-      import {createMainView} from '/views/main.js'
+      import {createMainView, getMainContentTemplates} from '/views/main.js'
       import {createPaginationView} from '/views/pagination.js'
-      import {createPostView, getPostContentTemplates} from '/views/post.js'
 
       html.dev = true
 
-      const app = createApp({route: null, title: ''})
+      const app = createApp({isLoading: true})
 
       const target = document.querySelector('body')
 
@@ -46,31 +44,21 @@
           dateUtils
         })
 
-        const errorView = createErrorView({
-          classes: classes.errorClasses
-        })
-
         const paginationView = createPaginationView({
           classes: classes.paginationClasses,
           anchorAttrs
         })
 
-        const postView = createPostView({
-          classes: classes.postClasses,
+        const mainView = createMainView({
+          classes: classes.mainClasses,
           contentView: createContentView({
             templates: {
-              ...getPostContentTemplates({classes: classes.postClasses}),
+              ...getMainContentTemplates({classes: classes.mainClasses}),
               ...getCodeContentTemplates({classes: classes.codeClasses})
             }
           }),
           dateView,
           paginationView
-        })
-
-        const mainView = createMainView({
-          classes: classes.mainClasses,
-          postView,
-          errorView
         })
 
         const layoutView = createLayoutView({

@@ -20,12 +20,14 @@ const getDispatchLocation =
       post: /^\/?(?:posts\/([a-z0-9-]+)|)\/?$/
     }) || {key: 'error'}
 
-    let state = {
-      route: {key: 'error'},
+    const state = {
+      isLoading: false,
       pathname,
-      title: 'Page Not Found',
-      message:
-        "That page doesn't exist. It was either moved, removed, or never existed."
+      post: {
+        title: 'Page Not Found',
+        content:
+          "That page doesn't exist. It was either moved, removed, or never existed."
+      }
     }
 
     if (route.key === 'post') {
@@ -35,20 +37,13 @@ const getDispatchLocation =
         const post = await postsModel.getBySlug(id)
 
         if (post != null) {
-          state = {
-            route,
-            pathname,
-            title: `Posts | ${post.title}`,
-            post
-          }
+          state.post = post
         }
       } catch (error) {
         if (!error.message.startsWith('404')) {
-          state = {
-            route: {key: 'error'},
-            pathname,
+          state.post = {
             title: 'Error Caught',
-            message: error.message
+            content: error.message
           }
         }
       }
