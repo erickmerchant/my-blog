@@ -28,8 +28,7 @@ export const paginationClasses = css`
     }
   }
 
-  .itemDisabled,
-  .itemEnabled {
+  .item {
     flex: 1 1 auto;
     min-width: 7rem;
     font-weight: ${fontWeights.heading2};
@@ -72,28 +71,28 @@ export const paginationClasses = css`
     @media ${mq.tabletUp} {
       --r: 1.5rem / 50%;
     }
-  }
 
-  .itemEnabled {
-    &:focus-within,
-    &:hover {
+    &.enabled {
+      @media ${mq.colorSchemeLight} {
+        --hover-bg: hsl(90 30% 47.5%);
+        --hover-b: var(--hover-bg);
+        --bg: hsl(90 25% 47.5%);
+      }
+
+      @media ${mq.colorSchemeDark} {
+        --hover-bg: hsl(100 80% 70% / 0.3);
+        --hover-b: currentColor;
+        --bg: hsl(100 80% 70% / 0.2);
+        --b: currentColor;
+        --c: var(--a-c);
+      }
+    }
+
+    &.enabled:focus-within,
+    &.enabled:hover {
       background-color: var(--hover-bg);
 
       --b: var(--hover-b);
-    }
-
-    @media ${mq.colorSchemeLight} {
-      --hover-bg: hsl(90 30% 47.5%);
-      --hover-b: var(--hover-bg);
-      --bg: hsl(90 25% 47.5%);
-    }
-
-    @media ${mq.colorSchemeDark} {
-      --hover-bg: hsl(100 80% 70% / 0.3);
-      --hover-b: currentColor;
-      --bg: hsl(100 80% 70% / 0.2);
-      --b: currentColor;
-      --c: var(--a-c);
     }
   }
 

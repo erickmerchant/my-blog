@@ -12,9 +12,7 @@ export const createPaginationView =
                 [state.post.next, 'Newer']
               ].map(
                 ([item, text]) => html`
-                  <li
-                    :class=${item ? classes.itemEnabled : classes.itemDisabled}
-                  >
+                  <li :class=${classes('item', {enabled: !!item})}>
                     ${item
                       ? html`
                           <a
