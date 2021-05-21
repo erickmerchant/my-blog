@@ -6,22 +6,21 @@ export const getCodeContentTemplates = ({classes}) => {
       html`
         <pre
           class=${classes.pre}
-        ><code class=${classes.codeBlock}>${items}</code>
-        </pre>
+        ><code class=${classes.block}>${items}</code></pre>
       `,
     codeBlockLine: (code) => html`
-      <span class=${classes.codeBlockLine}>
-        <span class=${classes.codeBlockCode}>${code}</span>
+      <span class=${classes.blockLine}>
+        <span class=${classes.blockCode}>${code}</span>
       </span>
     `,
     codeBlockComment: (comment) => html`
-      <span class=${classes.codeBlockComment}>
-        <span class=${classes.codeBlockCode}>${comment}</span>
+      <span class=${classes.blockComment}>
+        <span class=${classes.blockCode}>${comment}</span>
       </span>
     `,
     codeInline: (text) =>
       html`
-        <code class=${classes.codeInline}>${text}</code>
+        <code class=${classes.inline}>${text}</code>
       `
   }
 }

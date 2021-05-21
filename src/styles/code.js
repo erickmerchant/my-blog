@@ -29,7 +29,7 @@ export const codeClasses = css`
     }
   }
 
-  .codeBlock {
+  .block {
     font-family: 'JetBrains Mono', Menlo, Monaco, 'Courier New', monospace;
     font-weight: normal;
     font-size: 0.875rem;
@@ -53,7 +53,8 @@ export const codeClasses = css`
     }
   }
 
-  .codeBlockLine {
+  .blockLine,
+  .blockComment {
     display: contents;
 
     &:first-child {
@@ -82,16 +83,16 @@ export const codeClasses = css`
     }
   }
 
-  .codeBlockCode {
+  .blockCode {
     padding-top: var(--pt, 0);
     padding-bottom: var(--pb, 0);
   }
 
-  .codeBlockComment {
+  .blockComment {
     color: var(--c2);
   }
 
-  .codeInline {
+  .inline {
     font-family: 'JetBrains Mono', Menlo, Monaco, 'Courier New', monospace;
     font-weight: normal;
     font-size: 0.875rem;
