@@ -43,7 +43,7 @@ export const createDateView =
               `
             })}
         </svg>
-        <span>${dateUtils.prettyDate(date)}</span>
+        ${dateUtils.prettyDate(date)}
       </time>
     `
   }

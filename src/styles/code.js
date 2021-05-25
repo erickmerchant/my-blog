@@ -53,8 +53,7 @@ export const codeClasses = css`
     }
   }
 
-  .blockLine,
-  .blockComment {
+  .blockLine {
     display: contents;
 
     &:first-child {
@@ -81,15 +80,15 @@ export const codeClasses = css`
         padding-right: 0.5rem;
       }
     }
+
+    &.comment {
+      color: var(--c2);
+    }
   }
 
   .blockCode {
     padding-top: var(--pt, 0);
     padding-bottom: var(--pb, 0);
-  }
-
-  .blockComment {
-    color: var(--c2);
   }
 
   .inline {

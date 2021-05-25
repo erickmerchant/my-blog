@@ -9,13 +9,10 @@ export const getCodeContentTemplates = ({classes}) => {
         ><code class=${classes.block}>${items}</code></pre>
       `,
     codeBlockLine: (code) => html`
-      <span class=${classes.blockLine}>
+      <span
+        :class=${classes('blockLine', {comment: code.trim().startsWith('//')})}
+      >
         <span class=${classes.blockCode}>${code}</span>
-      </span>
-    `,
-    codeBlockComment: (comment) => html`
-      <span class=${classes.blockComment}>
-        <span class=${classes.blockCode}>${comment}</span>
       </span>
     `,
     codeInline: (text) =>

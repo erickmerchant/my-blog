@@ -48,11 +48,7 @@ export const createContentView = ({templates, publicFacing = true}) => {
 
     for (const ln of str.split('\n')) {
       if (code != null && ln !== codeFence) {
-        if (ln.trim().startsWith('//')) {
-          code.push(templates.codeBlockComment(ln), '\n')
-        } else {
-          code.push(templates.codeBlockLine(ln), '\n')
-        }
+        code.push(templates.codeBlockLine(ln), '\n')
       } else {
         if (!ln.startsWith('- ') && items.length) {
           result.push(templates.list(items))
