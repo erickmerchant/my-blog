@@ -37,7 +37,6 @@ export const codeClasses = css`
     overflow: auto;
     white-space: var(--code-white-space, pre-wrap);
     word-break: break-word;
-    padding-block: 0;
     padding-inline: 1rem;
     background-color: var(--bg2);
     counter-reset: code;

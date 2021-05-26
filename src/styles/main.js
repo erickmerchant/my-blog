@@ -6,10 +6,6 @@ export const mainClasses = css`
   .main {
     opacity: 1;
     max-width: 100vw;
-
-    @media ${mq.desktopUp} and ${mq.tallUp} {
-      padding-top: 0;
-    }
   }
 
   .header {

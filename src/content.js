@@ -2,7 +2,9 @@ const codeFence = '```'
 
 export const createContentView = ({templates, publicFacing = true}) => {
   const inline = (ln) => {
-    if (ln !== '' && publicFacing) {
+    if (ln === '') return []
+
+    if (publicFacing) {
       let index = 0
 
       ln = ln.replace(/["']/g, (match) => {
@@ -15,8 +17,6 @@ export const createContentView = ({templates, publicFacing = true}) => {
         return '“'
       })
     }
-
-    if (ln === '') return []
 
     const results = []
     const matches = ln.matchAll(/\[(.*?)\]\((.*?)\)|`(.*?)`/g)

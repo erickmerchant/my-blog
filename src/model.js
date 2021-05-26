@@ -30,15 +30,12 @@ export const createModel = (name = 'posts') => {
         id === '__first' ? 0 : posts.findIndex((post) => post.slug === id)
 
       if (~index) {
-        const post = {...posts[index]}
-
-        post.content = content
-
-        post.next = posts[index - 1]
-
-        post.prev = posts[index + 1]
-
-        return post
+        return {
+          ...posts[index],
+          content: content,
+          next: posts[index - 1],
+          prev: posts[index + 1]
+        }
       }
     }
   }
