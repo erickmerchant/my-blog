@@ -13,7 +13,7 @@ export const createListView = ({model, app, channelNames, hasNew}) => {
       if (item.slug != null) {
         await model.remove(item.slug)
 
-        const items = await model.getAll()
+        const items = await model.getByName()
 
         app.state = {
           route: {key: 'list', params: [model.name]},

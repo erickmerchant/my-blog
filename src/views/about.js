@@ -25,16 +25,6 @@ export const getAboutContentTemplates = ({classes}) => {
       html`
         <a class=${classes.anchor} :href=${href}>${text}</a>
       `,
-    list: (items) =>
-      html`
-        <ul class=${classes.list}>
-          ${items}
-        </ul>
-      `,
-    listItem: (items) =>
-      html`
-        <li class=${classes.listItem}>${items}</li>
-      `,
     paragraph: (items) =>
       items.length
         ? html`

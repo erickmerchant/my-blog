@@ -16,14 +16,16 @@ export const createModel = (name = 'posts') => {
       return res
     },
 
-    getAll() {
-      return model.fetch(`/content/${name}.json`).then((res) => res.json())
+    async getByName(n = name) {
+      const res = await model.fetch(`/content/${n}.json`)
+
+      return res.json()
     },
 
     async getBySlug(id = '__first') {
       const [posts, content] = await Promise.all([
-        model.getAll(),
-        model.fetch(`/content/${id}.json`).then((response) => response.json())
+        model.getByName(),
+        model.getByName(id)
       ])
 
       const index =

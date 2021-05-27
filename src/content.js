@@ -42,70 +42,62 @@ export const createContentView = ({templates, publicFacing = true}) => {
   }
 
   return (str) => {
+    const lns = str.split('\n')
     const result = []
-    let items = []
+    let items
     let code
+    let p
 
-    for (const ln of str.split('\n')) {
-      if (code != null && ln !== codeFence) {
-        code.push(templates.codeBlockLine(ln), '\n')
-      } else {
-        if (!ln.startsWith('- ') && items.length) {
-          result.push(templates.list(items))
+    while (lns.length) {
+      let ln = lns.shift()
 
-          items = []
-        }
+      items = []
 
-        switch (true) {
-          case ln.startsWith('# '):
-            {
-              const text = ln.substring(2)
-              result.push(
-                templates.heading(
-                  text,
-                  text
-                    .toLowerCase()
-                    .replace(/\s+/g, '-')
-                    .replace(/[^a-z0-9-]/g, '-')
-                ),
-                '\n'
-              )
-            }
-            break
+      while (ln.startsWith('- ')) {
+        items.push(templates.listItem(inline(ln.substring(2))), '\n')
 
-          case ln.startsWith('- '):
-            items.push(templates.listItem(inline(ln.substring(2))), '\n')
-            break
-
-          case ln === codeFence:
-            if (code != null) {
-              result.push(templates.codeBlock(code, {isClosed: true}), '\n')
-
-              code = null
-            } else {
-              code = []
-            }
-            break
-
-          default: {
-            const p = templates.paragraph(inline(ln))
-
-            if (p != null) {
-              result.push(p)
-            }
-
-            result.push('\n')
-          }
-        }
+        ln = lns.shift()
       }
-    }
 
-    if (code != null) {
-      result.push(templates.codeBlock(code, {isClosed: false}), '\n')
-    }
+      if (items.length) {
+        result.push(templates.list(items))
+      }
 
-    if (items.length) {
-      result.push(templates.list(items))
+      switch (true) {
+        case ln.startsWith('# '):
+          {
+            const text = ln.substring(2)
+            result.push(
+              templates.heading(
+                text,
+                text
+                  .toLowerCase()
+                  .replace(/\s+/g, '-')
+                  .replace(/[^a-z0-9-]/g, '-')
+              ),
+              '\n'
+            )
+          }
+          break
+
+        case ln === codeFence:
+          code = []
+          while (lns[0] != null && lns[0] !== codeFence) {
+            code.push(templates.codeBlockLine(lns.shift()), '\n')
+          }
+          result.push(templates.codeBlock(code, {isClosed: lns.length}), '\n')
+          lns.shift()
+          break
+
+        default:
+          p = templates.paragraph(inline(ln))
+
+          if (p != null) {
+            result.push(p)
+          }
+
+          result.push('\n')
+      }
     }
 
     return result

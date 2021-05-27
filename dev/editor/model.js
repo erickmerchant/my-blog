@@ -37,7 +37,7 @@ export const createModel = (name) => {
     },
 
     async save(data, existing = data.slug != null) {
-      const posts = await model.getAll()
+      const posts = await model.getByName()
 
       const index = existing
         ? posts.findIndex((post) => post.slug === data.slug)
@@ -78,7 +78,7 @@ export const createModel = (name) => {
     },
 
     async remove(id) {
-      const posts = await model.getAll()
+      const posts = await model.getByName()
 
       const index = posts.findIndex((p) => p.slug === id)
 
