@@ -21,13 +21,13 @@ try {
 
     spawn`css src/editor/styles/index.js dist/editor/css -dw src/editor/styles`
 
-    spawn`dev serve -t index.html -e app.js -d src dist`
+    spawn`dev serve -e index.html -d src dist`
   }
 
   if (command === 'build') {
     await Promise.all([
       spawn`css src/styles/index.js dist/css`,
-      spawn`dev cache -t index.html -e app.js dist src`
+      spawn`dev cache -e index.html dist src`
     ])
 
     const {layoutClasses, aboutClasses} = await import('./dist/css/index.js')
