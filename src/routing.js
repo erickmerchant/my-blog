@@ -13,7 +13,7 @@ export const getRoute = (all, routes) => {
 
 const getDispatchLocation =
   ({app, postsModel}) =>
-  async (pathname, hash = '') => {
+  async ({pathname, hash = ''}) => {
     if (pathname === app.state?.pathname) return
 
     const route = getRoute(pathname, {
@@ -66,10 +66,10 @@ export const setupRouting = ({app, postsModel}) => {
   const dispatchLocation = getDispatchLocation({app, postsModel})
 
   window.onpopstate = (e) => {
-    dispatchLocation(window.location.pathname, window.location.hash)
+    dispatchLocation(window.location)
   }
 
-  dispatchLocation(window.location.pathname, window.location.hash)
+  dispatchLocation(window.location)
 
   return (href) => {
     return {
@@ -79,7 +79,7 @@ export const setupRouting = ({app, postsModel}) => {
 
         window.history.pushState({}, null, href)
 
-        dispatchLocation(href)
+        dispatchLocation({pathname: href})
       }
     }
   }

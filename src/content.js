@@ -67,16 +67,7 @@ export const createContentView = ({templates, publicFacing = true}) => {
         case ln.startsWith('# '):
           {
             const text = ln.substring(2)
-            result.push(
-              templates.heading(
-                text,
-                text
-                  .toLowerCase()
-                  .replace(/\s+/g, '-')
-                  .replace(/[^a-z0-9-]/g, '-')
-              ),
-              '\n'
-            )
+            result.push(templates.heading(text), '\n')
           }
           break
 

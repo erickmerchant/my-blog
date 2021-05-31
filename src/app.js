@@ -53,16 +53,7 @@ export const __update = () => {
 
   let view
 
-  if (!import.meta.env.DEV) {
-    view = createDomView(target, mainView)
-
-    for (const anchor of document.querySelectorAll('a[href^="/"]')) {
-      anchor.addEventListener(
-        'click',
-        anchorAttrs(anchor.getAttribute('href'))['@click']
-      )
-    }
-  } else {
+  if (import.meta.env.DEV) {
     const aboutView = createAboutView({
       classes: aboutClasses,
       contentView: createContentView({
@@ -78,6 +69,15 @@ export const __update = () => {
     })
 
     view = createDomView(target, layoutView)
+  } else {
+    view = createDomView(target, mainView)
+
+    for (const anchor of document.querySelectorAll('a[href^="/"]')) {
+      anchor.addEventListener(
+        'click',
+        anchorAttrs(anchor.getAttribute('href'))['@click']
+      )
+    }
   }
 
   app.render(view)
