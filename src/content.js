@@ -54,7 +54,7 @@ export const createContentView = ({templates, publicFacing = true}) => {
       items = []
 
       while (ln.startsWith('- ')) {
-        items.push(templates.listItem(inline(ln.substring(2))), '\n')
+        items.push(inline(ln.substring(2)), '\n')
 
         ln = lns.shift()
       }
@@ -74,9 +74,9 @@ export const createContentView = ({templates, publicFacing = true}) => {
         case ln === codeFence:
           code = []
           while (lns[0] != null && lns[0] !== codeFence) {
-            code.push(templates.codeBlockLine(lns.shift()), '\n')
+            code.push(lns.shift(), '\n')
           }
-          result.push(templates.codeBlock(code, {isClosed: lns.length}), '\n')
+          result.push(templates.codeBlock(code, !!lns.length), '\n')
           lns.shift()
           break
 

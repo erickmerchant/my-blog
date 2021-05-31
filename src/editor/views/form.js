@@ -56,19 +56,24 @@ export const createFormView = ({model, app}) => {
 
   const contentView = createContentView({
     templates: {
-      codeBlock: (items, {isClosed}) => html`
+      codeBlock: (items, closed) => html`
         <span>
           <span class=${highlightClasses.punctuation}>${'```\n'}</span>
-          <span class=${highlightClasses.codeBlock}>${items}</span>
-          ${isClosed
+          <span class=${highlightClasses.codeBlock}>
+            ${items.map((code) =>
+              code === '\n'
+                ? code
+                : html`
+                    <span>${code}</span>
+                  `
+            )}
+          </span>
+          ${closed
             ? html`
                 <span class=${highlightClasses.punctuation}>${'```'}</span>
               `
             : null}
         </span>
-      `,
-      codeBlockLine: (code) => html`
-        <span>${code}</span>
       `,
       codeInline: (text) => html`
         <span>
@@ -97,14 +102,19 @@ export const createFormView = ({model, app}) => {
       `,
       list: (items) =>
         html`
-          <span>${items}</span>
+          <span>
+            ${items.map((text) =>
+              text === '\n'
+                ? text
+                : html`
+                    <span>
+                      <span class=${highlightClasses.punctuation}>${'- '}</span>
+                      ${text}
+                    </span>
+                  `
+            )}
+          </span>
         `,
-      listItem: (text) => html`
-        <span>
-          <span class=${highlightClasses.punctuation}>${'- '}</span>
-          ${text}
-        </span>
-      `,
       paragraph: (text) =>
         html`
           <span>${text}</span>

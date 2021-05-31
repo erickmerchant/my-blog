@@ -9,12 +9,14 @@ export const getMainContentTemplates = ({classes}) => {
     list: (items) =>
       html`
         <ul class=${classes.list}>
-          ${items}
+          ${items.map((item) =>
+            item !== '\n'
+              ? html`
+                  <li class=${classes.listItem}>${item}</li>
+                `
+              : null
+          )}
         </ul>
-      `,
-    listItem: (items) =>
-      html`
-        <li class=${classes.listItem}>${items}</li>
       `,
     paragraph: (items) =>
       items.length
