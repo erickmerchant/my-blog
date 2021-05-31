@@ -83,26 +83,18 @@ export const mainClasses = css`
     &::before {
       align-self: center;
       content: '';
-      clip-path: polygon(
-        50% 0%,
-        60% 40%,
-        100% 50%,
-        60% 60%,
-        50% 100%,
-        40% 60%,
-        0% 50%,
-        40% 40%
-      );
-      margin-right: 0.5rem;
+      clip-path: circle(25%);
+      margin-right: 0.25rem;
       height: 0.75em;
       width: 0.75rem;
+      background: currentColor;
 
       @media ${mq.colorSchemeLight} {
-        background: var(--a-c);
+        color: var(--a-c);
       }
 
       @media ${mq.colorSchemeDark} {
-        background: hsl(100 60% 70%);
+        color: hsl(100 60% 70%);
       }
     }
   }
