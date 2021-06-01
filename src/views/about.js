@@ -1,7 +1,7 @@
 import {html} from '@erickmerchant/framework'
 
 const yearsSince = (year, month) => {
-  const thenAsFloat = year + (month + 1) / 12
+  const thenAsFloat = year + month / 12
 
   const now = new Date()
 
