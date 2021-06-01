@@ -8,7 +8,10 @@ export const mainClasses = css`
     max-width: 100vw;
   }
 
-  .header {
+  .header,
+  .heading2,
+  .list,
+  .paragraph {
     ${mixins.mainItem}
   }
 
@@ -21,12 +24,6 @@ export const mainClasses = css`
     @media ${mq.desktopUp} and ${mq.tallUp} {
       margin-top: 2em;
     }
-  }
-
-  .heading2,
-  .list,
-  .paragraph {
-    ${mixins.mainItem}
   }
 
   .heading2 {
@@ -87,15 +84,7 @@ export const mainClasses = css`
       margin-right: 0.25rem;
       height: 0.75em;
       width: 0.75rem;
-      background: currentColor;
-
-      @media ${mq.colorSchemeLight} {
-        color: var(--a-c);
-      }
-
-      @media ${mq.colorSchemeDark} {
-        color: hsl(100 60% 70%);
-      }
+      background: var(--a-c);
     }
   }
 

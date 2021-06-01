@@ -6,6 +6,6 @@ export const createErrorView = () => (state) =>
   html`
     <div class=${errorClasses.container}>
       <h1 class=${errorClasses.heading}>${state.error.message}</h1>
-      <pre class=${errorClasses.stack}>${state.error.stack}</pre>
+      <pre class=${errorClasses.stack}><code>${state.error.stack}</code></pre>
     </div>
   `
