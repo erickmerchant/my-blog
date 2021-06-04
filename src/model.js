@@ -23,10 +23,9 @@ export const createModel = (name = 'posts') => {
     },
 
     async getBySlug(id = '__first') {
-      const [posts, content] = await Promise.all([
-        model.getByName(),
-        model.getByName(id)
-      ])
+      const [posts, content] = await Promise.all(
+        [undefined, id].map(model.getByName)
+      )
 
       const index =
         id === '__first' ? 0 : posts.findIndex((post) => post.slug === id)

@@ -1,6 +1,5 @@
 import {createApp, createDomView, html} from '@erickmerchant/framework'
 
-import {getRoute} from '../routing.js'
 import {layoutClasses} from './css/index.js'
 import {createModel} from './model.js'
 import {createErrorView} from './views/error.js'
@@ -12,6 +11,19 @@ const state = {route: {key: 'list', params: ['posts']}, posts: []}
 const app = createApp(state)
 
 const channels = [createModel('posts'), createModel('drafts')]
+
+const getRoute = (all, routes) => {
+  for (const [key, regex] of Object.entries(routes)) {
+    const match = all.match(regex)
+
+    if (match) {
+      return {
+        key,
+        params: match.slice(1)
+      }
+    }
+  }
+}
 
 const handleRoute = async (route = {key: 'list', params: ['posts']}) => {
   let state = {

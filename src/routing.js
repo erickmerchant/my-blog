@@ -1,24 +1,9 @@
-export const getRoute = (all, routes) => {
-  for (const [key, regex] of Object.entries(routes)) {
-    const match = all.match(regex)
-
-    if (match) {
-      return {
-        key,
-        params: match.slice(1)
-      }
-    }
-  }
-}
-
 const getDispatchLocation =
   ({app, postsModel}) =>
   async ({pathname, hash = ''}) => {
     if (pathname === app.state?.pathname) return
 
-    const route = getRoute(pathname, {
-      post: /^\/?(?:posts\/([a-z0-9-]+)|)\/?$/
-    }) || {key: 'error'}
+    const match = pathname.match(/^\/?(?:posts\/([a-z0-9-]+)|)\/?$/)
 
     const state = {
       isLoading: false,
@@ -30,9 +15,9 @@ const getDispatchLocation =
       }
     }
 
-    if (route.key === 'post') {
+    if (match) {
       try {
-        const [id] = route.params
+        const [id] = match.slice(1)
 
         const post = await postsModel.getBySlug(id)
 

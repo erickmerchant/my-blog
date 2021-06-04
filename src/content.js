@@ -63,31 +63,28 @@ export const createContentView = ({templates, publicFacing = true}) => {
         result.push(templates.list(items))
       }
 
-      switch (true) {
-        case ln.startsWith('# '):
-          {
-            const text = ln.substring(2)
-            result.push(templates.heading(text), '\n')
-          }
-          break
+      if (ln === codeFence) {
+        code = []
+        while (lns[0] != null && lns[0] !== codeFence) {
+          code.push(lns.shift(), '\n')
+        }
+        result.push(templates.codeBlock(code, !!lns.length), '\n')
+        lns.shift()
 
-        case ln === codeFence:
-          code = []
-          while (lns[0] != null && lns[0] !== codeFence) {
-            code.push(lns.shift(), '\n')
-          }
-          result.push(templates.codeBlock(code, !!lns.length), '\n')
-          lns.shift()
-          break
+        ln = lns.shift()
+      }
 
-        default:
-          p = templates.paragraph(inline(ln))
+      if (ln.startsWith('# ')) {
+        const text = ln.substring(2)
+        result.push(templates.heading(text), '\n')
+      } else {
+        p = templates.paragraph(inline(ln))
 
-          if (p != null) {
-            result.push(p)
-          }
+        if (p != null) {
+          result.push(p)
+        }
 
-          result.push('\n')
+        result.push('\n')
       }
     }
 
