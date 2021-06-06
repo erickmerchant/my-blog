@@ -3,8 +3,8 @@ import {html} from '@erickmerchant/framework'
 import {stringify} from '@erickmerchant/framework/stringify.js'
 import cheerio from 'cheerio'
 import del from 'del'
+import execa from 'execa'
 import fs from 'fs'
-import {spawn} from 'sergeant'
 import {promisify} from 'util'
 
 import {createContentView} from './src/content.js'
@@ -14,20 +14,26 @@ import {createLayoutView} from './src/views/layout.js'
 const readFile = promisify(fs.readFile)
 const writeFile = promisify(fs.writeFile)
 const command = process.argv[2]
+const execOpts = {
+  stdio: 'inherit'
+}
 
 try {
   if (command === 'start') {
-    spawn`css src/styles/index.js dist/css -dw src/styles`
+    execa.command(`css src/styles/index.js dist/css -dw src/styles`, execOpts)
 
-    spawn`css src/editor/styles/index.js dist/editor/css -dw src/editor/styles`
+    execa.command(
+      `css src/editor/styles/index.js dist/editor/css -dw src/editor/styles`,
+      execOpts
+    )
 
-    spawn`dev serve -e index.html -d src dist`
+    execa.command(`dev serve -e index.html -d src dist`, execOpts)
   }
 
   if (command === 'build') {
     await Promise.all([
-      spawn`css src/styles/index.js dist/css`,
-      spawn`dev cache -e index.html dist src`
+      execa.command(`css src/styles/index.js dist/css`, execOpts),
+      execa.command(`dev cache -e index.html dist src`, execOpts)
     ])
 
     const {layoutClasses, aboutClasses} = await import('./dist/css/index.js')
@@ -52,8 +58,11 @@ try {
     })
 
     await Promise.all([
-      spawn`rollup -c rollup.config.js`,
-      spawn`postcss ./dist/css/index.css --no-map -u postcss-clean -o ./dist/css/index.css`
+      execa.command(`rollup -c rollup.config.js`, execOpts),
+      execa.command(
+        `postcss ./dist/css/index.css --no-map -u postcss-clean -o ./dist/css/index.css`,
+        execOpts
+      )
     ])
 
     const [rawHtml, styles] = await Promise.all([
