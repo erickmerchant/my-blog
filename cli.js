@@ -4,15 +4,12 @@ import {stringify} from '@erickmerchant/framework/stringify.js'
 import cheerio from 'cheerio'
 import del from 'del'
 import execa from 'execa'
-import fs from 'fs'
-import {promisify} from 'util'
+import fs from 'fs/promises'
 
 import {createContentView} from './src/content.js'
 import {createAboutView, getAboutContentTemplates} from './src/views/about.js'
 import {createLayoutView} from './src/views/layout.js'
 
-const readFile = promisify(fs.readFile)
-const writeFile = promisify(fs.writeFile)
 const command = process.argv[2]
 const execOpts = {
   stdio: 'inherit'
@@ -66,8 +63,8 @@ try {
     ])
 
     const [rawHtml, styles] = await Promise.all([
-      readFile('./dist/index.html', 'utf8'),
-      readFile('./dist/css/index.css', 'utf8')
+      fs.readFile('./dist/index.html', 'utf8'),
+      fs.readFile('./dist/css/index.css', 'utf8')
     ])
 
     const $ = cheerio.load(rawHtml)
@@ -83,7 +80,7 @@ try {
     $('body').prepend($body.find('> *'))
 
     await Promise.all([
-      writeFile('./dist/index.html', $.html()),
+      fs.writeFile('./dist/index.html', $.html()),
       del([
         './dist/node_modules/',
         './dist/css/',
