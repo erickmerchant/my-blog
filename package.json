@@ -14,7 +14,7 @@
     "@erickmerchant/css": "^32.0.0",
     "@erickmerchant/dev-cli": "^24.0.0",
     "@erickmerchant/framework": "^43.0.0",
-    "cheerio": "*",
+    "cheerio": "^1.0.0-rc.10",
     "del": "^6.0.0",
     "execa": "^5.1.1",
     "postcss-clean": "^1.2.2",

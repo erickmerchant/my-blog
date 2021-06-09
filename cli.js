@@ -86,6 +86,8 @@ try {
         './dist/css/',
         './dist/styles/',
         './dist/views/',
+        './dist/editor/',
+        './dist/editor.html',
         './dist/*.{js,css}',
         '!./dist/app.js'
       ])
