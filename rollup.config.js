@@ -7,12 +7,11 @@ export default {
     format: 'esm',
     plugins: [
       terser({
+        toplevel: true,
         compress: {
           passes: 10
         },
-        mangle: {
-          toplevel: true
-        },
+        mangle: true,
         ecma: 11
       })
     ]

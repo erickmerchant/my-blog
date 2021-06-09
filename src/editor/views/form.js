@@ -139,40 +139,36 @@ export const createFormView = ({model, app}) => {
       class=${formClasses.form}
       @submit=${save(state.item)}
     >
-      <fieldset class=${formClasses.fields}>
-        <div>
-          <label class=${formClasses.label} for="field-title">Title</label>
-          <input
-            class=${formClasses.input}
-            name="title"
-            id="field-title"
-            :value=${state.item.title ?? ''}
-            @input=${(e) => {
-              app.state.item = {...app.state.item, title: e.target.value}
-            }}
-          />
-        </div>
-        <div>
-          <label class=${formClasses.label} for="field-content">Content</label>
-          <div class=${formClasses.textareaWrap}>
-            <div class=${formClasses.textareaHighlightsWrap}>
-              <pre class=${formClasses.textareaHighlights}>
+      <div class=${formClasses.fields}>
+        <label class=${formClasses.label} for="field-title">Title</label>
+        <input
+          class=${formClasses.input}
+          name="title"
+          id="field-title"
+          :value=${state.item.title ?? ''}
+          @input=${(e) => {
+            app.state.item = {...app.state.item, title: e.target.value}
+          }}
+        />
+        <label class=${formClasses.label} for="field-content">Content</label>
+        <div class=${formClasses.textareaWrap}>
+          <div class=${formClasses.textareaHighlightsWrap}>
+            <pre class=${formClasses.textareaHighlights}>
                 ${highlighter(state.item.highlightedContent)}
               </pre
-              >
-            </div>
-            <textarea
-              class=${formClasses.textarea}
-              name="content"
-              id="field-content"
-              @input=${highlight}
-            >
-              ${state.item.content ?? ''}
-            </textarea
             >
           </div>
+          <textarea
+            class=${formClasses.textarea}
+            name="content"
+            id="field-content"
+            @input=${highlight}
+          >
+              ${state.item.content ?? ''}
+            </textarea
+          >
         </div>
-      </fieldset>
+      </div>
       <div class=${formClasses.buttons}>
         ${state.slugConflict
           ? html`

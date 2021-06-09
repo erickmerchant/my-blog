@@ -22,7 +22,6 @@ export const formClasses = css`
   .label {
     font-weight: ${fontWeights.bold};
     display: block;
-    margin-bottom: 0.5em;
   }
 
   .input {
