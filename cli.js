@@ -17,25 +17,28 @@ const execOpts = {
 
 try {
   if (command === 'start') {
-    await del(['./dist/'])
-
-    execa.command(`css src/styles/index.js dist/css -dw src/styles`, execOpts)
-
     execa.command(
-      `css src/editor/styles/index.js dist/editor/css -dw src/editor/styles`,
+      `css src/styles/index.js src/asset/styles -dw src/styles`,
       execOpts
     )
 
-    execa.command(`dev serve -e index.html -d src dist`, execOpts)
+    execa.command(
+      `css src/editor/styles/index.js src/asset/editor/styles -dw src/editor/styles`,
+      execOpts
+    )
+
+    execa.command(`dev serve -e index.html -d src`, execOpts)
   }
 
   if (command === 'build') {
     await Promise.all([
-      execa.command(`css src/styles/index.js dist/css`, execOpts),
-      execa.command(`dev cache -e index.html dist src`, execOpts)
+      execa.command(`css src/styles/index.js src/asset/styles`, execOpts),
+      execa.command(`dev cache -e index.html src dist`, execOpts)
     ])
 
-    const {layoutClasses, aboutClasses} = await import('./dist/css/index.js')
+    const {layoutClasses, aboutClasses} = await import(
+      './src/asset/styles/index.js'
+    )
 
     const aboutView = createAboutView({
       classes: aboutClasses,
@@ -59,14 +62,14 @@ try {
     await Promise.all([
       execa.command(`rollup -c rollup.config.js`, execOpts),
       execa.command(
-        `postcss ./dist/css/index.css --no-map -u postcss-clean -o ./dist/css/index.css`,
+        `postcss ./dist/asset/styles/index.css --no-map -u postcss-clean -o ./dist/asset/styles/index.css`,
         execOpts
       )
     ])
 
     const [rawHtml, styles] = await Promise.all([
       fs.readFile('./dist/index.html', 'utf8'),
-      fs.readFile('./dist/css/index.css', 'utf8')
+      fs.readFile('./dist/asset/styles/index.css', 'utf8')
     ])
 
     const $ = cheerio.load(rawHtml)
@@ -85,7 +88,7 @@ try {
       fs.writeFile('./dist/index.html', $.html()),
       del([
         './dist/node_modules/',
-        './dist/css/',
+        './dist/asset/',
         './dist/styles/',
         './dist/views/',
         './dist/editor/',

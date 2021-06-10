@@ -22,13 +22,13 @@ export const createModel = (name = 'posts') => {
       return res.json()
     },
 
-    async getBySlug(id = '__first') {
+    async getBySlug(id = '_first') {
       const [posts, content] = await Promise.all(
         [undefined, id].map(model.getByName)
       )
 
       const index =
-        id === '__first' ? 0 : posts.findIndex((post) => post.slug === id)
+        id === '_first' ? 0 : posts.findIndex((post) => post.slug === id)
 
       if (~index) {
         return {

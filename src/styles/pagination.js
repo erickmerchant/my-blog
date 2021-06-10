@@ -52,26 +52,6 @@ export const paginationClasses = css`
       );
     }
 
-    @media ${mq.colorSchemeLight} {
-      --bg: hsl(90 10% 47.5%);
-      --b: var(--bg);
-      --c: hsl(0 0% 100%);
-    }
-
-    @media ${mq.colorSchemeDark} {
-      --bg: hsl(100 10% 70% / 0.2);
-      --b: currentColor;
-      --c: hsl(100 10% 70%);
-    }
-
-    @media ${mq.veryMobile} {
-      --r: 0.125rem;
-    }
-
-    @media ${mq.tabletUp} {
-      --r: 1.5rem / 50%;
-    }
-
     &.enabled {
       @media ${mq.colorSchemeLight} {
         --hover-bg: hsl(90 30% 47.5%);
@@ -93,6 +73,26 @@ export const paginationClasses = css`
       background-color: var(--hover-bg);
 
       --b: var(--hover-b);
+    }
+
+    @media ${mq.colorSchemeLight} {
+      --bg: hsl(90 10% 47.5%);
+      --b: var(--bg);
+      --c: hsl(0 0% 100%);
+    }
+
+    @media ${mq.colorSchemeDark} {
+      --bg: hsl(100 10% 70% / 0.2);
+      --b: currentColor;
+      --c: hsl(100 10% 70%);
+    }
+
+    @media ${mq.veryMobile} {
+      --r: 0.125rem;
+    }
+
+    @media ${mq.tabletUp} {
+      --r: 1.5rem / 50%;
     }
   }
 

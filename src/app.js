@@ -1,6 +1,5 @@
 import {createApp, createDomView, html} from '@erickmerchant/framework'
 
-import {createContentView, dateUtils} from './content.js'
 import {
   aboutClasses,
   codeClasses,
@@ -8,7 +7,8 @@ import {
   layoutClasses,
   mainClasses,
   paginationClasses
-} from './css/index.js'
+} from './asset/styles/index.js'
+import {createContentView, dateUtils} from './content.js'
 import {createModel} from './model.js'
 import {setupRouting} from './routing.js'
 import {createAboutView, getAboutContentTemplates} from './views/about.js'
@@ -24,7 +24,7 @@ const app = createApp({isLoading: true})
 
 const target = document.querySelector(import.meta.env.DEV ? 'body' : 'main')
 
-export const __update = () => {
+export const _main = () => {
   const postsModel = createModel()
 
   const anchorAttrs = setupRouting({app, postsModel})
@@ -82,5 +82,3 @@ export const __update = () => {
 
   app.render(view)
 }
-
-__update()

@@ -1,7 +1,7 @@
 import {html} from '@erickmerchant/framework'
 
+import {listClasses} from '../../asset/editor/styles/index.js'
 import {dateUtils} from '../../content.js'
-import {listClasses} from '../css/index.js'
 
 export const createListView = ({model, app, channelNames, hasNew}) => {
   const remove = (item) => async (e) => {

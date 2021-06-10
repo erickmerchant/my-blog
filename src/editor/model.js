@@ -15,7 +15,7 @@ export const createModel = (name) => {
       if (name === 'posts' && data[0]) {
         const first = await model.getBySlug(data[0].slug)
 
-        const firstUrl = '/content/__first.json'
+        const firstUrl = '/content/_first.json'
 
         await model.fetch(firstUrl, {
           method: 'DELETE'
