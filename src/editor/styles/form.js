@@ -102,8 +102,6 @@ export const formClasses = css`
   }
 
   .publishButton {
-    ${buttonMixins.button}
-
-    filter: hue-rotate(-15deg);
+    ${buttonMixins.textButton}
   }
 `

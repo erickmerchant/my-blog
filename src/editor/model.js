@@ -85,11 +85,11 @@ export const createModel = (name) => {
       if (~index) {
         posts.splice(index, 1)
 
-        await model.saveAll(posts)
-
         await model.fetch(`/content/${id}.json`, {
           method: 'DELETE'
         })
+
+        await model.saveAll(posts)
       }
     }
   }

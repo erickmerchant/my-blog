@@ -17,6 +17,8 @@ const execOpts = {
 
 try {
   if (command === 'start') {
+    await del(['./dist/'])
+
     execa.command(`css src/styles/index.js dist/css -dw src/styles`, execOpts)
 
     execa.command(

@@ -21,7 +21,7 @@ export const createListView = ({model, app, channelNames, hasNew}) => {
         }
       }
     } catch (error) {
-      app.state.error = error
+      app.state = {...app.state, error}
     }
   }
 

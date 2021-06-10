@@ -29,11 +29,16 @@ export const createFormView = ({model, app}) => {
       window.location.hash = `#/${model.name}`
     } catch (error) {
       if (error.message.startsWith('409')) {
-        app.state.slugConflict = true
+        app.state = {
+          ...app.state,
+          slugConflict: true
+        }
       } else {
-        app.state.error = error
-
-        app.state.route = {key: 'error'}
+        app.state = {
+          ...app.state,
+          error,
+          route: {key: 'error'}
+        }
       }
     }
   }
@@ -48,9 +53,11 @@ export const createFormView = ({model, app}) => {
 
       window.location.hash = `#/${name}`
     } catch (error) {
-      app.state.error = error
-
-      app.state.route = {key: 'error'}
+      app.state = {
+        ...app.state,
+        error,
+        route: {key: 'error'}
+      }
     }
   }
 
@@ -126,10 +133,13 @@ export const createFormView = ({model, app}) => {
   const highlighter = (str = '') => contentView(str.replace(/\r/g, ''))
 
   const highlight = (e) => {
-    app.state.item = {
-      ...app.state.item,
-      highlightedContent: e.target.value,
-      content: e.target.value
+    app.state = {
+      ...app.state,
+      item: {
+        ...app.state.item,
+        highlightedContent: e.target.value,
+        content: e.target.value
+      }
     }
   }
 
@@ -147,7 +157,10 @@ export const createFormView = ({model, app}) => {
           id="field-title"
           :value=${state.item.title ?? ''}
           @input=${(e) => {
-            app.state.item = {...app.state.item, title: e.target.value}
+            app.state = {
+              ...app.state,
+              item: {...app.state.item, title: e.target.value}
+            }
           }}
         />
         <label class=${formClasses.label} for="field-content">Content</label>
