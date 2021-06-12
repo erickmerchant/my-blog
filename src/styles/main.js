@@ -29,26 +29,30 @@ export const mainClasses = css`
   .heading2 {
     ${mixins.heading}
 
+    position: relative;
     font-weight: ${fontWeights.heading2};
+    --fill: currentColor;
 
     @media ${mq.tabletUp} {
+      --fill: var(--bg);
+
       &:hover {
-        --a-display: inline-block;
+        --fill: currentColor;
       }
     }
   }
 
   .heading2Anchor {
     text-decoration: none;
+    overflow: visible;
     margin-right: 0.5rem;
-    width: 0.75rem;
+    height: 0.875rem;
+    width: 0.875rem;
 
     @media ${mq.tabletUp} {
-      display: var(--a-display, none);
-      position: relative;
-      left: -0.5rem;
-      margin-left: -0.5rem;
-      width: 0;
+      position: absolute;
+      left: -0.75rem;
+      margin-right: 1rem;
     }
 
     @media ${mq.colorSchemeLight} {
@@ -58,6 +62,12 @@ export const mainClasses = css`
     @media ${mq.colorSchemeDark} {
       color: hsl(100 60% 70%);
     }
+  }
+
+  .heading2Icon {
+    display: inline-block;
+    height: 0.875rem;
+    width: 0.875rem;
   }
 
   .anchor {
@@ -74,17 +84,19 @@ export const mainClasses = css`
 
   .listItem {
     margin-bottom: 0.25em;
-    display: grid;
+    display: inline-grid;
     grid-template-columns: max-content auto;
 
     &::before {
-      align-self: center;
+      align-self: top;
       content: '';
-      clip-path: circle(25%);
-      margin-right: 0.25rem;
-      height: 0.75em;
-      width: 0.75rem;
-      background: var(--a-c);
+      border-radius: 100%;
+      border: 3px solid var(--a-c);
+      margin-right: 0.5rem;
+      margin-top: 0.5rem;
+      height: 0.275em;
+      width: 0.275rem;
+      background: transparent;
     }
   }
 

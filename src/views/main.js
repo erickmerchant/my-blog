@@ -32,7 +32,9 @@ export const getMainContentTemplates = ({classes}) => {
 
       return html`
         <h2 class=${classes.heading2} :id=${slug}>
-          <a class=${classes.heading2Anchor} :href=${`#${slug}`}>#</a>
+          <a class=${classes.heading2Anchor} :href=${`#${slug}`}>
+            <svg class=${classes.heading2Icon}><use href="#link" /></svg>
+          </a>
           ${text}
         </h2>
       `
