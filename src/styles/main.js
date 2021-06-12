@@ -85,7 +85,8 @@ export const mainClasses = css`
   .listItem {
     margin-bottom: 0.25em;
     display: inline-grid;
-    grid-template-columns: max-content auto;
+    grid-template-columns: max-content auto 1fr;
+    width: 100%;
 
     &::before {
       align-self: top;
