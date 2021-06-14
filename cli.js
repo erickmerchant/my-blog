@@ -31,10 +31,9 @@ try {
   }
 
   if (command === 'build') {
-    await Promise.all([
-      execa.command(`css src/styles/index.js src/asset/styles`, execOpts),
-      execa.command(`dev cache -e index.html src dist`, execOpts)
-    ])
+    await execa.command(`css src/styles/index.js src/asset/styles`, execOpts)
+
+    await execa.command(`dev cache -e index.html src dist`, execOpts)
 
     const {layoutClasses, aboutClasses} = await import(
       './src/asset/styles/index.js'
