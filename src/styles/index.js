@@ -41,3 +41,5 @@ export {codeClasses} from './code.js'
 export {paginationClasses} from './pagination.js'
 
 export {dateClasses} from './date.js'
+
+export {iconsClasses} from './icons.js'

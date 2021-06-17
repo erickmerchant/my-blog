@@ -6,42 +6,30 @@ export const createDateView =
     const date = dateUtils.stringToDate(d)
     const year = date.getFullYear()
     const month = date.getMonth()
-    const daysInTheMonth = new Date(year, month + 1, 0).getDate()
     const startDayOfMonth = new Date(year, month, 1).getDay()
+    let daysInMonth =
+      new Date(year, month + 1, 0).getDate() - (7 - startDayOfMonth)
+    const weeks = [startDayOfMonth]
+
+    while (daysInMonth > 0) {
+      daysInMonth -= 7
+
+      if (daysInMonth >= 0) {
+        weeks.push(0)
+      } else {
+        weeks.push(daysInMonth)
+      }
+    }
 
     return html`
       <time class=${classes.time} :datetime=${d}>
         <svg viewBox="0 0 33 33" class=${classes.icon}>
-          <rect
-            width="33"
-            height="33"
-            x="0"
-            y="0"
-            class=${classes.foreground}
-          />
-          <rect
-            width="29"
-            height="26"
-            x="2"
-            y="5"
-            class=${classes.background}
-          />
-          ${Array(daysInTheMonth)
-            .fill('')
-            .map((_, i) => {
-              const weekOfMonth = Math.floor((i + startDayOfMonth) / 7)
-              const dayOfWeek = (i + startDayOfMonth) % 7
-
-              return html`
-                <rect
-                  width="3"
-                  height="3"
-                  class=${classes.foreground}
-                  :x=${3 + dayOfWeek * 4}
-                  :y=${7 + weekOfMonth * 4}
-                />
-              `
-            })}
+          <use href="#calendar" />
+          ${weeks.map(
+            (week, i) => html`
+              <use href="#week" :x=${week * 4} :y=${7 + i * 4} />
+            `
+          )}
         </svg>
         ${dateUtils.prettyDate(date)}
       </time>

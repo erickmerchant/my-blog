@@ -4,6 +4,7 @@ import {
   aboutClasses,
   codeClasses,
   dateClasses,
+  iconsClasses,
   layoutClasses,
   mainClasses,
   paginationClasses
@@ -14,6 +15,7 @@ import {setupRouting} from './routing.js'
 import {createAboutView, getAboutContentTemplates} from './views/about.js'
 import {getCodeContentTemplates} from './views/code.js'
 import {createDateView} from './views/date.js'
+import {createIconsView} from './views/icons.js'
 import {createLayoutView} from './views/layout.js'
 import {createMainView, getMainContentTemplates} from './views/main.js'
 import {createPaginationView} from './views/pagination.js'
@@ -61,9 +63,12 @@ export const _main = () => {
       })
     })
 
+    const iconsView = createIconsView({classes: iconsClasses})
+
     const layoutView = createLayoutView({
       classes: layoutClasses,
       aboutView,
+      iconsView,
       mainView,
       anchorAttrs
     })

@@ -8,6 +8,7 @@ import fs from 'fs/promises'
 
 import {createContentView} from './src/content.js'
 import {createAboutView, getAboutContentTemplates} from './src/views/about.js'
+import {createIconsView} from './src/views/icons.js'
 import {createLayoutView} from './src/views/layout.js'
 
 const command = process.argv[2]
@@ -35,7 +36,7 @@ try {
 
     await execa.command(`dev cache -e index.html src dist`, execOpts)
 
-    const {layoutClasses, aboutClasses} = await import(
+    const {layoutClasses, aboutClasses, iconsClasses} = await import(
       './src/asset/styles/index.js'
     )
 
@@ -46,9 +47,12 @@ try {
       })
     })
 
+    const iconsView = createIconsView({classes: iconsClasses})
+
     const layoutView = createLayoutView({
       classes: layoutClasses,
       aboutView,
+      iconsView,
       mainView: () =>
         html`
           <main></main>

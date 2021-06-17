@@ -13,19 +13,13 @@ export const dateClasses = css`
 
   .icon {
     height: 1em;
-  }
 
-  .foreground {
     @media ${mq.colorSchemeLight} {
-      fill: currentColor;
+      --fg: currentColor;
     }
 
     @media ${mq.colorSchemeDark} {
-      fill: hsl(100 60% 70%);
+      --fg: hsl(100 60% 70%);
     }
-  }
-
-  .background {
-    fill: var(--bg);
   }
 `

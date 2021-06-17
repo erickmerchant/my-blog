@@ -186,18 +186,4 @@ export const layoutClasses = css`
     text-decoration-thickness: 0.0625em;
     text-underline-offset: 0.1875em;
   }
-
-  .iconDefs {
-    display: none;
-  }
-
-  .iconShape1 {
-    fill: var(--bg);
-    stroke: var(--fill);
-  }
-
-  .iconShape2 {
-    fill: var(--fill);
-    stroke: var(--bg);
-  }
 `

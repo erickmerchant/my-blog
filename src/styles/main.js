@@ -31,13 +31,13 @@ export const mainClasses = css`
 
     position: relative;
     font-weight: ${fontWeights.heading2};
-    --fill: currentColor;
+    --fg: currentColor;
 
     @media ${mq.tabletUp} {
-      --fill: var(--bg);
+      --fg: var(--bg);
 
       &:hover {
-        --fill: currentColor;
+        --fg: currentColor;
       }
     }
   }
