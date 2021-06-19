@@ -21,7 +21,7 @@ export const _start = css`
 
   html {
     font-weight: ${fontWeights.normal};
-    font-family: 'Public Sans', system-ui, sans-serif;
+    font-family: 'Public Sans', system-ui, -apple-system, sans-serif;
     font-size: max(20px, 1vw);
     -webkit-text-size-adjust: none;
     line-height: 1.5;
