@@ -92,11 +92,11 @@ export const mainClasses = css`
       align-self: top;
       content: '';
       border-radius: 100%;
-      border: 3px solid var(--a-c);
+      border: 2px solid var(--a-c);
       margin-right: 0.5rem;
       margin-top: 0.5rem;
-      height: 0.275em;
-      width: 0.275rem;
+      height: 0.25em;
+      width: 0.25rem;
       background: transparent;
     }
   }
