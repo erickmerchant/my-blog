@@ -1,7 +1,7 @@
 const getDispatchLocation =
   ({app, postsModel}) =>
   async ({pathname, hash = ''}) => {
-    if (pathname === app.state?.pathname && !import.meta.env.DEV) return
+    if (pathname === app.state?.pathname && !import.meta.env?.DEV) return
 
     const match = pathname.match(/^\/?(?:posts\/([a-z0-9-]+)|)\/?$/)
 
@@ -34,7 +34,7 @@ const getDispatchLocation =
       }
     }
 
-    if (pathname !== app.state?.pathname || import.meta.env.DEV) {
+    if (pathname !== app.state?.pathname || import.meta.env?.DEV) {
       app.state = state
     }
 

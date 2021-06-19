@@ -1,4 +1,4 @@
-import {createApp, createDomView, html} from '@erickmerchant/framework'
+import {createApp, createDomView} from '@erickmerchant/framework'
 
 import {
   aboutClasses,
@@ -20,11 +20,9 @@ import {createLayoutView} from './views/layout.js'
 import {createMainView, getMainContentTemplates} from './views/main.js'
 import {createPaginationView} from './views/pagination.js'
 
-html.dev = import.meta.env.DEV
-
 const app = createApp({isLoading: true})
 
-const target = document.querySelector(import.meta.env.DEV ? 'body' : 'main')
+const target = document.querySelector(import.meta.env?.DEV ? 'body' : 'main')
 
 export const _main = () => {
   const postsModel = createModel()
@@ -55,7 +53,7 @@ export const _main = () => {
 
   let view
 
-  if (import.meta.env.DEV) {
+  if (import.meta.env?.DEV) {
     const aboutView = createAboutView({
       classes: aboutClasses,
       contentView: createContentView({

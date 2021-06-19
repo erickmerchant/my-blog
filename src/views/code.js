@@ -1,3 +1,4 @@
+import {concat} from '@erickmerchant/css'
 import {html} from '@erickmerchant/framework'
 
 export const getCodeContentTemplates = ({classes}) => {
@@ -10,7 +11,7 @@ export const getCodeContentTemplates = ({classes}) => {
               ? code
               : html`
                   <span
-                    :class=${classes('blockLine', {
+                    :class=${concat(classes, 'blockLine', {
                       comment: code.trim().startsWith('//')
                     })}
                   >

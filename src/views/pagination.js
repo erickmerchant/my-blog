@@ -1,3 +1,4 @@
+import {concat} from '@erickmerchant/css'
 import {html} from '@erickmerchant/framework'
 
 export const createPaginationView =
@@ -12,7 +13,7 @@ export const createPaginationView =
                 [state.post.next, 'Newer']
               ].map(
                 ([item, text]) => html`
-                  <li :class=${classes('item', {enabled: !!item})}>
+                  <li :class=${concat(classes, 'item', {enabled: !!item})}>
                     ${item
                       ? html`
                           <a
