@@ -56,7 +56,7 @@ const handleRoute = async (route = {key: 'list', params: ['posts']}) => {
           slugConflict: false
         }
       } else if (route.key === 'list') {
-        const items = await channel.getByName()
+        const items = await channel.getList()
 
         state = {
           route,

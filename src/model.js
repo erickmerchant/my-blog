@@ -16,15 +16,11 @@ export const createModel = (name = 'posts') => {
       return res
     },
 
-    async getByName(n = name) {
-      const res = await model.fetch(`/content/${n}.json`)
-
-      return res.json()
-    },
-
     async getBySlug(id = '_first') {
       const [posts, content] = await Promise.all(
-        [undefined, id].map(model.getByName)
+        [undefined, id].map((n = name) =>
+          model.fetch(`/content/${n}.json`).then((res) => res.json())
+        )
       )
 
       const index =
@@ -33,7 +29,7 @@ export const createModel = (name = 'posts') => {
       if (~index) {
         return {
           ...posts[index],
-          content: content,
+          content,
           next: posts[index - 1],
           prev: posts[index + 1]
         }

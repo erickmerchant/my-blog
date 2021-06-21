@@ -1,96 +1,36 @@
-const codeFence = '```'
-
-export const createContentView = ({templates, publicFacing = true}) => {
-  const inline = (ln) => {
-    if (ln === '') return []
-
-    if (publicFacing) {
-      let index = 0
-
-      ln = ln.replace(/["']/g, (match) => {
-        if (match === "'") return 'ʼ'
-
-        if (index++ % 2) {
-          return '”'
-        }
-
-        return '“'
-      })
-    }
-
-    const results = []
-    const matches = ln.matchAll(/\[(.*?)\]\((.*?)\)|`(.*?)`/g)
-    let offset = 0
-
-    for (const match of matches) {
-      results.push(ln.substring(offset, match.index))
-
-      if (match[1] != null) {
-        results.push(templates.anchor(match[1], match[2]))
-      }
-
-      if (match[3] != null) {
-        results.push(templates.codeInline(match[3]))
-      }
-
-      offset = match.index + match[0].length
-    }
-
-    results.push(ln.substring(offset))
-
-    return results
-  }
-
-  return (str) => {
-    const lns = str.split('\n')
+export const createContentView =
+  ({templates}) =>
+  (json) => {
     const result = []
-    let items
-    let code
-    let p
 
-    while (lns.length) {
-      let ln = lns.shift()
+    const inline = (items) => {
+      const result = []
 
-      items = []
-
-      while (ln.startsWith('- ')) {
-        items.push(inline(ln.substring(2)), '\n')
-
-        ln = lns.shift()
-      }
-
-      if (items.length) {
-        result.push(templates.list(items))
-      }
-
-      if (ln === codeFence) {
-        code = []
-        while (lns[0] != null && lns[0] !== codeFence) {
-          code.push(lns.shift(), '\n')
+      for (const item of items) {
+        if (Array.isArray(item)) {
+          result.push(inline(item))
+        } else if (item.type) {
+          result.push(templates[item.type](item))
+        } else {
+          result.push(item)
         }
-        result.push(templates.codeBlock(code, !!lns.length), '\n')
-        lns.shift()
-
-        ln = lns.shift()
       }
 
-      if (ln.startsWith('# ')) {
-        const text = ln.substring(2)
-        result.push(templates.heading(text), '\n')
-      } else {
-        p = templates.paragraph(inline(ln))
+      return result
+    }
 
-        if (p != null) {
-          result.push(p)
-        }
+    for (const section of json) {
+      let items = []
 
-        result.push('\n')
+      if (section.items) {
+        items = inline(section.items)
       }
+
+      result.push(templates[section.type]({...section, items}))
     }
 
     return result
   }
-}
 
 export const dateUtils = {
   stringToDate(str) {

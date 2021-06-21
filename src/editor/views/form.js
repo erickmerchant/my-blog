@@ -1,7 +1,7 @@
 import {html} from '@erickmerchant/framework'
 
 import {formClasses, highlightClasses} from '../../asset/editor/styles/index.js'
-import {createContentView} from '../../content.js'
+import {createContentView} from '../content.js'
 
 export const createFormView = ({model, app}) => {
   const serialize = (item, target) => {
@@ -126,8 +126,7 @@ export const createFormView = ({model, app}) => {
         html`
           <span>${text}</span>
         `
-    },
-    publicFacing: false
+    }
   })
 
   const highlighter = (str = '') => contentView(str.replace(/\r/g, ''))

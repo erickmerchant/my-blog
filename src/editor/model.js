@@ -1,10 +1,67 @@
 import {createModel as createBaseModel} from '../model.js'
+import {createContentView} from './content.js'
+
+const contentView = createContentView({
+  templates: {
+    codeBlock(lines) {
+      return {type: 'codeBlock', lines}
+    },
+    codeInline(text) {
+      return {type: 'codeInline', text}
+    },
+    anchor(text, href) {
+      return {type: 'anchor', text, href}
+    },
+    list(items) {
+      return {type: 'list', items}
+    },
+    heading(text) {
+      return {type: 'heading', text}
+    },
+    paragraph(items) {
+      return items.length ? {type: 'paragraph', items} : null
+    }
+  }
+})
 
 export const createModel = (name) => {
   const model = {
     name,
 
     ...createBaseModel(name),
+
+    convert(str) {
+      return JSON.stringify(contentView(str), (_, value) => {
+        if (Array.isArray(value)) {
+          return value.filter((v) => v != null && v !== '\n')
+        }
+
+        return value
+      })
+    },
+
+    async getList() {
+      const res = await model.fetch(`/content/${name}.json`)
+
+      return res.json()
+    },
+
+    async getBySlug(id) {
+      const content = await (
+        await model.fetch(`/content/raw/${id}.json`)
+      ).json()
+
+      const posts = await model.getList()
+
+      const index = posts.findIndex((post) => post.slug === id)
+
+      if (~index) {
+        return {
+          ...posts[index],
+          content
+        }
+      }
+    },
 
     async saveAll(data) {
       await model.fetch(`/content/${name}.json`, {
@@ -23,7 +80,7 @@ export const createModel = (name) => {
 
         await model.fetch(firstUrl, {
           method: 'POST',
-          body: JSON.stringify(first.content)
+          body: model.convert(first.content)
         })
       }
     },
@@ -37,7 +94,7 @@ export const createModel = (name) => {
     },
 
     async save(data, existing = data.slug != null) {
-      const posts = await model.getByName()
+      const posts = await model.getList()
 
       const index = existing
         ? posts.findIndex((post) => post.slug === data.slug)
@@ -69,21 +126,30 @@ export const createModel = (name) => {
         posts.splice(index, 1, {title, date, slug})
       }
 
-      await model.fetch(`/content/${data.slug}.json`, {
+      await model.fetch(`/content/raw/${data.slug}.json`, {
         method: existing ? 'PUT' : 'POST',
         body: JSON.stringify(data.content)
+      })
+
+      await model.fetch(`/content/${data.slug}.json`, {
+        method: existing ? 'PUT' : 'POST',
+        body: model.convert(data.content)
       })
 
       await model.saveAll(posts)
     },
 
     async remove(id) {
-      const posts = await model.getByName()
+      const posts = await model.getList()
 
       const index = posts.findIndex((p) => p.slug === id)
 
       if (~index) {
         posts.splice(index, 1)
+
+        await model.fetch(`/content/raw/${id}.json`, {
+          method: 'DELETE'
+        })
 
         await model.fetch(`/content/${id}.json`, {
           method: 'DELETE'

@@ -2,29 +2,26 @@ import {html} from '@erickmerchant/framework'
 
 export const getMainContentTemplates = ({classes}) => {
   return {
-    anchor: (text, href) =>
+    anchor: ({text, href}) =>
       html`
         <a class=${classes.anchor} :href=${href}>${text}</a>
       `,
-    list: (items) =>
+    list: ({items}) =>
       html`
         <ul class=${classes.list}>
-          ${items.map((item) =>
-            item !== '\n'
-              ? html`
-                  <li class=${classes.listItem}>${item}</li>
-                `
-              : null
+          ${items.map(
+            (item) =>
+              html`
+                <li class=${classes.listItem}>${item}</li>
+              `
           )}
         </ul>
       `,
-    paragraph: (items) =>
-      items.length
-        ? html`
-            <p class=${classes.paragraph}>${items}</p>
-          `
-        : null,
-    heading: (text) => {
+    paragraph: ({items}) =>
+      html`
+        <p class=${classes.paragraph}>${items}</p>
+      `,
+    heading: ({text}) => {
       const slug = text
         .toLowerCase()
         .replace(/\s+/g, '-')

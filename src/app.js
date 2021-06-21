@@ -12,7 +12,7 @@ import {
 import {createContentView, dateUtils} from './content.js'
 import {createModel} from './model.js'
 import {setupRouting} from './routing.js'
-import {createAboutView, getAboutContentTemplates} from './views/about.js'
+import {createAboutView} from './views/about.js'
 import {getCodeContentTemplates} from './views/code.js'
 import {createDateView} from './views/date.js'
 import {createIconsView} from './views/icons.js'
@@ -55,10 +55,7 @@ export const _main = () => {
 
   if (import.meta.env?.DEV) {
     const aboutView = createAboutView({
-      classes: aboutClasses,
-      contentView: createContentView({
-        templates: getAboutContentTemplates({classes: aboutClasses})
-      })
+      classes: aboutClasses
     })
 
     const iconsView = createIconsView({classes: iconsClasses})

@@ -10,37 +10,20 @@ const yearsSince = (year, month) => {
   return Math.floor(nowAsFloat - thenAsFloat)
 }
 
-const aboutContent = `
-# About me
-
-I'm Erick Merchant. I've been employed as a web developer for ${yearsSince(
-  2006,
-  6
-)} years. This is my web development blog. Check out my [open-source projects](https://github.com/erickmerchant) on Github.
-`
-
-export const getAboutContentTemplates = ({classes}) => {
-  return {
-    anchor: (text, href) =>
-      html`
-        <a class=${classes.anchor} :href=${href}>${text}</a>
-      `,
-    paragraph: (items) =>
-      items.length
-        ? html`
-            <p class=${classes.paragraph}>${items}</p>
-          `
-        : null,
-    heading: (text) =>
-      html`
-        <h3 class=${classes.heading}>${text}</h3>
-      `
-  }
-}
-
 export const createAboutView =
-  ({classes, contentView}) =>
+  ({classes}) =>
   () =>
     html`
-      <article class=${classes.about}>${contentView(aboutContent)}</article>
+      <article class=${classes.about}>
+        <h3 class=${classes.heading}>About me</h3>
+        <p class=${classes.paragraph}>
+          I'm Erick Merchant. I've been employed as a web developer for
+          ${yearsSince(2006, 6)} years. This is my web development blog. Check
+          out my
+          <a class=${classes.anchor} href="https://github.com/erickmerchant">
+            ${'open-source projects'}
+          </a>
+          on Github.
+        </p>
+      </article>
     `

@@ -6,8 +6,7 @@ import del from 'del'
 import execa from 'execa'
 import fs from 'fs/promises'
 
-import {createContentView} from './src/content.js'
-import {createAboutView, getAboutContentTemplates} from './src/views/about.js'
+import {createAboutView} from './src/views/about.js'
 import {createIconsView} from './src/views/icons.js'
 import {createLayoutView} from './src/views/layout.js'
 
@@ -41,10 +40,7 @@ try {
     )
 
     const aboutView = createAboutView({
-      classes: aboutClasses,
-      contentView: createContentView({
-        templates: getAboutContentTemplates({classes: aboutClasses})
-      })
+      classes: aboutClasses
     })
 
     const iconsView = createIconsView({classes: iconsClasses})
