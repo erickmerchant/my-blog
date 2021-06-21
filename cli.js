@@ -88,6 +88,7 @@ try {
       del([
         './dist/node_modules/',
         './dist/asset/',
+        './dist/content/raw/',
         './dist/styles/',
         './dist/views/',
         './dist/editor/',
