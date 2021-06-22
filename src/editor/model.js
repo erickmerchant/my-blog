@@ -110,11 +110,7 @@ export const createModel = (name) => {
       }
 
       data.slug =
-        data.slug ??
-        data.title
-          .toLowerCase()
-          .replace(/\s+/g, '-')
-          .replace(/[^a-z0-9-]/g, '-')
+        data.slug ?? data.title.toLowerCase().replace(/\s+|[^a-z0-9-]/g, '-')
 
       data.content = data.content.replace(/\r/g, '')
 

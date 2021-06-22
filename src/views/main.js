@@ -22,10 +22,7 @@ export const getMainContentTemplates = ({classes}) => {
         <p class=${classes.paragraph}>${items}</p>
       `,
     heading: ({text}) => {
-      const slug = text
-        .toLowerCase()
-        .replace(/\s+/g, '-')
-        .replace(/[^a-z0-9-]/g, '-')
+      const slug = text.toLowerCase().replace(/\s+|[^a-z0-9-]/g, '-')
 
       return html`
         <h2 class=${classes.heading2} :id=${slug}>
