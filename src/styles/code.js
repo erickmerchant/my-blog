@@ -4,29 +4,7 @@ import {mq} from './core.js'
 
 export const codeClasses = css`
   .pre {
-    display: grid;
-
-    @media ${mq.colorSchemeLight} {
-      --c: hsl(90 55% 30%);
-      --c2: hsl(90 5% 35%);
-      --b: hsl(90 5% 35% / 0.0625);
-    }
-
-    @media ${mq.colorSchemeDark} {
-      --c: hsl(100 45% 70%);
-      --c2: hsl(100 5% 75%);
-      --b: hsl(100 5% 75% / 0.0625);
-    }
-
-    @media ${mq.tabletUp} {
-      max-width: 38rem;
-      margin-inline: auto;
-    }
-
-    @media ${mq.desktopUp} and ${mq.tallUp} {
-      max-width: 100%;
-      margin-inline: 1rem;
-    }
+    display: contents;
   }
 
   .block {
@@ -43,8 +21,27 @@ export const codeClasses = css`
     display: grid;
     grid-template-columns: max-content auto;
 
+    @media ${mq.colorSchemeLight} {
+      --c: hsl(90 55% 30%);
+      --c2: hsl(90 5% 35%);
+      --b: hsl(90 5% 35% / 0.0625);
+    }
+
+    @media ${mq.colorSchemeDark} {
+      --c: hsl(100 45% 70%);
+      --c2: hsl(100 5% 75%);
+      --b: hsl(100 5% 75% / 0.0625);
+    }
+
     @media ${mq.tabletUp} {
       border-radius: 0.25rem;
+      max-width: 38rem;
+      margin-inline: auto;
+    }
+
+    @media ${mq.desktopUp} and ${mq.tallUp} {
+      max-width: 100%;
+      margin-inline: 1rem;
     }
 
     @media ${mq.veryMobile} {
