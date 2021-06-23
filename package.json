@@ -13,7 +13,7 @@
   "dependencies": {
     "@erickmerchant/css": "^33.0.0",
     "@erickmerchant/dev-cli": "^25.0.0",
-    "@erickmerchant/framework": "^43.0.0",
+    "@erickmerchant/framework": "^44.0.0",
     "cheerio": "*",
     "del": "^6.0.0",
     "execa": "^5.1.1",

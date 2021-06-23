@@ -1,4 +1,4 @@
-import {createApp, createDomView, html} from '@erickmerchant/framework'
+import {createApp, createDOMView, html} from '@erickmerchant/framework'
 
 import {layoutClasses} from '../asset/editor/styles/index.js'
 import {createModel} from './model.js'
@@ -94,7 +94,7 @@ for (const channel of channels) {
   })
 }
 
-const view = createDomView(
+const view = createDOMView(
   target,
   (state) => html`
     <body class=${layoutClasses.app}>

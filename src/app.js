@@ -1,4 +1,4 @@
-import {createApp, createDomView} from '@erickmerchant/framework'
+import {createApp, createDOMView} from '@erickmerchant/framework'
 
 import {
   aboutClasses,
@@ -68,9 +68,9 @@ export const _main = () => {
       anchorAttrs
     })
 
-    view = createDomView(target, layoutView)
+    view = createDOMView(target, layoutView)
   } else {
-    view = createDomView(target, mainView)
+    view = createDOMView(target, mainView)
 
     for (const anchor of document.querySelectorAll('a[href^="/"]')) {
       anchor.addEventListener(
