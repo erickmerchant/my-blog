@@ -10,8 +10,14 @@ const getDispatchLocation =
       pathname,
       post: {
         title: 'Page Not Found',
-        content:
-          "That page doesn't exist. It was either moved, removed, or never existed."
+        content: [
+          {
+            type: 'paragraph',
+            items: [
+              "That page doesn't exist. It was either moved, removed, or never existed."
+            ]
+          }
+        ]
       }
     }
 
@@ -28,13 +34,15 @@ const getDispatchLocation =
         if (!error.message.startsWith('404')) {
           state.post = {
             title: 'Error Caught',
-            content: error.message
+            content: [{type: 'paragraph', items: [error.message]}]
           }
         }
       }
     }
 
-    if (pathname !== app.state?.pathname || import.meta.env?.DEV) {
+    const newPath = pathname !== app.state?.pathname
+
+    if (newPath || import.meta.env?.DEV) {
       app.state = state
     }
 
@@ -42,7 +50,7 @@ const getDispatchLocation =
 
     if (hash) {
       document.querySelector(hash)?.scrollIntoView()
-    } else {
+    } else if (newPath) {
       window.scroll(0, 0)
     }
   }
