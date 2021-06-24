@@ -14,6 +14,7 @@ export const buttonMixins = css`
     color: var(--white);
     border-radius: ${borderRadius};
     appearance: none;
+    -webkit-appearance: none;
     padding: 0.5em 1.5em;
     border: none;
     text-decoration: none;
@@ -34,6 +35,7 @@ export const buttonMixins = css`
     color: var(--blue);
     border-radius: ${borderRadius};
     appearance: none;
+    -webkit-appearance: none;
     padding: 0.5em 1.5em;
     background-color: transparent;
     box-shadow: none;
