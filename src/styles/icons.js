@@ -1,17 +1,17 @@
 import {css} from '@erickmerchant/css'
 
 export const iconsClasses = css`
-  .iconDefs {
+  .defs {
     display: none;
   }
 
-  .background {
-    fill: var(--bg);
-    stroke: var(--fg);
+  .stroke {
+    fill: hsl(var(--bg));
+    stroke: currentColor;
   }
 
-  .foreground {
-    fill: var(--fg);
-    stroke: var(--bg);
+  .fill {
+    fill: currentColor;
+    stroke: hsl(var(--bg));
   }
 `

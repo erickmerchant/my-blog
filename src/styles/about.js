@@ -5,22 +5,16 @@ import {fontWeights, mixins, mq} from './core.js'
 export const aboutClasses = css`
   .about {
     display: var(--below-main-display, none);
-    color: var(--ftr-c);
     grid-row: 3;
     margin-top: 2em;
     padding-inline: 0.5rem;
-    padding-bottom: 1em;
-    background-repeat: repeat-x;
-    background-position: left top;
-    background-color: var(--bg2);
-    background-image: var(--zz-bg);
-    background-size: 1rem 1rem;
+    padding-bottom: 1.5em;
+    background-color: hsl(var(--bg2));
 
     @media ${mq.desktopUp} and ${mq.tallUp} {
       display: block;
       color: inherit;
       grid-column: 1;
-      background-image: none;
       background-color: transparent;
       padding-bottom: 2em;
       padding-inline: 0;
@@ -32,7 +26,7 @@ export const aboutClasses = css`
     ${mixins.heading}
 
     font-weight: ${fontWeights.bold};
-    padding-top: 1em;
+    padding-top: 0.5em;
     max-width: 30rem;
     margin-inline: auto;
 
@@ -42,13 +36,9 @@ export const aboutClasses = css`
   }
 
   .anchor {
-    color: var(--a-c);
+    color: hsl(var(--a-c));
     text-decoration-thickness: 0.0625em;
     text-underline-offset: 0.1875em;
-
-    @media ${mq.desktopUp} and ${mq.tallUp} {
-      color: var(--hdr-a-c);
-    }
   }
 
   .paragraph {

@@ -7,42 +7,33 @@ export const layoutClasses = css`
     display: grid;
     min-height: 100%;
     grid-template-rows: max-content 1fr max-content max-content;
-    color: var(--c);
-    background-color: var(--bg);
+    color: hsl(var(--c));
+    background-color: hsl(var(--bg));
 
-    --zz-bg: linear-gradient(225deg, var(--bg) 0.5rem, transparent 0),
-      linear-gradient(135deg, var(--bg) 0.5rem, var(--bg2) 0);
-    --hdr-bg-i: linear-gradient(0deg, var(--grid-c) 1px, transparent 1px),
-      linear-gradient(90deg, var(--grid-c) 1px, transparent 1px);
+    --hdr-bg-partial: hsl(var(--hdr-bg-ln-c)) 1px, transparent 1px;
+    --hdr-bg-i: linear-gradient(0deg, var(--hdr-bg-partial)),
+      linear-gradient(90deg, var(--hdr-bg-partial));
 
     @media ${mq.colorSchemeLight} {
-      --c: hsl(90 10% 20%);
-      --bg: hsl(0 0% 100%);
-      --bg2: hsl(90 25% 95%);
-      --grid-c: hsl(0 0% 100% / 0.1);
-      --a-c: hsl(90 35% 35%);
-      --hdr-a-c: hsl(0 0% 100%);
-      --hdr-c: hsl(0 0% 100%);
-      --hdr-bg: hsl(90 35% 40% / 0.9);
-      --hdr-bg-size: 2rem 2rem;
-      --hdr-b: transparent;
-      --ftr-c: var(--c);
-      --ftr-hr-b: hsl(90 10% 90%);
+      --h: 80;
+      --c: var(--h) 10% 20%;
+      --c2: var(--h) 5% 35%;
+      --bg: 0 0% 100%;
+      --bg2: var(--h) 35% 95%;
+      --a-c: var(--h) 35% 35%;
+      --hdr-bg-ln-c: var(--a-c) / 0.15;
+      --hdr-bg: var(--h) 95% 95%;
     }
 
     @media ${mq.colorSchemeDark} {
-      --c: hsl(0 0% 100%);
-      --bg: hsl(100 10% 15%);
-      --bg2: hsl(100 10% 17.5%);
-      --grid-c: hsl(0 0% 100% / 0.075);
-      --a-c: hsl(100 80% 70%);
-      --hdr-a-c: hsl(100 90% 85%);
-      --hdr-c: hsl(0 0% 100%);
-      --hdr-bg: hsl(100 25% 17.5% / 0.9);
-      --hdr-bg-size: 1rem 1rem;
-      --hdr-b: hsl(100 30% 70%);
-      --ftr-c: hsl(0 0% 100%);
-      --ftr-hr-b: hsl(100 10% 20%);
+      --h: 100;
+      --c: 0 0% 100%;
+      --c2: var(--h) 5% 70%;
+      --bg: var(--h) 10% 15%;
+      --bg2: var(--h) 10% 17.5%;
+      --a-c: var(--h) 80% 70%;
+      --hdr-bg-ln-c: var(--c) / 0.075;
+      --hdr-bg: var(--h) 25% 17.5%;
     }
 
     @media ${mq.desktopUp} and ${mq.tallUp} {
@@ -55,11 +46,11 @@ export const layoutClasses = css`
     padding-block: 1em;
     display: flex;
     justify-content: center;
-    background-color: var(--hdr-bg);
+    background-color: hsl(var(--hdr-bg) / 0.9);
     background-image: var(--hdr-bg-i);
-    background-size: var(--hdr-bg-size);
+    background-size: 1rem 1rem;
     background-position: 50% 0;
-    border-bottom: 2px solid var(--hdr-b);
+    border-bottom: 2px solid hsl(var(--a-c));
     grid-row: 1;
     grid-column: 1;
 
@@ -88,7 +79,7 @@ export const layoutClasses = css`
   }
 
   .headerAnchor {
-    color: var(--hdr-a-c);
+    color: hsl(var(--a-c));
     text-decoration-thickness: 0.125em;
     text-underline-offset: 0.125em;
 
@@ -117,7 +108,7 @@ export const layoutClasses = css`
     display: contents;
 
     @media ${mq.desktopUp} and ${mq.tallUp} {
-      color: var(--hdr-c);
+      color: hsl(var(--c));
       grid-row: 1 / -1;
       grid-column: 1;
       position: sticky;
@@ -127,21 +118,21 @@ export const layoutClasses = css`
       justify-content: center;
       grid-auto-rows: 1fr;
       grid-template-columns: 90%;
-      background-color: var(--hdr-bg);
+      background-color: hsl(var(--hdr-bg) / 0.9);
       background-image: var(--hdr-bg-i);
-      background-size: var(--hdr-bg-size);
-      border-right: 4px solid var(--hdr-b);
+      background-size: 1rem 1rem;
+      background-position: 50% 0;
+      border-right: 4px solid hsl(var(--a-c));
     }
   }
 
   .footer {
     display: var(--below-main-display, none);
-    color: var(--ftr-c);
     padding-inline: 0.5rem;
     padding-bottom: 0.25em;
     width: 100%;
-    background-color: var(--bg2);
-    border-top: 1px solid var(--ftr-hr-b);
+    background-color: hsl(var(--bg2));
+    border-top: 1px solid hsl(var(--c) / 0.25);
 
     @media ${mq.desktopUp} and ${mq.tallUp} {
       grid-row: 3;
@@ -151,11 +142,7 @@ export const layoutClasses = css`
       margin-top: 2em;
       margin-inline: auto;
       border-top: none;
-      background-repeat: repeat-x;
-      background-position: left top;
-      background-image: var(--zz-bg);
-      background-color: var(--bg2);
-      background-size: 1rem 1rem;
+      background-color: hsl(var(--bg2));
     }
   }
 
@@ -182,7 +169,7 @@ export const layoutClasses = css`
   }
 
   .footerAnchor {
-    color: var(--a-c);
+    color: hsl(var(--a-c));
     text-decoration-thickness: 0.0625em;
     text-underline-offset: 0.1875em;
   }

@@ -14,12 +14,8 @@ export const dateClasses = css`
   .icon {
     height: 1em;
 
-    @media ${mq.colorSchemeLight} {
-      --fg: currentColor;
-    }
-
     @media ${mq.colorSchemeDark} {
-      --fg: hsl(100 60% 70%);
+      color: hsl(var(--a-c));
     }
   }
 `

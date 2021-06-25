@@ -11,26 +11,21 @@ export const codeClasses = css`
     font-family: 'JetBrains Mono', Menlo, Monaco, 'Courier New', monospace;
     font-weight: normal;
     font-size: 0.875rem;
-    color: var(--c);
     overflow: auto;
     white-space: var(--code-white-space, pre-wrap);
     word-break: break-word;
     padding-inline: 1rem;
-    background-color: var(--bg2);
+    background-color: hsl(var(--bg2));
     counter-reset: code;
     display: grid;
     grid-template-columns: max-content auto;
 
     @media ${mq.colorSchemeLight} {
-      --c: hsl(90 55% 30%);
-      --c2: hsl(90 5% 35%);
-      --b: hsl(90 5% 35% / 0.0625);
+      color: hsl(var(--h) 45% 30%);
     }
 
     @media ${mq.colorSchemeDark} {
-      --c: hsl(100 45% 70%);
-      --c2: hsl(100 5% 75%);
-      --b: hsl(100 5% 75% / 0.0625);
+      color: hsl(var(--h) 45% 70%);
     }
 
     @media ${mq.tabletUp} {
@@ -65,9 +60,9 @@ export const codeClasses = css`
       content: counter(code);
       padding-right: 1rem;
       white-space: nowrap;
-      color: var(--c2);
+      color: hsl(var(--c2));
       text-align: right;
-      border-right: 1px solid var(--b);
+      border-right: 1px solid hsl(var(--c) / 0.25);
       margin-right: 1rem;
       padding-top: var(--pt, 0);
       padding-bottom: var(--pb, 0);
@@ -78,7 +73,7 @@ export const codeClasses = css`
     }
 
     &.comment {
-      color: var(--c2);
+      color: hsl(var(--c2));
     }
   }
 
@@ -91,19 +86,14 @@ export const codeClasses = css`
     font-family: 'JetBrains Mono', Menlo, Monaco, 'Courier New', monospace;
     font-weight: normal;
     font-size: 0.875rem;
-    color: var(--c);
     display: inline-block;
     border-radius: 0.25rem;
     padding-inline: 0.125rem;
     word-break: break-word;
-    background-color: var(--bg2);
-
-    @media ${mq.colorSchemeLight} {
-      --c: inherit;
-    }
+    background-color: hsl(var(--bg2));
 
     @media ${mq.colorSchemeDark} {
-      --c: hsl(100 45% 70%);
+      color: hsl(var(--h) 45% 70%);
     }
   }
 `

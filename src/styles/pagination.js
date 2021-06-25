@@ -32,11 +32,11 @@ export const paginationClasses = css`
     flex: 1 1 auto;
     min-width: 7rem;
     font-weight: ${fontWeights.heading2};
-    color: var(--c);
+    color: hsl(var(--c));
     position: relative;
     padding-block: 1em;
-    background-color: var(--bg);
-    border: 3px solid var(--b);
+    background-color: hsl(var(--bg) / var(--alpha));
+    border: 3px solid currentColor;
 
     &:last-child {
       border-radius: var(
@@ -53,39 +53,18 @@ export const paginationClasses = css`
     }
 
     &.enabled {
-      @media ${mq.colorSchemeLight} {
-        --hover-bg: hsl(90 30% 47.5%);
-        --hover-b: var(--hover-bg);
-        --bg: hsl(90 25% 47.5%);
-      }
-
-      @media ${mq.colorSchemeDark} {
-        --hover-bg: hsl(100 80% 70% / 0.3);
-        --hover-b: currentColor;
-        --bg: hsl(100 80% 70% / 0.2);
-        --b: currentColor;
-        --c: var(--a-c);
-      }
+      --c: var(--a-c);
+      --bg: var(--h) 80% 70%;
     }
 
     &.enabled:focus-within,
     &.enabled:hover {
-      background-color: var(--hover-bg);
-
-      --b: var(--hover-b);
+      --alpha: 0.35;
     }
 
-    @media ${mq.colorSchemeLight} {
-      --bg: hsl(90 10% 47.5%);
-      --b: var(--bg);
-      --c: hsl(0 0% 100%);
-    }
-
-    @media ${mq.colorSchemeDark} {
-      --bg: hsl(100 10% 70% / 0.2);
-      --b: currentColor;
-      --c: hsl(100 10% 70%);
-    }
+    --bg: var(--h) 10% 70%;
+    --c: var(--c2);
+    --alpha: 0.2;
 
     @media ${mq.veryMobile} {
       --r: 0.125rem;

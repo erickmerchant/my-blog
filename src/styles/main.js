@@ -31,13 +31,12 @@ export const mainClasses = css`
 
     position: relative;
     font-weight: ${fontWeights.heading2};
-    --fg: currentColor;
 
     @media ${mq.tabletUp} {
-      --fg: var(--bg);
+      --v: hidden;
 
       &:hover {
-        --fg: currentColor;
+        --v: visible;
       }
     }
   }
@@ -48,19 +47,13 @@ export const mainClasses = css`
     margin-right: 0.5rem;
     height: 0.875rem;
     width: 0.875rem;
+    visibility: var(--v);
+    color: hsl(var(--a-c));
 
     @media ${mq.tabletUp} {
       position: absolute;
       left: -0.75rem;
       margin-right: 1rem;
-    }
-
-    @media ${mq.colorSchemeLight} {
-      color: var(--a-c);
-    }
-
-    @media ${mq.colorSchemeDark} {
-      color: hsl(100 60% 70%);
     }
   }
 
@@ -71,7 +64,7 @@ export const mainClasses = css`
   }
 
   .anchor {
-    color: var(--a-c);
+    color: hsl(var(--a-c));
     text-decoration-thickness: 0.0625em;
     text-underline-offset: 0.1875em;
   }
@@ -92,12 +85,16 @@ export const mainClasses = css`
       align-self: top;
       content: '';
       border-radius: 100%;
-      border: 2px solid var(--a-c);
       margin-right: 0.5rem;
       margin-top: 0.5rem;
       height: 0.25em;
       width: 0.25rem;
       background: transparent;
+      border: 2px solid currentColor;
+
+      @media ${mq.colorSchemeDark} {
+        color: hsl(var(--a-c));
+      }
     }
   }
 

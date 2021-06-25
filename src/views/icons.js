@@ -4,21 +4,21 @@ export const createIconsView =
   ({classes}) =>
   () =>
     html`
-      <svg class=${classes.iconDefs}>
+      <svg class=${classes.defs}>
         <symbol id="link" viewBox="0 0 100 100">
           <circle
             cx="30"
             cy="70"
             r="22.5"
             stroke-width="15"
-            class=${classes.background}
+            class=${classes.stroke}
           />
           <circle
             cx="70"
             cy="30"
             r="22.5"
             stroke-width="15"
-            class=${classes.background}
+            class=${classes.stroke}
           />
           <rect
             height="20"
@@ -26,7 +26,7 @@ export const createIconsView =
             transform="rotate(-45,50,50)"
             x="20"
             y="40"
-            class=${classes.foreground}
+            class=${classes.fill}
             stroke-width="3"
           />
         </symbol>
@@ -36,7 +36,7 @@ export const createIconsView =
             height="33"
             x="0"
             y="0"
-            class=${classes.foreground}
+            class=${classes.fill}
             stroke-width="0"
           />
           <rect
@@ -44,7 +44,7 @@ export const createIconsView =
             height="26"
             x="2"
             y="5"
-            class=${classes.background}
+            class=${classes.stroke}
             stroke-width="0"
           />
         </symbol>
@@ -52,7 +52,7 @@ export const createIconsView =
           <rect
             width="3"
             height="3"
-            class=${classes.foreground}
+            class=${classes.fill}
             stroke-width="0"
             x="0"
             y="0"
