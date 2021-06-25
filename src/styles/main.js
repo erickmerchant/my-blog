@@ -33,10 +33,8 @@ export const mainClasses = css`
     font-weight: ${fontWeights.heading2};
 
     @media ${mq.tabletUp} {
-      --v: hidden;
-
-      &:hover {
-        --v: visible;
+      &:not(:hover) {
+        --i-c: transparent;
       }
     }
   }
@@ -47,13 +45,12 @@ export const mainClasses = css`
     margin-right: 0.5rem;
     height: 0.875rem;
     width: 0.875rem;
-    visibility: var(--v);
-    color: hsl(var(--a-c));
+    color: var(--i-c, hsl(var(--a-c)));
 
     @media ${mq.tabletUp} {
       position: absolute;
       left: -0.75rem;
-      margin-right: 1rem;
+      margin-right: 0;
     }
   }
 
