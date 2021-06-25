@@ -37,19 +37,16 @@ export const paginationClasses = css`
     padding-block: 1em;
     background-color: hsl(var(--bg) / var(--alpha));
     border: 3px solid currentColor;
+    border-radius: var(--r);
 
-    &:last-child {
-      border-radius: var(
-        --r,
-        0.125rem 1.5rem 1.5rem 0.125rem / 0.125rem 50% 50% 0.125rem
-      );
-    }
+    @media ${mq.justMobile} {
+      &:last-child {
+        --r: 0.125rem 1.5rem 1.5rem 0.125rem / 0.125rem 50% 50% 0.125rem;
+      }
 
-    &:first-child {
-      border-radius: var(
-        --r,
-        1.5rem 0.125rem 0.125rem 1.5rem / 50% 0.125rem 0.125rem 50%
-      );
+      &:first-child {
+        --r: 1.5rem 0.125rem 0.125rem 1.5rem / 50% 0.125rem 0.125rem 50%;
+      }
     }
 
     &.enabled {

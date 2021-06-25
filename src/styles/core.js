@@ -13,7 +13,8 @@ export const mq = {
   tabletUp: '(min-width: 770px)',
   desktopUp: '(min-width: 1100px)',
   tallUp: '(min-height: 605px)',
-  veryMobile: '(max-width: 440px)'
+  veryMobile: '(max-width: 440px)',
+  justMobile: '(min-width: 441px) and (max-width: 769px)'
 }
 
 export const mixins = css`
