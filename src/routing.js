@@ -1,3 +1,15 @@
+const makeErrorPost = (title, items) => {
+  return {
+    title,
+    content: [
+      {
+        type: 'paragraph',
+        items
+      }
+    ]
+  }
+}
+
 const getDispatchLocation =
   ({app, postsModel}) =>
   async ({pathname, hash = ''}) => {
@@ -8,17 +20,11 @@ const getDispatchLocation =
     const state = {
       isLoading: false,
       pathname,
-      post: {
-        title: 'Page Not Found',
-        content: [
-          {
-            type: 'paragraph',
-            items: [
-              "That page doesn't exist. It was either moved, removed, or never existed."
-            ]
-          }
-        ]
-      }
+      post: makeErrorPost('Page Not Found', [
+        'Try starting ',
+        {type: 'anchor', text: 'here', href: '/'},
+        '.'
+      ])
     }
 
     if (match) {
@@ -32,10 +38,7 @@ const getDispatchLocation =
         }
       } catch (error) {
         if (!error.message.startsWith('404')) {
-          state.post = {
-            title: 'Error Caught',
-            content: [{type: 'paragraph', items: [error.message]}]
-          }
+          state.post = makeErrorPost('Error Caught', [error.message])
         }
       }
     }
