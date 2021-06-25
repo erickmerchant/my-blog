@@ -19,7 +19,7 @@ export const layoutClasses = css`
       --c: var(--h) 10% 20%;
       --c2: var(--h) 5% 35%;
       --bg: 0 0% 100%;
-      --bg2: var(--h) 35% 95%;
+      --bg2: var(--h) 25% 95%;
       --a-c: var(--h) 35% 35%;
       --hdr-bg-ln-c: var(--a-c) / 0.15;
       --hdr-bg: var(--h) 95% 95%;
