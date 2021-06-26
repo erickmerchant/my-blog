@@ -49,7 +49,7 @@ export const mainClasses = css`
     font-weight: ${fontWeights.heading2};
 
     @media ${mq.tabletUp} {
-      &:not(:hover) {
+      &:not(:hover, :focus-within) {
         --i-c: transparent;
       }
     }
