@@ -26,6 +26,22 @@ export const mainClasses = css`
     }
   }
 
+  .date {
+    font-weight: ${fontWeights.bold};
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .dateIcon {
+    height: 1em;
+
+    @media ${mq.colorSchemeDark} {
+      color: hsl(var(--a-c));
+    }
+  }
+
   .heading2 {
     ${mixins.heading}
 

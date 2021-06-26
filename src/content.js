@@ -32,20 +32,18 @@ export const createContentView =
     return result
   }
 
-export const dateUtils = {
-  stringToDate(str) {
-    const [year, month, day] = str.split('-').map((v) => Number(v))
+export const stringToDate = (str) => {
+  const [year, month, day] = str.split('-').map((v) => Number(v))
 
-    const date = new Date(year, month - 1, day)
+  const date = new Date(year, month - 1, day)
 
-    return date
-  },
+  return date
+}
 
-  prettyDate(date) {
-    return date.toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    })
-  }
+export const prettyDate = (date) => {
+  return stringToDate(date).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  })
 }

@@ -3,18 +3,16 @@ import {createApp, createDOMView} from '@erickmerchant/framework'
 import {
   aboutClasses,
   codeClasses,
-  dateClasses,
   iconsClasses,
   layoutClasses,
   mainClasses,
   paginationClasses
 } from './asset/styles/index.js'
-import {createContentView, dateUtils} from './content.js'
+import {createContentView, prettyDate} from './content.js'
 import {createModel} from './model.js'
 import {setupRouting} from './routing.js'
 import {createAboutView} from './views/about.js'
 import {getCodeContentTemplates} from './views/code.js'
-import {createDateView} from './views/date.js'
 import {createIconsView} from './views/icons.js'
 import {createLayoutView} from './views/layout.js'
 import {createMainView, getMainContentTemplates} from './views/main.js'
@@ -29,11 +27,6 @@ export const _main = () => {
 
   const anchorAttrs = setupRouting({app, postsModel})
 
-  const dateView = createDateView({
-    classes: dateClasses,
-    dateUtils
-  })
-
   const paginationView = createPaginationView({
     classes: paginationClasses,
     anchorAttrs
@@ -47,8 +40,8 @@ export const _main = () => {
         ...getCodeContentTemplates({classes: codeClasses})
       }
     }),
-    dateView,
-    paginationView
+    paginationView,
+    prettyDate
   })
 
   let view

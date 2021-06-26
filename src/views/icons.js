@@ -5,18 +5,51 @@ export const createIconsView =
   () =>
     html`
       <svg class=${classes.defs}>
+        <symbol id="calendar" viewBox="0 0 100 100">
+          <rect
+            width="100"
+            height="88"
+            x="0"
+            y="12"
+            class=${classes.fill}
+            stroke-width="0"
+            rx="6"
+          />
+          <circle
+            cx="27"
+            cy="13"
+            r="15"
+            stroke-width="4"
+            class=${classes.fill}
+          />
+          <circle
+            cx="73"
+            cy="13"
+            r="15"
+            stroke-width="4"
+            class=${classes.fill}
+          />
+          <rect
+            width="82"
+            height="50"
+            x="9"
+            y="41"
+            class=${classes.stroke}
+            stroke-width="0"
+          />
+        </symbol>
         <symbol id="link" viewBox="0 0 100 100">
           <circle
             cx="30"
             cy="70"
-            r="22.5"
+            r="21"
             stroke-width="15"
             class=${classes.stroke}
           />
           <circle
             cx="70"
             cy="30"
-            r="22.5"
+            r="21"
             stroke-width="15"
             class=${classes.stroke}
           />
@@ -29,43 +62,6 @@ export const createIconsView =
             class=${classes.fill}
             stroke-width="3"
           />
-        </symbol>
-        <symbol id="calendar" viewBox="0 0 33 33">
-          <rect
-            width="33"
-            height="33"
-            x="0"
-            y="0"
-            class=${classes.fill}
-            stroke-width="0"
-          />
-          <rect
-            width="29"
-            height="26"
-            x="2"
-            y="5"
-            class=${classes.stroke}
-            stroke-width="0"
-          />
-        </symbol>
-        <symbol id="day" viewBox="0 0 33 33">
-          <rect
-            width="3"
-            height="3"
-            class=${classes.fill}
-            stroke-width="0"
-            x="0"
-            y="0"
-          />
-        </symbol>
-        <symbol id="week" viewBox="0 0 33 33">
-          <use href="#day" x="3" />
-          <use href="#day" x="7" />
-          <use href="#day" x="11" />
-          <use href="#day" x="15" />
-          <use href="#day" x="19" />
-          <use href="#day" x="23" />
-          <use href="#day" x="27" />
         </symbol>
       </svg>
     `

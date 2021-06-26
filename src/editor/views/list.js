@@ -1,7 +1,7 @@
 import {html} from '@erickmerchant/framework'
 
 import {listClasses} from '../../asset/editor/styles/index.js'
-import {dateUtils} from '../../content.js'
+import {prettyDate} from '../../content.js'
 
 export const createListView = ({model, app, channelNames, hasNew}) => {
   const remove = (item) => async (e) => {
@@ -60,9 +60,7 @@ export const createListView = ({model, app, channelNames, hasNew}) => {
               (item) => html`
                 <tr>
                   <td class=${listClasses.td}>${item.title}</td>
-                  <td class=${listClasses.td}>
-                    ${dateUtils.prettyDate(dateUtils.stringToDate(item.date))}
-                  </td>
+                  <td class=${listClasses.td}>${prettyDate(item.date)}</td>
                   <td class=${listClasses.controls}>
                     <a
                       tabindex="0"
