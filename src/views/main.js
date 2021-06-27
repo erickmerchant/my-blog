@@ -56,12 +56,19 @@ export const createMainView =
               html`
                 <header class=${classes.header}>
                   <h1 class=${classes.heading1}>${state.post.title}</h1>
-                  <time class=${classes.date} :datetime=${state.post.date}>
-                    <svg viewBox="0 0 33 33" class=${classes.dateIcon}>
-                      <use href="#calendar" />
-                    </svg>
-                    ${prettyDate(state.post.date)}
-                  </time>
+                  ${state.post.date
+                    ? html`
+                        <time
+                          class=${classes.date}
+                          :datetime=${state.post.date}
+                        >
+                          <svg viewBox="0 0 33 33" class=${classes.dateIcon}>
+                            <use href="#calendar" />
+                          </svg>
+                          ${prettyDate(state.post.date)}
+                        </time>
+                      `
+                    : null}
                 </header>
               `,
               ...contentView(state.post.content ?? ''),
