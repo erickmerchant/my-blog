@@ -59,8 +59,8 @@ export const mainClasses = css`
     text-decoration: none;
     overflow: visible;
     margin-right: 0.5rem;
-    height: 0.875rem;
-    width: 0.875rem;
+    height: 1em;
+    width: 1em;
     color: var(--i-c, hsl(var(--a-c)));
 
     @media ${mq.tabletUp} {
@@ -72,8 +72,8 @@ export const mainClasses = css`
 
   .heading2Icon {
     display: inline-block;
-    height: 0.875rem;
-    width: 0.875rem;
+    height: 1em;
+    width: 1em;
   }
 
   .anchor {
