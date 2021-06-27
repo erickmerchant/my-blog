@@ -8,33 +8,27 @@ export const createIconsView =
         <symbol id="calendar" viewBox="0 0 100 100">
           <rect
             width="100"
-            height="88"
+            height="100"
             x="0"
-            y="12"
+            y="0"
             class=${classes.fill}
             stroke-width="0"
             rx="6"
           />
-          <circle
-            cx="27"
-            cy="13"
-            r="15"
-            stroke-width="4"
-            class=${classes.fill}
-          />
-          <circle
-            cx="73"
-            cy="13"
-            r="15"
-            stroke-width="4"
-            class=${classes.fill}
-          />
           <rect
             width="82"
-            height="50"
+            height="61"
             x="9"
-            y="41"
+            y="30"
             class=${classes.stroke}
+            stroke-width="0"
+          />
+          <rect
+            width="28"
+            height="28"
+            x="18"
+            y="39"
+            class=${classes.fill}
             stroke-width="0"
           />
         </symbol>
