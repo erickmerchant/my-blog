@@ -6,20 +6,20 @@ export const getMainContentTemplates = ({classes}) => {
       html`
         <a class=${classes.anchor} :href=${href}>${text}</a>
       `,
-    list: ({items}) =>
+    list: ({items}, inline) =>
       html`
         <ul class=${classes.list}>
           ${items.map(
             (item) =>
               html`
-                <li class=${classes.listItem}>${item}</li>
+                <li class=${classes.listItem}>${inline(item)}</li>
               `
           )}
         </ul>
       `,
-    paragraph: ({items}) =>
+    paragraph: ({items}, inline) =>
       html`
-        <p class=${classes.paragraph}>${items}</p>
+        <p class=${classes.paragraph}>${inline(items)}</p>
       `,
     heading: ({text}) => {
       const slug = text.toLowerCase().replace(/\s+|[^a-z0-9-]/g, '-')
