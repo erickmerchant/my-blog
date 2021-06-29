@@ -7,7 +7,7 @@
   "scripts": {
     "build": "node ./cli.js build",
     "start": "node ./cli.js start",
-    "lint": "eslint . --ext .html,.js --ignore-path .gitignore",
+    "lint": "eslint . --ignore-path .gitignore",
     "test": "npm run lint"
   },
   "dependencies": {
@@ -24,17 +24,10 @@
   },
   "devDependencies": {
     "@erickmerchant/eslint-config": "^3.0.0",
-    "@erickmerchant/prettier-config": "^1.2.0",
-    "eslint-plugin-html": "^6.1.1"
-  },
-  "engines": {
-    "node": ">=14.3"
+    "@erickmerchant/prettier-config": "^1.2.0"
   },
   "eslintConfig": {
-    "extends": "@erickmerchant/eslint-config",
-    "plugins": [
-      "html"
-    ]
+    "extends": "@erickmerchant/eslint-config"
   },
   "prettier": "@erickmerchant/prettier-config"
 }
