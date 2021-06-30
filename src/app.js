@@ -11,6 +11,7 @@ import {
 } from './asset/styles/index.js'
 import {createContentView, prettyDate} from './content.js'
 import {createModel} from './model.js'
+import {DEV, PROD, SSR} from './modes.js'
 import {setupRouting} from './routing.js'
 import {createAboutView} from './views/about.js'
 import {getCodeContentTemplates} from './views/code.js'
@@ -21,15 +22,15 @@ import {createPaginationView} from './views/pagination.js'
 
 const app = createApp({isLoading: true})
 
-export const _main = (MODE = 0b10) => {
-  html.dev = MODE === 0b11
-  css.dev = MODE === 0b11
+export const _main = (MODE = PROD) => {
+  html.dev = MODE === DEV
+  css.dev = MODE === DEV
 
   const postsModel = createModel()
 
   let anchorAttrs, paginationView, mainView, view
 
-  if (MODE === 0b01) {
+  if (MODE === SSR) {
     anchorAttrs = (href) => {
       return {href}
     }
@@ -39,7 +40,7 @@ export const _main = (MODE = 0b10) => {
         <main></main>
       `
   } else {
-    anchorAttrs = setupRouting({app, postsModel, forceRoute: MODE === 0b11})
+    anchorAttrs = setupRouting({app, postsModel, forceRoute: MODE === DEV})
 
     paginationView = createPaginationView({
       classes: paginationClasses,
@@ -59,7 +60,7 @@ export const _main = (MODE = 0b10) => {
     })
   }
 
-  if (MODE & 0b01) {
+  if (MODE & SSR) {
     const aboutView = createAboutView({
       classes: aboutClasses
     })
@@ -74,7 +75,7 @@ export const _main = (MODE = 0b10) => {
       anchorAttrs
     })
 
-    if (MODE === 0b01) return layoutView({title: ''})
+    if (MODE === SSR) return layoutView({title: ''})
 
     view = createDOMView(document.querySelector('body'), layoutView)
   } else {

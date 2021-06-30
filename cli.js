@@ -5,6 +5,8 @@ import del from 'del'
 import execa from 'execa'
 import fs from 'fs/promises'
 
+import {DEV, PROD, SSR} from './src/modes.js'
+
 const command = process.argv[2]
 const execOpts = {
   stdio: 'inherit'
@@ -22,17 +24,17 @@ try {
       execOpts
     )
 
-    execa.command(`dev serve -a 0b11 -e index.html -d src`, execOpts)
+    execa.command(`dev serve -a ${DEV} -e index.html -d src`, execOpts)
   }
 
   if (command === 'build') {
     await execa.command(`css src/styles/index.js src/asset/styles`, execOpts)
 
-    await execa.command(`dev cache -a 0b10 -e index.html src dist`, execOpts)
+    await execa.command(`dev cache -a ${PROD} -e index.html src dist`, execOpts)
 
     const {_main} = await import('./src/app.js')
 
-    const newHtml = stringify(_main(0b01))
+    const newHtml = stringify(_main(SSR))
 
     await Promise.all([
       execa.command(`rollup -c rollup.config.js`, execOpts),
