@@ -28,8 +28,8 @@ export const createContentView = ({templates = false} = {}) => {
   return (str) => {
     const lns = str.split('\n')
     const results = []
-    let items
-    let code
+
+    let items, code
 
     while (lns.length) {
       let ln = lns.shift()

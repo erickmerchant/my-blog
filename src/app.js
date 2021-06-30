@@ -1,4 +1,5 @@
-import {createApp, createDOMView} from '@erickmerchant/framework'
+import {css} from '@erickmerchant/css'
+import {createApp, createDOMView, html} from '@erickmerchant/framework'
 
 import {
   aboutClasses,
@@ -20,33 +21,45 @@ import {createPaginationView} from './views/pagination.js'
 
 const app = createApp({isLoading: true})
 
-const target = document.querySelector(import.meta.env?.DEV ? 'body' : 'main')
+export const _main = (MODE = 0b10) => {
+  html.dev = MODE === 0b11
+  css.dev = MODE === 0b11
 
-export const _main = () => {
   const postsModel = createModel()
 
-  const anchorAttrs = setupRouting({app, postsModel})
+  let anchorAttrs, paginationView, mainView, view
 
-  const paginationView = createPaginationView({
-    classes: paginationClasses,
-    anchorAttrs
-  })
+  if (MODE === 0b01) {
+    anchorAttrs = (href) => {
+      return {href}
+    }
 
-  const mainView = createMainView({
-    classes: mainClasses,
-    contentView: createContentView({
-      templates: {
-        ...getMainContentTemplates({classes: mainClasses}),
-        ...getCodeContentTemplates({classes: codeClasses})
-      }
-    }),
-    paginationView,
-    prettyDate
-  })
+    mainView = () =>
+      html`
+        <main></main>
+      `
+  } else {
+    anchorAttrs = setupRouting({app, postsModel, forceRoute: MODE === 0b11})
 
-  let view
+    paginationView = createPaginationView({
+      classes: paginationClasses,
+      anchorAttrs
+    })
 
-  if (import.meta.env?.DEV) {
+    mainView = createMainView({
+      classes: mainClasses,
+      contentView: createContentView({
+        templates: {
+          ...getMainContentTemplates({classes: mainClasses}),
+          ...getCodeContentTemplates({classes: codeClasses})
+        }
+      }),
+      paginationView,
+      prettyDate
+    })
+  }
+
+  if (MODE & 0b01) {
     const aboutView = createAboutView({
       classes: aboutClasses
     })
@@ -61,9 +74,11 @@ export const _main = () => {
       anchorAttrs
     })
 
-    view = createDOMView(target, layoutView)
+    if (MODE === 0b01) return layoutView({title: ''})
+
+    view = createDOMView(document.querySelector('body'), layoutView)
   } else {
-    view = createDOMView(target, mainView)
+    view = createDOMView(document.querySelector('main'), mainView)
 
     for (const anchor of document.querySelectorAll('a[href^="/"]')) {
       anchor.addEventListener(

@@ -11,9 +11,9 @@ const makeErrorPost = (title, items) => {
 }
 
 const getDispatchLocation =
-  ({app, postsModel}) =>
+  ({app, postsModel, forceRoute}) =>
   async ({pathname, hash = ''}) => {
-    if (pathname === app.state?.pathname && !import.meta.env?.DEV) return
+    if (pathname === app.state?.pathname && !forceRoute) return
 
     const match = pathname.match(/^\/?(?:posts\/([a-z0-9-]+)|)\/?$/)
 
@@ -45,7 +45,7 @@ const getDispatchLocation =
 
     const newPath = pathname !== app.state?.pathname
 
-    if (newPath || import.meta.env?.DEV) {
+    if (newPath || forceRoute) {
       app.state = state
     }
 
@@ -58,8 +58,8 @@ const getDispatchLocation =
     }
   }
 
-export const setupRouting = ({app, postsModel}) => {
-  const dispatchLocation = getDispatchLocation({app, postsModel})
+export const setupRouting = ({app, postsModel, forceRoute}) => {
+  const dispatchLocation = getDispatchLocation({app, postsModel, forceRoute})
 
   window.onpopstate = (e) => {
     dispatchLocation(window.location)

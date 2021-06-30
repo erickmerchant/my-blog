@@ -1,14 +1,9 @@
 #!/usr/bin/env node
-import {html} from '@erickmerchant/framework'
 import {stringify} from '@erickmerchant/framework/stringify.js'
 import cheerio from 'cheerio'
 import del from 'del'
 import execa from 'execa'
 import fs from 'fs/promises'
-
-import {createAboutView} from './src/views/about.js'
-import {createIconsView} from './src/views/icons.js'
-import {createLayoutView} from './src/views/layout.js'
 
 const command = process.argv[2]
 const execOpts = {
@@ -27,36 +22,17 @@ try {
       execOpts
     )
 
-    execa.command(`dev serve -e index.html -d src`, execOpts)
+    execa.command(`dev serve -a 0b11 -e index.html -d src`, execOpts)
   }
 
   if (command === 'build') {
     await execa.command(`css src/styles/index.js src/asset/styles`, execOpts)
 
-    await execa.command(`dev cache -e index.html src dist`, execOpts)
+    await execa.command(`dev cache -a 0b10 -e index.html src dist`, execOpts)
 
-    const {layoutClasses, aboutClasses, iconsClasses} = await import(
-      './src/asset/styles/index.js'
-    )
+    const {_main} = await import('./src/app.js')
 
-    const aboutView = createAboutView({
-      classes: aboutClasses
-    })
-
-    const iconsView = createIconsView({classes: iconsClasses})
-
-    const layoutView = createLayoutView({
-      classes: layoutClasses,
-      aboutView,
-      iconsView,
-      mainView: () =>
-        html`
-          <main></main>
-        `,
-      anchorAttrs: (href) => {
-        return {href}
-      }
-    })
+    const newHtml = stringify(_main(0b01))
 
     await Promise.all([
       execa.command(`rollup -c rollup.config.js`, execOpts),
@@ -74,8 +50,6 @@ try {
     const $ = cheerio.load(rawHtml)
 
     $('link[rel="stylesheet"]').replaceWith(`<style>${styles}</style>`)
-
-    const newHtml = stringify(layoutView({title: ''}))
 
     const $body = cheerio.load(newHtml)('body')
 
