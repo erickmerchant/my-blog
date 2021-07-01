@@ -1,6 +1,6 @@
 import {html} from '@erickmerchant/framework'
 
-import {listClasses} from '../../asset/editor/styles/index.js'
+import {listClasses} from '../../assets/editor/styles/index.js'
 import {prettyDate} from '../../content.js'
 
 export const createListView = ({model, app, channelNames, hasNew}) => {

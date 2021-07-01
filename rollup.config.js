@@ -1,7 +1,9 @@
+import got from 'got'
+import path from 'path'
 import {terser} from 'rollup-plugin-terser'
 
 export default {
-  input: 'dist/app.js',
+  input: 'app.js',
   output: {
     file: 'dist/app.js',
     format: 'esm',
@@ -18,8 +20,18 @@ export default {
   },
   plugins: [
     {
-      resolveId(file) {
-        if (file.startsWith('/')) return `dist${file}`
+      async load(id) {
+        const response = await got(`http://localhost:3000/${id}`)
+
+        return response.body
+      },
+
+      resolveId(source) {
+        if (source.startsWith('/')) {
+          source = path.resolve(`.${source}`)
+        }
+
+        return path.relative(process.cwd(), source)
       }
     }
   ]

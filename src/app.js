@@ -8,7 +8,7 @@ import {
   layoutClasses,
   mainClasses,
   paginationClasses
-} from './asset/styles/index.js'
+} from './assets/styles/index.js'
 import {createContentView, prettyDate} from './content.js'
 import {DEV, PROD, SSR} from './envs.js'
 import {createModel} from './model.js'

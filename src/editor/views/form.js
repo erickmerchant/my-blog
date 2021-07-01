@@ -1,6 +1,9 @@
 import {html} from '@erickmerchant/framework'
 
-import {formClasses, highlightClasses} from '../../asset/editor/styles/index.js'
+import {
+  formClasses,
+  highlightClasses
+} from '../../assets/editor/styles/index.js'
 import {createContentView} from '../content.js'
 
 export const createFormView = ({model, app}) => {

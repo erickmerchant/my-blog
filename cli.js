@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 import {stringify} from '@erickmerchant/framework/stringify.js'
 import cheerio from 'cheerio'
-import del from 'del'
 import execa from 'execa'
 import fs from 'fs/promises'
+import {copy} from 'fs-extra'
 
 import {DEV, PROD, SSR} from './src/envs.js'
 
@@ -15,12 +15,12 @@ const execOpts = {
 try {
   if (command === 'start') {
     execa.command(
-      `css src/styles/index.js src/asset/styles -dw src/styles`,
+      `css src/styles/index.js src/assets/styles -dw src/styles`,
       execOpts
     )
 
     execa.command(
-      `css src/editor/styles/index.js src/asset/editor/styles -dw src/editor/styles`,
+      `css src/editor/styles/index.js src/assets/editor/styles -dw src/editor/styles`,
       execOpts
     )
 
@@ -28,9 +28,14 @@ try {
   }
 
   if (command === 'build') {
-    await execa.command(`css src/styles/index.js src/asset/styles`, execOpts)
+    execa.command(`dev serve -a ${PROD} -e index.html src`, execOpts)
 
-    await execa.command(`dev cache -a ${PROD} -e index.html src dist`, execOpts)
+    await execa.command(`css src/styles/index.js src/assets/styles`, execOpts)
+
+    await Promise.all([
+      copy('src/assets', 'dist/assets'),
+      copy('src/content', 'dist/content')
+    ])
 
     const {_main} = await import('./src/app.js')
 
@@ -39,14 +44,14 @@ try {
     await Promise.all([
       execa.command(`rollup -c rollup.config.js`, execOpts),
       execa.command(
-        `postcss ./dist/asset/styles/index.css --no-map -u postcss-clean -o ./dist/asset/styles/index.css`,
+        `postcss ./dist/assets/styles/index.css --no-map -u postcss-clean -o ./dist/assets/styles/index.css`,
         execOpts
       )
     ])
 
     const [rawHtml, styles] = await Promise.all([
-      fs.readFile('./dist/index.html', 'utf8'),
-      fs.readFile('./dist/asset/styles/index.css', 'utf8')
+      fs.readFile('./src/index.html', 'utf8'),
+      fs.readFile('./dist/assets/styles/index.css', 'utf8')
     ])
 
     const $ = cheerio.load(rawHtml)
@@ -59,10 +64,9 @@ try {
 
     $('body').prepend($body.find('> *'))
 
-    await Promise.all([
-      fs.writeFile('./dist/index.html', $.html()),
-      del(['./dist/editor/', './dist/editor.html'])
-    ])
+    await fs.writeFile('./dist/index.html', $.html())
+
+    process.exit(0)
   }
 } catch (error) {
   console.error(error)

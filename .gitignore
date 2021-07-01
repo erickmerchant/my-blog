@@ -1,4 +1,4 @@
 node_modules
 dist
-asset
+src/assets/**/styles
 package-lock.json

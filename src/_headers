@@ -1,8 +1,4 @@
-/fonts/*
-  Cache-Control: public
-  Cache-Control: max-age=2419200
-
-/images/*
+/assets/*
   Cache-Control: public
   Cache-Control: max-age=2419200
 
