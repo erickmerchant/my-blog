@@ -60,7 +60,7 @@ export const _main = (ENV = PROD) => {
     })
   }
 
-  if (ENV & SSR) {
+  if (ENV !== PROD) {
     const aboutView = createAboutView({
       classes: aboutClasses
     })
