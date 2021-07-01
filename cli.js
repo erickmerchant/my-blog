@@ -61,17 +61,7 @@ try {
 
     await Promise.all([
       fs.writeFile('./dist/index.html', $.html()),
-      del([
-        './dist/node_modules/',
-        './dist/asset/',
-        './dist/content/raw/',
-        './dist/styles/',
-        './dist/views/',
-        './dist/editor/',
-        './dist/editor.html',
-        './dist/*.{js,css}',
-        '!./dist/app.js'
-      ])
+      del(['./dist/editor/', './dist/editor.html'])
     ])
   }
 } catch (error) {
