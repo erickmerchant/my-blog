@@ -34,7 +34,9 @@ try {
 
     await Promise.all([
       copy('src/assets', 'dist/assets'),
-      copy('src/content', 'dist/content')
+      copy('src/content', 'dist/content'),
+      copy('src/_headers', 'dist/_headers'),
+      copy('src/_redirects', 'dist/_redirects')
     ])
 
     const {_main} = await import('./src/app.js')
