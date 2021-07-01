@@ -5,7 +5,7 @@ import del from 'del'
 import execa from 'execa'
 import fs from 'fs/promises'
 
-import {DEV, PROD, SSR} from './src/modes.js'
+import {DEV, PROD, SSR} from './src/envs.js'
 
 const command = process.argv[2]
 const execOpts = {

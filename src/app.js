@@ -10,8 +10,8 @@ import {
   paginationClasses
 } from './asset/styles/index.js'
 import {createContentView, prettyDate} from './content.js'
+import {DEV, PROD, SSR} from './envs.js'
 import {createModel} from './model.js'
-import {DEV, PROD, SSR} from './modes.js'
 import {setupRouting} from './routing.js'
 import {createAboutView} from './views/about.js'
 import {getCodeContentTemplates} from './views/code.js'
@@ -22,15 +22,15 @@ import {createPaginationView} from './views/pagination.js'
 
 const app = createApp({isLoading: true})
 
-export const _main = (MODE = PROD) => {
-  html.dev = MODE === DEV
-  css.dev = MODE === DEV
+export const _main = (ENV = PROD) => {
+  html.dev = ENV === DEV
+  css.dev = ENV === DEV
 
   const postsModel = createModel()
 
   let anchorAttrs, paginationView, mainView, view
 
-  if (MODE === SSR) {
+  if (ENV === SSR) {
     anchorAttrs = (href) => {
       return {href}
     }
@@ -40,7 +40,7 @@ export const _main = (MODE = PROD) => {
         <main></main>
       `
   } else {
-    anchorAttrs = setupRouting({app, postsModel, forceRoute: MODE === DEV})
+    anchorAttrs = setupRouting({app, postsModel, forceRoute: ENV === DEV})
 
     paginationView = createPaginationView({
       classes: paginationClasses,
@@ -60,7 +60,7 @@ export const _main = (MODE = PROD) => {
     })
   }
 
-  if (MODE & SSR) {
+  if (ENV & SSR) {
     const aboutView = createAboutView({
       classes: aboutClasses
     })
@@ -75,7 +75,7 @@ export const _main = (MODE = PROD) => {
       anchorAttrs
     })
 
-    if (MODE === SSR) return layoutView({title: ''})
+    if (ENV === SSR) return layoutView({title: ''})
 
     view = createDOMView(document.querySelector('body'), layoutView)
   } else {
