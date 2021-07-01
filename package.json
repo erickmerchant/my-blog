@@ -1,7 +1,5 @@
 {
-  "name": "my-blog",
   "private": true,
-  "license": "ISC",
   "author": "Erick Merchant <erickmerchant@gmail.com>",
   "type": "module",
   "scripts": {
