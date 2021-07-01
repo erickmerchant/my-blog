@@ -62,7 +62,7 @@ export const createMainView =
                           class=${classes.date}
                           :datetime=${state.post.date}
                         >
-                          <svg viewBox="0 0 33 33" class=${classes.dateIcon}>
+                          <svg class=${classes.dateIcon}>
                             <use href="#calendar" />
                           </svg>
                           ${prettyDate(state.post.date)}

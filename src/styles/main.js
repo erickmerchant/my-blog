@@ -36,6 +36,7 @@ export const mainClasses = css`
 
   .dateIcon {
     height: 1em;
+    width: 1em;
 
     @media ${mq.colorSchemeDark} {
       color: hsl(var(--a-c));
