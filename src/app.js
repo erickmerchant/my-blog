@@ -1,4 +1,3 @@
-import {css} from '@erickmerchant/css'
 import {createApp, createDOMView, html} from '@erickmerchant/framework'
 
 import {
@@ -24,7 +23,6 @@ const app = createApp({isLoading: true})
 
 export const _main = (ENV = PROD) => {
   html.dev = ENV === DEV
-  css.dev = ENV === DEV
 
   const postsModel = createModel()
 

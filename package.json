@@ -9,7 +9,7 @@
     "test": "npm run lint"
   },
   "dependencies": {
-    "@erickmerchant/css": "^33.0.0",
+    "@erickmerchant/css": "^34.0.0",
     "@erickmerchant/dev-cli": "^27.0.0",
     "@erickmerchant/framework": "^44.0.0",
     "cheerio": "*",

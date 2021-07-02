@@ -9,8 +9,8 @@ export const getCodeContentTemplates = ({classes}) => {
           (code) =>
             html`
               <span
-                :class=${concat(classes, 'blockLine', {
-                  comment: code.trim().startsWith('//')
+                :class=${concat(classes.blockLine, {
+                  [classes.comment]: code.trim().startsWith('//')
                 })}
               >
                 <span class=${classes.blockCode}>${code}</span>

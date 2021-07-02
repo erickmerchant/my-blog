@@ -13,7 +13,9 @@ export const createPaginationView =
                 [state.post.next, 'Newer']
               ].map(
                 ([item, text]) => html`
-                  <li :class=${concat(classes, 'item', {enabled: !!item})}>
+                  <li
+                    :class=${concat(classes.item, {[classes.enabled]: !!item})}
+                  >
                     ${item
                       ? html`
                           <a
