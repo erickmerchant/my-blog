@@ -32,12 +32,16 @@ try {
 
     await execa.command(`css src/styles/index.js src/assets/styles`, execOpts)
 
-    await Promise.all([
-      copy('src/assets', 'dist/assets'),
-      copy('src/content', 'dist/content'),
-      copy('src/_headers', 'dist/_headers'),
-      copy('src/_redirects', 'dist/_redirects')
-    ])
+    await Promise.all(
+      [
+        'assets',
+        'content',
+        '_headers',
+        '_redirects',
+        'favicon.svg',
+        'robots.txt'
+      ].map((file) => copy(`src/${file}`, `dist/${file}`))
+    )
 
     const {_main} = await import('./src/app.js')
 
