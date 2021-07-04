@@ -6,11 +6,10 @@ export const formClasses = css`
   .form {
     display: grid;
     height: 100vh;
-    grid-template-rows: auto max-content;
+    grid-template-rows: min-content 1fr min-content;
   }
 
-  .fields {
-    overflow-y: scroll;
+  .field {
     padding: 1em;
     height: 100%;
     border: none;
@@ -40,16 +39,19 @@ export const formClasses = css`
     margin-inline: auto;
     border: 1px solid var(--silver);
     margin-bottom: 1em;
+    height: 100%;
   }
 
   .textareaHighlightsWrap {
-    min-height: 15em;
+    height: auto;
+    min-height: 100%;
     padding: 0.5em;
   }
 
   .textareaHighlights {
     color: var(--black);
-    min-height: 15em;
+    height: auto;
+    min-height: 100%;
     overflow: auto;
     border-radius: 0;
     background-color: transparent;

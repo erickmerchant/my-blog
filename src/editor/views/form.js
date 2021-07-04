@@ -151,7 +151,7 @@ export const createFormView = ({model, app}) => {
       class=${formClasses.form}
       @submit=${save(state.item)}
     >
-      <div class=${formClasses.fields}>
+      <div class=${formClasses.field}>
         <label class=${formClasses.label} for="field-title">Title</label>
         <input
           class=${formClasses.input}
@@ -165,6 +165,8 @@ export const createFormView = ({model, app}) => {
             }
           }}
         />
+      </div>
+      <div class=${formClasses.field}>
         <label class=${formClasses.label} for="field-content">Content</label>
         <div class=${formClasses.textareaWrap}>
           <div class=${formClasses.textareaHighlightsWrap}>

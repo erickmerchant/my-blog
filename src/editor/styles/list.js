@@ -35,10 +35,20 @@ export const listClasses = css`
   }
 
   .tableWrapper {
+    display: grid;
     max-width: 100%;
     overflow-y: scroll;
     height: auto;
     padding-inline: 1em;
+    align-items: center;
+
+    &.hasRows {
+      align-items: start;
+    }
+  }
+
+  .noTable {
+    text-align: center;
   }
 
   .table {

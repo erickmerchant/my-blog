@@ -1,3 +1,4 @@
+import {concat} from '@erickmerchant/css'
 import {html} from '@erickmerchant/framework'
 
 import {listClasses} from '../../assets/editor/styles/index.js'
@@ -46,47 +47,59 @@ export const createListView = ({model, app, channelNames, hasNew}) => {
           )}
         </ul>
       </nav>
-      <div class=${listClasses.tableWrapper}>
-        <table class=${listClasses.table}>
-          <thead>
-            <tr>
-              <th class=${listClasses.th}>Title</th>
-              <th class=${listClasses.th}>Date</th>
-              <th class=${listClasses.th} />
-            </tr>
-          </thead>
-          <tbody>
-            ${state.items?.map(
-              (item) => html`
-                <tr>
-                  <td class=${listClasses.td}>${item.title}</td>
-                  <td class=${listClasses.td}>${prettyDate(item.date)}</td>
-                  <td class=${listClasses.controls}>
-                    <a
-                      tabindex="0"
-                      class=${listClasses.editButton}
-                      :href=${`#/${model.name}/edit/${item.slug}`}
-                    >
-                      Edit
-                    </a>
-                    <button
-                      tabindex="0"
-                      class=${listClasses.deleteButton}
-                      type="button"
-                      @click=${remove(item)}
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              `
-            )}
-          </tbody>
-        </table>
-      </div>
-      <div class=${listClasses.buttons}>
-        ${hasNew
+      <div
+        :class=${concat(listClasses.tableWrapper, {
+          [listClasses.hasRows]: !!state.items?.length
+        })}
+      >
+        ${state.items?.length
           ? html`
+              <table class=${listClasses.table}>
+                <thead>
+                  <tr>
+                    <th class=${listClasses.th}>Title</th>
+                    <th class=${listClasses.th}>Date</th>
+                    <th class=${listClasses.th} />
+                  </tr>
+                </thead>
+                <tbody>
+                  ${state.items?.map(
+                    (item) => html`
+                      <tr>
+                        <td class=${listClasses.td}>${item.title}</td>
+                        <td class=${listClasses.td}>
+                          ${prettyDate(item.date)}
+                        </td>
+                        <td class=${listClasses.controls}>
+                          <a
+                            tabindex="0"
+                            class=${listClasses.editButton}
+                            :href=${`#/${model.name}/edit/${item.slug}`}
+                          >
+                            Edit
+                          </a>
+                          <button
+                            tabindex="0"
+                            class=${listClasses.deleteButton}
+                            type="button"
+                            @click=${remove(item)}
+                          >
+                            Delete
+                          </button>
+                        </td>
+                      </tr>
+                    `
+                  )}
+                </tbody>
+              </table>
+            `
+          : html`
+              <p class=${listClasses.noTable}>No ${model.name} yet</p>
+            `}
+      </div>
+      ${hasNew
+        ? html`
+            <div class=${listClasses.buttons}>
               <a
                 tabindex="0"
                 class=${listClasses.createButton}
@@ -94,9 +107,9 @@ export const createListView = ({model, app, channelNames, hasNew}) => {
               >
                 New
               </a>
-            `
-          : ''}
-      </div>
+            </div>
+          `
+        : ''}
     </div>
   `
 }
