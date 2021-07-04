@@ -1,6 +1,6 @@
 import {html} from '@erickmerchant/framework'
 
-export const getMainContentTemplates = ({classes}) => {
+export const getMainContentViews = ({classes}) => {
   return {
     anchor: ({text, href}) =>
       html`

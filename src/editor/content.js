@@ -1,4 +1,4 @@
-export const createContentView = ({templates = false} = {}) => {
+export const createContentView = ({views = false} = {}) => {
   const inline = (ln) => {
     if (!ln) return []
 
@@ -10,11 +10,11 @@ export const createContentView = ({templates = false} = {}) => {
       results.push(ln.substring(offset, match.index))
 
       if (match[1] != null) {
-        results.push(templates.anchor(match[1], match[2]))
+        results.push(views.anchor(match[1], match[2]))
       }
 
       if (match[3] != null) {
-        results.push(templates.codeInline(match[3]))
+        results.push(views.codeInline(match[3]))
       }
 
       offset = match.index + match[0].length
@@ -43,7 +43,7 @@ export const createContentView = ({templates = false} = {}) => {
       }
 
       if (items.length) {
-        results.push(templates.list(items))
+        results.push(views.list(items))
       }
 
       if (ln === '```') {
@@ -53,7 +53,7 @@ export const createContentView = ({templates = false} = {}) => {
           code.push(lns.shift(), '\n')
         }
 
-        results.push(templates.codeBlock(code, !!lns.length), '\n')
+        results.push(views.codeBlock(code, !!lns.length), '\n')
 
         lns.shift()
 
@@ -63,11 +63,11 @@ export const createContentView = ({templates = false} = {}) => {
       if (ln && ln.startsWith('# ')) {
         const text = ln.substring(2)
 
-        results.push(templates.heading(text), '\n')
+        results.push(views.heading(text), '\n')
       } else {
         const items = inline(ln)
 
-        results.push(templates.paragraph(items), '\n')
+        results.push(views.paragraph(items), '\n')
       }
     }
 

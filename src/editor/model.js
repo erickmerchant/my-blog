@@ -2,7 +2,7 @@ import {createModel as createBaseModel} from '../model.js'
 import {createContentView} from './content.js'
 
 const contentView = createContentView({
-  templates: {
+  views: {
     codeBlock(lines) {
       return {type: 'codeBlock', lines}
     },

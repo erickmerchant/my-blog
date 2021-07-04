@@ -13,10 +13,10 @@ import {DEV, PROD, SSR} from './envs.js'
 import {createModel} from './model.js'
 import {setupRouting} from './routing.js'
 import {createAboutView} from './views/about.js'
-import {getCodeContentTemplates} from './views/code.js'
+import {getCodeContentViews} from './views/code.js'
 import {createIconsView} from './views/icons.js'
 import {createLayoutView} from './views/layout.js'
-import {createMainView, getMainContentTemplates} from './views/main.js'
+import {createMainView, getMainContentViews} from './views/main.js'
 import {createPaginationView} from './views/pagination.js'
 
 const app = createApp({isLoading: true})
@@ -48,9 +48,9 @@ export const _main = (ENV = PROD) => {
     mainView = createMainView({
       classes: mainClasses,
       contentView: createContentView({
-        templates: {
-          ...getMainContentTemplates({classes: mainClasses}),
-          ...getCodeContentTemplates({classes: codeClasses})
+        views: {
+          ...getMainContentViews({classes: mainClasses}),
+          ...getCodeContentViews({classes: codeClasses})
         }
       }),
       paginationView,

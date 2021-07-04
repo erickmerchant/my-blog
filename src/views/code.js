@@ -1,7 +1,7 @@
 import {concat} from '@erickmerchant/css'
 import {html} from '@erickmerchant/framework'
 
-export const getCodeContentTemplates = ({classes}) => {
+export const getCodeContentViews = ({classes}) => {
   return {
     codeBlock: ({lines}) =>
       html`

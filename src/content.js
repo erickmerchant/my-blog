@@ -1,5 +1,5 @@
 export const createContentView =
-  ({templates}) =>
+  ({views}) =>
   (json) => {
     const result = []
 
@@ -8,7 +8,7 @@ export const createContentView =
 
       for (const item of items) {
         if (item.type) {
-          result.push(templates[item.type](item))
+          result.push(views[item.type](item))
         } else {
           result.push(item)
         }
@@ -18,7 +18,7 @@ export const createContentView =
     }
 
     for (const section of json) {
-      result.push(templates[section.type]({...section}, inline))
+      result.push(views[section.type]({...section}, inline))
     }
 
     return result
