@@ -21,7 +21,11 @@ export default {
   plugins: [
     {
       async load(id) {
-        const response = await got(`http://localhost:3000/${id}`)
+        const response = await got(`https://localhost:3000/${id}`, {
+          https: {
+            rejectUnauthorized: false
+          }
+        })
 
         return response.body
       },
