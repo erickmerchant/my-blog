@@ -44,7 +44,8 @@ export const codeClasses = css`
     }
   }
 
-  .blockLine {
+  .codeLine,
+  .commentLine {
     display: contents;
 
     &:first-child {
@@ -71,10 +72,10 @@ export const codeClasses = css`
         padding-right: 0.5rem;
       }
     }
+  }
 
-    &.comment {
-      color: hsl(var(--c2));
-    }
+  .commentLine {
+    color: hsl(var(--c2));
   }
 
   .blockCode {

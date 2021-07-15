@@ -34,17 +34,18 @@ export const listClasses = css`
     grid-template-rows: min-content auto min-content;
   }
 
-  .tableWrapper {
+  .tableWrapper,
+  .tableWrapperEmpty {
     display: grid;
     max-width: 100%;
     overflow-y: scroll;
     height: auto;
     padding-inline: 1em;
     align-items: center;
+  }
 
-    &.hasRows {
-      align-items: start;
-    }
+  .tableWrapper {
+    align-items: start;
   }
 
   .noTable {

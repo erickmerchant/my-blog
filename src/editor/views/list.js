@@ -1,4 +1,3 @@
-import {concat} from '@erickmerchant/css'
 import {html} from '@erickmerchant/framework'
 
 import {listClasses} from '../../assets/editor/styles/index.js'
@@ -48,8 +47,9 @@ export const createListView = ({model, app, channelNames, hasNew}) => {
         </ul>
       </nav>
       <div
-        :class=${concat(listClasses.tableWrapper, {
-          [listClasses.hasRows]: !!state.items?.length
+        :class=${state.items?.length
+          ? listClasses.tableWrapper
+          : listClasses.tableWrapperEmpty}
         })}
       >
         ${state.items?.length

@@ -28,7 +28,8 @@ export const paginationClasses = css`
     }
   }
 
-  .item {
+  .item,
+  .itemEnabled {
     flex: 1 1 auto;
     min-width: 7rem;
     font-weight: ${fontWeights.heading2};
@@ -49,16 +50,6 @@ export const paginationClasses = css`
       }
     }
 
-    &.enabled {
-      --c: var(--a-c);
-      --bg: var(--h) 80% 70%;
-    }
-
-    &.enabled:focus-within,
-    &.enabled:hover {
-      --alpha: 0.35;
-    }
-
     --bg: var(--h) 10% 70%;
     --c: var(--c2);
     --alpha: 0.2;
@@ -69,6 +60,16 @@ export const paginationClasses = css`
 
     @media ${mq.tabletUp} {
       --r: 1.5rem / 50%;
+    }
+  }
+
+  .itemEnabled {
+    --c: var(--a-c);
+    --bg: var(--h) 80% 70%;
+
+    &:focus-within,
+    &:hover {
+      --alpha: 0.35;
     }
   }
 

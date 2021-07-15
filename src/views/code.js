@@ -1,4 +1,3 @@
-import {concat} from '@erickmerchant/css'
 import {html} from '@erickmerchant/framework'
 
 export const getCodeContentViews = ({classes}) => {
@@ -9,9 +8,9 @@ export const getCodeContentViews = ({classes}) => {
           (code) =>
             html`
               <span
-                :class=${concat(classes.blockLine, {
-                  [classes.comment]: code.trim().startsWith('//')
-                })}
+                :class=${code.trim().startsWith('//')
+                  ? classes.commentLine
+                  : classes.codeLine}
               >
                 <span class=${classes.blockCode}>${code}</span>
               </span>
