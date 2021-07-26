@@ -21,7 +21,7 @@ export const createPreferencesView = ({classes, app, anchorAttrs}) => {
     Promise.resolve().then(() => {
       document.body.style.setProperty(
         '--code-white-space',
-        state.preferences?.codeWrap === 'yes' ? 'pre-wrap' : 'pre'
+        (state.preferences?.codeWrap ?? 'yes') === 'yes' ? 'pre-wrap' : 'pre'
       )
 
       const colorScheme = state.preferences?.colorScheme ?? 'auto'
