@@ -33,4 +33,16 @@ export const mixins = css`
       margin-inline: 2rem;
     }
   }
+
+  .navAnchor {
+    color: hsl(var(--a-c));
+    text-decoration-thickness: 0.0625em;
+    text-underline-offset: 0.1875em;
+    text-decoration: underline;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+  }
 `

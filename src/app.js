@@ -3,35 +3,57 @@ import {createApp, createDOMView, html} from '@erickmerchant/framework'
 import {
   aboutClasses,
   codeClasses,
+  contentClasses,
   iconsClasses,
   layoutClasses,
   mainClasses,
-  paginationClasses
+  paginationClasses,
+  preferencesClasses
 } from './assets/styles/index.js'
 import {createContentView, prettyDate} from './content.js'
 import {DEV, PROD, SSR} from './envs.js'
 import {createModel} from './model.js'
 import {setupRouting} from './routing.js'
 import {createAboutView} from './views/about.js'
-import {getCodeContentViews} from './views/code.js'
+import {getCodeViews} from './views/code.js'
+import {getContentViews} from './views/content.js'
 import {createIconsView} from './views/icons.js'
 import {createLayoutView} from './views/layout.js'
-import {createMainView, getMainContentViews} from './views/main.js'
+import {createMainView} from './views/main.js'
 import {createPaginationView} from './views/pagination.js'
+import {createPreferencesView} from './views/preferences.js'
 
-const app = createApp({isLoading: true})
+let preferences
+
+try {
+  preferences = localStorage.getItem('preferences')
+
+  preferences = preferences ? JSON.parse(preferences) : {}
+} catch {
+  preferences = {}
+}
+
+const app = createApp({
+  isLoading: true,
+  preferences
+})
 
 export const _main = (ENV = PROD) => {
   html.dev = ENV === DEV
 
   const postsModel = createModel()
 
-  let anchorAttrs, paginationView, mainView, view
+  let anchorAttrs, mainView, preferencesView
 
   if (ENV === SSR) {
     anchorAttrs = (href) => {
       return {href}
     }
+
+    preferencesView = () =>
+      html`
+        <site-preferences />
+      `
 
     mainView = () =>
       html`
@@ -40,17 +62,23 @@ export const _main = (ENV = PROD) => {
   } else {
     anchorAttrs = setupRouting({app, postsModel, forceRoute: ENV === DEV})
 
-    paginationView = createPaginationView({
+    const paginationView = createPaginationView({
       classes: paginationClasses,
       anchorAttrs
+    })
+
+    preferencesView = createPreferencesView({
+      classes: preferencesClasses,
+      anchorAttrs,
+      app
     })
 
     mainView = createMainView({
       classes: mainClasses,
       contentView: createContentView({
         views: {
-          ...getMainContentViews({classes: mainClasses}),
-          ...getCodeContentViews({classes: codeClasses})
+          ...getContentViews({classes: contentClasses, anchorAttrs}),
+          ...getCodeViews({classes: codeClasses})
         }
       }),
       paginationView,
@@ -70,22 +98,24 @@ export const _main = (ENV = PROD) => {
       aboutView,
       iconsView,
       mainView,
+      preferencesView,
       anchorAttrs
     })
 
     if (ENV === SSR) return layoutView({title: ''})
 
-    view = createDOMView(document.querySelector('body'), layoutView)
+    app.render(createDOMView(document.querySelector('body'), layoutView))
   } else {
-    view = createDOMView(document.querySelector('main'), mainView)
+    app.render(createDOMView(document.querySelector('main'), mainView))
+
+    app.render(
+      createDOMView(document.querySelector('site-preferences'), preferencesView)
+    )
 
     for (const anchor of document.querySelectorAll('a[href^="/"]')) {
-      anchor.addEventListener(
-        'click',
-        anchorAttrs(anchor.getAttribute('href'))['@click']
-      )
+      const href = anchor.getAttribute('href')
+
+      anchor.addEventListener('click', anchorAttrs(href)['@click'])
     }
   }
-
-  app.render(view)
 }

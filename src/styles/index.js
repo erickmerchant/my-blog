@@ -35,7 +35,11 @@ export {layoutClasses} from './layout.js'
 
 export {aboutClasses} from './about.js'
 
+export {preferencesClasses} from './preferences.js'
+
 export {mainClasses} from './main.js'
+
+export {contentClasses} from './content.js'
 
 export {codeClasses} from './code.js'
 

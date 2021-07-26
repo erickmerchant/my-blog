@@ -14,27 +14,47 @@ export const layoutClasses = css`
     --hdr-bg-i: linear-gradient(0deg, var(--hdr-bg-partial)),
       linear-gradient(90deg, var(--hdr-bg-partial));
 
-    @media ${mq.colorSchemeLight} {
-      --h: 80;
-      --c: var(--h) 10% 20%;
-      --c2: var(--h) 5% 35%;
-      --bg: 0 0% 100%;
-      --bg2: var(--h) 25% 95%;
-      --a-c: var(--h) 35% 35%;
-      --hdr-bg-ln-c: var(--a-c) / 0.15;
-      --hdr-bg: var(--h) 95% 95%;
-    }
+    ${[
+      (body) => `@media ${mq.colorSchemeLight} { &.auto { ${body} } }`,
+      (body) => `&.light { ${body} }`
+    ]
+      .map((condition) =>
+        condition(`
+          --h: 80;
+          --c: var(--h) 10% 20%;
+          --c2: var(--h) 5% 35%;
+          --bg: 0 0% 100%;
+          --bg2: var(--h) 25% 95%;
+          --a-c: var(--h) 35% 35%;
+          --hdr-bg-ln-c: var(--a-c) / 0.15;
+          --hdr-bg: var(--h) 95% 95%;
+          --code-c: hsl(var(--h) 45% 30%);
+          --i-code-c: inherit;
+          --icon-c: inherit;
+        `)
+      )
+      .join('')}
 
-    @media ${mq.colorSchemeDark} {
-      --h: 100;
-      --c: 0 0% 100%;
-      --c2: var(--h) 5% 70%;
-      --bg: var(--h) 10% 15%;
-      --bg2: var(--h) 10% 17.5%;
-      --a-c: var(--h) 80% 70%;
-      --hdr-bg-ln-c: var(--c) / 0.075;
-      --hdr-bg: var(--h) 25% 17.5%;
-    }
+    ${[
+      (body) => `@media ${mq.colorSchemeDark} { &.auto { ${body} } }`,
+      (body) => `&.dark { ${body} }`
+    ]
+      .map((condition) =>
+        condition(`
+          --h: 100;
+          --c: 0 0% 100%;
+          --c2: var(--h) 5% 70%;
+          --bg: var(--h) 10% 15%;
+          --bg2: var(--h) 10% 17.5%;
+          --a-c: var(--h) 80% 70%;
+          --hdr-bg-ln-c: var(--c) / 0.075;
+          --hdr-bg: var(--h) 25% 17.5%;
+          --code-c: hsl(var(--h) 45% 70%);
+          --i-code-c: hsl(var(--h) 45% 70%);
+          --icon-c: hsl(var(--a-c));
+        `)
+      )
+      .join('')}
 
     @media ${mq.desktopUp} and ${mq.tallUp} {
       grid-template-columns: 1fr 2fr;
@@ -156,7 +176,6 @@ export const layoutClasses = css`
     width: 100%;
     padding-top: 1.5em;
     padding-bottom: 1em;
-    position: relative;
 
     @media ${mq.desktopUp} and ${mq.tallUp} {
       max-width: 35rem;
@@ -166,11 +185,21 @@ export const layoutClasses = css`
 
   .footerItem {
     white-space: nowrap;
+    display: inline-grid;
+    grid-template-columns: max-content auto 1fr;
+
+    &:nth-child(1n + 2)::before {
+      content: '';
+      border-radius: 100%;
+      align-self: center;
+      margin-right: 0.5rem;
+      height: 0.25em;
+      width: 0.25rem;
+      background: currentColor;
+    }
   }
 
   .footerAnchor {
-    color: hsl(var(--a-c));
-    text-decoration-thickness: 0.0625em;
-    text-underline-offset: 0.1875em;
+    ${mixins.navAnchor}
   }
 `

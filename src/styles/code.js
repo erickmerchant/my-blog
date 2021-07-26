@@ -19,14 +19,7 @@ export const codeClasses = css`
     counter-reset: code;
     display: grid;
     grid-template-columns: max-content auto;
-
-    @media ${mq.colorSchemeLight} {
-      color: hsl(var(--h) 45% 30%);
-    }
-
-    @media ${mq.colorSchemeDark} {
-      color: hsl(var(--h) 45% 70%);
-    }
+    color: var(--code-c);
 
     @media ${mq.tabletUp} {
       border-radius: 0.25rem;
@@ -92,9 +85,6 @@ export const codeClasses = css`
     padding-inline: 0.125rem;
     word-break: break-word;
     background-color: hsl(var(--bg2));
-
-    @media ${mq.colorSchemeDark} {
-      color: hsl(var(--h) 45% 70%);
-    }
+    color: var(--i-code-c);
   }
 `

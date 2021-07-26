@@ -1,6 +1,6 @@
 import {html} from '@erickmerchant/framework'
 
-export const getCodeContentViews = ({classes}) => {
+export const getCodeViews = ({classes}) => {
   return {
     codeBlock: ({lines}) =>
       html`

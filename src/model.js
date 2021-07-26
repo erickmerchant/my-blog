@@ -10,7 +10,7 @@ export const createModel = (name = 'posts') => {
       })
 
       if (!res.ok) {
-        throw Error(`${res.status} ${res.statusText}`)
+        throw new Error(`${res.status} ${res.statusText}`)
       }
 
       return res

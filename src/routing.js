@@ -15,7 +15,9 @@ const getDispatchLocation =
   async ({pathname, hash = ''}) => {
     if (pathname === app.state?.pathname && !forceRoute) return
 
-    const match = pathname.match(/^\/?(?:posts\/([a-z0-9-]+)|)\/?$/)
+    const matches = {
+      posts: pathname.match(/^\/?(?:posts\/([a-z0-9-]+)|)\/?$/)
+    }
 
     const state = {
       isLoading: false,
@@ -27,14 +29,16 @@ const getDispatchLocation =
       ])
     }
 
-    if (match) {
+    if (matches.posts) {
       try {
-        const [id] = match.slice(1)
+        const [id] = matches.posts.slice(1)
 
         const post = await postsModel.getBySlug(id)
 
         if (post != null) {
           state.post = post
+
+          state.route = 'post'
         }
       } catch (error) {
         if (!error.message.startsWith('404')) {
@@ -46,7 +50,7 @@ const getDispatchLocation =
     const newPath = pathname !== app.state?.pathname
 
     if (newPath || forceRoute) {
-      app.state = state
+      app.state = {...app.state, ...state}
     }
 
     await Promise.resolve()
@@ -61,7 +65,7 @@ const getDispatchLocation =
 export const setupRouting = ({app, postsModel, forceRoute}) => {
   const dispatchLocation = getDispatchLocation({app, postsModel, forceRoute})
 
-  window.onpopstate = (e) => {
+  window.onpopstate = () => {
     dispatchLocation(window.location)
   }
 
@@ -73,7 +77,7 @@ export const setupRouting = ({app, postsModel, forceRoute}) => {
       '@click'(e) {
         e.preventDefault()
 
-        window.history.pushState({}, null, href)
+        window.history.pushState({}, '', href)
 
         dispatchLocation({pathname: href})
       }
