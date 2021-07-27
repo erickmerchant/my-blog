@@ -69,7 +69,6 @@ export const _main = (ENV = PROD) => {
 
     preferencesView = createPreferencesView({
       classes: preferencesClasses,
-      anchorAttrs,
       app
     })
 

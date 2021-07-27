@@ -80,6 +80,8 @@ export const preferencesClasses = css`
   .checkbox {
     appearance: none;
     -webkit-appearance: none;
+    border: none;
+    background: none;
     color: var(--c);
 
     --radio-c: transparent;

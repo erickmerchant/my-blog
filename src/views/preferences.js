@@ -1,6 +1,6 @@
 import {html} from '@erickmerchant/framework'
 
-export const createPreferencesView = ({classes, app, anchorAttrs}) => {
+export const createPreferencesView = ({classes, app}) => {
   const changePreference = (e) => {
     const preferences = {}
 
@@ -17,8 +17,22 @@ export const createPreferencesView = ({classes, app, anchorAttrs}) => {
     localStorage.setItem('preferences', JSON.stringify(app.state.preferences))
   }
 
+  const escClose = (e) => {
+    if (e.key === 'Escape') {
+      app.state = {
+        ...app.state,
+        preferencesModalOpen: false
+      }
+    }
+  }
+
   return (state) => {
     Promise.resolve().then(() => {
+      document.body.style.setProperty(
+        '--app-overflow',
+        state.preferencesModalOpen ? 'hidden' : 'visible'
+      )
+
       document.body.style.setProperty(
         '--code-white-space',
         (state.preferences?.codeWrap ?? 'yes') === 'yes' ? 'pre-wrap' : 'pre'
@@ -42,13 +56,17 @@ export const createPreferencesView = ({classes, app, anchorAttrs}) => {
           class=${classes.footerAnchor}
           @click=${() => {
             app.state = {...app.state, preferencesModalOpen: true}
+
+            Promise.resolve().then(() => {
+              document.querySelector('site-preferences input').focus()
+            })
           }}
         >
           Preferences
         </button>
         ${state.preferencesModalOpen
           ? html`
-              <div class=${classes.backdrop}>
+              <div class=${classes.backdrop} role="dialog" aria-modal="true">
                 <div class=${classes.modal}>
                   <form class=${classes.form}>
                     <h2 class=${classes.heading}>Preferences</h2>
@@ -59,6 +77,7 @@ export const createPreferencesView = ({classes, app, anchorAttrs}) => {
                           <input
                             class=${classes.checkbox}
                             @change=${changePreference}
+                            @keyup=${escClose}
                             type="radio"
                             name="colorScheme"
                             value="auto"
@@ -71,6 +90,7 @@ export const createPreferencesView = ({classes, app, anchorAttrs}) => {
                           <input
                             class=${classes.checkbox}
                             @change=${changePreference}
+                            @keyup=${escClose}
                             type="radio"
                             name="colorScheme"
                             value="dark"
@@ -82,6 +102,7 @@ export const createPreferencesView = ({classes, app, anchorAttrs}) => {
                           <input
                             class=${classes.checkbox}
                             @change=${changePreference}
+                            @keyup=${escClose}
                             type="radio"
                             name="colorScheme"
                             value="light"
@@ -99,6 +120,7 @@ export const createPreferencesView = ({classes, app, anchorAttrs}) => {
                           <input
                             class=${classes.checkbox}
                             @change=${changePreference}
+                            @keyup=${escClose}
                             type="radio"
                             name="codeWrap"
                             value="yes"
@@ -111,6 +133,7 @@ export const createPreferencesView = ({classes, app, anchorAttrs}) => {
                           <input
                             class=${classes.checkbox}
                             @change=${changePreference}
+                            @keyup=${escClose}
                             type="radio"
                             name="codeWrap"
                             value="no"

@@ -9,6 +9,7 @@ export const layoutClasses = css`
     grid-template-rows: max-content 1fr max-content max-content;
     color: hsl(var(--c));
     background-color: hsl(var(--bg));
+    overflow: var(--app-overflow);
 
     --hdr-bg-partial: hsl(var(--hdr-bg-ln-c)) 1px, transparent 1px;
     --hdr-bg-i: linear-gradient(0deg, var(--hdr-bg-partial)),
