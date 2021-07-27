@@ -55,8 +55,9 @@ export const createPreferencesView = ({classes, app, anchorAttrs}) => {
                     <section class=${classes.fieldset}>
                       <h3 class=${classes.label}>Color scheme:</h3>
                       <div class=${classes.field}>
-                        <label>
+                        <label class=${classes.checkboxWrap}>
                           <input
+                            class=${classes.checkbox}
                             @change=${changePreference}
                             type="radio"
                             name="colorScheme"
@@ -66,8 +67,9 @@ export const createPreferencesView = ({classes, app, anchorAttrs}) => {
                           />
                           Auto
                         </label>
-                        <label>
+                        <label class=${classes.checkboxWrap}>
                           <input
+                            class=${classes.checkbox}
                             @change=${changePreference}
                             type="radio"
                             name="colorScheme"
@@ -76,8 +78,9 @@ export const createPreferencesView = ({classes, app, anchorAttrs}) => {
                           />
                           Dark
                         </label>
-                        <label>
+                        <label class=${classes.checkboxWrap}>
                           <input
+                            class=${classes.checkbox}
                             @change=${changePreference}
                             type="radio"
                             name="colorScheme"
@@ -92,8 +95,9 @@ export const createPreferencesView = ({classes, app, anchorAttrs}) => {
                     <section class=${classes.fieldset}>
                       <h3 class=${classes.label}>Wrap code:</h3>
                       <div class=${classes.field}>
-                        <label>
+                        <label class=${classes.checkboxWrap}>
                           <input
+                            class=${classes.checkbox}
                             @change=${changePreference}
                             type="radio"
                             name="codeWrap"
@@ -103,8 +107,9 @@ export const createPreferencesView = ({classes, app, anchorAttrs}) => {
                           />
                           Yes
                         </label>
-                        <label>
+                        <label class=${classes.checkboxWrap}>
                           <input
+                            class=${classes.checkbox}
                             @change=${changePreference}
                             type="radio"
                             name="codeWrap"

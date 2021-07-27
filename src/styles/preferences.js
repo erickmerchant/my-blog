@@ -71,10 +71,38 @@ export const preferencesClasses = css`
     flex-wrap: wrap;
   }
 
+  .checkboxWrap {
+    display: flex;
+    gap: 0.5em;
+    align-items: center;
+  }
+
+  .checkbox {
+    appearance: none;
+    -webkit-appearance: none;
+    color: var(--c);
+
+    --radio-c: transparent;
+
+    &:checked {
+      --radio-c: currentColor;
+    }
+
+    &::before {
+      content: '';
+      background: radial-gradient(var(--radio-c) 40%, transparent 0%);
+      border-radius: 100%;
+      border: 2px solid currentColor;
+      display: block;
+      height: 0.875em;
+      width: 0.875em;
+    }
+  }
+
   .doneLink {
+    align-self: center;
+    min-width: 50%;
     margin-top: 2em;
-    justify-self: end;
-    flex: 1 1 auto;
     font-weight: ${fontWeights.heading2};
     color: hsl(var(--c));
     position: relative;
@@ -90,6 +118,7 @@ export const preferencesClasses = css`
     --r: 1.5rem / 50%;
 
     @media ${mq.veryMobile} {
+      width: 100%;
       --r: 0.125rem;
     }
 
