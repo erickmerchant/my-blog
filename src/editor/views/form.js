@@ -149,7 +149,7 @@ export const createFormView = ({model, app}) => {
     <form
       autocomplete="off"
       class=${formClasses.form}
-      @submit=${save(state.item)}
+      :@submit=${save(state.item)}
     >
       <div class=${formClasses.field}>
         <label class=${formClasses.label} for="field-title">Title</label>
@@ -200,7 +200,7 @@ export const createFormView = ({model, app}) => {
               <button
                 class=${formClasses.publishButton}
                 type="button"
-                @click=${saveAs('posts', state.item)}
+                :@click=${saveAs('posts', state.item)}
               >
                 Publish
               </button>

@@ -82,7 +82,7 @@ export const createListView = ({model, app, channelNames, hasNew}) => {
                             tabindex="0"
                             class=${listClasses.deleteButton}
                             type="button"
-                            @click=${remove(item)}
+                            :@click=${remove(item)}
                           >
                             Delete
                           </button>
