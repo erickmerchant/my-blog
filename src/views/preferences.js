@@ -26,6 +26,21 @@ export const createPreferencesView = ({classes, app}) => {
     }
   }
 
+  const checkboxView = ({name, value, checked, text}) => html`
+    <label class=${classes.checkboxWrap}>
+      <input
+        class=${classes.checkbox}
+        @change=${changePreference}
+        @keyup=${escClose}
+        type="radio"
+        :name=${name}
+        :value=${value}
+        :checked=${checked}
+      />
+      ${text}
+    </label>
+  `
+
   return (state) => {
     Promise.resolve().then(() => {
       document.body.style.setProperty(
@@ -73,74 +88,44 @@ export const createPreferencesView = ({classes, app}) => {
                     <section class=${classes.fieldset}>
                       <h3 class=${classes.label}>Color scheme:</h3>
                       <div class=${classes.field}>
-                        <label class=${classes.checkboxWrap}>
-                          <input
-                            class=${classes.checkbox}
-                            @change=${changePreference}
-                            @keyup=${escClose}
-                            type="radio"
-                            name="colorScheme"
-                            value="auto"
-                            :checked=${(state.preferences.colorScheme ??
-                              'auto') === 'auto'}
-                          />
-                          Auto
-                        </label>
-                        <label class=${classes.checkboxWrap}>
-                          <input
-                            class=${classes.checkbox}
-                            @change=${changePreference}
-                            @keyup=${escClose}
-                            type="radio"
-                            name="colorScheme"
-                            value="dark"
-                            :checked=${state.preferences.colorScheme === 'dark'}
-                          />
-                          Dark
-                        </label>
-                        <label class=${classes.checkboxWrap}>
-                          <input
-                            class=${classes.checkbox}
-                            @change=${changePreference}
-                            @keyup=${escClose}
-                            type="radio"
-                            name="colorScheme"
-                            value="light"
-                            :checked=${state.preferences.colorScheme ===
-                            'light'}
-                          />
-                          Light
-                        </label>
+                        ${checkboxView({
+                          name: 'colorScheme',
+                          value: 'auto',
+                          checked:
+                            (state.preferences.colorScheme ?? 'auto') ===
+                            'auto',
+                          text: 'Auto'
+                        })}
+                        ${checkboxView({
+                          name: 'colorScheme',
+                          value: 'dark',
+                          checked: state.preferences.colorScheme === 'dark',
+                          text: 'Dark'
+                        })}
+                        ${checkboxView({
+                          name: 'colorScheme',
+                          value: 'light',
+                          checked: state.preferences.colorScheme === 'light',
+                          text: 'Light'
+                        })}
                       </div>
                     </section>
                     <section class=${classes.fieldset}>
                       <h3 class=${classes.label}>Wrap code:</h3>
                       <div class=${classes.field}>
-                        <label class=${classes.checkboxWrap}>
-                          <input
-                            class=${classes.checkbox}
-                            @change=${changePreference}
-                            @keyup=${escClose}
-                            type="radio"
-                            name="codeWrap"
-                            value="yes"
-                            :checked=${(state.preferences.codeWrap ?? 'yes') ===
-                            'yes'}
-                          />
-                          Yes
-                        </label>
-                        <label class=${classes.checkboxWrap}>
-                          <input
-                            class=${classes.checkbox}
-                            @change=${changePreference}
-                            @keyup=${escClose}
-                            type="radio"
-                            name="codeWrap"
-                            value="no"
-                            :checked=${state.preferences.codeWrap === 'no'}
-                          />
-                          No
-                        </label>
+                        ${checkboxView({
+                          name: 'codeWrap',
+                          value: 'yes',
+                          checked:
+                            (state.preferences.codeWrap ?? 'yes') === 'yes',
+                          text: 'Yes'
+                        })}
+                        ${checkboxView({
+                          name: 'codeWrap',
+                          value: 'no',
+                          checked: state.preferences.codeWrap === 'no',
+                          text: 'No'
+                        })}
                       </div>
                     </section>
                     <div class=${classes.doneLink}>
