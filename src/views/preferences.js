@@ -30,12 +30,12 @@ export const createPreferencesView = ({classes, app}) => {
     <label class=${classes.checkboxWrap}>
       <input
         class=${classes.checkbox}
-        @change=${changePreference}
-        @keyup=${escClose}
         type="radio"
         :name=${name}
         :value=${value}
         :checked=${checked}
+        @change=${changePreference}
+        @keyup=${escClose}
       />
       ${text}
     </label>

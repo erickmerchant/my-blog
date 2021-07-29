@@ -50,7 +50,6 @@ export const createListView = ({model, app, channelNames, hasNew}) => {
         :class=${state.items?.length
           ? listClasses.tableWrapper
           : listClasses.tableWrapperEmpty}
-        })}
       >
         ${state.items?.length
           ? html`
@@ -82,7 +81,7 @@ export const createListView = ({model, app, channelNames, hasNew}) => {
                             tabindex="0"
                             class=${listClasses.deleteButton}
                             type="button"
-                            :@click=${remove(item)}
+                            @click=${remove(item)}
                           >
                             Delete
                           </button>
