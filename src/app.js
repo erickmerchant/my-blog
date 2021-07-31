@@ -23,19 +23,8 @@ import {createMainView} from './views/main.js'
 import {createPaginationView} from './views/pagination.js'
 import {createPreferencesView} from './views/preferences.js'
 
-let preferences
-
-try {
-  preferences = localStorage.getItem('preferences')
-
-  preferences = preferences ? JSON.parse(preferences) : {}
-} catch {
-  preferences = {}
-}
-
 const app = createApp({
-  isLoading: true,
-  preferences
+  isLoading: true
 })
 
 export const _main = (ENV = PROD) => {

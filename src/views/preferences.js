@@ -1,6 +1,20 @@
 import {html} from '@erickmerchant/framework'
 
 export const createPreferencesView = ({classes, app}) => {
+  const loadPreferences = () => {
+    let preferences
+
+    try {
+      preferences = localStorage.getItem('preferences')
+
+      preferences = preferences ? JSON.parse(preferences) : {}
+    } catch {
+      preferences = {}
+    }
+
+    app.state.preferences = preferences
+  }
+
   const changePreference = (e) => {
     const preferences = {}
 
@@ -43,6 +57,10 @@ export const createPreferencesView = ({classes, app}) => {
 
   return (state) => {
     Promise.resolve().then(() => {
+      if (state.preferences == null) {
+        loadPreferences()
+      }
+
       document.body.style.setProperty(
         '--app-overflow',
         state.preferencesModalOpen ? 'hidden' : 'visible'
