@@ -1,12 +1,13 @@
 import {html} from '@erickmerchant/framework'
 
-export const getContentViews = ({classes, anchorAttrs}) => {
+export const getContentViews = ({classes, getAnchorClick}) => {
   return {
     anchor: ({text, href}) =>
       html`
         <a
           class=${classes.anchor}
-          ${href.startsWith('/') ? anchorAttrs(href) : {href}}
+          :href=${href}
+          @click=${href.startsWith('/') ? getAnchorClick(href) : null}
         >
           ${text}
         </a>

@@ -71,16 +71,11 @@ export const setupRouting = ({app, postsModel, forceRoute}) => {
 
   dispatchLocation(window.location)
 
-  return (href) => {
-    return {
-      href,
-      '@click'(e) {
-        e.preventDefault()
+  return (href) => (e) => {
+    e.preventDefault()
 
-        window.history.pushState({}, '', href)
+    window.history.pushState({}, '', href)
 
-        dispatchLocation({pathname: href})
-      }
-    }
+    dispatchLocation({pathname: href})
   }
 }

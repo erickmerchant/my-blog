@@ -1,7 +1,7 @@
 import {html} from '@erickmerchant/framework'
 
 export const createPaginationView =
-  ({classes, anchorAttrs}) =>
+  ({classes, getAnchorClick}) =>
   (state) => {
     return state.post.prev || state.post.next
       ? html`
@@ -10,14 +10,17 @@ export const createPaginationView =
               ${[
                 [state.post.prev, 'Older'],
                 [state.post.next, 'Newer']
-              ].map(
-                ([item, text]) => html`
+              ].map(([item, text]) => {
+                const href = item ? `/posts/${item.slug}/` : null
+
+                return html`
                   <li :class=${item ? classes.itemEnabled : classes.item}>
                     ${item
                       ? html`
                           <a
-                            ${anchorAttrs(`/posts/${item.slug}/`)}
                             class=${classes.anchor}
+                            :href=${href}
+                            @click=${getAnchorClick(href)}
                           >
                             ${text}
                           </a>
@@ -25,7 +28,7 @@ export const createPaginationView =
                       : text}
                   </li>
                 `
-              )}
+              })}
             </ul>
           </nav>
         `

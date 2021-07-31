@@ -1,12 +1,23 @@
 import {html} from '@erickmerchant/framework'
 
 export const createLayoutView =
-  ({classes, aboutView, mainView, preferencesView, iconsView, anchorAttrs}) =>
+  ({
+    classes,
+    aboutView,
+    mainView,
+    preferencesView,
+    iconsView,
+    getAnchorClick
+  }) =>
   (state = {}) =>
     html`
       <body class=${classes.app}>
         <header class=${classes.header}>
-          <a ${anchorAttrs('/')} class=${classes.headerAnchor}>
+          <a
+            class=${classes.headerAnchor}
+            href="/"
+            @click=${getAnchorClick('/')}
+          >
             ErickMerchant.com
           </a>
         </header>

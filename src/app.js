@@ -43,12 +43,10 @@ export const _main = (ENV = PROD) => {
 
   const postsModel = createModel()
 
-  let anchorAttrs, mainView, preferencesView
+  let getAnchorClick, mainView, preferencesView
 
   if (ENV === SSR) {
-    anchorAttrs = (href) => {
-      return {href}
-    }
+    getAnchorClick = () => null
 
     preferencesView = () =>
       html`
@@ -57,14 +55,14 @@ export const _main = (ENV = PROD) => {
 
     mainView = () =>
       html`
-        <main></main>
+        <main />
       `
   } else {
-    anchorAttrs = setupRouting({app, postsModel, forceRoute: ENV === DEV})
+    getAnchorClick = setupRouting({app, postsModel, forceRoute: ENV === DEV})
 
     const paginationView = createPaginationView({
       classes: paginationClasses,
-      anchorAttrs
+      getAnchorClick
     })
 
     preferencesView = createPreferencesView({
@@ -76,7 +74,7 @@ export const _main = (ENV = PROD) => {
       classes: mainClasses,
       contentView: createContentView({
         views: {
-          ...getContentViews({classes: contentClasses, anchorAttrs}),
+          ...getContentViews({classes: contentClasses, getAnchorClick}),
           ...getCodeViews({classes: codeClasses})
         }
       }),
@@ -98,7 +96,7 @@ export const _main = (ENV = PROD) => {
       iconsView,
       mainView,
       preferencesView,
-      anchorAttrs
+      getAnchorClick
     })
 
     if (ENV === SSR) return layoutView({title: ''})
@@ -114,7 +112,7 @@ export const _main = (ENV = PROD) => {
     for (const anchor of document.querySelectorAll('a[href^="/"]')) {
       const href = anchor.getAttribute('href')
 
-      anchor.addEventListener('click', anchorAttrs(href)['@click'])
+      anchor.addEventListener('click', getAnchorClick(href))
     }
   }
 }
