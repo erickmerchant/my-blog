@@ -3,23 +3,6 @@ import {css} from '@erickmerchant/css'
 import {buttonMixins, fontWeights} from './core.js'
 
 export const listClasses = css`
-  .nav {
-    list-style: none;
-    padding: 1em;
-    display: flex;
-    gap: 1em;
-  }
-
-  .navAnchor {
-    ${buttonMixins.textButton}
-
-    &[aria-current="true"] {
-      outline: 0;
-      border: 1px solid currentcolor;
-      filter: saturate(2);
-    }
-  }
-
   .createButton {
     ${buttonMixins.button}
   }
@@ -31,7 +14,7 @@ export const listClasses = css`
   .container {
     display: grid;
     height: 100vh;
-    grid-template-rows: min-content auto min-content;
+    grid-template-rows: auto min-content;
   }
 
   .tableWrapper,

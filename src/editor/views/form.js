@@ -29,7 +29,7 @@ export const createFormView = ({model, app}) => {
     try {
       await model.save(data)
 
-      window.location.hash = `#/${model.name}`
+      window.location.hash = `#/`
     } catch (error) {
       if (error.message.startsWith('409')) {
         app.state = {
@@ -42,24 +42,6 @@ export const createFormView = ({model, app}) => {
           error,
           route: {key: 'error'}
         }
-      }
-    }
-  }
-
-  const saveAs = (name, item) => async (e) => {
-    e.preventDefault()
-
-    const data = serialize(item, e.target.closest('form'))
-
-    try {
-      await model.saveAs(name, data)
-
-      window.location.hash = `#/${name}`
-    } catch (error) {
-      app.state = {
-        ...app.state,
-        error,
-        route: {key: 'error'}
       }
     }
   }
@@ -167,11 +149,29 @@ export const createFormView = ({model, app}) => {
         />
       </div>
       <div class=${formClasses.field}>
+        <label class=${formClasses.label}>
+          Draft
+          <input
+            class=${formClasses.checkbox}
+            type="checkbox"
+            name="draft"
+            value="yes"
+            :checked=${state.item.draft ?? true}
+            @change=${(e) => {
+              app.state = {
+                ...app.state,
+                item: {...app.state.item, draft: e.target.checked}
+              }
+            }}
+          />
+        </label>
+      </div>
+      <div class=${formClasses.field}>
         <label class=${formClasses.label} for="field-content">Content</label>
         <div class=${formClasses.textareaWrap}>
           <div class=${formClasses.textareaHighlightsWrap}>
             <pre class=${formClasses.textareaHighlights}>
-                ${highlighter(state.item.highlightedContent)}
+              ${highlighter(state.item.highlightedContent)}
               </pre
             >
           </div>
@@ -181,7 +181,7 @@ export const createFormView = ({model, app}) => {
             id="field-content"
             @input=${highlight}
           >
-              ${state.item.content ?? ''}
+            ${state.item.content ?? ''}
             </textarea
           >
         </div>
@@ -192,20 +192,7 @@ export const createFormView = ({model, app}) => {
               <p class=${formClasses.errorMessage}>This item already exists</p>
             `
           : null}
-        <a class=${formClasses.cancelButton} :href=${`#/${model.name}`}>
-          Cancel
-        </a>
-        ${model.name !== 'posts' && state.item.slug != null
-          ? html`
-              <button
-                class=${formClasses.publishButton}
-                type="button"
-                @click=${saveAs('posts', state.item)}
-              >
-                Publish
-              </button>
-            `
-          : null}
+        <a class=${formClasses.cancelButton} href="#/">Cancel</a>
         <button class=${formClasses.saveButton} type="submit">Save</button>
       </div>
     </form>

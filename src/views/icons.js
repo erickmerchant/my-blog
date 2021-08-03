@@ -11,25 +11,25 @@ export const createIconsView =
             height="100"
             x="0"
             y="0"
-            class=${classes.fill}
-            stroke-width="0"
             rx="6"
+            stroke-width="0"
+            class=${classes.fill}
           />
           <rect
             width="82"
             height="61"
             x="9"
             y="30"
-            class=${classes.stroke}
             stroke-width="0"
+            class=${classes.stroke}
           />
           <rect
             width="28"
             height="28"
             x="18"
             y="39"
-            class=${classes.fill}
             stroke-width="0"
+            class=${classes.fill}
           />
         </symbol>
         <symbol id="link" viewBox="0 0 100 100">
@@ -49,12 +49,12 @@ export const createIconsView =
           />
           <rect
             height="20"
-            width="60"
+            width="50"
             transform="rotate(-45,50,50)"
-            x="20"
+            x="25"
             y="40"
-            class=${classes.fill}
             stroke-width="3"
+            class=${classes.fill}
           />
         </symbol>
       </svg>

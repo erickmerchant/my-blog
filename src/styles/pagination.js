@@ -50,7 +50,7 @@ export const paginationClasses = css`
       }
     }
 
-    --bg: var(--h) 10% 70%;
+    --bg: var(--btn-bg-off);
     --c: var(--c2);
     --alpha: 0.2;
 
@@ -65,7 +65,7 @@ export const paginationClasses = css`
 
   .itemEnabled {
     --c: var(--a-c);
-    --bg: var(--h) 80% 70%;
+    --bg: var(--btn-bg-on);
 
     &:focus-within,
     &:hover {

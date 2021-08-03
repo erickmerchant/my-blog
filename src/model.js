@@ -1,4 +1,4 @@
-export const createModel = (name = 'posts') => {
+export const createModel = () => {
   const model = {
     async fetch(url, options = {}) {
       const res = await window.fetch(url, {
@@ -18,7 +18,7 @@ export const createModel = (name = 'posts') => {
 
     async getBySlug(id = '_first') {
       const [posts, content] = await Promise.all(
-        [undefined, id].map((n = name) =>
+        ['posts', id].map((n) =>
           model.fetch(`/content/${n}.json`).then((res) => res.json())
         )
       )

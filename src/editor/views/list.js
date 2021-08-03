@@ -3,7 +3,7 @@ import {html} from '@erickmerchant/framework'
 import {listClasses} from '../../assets/editor/styles/index.js'
 import {prettyDate} from '../../content.js'
 
-export const createListView = ({model, app, channelNames, hasNew}) => {
+export const createListView = ({model, app}) => {
   const remove = (item) => async (e) => {
     e.preventDefault()
 
@@ -16,7 +16,7 @@ export const createListView = ({model, app, channelNames, hasNew}) => {
         const items = await model.getList()
 
         app.state = {
-          route: {key: 'list', params: [model.name]},
+          route: {key: 'list', params: []},
           items
         }
       }
@@ -27,25 +27,6 @@ export const createListView = ({model, app, channelNames, hasNew}) => {
 
   return (state) => html`
     <div class=${listClasses.container}>
-      <nav>
-        <ul class=${listClasses.nav}>
-          ${channelNames.map(
-            (name) => html`
-              <li>
-                <a
-                  class=${listClasses.navAnchor}
-                  :aria-current=${state.route.params?.[0] === name
-                    ? 'true'
-                    : 'false'}
-                  :href=${`#/${name}`}
-                >
-                  ${name.toUpperCase()}
-                </a>
-              </li>
-            `
-          )}
-        </ul>
-      </nav>
       <div
         :class=${state.items?.length
           ? listClasses.tableWrapper
@@ -73,7 +54,7 @@ export const createListView = ({model, app, channelNames, hasNew}) => {
                           <a
                             tabindex="0"
                             class=${listClasses.editButton}
-                            :href=${`#/${model.name}/edit/${item.slug}`}
+                            :href=${`#/edit/${item.slug}`}
                           >
                             Edit
                           </a>
@@ -93,22 +74,15 @@ export const createListView = ({model, app, channelNames, hasNew}) => {
               </table>
             `
           : html`
-              <p class=${listClasses.noTable}>No ${model.name} yet</p>
+              <p class=${listClasses.noTable}>No posts yet</p>
             `}
       </div>
-      ${hasNew
-        ? html`
-            <div class=${listClasses.buttons}>
-              <a
-                tabindex="0"
-                class=${listClasses.createButton}
-                :href=${`#/${model.name}/create`}
-              >
-                New
-              </a>
-            </div>
-          `
-        : ''}
+
+      <div class=${listClasses.buttons}>
+        <a tabindex="0" class=${listClasses.createButton} href="#/create">
+          New
+        </a>
+      </div>
     </div>
   `
 }

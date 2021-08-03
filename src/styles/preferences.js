@@ -115,7 +115,7 @@ export const preferencesClasses = css`
     text-align: center;
 
     --c: var(--a-c);
-    --bg: var(--h) 80% 70%;
+    --bg: var(--btn-bg-on);
     --alpha: 0.2;
     --r: 1.5rem / 50%;
 

@@ -14,6 +14,18 @@ export const layoutClasses = css`
     --hdr-bg-partial: hsl(var(--hdr-bg-ln-c)) 1px, transparent 1px;
     --hdr-bg-i: linear-gradient(0deg, var(--hdr-bg-partial)),
       linear-gradient(90deg, var(--hdr-bg-partial));
+    --c: 90 0% 35%;
+    --c2: inherit;
+    --bg: 0 0% 100%;
+    --bg2: 90 0% 99%;
+    --a-c: inherit;
+    --btn-bg-on: var(--bg2);
+    --btn-bg-off: var(--bg2);
+    --hdr-bg-ln-c: var(--c) / 0.05;
+    --hdr-bg: var(--bg2);
+    --code-c: inherit;
+    --i-code-c: inherit;
+    --icon-c: inherit;
 
     ${[
       (body) => `@media ${mq.colorSchemeLight} { &.auto { ${body} } }`,
@@ -21,18 +33,19 @@ export const layoutClasses = css`
     ]
       .map((condition) =>
         condition(`
-          --h: 80;
-          --c: var(--h) 10% 20%;
-          --c2: var(--h) 5% 35%;
+          --c: 80 10% 20%;
+          --c2: 80 5% 35%;
           --bg: 0 0% 100%;
-          --bg2: var(--h) 25% 95%;
-          --a-c: var(--h) 35% 35%;
+          --bg2: 80 25% 97%;
+          --a-c: 80 35% 35%;
+          --btn-bg-on: 80 80% 70%;
+          --btn-bg-off: 80 10% 70%;
           --hdr-bg-ln-c: var(--a-c) / 0.15;
-          --hdr-bg: var(--h) 95% 95%;
-          --code-c: hsl(var(--h) 45% 30%);
+          --hdr-bg: 80 95% 95%;
+          --code-c: hsl(80 45% 30%);
           --i-code-c: inherit;
           --icon-c: inherit;
-        `)
+          `)
       )
       .join('')}
 
@@ -42,16 +55,17 @@ export const layoutClasses = css`
     ]
       .map((condition) =>
         condition(`
-          --h: 100;
           --c: 0 0% 100%;
-          --c2: var(--h) 5% 70%;
-          --bg: var(--h) 10% 15%;
-          --bg2: var(--h) 10% 17.5%;
-          --a-c: var(--h) 80% 70%;
-          --hdr-bg-ln-c: var(--c) / 0.075;
-          --hdr-bg: var(--h) 25% 17.5%;
-          --code-c: hsl(var(--h) 45% 70%);
-          --i-code-c: hsl(var(--h) 45% 70%);
+          --c2: 100 5% 70%;
+          --bg: 100 10% 15%;
+          --bg2: 100 10% 17.5%;
+          --a-c: 100 80% 70%;
+          --btn-bg-on: 100 80% 70%;
+          --btn-bg-off: 100 10% 70%;
+          --hdr-bg-ln-c: var(--a-c) / 0.075;
+          --hdr-bg: 100 35% 17.5%;
+          --code-c: hsl(100 45% 70%);
+          --i-code-c: hsl(100 45% 70%);
           --icon-c: hsl(var(--a-c));
         `)
       )
@@ -71,7 +85,7 @@ export const layoutClasses = css`
     background-image: var(--hdr-bg-i);
     background-size: 1rem 1rem;
     background-position: 50% 0;
-    border-bottom: 2px solid hsl(var(--a-c));
+    border-bottom: 3px solid hsl(var(--a-c));
     grid-row: 1;
     grid-column: 1;
 

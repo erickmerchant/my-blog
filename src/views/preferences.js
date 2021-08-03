@@ -61,25 +61,21 @@ export const createPreferencesView = ({classes, app}) => {
         loadPreferences()
       }
 
-      document.body.style.setProperty(
-        '--app-overflow',
-        state.preferencesModalOpen ? 'hidden' : 'visible'
-      )
+      const colorScheme = state.preferences?.colorScheme ?? 'auto'
+
+      for (const token of ['light', 'dark', 'auto']) {
+        document.body.classList.toggle(token, token === colorScheme)
+      }
 
       document.body.style.setProperty(
         '--code-white-space',
         (state.preferences?.codeWrap ?? 'yes') === 'yes' ? 'pre-wrap' : 'pre'
       )
 
-      const colorScheme = state.preferences?.colorScheme ?? 'auto'
-
-      document.body.classList.add(colorScheme)
-
-      for (const token of ['light', 'dark', 'auto']) {
-        if (token === colorScheme) continue
-
-        document.body.classList.remove(token)
-      }
+      document.body.style.setProperty(
+        '--app-overflow',
+        state.preferencesModalOpen ? 'hidden' : 'visible'
+      )
     })
 
     return html`

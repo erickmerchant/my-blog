@@ -6,7 +6,7 @@ export const formClasses = css`
   .form {
     display: grid;
     height: 100vh;
-    grid-template-rows: min-content 1fr min-content;
+    grid-template-rows: min-content min-content 1fr min-content;
   }
 
   .field {
@@ -21,6 +21,9 @@ export const formClasses = css`
   .label {
     font-weight: ${fontWeights.bold};
     display: block;
+    display: flex;
+    align-items: center;
+    gap: 1em;
   }
 
   .input {
@@ -30,6 +33,10 @@ export const formClasses = css`
     padding: 0.5em;
     border: 1px solid var(--silver);
     background-color: var(--white);
+  }
+
+  .checkbox {
+    color: var(--black);
   }
 
   .textareaWrap {

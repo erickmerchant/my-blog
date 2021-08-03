@@ -24,11 +24,9 @@ const contentView = createContentView({
   }
 })
 
-export const createModel = (name) => {
+export const createModel = () => {
   const model = {
-    name,
-
-    ...createBaseModel(name),
+    ...createBaseModel(),
 
     convert(str) {
       return JSON.stringify(contentView(str), (_, value) => {
@@ -41,7 +39,7 @@ export const createModel = (name) => {
     },
 
     async getList() {
-      const res = await model.fetch(`/content/${name}.json`)
+      const res = await model.fetch(`/content/_all.json`)
 
       return res.json()
     },
@@ -64,12 +62,19 @@ export const createModel = (name) => {
     },
 
     async saveAll(data) {
-      await model.fetch(`/content/${name}.json`, {
+      await model.fetch('/content/_all.json', {
         method: 'PUT',
         body: JSON.stringify(data)
       })
 
-      if (name === 'posts' && data[0]) {
+      const published = data.filter((post) => !post.draft)
+
+      await model.fetch(`/content/posts.json`, {
+        method: 'PUT',
+        body: JSON.stringify(published)
+      })
+
+      if (data.length) {
         const first = await model.getBySlug(data[0].slug)
 
         const firstUrl = '/content/_first.json'
@@ -83,14 +88,6 @@ export const createModel = (name) => {
           body: model.convert(first.content)
         })
       }
-    },
-
-    async saveAs(name, data) {
-      const subModel = createModel(name)
-
-      await model.remove(data.slug)
-
-      await subModel.save(data, false)
     },
 
     async save(data, existing = data.slug != null) {
@@ -114,12 +111,12 @@ export const createModel = (name) => {
 
       data.content = data.content.replace(/\r/g, '')
 
-      const {title, date, slug} = data
+      const {title, date, slug, draft} = data
 
       if (!~index) {
-        posts.unshift({title, date, slug})
+        posts.unshift({title, date, slug, draft})
       } else {
-        posts.splice(index, 1, {title, date, slug})
+        posts.splice(index, 1, {title, date, slug, draft})
       }
 
       await model.fetch(`/content/raw/${data.slug}.json`, {
