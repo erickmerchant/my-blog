@@ -48,7 +48,7 @@ try {
     const newHtml = stringify(_main(SSR))
 
     await Promise.all([
-      execa.command(`rollup -c rollup.config.js`, execOpts),
+      execa.command(`rollup -c rollup.config.mjs`, execOpts),
       execa.command(
         `postcss ./dist/assets/styles/index.css --no-map -u postcss-clean -o ./dist/assets/styles/index.css`,
         execOpts
