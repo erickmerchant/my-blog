@@ -45,7 +45,7 @@ export const layoutClasses = css`
           --code-c: hsl(80 45% 30%);
           --i-code-c: inherit;
           --icon-c: inherit;
-          `)
+        `)
       )
       .join('')}
 
