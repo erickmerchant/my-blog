@@ -62,7 +62,7 @@ export const preferencesClasses = css`
   }
 
   .label {
-    font-weight: ${fontWeights.bold};
+    font-weight: ${fontWeights.normal};
   }
 
   .field {
@@ -101,39 +101,11 @@ export const preferencesClasses = css`
     }
   }
 
-  .doneLink {
-    align-self: center;
-    min-width: 50%;
-    margin-top: 2em;
-    font-weight: ${fontWeights.heading2};
-    color: hsl(var(--c));
-    position: relative;
-    padding-block: 1em;
-    background-color: hsl(var(--bg) / var(--alpha));
-    border: 3px solid currentColor;
-    border-radius: var(--r);
-    text-align: center;
-
-    --c: var(--a-c);
-    --bg: var(--btn-bg-on);
-    --alpha: 0.2;
-    --r: 1.5rem / 50%;
-
-    @media ${mq.veryMobile} {
-      width: 100%;
-      --r: 0.125rem;
-    }
-
-    &:focus-within,
-    &:hover {
-      --alpha: 0.35;
-    }
-  }
-
   .doneLinkAnchor {
-    color: inherit;
+    align-self: flex-end;
+    color: hsl(var(--a-c));
     text-decoration: underline;
-    text-decoration-thickness: 0.125em;
+    text-decoration-thickness: 0.0625em;
     text-underline-offset: 0.125em;
     -webkit-tap-highlight-color: transparent;
     background: transparent;
@@ -141,16 +113,5 @@ export const preferencesClasses = css`
     -webkit-appearance: none;
     border: none;
     cursor: pointer;
-
-    &::after {
-      content: '';
-      display: block;
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      right: 0;
-      left: 0;
-      border-radius: var(--r);
-    }
   }
 `

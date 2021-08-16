@@ -55,6 +55,13 @@ export const createPreferencesView = ({classes, app}) => {
     </label>
   `
 
+  const closeModal = () => {
+    app.state = {
+      ...app.state,
+      preferencesModalOpen: false
+    }
+  }
+
   return (state) => {
     Promise.resolve().then(() => {
       if (state.preferences == null) {
@@ -95,7 +102,12 @@ export const createPreferencesView = ({classes, app}) => {
         </button>
         ${state.preferencesModalOpen
           ? html`
-              <div class=${classes.backdrop} role="dialog" aria-modal="true">
+              <div
+                class=${classes.backdrop}
+                role="dialog"
+                aria-modal="true"
+                @click=${closeModal}
+              >
                 <div class=${classes.modal}>
                   <form class=${classes.form}>
                     <h2 class=${classes.heading}>Preferences</h2>
@@ -142,20 +154,13 @@ export const createPreferencesView = ({classes, app}) => {
                         })}
                       </div>
                     </section>
-                    <div class=${classes.doneLink}>
-                      <button
-                        class=${classes.doneLinkAnchor}
-                        type="button"
-                        @click=${() => {
-                          app.state = {
-                            ...app.state,
-                            preferencesModalOpen: false
-                          }
-                        }}
-                      >
-                        Done
-                      </button>
-                    </div>
+                    <button
+                      class=${classes.doneLinkAnchor}
+                      type="button"
+                      @click=${closeModal}
+                    >
+                      Close
+                    </button>
                   </form>
                 </div>
               </div>
