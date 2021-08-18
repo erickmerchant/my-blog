@@ -26,8 +26,6 @@ export const contentClasses = css`
     text-decoration: none;
     overflow: visible;
     margin-right: 0.5rem;
-    height: 1em;
-    width: 1em;
     color: var(--i-c, hsl(var(--a-c)));
 
     @media ${mq.tabletUp} {
