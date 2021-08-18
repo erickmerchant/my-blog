@@ -17,13 +17,16 @@ export const createAboutView =
       <article class=${classes.about}>
         <h3 class=${classes.heading}>About me</h3>
         <p class=${classes.paragraph}>
-          I'm Erick Merchant. I've been employed as a web developer for
-          ${yearsSince(2006, 6)} years. This is my web development blog. Check
-          out my
+          I'm Erick. I've been making web pages for ${yearsSince(2006, 6)} short
+          years. This is my web development blog. Check out my
           <a class=${classes.anchor} href="https://github.com/erickmerchant">
-            ${'open-source projects'}
+            open-source projects
           </a>
-          on Github.
+          on Github. Also you can check out
+          <a class=${classes.anchor} href="https://resume.erickmerchant.com">
+            my résumé
+          </a>
+          if you want.
         </p>
       </article>
     `
