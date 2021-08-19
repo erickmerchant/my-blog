@@ -21,10 +21,8 @@ export const _start = css`
     --green: hsl(100 30% 50%);
     --blue: hsl(200 100% 50%);
     --red: hsl(350 80% 55%);
-  }
 
-  @media (prefers-color-scheme: dark) {
-    html {
+    @media (prefers-color-scheme: dark) {
       --black: hsl(100 10% 100%);
       --gray: hsl(100 10% 60%);
       --silver: hsl(100 10% 55%);

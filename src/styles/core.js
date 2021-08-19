@@ -17,32 +17,36 @@ export const mq = {
   justMobile: '(min-width: 441px) and (max-width: 769px)'
 }
 
-export const mixins = css`
-  .heading {
-    line-height: 1.25;
-    margin-bottom: 0.5em;
-    margin-top: 1em;
-  }
-
-  .mainItem {
-    max-width: 31rem;
-    padding-inline: 0.5rem;
-    margin-inline: auto;
-
-    @media ${mq.desktopUp} and ${mq.tallUp} {
-      margin-inline: 2rem;
+export const mixins = {
+  heading: css`
+    & {
+      line-height: 1.25;
+      margin-bottom: 0.5em;
+      margin-top: 1em;
     }
-  }
+  `,
+  mainItem: css`
+    & {
+      max-width: 31rem;
+      padding-inline: 0.5rem;
+      margin-inline: auto;
 
-  .navAnchor {
-    color: hsl(var(--a-c));
-    text-decoration-thickness: 0.0625em;
-    text-underline-offset: 0.1875em;
-    text-decoration: underline;
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    appearance: none;
-    -webkit-appearance: none;
-  }
-`
+      @media ${mq.desktopUp} and ${mq.tallUp} {
+        margin-inline: 2rem;
+      }
+    }
+  `,
+  navAnchor: css`
+    & {
+      color: hsl(var(--a-c));
+      text-decoration-thickness: 0.0625em;
+      text-underline-offset: 0.1875em;
+      text-decoration: underline;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+  `
+}
