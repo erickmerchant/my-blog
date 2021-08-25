@@ -25,7 +25,6 @@ export const layoutClasses = css`
     --hdr-bg: var(--bg2);
     --code-c: inherit;
     --i-code-c: inherit;
-    --icon-c: inherit;
 
     ${[
       (body) => `@media ${mq.colorSchemeLight} { &.auto { ${body} } }`,
@@ -33,18 +32,17 @@ export const layoutClasses = css`
     ]
       .map((condition) =>
         condition(`
-          --c: 80 10% 20%;
-          --c2: 80 5% 35%;
+          --c: 70 10% 20%;
+          --c2: 70 5% 35%;
           --bg: 0 0% 100%;
-          --bg2: 80 25% 97%;
-          --a-c: 80 35% 35%;
-          --btn-bg-on: 80 80% 70%;
-          --btn-bg-off: 80 10% 70%;
+          --bg2: 70 25% 97%;
+          --a-c: 70 35% 35%;
+          --btn-bg-on: 70 80% 70%;
+          --btn-bg-off: 70 10% 70%;
           --hdr-bg-ln-c: var(--a-c) / 0.15;
-          --hdr-bg: 80 95% 95%;
-          --code-c: hsl(80 45% 30%);
+          --hdr-bg: 70 95% 95%;
+          --code-c: hsl(70 45% 30%);
           --i-code-c: inherit;
-          --icon-c: inherit;
         `)
       )
       .join('')}
@@ -66,7 +64,6 @@ export const layoutClasses = css`
           --hdr-bg: 100 35% 17.5%;
           --code-c: hsl(100 45% 70%);
           --i-code-c: hsl(100 45% 70%);
-          --icon-c: hsl(var(--a-c));
         `)
       )
       .join('')}

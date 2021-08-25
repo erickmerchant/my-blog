@@ -69,7 +69,7 @@ export const contentClasses = css`
       width: 0.25rem;
       background: transparent;
       border: 2px solid currentColor;
-      color: var(--icon-c);
+      color: hsl(var(--a-c));
     }
   }
 

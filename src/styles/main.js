@@ -34,6 +34,5 @@ export const mainClasses = css`
   .dateIcon {
     height: 1em;
     width: 1em;
-    color: var(--icon-c);
   }
 `
