@@ -101,10 +101,10 @@ export const layoutClasses = css`
       border-bottom: none;
       padding: 0 0.5rem;
       max-width: max-content;
-      grid-row: 1 / -1;
-      height: 100vh;
+      grid-row: 1;
+      height: max-content;
       display: grid;
-      grid-auto-rows: 1fr;
+      grid-template-rows: 1fr;
       grid-template-columns: 90%;
       align-items: start;
     }
