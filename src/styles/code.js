@@ -12,7 +12,7 @@ export const codeClasses = css`
     font-weight: normal;
     font-size: 0.875rem;
     overflow: auto;
-    white-space: var(--code-white-space, pre-wrap);
+    white-space: var(--code-wrap, pre-wrap);
     word-break: break-word;
     padding-inline: 1rem;
     background-color: hsl(var(--bg2));
@@ -74,6 +74,7 @@ export const codeClasses = css`
   .blockCode {
     padding-top: var(--pt, 0);
     padding-bottom: var(--pb, 0);
+    padding-right: 0.5rem;
   }
 
   .inline {

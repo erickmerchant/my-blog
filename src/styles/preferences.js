@@ -25,21 +25,14 @@ export const preferencesClasses = css`
   }
 
   .modal {
-    border-radius: 0.25em;
-    background: hsl(var(--bg2));
-    padding: 2em;
-    min-width: 75vw;
-
-    @media ${mq.tabletUp} {
-      min-width: 50vw;
-    }
-
-    @media ${mq.veryMobile} {
-      margin: 1em;
-    }
+    width: min(100vw, 31rem);
   }
 
   .form {
+    border-radius: 0.25em;
+    background: hsl(var(--bg2));
+    padding: 2em;
+    margin: 1em;
     display: flex;
     flex-direction: column;
     justify-items: start;

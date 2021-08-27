@@ -75,7 +75,7 @@ export const createPreferencesView = ({classes, app}) => {
       }
 
       document.body.style.setProperty(
-        '--code-white-space',
+        '--code-wrap',
         (state.preferences?.codeWrap ?? 'yes') === 'yes' ? 'pre-wrap' : 'pre'
       )
 
