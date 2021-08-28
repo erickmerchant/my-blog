@@ -11,7 +11,7 @@ export const _start = css`
 
   html {
     color-scheme: light dark;
-    font-family: 'JetBrains Mono', Menlo, Monaco, 'Courier New', monospace;
+    font-family: Menlo, Monaco, 'Courier New', monospace;
     height: 100%;
 
     --black: hsl(100 10% 20%);

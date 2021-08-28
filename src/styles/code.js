@@ -8,7 +8,7 @@ export const codeClasses = css`
   }
 
   .block {
-    font-family: 'JetBrains Mono', Menlo, Monaco, 'Courier New', monospace;
+    font-family: Menlo, Monaco, 'Courier New', monospace;
     font-weight: normal;
     font-size: 0.875rem;
     overflow: auto;
@@ -78,7 +78,7 @@ export const codeClasses = css`
   }
 
   .inline {
-    font-family: 'JetBrains Mono', Menlo, Monaco, 'Courier New', monospace;
+    font-family: Menlo, Monaco, 'Courier New', monospace;
     font-weight: normal;
     font-size: 0.875rem;
     display: inline-block;
