@@ -45,7 +45,9 @@ try {
 
     const {_main} = await import('./src/app.js')
 
-    const newHtml = stringify(_main(SSR))
+    const $new = cheerio.load(stringify(_main(SSR)))
+
+    const $body = $new('body')
 
     await Promise.all([
       execa.command(`rollup -c rollup.config.mjs`, execOpts),
@@ -60,17 +62,22 @@ try {
       fs.readFile('./dist/assets/styles/index.css', 'utf8')
     ])
 
-    const $ = cheerio.load(rawHtml)
+    const $raw = cheerio.load(rawHtml)
 
-    $('link[rel="stylesheet"]').replaceWith(`<style>${styles}</style>`)
+    $raw('head').append(`
+      <script
+        src="https://cdn.usefathom.com/script.js"
+        data-spa="auto"
+        data-site="WEFOJNWB"
+        defer
+      ></script>
+    `)
 
-    const $body = cheerio.load(newHtml)('body')
+    $raw('link[rel="stylesheet"]').replaceWith(`<style>${styles}</style>`)
 
-    $('body').attr('class', $body.attr('class'))
+    $raw('body').attr('class', $body.attr('class')).prepend($body.find('> *'))
 
-    $('body').prepend($body.find('> *'))
-
-    await fs.writeFile('./dist/index.html', $.html())
+    await fs.writeFile('./dist/index.html', $raw.html())
 
     process.exit(0)
   }
