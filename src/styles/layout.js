@@ -100,7 +100,6 @@ export const layoutClasses = css`
       border-left: none;
       border-bottom: none;
       padding: 0 0.5rem;
-      max-width: max-content;
       grid-row: 1;
       height: max-content;
       display: grid;
@@ -199,16 +198,6 @@ export const layoutClasses = css`
     white-space: nowrap;
     display: inline-grid;
     grid-template-columns: max-content auto 1fr;
-
-    &:nth-child(1n + 2)::before {
-      content: '';
-      border-radius: 100%;
-      align-self: center;
-      margin-right: 0.5rem;
-      height: 0.25em;
-      width: 0.25rem;
-      background: currentColor;
-    }
   }
 
   .footerAnchor {

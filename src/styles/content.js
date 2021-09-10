@@ -64,7 +64,7 @@ export const contentClasses = css`
       content: '';
       border-radius: 100%;
       margin-right: 0.5rem;
-      margin-top: 0.5rem;
+      margin-top: 0.5em;
       height: 0.25em;
       width: 0.25rem;
       background: transparent;

@@ -18,7 +18,6 @@ export const aboutClasses = css`
       background-color: transparent;
       padding-bottom: 2em;
       padding-inline: 0;
-      max-width: 20rem;
     }
   }
 

@@ -31,13 +31,13 @@ export const preferencesClasses = css`
   .form {
     border-radius: 0.25em;
     background: hsl(var(--bg2));
-    padding: 2em;
-    margin: 1em;
+    padding: 2rem;
+    margin: 1rem;
     display: flex;
     flex-direction: column;
     justify-items: start;
     align-content: center;
-    gap: 1em 2em;
+    gap: 1.5em;
   }
 
   .heading {
@@ -45,6 +45,7 @@ export const preferencesClasses = css`
     font-weight: ${fontWeights.heading1};
     font-size: 1.5rem;
     margin-top: 0;
+    margin-bottom: 0;
   }
 
   .fieldset {
@@ -60,13 +61,13 @@ export const preferencesClasses = css`
 
   .field {
     display: flex;
-    gap: 1em;
+    gap: 1rem;
     flex-wrap: wrap;
   }
 
   .checkboxWrap {
     display: flex;
-    gap: 0.5em;
+    gap: 0.5rem;
     align-items: center;
   }
 
