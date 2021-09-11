@@ -7,27 +7,13 @@ import {
 import {createContentView} from '../content.js'
 
 export const createFormView = ({model, app}) => {
-  const serialize = (item, target) => {
-    const data = {}
-
-    for (const [key, val] of Object.entries(item)) {
-      data[key] = val
-    }
-
-    for (const [key, val] of new FormData(target)) {
-      data[key] = val
-    }
-
-    return data
-  }
-
-  const save = (item) => async (e) => {
+  const save = (item, slug) => async (e) => {
     e.preventDefault()
 
-    const data = serialize(item, e.target.closest('form'))
+    const data = {...item}
 
     try {
-      await model.save(data)
+      await model.save(data, slug)
 
       window.location.hash = `#/`
     } catch (error) {
@@ -131,7 +117,7 @@ export const createFormView = ({model, app}) => {
     <form
       autocomplete="off"
       class=${formClasses.form}
-      @submit=${save(state.item)}
+      @submit=${save(state.item, state.route?.params?.[0])}
     >
       <div class=${formClasses.field}>
         <label class=${formClasses.label} for="field-title">Title</label>
@@ -144,6 +130,21 @@ export const createFormView = ({model, app}) => {
             app.state = {
               ...app.state,
               item: {...app.state.item, title: e.target.value}
+            }
+          }}
+        />
+      </div>
+      <div class=${formClasses.field}>
+        <label class=${formClasses.label} for="field-slug">Slug</label>
+        <input
+          class=${formClasses.input}
+          name="slug"
+          id="field-slug"
+          :value=${state.item.slug ?? ''}
+          @input=${(e) => {
+            app.state = {
+              ...app.state,
+              item: {...app.state.item, slug: e.target.value}
             }
           }}
         />

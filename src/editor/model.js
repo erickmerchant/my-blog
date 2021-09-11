@@ -90,24 +90,33 @@ export const createModel = () => {
       }
     },
 
-    async save(data, existing = data.slug != null) {
+    async save(data, existingSlug) {
       const posts = await model.getList()
+
+      const existing = existingSlug != null && existingSlug === data.slug
+
+      if (existingSlug != null && existingSlug !== data.slug) {
+        model.remove(existingSlug)
+      }
 
       const index = existing
         ? posts.findIndex((post) => post.slug === data.slug)
         : -1
 
-      if (!data.date || !existing) {
+      if (!~index || posts[index].draft) {
         const now = new Date()
 
         data.date = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(
           2,
           '0'
         )}-${String(now.getDate()).padStart(2, '0')}`
+
+        console.log(data.date)
       }
 
-      data.slug =
-        data.slug ?? data.title.toLowerCase().replace(/\s+|[^a-z0-9-]/g, '-')
+      data.slug = !data.slug
+        ? data.title.toLowerCase().replace(/\s+|[^a-z0-9-]/g, '-')
+        : data.slug
 
       data.content = data.content.replace(/\r/g, '')
 
@@ -132,19 +141,19 @@ export const createModel = () => {
       await model.saveAll(posts)
     },
 
-    async remove(id) {
+    async remove(existingSlug) {
       const posts = await model.getList()
 
-      const index = posts.findIndex((p) => p.slug === id)
+      const index = posts.findIndex((p) => p.slug === existingSlug)
 
       if (~index) {
         posts.splice(index, 1)
 
-        await model.fetch(`/content/raw/${id}.json`, {
+        await model.fetch(`/content/raw/${existingSlug}.json`, {
           method: 'DELETE'
         })
 
-        await model.fetch(`/content/${id}.json`, {
+        await model.fetch(`/content/${existingSlug}.json`, {
           method: 'DELETE'
         })
 

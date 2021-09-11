@@ -6,7 +6,7 @@ export const formClasses = css`
   .form {
     display: grid;
     height: 100vh;
-    grid-template-rows: min-content min-content 1fr min-content;
+    grid-template-rows: repeat(3, min-content) 1fr min-content;
   }
 
   .field {
