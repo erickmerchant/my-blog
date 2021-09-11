@@ -110,8 +110,6 @@ export const createModel = () => {
           2,
           '0'
         )}-${String(now.getDate()).padStart(2, '0')}`
-
-        console.log(data.date)
       }
 
       data.slug = !data.slug
