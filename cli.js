@@ -45,7 +45,7 @@ try {
 
     const {_main} = await import('./src/app.js')
 
-    const $new = cheerio.load(stringify(_main(SSR)))
+    const $new = cheerio.load(stringify(await _main(SSR)))
 
     const $body = $new('body')
 

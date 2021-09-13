@@ -5,7 +5,7 @@ import {terser} from 'rollup-plugin-terser'
 export default {
   input: 'app.js',
   output: {
-    file: 'dist/app.js',
+    dir: 'dist',
     format: 'esm',
     plugins: [
       terser({

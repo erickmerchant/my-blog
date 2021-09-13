@@ -21,13 +21,13 @@ import {createIconsView} from './views/icons.js'
 import {createLayoutView} from './views/layout.js'
 import {createMainView} from './views/main.js'
 import {createPaginationView} from './views/pagination.js'
-import {createPreferencesView} from './views/preferences.js'
+import {createPreferencesButtonView} from './views/preferences-button.js'
 
 const app = createApp({
   isLoading: true
 })
 
-export const _main = (ENV = PROD) => {
+export const _main = async (ENV = PROD) => {
   html.dev = ENV === DEV
 
   const postsModel = createModel()
@@ -54,8 +54,15 @@ export const _main = (ENV = PROD) => {
       getAnchorClick
     })
 
-    preferencesView = createPreferencesView({
+    preferencesView = createPreferencesButtonView({
       classes: preferencesClasses,
+      async loadPreferencesForm() {
+        const {createPreferencesFormView} = await import(
+          './views/preferences-form.js'
+        )
+
+        return createPreferencesFormView({classes: preferencesClasses, app})
+      },
       app
     })
 
