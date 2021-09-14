@@ -5,10 +5,9 @@ import {html} from '@erickmerchant/framework'
 export const createPreferencesButtonView = ({
   classes,
   loadPreferencesForm,
+  preferencesForm,
   app
 }) => {
-  let preferencesForm
-
   const loadPreferences = () => {
     let preferences
 
@@ -25,12 +24,6 @@ export const createPreferencesButtonView = ({
 
   return (state) => {
     Promise.resolve().then(async () => {
-      if (preferencesForm == null && state.preferencesModalOpen) {
-        preferencesForm = await loadPreferencesForm()
-
-        app.state = {...app.state, preferencesModalOpen: true}
-      }
-
       if (state.preferences == null) {
         loadPreferences()
       }

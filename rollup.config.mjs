@@ -18,6 +18,7 @@ export default {
       })
     ]
   },
+  preserveEntrySignatures: false,
   plugins: [
     {
       async load(id) {

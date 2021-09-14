@@ -54,15 +54,26 @@ export const _main = async (ENV = PROD) => {
       getAnchorClick
     })
 
+    const loadPreferencesForm = async () => {
+      const {createPreferencesFormView} = await import(
+        './views/preferences-form.js'
+      )
+
+      return createPreferencesFormView({classes: preferencesClasses, app})
+    }
+
+    let preferencesForm
+
+    if (ENV === DEV) {
+      if (app.state.preferencesModalOpen) {
+        preferencesForm = await loadPreferencesForm()
+      }
+    }
+
     preferencesView = createPreferencesButtonView({
       classes: preferencesClasses,
-      async loadPreferencesForm() {
-        const {createPreferencesFormView} = await import(
-          './views/preferences-form.js'
-        )
-
-        return createPreferencesFormView({classes: preferencesClasses, app})
-      },
+      loadPreferencesForm,
+      preferencesForm,
       app
     })
 
