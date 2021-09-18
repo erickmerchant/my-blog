@@ -9,10 +9,7 @@ export const preferencesClasses = css`
 
   .backdrop {
     position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    inset: 0;
     background: hsl(0 0% 0% / 0.75);
     z-index: 1;
     display: grid;
