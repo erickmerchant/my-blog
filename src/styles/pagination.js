@@ -40,6 +40,10 @@ export const paginationClasses = css`
     border: 3px solid currentColor;
     border-radius: var(--r);
 
+    --bg: var(--btn-bg-off);
+    --c: var(--c2);
+    --alpha: 0.2;
+
     @media ${mq.justMobile} {
       &:last-child {
         --r: 0.125rem 1.5rem 1.5rem 0.125rem / 0.125rem 50% 50% 0.125rem;
@@ -49,10 +53,6 @@ export const paginationClasses = css`
         --r: 1.5rem 0.125rem 0.125rem 1.5rem / 50% 0.125rem 0.125rem 50%;
       }
     }
-
-    --bg: var(--btn-bg-off);
-    --c: var(--c2);
-    --alpha: 0.2;
 
     @media ${mq.veryMobile} {
       --r: 0.125rem;
