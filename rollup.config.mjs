@@ -14,7 +14,7 @@ export default {
           passes: 10
         },
         mangle: true,
-        ecma: 11
+        ecma: 2020
       })
     ]
   },
