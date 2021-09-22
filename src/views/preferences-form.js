@@ -26,21 +26,6 @@ export const createPreferencesFormView = ({classes, app}) => {
     }
   }
 
-  const checkboxView = ({name, value, checked, text}) => html`
-    <label class=${classes.checkboxWrap}>
-      <input
-        class=${classes.checkbox}
-        type="radio"
-        :name=${name}
-        :value=${value}
-        :checked=${checked}
-        @change=${changePreference}
-        @keyup=${escClose}
-      />
-      ${text}
-    </label>
-  `
-
   const closeModal = () => {
     app.state = {
       ...app.state,
@@ -48,65 +33,85 @@ export const createPreferencesFormView = ({classes, app}) => {
     }
   }
 
-  return (state) => html`
-    <div
-      class=${classes.backdrop}
-      role="dialog"
-      aria-modal="true"
-      @click=${closeModal}
-    >
-      <div class=${classes.modal}>
-        <form class=${classes.form}>
-          <h2 class=${classes.heading}>Preferences</h2>
-          <section class=${classes.fieldset}>
-            <h3 class=${classes.label}>Color scheme:</h3>
-            <div class=${classes.field}>
-              ${checkboxView({
-                name: 'colorScheme',
-                value: 'auto',
-                checked: (state.preferences.colorScheme ?? 'auto') === 'auto',
-                text: 'Auto'
-              })}
-              ${checkboxView({
-                name: 'colorScheme',
-                value: 'dark',
-                checked: state.preferences.colorScheme === 'dark',
-                text: 'Dark'
-              })}
-              ${checkboxView({
-                name: 'colorScheme',
-                value: 'light',
-                checked: state.preferences.colorScheme === 'light',
-                text: 'Light'
-              })}
-            </div>
-          </section>
-          <section class=${classes.fieldset}>
-            <h3 class=${classes.label}>Wrap code:</h3>
-            <div class=${classes.field}>
-              ${checkboxView({
-                name: 'codeWrap',
-                value: 'yes',
-                checked: (state.preferences.codeWrap ?? 'yes') === 'yes',
-                text: 'Yes'
-              })}
-              ${checkboxView({
-                name: 'codeWrap',
-                value: 'no',
-                checked: state.preferences.codeWrap === 'no',
-                text: 'No'
-              })}
-            </div>
-          </section>
-          <button
-            class=${classes.doneLinkAnchor}
-            type="button"
-            @click=${closeModal}
-          >
-            Close
-          </button>
-        </form>
+  return (state) => {
+    const checkboxSet = ({title, name, items}) => html`
+      <section class=${classes.fieldset}>
+        <h3 class=${classes.label}>${title}:</h3>
+        <div class=${classes.field}>
+          ${items.map(
+            ({value, text}, i) => html`
+              <label class=${classes.checkboxWrap}>
+                <input
+                  class=${classes.checkbox}
+                  type="radio"
+                  :name=${name}
+                  :value=${value}
+                  :checked=${state.preferences[name] == null
+                    ? i === 0
+                    : state.preferences[name] === value}
+                  @change=${changePreference}
+                  @keyup=${escClose}
+                />
+                ${text}
+              </label>
+            `
+          )}
+        </div>
+      </section>
+    `
+
+    return html`
+      <div
+        class=${classes.backdrop}
+        role="dialog"
+        aria-modal="true"
+        @click=${closeModal}
+      >
+        <div class=${classes.modal}>
+          <form class=${classes.form}>
+            <h2 class=${classes.heading}>Preferences</h2>
+            ${checkboxSet({
+              title: 'Color scheme',
+              name: 'colorScheme',
+              items: [
+                {
+                  value: 'auto',
+                  text: 'Auto'
+                },
+                {
+                  value: 'dark',
+                  text: 'Dark'
+                },
+                {
+                  value: 'light',
+                  text: 'Light'
+                }
+              ]
+            })}
+            ${checkboxSet({
+              title: 'Wrap code',
+              name: 'codeWrap',
+              items: [
+                {
+                  value: 'yes',
+                  text: 'Yes'
+                },
+                {
+                  value: 'no',
+                  text: 'No'
+                }
+              ]
+            })}
+            <button
+              class=${classes.doneLinkAnchor}
+              type="button"
+              @click=${closeModal}
+            >
+              Close
+            </button>
+          </form>
+        </div>
       </div>
-    </div>
-  `
+    `
+  }
 }
