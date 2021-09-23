@@ -20,6 +20,25 @@ export const _start = css`
     font: inherit;
   }
 
+  body {
+    scrollbar-color: hsl(var(--a-c)) hsl(var(--bg2));
+    scrollbar-width: thin;
+
+    & *::-webkit-scrollbar {
+      height: 0.5em;
+      width: 0.5em;
+    }
+
+    & *::-webkit-scrollbar-track {
+      background-color: hsl(var(--bg2));
+    }
+
+    & *::-webkit-scrollbar-thumb {
+      background-color: hsl(var(--a-c));
+      border-radius: 1em;
+    }
+  }
+
   html {
     font-weight: ${fontWeights.normal};
     font-family: 'Public Sans', system-ui, -apple-system, sans-serif;
