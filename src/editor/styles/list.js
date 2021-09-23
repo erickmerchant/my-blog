@@ -1,6 +1,6 @@
-import {css} from '@erickmerchant/css'
+import {css} from '@erickmerchant/css';
 
-import {buttonMixins, fontWeights} from './core.js'
+import {buttonMixins, fontWeights} from './core.js';
 
 export const listClasses = css`
   .createButton {
@@ -75,4 +75,4 @@ export const listClasses = css`
     background: var(--white);
     border-top: 1px solid var(--silver);
   }
-`
+`;

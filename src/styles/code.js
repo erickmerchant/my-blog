@@ -1,6 +1,6 @@
-import {css} from '@erickmerchant/css'
+import {css} from '@erickmerchant/css';
 
-import {mq} from './core.js'
+import {mq} from './core.js';
 
 export const codeClasses = css`
   .pre {
@@ -88,4 +88,4 @@ export const codeClasses = css`
     background-color: hsl(var(--bg2));
     color: var(--i-code-c);
   }
-`
+`;

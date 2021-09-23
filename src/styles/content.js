@@ -1,6 +1,6 @@
-import {css} from '@erickmerchant/css'
+import {css} from '@erickmerchant/css';
 
-import {fontWeights, mixins, mq} from './core.js'
+import {fontWeights, mixins, mq} from './core.js';
 
 export const contentClasses = css`
   .heading2,
@@ -77,4 +77,4 @@ export const contentClasses = css`
     margin-block: 1em;
     word-break: break-word;
   }
-`
+`;

@@ -1,4 +1,4 @@
-import {html} from '@erickmerchant/framework'
+import {html} from '@erickmerchant/framework';
 
 export const createIconsView =
   ({classes}) =>
@@ -58,4 +58,4 @@ export const createIconsView =
           />
         </symbol>
       </svg>
-    `
+    `;

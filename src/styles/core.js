@@ -1,11 +1,11 @@
-import {css} from '@erickmerchant/css'
+import {css} from '@erickmerchant/css';
 
 export const fontWeights = {
   heading1: 900,
   heading2: 800,
   bold: 600,
-  normal: 100
-}
+  normal: 100,
+};
 
 export const mq = {
   colorSchemeDark: '(prefers-color-scheme: dark)',
@@ -14,8 +14,8 @@ export const mq = {
   desktopUp: '(min-width: 1100px)',
   tallUp: '(min-height: 605px)',
   veryMobile: '(max-width: 440px)',
-  justMobile: '(min-width: 441px) and (max-width: 769px)'
-}
+  justMobile: '(min-width: 441px) and (max-width: 769px)',
+};
 
 export const mixins = {
   heading: css`
@@ -48,5 +48,5 @@ export const mixins = {
       appearance: none;
       -webkit-appearance: none;
     }
-  `
-}
+  `,
+};

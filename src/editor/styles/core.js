@@ -1,12 +1,12 @@
-import {css} from '@erickmerchant/css'
+import {css} from '@erickmerchant/css';
 
 export const fontWeights = {
   heading: 900,
   bold: 700,
-  normal: 300
-}
+  normal: 300,
+};
 
-export const borderRadius = '3px'
+export const borderRadius = '3px';
 
 export const buttonMixins = {
   button: css`
@@ -56,5 +56,5 @@ export const buttonMixins = {
         filter: saturate(2);
       }
     }
-  `
-}
+  `,
+};

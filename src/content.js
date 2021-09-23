@@ -1,37 +1,37 @@
 export const createContentView =
   ({views}) =>
   (json) => {
-    const result = []
+    const result = [];
 
     const inline = (items) => {
-      const result = []
+      const result = [];
 
       for (const item of items) {
         if (item.type) {
-          result.push(views[item.type](item))
+          result.push(views[item.type](item));
         } else {
-          result.push(item)
+          result.push(item);
         }
       }
 
-      return result
-    }
+      return result;
+    };
 
     for (const section of json) {
-      result.push(views[section.type]({...section}, inline))
+      result.push(views[section.type]({...section}, inline));
     }
 
-    return result
-  }
+    return result;
+  };
 
 export const prettyDate = (str) => {
-  const [year, month, day] = str.split('-').map((v) => Number(v))
+  const [year, month, day] = str.split('-').map((v) => Number(v));
 
-  const date = new Date(year, month - 1, day)
+  const date = new Date(year, month - 1, day);
 
   return date.toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
-    day: 'numeric'
-  })
-}
+    day: 'numeric',
+  });
+};

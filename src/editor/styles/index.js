@@ -1,4 +1,4 @@
-import {css} from '@erickmerchant/css'
+import {css} from '@erickmerchant/css';
 
 export const _start = css`
   * {
@@ -32,14 +32,14 @@ export const _start = css`
       --red: hsl(350 80% 65%);
     }
   }
-`
+`;
 
-export {layoutClasses} from './layout.js'
+export {layoutClasses} from './layout.js';
 
-export {listClasses} from './list.js'
+export {listClasses} from './list.js';
 
-export {formClasses} from './form.js'
+export {formClasses} from './form.js';
 
-export {highlightClasses} from './highlight.js'
+export {highlightClasses} from './highlight.js';
 
-export {errorClasses} from './error.js'
+export {errorClasses} from './error.js';

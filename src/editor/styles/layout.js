@@ -1,6 +1,6 @@
-import {css} from '@erickmerchant/css'
+import {css} from '@erickmerchant/css';
 
-import {fontWeights} from './core.js'
+import {fontWeights} from './core.js';
 
 export const layoutClasses = css`
   .app {
@@ -13,4 +13,4 @@ export const layoutClasses = css`
     height: 100%;
     background-color: var(--white);
   }
-`
+`;

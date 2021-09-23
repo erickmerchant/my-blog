@@ -1,14 +1,14 @@
-import {html} from '@erickmerchant/framework'
+import {html} from '@erickmerchant/framework';
 
 const yearsSince = (year, month) => {
-  const thenAsFloat = year + month / 12
+  const thenAsFloat = year + month / 12;
 
-  const now = new Date()
+  const now = new Date();
 
-  const nowAsFloat = now.getFullYear() + (now.getMonth() + 1) / 12
+  const nowAsFloat = now.getFullYear() + (now.getMonth() + 1) / 12;
 
-  return Math.floor(nowAsFloat - thenAsFloat)
-}
+  return Math.floor(nowAsFloat - thenAsFloat);
+};
 
 export const createAboutView =
   ({classes}) =>
@@ -29,4 +29,4 @@ export const createAboutView =
           if you want.
         </p>
       </article>
-    `
+    `;

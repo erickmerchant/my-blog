@@ -1,36 +1,36 @@
-import {html} from '@erickmerchant/framework'
+import {html} from '@erickmerchant/framework';
 
 import {
   formClasses,
-  highlightClasses
-} from '../../assets/editor/styles/index.js'
-import {createContentView} from '../content.js'
+  highlightClasses,
+} from '../../assets/editor/styles/index.js';
+import {createContentView} from '../content.js';
 
 export const createFormView = ({model, app}) => {
   const save = (item, slug) => async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    const data = {...item}
+    const data = {...item};
 
     try {
-      await model.save(data, slug)
+      await model.save(data, slug);
 
-      window.location.hash = `#/`
+      window.location.hash = `#/`;
     } catch (error) {
       if (error.message.startsWith('409')) {
         app.state = {
           ...app.state,
-          slugConflict: true
-        }
+          slugConflict: true,
+        };
       } else {
         app.state = {
           ...app.state,
           error,
-          route: {key: 'error'}
-        }
+          route: {key: 'error'},
+        };
       }
     }
-  }
+  };
 
   const contentView = createContentView({
     views: {
@@ -96,11 +96,11 @@ export const createFormView = ({model, app}) => {
       paragraph: (text) =>
         html`
           <span>${text}</span>
-        `
-    }
-  })
+        `,
+    },
+  });
 
-  const highlighter = (str = '') => contentView(str.replace(/\r/g, ''))
+  const highlighter = (str = '') => contentView(str.replace(/\r/g, ''));
 
   const highlight = (e) => {
     app.state = {
@@ -108,10 +108,10 @@ export const createFormView = ({model, app}) => {
       item: {
         ...app.state.item,
         highlightedContent: e.target.value,
-        content: e.target.value
-      }
-    }
-  }
+        content: e.target.value,
+      },
+    };
+  };
 
   return (state) => html`
     <form
@@ -129,8 +129,8 @@ export const createFormView = ({model, app}) => {
           @input=${(e) => {
             app.state = {
               ...app.state,
-              item: {...app.state.item, title: e.target.value}
-            }
+              item: {...app.state.item, title: e.target.value},
+            };
           }}
         />
       </div>
@@ -144,8 +144,8 @@ export const createFormView = ({model, app}) => {
           @input=${(e) => {
             app.state = {
               ...app.state,
-              item: {...app.state.item, slug: e.target.value}
-            }
+              item: {...app.state.item, slug: e.target.value},
+            };
           }}
         />
       </div>
@@ -161,8 +161,8 @@ export const createFormView = ({model, app}) => {
             @change=${(e) => {
               app.state = {
                 ...app.state,
-                item: {...app.state.item, draft: e.target.checked}
-              }
+                item: {...app.state.item, draft: e.target.checked},
+              };
             }}
           />
         </label>
@@ -197,5 +197,5 @@ export const createFormView = ({model, app}) => {
         <button class=${formClasses.saveButton} type="submit">Save</button>
       </div>
     </form>
-  `
-}
+  `;
+};

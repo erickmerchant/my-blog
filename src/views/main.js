@@ -1,14 +1,14 @@
-import {html} from '@erickmerchant/framework'
+import {html} from '@erickmerchant/framework';
 
 export const createMainView =
   ({classes, contentView, paginationView, prettyDate}) =>
   (state) => {
-    let content = ''
+    let content = '';
 
     if (!state.isLoading) {
       Promise.resolve().then(() => {
-        document.body.style.setProperty('--below-main-display', 'block')
-      })
+        document.body.style.setProperty('--below-main-display', 'block');
+      });
 
       content = [
         html`
@@ -27,11 +27,11 @@ export const createMainView =
           </header>
         `,
         ...contentView(state.post.content ?? ''),
-        paginationView(state)
-      ]
+        paginationView(state),
+      ];
     }
 
     return html`
       <main class=${classes.main}>${content}</main>
-    `
-  }
+    `;
+  };

@@ -1,6 +1,6 @@
-import {css} from '@erickmerchant/css'
+import {css} from '@erickmerchant/css';
 
-import {fontWeights, mixins, mq} from './core.js'
+import {fontWeights, mixins, mq} from './core.js';
 
 export const layoutClasses = css`
   .app {
@@ -28,7 +28,7 @@ export const layoutClasses = css`
 
     ${[
       (body) => `@media ${mq.colorSchemeLight} { &.auto { ${body} } }`,
-      (body) => `&.light { ${body} }`
+      (body) => `&.light { ${body} }`,
     ]
       .map((condition) =>
         condition(`
@@ -49,7 +49,7 @@ export const layoutClasses = css`
 
     ${[
       (body) => `@media ${mq.colorSchemeDark} { &.auto { ${body} } }`,
-      (body) => `&.dark { ${body} }`
+      (body) => `&.dark { ${body} }`,
     ]
       .map((condition) =>
         condition(`
@@ -200,4 +200,4 @@ export const layoutClasses = css`
   .footerAnchor {
     ${mixins.navAnchor}
   }
-`
+`;

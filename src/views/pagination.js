@@ -1,8 +1,8 @@
-import {html} from '@erickmerchant/framework'
+import {html} from '@erickmerchant/framework';
 
 export const createPaginationView = ({classes, getAnchorClick}) => {
   const paginationItem = (item, text) => {
-    const href = item ? `/posts/${item.slug}/` : null
+    const href = item ? `/posts/${item.slug}/` : null;
 
     return html`
       <li :class=${item ? classes.itemEnabled : classes.item}>
@@ -18,8 +18,8 @@ export const createPaginationView = ({classes, getAnchorClick}) => {
             `
           : text}
       </li>
-    `
-  }
+    `;
+  };
 
   return (state) =>
     state.post.prev || state.post.next
@@ -31,5 +31,5 @@ export const createPaginationView = ({classes, getAnchorClick}) => {
             </ul>
           </nav>
         `
-      : null
-}
+      : null;
+};

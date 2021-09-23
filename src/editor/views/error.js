@@ -1,6 +1,6 @@
-import {html} from '@erickmerchant/framework'
+import {html} from '@erickmerchant/framework';
 
-import {errorClasses} from '../../assets/editor/styles/index.js'
+import {errorClasses} from '../../assets/editor/styles/index.js';
 
 export const createErrorView = () => (state) =>
   html`
@@ -8,4 +8,4 @@ export const createErrorView = () => (state) =>
       <h1 class=${errorClasses.heading}>${state.error.message}</h1>
       <pre class=${errorClasses.stack}><code>${state.error.stack}</code></pre>
     </div>
-  `
+  `;

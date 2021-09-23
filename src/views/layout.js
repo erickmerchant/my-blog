@@ -1,4 +1,4 @@
-import {html} from '@erickmerchant/framework'
+import {html} from '@erickmerchant/framework';
 
 export const createLayoutView =
   ({
@@ -7,7 +7,7 @@ export const createLayoutView =
     mainView,
     preferencesView,
     iconsView,
-    getAnchorClick
+    getAnchorClick,
   }) =>
   (state = {}) =>
     html`
@@ -41,4 +41,4 @@ export const createLayoutView =
         </footer>
         ${iconsView()}
       </body>
-    `
+    `;

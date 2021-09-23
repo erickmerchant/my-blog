@@ -1,4 +1,4 @@
-import {css} from '@erickmerchant/css'
+import {css} from '@erickmerchant/css';
 
 export const iconsClasses = css`
   .defs {
@@ -14,4 +14,4 @@ export const iconsClasses = css`
     fill: currentColor;
     stroke: hsl(var(--bg, 0 0% 100%));
   }
-`
+`;

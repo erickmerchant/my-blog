@@ -23,7 +23,7 @@
   },
   "devDependencies": {
     "@erickmerchant/eslint-config": "^3.0.0",
-    "@erickmerchant/prettier-config": "^1.2.0"
+    "@erickmerchant/prettier-config": "^2.0.0"
   },
   "eslintConfig": {
     "extends": "@erickmerchant/eslint-config"

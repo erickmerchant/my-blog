@@ -1,6 +1,6 @@
-import {css} from '@erickmerchant/css'
+import {css} from '@erickmerchant/css';
 
-import {fontWeights, mixins, mq} from './core.js'
+import {fontWeights, mixins, mq} from './core.js';
 
 export const aboutClasses = css`
   .about {
@@ -50,4 +50,4 @@ export const aboutClasses = css`
       max-width: 100%;
     }
   }
-`
+`;

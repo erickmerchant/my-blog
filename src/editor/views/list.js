@@ -1,29 +1,29 @@
-import {html} from '@erickmerchant/framework'
+import {html} from '@erickmerchant/framework';
 
-import {listClasses} from '../../assets/editor/styles/index.js'
-import {prettyDate} from '../../content.js'
+import {listClasses} from '../../assets/editor/styles/index.js';
+import {prettyDate} from '../../content.js';
 
 export const createListView = ({model, app}) => {
   const remove = (item) => async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    e.target.blur()
+    e.target.blur();
 
     try {
       if (item.slug != null) {
-        await model.remove(item.slug)
+        await model.remove(item.slug);
 
-        const items = await model.getList()
+        const items = await model.getList();
 
         app.state = {
           route: {key: 'list', params: []},
-          items
-        }
+          items,
+        };
       }
     } catch (error) {
-      app.state = {...app.state, error}
+      app.state = {...app.state, error};
     }
-  }
+  };
 
   return (state) => html`
     <div class=${listClasses.container}>
@@ -84,5 +84,5 @@ export const createListView = ({model, app}) => {
         </a>
       </div>
     </div>
-  `
-}
+  `;
+};

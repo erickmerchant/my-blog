@@ -1,6 +1,6 @@
-import {css} from '@erickmerchant/css'
+import {css} from '@erickmerchant/css';
 
-import {fontWeights} from './core.js'
+import {fontWeights} from './core.js';
 
 export const highlightClasses = css`
   .punctuation {
@@ -32,4 +32,4 @@ export const highlightClasses = css`
     font-weight: ${fontWeights.heading};
     color: var(--gray);
   }
-`
+`;

@@ -1,6 +1,6 @@
-import {css} from '@erickmerchant/css'
+import {css} from '@erickmerchant/css';
 
-import {borderRadius, buttonMixins, fontWeights} from './core.js'
+import {borderRadius, buttonMixins, fontWeights} from './core.js';
 
 export const formClasses = css`
   .form {
@@ -110,4 +110,4 @@ export const formClasses = css`
   .publishButton {
     ${buttonMixins.textButton}
   }
-`
+`;

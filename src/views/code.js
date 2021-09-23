@@ -1,4 +1,4 @@
-import {html} from '@erickmerchant/framework'
+import {html} from '@erickmerchant/framework';
 
 export const getCodeViews = ({classes}) => {
   return {
@@ -20,6 +20,6 @@ export const getCodeViews = ({classes}) => {
     codeInline: ({text}) =>
       html`
         <code class=${classes.inline}>${text}</code>
-      `
-  }
-}
+      `,
+  };
+};

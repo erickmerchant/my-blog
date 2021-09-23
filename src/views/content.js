@@ -1,4 +1,4 @@
-import {html} from '@erickmerchant/framework'
+import {html} from '@erickmerchant/framework';
 
 export const getContentViews = ({classes, getAnchorClick}) => {
   return {
@@ -28,7 +28,7 @@ export const getContentViews = ({classes, getAnchorClick}) => {
         <p class=${classes.paragraph}>${inline(items)}</p>
       `,
     heading: ({text}) => {
-      const slug = text.toLowerCase().replace(/\s+|[^a-z0-9-]/g, '-')
+      const slug = text.toLowerCase().replace(/\s+|[^a-z0-9-]/g, '-');
 
       return html`
         <h2 class=${classes.heading2} :id=${slug}>
@@ -41,7 +41,7 @@ export const getContentViews = ({classes, getAnchorClick}) => {
           </a>
           ${text}
         </h2>
-      `
-    }
-  }
-}
+      `;
+    },
+  };
+};

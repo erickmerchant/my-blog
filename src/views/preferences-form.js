@@ -1,37 +1,37 @@
-import {html} from '@erickmerchant/framework'
+import {html} from '@erickmerchant/framework';
 
 export const createPreferencesFormView = ({classes, app}) => {
   const changePreference = (e) => {
-    const preferences = {}
+    const preferences = {};
 
     if (e.target?.form) {
-      const data = new FormData(e.target?.form)
+      const data = new FormData(e.target?.form);
 
       for (const [key, value] of data) {
-        preferences[key] = value
+        preferences[key] = value;
       }
     }
 
-    app.state = {...app.state, preferences}
+    app.state = {...app.state, preferences};
 
-    localStorage.setItem('preferences', JSON.stringify(app.state.preferences))
-  }
+    localStorage.setItem('preferences', JSON.stringify(app.state.preferences));
+  };
 
   const escClose = (e) => {
     if (e.key === 'Escape') {
       app.state = {
         ...app.state,
-        preferencesModalOpen: false
-      }
+        preferencesModalOpen: false,
+      };
     }
-  }
+  };
 
   const closeModal = () => {
     app.state = {
       ...app.state,
-      preferencesModalOpen: false
-    }
-  }
+      preferencesModalOpen: false,
+    };
+  };
 
   return (state) => {
     const checkboxSet = ({title, name, items}) => html`
@@ -58,7 +58,7 @@ export const createPreferencesFormView = ({classes, app}) => {
           )}
         </div>
       </section>
-    `
+    `;
 
     return html`
       <div
@@ -76,17 +76,17 @@ export const createPreferencesFormView = ({classes, app}) => {
               items: [
                 {
                   value: 'auto',
-                  text: 'Auto'
+                  text: 'Auto',
                 },
                 {
                   value: 'dark',
-                  text: 'Dark'
+                  text: 'Dark',
                 },
                 {
                   value: 'light',
-                  text: 'Light'
-                }
-              ]
+                  text: 'Light',
+                },
+              ],
             })}
             ${checkboxSet({
               title: 'Wrap code',
@@ -94,13 +94,13 @@ export const createPreferencesFormView = ({classes, app}) => {
               items: [
                 {
                   value: 'yes',
-                  text: 'Yes'
+                  text: 'Yes',
                 },
                 {
                   value: 'no',
-                  text: 'No'
-                }
-              ]
+                  text: 'No',
+                },
+              ],
             })}
             <button
               class=${classes.doneLinkAnchor}
@@ -112,6 +112,6 @@ export const createPreferencesFormView = ({classes, app}) => {
           </form>
         </div>
       </div>
-    `
-  }
-}
+    `;
+  };
+};

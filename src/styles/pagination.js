@@ -1,6 +1,6 @@
-import {css} from '@erickmerchant/css'
+import {css} from '@erickmerchant/css';
 
-import {fontWeights, mixins, mq} from './core.js'
+import {fontWeights, mixins, mq} from './core.js';
 
 export const paginationClasses = css`
   .nav {
@@ -88,4 +88,4 @@ export const paginationClasses = css`
       border-radius: var(--r);
     }
   }
-`
+`;

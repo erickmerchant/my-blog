@@ -1,6 +1,6 @@
-import {css} from '@erickmerchant/css'
+import {css} from '@erickmerchant/css';
 
-import {fontWeights, mixins, mq} from './core.js'
+import {fontWeights, mixins, mq} from './core.js';
 
 export const mainClasses = css`
   .main {
@@ -35,4 +35,4 @@ export const mainClasses = css`
     height: 1em;
     width: 1em;
   }
-`
+`;

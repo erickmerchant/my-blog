@@ -1,6 +1,6 @@
-import {css} from '@erickmerchant/css'
+import {css} from '@erickmerchant/css';
 
-import {fontWeights, mixins, mq} from './core.js'
+import {fontWeights, mixins, mq} from './core.js';
 
 export const preferencesClasses = css`
   .footerAnchor {
@@ -105,4 +105,4 @@ export const preferencesClasses = css`
     border: none;
     cursor: pointer;
   }
-`
+`;

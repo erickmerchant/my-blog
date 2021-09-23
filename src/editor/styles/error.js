@@ -1,6 +1,6 @@
-import {css} from '@erickmerchant/css'
+import {css} from '@erickmerchant/css';
 
-import {fontWeights} from './core.js'
+import {fontWeights} from './core.js';
 
 export const errorClasses = css`
   .container {
@@ -19,4 +19,4 @@ export const errorClasses = css`
     white-space: pre-wrap;
     word-break: break-word;
   }
-`
+`;

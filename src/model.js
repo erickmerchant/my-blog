@@ -5,15 +5,15 @@ export const createModel = () => {
         ...options,
         headers: {
           'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        }
-      })
+          'Content-Type': 'application/json',
+        },
+      });
 
       if (!res.ok) {
-        throw new Error(`${res.status} ${res.statusText}`)
+        throw new Error(`${res.status} ${res.statusText}`);
       }
 
-      return res
+      return res;
     },
 
     async getBySlug(id = '_first') {
@@ -21,21 +21,21 @@ export const createModel = () => {
         ['posts', id].map((n) =>
           model.fetch(`/content/${n}.json`).then((res) => res.json())
         )
-      )
+      );
 
       const index =
-        id === '_first' ? 0 : posts.findIndex((post) => post.slug === id)
+        id === '_first' ? 0 : posts.findIndex((post) => post.slug === id);
 
       if (~index) {
         return {
           ...posts[index],
           content,
           next: posts[index - 1],
-          prev: posts[index + 1]
-        }
+          prev: posts[index + 1],
+        };
       }
-    }
-  }
+    },
+  };
 
-  return model
-}
+  return model;
+};

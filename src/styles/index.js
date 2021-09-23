@@ -1,6 +1,6 @@
-import {css} from '@erickmerchant/css'
+import {css} from '@erickmerchant/css';
 
-import {fontWeights} from './core.js'
+import {fontWeights} from './core.js';
 
 export const _start = css`
   @font-face {
@@ -29,20 +29,20 @@ export const _start = css`
     height: 100%;
     scroll-padding-top: 14vh;
   }
-`
+`;
 
-export {layoutClasses} from './layout.js'
+export {layoutClasses} from './layout.js';
 
-export {aboutClasses} from './about.js'
+export {aboutClasses} from './about.js';
 
-export {preferencesClasses} from './preferences.js'
+export {preferencesClasses} from './preferences.js';
 
-export {mainClasses} from './main.js'
+export {mainClasses} from './main.js';
 
-export {contentClasses} from './content.js'
+export {contentClasses} from './content.js';
 
-export {codeClasses} from './code.js'
+export {codeClasses} from './code.js';
 
-export {paginationClasses} from './pagination.js'
+export {paginationClasses} from './pagination.js';
 
-export {iconsClasses} from './icons.js'
+export {iconsClasses} from './icons.js';
