@@ -1,5 +1,3 @@
-/* eslint require-atomic-updates: 0 */
-
 import {html} from '@erickmerchant/framework';
 
 export const createPreferencesButtonView = ({
@@ -51,8 +49,14 @@ export const createPreferencesButtonView = ({
           type="button"
           class=${classes.footerAnchor}
           @click=${async () => {
+            let result;
+
             if (preferencesForm == null) {
-              preferencesForm = await loadPreferencesForm();
+              result = await loadPreferencesForm();
+            }
+
+            if (preferencesForm == null) {
+              preferencesForm = result;
             }
 
             app.state = {...app.state, preferencesModalOpen: true};
