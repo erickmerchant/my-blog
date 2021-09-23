@@ -15,22 +15,25 @@ const execOpts = {
 try {
   if (command === 'start') {
     execa.command(
-      `css src/styles/index.js src/assets/styles -dw src/styles`,
+      `css -i src/styles/index.js -o src/assets/styles -dw src/styles`,
       execOpts
     );
 
     execa.command(
-      `css src/editor/styles/index.js src/assets/editor/styles -dw src/editor/styles`,
+      `css -i src/editor/styles/index.js -o src/assets/editor/styles -dw src/editor/styles`,
       execOpts
     );
 
-    execa.command(`dev serve -a ${DEV} -e index.html -d src`, execOpts);
+    execa.command(`dev serve -a ${DEV} -e index.html -ds src`, execOpts);
   }
 
   if (command === 'build') {
-    execa.command(`dev serve -a ${PROD} -e index.html src`, execOpts);
+    execa.command(`dev serve -a ${PROD} -e index.html -s src`, execOpts);
 
-    await execa.command(`css src/styles/index.js src/assets/styles`, execOpts);
+    await execa.command(
+      `css -i src/styles/index.js -o src/assets/styles`,
+      execOpts
+    );
 
     await Promise.all(
       [
