@@ -50,25 +50,18 @@ export const contentClasses = css`
   .list {
     margin-block: 1em;
     padding-left: 0.5rem;
-    list-style: none;
   }
 
   .listItem {
     margin-bottom: 0.25em;
-    display: inline-grid;
-    grid-template-columns: max-content auto 1fr;
     width: 100%;
+    margin-left: 0.6em;
+    padding-left: 0.5em;
+    list-style-position: outside;
 
-    &::before {
-      align-self: top;
-      content: '';
-      border-radius: 100%;
-      margin-right: 0.5rem;
-      margin-top: 0.5em;
-      height: 0.25em;
-      width: 0.25rem;
-      background: transparent;
-      border: 2px solid currentColor;
+    &::marker {
+      content: '⚬';
+      font-weight: bold;
       color: hsl(var(--a-c));
     }
   }
