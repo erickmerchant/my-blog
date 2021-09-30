@@ -17,7 +17,6 @@ export const aboutClasses = css`
       grid-column: 1;
       background-color: transparent;
       padding-bottom: 2em;
-      padding-inline: 0;
     }
   }
 
@@ -26,11 +25,10 @@ export const aboutClasses = css`
 
     font-weight: ${fontWeights.bold};
     padding-top: 0.5em;
-    max-width: 30rem;
-    margin-inline: auto;
+    width: 100%;
 
     @media ${mq.desktopUp} and ${mq.tallUp} {
-      max-width: 100%;
+      width: 15rem;
     }
   }
 
@@ -43,11 +41,10 @@ export const aboutClasses = css`
 
   .paragraph {
     font-size: 0.875rem;
-    max-width: 30rem;
-    margin-inline: auto;
+    width: 100%;
 
     @media ${mq.desktopUp} and ${mq.tallUp} {
-      max-width: 100%;
+      width: 15rem;
     }
   }
 `;
