@@ -69,7 +69,7 @@ export const layoutClasses = css`
       .join('')}
 
     @media ${mq.desktopUp} and ${mq.tallUp} {
-      grid-template-columns: 1fr 2fr;
+      grid-template-columns: calc(100vw / 3) 1fr;
     }
   }
 
@@ -85,6 +85,7 @@ export const layoutClasses = css`
     border-bottom: 3px solid hsl(var(--a-c));
     grid-row: 1;
     grid-column: 1;
+    width: 100vw;
 
     @media ${mq.tallUp} {
       position: sticky;
@@ -106,6 +107,7 @@ export const layoutClasses = css`
       grid-template-rows: 1fr;
       grid-template-columns: 90%;
       align-items: start;
+      width: auto;
     }
   }
 
