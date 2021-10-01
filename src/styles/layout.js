@@ -142,6 +142,8 @@ export const layoutClasses = css`
       position: sticky;
       top: 0;
       height: 100vh;
+      min-height: min-content;
+      padding-top: 5em;
       display: grid;
       justify-content: center;
       grid-auto-rows: 1fr;
