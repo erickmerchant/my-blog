@@ -7,7 +7,6 @@ export const createContentView =
       const result = [];
 
       for (const item of children) {
-        console.log(item.type);
         if (item.type === 'text') {
           result.push(item);
         } else if (item.type === 'paragraph') {
@@ -21,8 +20,6 @@ export const createContentView =
     };
 
     for (const section of json) {
-      // console.log(section.type);
-
       result.push(views[section.type]({...section}, inline));
     }
 

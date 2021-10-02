@@ -1,10 +1,10 @@
-const makeErrorPost = (title, items) => {
+const makeErrorPost = (title, children) => {
   return {
     title,
     content: [
       {
         type: 'paragraph',
-        items,
+        children,
       },
     ],
   };
@@ -23,9 +23,9 @@ const getDispatchLocation =
       isLoading: false,
       pathname,
       post: makeErrorPost('Page Not Found', [
-        'Try starting ',
-        {type: 'anchor', text: 'here', href: '/'},
-        '.',
+        {type: 'text', value: 'Try starting '},
+        {type: 'link', children: [{type: 'text', value: 'here'}], url: '/'},
+        {type: 'text', value: '.'},
       ]),
     };
 
@@ -42,7 +42,9 @@ const getDispatchLocation =
         }
       } catch (error) {
         if (!error.message.startsWith('404')) {
-          state.post = makeErrorPost('Error Caught', [error.message]);
+          state.post = makeErrorPost('Error Caught', [
+            {type: 'text', value: error.message},
+          ]);
         }
       }
     }
