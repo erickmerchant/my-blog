@@ -1,9 +1,12 @@
 #!/usr/bin/env node
 import {stringify} from '@erickmerchant/framework/stringify.js';
+import toml from '@iarna/toml';
 import cheerio from 'cheerio';
 import execa from 'execa';
 import fs from 'fs/promises';
 import {copy} from 'fs-extra';
+import {globby} from 'globby';
+import {fromMarkdown} from 'mdast-util-from-markdown';
 
 import {DEV, PROD, SSR} from './src/envs.js';
 
@@ -13,14 +16,37 @@ const execOpts = {
 };
 
 try {
+  const files = await globby(['src/content/*.md']);
+  const filePattern = /\d{4}-\d{2}-\d{2}-(.*?).md$/;
+
+  await fs.mkdir('src/assets/content/', {recursive: true});
+
+  for (let i = 0; i < files.length; i++) {
+    const text = await fs.readFile(files[i], 'utf8');
+
+    const [, data, content] = text.split('+++');
+
+    const post = toml.parse(data);
+
+    post.previous = files[i - 1]?.match(filePattern)?.[1] ?? null;
+    post.next = files[i + 1]?.match(filePattern)?.[1] ?? null;
+
+    post.content = fromMarkdown(content)?.children;
+
+    const json = JSON.stringify(post, (key, value) => {
+      if (key !== 'position') return value;
+    });
+
+    if (files[i + 1] == null) {
+      await fs.writeFile('src/assets/content/_latest.json', json);
+    }
+
+    await fs.writeFile(`src/assets/content/${post.slug}.json`, json);
+  }
+
   if (command === 'start') {
     execa.command(
       `css -i src/styles/index.js -o src/assets/styles -dw src/styles`,
-      execOpts
-    );
-
-    execa.command(
-      `css -i src/editor/styles/index.js -o src/assets/editor/styles -dw src/editor/styles`,
       execOpts
     );
 

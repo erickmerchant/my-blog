@@ -1,12 +1,12 @@
 import {html} from '@erickmerchant/framework';
 
 export const createPaginationView = ({classes, getAnchorClick}) => {
-  const paginationItem = (item, text) => {
-    const href = item ? `/posts/${item.slug}/` : null;
+  const paginationItem = (slug, text) => {
+    const href = slug ? `/posts/${slug}/` : null;
 
     return html`
-      <li :class=${item ? classes.itemEnabled : classes.item}>
-        ${item
+      <li :class=${slug ? classes.itemEnabled : classes.item}>
+        ${slug
           ? html`
               <a
                 class=${classes.anchor}
@@ -22,11 +22,11 @@ export const createPaginationView = ({classes, getAnchorClick}) => {
   };
 
   return (state) =>
-    state.post.prev || state.post.next
+    state.post.previous || state.post.next
       ? html`
           <nav class=${classes.nav}>
             <ul class=${classes.list}>
-              ${paginationItem(state.post.prev, 'Older')}
+              ${paginationItem(state.post.previous, 'Older')}
               ${paginationItem(state.post.next, 'Newer')}
             </ul>
           </nav>

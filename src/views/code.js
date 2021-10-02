@@ -2,8 +2,10 @@ import {html} from '@erickmerchant/framework';
 
 export const getCodeViews = ({classes}) => {
   return {
-    codeBlock: ({lines}) =>
-      html`
+    code: ({value}) => {
+      const lines = value.split('\n');
+
+      return html`
         <pre class=${classes.pre}><code class=${classes.block}>${lines.map(
           (code) =>
             html`
@@ -16,10 +18,11 @@ export const getCodeViews = ({classes}) => {
               </span>
             `
         )}</code></pre>
-      `,
-    codeInline: ({text}) =>
+      `;
+    },
+    inlineCode: ({value}) =>
       html`
-        <code class=${classes.inline}>${text}</code>
+        <code class=${classes.inline}>${value}</code>
       `,
   };
 };

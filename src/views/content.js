@@ -2,32 +2,33 @@ import {html} from '@erickmerchant/framework';
 
 export const getContentViews = ({classes, getAnchorClick}) => {
   return {
-    anchor: ({text, href}) =>
+    link: ({children, url}, inline) =>
       html`
         <a
           class=${classes.anchor}
-          :href=${href}
-          @click=${href.startsWith('/') ? getAnchorClick(href) : null}
+          :href=${url}
+          @click=${url.startsWith('/') ? getAnchorClick(url) : null}
         >
-          ${text}
+          ${inline(children)}
         </a>
       `,
-    list: ({items}, inline) =>
+    list: ({children}, inline) =>
       html`
         <ul class=${classes.list}>
-          ${items.map(
+          ${children.map(
             (item) =>
               html`
-                <li class=${classes.listItem}>${inline(item)}</li>
+                <li class=${classes.listItem}>${inline(item.children)}</li>
               `
           )}
         </ul>
       `,
-    paragraph: ({items}, inline) =>
+    paragraph: ({children}, inline) =>
       html`
-        <p class=${classes.paragraph}>${inline(items)}</p>
+        <p class=${classes.paragraph}>${inline(children)}</p>
       `,
-    heading: ({text}) => {
+    heading: ({children}) => {
+      const text = children?.[0]?.value ?? '';
       const slug = text.toLowerCase().replace(/\s+|[^a-z0-9-]/g, '-');
 
       return html`

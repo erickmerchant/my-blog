@@ -3,14 +3,17 @@ export const createContentView =
   (json) => {
     const result = [];
 
-    const inline = (items) => {
+    const inline = (children) => {
       const result = [];
 
-      for (const item of items) {
-        if (item.type) {
-          result.push(views[item.type](item));
-        } else {
+      for (const item of children) {
+        console.log(item.type);
+        if (item.type === 'text') {
           result.push(item);
+        } else if (item.type === 'paragraph') {
+          result.push(...inline(item.children));
+        } else {
+          result.push(views[item.type](item, inline));
         }
       }
 
@@ -18,6 +21,8 @@ export const createContentView =
     };
 
     for (const section of json) {
+      // console.log(section.type);
+
       result.push(views[section.type]({...section}, inline));
     }
 
