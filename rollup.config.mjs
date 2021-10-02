@@ -1,6 +1,6 @@
-import got from 'got'
-import path from 'path'
-import {terser} from 'rollup-plugin-terser'
+import got from 'got';
+import path from 'path';
+import {terser} from 'rollup-plugin-terser';
 
 export default {
   input: 'app.js',
@@ -11,12 +11,12 @@ export default {
       terser({
         toplevel: true,
         compress: {
-          passes: 10
+          passes: 10,
         },
         mangle: true,
-        ecma: 2020
-      })
-    ]
+        ecma: 2020,
+      }),
+    ],
   },
   preserveEntrySignatures: false,
   plugins: [
@@ -24,20 +24,20 @@ export default {
       async load(id) {
         const response = await got(`https://localhost:3000/${id}`, {
           https: {
-            rejectUnauthorized: false
-          }
-        })
+            rejectUnauthorized: false,
+          },
+        });
 
-        return response.body
+        return response.body;
       },
 
       resolveId(source) {
         if (source.startsWith('/')) {
-          source = path.resolve(`.${source}`)
+          source = path.resolve(`.${source}`);
         }
 
-        return path.relative(process.cwd(), source)
-      }
-    }
-  ]
-}
+        return path.relative(process.cwd(), source);
+      },
+    },
+  ],
+};
