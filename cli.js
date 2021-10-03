@@ -93,15 +93,6 @@ try {
 
     const $raw = cheerio.load(rawHtml);
 
-    $raw('head').append(`
-      <script
-        src="https://cdn.usefathom.com/script.js"
-        data-spa="auto"
-        data-site="WEFOJNWB"
-        defer
-      ></script>
-    `);
-
     $raw('link[rel="stylesheet"]').replaceWith(`<style>${styles}</style>`);
 
     $raw('body').attr('class', $body.attr('class')).prepend($body.find('> *'));
