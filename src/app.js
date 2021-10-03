@@ -12,7 +12,6 @@ import {
 } from './assets/styles/index.js';
 import {createContentView, prettyDate} from './content.js';
 import {DEV, PROD, SSR} from './envs.js';
-import {createModel} from './model.js';
 import {setupRouting} from './routing.js';
 import {createAboutView} from './views/about.js';
 import {getCodeViews} from './views/code.js';
@@ -30,8 +29,6 @@ const app = createApp({
 export const _main = async (ENV = PROD) => {
   html.dev = ENV === DEV;
 
-  const postsModel = createModel();
-
   let getAnchorClick, mainView, preferencesView;
 
   if (ENV === SSR) {
@@ -47,7 +44,7 @@ export const _main = async (ENV = PROD) => {
         <main />
       `;
   } else {
-    getAnchorClick = setupRouting({app, postsModel, forceRoute: ENV === DEV});
+    getAnchorClick = setupRouting({app, forceRoute: ENV === DEV});
 
     const paginationView = createPaginationView({
       classes: paginationClasses,

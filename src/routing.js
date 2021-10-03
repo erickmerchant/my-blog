@@ -1,3 +1,23 @@
+const fetch = async (url, options = {}) => {
+  const res = await window.fetch(url, {
+    ...options,
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error(`${res.status} ${res.statusText}`);
+  }
+
+  return res;
+};
+
+const getPost = (id = '_latest') => {
+  return fetch(`/assets/content/${id}.json`).then((res) => res.json());
+};
+
 const makeErrorPost = (title, children) => {
   return {
     title,
@@ -11,7 +31,7 @@ const makeErrorPost = (title, children) => {
 };
 
 const getDispatchLocation =
-  ({app, postsModel, forceRoute}) =>
+  ({app, forceRoute}) =>
   async ({pathname, hash = ''}) => {
     if (pathname === app.state?.pathname && !forceRoute) return;
 
@@ -33,7 +53,7 @@ const getDispatchLocation =
       try {
         const [id] = matches.posts.slice(1);
 
-        const post = await postsModel.getBySlug(id);
+        const post = await getPost(id);
 
         if (post != null) {
           state.post = post;
@@ -64,8 +84,8 @@ const getDispatchLocation =
     }
   };
 
-export const setupRouting = ({app, postsModel, forceRoute}) => {
-  const dispatchLocation = getDispatchLocation({app, postsModel, forceRoute});
+export const setupRouting = ({app, forceRoute}) => {
+  const dispatchLocation = getDispatchLocation({app, forceRoute});
 
   window.onpopstate = () => {
     dispatchLocation(window.location);
