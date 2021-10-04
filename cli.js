@@ -50,11 +50,11 @@ try {
       execOpts
     );
 
-    execa.command(`dev serve -a ${DEV} -e index.html -ds src`, execOpts);
+    execa.command(`dev -a ${DEV} -e index.html -ds src`, execOpts);
   }
 
   if (command === 'build') {
-    execa.command(`dev serve -a ${PROD} -e index.html -s src`, execOpts);
+    execa.command(`dev -a ${PROD} -e index.html -s src`, execOpts);
 
     await execa.command(
       `css -i src/styles/index.js -o src/assets/styles`,
