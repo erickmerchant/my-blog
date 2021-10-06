@@ -9,7 +9,7 @@
     "test": "npm run lint"
   },
   "dependencies": {
-    "@erickmerchant/css": "^36.0.0",
+    "@erickmerchant/css": "^37.0.0",
     "@erickmerchant/dev-cli": "^29.0.0",
     "@erickmerchant/framework": "^48.0.0",
     "@iarna/toml": "^2.2.5",

@@ -46,15 +46,15 @@ try {
 
   if (command === 'start') {
     execa.command(
-      `css -i src/styles/index.js -o src/assets/styles -dw src/styles`,
+      `css -i src/styles/index.js -o src/assets/styles -dw`,
       execOpts
     );
 
-    execa.command(`dev -a ${DEV} -e index.html -ds src`, execOpts);
+    execa.command(`dev -a ${DEV} -ds src`, execOpts);
   }
 
   if (command === 'build') {
-    execa.command(`dev -a ${PROD} -e index.html -s src`, execOpts);
+    execa.command(`dev -a ${PROD} -s src`, execOpts);
 
     await execa.command(
       `css -i src/styles/index.js -o src/assets/styles`,
