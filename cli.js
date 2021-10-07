@@ -7,6 +7,7 @@ import fs from 'fs/promises';
 import {copy} from 'fs-extra';
 import {globby} from 'globby';
 import {fromMarkdown} from 'mdast-util-from-markdown';
+import RSS from 'rss';
 
 import {DEV, PROD, SSR} from './src/envs.js';
 
@@ -20,6 +21,12 @@ try {
   const filePattern = /\d{4}-\d{2}-\d{2}-(.*?).md$/;
 
   await fs.mkdir('src/assets/content/', {recursive: true});
+
+  const rss = new RSS({
+    title: 'erickmerchant.com',
+    feed_url: 'https://erickmerchant.com/assets/content/rss.xml',
+    site_url: 'https://erickmerchant.com/',
+  });
 
   for (let i = 0; i < files.length; i++) {
     const text = await fs.readFile(files[i], 'utf8');
@@ -42,7 +49,17 @@ try {
     }
 
     await fs.writeFile(`src/assets/content/${post.slug}.json`, json);
+
+    rss.item({
+      title: post.title,
+      description: content,
+      url: `https://erickmerchant.com/posts/${post.slug}`,
+      author: 'Erick Merchant',
+      date: post.date,
+    });
   }
+
+  await fs.writeFile('./src/assets/content/rss.xml', rss.xml({indent: true}));
 
   if (command === 'start') {
     execa.command(

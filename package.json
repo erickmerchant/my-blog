@@ -22,7 +22,8 @@
     "postcss-clean": "^1.2.2",
     "postcss-cli": "^9.0.0",
     "rollup": "^2.33.3",
-    "rollup-plugin-terser": "^7.0.2"
+    "rollup-plugin-terser": "^7.0.2",
+    "rss": "^1.2.2"
   },
   "devDependencies": {
     "@erickmerchant/eslint-config": "^3.0.0",

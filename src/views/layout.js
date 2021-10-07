@@ -37,6 +37,11 @@ export const createLayoutView =
               </a>
             </li>
             <li class=${classes.footerItem}>${preferencesView(state)}</li>
+            <li class=${classes.footerItem}>
+              <a class=${classes.footerAnchor} href="/assets/content/rss.xml">
+                RSS
+              </a>
+            </li>
           </ul>
         </footer>
         ${iconsView()}
