@@ -92,6 +92,8 @@ server.get('/changes', (req, res) => {
 });
 ```
 
+This concept is being used in [@erickmerchant/dev-cli](https://github.com/erickmerchant/dev-cli), which I use to build sites/apps.
+
 # Some links
 
 - [Server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events)

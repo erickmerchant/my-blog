@@ -45,6 +45,7 @@ export const aboutClasses = css`
 
     @media ${mq.desktopUp} and ${mq.tallUp} {
       width: 15rem;
+      font-weight: ${fontWeights.normal + 100};
     }
   }
 `;

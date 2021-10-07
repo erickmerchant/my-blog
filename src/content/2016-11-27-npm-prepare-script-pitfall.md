@@ -26,6 +26,8 @@ For instance trying to `sudo npm publish` a package with the above package.json 
 
 Your package will publish correctly, essentially publishing a broken version. In my case it just published the last code that was actually transpiled with `npm run prepare`. You should never `npm publish` with sudo. You should also never really need to use sudo with npm.
 
+A small update to this is that I don't actually think you should publish transpiled code anymore. I think specifying an engines field in your package.json, and writing code that runs in the specified versions is a better approach.
+
 # Some links
 
 - [About scripts](https://docs.npmjs.com/misc/scripts)
