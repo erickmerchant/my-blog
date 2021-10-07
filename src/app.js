@@ -113,7 +113,9 @@ export const _main = async (ENV = PROD) => {
       createDOMView(document.querySelector('site-preferences'), preferencesView)
     );
 
-    for (const anchor of document.querySelectorAll('a[href^="/"]')) {
+    for (const anchor of document.querySelectorAll(
+      'a[href^="/"]:not([href$=".xml"])'
+    )) {
       const href = anchor.getAttribute('href');
 
       anchor.addEventListener('click', getAnchorClick(href));
