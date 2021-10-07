@@ -59,6 +59,8 @@ try {
     });
   }
 
+  await fs.writeFile('src/assets/content/404.html', '');
+
   await fs.writeFile('./src/assets/content/rss.xml', rss.xml({indent: true}));
 
   if (command === 'start') {
