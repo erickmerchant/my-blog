@@ -41,14 +41,6 @@ export const codeClasses = css`
   .commentLine {
     display: contents;
 
-    &:first-child {
-      --pt: 1em;
-    }
-
-    &:last-child {
-      --pb: 1em;
-    }
-
     &::before {
       counter-increment: code;
       content: counter(code);
@@ -64,6 +56,14 @@ export const codeClasses = css`
       @media ${mq.veryMobile} {
         padding-right: 0.5rem;
       }
+    }
+
+    &:first-child {
+      --pt: 1em;
+    }
+
+    &:last-child {
+      --pb: 1em;
     }
   }
 

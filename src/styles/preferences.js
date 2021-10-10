@@ -77,10 +77,6 @@ export const preferencesClasses = css`
 
     --radio-c: transparent;
 
-    &:checked {
-      --radio-c: currentColor;
-    }
-
     &::before {
       content: '';
       background: radial-gradient(var(--radio-c) 40%, transparent 0%);
@@ -89,6 +85,10 @@ export const preferencesClasses = css`
       display: block;
       height: 0.875em;
       width: 0.875em;
+    }
+
+    &:checked {
+      --radio-c: currentColor;
     }
   }
 

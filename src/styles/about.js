@@ -22,13 +22,15 @@ export const aboutClasses = css`
 
   .heading {
     ${mixins.heading}
-
+    ${mixins.mainItem}
+    
     font-weight: ${fontWeights.bold};
     padding-top: 0.5em;
     width: 100%;
 
     @media ${mq.desktopUp} and ${mq.tallUp} {
       width: 15rem;
+      margin-inline: 0;
     }
   }
 
@@ -40,12 +42,15 @@ export const aboutClasses = css`
   }
 
   .paragraph {
+    ${mixins.mainItem}
+
     font-size: 0.875rem;
     width: 100%;
 
     @media ${mq.desktopUp} and ${mq.tallUp} {
       width: 15rem;
       font-weight: ${fontWeights.normal + 100};
+      margin-inline: 0;
     }
   }
 `;
