@@ -7,6 +7,7 @@ export const layoutClasses = css`
     display: grid;
     min-height: 100%;
     grid-template-rows: max-content 1fr max-content max-content;
+    grid-template-columns: 100%;
     color: hsl(var(--c));
     background-color: hsl(var(--bg));
     overflow: var(--app-overflow);
