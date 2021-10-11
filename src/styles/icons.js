@@ -1,4 +1,4 @@
-import {css} from '@erickmerchant/css';
+import {css} from 'dedupe.css';
 
 export const iconsClasses = css`
   .defs {

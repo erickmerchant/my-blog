@@ -65,7 +65,7 @@ try {
 
   if (command === 'start') {
     execa.command(
-      `css -i src/styles/index.js -o src/assets/styles -dw`,
+      `dedupe.css -i src/styles/index.js -o src/assets/styles -dw`,
       execOpts
     );
 
@@ -76,7 +76,7 @@ try {
     execa.command(`dev -a ${PROD} -s src`, execOpts);
 
     await execa.command(
-      `css -i src/styles/index.js -o src/assets/styles`,
+      `dedupe.css -i src/styles/index.js -o src/assets/styles`,
       execOpts
     );
 
