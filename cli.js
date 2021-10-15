@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import {stringify} from '@erickmerchant/framework/stringify.js';
+import {stringify} from '@hyper-views/framework/stringify.js';
 import toml from '@iarna/toml';
 import cheerio from 'cheerio';
 import execa from 'execa';

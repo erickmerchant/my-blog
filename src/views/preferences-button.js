@@ -1,4 +1,4 @@
-import {html} from '@erickmerchant/framework';
+import {html} from '@hyper-views/framework';
 
 export const createPreferencesButtonView = ({
   classes,

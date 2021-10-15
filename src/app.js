@@ -1,4 +1,4 @@
-import {createApp, html} from '@erickmerchant/framework';
+import {createApp, html} from '@hyper-views/framework';
 
 import {
   aboutClasses,
