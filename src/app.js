@@ -1,4 +1,4 @@
-import {createApp, createDOMView, html} from '@erickmerchant/framework';
+import {createApp, html} from '@erickmerchant/framework';
 
 import {
   aboutClasses,
@@ -105,13 +105,11 @@ export const _main = async (ENV = PROD) => {
 
     if (ENV === SSR) return layoutView({title: ''});
 
-    app.render(createDOMView(document.querySelector('body'), layoutView));
+    app.render(layoutView, 'body');
   } else {
-    app.render(createDOMView(document.querySelector('main'), mainView));
+    app.render(mainView, 'main');
 
-    app.render(
-      createDOMView(document.querySelector('site-preferences'), preferencesView)
-    );
+    app.render(preferencesView, 'site-preferences');
 
     for (const anchor of document.querySelectorAll(
       'a[href^="/"]:not([href$=".xml"])'
