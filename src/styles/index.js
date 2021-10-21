@@ -8,8 +8,7 @@ export const _start = css`
     font-family: 'Public Sans';
     font-style: normal;
     font-weight: 100 900;
-    src: url('/assets/fonts/public-sans/public-sans-subset.woff2')
-      format('woff2');
+    src: url('/fonts/public-sans/public-sans-subset.woff2') format('woff2');
   }
 
   * {

@@ -1,5 +1,4 @@
 node_modules
 dist
-src/assets/styles
-src/assets/content
+storage
 package-lock.json

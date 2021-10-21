@@ -26,7 +26,7 @@ export const createLayoutView =
         <footer class=${classes.footer}>
           <ul class=${classes.footerList}>
             <li class=${classes.footerItem}>
-              ${`© ${new Date().getFullYear()} Erick Merchant`}
+              © ${new Date().getFullYear()} Erick Merchant
             </li>
             <li class=${classes.footerItem}>
               <a
@@ -38,7 +38,7 @@ export const createLayoutView =
             </li>
             <li class=${classes.footerItem}>${preferencesView(state)}</li>
             <li class=${classes.footerItem}>
-              <a class=${classes.footerAnchor} href="/assets/content/rss.xml">
+              <a class=${classes.footerAnchor} href="/storage/content/rss.xml">
                 RSS
               </a>
             </li>

@@ -20,11 +20,11 @@ try {
   const files = await globby(['src/content/*.md']);
   const filePattern = /\d{4}-\d{2}-\d{2}-(.*?).md$/;
 
-  await fs.mkdir('src/assets/content/', {recursive: true});
+  await fs.mkdir('src/storage/content/', {recursive: true});
 
   const rss = new RSS({
     title: 'erickmerchant.com',
-    feed_url: 'https://erickmerchant.com/assets/content/rss.xml',
+    feed_url: 'https://erickmerchant.com/storage/content/rss.xml',
     site_url: 'https://erickmerchant.com/',
   });
 
@@ -45,10 +45,10 @@ try {
     });
 
     if (files[i + 1] == null) {
-      await fs.writeFile('src/assets/content/_latest.json', json);
+      await fs.writeFile('src/storage/content/_latest.json', json);
     }
 
-    await fs.writeFile(`src/assets/content/${post.slug}.json`, json);
+    await fs.writeFile(`src/storage/content/${post.slug}.json`, json);
 
     rss.item({
       title: post.title,
@@ -59,13 +59,13 @@ try {
     });
   }
 
-  await fs.writeFile('src/assets/content/404.html', '');
+  await fs.writeFile('src/storage/content/404.html', '');
 
-  await fs.writeFile('./src/assets/content/rss.xml', rss.xml({indent: true}));
+  await fs.writeFile('./src/storage/content/rss.xml', rss.xml({indent: true}));
 
   if (command === 'start') {
     execa.command(
-      `dedupe.css -i src/styles/index.js -o src/assets/styles -dw`,
+      `dedupe.css -i src/styles/index.js -o src/storage/styles -dw`,
       execOpts
     );
 
@@ -76,13 +76,14 @@ try {
     execa.command(`dev -a ${PROD} -s src`, execOpts);
 
     await execa.command(
-      `dedupe.css -i src/styles/index.js -o src/assets/styles`,
+      `dedupe.css -i src/styles/index.js -o src/storage/styles`,
       execOpts
     );
 
     await Promise.all(
       [
-        'assets',
+        'storage',
+        'fonts',
         'content',
         '_headers',
         '_redirects',
@@ -100,14 +101,14 @@ try {
     await Promise.all([
       execa.command(`rollup -c rollup.config.mjs`, execOpts),
       execa.command(
-        `postcss ./dist/assets/styles/index.css --no-map -u postcss-clean -o ./dist/assets/styles/index.css`,
+        `postcss ./dist/storage/styles/index.css --no-map -u postcss-clean -o ./dist/storage/styles/index.css`,
         execOpts
       ),
     ]);
 
     const [rawHtml, styles] = await Promise.all([
       fs.readFile('./src/index.html', 'utf8'),
-      fs.readFile('./dist/assets/styles/index.css', 'utf8'),
+      fs.readFile('./dist/storage/styles/index.css', 'utf8'),
     ]);
 
     const $raw = cheerio.load(rawHtml);

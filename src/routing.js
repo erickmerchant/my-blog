@@ -15,7 +15,7 @@ const fetch = async (url, options = {}) => {
 };
 
 const getPost = (id = '_latest') => {
-  return fetch(`/assets/content/${id}.json`).then((res) => res.json());
+  return fetch(`/storage/content/${id}.json`).then((res) => res.json());
 };
 
 const makeErrorPost = (title, children) => {

@@ -1,4 +1,8 @@
-/assets/*
+/storage/*
+  Cache-Control: public
+  Cache-Control: max-age=2419200
+
+/fonts/*
   Cache-Control: public
   Cache-Control: max-age=2419200
 

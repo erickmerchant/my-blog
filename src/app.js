@@ -1,5 +1,8 @@
 import {createApp, html} from '@hyper-views/framework';
 
+import {createContentView, prettyDate} from './content.js';
+import {DEV, PROD, SSR} from './envs.js';
+import {setupRouting} from './routing.js';
 import {
   aboutClasses,
   codeClasses,
@@ -9,10 +12,7 @@ import {
   mainClasses,
   paginationClasses,
   preferencesClasses,
-} from './assets/styles/index.js';
-import {createContentView, prettyDate} from './content.js';
-import {DEV, PROD, SSR} from './envs.js';
-import {setupRouting} from './routing.js';
+} from './storage/styles/index.js';
 import {createAboutView} from './views/about.js';
 import {getCodeViews} from './views/code.js';
 import {getContentViews} from './views/content.js';
