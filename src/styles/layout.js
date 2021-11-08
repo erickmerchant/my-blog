@@ -11,6 +11,8 @@ export const layoutClasses = css`
     color: hsl(var(--c));
     background-color: hsl(var(--bg));
     overflow: var(--app-overflow);
+    max-width: 100%;
+    overflow-x: hidden;
 
     --hdr-bg-partial: hsl(var(--hdr-bg-ln-c)) 1px, transparent 1px;
     --hdr-bg-i: linear-gradient(0deg, var(--hdr-bg-partial)),
@@ -70,7 +72,7 @@ export const layoutClasses = css`
       .join('')}
 
     @media ${mq.desktopUp} and ${mq.tallUp} {
-      grid-template-columns: calc(100vw / 3) 1fr;
+      grid-template-columns: calc(100% / 3) calc(100% / 3 * 2);
     }
   }
 
@@ -155,6 +157,7 @@ export const layoutClasses = css`
       background-image: var(--hdr-bg-i);
       background-size: 1rem 1rem;
       background-position: 50% 0;
+      background-attachment: fixed;
       border-right: 4px solid hsl(var(--a-c));
     }
   }
