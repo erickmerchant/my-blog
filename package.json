@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@erickmerchant/dev-cli": "^29.0.0",
-    "@hyper-views/framework": "^1.0.0",
+    "@hyper-views/framework": "^2.0.0",
     "@iarna/toml": "^2.2.5",
     "cheerio": "*",
     "dedupe.css": "^1.0.1",

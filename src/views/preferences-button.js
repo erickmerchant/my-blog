@@ -4,7 +4,7 @@ export const createPreferencesButtonView = ({
   classes,
   loadPreferencesForm,
   preferencesForm,
-  app,
+  update,
 }) => {
   const loadPreferences = () => {
     let preferences;
@@ -17,7 +17,7 @@ export const createPreferencesButtonView = ({
       preferences = {};
     }
 
-    app.state.preferences = preferences;
+    update({preferences});
   };
 
   return (state) => {
@@ -59,7 +59,7 @@ export const createPreferencesButtonView = ({
               preferencesForm = result;
             }
 
-            app.state = {...app.state, preferencesModalOpen: true};
+            update({preferencesModalOpen: true});
 
             Promise.resolve().then(() => {
               document.querySelector('site-preferences input').focus();

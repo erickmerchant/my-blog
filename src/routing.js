@@ -31,15 +31,15 @@ const makeErrorPost = (title, children) => {
 };
 
 const getDispatchLocation =
-  ({app, forceRoute}) =>
+  ({update, state, forceRoute}) =>
   async ({pathname, hash = ''}) => {
-    if (pathname === app.state?.pathname && !forceRoute) return;
+    if (pathname === state?.pathname && !forceRoute) return;
 
     const matches = {
       posts: pathname.match(/^\/?(?:posts\/([a-z0-9-]+)|)\/?$/),
     };
 
-    const state = {
+    const newState = {
       isLoading: false,
       pathname,
       post: makeErrorPost('Page Not Found', [
@@ -56,23 +56,23 @@ const getDispatchLocation =
         const post = await getPost(id);
 
         if (post != null) {
-          state.post = post;
+          newState.post = post;
 
-          state.route = 'post';
+          newState.route = 'post';
         }
       } catch (error) {
         if (!error.message.startsWith('404')) {
-          state.post = makeErrorPost('Error Caught', [
+          newState.post = makeErrorPost('Error Caught', [
             {type: 'text', value: error.message},
           ]);
         }
       }
     }
 
-    const newPath = pathname !== app.state?.pathname;
+    const newPath = pathname !== state?.pathname;
 
     if (newPath || forceRoute) {
-      app.state = {...app.state, ...state};
+      update(newState);
     }
 
     await Promise.resolve();
@@ -84,8 +84,8 @@ const getDispatchLocation =
     }
   };
 
-export const setupRouting = ({app, forceRoute}) => {
-  const dispatchLocation = getDispatchLocation({app, forceRoute});
+export const setupRouting = ({update, state, forceRoute}) => {
+  const dispatchLocation = getDispatchLocation({update, state, forceRoute});
 
   window.onpopstate = () => {
     dispatchLocation(window.location);

@@ -1,6 +1,6 @@
 import {html} from '@hyper-views/framework';
 
-export const createPreferencesFormView = ({classes, app}) => {
+export const createPreferencesFormView = ({classes, update, state}) => {
   const changePreference = (e) => {
     const preferences = {};
 
@@ -12,25 +12,23 @@ export const createPreferencesFormView = ({classes, app}) => {
       }
     }
 
-    app.state = {...app.state, preferences};
+    update({preferences});
 
-    localStorage.setItem('preferences', JSON.stringify(app.state.preferences));
+    localStorage.setItem('preferences', JSON.stringify(state.preferences));
   };
 
   const escClose = (e) => {
     if (e.key === 'Escape') {
-      app.state = {
-        ...app.state,
+      update({
         preferencesModalOpen: false,
-      };
+      });
     }
   };
 
   const closeModal = () => {
-    app.state = {
-      ...app.state,
+    update({
       preferencesModalOpen: false,
-    };
+    });
   };
 
   return (state) => {

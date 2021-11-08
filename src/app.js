@@ -1,4 +1,4 @@
-import {createApp, html} from '@hyper-views/framework';
+import {html, morph} from '@hyper-views/framework';
 
 import {createContentView, prettyDate} from './content.js';
 import {DEV, PROD, SSR} from './envs.js';
@@ -22,9 +22,17 @@ import {createMainView} from './views/main.js';
 import {createPaginationView} from './views/pagination.js';
 import {createPreferencesButtonView} from './views/preferences-button.js';
 
-const app = createApp({
+const state = {
   isLoading: true,
-});
+};
+
+let updateList = [];
+
+const update = (newState) => {
+  Object.assign(state, newState);
+
+  for (const [target, view] of updateList) morph(target, view(state));
+};
 
 export const _main = async (ENV = PROD) => {
   html.dev = ENV === DEV;
@@ -44,7 +52,7 @@ export const _main = async (ENV = PROD) => {
         <main />
       `;
   } else {
-    getAnchorClick = setupRouting({app, forceRoute: ENV === DEV});
+    getAnchorClick = setupRouting({update, state, forceRoute: ENV === DEV});
 
     const paginationView = createPaginationView({
       classes: paginationClasses,
@@ -56,13 +64,17 @@ export const _main = async (ENV = PROD) => {
         './views/preferences-form.js'
       );
 
-      return createPreferencesFormView({classes: preferencesClasses, app});
+      return createPreferencesFormView({
+        classes: preferencesClasses,
+        update,
+        state,
+      });
     };
 
     let preferencesForm;
 
     if (ENV === DEV) {
-      if (app.state.preferencesModalOpen) {
+      if (state.preferencesModalOpen) {
         preferencesForm = await loadPreferencesForm();
       }
     }
@@ -71,7 +83,7 @@ export const _main = async (ENV = PROD) => {
       classes: preferencesClasses,
       loadPreferencesForm,
       preferencesForm,
-      app,
+      update,
     });
 
     mainView = createMainView({
@@ -105,11 +117,12 @@ export const _main = async (ENV = PROD) => {
 
     if (ENV === SSR) return layoutView({title: ''});
 
-    app.render(layoutView, 'body');
+    updateList = [[document.querySelector('body'), layoutView]];
   } else {
-    app.render(mainView, 'main');
-
-    app.render(preferencesView, 'site-preferences');
+    updateList = [
+      [document.querySelector('main'), mainView],
+      [document.querySelector('site-preferences'), preferencesView],
+    ];
 
     for (const anchor of document.querySelectorAll(
       'a[href^="/"]:not([href$=".xml"])'
