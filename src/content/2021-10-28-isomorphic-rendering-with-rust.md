@@ -18,18 +18,34 @@ So I started looking for crates I could utilize on [https://crates.io/](https://
 
 # The result
 
-I've put what I ended up cobbling together up on github [here](https://github.com/erickmerchant/rust-static-site), and you can see the result live on netlify [here](https://epic-wing-e31d6d.netlify.app/). A couple of highlights of this technique are that the same templates are used on the front end and back end. On the front end markdown is fetched to get the data for the requested page. You could certainly transform that though to JSON and that would possibly reduce the size of the wasm file generated. And that brings me to the final thing I'd point out. The wasm file is 167kb compressed. That's a lot, but again there is a markdown parser and templates in there, so maybe it's not that much really. Also wasm code will run faster than js. I think ultimately it's a viable way to make a website. I won't be rewriting anything to use this technique anytime soon, but on the other hand I think it points out how powerful Rust on the front end can be.
+I've put what I ended up cobbling together up [on github](https://github.com/erickmerchant/rust-static-site), and you can see the result live [on netlify](https://epic-wing-e31d6d.netlify.app/). A couple of highlights of this technique are that the same templates are used on the front end and back end. On the front end markdown is fetched to get the data for the requested page. You could certainly transform that though to JSON and that would possibly reduce the size of the wasm file generated. And that brings me to the final thing I'd point out. The wasm file is 167kb compressed. That's a lot, but again there is a markdown parser and templates in there, so maybe it's not that much really. Also wasm code will run faster than js. I think ultimately it's a viable way to make a website. I won't be rewriting anything to use this technique anytime soon, but on the other hand I think it points out how powerful Rust on the front end can be.
 
 I've linked to the repo and result, but what kind of blog post would this be without at least a few snippets of code.
 
+This is my template.
+
 ```jinja
-{# I use this variable is_xhr to include the shell of the page or not. When the html is statically rendered it's true, but on the front end it's  set to false, because I'm just replacing the main element. #}
+{# I use is_xhr to include the shell of the page or not. When the html is statically rendered it's true, but on the front end it's  set to false, because I'm just replacing the main element. #}
 {% if is_xhr %}
-    {% block main %}{% endblock %}
+  {% block main %}{% endblock %}
 {% else %}
 <!DOCTYPE html>
 <html>
-  ...
+  <head>
+    <title>...</title>
+    <style>
+      ...
+    </style>
+    <script type="module">
+      ...
+    </script>
+  </head>
+  <body>
+    <nav>
+      ...
+    </nav>
+    <main>{% block main %}{% endblock %}</main>
+  </body>
 </html>
 {% endif %}
 ```
