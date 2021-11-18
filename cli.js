@@ -2,7 +2,7 @@
 import {stringify} from '@hyper-views/framework/stringify.js';
 import toml from '@iarna/toml';
 import cheerio from 'cheerio';
-import execa from 'execa';
+import {execaCommand as execa} from 'execa';
 import fs from 'fs/promises';
 import {copy} from 'fs-extra';
 import {globby} from 'globby';
@@ -64,18 +64,18 @@ try {
   await fs.writeFile('./src/storage/content/rss.xml', rss.xml({indent: true}));
 
   if (command === 'start') {
-    execa.command(
+    execa(
       `dedupe.css -i src/styles/index.js -o src/storage/styles -dw`,
       execOpts
     );
 
-    execa.command(`dev -a ${DEV} -ds src`, execOpts);
+    execa(`dev -a ${DEV} -ds src`, execOpts);
   }
 
   if (command === 'build') {
-    execa.command(`dev -a ${PROD} -s src`, execOpts);
+    execa(`dev -a ${PROD} -s src`, execOpts);
 
-    await execa.command(
+    await execa(
       `dedupe.css -i src/styles/index.js -o src/storage/styles`,
       execOpts
     );
@@ -99,8 +99,8 @@ try {
     const $body = $new('body');
 
     await Promise.all([
-      execa.command(`rollup -c rollup.config.mjs`, execOpts),
-      execa.command(
+      execa(`rollup -c rollup.config.mjs`, execOpts),
+      execa(
         `postcss ./dist/storage/styles/index.css --no-map -u postcss-clean -o ./dist/storage/styles/index.css`,
         execOpts
       ),
