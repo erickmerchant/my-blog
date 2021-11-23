@@ -2,10 +2,10 @@ import {html} from '@hyper-views/framework';
 
 export const createIconsView =
   ({classes}) =>
-  () =>
-    html`
-      <svg class=${classes.defs}>
-        <symbol id="calendar" viewBox="0 0 100 100">
+  (type, className) => {
+    if (type === 'calendar') {
+      return html`
+        <svg viewBox="0 0 100 100" :class=${className}>
           <rect
             width="100"
             height="100"
@@ -31,8 +31,13 @@ export const createIconsView =
             stroke-width="0"
             class=${classes.fill}
           />
-        </symbol>
-        <symbol id="link" viewBox="0 0 100 100">
+        </svg>
+      `;
+    }
+
+    if (type === 'link') {
+      return html`
+        <svg viewBox="0 0 100 100" :class=${className}>
           <circle
             cx="30"
             cy="70"
@@ -56,6 +61,7 @@ export const createIconsView =
             stroke-width="3"
             class=${classes.fill}
           />
-        </symbol>
-      </svg>
-    `;
+        </svg>
+      `;
+    }
+  };

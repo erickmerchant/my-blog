@@ -1,6 +1,6 @@
 import {html} from '@hyper-views/framework';
 
-export const getContentViews = ({classes, getAnchorClick}) => {
+export const getContentViews = ({classes, getAnchorClick, iconView}) => {
   return {
     link: ({children, url}, inline) =>
       html`
@@ -38,7 +38,7 @@ export const getContentViews = ({classes, getAnchorClick}) => {
             :href=${`#${slug}`}
             :aria-labelledby=${slug}
           >
-            <svg class=${classes.heading2Icon}><use href="#link" /></svg>
+            ${iconView('link', classes.heading2Icon)}
           </a>
           ${text}
         </h2>

@@ -1,10 +1,6 @@
 import {css} from 'dedupe.css';
 
 export const iconsClasses = css`
-  .defs {
-    display: none;
-  }
-
   .stroke {
     fill: hsl(var(--bg, 0 0% 100%));
     stroke: currentColor;

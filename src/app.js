@@ -37,7 +37,7 @@ const update = (newState) => {
 export const _main = async (ENV = PROD) => {
   html.dev = ENV === DEV;
 
-  let getAnchorClick, mainView, preferencesView;
+  let getAnchorClick, mainView, preferencesView, iconView;
 
   if (ENV === SSR) {
     getAnchorClick = () => null;
@@ -86,16 +86,23 @@ export const _main = async (ENV = PROD) => {
       update,
     });
 
+    iconView = createIconsView({classes: iconsClasses});
+
     mainView = createMainView({
       classes: mainClasses,
       contentView: createContentView({
         views: {
-          ...getContentViews({classes: contentClasses, getAnchorClick}),
+          ...getContentViews({
+            classes: contentClasses,
+            getAnchorClick,
+            iconView,
+          }),
           ...getCodeViews({classes: codeClasses}),
         },
       }),
       paginationView,
       prettyDate,
+      iconView,
     });
   }
 
@@ -104,12 +111,9 @@ export const _main = async (ENV = PROD) => {
       classes: aboutClasses,
     });
 
-    const iconsView = createIconsView({classes: iconsClasses});
-
     const layoutView = createLayoutView({
       classes: layoutClasses,
       aboutView,
-      iconsView,
       mainView,
       preferencesView,
       getAnchorClick,

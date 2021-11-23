@@ -1,14 +1,7 @@
 import {html} from '@hyper-views/framework';
 
 export const createLayoutView =
-  ({
-    classes,
-    aboutView,
-    mainView,
-    preferencesView,
-    iconsView,
-    getAnchorClick,
-  }) =>
+  ({classes, aboutView, mainView, preferencesView, getAnchorClick}) =>
   (state = {}) =>
     html`
       <body class=${classes.app}>
@@ -44,6 +37,5 @@ export const createLayoutView =
             </li>
           </ul>
         </footer>
-        ${iconsView()}
       </body>
     `;

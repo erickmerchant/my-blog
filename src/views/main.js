@@ -1,7 +1,7 @@
 import {html} from '@hyper-views/framework';
 
 export const createMainView =
-  ({classes, contentView, paginationView, prettyDate}) =>
+  ({classes, contentView, paginationView, prettyDate, iconView}) =>
   (state) => {
     let content = '';
 
@@ -17,9 +17,7 @@ export const createMainView =
             ${state.post.date
               ? html`
                   <time class=${classes.date} :datetime=${state.post.date}>
-                    <svg class=${classes.dateIcon}>
-                      <use href="#calendar" />
-                    </svg>
+                    ${iconView('calendar', classes.dateIcon)}
                     ${prettyDate(state.post.date)}
                   </time>
                 `
