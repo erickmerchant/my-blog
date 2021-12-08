@@ -1,3 +1,5 @@
+mod templates;
+
 use actix_files::{Files, NamedFile};
 use actix_web::dev::{ServiceRequest, ServiceResponse};
 use actix_web::error::ErrorNotFound;
@@ -7,42 +9,10 @@ use actix_web::middleware::{Compress, Logger};
 use actix_web::web::get;
 use actix_web::{App, HttpRequest, HttpResponse, HttpServer, Result};
 use dotenv::dotenv;
-use horrorshow::helper::doctype;
-use horrorshow::{html, Raw};
 use openssl::ssl::{SslAcceptor, SslFiletype, SslMethod};
 use std::path::Path;
 use std::{env, fs, io};
-
-fn render_html(markdown: String) -> String {
-    let mut content = String::new();
-    let md_parser = pulldown_cmark::Parser::new_ext(&markdown, pulldown_cmark::Options::empty());
-    pulldown_cmark::html::push_html(&mut content, md_parser);
-
-    let title = env::var("SITE_TITLE").unwrap_or_default();
-    let description = env::var("SITE_DESCRIPTION").unwrap_or_default();
-
-    format!(
-        "{}",
-        html! {
-            : doctype::HTML;
-            html {
-                head {
-                    meta(charset="utf-8");
-                    meta(name="viewport", content="width=device-width, initial-scale=1");
-                    meta(name="description", content=&description);
-                    link(href="/favicon.svg", rel="icon", type="image/svg+xml");
-                    title : &title;
-                    link(rel="stylesheet", href="/static/styles.css");
-                }
-                body {
-                    main {
-                        : Raw(&content)
-                    }
-                }
-            }
-        }
-    )
-}
+use templates::{render_html, render_not_found_html};
 
 #[actix_web::main]
 async fn main() -> io::Result<()> {
@@ -79,9 +49,10 @@ async fn main() -> io::Result<()> {
             .service(
                 Files::new("/static", "static")
                     .use_etag(true)
+                    .prefer_utf8(true)
                     .default_handler(default_file_handler),
             )
-            .wrap(ErrorHandlers::new().handler(StatusCode::NOT_FOUND, handle_unfound_page))
+            .wrap(ErrorHandlers::new().handler(StatusCode::NOT_FOUND, handle_not_found_page))
             .wrap(
                 ErrorHandlers::new()
                     .handler(StatusCode::INTERNAL_SERVER_ERROR, handle_internal_error),
@@ -107,7 +78,9 @@ async fn handle_page(req: HttpRequest) -> Result<HttpResponse> {
         Ok(file_contents) => {
             let page = render_html(file_contents);
 
-            Ok(HttpResponse::Ok().content_type("text/html").body(page))
+            Ok(HttpResponse::Ok()
+                .content_type("text/html; charset=utf-8")
+                .body(page))
         }
         Err(err) => Err(ErrorNotFound(err)),
     }
@@ -120,15 +93,13 @@ async fn handle_robots() -> Result<NamedFile> {
     }
 }
 
-fn handle_unfound_page<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerResponse<B>> {
-    let page = render_html(String::from(
-        "# Page Not Found\n\nThat resource was moved, removed, or never existed.",
-    ));
+fn handle_not_found_page<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerResponse<B>> {
+    let page = render_not_found_html();
 
     Ok(ErrorHandlerResponse::Response(ServiceResponse::new(
         res.request().clone(),
         HttpResponse::NotFound()
-            .content_type("text/html")
+            .content_type("text/html; charset=utf-8")
             .body(page)
             .into_body(),
     )))
