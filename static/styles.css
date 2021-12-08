@@ -1,0 +1,53 @@
+@font-face {
+  font-display: swap;
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 100 800;
+  src: url("/static/fonts/JetBrains_Mono/JetBrainsMono-VariableFont_wght-subset.woff2")
+    format("woff2");
+}
+
+@font-face {
+  font-display: swap;
+  font-family: "JetBrains Mono";
+  font-style: italic;
+  font-weight: 100 800;
+  src: url("/static/fonts/JetBrains_Mono/JetBrainsMono-Italic-VariableFont_wght-subset.woff2")
+    format("woff2");
+}
+
+* {
+  box-sizing: border-box;
+  max-width: 100%;
+  font: inherit;
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  color: hsl(180 10% 90%);
+  background-color: hsl(180 10% 10%);
+  font: 100 20px / 1.5 "JetBrains Mono", monospace;
+}
+
+body {
+  display: grid;
+  justify-content: center;
+  height: 100%;
+}
+
+h1 {
+  color: hsl(180 80% 50%);
+  font-size: 3em;
+  font-weight: 800;
+}
+
+main {
+  max-width: 40em;
+  padding: 0 1em;
+  margin-top: 2em;
+}
+
+main > * + * {
+  margin-top: 0.5em;
+}
