@@ -1,8 +1,6 @@
-mod templates;
-
 use actix_files::{Files, NamedFile};
 use actix_web::dev::{ServiceRequest, ServiceResponse};
-use actix_web::error::ErrorNotFound;
+use actix_web::error::{ErrorInternalServerError, ErrorNotFound};
 use actix_web::http::StatusCode;
 use actix_web::middleware::errhandlers::{ErrorHandlerResponse, ErrorHandlers};
 use actix_web::middleware::{Compress, Logger};
@@ -12,7 +10,24 @@ use dotenv::dotenv;
 use openssl::ssl::{SslAcceptor, SslFiletype, SslMethod};
 use std::path::Path;
 use std::{env, fs, io};
-use templates::{render_html, render_not_found_html};
+use tera::{Context, Tera};
+
+#[macro_use]
+extern crate lazy_static;
+
+lazy_static! {
+    pub static ref TEMPLATES: Tera = {
+        let mut tera = match Tera::new("templates/**/*") {
+            Ok(t) => t,
+            Err(e) => {
+                println!("Parsing error(s): {}", e);
+                ::std::process::exit(1);
+            }
+        };
+        tera.autoescape_on(vec!["html"]);
+        tera
+    };
+}
 
 #[actix_web::main]
 async fn main() -> io::Result<()> {
@@ -45,6 +60,7 @@ async fn main() -> io::Result<()> {
             .wrap(Logger::new("%s %r"))
             .route("/", get().to(handle_page))
             .route("/robots.txt", get().to(handle_robots))
+            .route("/styles.css", get().to(handle_styles))
             .route("/{slug:[a-z0-9-]+}", get().to(handle_page))
             .service(
                 Files::new("/static", "static")
@@ -76,13 +92,28 @@ async fn handle_page(req: HttpRequest) -> Result<HttpResponse> {
 
     match fs::read_to_string(Path::new("content").join(slug).with_extension("md")) {
         Ok(file_contents) => {
-            let page = render_html(file_contents);
+            let mut context = Context::new();
+            context.insert("content", &render_markdown(file_contents));
 
-            Ok(HttpResponse::Ok()
-                .content_type("text/html; charset=utf-8")
-                .body(page))
+            match TEMPLATES.render("layout.html", &context) {
+                Ok(page) => Ok(HttpResponse::Ok()
+                    .content_type("text/html; charset=utf-8")
+                    .body(page)),
+                Err(err) => Err(ErrorInternalServerError(err)),
+            }
         }
         Err(err) => Err(ErrorNotFound(err)),
+    }
+}
+
+async fn handle_styles() -> Result<HttpResponse> {
+    let options = grass::Options::default().style(grass::OutputStyle::Compressed);
+
+    match grass::from_path("styles/index.scss", &options) {
+        Ok(css) => Ok(HttpResponse::Ok()
+            .content_type("text/css; charset=utf-8")
+            .body(css)),
+        Err(err) => Err(ErrorInternalServerError(err)),
     }
 }
 
@@ -94,15 +125,16 @@ async fn handle_robots() -> Result<NamedFile> {
 }
 
 fn handle_not_found_page<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerResponse<B>> {
-    let page = render_not_found_html();
-
-    Ok(ErrorHandlerResponse::Response(ServiceResponse::new(
-        res.request().clone(),
-        HttpResponse::NotFound()
-            .content_type("text/html; charset=utf-8")
-            .body(page)
-            .into_body(),
-    )))
+    match TEMPLATES.render("not_found.html", &Context::new()) {
+        Ok(page) => Ok(ErrorHandlerResponse::Response(ServiceResponse::new(
+            res.request().clone(),
+            HttpResponse::NotFound()
+                .content_type("text/html; charset=utf-8")
+                .body(page)
+                .into_body(),
+        ))),
+        Err(err) => Err(ErrorInternalServerError(err)),
+    }
 }
 
 fn handle_internal_error<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerResponse<B>> {
@@ -112,4 +144,11 @@ fn handle_internal_error<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerRespo
             .body("An error occurred. Please try again later.")
             .into_body(),
     )))
+}
+
+pub fn render_markdown(markdown: String) -> String {
+    let mut content = String::new();
+    let md_parser = pulldown_cmark::Parser::new_ext(&markdown, pulldown_cmark::Options::empty());
+    pulldown_cmark::html::push_html(&mut content, md_parser);
+    content
 }

@@ -42,12 +42,12 @@ h1 {
   font-weight: 800;
 }
 
-main {
+article {
   max-width: 40em;
   padding: 0 1em;
   margin-top: 2em;
-}
 
-main > * + * {
-  margin-top: 0.5em;
+  > * + * {
+    margin-top: 2em;
+  }
 }
