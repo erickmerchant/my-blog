@@ -9,7 +9,12 @@
     <title>ErickMerchant.com</title>
   </head>
   <body>
-    <article>
+    <header class="banner--root">
+      <div class="banner--inner">
+        <span class="h1">ErickMerchant.com</span>
+      </div>
+    </header>
+    <article class="content--root">
       {% block content %}
         {{content|safe}}
       {% endblock %}
