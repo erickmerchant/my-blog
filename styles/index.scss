@@ -64,8 +64,14 @@ h1,
   }
 }
 
+h1 {
+  @media #{$mobile-breakpoint} {
+    text-shadow: none;
+  }
+}
+
 .banner {
-  &--root {
+  &.root {
     display: grid;
     align-content: end;
     background-color: $primary-color;
@@ -85,7 +91,7 @@ h1,
     }
   }
 
-  &--inner {
+  &.inner {
     width: 100%;
     max-width: 40em;
     margin: 0 auto;
@@ -94,7 +100,7 @@ h1,
 }
 
 .content {
-  &--root {
+  &.root {
     max-width: 40em;
     padding: 0 var(--space-half);
     margin: var(--space) auto 0;
