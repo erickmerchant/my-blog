@@ -61,7 +61,10 @@ async fn main() -> io::Result<()> {
             .wrap(Logger::new("%s %r"))
             .route("/", get().to(handle_page))
             .route("/robots.txt", get().to(handle_robots))
-            .route("/styles/{stylesheet:.*?}", get().to(handle_styles))
+            .route(
+                "/styles/{stylesheet:[a-z0-9-/]*?\\.css}",
+                get().to(handle_styles),
+            )
             .route("/{slug:[a-z0-9-]+}", get().to(handle_page))
             .service(
                 Files::new("/static", "static")
@@ -101,14 +104,18 @@ async fn handle_page(req: HttpRequest) -> Result<HttpResponse> {
         Ok(file_contents) => {
             let file_parts: Vec<&str> = file_contents.splitn(3, "+++").collect();
             let mut context = Context::new();
-            let frontmatter = file_parts[1].parse::<Value>().unwrap();
-            context.insert("data", &frontmatter);
-            context.insert("content", &render_markdown(file_parts[2].to_string()));
+            match file_parts[1].parse::<Value>() {
+                Ok(frontmatter) => {
+                    context.insert("data", &frontmatter);
+                    context.insert("content", &render_markdown(file_parts[2].to_string()));
 
-            match TEMPLATES.render("layout.html", &context) {
-                Ok(page) => Ok(HttpResponse::Ok()
-                    .content_type("text/html; charset=utf-8")
-                    .body(page)),
+                    match TEMPLATES.render("layout.html", &context) {
+                        Ok(page) => Ok(HttpResponse::Ok()
+                            .content_type("text/html; charset=utf-8")
+                            .body(page)),
+                        Err(err) => Err(ErrorInternalServerError(err)),
+                    }
+                }
                 Err(err) => Err(ErrorInternalServerError(err)),
             }
         }
@@ -119,17 +126,13 @@ async fn handle_page(req: HttpRequest) -> Result<HttpResponse> {
 async fn handle_styles(req: HttpRequest) -> Result<HttpResponse> {
     let stylesheet = req.match_info().get("stylesheet").unwrap_or("index");
 
-    let stylesheet_path = Path::new(stylesheet);
-
     let options = grass::Options::default().style(grass::OutputStyle::Compressed);
 
     match grass::from_path(
-        format!(
-            "styles/{}/{}.scss",
-            stylesheet_path.parent().unwrap().to_str().unwrap(),
-            stylesheet_path.file_stem().unwrap().to_str().unwrap()
-        )
-        .as_str(),
+        Path::new("styles")
+            .join(Path::new(stylesheet).with_extension("scss"))
+            .to_str()
+            .unwrap(),
         &options,
     ) {
         Ok(css) => Ok(HttpResponse::Ok()

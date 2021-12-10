@@ -1,5 +1,6 @@
 use std::fs;
 use std::path::Path;
+use url::Url;
 
 fn main() {
   let deps = [(
@@ -11,20 +12,20 @@ fn main() {
     let res = reqwest::blocking::get(url.to_string()).unwrap();
     let headers = res.headers();
 
-    let res = reqwest::blocking::get(format!(
-      "https://cdn.skypack.dev/{}",
-      headers["x-import-url"].to_str().unwrap()
-    ))
+    let res = reqwest::blocking::get(
+      Url::parse("https://cdn.skypack.dev")
+        .unwrap()
+        .join(headers["x-import-url"].to_str().unwrap())
+        .unwrap()
+        .as_str(),
+    )
     .unwrap();
 
     let body = res.text().unwrap();
+    let full_destination = Path::new("modules").join(destination);
 
-    fs::create_dir_all(format!(
-      "modules/{}",
-      Path::new(destination).parent().unwrap().display()
-    ))
-    .unwrap();
+    fs::create_dir_all(full_destination.parent().unwrap()).unwrap();
 
-    fs::write(format!("modules/{}", destination), body).unwrap();
+    fs::write(full_destination, body).unwrap();
   }
 }
