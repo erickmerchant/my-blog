@@ -11,6 +11,7 @@ use openssl::ssl::{SslAcceptor, SslFiletype, SslMethod};
 use std::path::Path;
 use std::{env, fs, io};
 use tera::{Context, Tera};
+use toml::Value;
 
 #[macro_use]
 extern crate lazy_static;
@@ -60,10 +61,16 @@ async fn main() -> io::Result<()> {
             .wrap(Logger::new("%s %r"))
             .route("/", get().to(handle_page))
             .route("/robots.txt", get().to(handle_robots))
-            .route("/styles.css", get().to(handle_styles))
+            .route("/styles/{stylesheet:.*?}", get().to(handle_styles))
             .route("/{slug:[a-z0-9-]+}", get().to(handle_page))
             .service(
                 Files::new("/static", "static")
+                    .use_etag(true)
+                    .prefer_utf8(true)
+                    .default_handler(default_file_handler),
+            )
+            .service(
+                Files::new("/modules", "modules")
                     .use_etag(true)
                     .prefer_utf8(true)
                     .default_handler(default_file_handler),
@@ -92,8 +99,11 @@ async fn handle_page(req: HttpRequest) -> Result<HttpResponse> {
 
     match fs::read_to_string(Path::new("content").join(slug).with_extension("md")) {
         Ok(file_contents) => {
+            let file_parts: Vec<&str> = file_contents.splitn(3, "+++").collect();
             let mut context = Context::new();
-            context.insert("content", &render_markdown(file_contents));
+            let frontmatter = file_parts[1].parse::<Value>().unwrap();
+            context.insert("data", &frontmatter);
+            context.insert("content", &render_markdown(file_parts[2].to_string()));
 
             match TEMPLATES.render("layout.html", &context) {
                 Ok(page) => Ok(HttpResponse::Ok()
@@ -106,10 +116,22 @@ async fn handle_page(req: HttpRequest) -> Result<HttpResponse> {
     }
 }
 
-async fn handle_styles() -> Result<HttpResponse> {
+async fn handle_styles(req: HttpRequest) -> Result<HttpResponse> {
+    let stylesheet = req.match_info().get("stylesheet").unwrap_or("index");
+
+    let stylesheet_path = Path::new(stylesheet);
+
     let options = grass::Options::default().style(grass::OutputStyle::Compressed);
 
-    match grass::from_path("styles/index.scss", &options) {
+    match grass::from_path(
+        format!(
+            "styles/{}/{}.scss",
+            stylesheet_path.parent().unwrap().to_str().unwrap(),
+            stylesheet_path.file_stem().unwrap().to_str().unwrap()
+        )
+        .as_str(),
+        &options,
+    ) {
         Ok(css) => Ok(HttpResponse::Ok()
             .content_type("text/css; charset=utf-8")
             .body(css)),

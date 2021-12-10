@@ -1,24 +1,25 @@
-$hue: 150;
-$primary-color: hsl($hue 50% 50%);
-$text-color: hsl($hue 10% 90%);
-$bg-color: hsl($hue 10% 10%);
+$hue: 135;
+$transparent: hsla(0, 0%, 0%, 0);
+$anchor-color: hsl($hue, 25%, 50%);
+$text-color: hsl($hue, 10%, 90%);
+$background-color: hsl($hue, 10%, 10%);
 $mobile-breakpoint: "(max-width: 768px)";
 
 @font-face {
   font-display: swap;
-  font-family: "JetBrains Mono";
+  font-family: "Public Sans";
   font-style: normal;
-  font-weight: 100 800;
-  src: url("/static/fonts/JetBrains_Mono/JetBrainsMono-VariableFont_wght-subset.woff2")
+  font-weight: 100 900;
+  src: url("/static/fonts/Public_Sans/PublicSans-VariableFont_wght-subset.woff2")
     format("woff2");
 }
 
 @font-face {
   font-display: swap;
-  font-family: "JetBrains Mono";
+  font-family: "Public Sans";
   font-style: italic;
-  font-weight: 100 800;
-  src: url("/static/fonts/JetBrains_Mono/JetBrainsMono-Italic-VariableFont_wght-subset.woff2")
+  font-weight: 100 900;
+  src: url("/static/fonts/Public_Sans/PublicSans-Italic-VariableFont_wght-subset.woff2")
     format("woff2");
 }
 
@@ -32,15 +33,23 @@ $mobile-breakpoint: "(max-width: 768px)";
 
 html {
   color: $text-color;
-  background-color: $bg-color;
-  font: 100 max(20px, 1.5vw) / 1.5 "JetBrains Mono", monospace;
+  background-color: $background-color;
+  font: 100 max(20px, 1.5vw) / 1.5 "Public Sans", system-ui, sans-serif;
+  height: 100%;
 }
 
 body {
   display: grid;
   grid-template-columns: 100%;
+  grid-template-rows: max-content 1fr;
   justify-content: center;
   min-height: 100%;
+  background-image: radial-gradient(
+    adjust-color($background-color, $lightness: 2.5%) 12.5%,
+    $transparent 12.5%
+  );
+  background-size: 1rem 1rem;
+  height: 100%;
 
   --space: 2em;
   --space-half: 1em;
@@ -53,20 +62,11 @@ body {
 
 h1,
 .h1 {
-  font-size: 3em;
-  font-weight: 800;
-  text-shadow: -1px -1px 0 var(--outline-color), 1px -1px 0 var(--outline-color),
-    -1px 1px 0 var(--outline-color), 1px 1px 0 var(--outline-color);
-  color: var(--color);
+  font-size: 2.5em;
+  font-weight: 900;
 
   @media #{$mobile-breakpoint} {
     font-size: 1.5em;
-  }
-}
-
-h1 {
-  @media #{$mobile-breakpoint} {
-    text-shadow: none;
   }
 }
 
@@ -74,17 +74,12 @@ h1 {
   &.root {
     display: grid;
     align-content: end;
-    background-color: $primary-color;
-    background-image: linear-gradient(0deg, $bg-color 0, transparent 1px),
-      linear-gradient(90deg, $bg-color 0, transparent 1px);
-    background-size: var(--space-half) var(--space-half);
+    background-color: adjust-color($anchor-color, $alpha: -0.125);
+    background-image: radial-gradient($anchor-color 50%, $transparent 50%);
+    background-size: 0.25rem 0.25rem;
     background-position: 50% 0;
     height: 50vh;
     padding-bottom: var(--space-half);
-    border-bottom: 1px solid $primary-color;
-
-    --color: $text-color;
-    --outline-color: $bg-color;
 
     @media #{$mobile-breakpoint} {
       height: 25vh;
@@ -102,15 +97,11 @@ h1 {
 .content {
   &.root {
     max-width: 40em;
-    padding: 0 var(--space-half);
-    margin: var(--space) auto 0;
-    padding-bottom: var(--space);
-
-    --color: $primary-color;
-    --outline-color: $text-color;
+    padding: 0 var(--space-half) var(--space);
+    margin: var(--space-half) auto 0;
 
     > * + * {
-      margin-top: var(--space);
+      margin-top: var(--space-half);
     }
   }
 }

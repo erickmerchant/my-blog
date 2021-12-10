@@ -1,34 +1,36 @@
-JetBrains Mono Variable Font
-============================
+Public Sans Variable Font
+=========================
 
-This download contains JetBrains Mono as both variable fonts and static fonts.
+This download contains Public Sans as both variable fonts and static fonts.
 
-JetBrains Mono is a variable font with this axis:
+Public Sans is a variable font with this axis:
   wght
 
 This means all the styles are contained in these files:
-  JetBrainsMono-VariableFont_wght.ttf
-  JetBrainsMono-Italic-VariableFont_wght.ttf
+  PublicSans-VariableFont_wght.ttf
+  PublicSans-Italic-VariableFont_wght.ttf
 
 If your app fully supports variable fonts, you can now pick intermediate styles
 that aren’t available as static fonts. Not all apps support variable fonts, and
-in those cases you can use the static font files for JetBrains Mono:
-  static/JetBrainsMono-Thin.ttf
-  static/JetBrainsMono-ExtraLight.ttf
-  static/JetBrainsMono-Light.ttf
-  static/JetBrainsMono-Regular.ttf
-  static/JetBrainsMono-Medium.ttf
-  static/JetBrainsMono-SemiBold.ttf
-  static/JetBrainsMono-Bold.ttf
-  static/JetBrainsMono-ExtraBold.ttf
-  static/JetBrainsMono-ThinItalic.ttf
-  static/JetBrainsMono-ExtraLightItalic.ttf
-  static/JetBrainsMono-LightItalic.ttf
-  static/JetBrainsMono-Italic.ttf
-  static/JetBrainsMono-MediumItalic.ttf
-  static/JetBrainsMono-SemiBoldItalic.ttf
-  static/JetBrainsMono-BoldItalic.ttf
-  static/JetBrainsMono-ExtraBoldItalic.ttf
+in those cases you can use the static font files for Public Sans:
+  static/PublicSans-Thin.ttf
+  static/PublicSans-ExtraLight.ttf
+  static/PublicSans-Light.ttf
+  static/PublicSans-Regular.ttf
+  static/PublicSans-Medium.ttf
+  static/PublicSans-SemiBold.ttf
+  static/PublicSans-Bold.ttf
+  static/PublicSans-ExtraBold.ttf
+  static/PublicSans-Black.ttf
+  static/PublicSans-ThinItalic.ttf
+  static/PublicSans-ExtraLightItalic.ttf
+  static/PublicSans-LightItalic.ttf
+  static/PublicSans-Italic.ttf
+  static/PublicSans-MediumItalic.ttf
+  static/PublicSans-SemiBoldItalic.ttf
+  static/PublicSans-BoldItalic.ttf
+  static/PublicSans-ExtraBoldItalic.ttf
+  static/PublicSans-BlackItalic.ttf
 
 Get started
 -----------

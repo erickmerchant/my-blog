@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="The personal site of Erick Merchant.">
     <link href="/static/favicon.svg" rel="icon" type="image/svg+xml">
-    <link href="/styles.css" rel="stylesheet">
-    <title>ErickMerchant.com</title>
+    <link href="/styles/index.css" rel="stylesheet">
+    <title>ErickMerchant.com{% if "title" in data %} | {{data.title}}{% endif %}</title>
   </head>
   <body>
     <header class="banner root">
@@ -15,9 +15,17 @@
       </div>
     </header>
     <article class="content root">
+      {% if "title" in data %}<h1>{{data.title}}</h1>{% endif %}
       {% block content %}
         {{content|safe}}
       {% endblock %}
     </article>
+    <script type="module">
+      import {html, morph} from "/modules/@hyper-views/framework/main.js";
+
+      const h1 = document.querySelector('h1')
+
+      morph(h1, html`<h1>💀 ${h1.firstChild.nodeValue}</h1>`)
+    </script>
   </body>
 </html>
