@@ -8,8 +8,7 @@ use actix_web::web::get;
 use actix_web::{App, HttpRequest, HttpResponse, HttpServer, Result};
 use dotenv::dotenv;
 use openssl::ssl::{SslAcceptor, SslFiletype, SslMethod};
-use std::path::Path;
-use std::{env, fs, io};
+use std::{env, fs, io, path, time};
 use tera::{Context, Tera};
 use toml::Value;
 
@@ -18,13 +17,7 @@ extern crate lazy_static;
 
 lazy_static! {
     pub static ref TEMPLATES: Tera = {
-        let mut tera = match Tera::new("templates/**/*") {
-            Ok(t) => t,
-            Err(e) => {
-                println!("Parsing error(s): {}", e);
-                ::std::process::exit(1);
-            }
-        };
+        let mut tera = Tera::new("templates/**/*").expect("Parsing error(s): {}");
         tera.autoescape_on(vec!["html"]);
         tera
     };
@@ -100,7 +93,7 @@ async fn handle_page(req: HttpRequest) -> Result<HttpResponse> {
         .parse()
         .unwrap_or_default();
 
-    match fs::read_to_string(Path::new("content").join(slug).with_extension("md")) {
+    match fs::read_to_string(path::Path::new("content").join(slug).with_extension("md")) {
         Ok(file_contents) => {
             let file_parts: Vec<&str> = file_contents.splitn(3, "+++").collect();
             let mut context = Context::new();
@@ -124,21 +117,32 @@ async fn handle_page(req: HttpRequest) -> Result<HttpResponse> {
 }
 
 async fn handle_styles(req: HttpRequest) -> Result<HttpResponse> {
-    let stylesheet = req.match_info().get("stylesheet").unwrap_or("index");
+    let req_path = path::Path::new(req.match_info().get("stylesheet").unwrap_or("index"));
+    let scss_path = path::Path::new("styles").join(req_path.with_extension("scss"));
+    let cache_path = path::Path::new("storage/css").join(req_path);
+    let cache_modified = get_since_modified(&cache_path);
+    let scss_modified = get_since_modified(&scss_path);
 
-    let options = grass::Options::default().style(grass::OutputStyle::Compressed);
+    if scss_modified < cache_modified {
+        let options = grass::Options::default().style(grass::OutputStyle::Compressed);
 
-    match grass::from_path(
-        Path::new("styles")
-            .join(Path::new(stylesheet).with_extension("scss"))
-            .to_str()
-            .unwrap(),
-        &options,
-    ) {
-        Ok(css) => Ok(HttpResponse::Ok()
+        match grass::from_path(scss_path.to_str().unwrap(), &options) {
+            Ok(css) => {
+                fs::create_dir_all(cache_path.parent().unwrap()).unwrap_or_default();
+                fs::write(cache_path, &css).unwrap_or_default();
+
+                Ok(HttpResponse::Ok()
+                    .content_type("text/css; charset=utf-8")
+                    .body(css))
+            }
+            Err(err) => Err(ErrorInternalServerError(err)),
+        }
+    } else {
+        let css = fs::read_to_string(cache_path).unwrap_or_default();
+
+        Ok(HttpResponse::Ok()
             .content_type("text/css; charset=utf-8")
-            .body(css)),
-        Err(err) => Err(ErrorInternalServerError(err)),
+            .body(css))
     }
 }
 
@@ -171,9 +175,22 @@ fn handle_internal_error<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerRespo
     )))
 }
 
-pub fn render_markdown(markdown: String) -> String {
+fn render_markdown(markdown: String) -> String {
     let mut content = String::new();
     let md_parser = pulldown_cmark::Parser::new_ext(&markdown, pulldown_cmark::Options::empty());
     pulldown_cmark::html::push_html(&mut content, md_parser);
     content
+}
+
+fn get_since_modified(path: &path::PathBuf) -> u128 {
+    match fs::metadata(path) {
+        Ok(metadata) => match metadata.modified() {
+            Ok(time) => time::SystemTime::now()
+                .duration_since(time)
+                .unwrap_or_default()
+                .as_millis(),
+            _ => 0,
+        },
+        _ => 0,
+    }
 }
