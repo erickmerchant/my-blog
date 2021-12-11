@@ -90,26 +90,13 @@ async fn handle_page(req: HttpRequest) -> Result<HttpResponse> {
         .parse()
         .unwrap_or_default();
 
-    match fs::read_to_string(path::Path::new("content").join(slug).with_extension("md")) {
-        Ok(file_contents) => {
-            let file_parts: Vec<&str> = file_contents.splitn(3, "+++").collect();
-            let mut context = tera::Context::new();
-            match file_parts[1].parse::<toml::Value>() {
-                Ok(frontmatter) => {
-                    context.insert("data", &frontmatter);
-                    context.insert("content", &render_markdown(file_parts[2].to_string()));
+    let context = get_context(path::Path::new("content").join(slug).with_extension("md"));
 
-                    match TEMPLATES.render("layout.html", &context) {
-                        Ok(page) => Ok(HttpResponse::Ok()
-                            .content_type("text/html; charset=utf-8")
-                            .body(page)),
-                        Err(err) => Err(ErrorInternalServerError(err)),
-                    }
-                }
-                Err(err) => Err(ErrorInternalServerError(err)),
-            }
-        }
-        Err(err) => Err(ErrorNotFound(err)),
+    match TEMPLATES.render("layout.html", &context) {
+        Ok(page) => Ok(HttpResponse::Ok()
+            .content_type("text/html; charset=utf-8")
+            .body(page)),
+        Err(err) => Err(ErrorInternalServerError(err)),
     }
 }
 
@@ -177,6 +164,26 @@ fn render_markdown(markdown: String) -> String {
     let md_parser = pulldown_cmark::Parser::new_ext(&markdown, pulldown_cmark::Options::empty());
     pulldown_cmark::html::push_html(&mut content, md_parser);
     content
+}
+
+fn get_context(path: path::PathBuf) -> tera::Context {
+    let mut context = tera::Context::new();
+
+    match fs::read_to_string(path) {
+        Ok(file_contents) => {
+            let file_parts: Vec<&str> = file_contents.splitn(3, "+++").collect();
+            match file_parts[1].parse::<toml::Value>() {
+                Ok(frontmatter) => {
+                    context.insert("data", &frontmatter);
+                    context.insert("content", &render_markdown(file_parts[2].to_string()));
+                }
+                _ => (),
+            }
+        }
+        _ => (),
+    };
+
+    context
 }
 
 fn get_modified(path: &path::PathBuf) -> time::SystemTime {
