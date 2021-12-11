@@ -7,7 +7,7 @@ use actix_web::middleware::{Compress, Logger};
 use actix_web::{web, App, HttpRequest, HttpResponse, HttpServer, Result};
 use dotenv::dotenv;
 use openssl::ssl::{SslAcceptor, SslFiletype, SslMethod};
-use std::{env, fs, io, path, time};
+use std::{env, fs, io, path};
 
 #[macro_use]
 extern crate lazy_static;
@@ -104,10 +104,14 @@ async fn handle_styles(req: HttpRequest) -> Result<HttpResponse> {
     let req_path = path::Path::new(req.match_info().get("stylesheet").unwrap_or("index"));
     let scss_path = path::Path::new("styles").join(req_path.with_extension("scss"));
     let cache_path = path::Path::new("storage/css").join(req_path);
-    let cache_modified = get_modified(&cache_path);
-    let scss_modified = get_modified(&scss_path);
 
-    if scss_modified > cache_modified {
+    if use_cache_path(&cache_path, &scss_path) {
+        let css = fs::read_to_string(cache_path).unwrap_or_default();
+
+        Ok(HttpResponse::Ok()
+            .content_type("text/css; charset=utf-8")
+            .body(css))
+    } else {
         let options = grass::Options::default().style(grass::OutputStyle::Compressed);
 
         match grass::from_path(scss_path.to_str().unwrap(), &options) {
@@ -121,12 +125,6 @@ async fn handle_styles(req: HttpRequest) -> Result<HttpResponse> {
             }
             Err(err) => Err(ErrorInternalServerError(err)),
         }
-    } else {
-        let css = fs::read_to_string(cache_path).unwrap_or_default();
-
-        Ok(HttpResponse::Ok()
-            .content_type("text/css; charset=utf-8")
-            .body(css))
     }
 }
 
@@ -186,12 +184,18 @@ fn get_context(path: path::PathBuf) -> tera::Context {
     context
 }
 
-fn get_modified(path: &path::PathBuf) -> time::SystemTime {
-    match fs::metadata(path) {
-        Ok(metadata) => match metadata.modified() {
-            Ok(time) => time,
-            _ => time::SystemTime::now(),
-        },
-        _ => time::SystemTime::now(),
+fn use_cache_path(cache_path: &path::PathBuf, src_path: &path::PathBuf) -> bool {
+    let metadata = (fs::metadata(cache_path), fs::metadata(src_path));
+
+    match metadata {
+        (Ok(cache_metadata), Ok(src_metadata)) => {
+            let modified = (cache_metadata.modified(), src_metadata.modified());
+
+            match modified {
+                (Ok(cache_time), Ok(src_time)) => cache_time > src_time,
+                _ => false,
+            }
+        }
+        _ => false,
     }
 }
