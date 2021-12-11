@@ -4,20 +4,17 @@ use actix_web::error::{ErrorInternalServerError, ErrorNotFound};
 use actix_web::http::StatusCode;
 use actix_web::middleware::errhandlers::{ErrorHandlerResponse, ErrorHandlers};
 use actix_web::middleware::{Compress, Logger};
-use actix_web::web::get;
-use actix_web::{App, HttpRequest, HttpResponse, HttpServer, Result};
+use actix_web::{web, App, HttpRequest, HttpResponse, HttpServer, Result};
 use dotenv::dotenv;
 use openssl::ssl::{SslAcceptor, SslFiletype, SslMethod};
 use std::{env, fs, io, path, time};
-use tera::{Context, Tera};
-use toml::Value;
 
 #[macro_use]
 extern crate lazy_static;
 
 lazy_static! {
-    pub static ref TEMPLATES: Tera = {
-        let mut tera = Tera::new("templates/**/*").expect("Parsing error(s): {}");
+    pub static ref TEMPLATES: tera::Tera = {
+        let mut tera = tera::Tera::new("templates/**/*").expect("Parsing error(s): {}");
         tera.autoescape_on(vec!["html"]);
         tera
     };
@@ -52,13 +49,13 @@ async fn main() -> io::Result<()> {
         App::new()
             .wrap(Compress::default())
             .wrap(Logger::new("%s %r"))
-            .route("/", get().to(handle_page))
-            .route("/robots.txt", get().to(handle_robots))
+            .route("/", web::get().to(handle_page))
+            .route("/robots.txt", web::get().to(handle_robots))
             .route(
                 "/styles/{stylesheet:[a-z0-9-/]*?\\.css}",
-                get().to(handle_styles),
+                web::get().to(handle_styles),
             )
-            .route("/{slug:[a-z0-9-]+}", get().to(handle_page))
+            .route("/{slug:[a-z0-9-]+}", web::get().to(handle_page))
             .service(
                 Files::new("/static", "static")
                     .use_etag(true)
@@ -96,8 +93,8 @@ async fn handle_page(req: HttpRequest) -> Result<HttpResponse> {
     match fs::read_to_string(path::Path::new("content").join(slug).with_extension("md")) {
         Ok(file_contents) => {
             let file_parts: Vec<&str> = file_contents.splitn(3, "+++").collect();
-            let mut context = Context::new();
-            match file_parts[1].parse::<Value>() {
+            let mut context = tera::Context::new();
+            match file_parts[1].parse::<toml::Value>() {
                 Ok(frontmatter) => {
                     context.insert("data", &frontmatter);
                     context.insert("content", &render_markdown(file_parts[2].to_string()));
@@ -120,10 +117,10 @@ async fn handle_styles(req: HttpRequest) -> Result<HttpResponse> {
     let req_path = path::Path::new(req.match_info().get("stylesheet").unwrap_or("index"));
     let scss_path = path::Path::new("styles").join(req_path.with_extension("scss"));
     let cache_path = path::Path::new("storage/css").join(req_path);
-    let cache_modified = get_since_modified(&cache_path);
-    let scss_modified = get_since_modified(&scss_path);
+    let cache_modified = get_modified(&cache_path);
+    let scss_modified = get_modified(&scss_path);
 
-    if scss_modified < cache_modified {
+    if scss_modified > cache_modified {
         let options = grass::Options::default().style(grass::OutputStyle::Compressed);
 
         match grass::from_path(scss_path.to_str().unwrap(), &options) {
@@ -154,7 +151,7 @@ async fn handle_robots() -> Result<NamedFile> {
 }
 
 fn handle_not_found_page<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerResponse<B>> {
-    match TEMPLATES.render("not_found.html", &Context::new()) {
+    match TEMPLATES.render("not_found.html", &tera::Context::new()) {
         Ok(page) => Ok(ErrorHandlerResponse::Response(ServiceResponse::new(
             res.request().clone(),
             HttpResponse::NotFound()
@@ -182,15 +179,12 @@ fn render_markdown(markdown: String) -> String {
     content
 }
 
-fn get_since_modified(path: &path::PathBuf) -> u128 {
+fn get_modified(path: &path::PathBuf) -> time::SystemTime {
     match fs::metadata(path) {
         Ok(metadata) => match metadata.modified() {
-            Ok(time) => time::SystemTime::now()
-                .duration_since(time)
-                .unwrap_or_default()
-                .as_millis(),
-            _ => 0,
+            Ok(time) => time,
+            _ => time::SystemTime::now(),
         },
-        _ => 0,
+        _ => time::SystemTime::now(),
     }
 }
