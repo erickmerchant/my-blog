@@ -91,13 +91,17 @@ async fn handle_page(req: HttpRequest) -> Result<HttpResponse> {
         .parse()
         .unwrap_or_default();
 
-    let context = get_context(path::Path::new("content").join(slug).with_extension("md"));
-
-    match TEMPLATES.render("layout.html", &context) {
-        Ok(page) => Ok(HttpResponse::Ok()
-            .content_type("text/html; charset=utf-8")
-            .body(page)),
-        Err(err) => Err(ErrorInternalServerError(err)),
+    match fs::metadata(path::Path::new("content").join(&slug).with_extension("md")) {
+        Ok(_) => {
+            let context = get_context(path::Path::new("content").join(slug).with_extension("md"));
+            match TEMPLATES.render("layout.html", &context) {
+                Ok(page) => Ok(HttpResponse::Ok()
+                    .content_type("text/html; charset=utf-8")
+                    .body(page)),
+                Err(err) => Err(ErrorInternalServerError(err)),
+            }
+        }
+        Err(err) => Err(ErrorNotFound(err)),
     }
 }
 

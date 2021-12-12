@@ -60,14 +60,17 @@ body {
   }
 }
 
-h1,
-.h1 {
+%h1 {
   font-size: 2.5em;
   font-weight: 900;
 
   @media #{$mobile-breakpoint} {
     font-size: 1.5em;
   }
+}
+
+h1 {
+  @extend %h1;
 }
 
 .banner {
@@ -92,11 +95,21 @@ h1,
     padding: 0 var(--space-half);
     margin: 0 auto;
   }
+
+  &.heading {
+    @extend %h1;
+  }
+
+  &.sub-heading {
+    font-weight: 500;
+    display: block;
+  }
 }
 
 .content {
   &.root {
-    max-width: 40em;
+    width: 40em;
+    max-width: 100%;
     padding: 0 var(--space-half) var(--space);
     margin: var(--space-half) auto 0;
 

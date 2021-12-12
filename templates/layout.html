@@ -6,17 +6,18 @@
     <meta name="description" content="The personal site of Erick Merchant.">
     <link href="/static/favicon.svg" rel="icon" type="image/svg+xml">
     <link href="/styles/index.css" rel="stylesheet">
-    <title>ErickMerchant.com{% if "title" in data %} | {{data.title}}{% endif %}</title>
+    <title>{% block title %}ErickMerchant.com | {{data.title}}{% endblock %}</title>
   </head>
   <body>
     <header class="banner root">
       <div class="banner inner">
-        <span class="h1">ErickMerchant.com</span>
+        <span class="banner heading">ErickMerchant.com</span>
+        <span class="banner sub-heading">a digital garden</span>
       </div>
     </header>
     <article class="content root">
-      {% if "title" in data %}<h1>{{data.title}}</h1>{% endif %}
       {% block content %}
+        <h1>{{data.title}}</h1>
         {{content|safe}}
       {% endblock %}
     </article>
