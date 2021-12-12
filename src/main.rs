@@ -14,7 +14,7 @@ extern crate lazy_static;
 
 lazy_static! {
     pub static ref TEMPLATES: tera::Tera = {
-        let mut tera = tera::Tera::new("templates/**/*").expect("Parsing error(s): {}");
+        let mut tera = tera::Tera::new("templates/**/*").expect("Tera parsing error");
         tera.autoescape_on(vec!["html"]);
         tera
     };
@@ -38,12 +38,13 @@ async fn main() -> io::Result<()> {
     let mut builder = SslAcceptor::mozilla_intermediate(SslMethod::tls())?;
 
     builder.set_private_key_file(
-        env::var("SSL_KEY").expect("environment variable SSL_KEY"),
+        env::var("SSL_KEY").expect("Failed to read env variable SSL_KEY"),
         SslFiletype::PEM,
     )?;
 
-    builder
-        .set_certificate_chain_file(env::var("SSL_CERT").expect("environment variable SSL_CERT"))?;
+    builder.set_certificate_chain_file(
+        env::var("SSL_CERT").expect("Failed to read env variable SSL_CERT"),
+    )?;
 
     HttpServer::new(move || {
         App::new()
@@ -75,7 +76,7 @@ async fn main() -> io::Result<()> {
             )
     })
     .bind_openssl(
-        env::var("BIND_ADDRESS").expect("environment variable BIND_ADDRESS"),
+        env::var("BIND_ADDRESS").expect("Failed to read env variable BIND_ADDRESS"),
         builder,
     )?
     .run()
