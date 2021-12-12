@@ -20,12 +20,5 @@
         {{content|safe}}
       {% endblock %}
     </article>
-    <script type="module">
-      import {html, morph} from "/modules/@hyper-views/framework/main.js";
-
-      const h1 = document.querySelector('h1')
-
-      morph(h1, html`<h1>💀 ${h1.firstChild.nodeValue}</h1>`)
-    </script>
   </body>
 </html>
