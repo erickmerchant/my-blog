@@ -103,7 +103,9 @@ async fn handle_page(req: HttpRequest) -> Result<HttpResponse> {
 
 async fn handle_styles(req: HttpRequest) -> Result<HttpResponse> {
     let req_path = path::Path::new(req.match_info().get("stylesheet").unwrap_or("index"));
-    let scss_path = path::Path::new("styles").join(req_path.with_extension("scss"));
+    let scss_path = path::Path::new("styles")
+        .join(req_path)
+        .with_extension("scss");
     let cache_path = path::Path::new("storage/css").join(req_path);
 
     if use_cache_path(&cache_path, &scss_path) {
