@@ -51,12 +51,12 @@ body {
   min-height: 100%;
   height: 100%;
 
-  --space: 2em;
-  --space-half: 1em;
+  --space: 2rem;
+  --space-half: 1rem;
 
   @media #{$mobile-breakpoint} {
-    --space: 1em;
-    --space-half: 0.5em;
+    --space: 1rem;
+    --space-half: 0.5rem;
   }
 }
 
@@ -89,26 +89,25 @@ h1 {
     }
   }
 
-  &.inner {
-    width: 100%;
-    max-width: 40em;
-    padding: 0 var(--space-half);
-    margin: 0 auto;
-  }
-
   &.heading {
     @extend %h1;
   }
 
   &.sub-heading {
     font-weight: 500;
-    display: block;
+  }
+
+  > * {
+    width: 100%;
+    max-width: 40rem;
+    padding: 0 var(--space-half);
+    margin: 0 auto;
   }
 }
 
 .content {
   &.root {
-    width: 40em;
+    width: 40rem;
     max-width: 100%;
     padding: 0 var(--space-half) var(--space);
     margin: var(--space-half) auto 0;
