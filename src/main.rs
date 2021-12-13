@@ -7,7 +7,7 @@ use actix_web::middleware::{Compress, Logger};
 use actix_web::{web, App, HttpRequest, HttpResponse, HttpServer, Result};
 use dotenv::dotenv;
 use openssl::ssl::{SslAcceptor, SslFiletype, SslMethod};
-use std::{env, fs, io, path};
+use std::{env, fs, io, path, time};
 
 #[macro_use]
 extern crate lazy_static;
@@ -50,13 +50,13 @@ async fn main() -> io::Result<()> {
         App::new()
             .wrap(Compress::default())
             .wrap(Logger::new("%s %r"))
-            .route("/", web::get().to(handle_page))
+            .route("/", web::get().to(handle_index))
             .route("/robots.txt", web::get().to(handle_robots))
             .route(
-                "/styles/{stylesheet:[a-z0-9-/]*?\\.css}",
+                "/styles/{stylesheet:[/a-z0-9-]*?\\.css}",
                 web::get().to(handle_styles),
             )
-            .route("/{slug:[a-z0-9-]+}", web::get().to(handle_page))
+            .route("/{content_path:[/a-z0-9-]*}", web::get().to(handle_page))
             .service(
                 Files::new("/static", "static")
                     .use_etag(true)
@@ -83,17 +83,19 @@ async fn main() -> io::Result<()> {
     .await
 }
 
-async fn handle_page(req: HttpRequest) -> Result<HttpResponse> {
-    let slug: String = req
-        .match_info()
-        .get("slug")
-        .unwrap_or("index")
-        .parse()
-        .unwrap_or_default();
+async fn handle_index() -> Result<HttpResponse> {
+    handle_page(web::Path(String::from("index"))).await
+}
 
-    match fs::metadata(path::Path::new("content").join(&slug).with_extension("md")) {
+async fn handle_page(content_path: web::Path<String>) -> Result<HttpResponse> {
+    let content_path = content_path.as_str();
+    let markdown_path = path::Path::new("content")
+        .join(content_path)
+        .with_extension("md");
+
+    match fs::metadata(&markdown_path) {
         Ok(_) => {
-            let context = get_context(path::Path::new("content").join(slug).with_extension("md"));
+            let context = get_context(markdown_path);
             match TEMPLATES.render("layout.html", &context) {
                 Ok(page) => Ok(HttpResponse::Ok()
                     .content_type("text/html; charset=utf-8")
@@ -105,30 +107,51 @@ async fn handle_page(req: HttpRequest) -> Result<HttpResponse> {
     }
 }
 
-async fn handle_styles(req: HttpRequest) -> Result<HttpResponse> {
-    let req_path = path::Path::new(req.match_info().get("stylesheet").unwrap_or("index"));
+async fn handle_styles(req: HttpRequest, stylesheet: web::Path<String>) -> Result<HttpResponse> {
     let scss_path = path::Path::new("styles")
-        .join(req_path)
+        .join(stylesheet.as_str())
         .with_extension("scss");
-    let cache_path = path::Path::new("storage/css").join(req_path);
+    let cache_path = path::Path::new("storage/css").join(stylesheet.as_str());
 
-    if use_cache_path(&cache_path, &scss_path) {
-        let css = fs::read_to_string(cache_path).unwrap_or_default();
+    if use_cache(&cache_path, &scss_path) {
+        let css = fs::read_to_string(&cache_path).unwrap_or_default();
 
-        Ok(HttpResponse::Ok()
-            .content_type("text/css; charset=utf-8")
-            .body(css))
+        let etag = get_etag(&cache_path, &css);
+
+        let mut send_body = true;
+
+        if let Some(header) = req.headers().get("if-none-match") {
+            if header.to_str().unwrap_or_default() == etag {
+                send_body = false;
+            }
+        }
+
+        if send_body {
+            Ok(HttpResponse::Ok()
+                .content_type("text/css; charset=utf-8")
+                .header("etag", etag)
+                .body(css))
+        } else {
+            Ok(HttpResponse::new(StatusCode::NOT_MODIFIED))
+        }
     } else {
         let options = grass::Options::default().style(grass::OutputStyle::Compressed);
 
-        match grass::from_path(scss_path.to_str().unwrap(), &options) {
+        match grass::from_path(scss_path.to_str().unwrap_or_default(), &options) {
             Ok(css) => {
                 fs::create_dir_all(cache_path.parent().unwrap()).unwrap_or_default();
-                fs::write(cache_path, &css).unwrap_or_default();
+                fs::write(&cache_path, &css).unwrap_or_default();
 
-                Ok(HttpResponse::Ok()
-                    .content_type("text/css; charset=utf-8")
-                    .body(css))
+                let mut response = HttpResponse::Ok();
+                response.content_type("text/css; charset=utf-8");
+
+                let etag = get_etag(&cache_path, &css);
+
+                if etag != String::default() {
+                    response.header("etag", etag);
+                }
+
+                Ok(response.body(&css))
             }
             Err(err) => Err(ErrorInternalServerError(err)),
         }
@@ -174,35 +197,43 @@ fn render_markdown(markdown: String) -> String {
 fn get_context(path: path::PathBuf) -> tera::Context {
     let mut context = tera::Context::new();
 
-    match fs::read_to_string(path) {
-        Ok(file_contents) => {
-            let file_parts: Vec<&str> = file_contents.splitn(3, "+++").collect();
-            match file_parts[1].parse::<toml::Value>() {
-                Ok(frontmatter) => {
-                    context.insert("data", &frontmatter);
-                    context.insert("content", &render_markdown(file_parts[2].to_string()));
-                }
-                _ => (),
-            }
+    if let Ok(file_contents) = fs::read_to_string(path) {
+        let file_parts: Vec<&str> = file_contents.splitn(3, "+++").collect();
+
+        if let Ok(frontmatter) = file_parts[1].parse::<toml::Value>() {
+            context.insert("data", &frontmatter);
+            context.insert("content", &render_markdown(file_parts[2].to_string()));
         }
-        _ => (),
-    };
+    }
 
     context
 }
 
-fn use_cache_path(cache_path: &path::PathBuf, src_path: &path::PathBuf) -> bool {
-    let metadata = (fs::metadata(cache_path), fs::metadata(src_path));
+fn use_cache(cache_path: &path::PathBuf, src_path: &path::PathBuf) -> bool {
+    let mut result = false;
 
-    match metadata {
-        (Ok(cache_metadata), Ok(src_metadata)) => {
-            let modified = (cache_metadata.modified(), src_metadata.modified());
+    if let (Ok(cache_metadata), Ok(src_metadata)) =
+        (fs::metadata(cache_path), fs::metadata(src_path))
+    {
+        if let (Ok(cache_time), Ok(src_time)) = (cache_metadata.modified(), src_metadata.modified())
+        {
+            result = cache_time > src_time;
+        }
+    }
 
-            match modified {
-                (Ok(cache_time), Ok(src_time)) => cache_time > src_time,
-                _ => false,
+    result
+}
+
+fn get_etag(path: &path::PathBuf, contents: &String) -> String {
+    let mut etag = String::default();
+
+    if let Ok(metadata) = fs::metadata(path) {
+        if let Ok(modified) = metadata.modified() {
+            if let Ok(modified) = modified.duration_since(time::SystemTime::UNIX_EPOCH) {
+                etag = format!("W/\"{}-{}\"", contents.len(), modified.as_secs());
             }
         }
-        _ => false,
     }
+
+    etag
 }
