@@ -51,17 +51,10 @@ async fn main() -> io::Result<()> {
             .wrap(Compress::default())
             .wrap(Logger::new("%s %r"))
             .route("/", web::get().to(handle_index))
-            .route("/robots.txt", web::get().to(handle_robots))
+            .route("/{content_path:[/a-z0-9-]*}", web::get().to(handle_page))
             .route(
                 "/styles/{stylesheet:[/a-z0-9-]*?\\.css}",
                 web::get().to(handle_styles),
-            )
-            .route("/{content_path:[/a-z0-9-]*}", web::get().to(handle_page))
-            .service(
-                Files::new("/static", "static")
-                    .use_etag(true)
-                    .prefer_utf8(true)
-                    .default_handler(default_file_handler),
             )
             .service(
                 Files::new("/modules", "storage/modules")
@@ -69,6 +62,13 @@ async fn main() -> io::Result<()> {
                     .prefer_utf8(true)
                     .default_handler(default_file_handler),
             )
+            .service(
+                Files::new("/static", "static")
+                    .use_etag(true)
+                    .prefer_utf8(true)
+                    .default_handler(default_file_handler),
+            )
+            .route("/robots.txt", web::get().to(handle_robots))
             .wrap(ErrorHandlers::new().handler(StatusCode::NOT_FOUND, handle_not_found_page))
             .wrap(
                 ErrorHandlers::new()
