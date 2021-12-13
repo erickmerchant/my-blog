@@ -3,8 +3,8 @@ use std::path::Path;
 use url::Url;
 
 fn main() {
-  let deps = ["@hyper-views/framework"];
   let domain = "https://cdn.skypack.dev";
+  let deps = ["@hyper-views/framework"];
 
   for dep in &deps {
     let res = reqwest::blocking::get(format!("{}/{}?min", domain, dep).to_string())
