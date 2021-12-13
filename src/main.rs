@@ -64,7 +64,7 @@ async fn main() -> io::Result<()> {
                     .default_handler(default_file_handler),
             )
             .service(
-                Files::new("/modules", "modules")
+                Files::new("/modules", "storage/modules")
                     .use_etag(true)
                     .prefer_utf8(true)
                     .default_handler(default_file_handler),
