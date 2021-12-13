@@ -1,8 +1,8 @@
-$hue: 135;
+$hue: 105;
 $transparent: hsla(0, 0%, 0%, 0);
 $anchor-color: hsl($hue, 25%, 50%);
 $text-color: hsl($hue, 10%, 90%);
-$background-color: hsl($hue, 10%, 10%);
+$background-color: hsl($hue, 10%, 15%);
 $mobile-breakpoint: "(max-width: 768px)";
 
 @font-face {
@@ -45,8 +45,7 @@ body {
   );
   background-size: 1rem 1rem;
   display: grid;
-  grid-template-columns: 100%;
-  grid-template-rows: max-content 1fr;
+  grid-template: max-content 1fr / 100%;
   justify-content: center;
   min-height: 100%;
   height: 100%;
@@ -76,8 +75,13 @@ h1 {
 .banner {
   &.root {
     background-color: adjust-color($anchor-color, $alpha: -0.125);
-    background-image: radial-gradient($anchor-color 50%, $transparent 50%);
-    background-size: 0.25rem 0.25rem;
+    background-image: radial-gradient($anchor-color 50%, $transparent 50%),
+      linear-gradient(
+        90deg,
+        adjust-color($anchor-color, $hue: 60),
+        adjust-color($anchor-color, $hue: -60)
+      );
+    background-size: 0.25rem 0.25rem, 100% 100%;
     background-position: 50% 0;
     display: grid;
     align-content: end;
