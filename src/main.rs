@@ -100,7 +100,11 @@ async fn handle_page(content_path: web::Path<String>) -> Result<HttpResponse> {
                 Ok(page) => Ok(HttpResponse::Ok()
                     .content_type("text/html; charset=utf-8")
                     .body(page)),
-                Err(err) => Err(ErrorInternalServerError(err)),
+                Err(err) => {
+                    eprint!("{:?}", err);
+
+                    Err(ErrorInternalServerError(err))
+                }
             }
         }
         Err(err) => Err(ErrorNotFound(err)),
@@ -153,7 +157,11 @@ async fn handle_styles(req: HttpRequest, stylesheet: web::Path<String>) -> Resul
 
                 Ok(response.body(&css))
             }
-            Err(err) => Err(ErrorInternalServerError(err)),
+            Err(err) => {
+                eprint!("{:?}", err);
+
+                Err(ErrorInternalServerError(err))
+            }
         }
     }
 }
@@ -174,7 +182,11 @@ fn handle_not_found_page<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerRespo
                 .body(page)
                 .into_body(),
         ))),
-        Err(err) => Err(ErrorInternalServerError(err)),
+        Err(err) => {
+            eprint!("{:?}", err);
+
+            Err(ErrorInternalServerError(err))
+        }
     }
 }
 
