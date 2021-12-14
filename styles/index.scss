@@ -1,4 +1,4 @@
-$hue: 105;
+$hue: 100;
 $transparent: hsla(0, 0%, 0%, 0);
 $anchor-color: hsl($hue, 25%, 50%);
 $text-color: hsl($hue, 10%, 90%);
@@ -39,11 +39,6 @@ html {
 }
 
 body {
-  background-image: radial-gradient(
-    adjust-color($background-color, $lightness: 2.5%) 12.5%,
-    $transparent 12.5%
-  );
-  background-size: 1rem 1rem;
   display: grid;
   grid-template: max-content 1fr / 100%;
   justify-content: center;
@@ -75,11 +70,17 @@ h1 {
 .banner {
   &.root {
     background-color: adjust-color($anchor-color, $alpha: -0.125);
-    background-image: radial-gradient($anchor-color 50%, $transparent 50%),
+    background-image: radial-gradient(
+        $transparent 25%,
+        adjust-color($background-color, $alpha: -0.75) 25%,
+        adjust-color($background-color, $alpha: -0.75) 50%,
+        $transparent 50%
+      ),
       linear-gradient(
-        90deg,
-        adjust-color($anchor-color, $hue: 60),
-        adjust-color($anchor-color, $hue: -60)
+        -45deg,
+        adjust-color($anchor-color, $hue: -30),
+        adjust-color($anchor-color, $hue: 30),
+        adjust-color($anchor-color, $hue: -30)
       );
     background-size: 0.25rem 0.25rem, 100% 100%;
     background-position: 50% 0;
