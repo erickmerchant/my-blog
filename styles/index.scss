@@ -1,8 +1,5 @@
 $hue: 100;
 $transparent: hsla(0, 0%, 0%, 0);
-$anchor-color: hsl($hue, 25%, 50%);
-$text-color: hsl($hue, 10%, 90%);
-$background-color: hsl($hue, 10%, 15%);
 $mobile-breakpoint: "(max-width: 768px)";
 
 @font-face {
@@ -32,17 +29,9 @@ $mobile-breakpoint: "(max-width: 768px)";
 }
 
 html {
-  color: $text-color;
-  background-color: $background-color;
+  color: var(--text-color);
+  background-color: var(--background-color);
   font: 100 max(20px, 1.5vw) / 1.5 "Public Sans", system-ui, sans-serif;
-  height: 100%;
-}
-
-body {
-  display: grid;
-  grid-template: max-content 1fr / 100%;
-  justify-content: center;
-  min-height: 100%;
   height: 100%;
 
   --space: 2rem;
@@ -52,6 +41,42 @@ body {
     --space: 1rem;
     --space-half: 0.5rem;
   }
+
+  @media (prefers-color-scheme: light) {
+    $primary-color: hsl($hue, 25%, 60%);
+    $background-color: hsl($hue, 10%, 90%);
+
+    --primary-color: $primary-color;
+    --anchor-color: adjust-color($primary-color, $lightness: -25%);
+    --text-color: hsl($hue, 10%, 25%);
+    --background-color: $background-color;
+    --banner-background-color: adjust-color($primary-color, $alpha: -0.125);
+    --banner-gradient-color-1: adjust-color($primary-color, $hue: 30);
+    --banner-gradient-color-2: adjust-color($primary-color, $hue: -30);
+    --banner-gradient-color-3: adjust-color($background-color, $alpha: -0.75);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    $primary-color: hsl($hue, 25%, 50%);
+    $background-color: hsl($hue, 10%, 15%);
+
+    --primary-color: $primary-color;
+    --anchor-color: adjust-color($primary-color, $lightness: 15%);
+    --text-color: hsl($hue, 10%, 90%);
+    --background-color: $background-color;
+    --banner-background-color: adjust-color($primary-color, $alpha: -0.125);
+    --banner-gradient-color-1: adjust-color($primary-color, $hue: 30);
+    --banner-gradient-color-2: adjust-color($primary-color, $hue: -30);
+    --banner-gradient-color-3: adjust-color($background-color, $alpha: -0.75);
+  }
+}
+
+body {
+  display: grid;
+  grid-template: max-content 1fr / 100%;
+  justify-content: center;
+  min-height: 100%;
+  height: 100%;
 }
 
 %h1 {
@@ -67,20 +92,26 @@ h1 {
   @extend %h1;
 }
 
+a {
+  color: var(--anchor-color);
+  font-weight: 200;
+  text-underline-offset: 0.125em;
+}
+
 .banner {
   &.root {
-    background-color: adjust-color($anchor-color, $alpha: -0.125);
+    background-color: var(--banner-background-color);
     background-image: radial-gradient(
         $transparent 25%,
-        adjust-color($background-color, $alpha: -0.75) 25%,
-        adjust-color($background-color, $alpha: -0.75) 50%,
+        var(--banner-gradient-color-3) 25%,
+        var(--banner-gradient-color-3) 50%,
         $transparent 50%
       ),
       linear-gradient(
         -45deg,
-        adjust-color($anchor-color, $hue: -30),
-        adjust-color($anchor-color, $hue: 30),
-        adjust-color($anchor-color, $hue: -30)
+        var(--banner-gradient-color-2),
+        var(--banner-gradient-color-1),
+        var(--banner-gradient-color-2)
       );
     background-size: 0.25rem 0.25rem, 100% 100%;
     background-position: 50% 0;
