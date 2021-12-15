@@ -67,7 +67,7 @@ html {
     $scheme: light,
     $primary-color: $light-primary-color,
     $anchor-color: adjust-color($light-primary-color, $lightness: -25%),
-    $background-color: hsl($hue, 10%, 90%),
+    $background-color: hsl($hue, 10%, 98%),
     $text-color: hsl($hue, 10%, 25%)
   );
 
