@@ -90,17 +90,27 @@ body {
   height: 100%;
 }
 
-%h1 {
-  font-size: 2.5em;
-  font-weight: 900;
-
-  @media #{$mobile-breakpoint} {
-    font-size: 1.5em;
-  }
+h1 {
+  font-size: 2em;
+  font-weight: 800;
 }
 
-h1 {
-  @extend %h1;
+h2 {
+  font-size: 1.5em;
+  font-weight: 700;
+}
+
+h3 {
+  font-size: 1em;
+  font-weight: 600;
+}
+
+h1,
+h2,
+h3 {
+  @media #{$mobile-breakpoint} {
+    font-size: 1em;
+  }
 }
 
 a {
@@ -137,11 +147,12 @@ a {
   }
 
   &.heading {
-    @extend %h1;
-  }
+    font-size: 2.5em;
+    font-weight: 900;
 
-  &.sub-heading {
-    font-weight: 500;
+    @media #{$mobile-breakpoint} {
+      font-size: 1em;
+    }
   }
 
   > * {
