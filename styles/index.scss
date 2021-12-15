@@ -1,6 +1,31 @@
 $hue: 100;
 $transparent: hsla(0, 0%, 0%, 0);
 $mobile-breakpoint: "(max-width: 768px)";
+$primaries: (
+  "light": hsl($hue, 25%, 60%),
+  "dark": hsl($hue, 25%, 50%),
+);
+
+@use "sass:map";
+
+@mixin prefer-color-scheme(
+  $scheme,
+  $primary-color,
+  $anchor-color,
+  $background-color,
+  $text-color
+) {
+  @media (prefers-color-scheme: #{$scheme}) {
+    --primary-color: $primary-color;
+    --anchor-color: $anchor-color;
+    --text-color: $text-color;
+    --background-color: $background-color;
+    --banner-background-color: adjust-color($primary-color, $alpha: -0.125);
+    --banner-gradient-color-1: adjust-color($primary-color, $hue: 30);
+    --banner-gradient-color-2: adjust-color($primary-color, $hue: -30);
+    --banner-gradient-color-3: adjust-color($background-color, $alpha: -0.75);
+  }
+}
 
 @font-face {
   font-display: swap;
@@ -42,41 +67,18 @@ html {
     --space-half: 0.5rem;
   }
 
-  @mixin prefer-color-scheme(
-    $scheme,
-    $primary-color,
-    $anchor-color,
-    $background-color,
-    $text-color
-  ) {
-    @media (prefers-color-scheme: #{$scheme}) {
-      --primary-color: $primary-color;
-      --anchor-color: $anchor-color;
-      --text-color: $text-color;
-      --background-color: $background-color;
-      --banner-background-color: adjust-color($primary-color, $alpha: -0.125);
-      --banner-gradient-color-1: adjust-color($primary-color, $hue: 30);
-      --banner-gradient-color-2: adjust-color($primary-color, $hue: -30);
-      --banner-gradient-color-3: adjust-color($background-color, $alpha: -0.75);
-    }
-  }
-
-  $light-primary-color: hsl($hue, 25%, 60%);
-
   @include prefer-color-scheme(
     $scheme: light,
-    $primary-color: $light-primary-color,
-    $anchor-color: adjust-color($light-primary-color, $lightness: -25%),
+    $primary-color: map.get($primaries, "light"),
+    $anchor-color: adjust-color(map.get($primaries, "light"), $lightness: -25%),
     $background-color: hsl($hue, 10%, 98%),
     $text-color: hsl($hue, 10%, 25%)
   );
 
-  $dark-primary-color: hsl($hue, 25%, 50%);
-
   @include prefer-color-scheme(
     $scheme: dark,
-    $primary-color: $dark-primary-color,
-    $anchor-color: adjust-color($dark-primary-color, $lightness: 15%),
+    $primary-color: map.get($primaries, "dark"),
+    $anchor-color: adjust-color(map.get($primaries, "dark"), $lightness: 15%),
     $background-color: hsl($hue, 10%, 15%),
     $text-color: hsl($hue, 10%, 90%)
   );
