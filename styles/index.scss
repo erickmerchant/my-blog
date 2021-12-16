@@ -1,12 +1,8 @@
 $hue: 100;
 $transparent: hsla(0, 0%, 0%, 0);
 $mobile-breakpoint: "(max-width: 768px)";
-$primaries: (
-  "light": hsl($hue, 25%, 60%),
-  "dark": hsl($hue, 25%, 50%),
-);
-
-@use "sass:map";
+$primary-color-light: hsl($hue, 25%, 60%);
+$primary-color-dark: hsl($hue, 25%, 50%);
 
 @mixin prefer-color-scheme(
   $scheme,
@@ -69,16 +65,16 @@ html {
 
   @include prefer-color-scheme(
     $scheme: light,
-    $primary-color: map.get($primaries, "light"),
-    $anchor-color: adjust-color(map.get($primaries, "light"), $lightness: -25%),
+    $primary-color: $primary-color-light,
+    $anchor-color: adjust-color($primary-color-light, $lightness: -25%),
     $background-color: hsl($hue, 10%, 98%),
     $text-color: hsl($hue, 10%, 25%)
   );
 
   @include prefer-color-scheme(
     $scheme: dark,
-    $primary-color: map.get($primaries, "dark"),
-    $anchor-color: adjust-color(map.get($primaries, "dark"), $lightness: 15%),
+    $primary-color: $primary-color-dark,
+    $anchor-color: adjust-color($primary-color-dark, $lightness: 15%),
     $background-color: hsl($hue, 10%, 15%),
     $text-color: hsl($hue, 10%, 90%)
   );
@@ -93,18 +89,18 @@ body {
 }
 
 h1 {
-  font-size: 2em;
   font-weight: 800;
+  font-size: 2em;
 }
 
 h2 {
-  font-size: 1.5em;
   font-weight: 700;
+  font-size: 1.5em;
 }
 
 h3 {
-  font-size: 1em;
   font-weight: 600;
+  font-size: 1em;
 }
 
 h1,
@@ -153,7 +149,7 @@ a {
     font-weight: 900;
 
     @media #{$mobile-breakpoint} {
-      font-size: 1em;
+      font-size: 1.5em;
     }
   }
 

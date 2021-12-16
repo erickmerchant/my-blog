@@ -54,7 +54,7 @@ async fn main() -> io::Result<()> {
             .route("/{content_path:[/a-z0-9-]*}", web::get().to(handle_page))
             .route(
                 "/styles/{stylesheet:[/a-z0-9-]*?\\.css}",
-                web::get().to(handle_styles),
+                web::get().to(handle_stylesheet),
             )
             .service(
                 Files::new("/modules", "storage/modules")
@@ -111,22 +111,27 @@ async fn handle_page(content_path: web::Path<String>) -> Result<HttpResponse> {
     }
 }
 
-async fn handle_styles(req: HttpRequest, stylesheet: web::Path<String>) -> Result<HttpResponse> {
+async fn handle_stylesheet(
+    req: HttpRequest,
+    stylesheet: web::Path<String>,
+) -> Result<HttpResponse> {
     let scss_path = path::Path::new("styles")
         .join(stylesheet.as_str())
         .with_extension("scss");
     let cache_path = path::Path::new("storage/css").join(stylesheet.as_str());
 
     if use_cache(&cache_path, &scss_path) {
-        let css = fs::read_to_string(&cache_path).unwrap_or_default();
+        let css = fs::read_to_string(&cache_path)?;
 
         let etag = get_etag(&cache_path, &css);
 
         let mut send_body = true;
 
         if let Some(header) = req.headers().get("if-none-match") {
-            if header.to_str().unwrap_or_default() == etag {
-                send_body = false;
+            if let Ok(value) = header.to_str() {
+                if value == etag {
+                    send_body = false;
+                }
             }
         }
 
@@ -141,22 +146,32 @@ async fn handle_styles(req: HttpRequest, stylesheet: web::Path<String>) -> Resul
     } else {
         let options = grass::Options::default().style(grass::OutputStyle::Compressed);
 
-        match grass::from_path(scss_path.to_str().unwrap_or_default(), &options) {
-            Ok(css) => {
-                fs::create_dir_all(cache_path.parent().unwrap()).unwrap_or_default();
-                fs::write(&cache_path, &css).unwrap_or_default();
+        match fs::read_to_string(scss_path) {
+            Ok(file_contents) => match grass::from_string(file_contents, &options) {
+                Ok(css) => {
+                    if let Some(directory) = cache_path.parent() {
+                        fs::create_dir_all(directory)?;
+                    }
 
-                let mut response = HttpResponse::Ok();
-                response.content_type("text/css; charset=utf-8");
+                    fs::write(&cache_path, &css)?;
 
-                let etag = get_etag(&cache_path, &css);
+                    let mut response = HttpResponse::Ok();
+                    response.content_type("text/css; charset=utf-8");
 
-                if etag != String::default() {
-                    response.header("etag", etag);
+                    let etag = get_etag(&cache_path, &css);
+
+                    if etag != String::default() {
+                        response.header("etag", etag);
+                    }
+
+                    Ok(response.body(&css))
                 }
+                Err(err) => {
+                    eprint!("{:?}", err);
 
-                Ok(response.body(&css))
-            }
+                    Err(ErrorInternalServerError(err))
+                }
+            },
             Err(err) => {
                 eprint!("{:?}", err);
 
