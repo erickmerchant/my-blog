@@ -139,6 +139,13 @@ a {
     height: 50vh;
     padding-bottom: var(--space-half);
 
+    > * {
+      width: 100%;
+      max-width: 40rem;
+      padding: 0 var(--space-half);
+      margin: 0 auto;
+    }
+
     @media #{$mobile-breakpoint} {
       height: 25vh;
     }
@@ -151,13 +158,6 @@ a {
     @media #{$mobile-breakpoint} {
       font-size: 1.5em;
     }
-  }
-
-  > * {
-    width: 100%;
-    max-width: 40rem;
-    padding: 0 var(--space-half);
-    margin: 0 auto;
   }
 }
 
