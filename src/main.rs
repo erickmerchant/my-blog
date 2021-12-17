@@ -83,102 +83,42 @@ async fn main() -> io::Result<()> {
     .await
 }
 
-async fn handle_index() -> Result<HttpResponse> {
-    handle_page(web::Path(String::from("index"))).await
+async fn handle_index(req: HttpRequest) -> Result<HttpResponse> {
+    handle_page(req, web::Path(String::from("index"))).await
 }
 
-async fn handle_page(content_path: web::Path<String>) -> Result<HttpResponse> {
-    let content_path = content_path.as_str();
-    let markdown_path = path::Path::new("content")
-        .join(content_path)
-        .with_extension("md");
-
-    match fs::metadata(&markdown_path) {
-        Ok(_) => {
-            let context = get_context(fs::read_to_string(markdown_path)?);
-            match TEMPLATES.render("layout.html", &context) {
-                Ok(page) => Ok(HttpResponse::Ok()
-                    .content_type("text/html; charset=utf-8")
-                    .body(page)),
-                Err(err) => {
-                    eprint!("{:?}", err);
-
-                    Err(ErrorInternalServerError(err))
-                }
-            }
-        }
-        Err(err) => Err(ErrorNotFound(err)),
+async fn handle_page(req: HttpRequest, page: web::Path<String>) -> Result<HttpResponse> {
+    AssetResponse {
+        content_type: String::from("text/html; charset=utf-8"),
+        src: path::Path::new("content")
+            .join(page.as_str())
+            .with_extension("md"),
+        cache: path::Path::new("storage/html").join(page.as_str()),
     }
+    .get_response(req, |file_contents| {
+        let context = get_context(file_contents);
+
+        TEMPLATES.render("layout.html", &context)
+    })
 }
 
 async fn handle_stylesheet(
     req: HttpRequest,
     stylesheet: web::Path<String>,
 ) -> Result<HttpResponse> {
-    let scss_path = path::Path::new("styles")
-        .join(stylesheet.as_str())
-        .with_extension("scss");
-    let cache_path = path::Path::new("storage/css").join(stylesheet.as_str());
-
-    match fs::metadata(&scss_path) {
-        Ok(metadata) => {
-            if use_cache(&cache_path, metadata) {
-                let css = fs::read_to_string(&cache_path)?;
-
-                let etag = get_etag(&cache_path, &css);
-
-                let mut send_body = true;
-
-                if let Some(header) = req.headers().get("if-none-match") {
-                    if let Ok(value) = header.to_str() {
-                        if value == etag {
-                            send_body = false;
-                        }
-                    }
-                }
-
-                if send_body {
-                    Ok(HttpResponse::Ok()
-                        .content_type("text/css; charset=utf-8")
-                        .header("etag", etag)
-                        .body(css))
-                } else {
-                    Ok(HttpResponse::new(StatusCode::NOT_MODIFIED))
-                }
-            } else {
-                let options = grass::Options::default().style(grass::OutputStyle::Compressed);
-
-                let file_contents = fs::read_to_string(&scss_path)?;
-
-                match grass::from_string(file_contents, &options) {
-                    Ok(css) => {
-                        if let Some(directory) = cache_path.parent() {
-                            fs::create_dir_all(directory)?;
-                        }
-
-                        fs::write(&cache_path, &css)?;
-
-                        let mut response = HttpResponse::Ok();
-                        response.content_type("text/css; charset=utf-8");
-
-                        let etag = get_etag(&cache_path, &css);
-
-                        if etag != String::default() {
-                            response.header("etag", etag);
-                        }
-
-                        Ok(response.body(&css))
-                    }
-                    Err(err) => {
-                        eprint!("{:?}", err);
-
-                        Err(ErrorInternalServerError(err))
-                    }
-                }
-            }
-        }
-        Err(err) => Err(ErrorNotFound(err)),
+    AssetResponse {
+        content_type: String::from("text/css; charset=utf-8"),
+        src: path::Path::new("styles")
+            .join(stylesheet.as_str())
+            .with_extension("scss"),
+        cache: path::Path::new("storage/css").join(stylesheet.as_str()),
     }
+    .get_response(req, |file_contents| {
+        grass::from_string(
+            file_contents,
+            &grass::Options::default().style(grass::OutputStyle::Compressed),
+        )
+    })
 }
 
 async fn handle_robots() -> Result<NamedFile> {
@@ -214,6 +154,105 @@ fn handle_internal_error<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerRespo
     )))
 }
 
+struct AssetResponse {
+    content_type: String,
+    src: path::PathBuf,
+    cache: path::PathBuf,
+}
+
+impl AssetResponse {
+    fn get_response<
+        F: Fn(String) -> std::result::Result<String, E>,
+        E: std::fmt::Debug + std::fmt::Display + 'static,
+    >(
+        &self,
+        req: HttpRequest,
+        process: F,
+    ) -> Result<HttpResponse> {
+        match fs::metadata(&self.src) {
+            Ok(src_metadata) => {
+                let mut use_cache = false;
+
+                if let Ok(cache_metadata) = fs::metadata(&self.cache) {
+                    if let (Ok(cache_time), Ok(src_time)) =
+                        (cache_metadata.modified(), src_metadata.modified())
+                    {
+                        use_cache = cache_time > src_time;
+                    }
+                }
+
+                if use_cache {
+                    let cache_body = fs::read_to_string(&self.cache)?;
+
+                    let etag = self.get_etag(&self.cache, &cache_body);
+
+                    let mut send_body = true;
+
+                    if let Some(header) = req.headers().get("if-none-match") {
+                        if let Ok(value) = header.to_str() {
+                            if value == etag {
+                                send_body = false;
+                            }
+                        }
+                    }
+
+                    if send_body {
+                        Ok(HttpResponse::Ok()
+                            .content_type(&self.content_type)
+                            .header("etag", etag)
+                            .body(cache_body))
+                    } else {
+                        Ok(HttpResponse::new(StatusCode::NOT_MODIFIED))
+                    }
+                } else {
+                    let file_contents = fs::read_to_string(&self.src)?;
+
+                    match process(file_contents) {
+                        Ok(body) => {
+                            if let Some(directory) = self.cache.parent() {
+                                fs::create_dir_all(directory)?;
+                            }
+
+                            fs::write(&self.cache, &body)?;
+
+                            let mut response = HttpResponse::Ok();
+                            response.content_type(&self.content_type);
+
+                            let etag = self.get_etag(&self.cache, &body);
+
+                            if etag != String::default() {
+                                response.header("etag", etag);
+                            }
+
+                            Ok(response.body(body))
+                        }
+                        Err(err) => {
+                            eprint!("{:?}", err);
+
+                            Err(ErrorInternalServerError(err))
+                        }
+                    }
+                }
+            }
+            Err(err) => Err(ErrorNotFound(err)),
+        }
+    }
+
+    fn get_etag(&self, path: &path::PathBuf, contents: &String) -> String {
+        let mut etag = String::default();
+
+        if let Ok(metadata) = fs::metadata(path) {
+            if let Ok(modified) = metadata.modified() {
+                if let Ok(modified) = modified.duration_since(time::SystemTime::UNIX_EPOCH) {
+                    etag = format!("W/\"{}-{}\"", contents.len(), modified.as_secs());
+                }
+            }
+        }
+
+        etag
+    }
+}
+
 fn render_markdown(markdown: String) -> String {
     let mut content = String::new();
     let md_parser = pulldown_cmark::Parser::new_ext(&markdown, pulldown_cmark::Options::empty());
@@ -226,37 +265,15 @@ fn get_context(file_contents: String) -> tera::Context {
 
     let file_parts: Vec<&str> = file_contents.splitn(3, "+++").collect();
 
-    if let Ok(frontmatter) = file_parts[1].parse::<toml::Value>() {
-        context.insert("data", &frontmatter);
+    if file_parts.len() == 3 {
+        if let Ok(frontmatter) = file_parts[1].parse::<toml::Value>() {
+            context.insert("data", &frontmatter);
+        }
+
         context.insert("content", &render_markdown(file_parts[2].to_string()));
+    } else {
+        context.insert("content", &file_contents);
     }
 
     context
-}
-
-fn use_cache(cache_path: &path::PathBuf, src_metadata: fs::Metadata) -> bool {
-    let mut result = false;
-
-    if let Ok(cache_metadata) = fs::metadata(cache_path) {
-        if let (Ok(cache_time), Ok(src_time)) = (cache_metadata.modified(), src_metadata.modified())
-        {
-            result = cache_time > src_time;
-        }
-    }
-
-    result
-}
-
-fn get_etag(path: &path::PathBuf, contents: &String) -> String {
-    let mut etag = String::default();
-
-    if let Ok(metadata) = fs::metadata(path) {
-        if let Ok(modified) = metadata.modified() {
-            if let Ok(modified) = modified.duration_since(time::SystemTime::UNIX_EPOCH) {
-                etag = format!("W/\"{}-{}\"", contents.len(), modified.as_secs());
-            }
-        }
-    }
-
-    etag
 }
