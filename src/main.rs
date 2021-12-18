@@ -1,5 +1,5 @@
-use actix_files::{Files, NamedFile};
-use actix_web::dev::{ServiceRequest, ServiceResponse};
+use actix_files::NamedFile;
+use actix_web::dev::ServiceResponse;
 use actix_web::error::{ErrorInternalServerError, ErrorNotFound};
 use actix_web::http::StatusCode;
 use actix_web::middleware::errhandlers::{ErrorHandlerResponse, ErrorHandlers};
@@ -26,15 +26,6 @@ async fn main() -> io::Result<()> {
 
     env_logger::init();
 
-    let default_file_handler = |req: ServiceRequest| {
-        let (http_req, _payload) = req.into_parts();
-        async {
-            let response = HttpResponse::new(StatusCode::NOT_FOUND);
-
-            Ok(ServiceResponse::new(http_req, response))
-        }
-    };
-
     let mut builder = SslAcceptor::mozilla_intermediate(SslMethod::tls())?;
 
     builder.set_private_key_file(
@@ -51,22 +42,21 @@ async fn main() -> io::Result<()> {
             .wrap(Compress::default())
             .wrap(Logger::new("%s %r"))
             .route("/", web::get().to(handle_index))
-            .route("/{content_path:[/a-z0-9-]*}", web::get().to(handle_page))
             .route(
-                "/styles/{stylesheet:[/a-z0-9-]*?\\.css}",
+                "/{content_path:[/@a-zA-Z0-9_-]*}",
+                web::get().to(handle_page),
+            )
+            .route(
+                "/styles/{stylesheet:[/@a-zA-Z0-9_-]*?\\.css}",
                 web::get().to(handle_stylesheet),
             )
-            .service(
-                Files::new("/modules", "storage/modules")
-                    .use_etag(true)
-                    .prefer_utf8(true)
-                    .default_handler(default_file_handler),
+            .route(
+                "/modules/{module:[/@a-zA-Z0-9_-]*?\\.js}",
+                web::get().to(handle_module),
             )
-            .service(
-                Files::new("/static", "static")
-                    .use_etag(true)
-                    .prefer_utf8(true)
-                    .default_handler(default_file_handler),
+            .route(
+                "/static/{static_file:[/@a-zA-Z0-9_-]*?\\.[a-z0-9]+}",
+                web::get().to(handle_static_file),
             )
             .route("/robots.txt", web::get().to(handle_robots))
             .wrap(ErrorHandlers::new().handler(StatusCode::NOT_FOUND, handle_not_found_page))
@@ -88,7 +78,7 @@ async fn handle_index(req: HttpRequest) -> Result<HttpResponse> {
 }
 
 async fn handle_page(req: HttpRequest, page: web::Path<String>) -> Result<HttpResponse> {
-    AssetResponse {
+    DynamicAsset {
         content_type: String::from("text/html; charset=utf-8"),
         src: path::Path::new("content")
             .join(page.as_str())
@@ -106,7 +96,7 @@ async fn handle_stylesheet(
     req: HttpRequest,
     stylesheet: web::Path<String>,
 ) -> Result<HttpResponse> {
-    AssetResponse {
+    DynamicAsset {
         content_type: String::from("text/css; charset=utf-8"),
         src: path::Path::new("styles")
             .join(stylesheet.as_str())
@@ -121,11 +111,25 @@ async fn handle_stylesheet(
     })
 }
 
-async fn handle_robots() -> Result<NamedFile> {
-    match NamedFile::open("static/robots.txt") {
-        Ok(file) => Ok(file),
-        Err(err) => Err(ErrorNotFound(err)),
+async fn handle_module(req: HttpRequest, module: web::Path<String>) -> Result<NamedFile> {
+    StaticAsset {
+        src: path::Path::new("storage/modules").join(module.as_str()),
     }
+    .get_response(req)
+}
+
+async fn handle_static_file(req: HttpRequest, static_file: web::Path<String>) -> Result<NamedFile> {
+    StaticAsset {
+        src: path::Path::new("static").join(static_file.as_str()),
+    }
+    .get_response(req)
+}
+
+async fn handle_robots(req: HttpRequest) -> Result<NamedFile> {
+    StaticAsset {
+        src: path::Path::new("static/robots.txt").to_path_buf(),
+    }
+    .get_response(req)
 }
 
 fn handle_not_found_page<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerResponse<B>> {
@@ -154,13 +158,13 @@ fn handle_internal_error<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerRespo
     )))
 }
 
-struct AssetResponse {
+struct DynamicAsset {
     content_type: String,
     src: path::PathBuf,
     cache: path::PathBuf,
 }
 
-impl AssetResponse {
+impl DynamicAsset {
     fn get_response<
         F: Fn(String) -> std::result::Result<String, E>,
         E: std::fmt::Debug + std::fmt::Display + 'static,
@@ -182,75 +186,112 @@ impl AssetResponse {
                 }
 
                 if use_cache {
-                    let cache_body = fs::read_to_string(&self.cache)?;
-
-                    let etag = self.get_etag(&self.cache, &cache_body);
-
-                    let mut send_body = true;
-
-                    if let Some(header) = req.headers().get("if-none-match") {
-                        if let Ok(value) = header.to_str() {
-                            if value == etag {
-                                send_body = false;
-                            }
-                        }
-                    }
-
-                    if send_body {
-                        Ok(HttpResponse::Ok()
-                            .content_type(&self.content_type)
-                            .header("etag", etag)
-                            .body(cache_body))
-                    } else {
-                        Ok(HttpResponse::new(StatusCode::NOT_MODIFIED))
-                    }
+                    self.get_cached(req)
                 } else {
-                    let file_contents = fs::read_to_string(&self.src)?;
-
-                    match process(file_contents) {
-                        Ok(body) => {
-                            if let Some(directory) = self.cache.parent() {
-                                fs::create_dir_all(directory)?;
-                            }
-
-                            fs::write(&self.cache, &body)?;
-
-                            let mut response = HttpResponse::Ok();
-                            response.content_type(&self.content_type);
-
-                            let etag = self.get_etag(&self.cache, &body);
-
-                            if etag != String::default() {
-                                response.header("etag", etag);
-                            }
-
-                            Ok(response.body(body))
-                        }
-                        Err(err) => {
-                            eprint!("{:?}", err);
-
-                            Err(ErrorInternalServerError(err))
-                        }
-                    }
+                    self.get_uncached(req, process)
                 }
             }
             Err(err) => Err(ErrorNotFound(err)),
         }
     }
 
-    fn get_etag(&self, path: &path::PathBuf, contents: &String) -> String {
-        let mut etag = String::default();
+    fn get_uncached<
+        F: Fn(String) -> std::result::Result<String, E>,
+        E: std::fmt::Debug + std::fmt::Display + 'static,
+    >(
+        &self,
+        _req: HttpRequest,
+        process: F,
+    ) -> Result<HttpResponse> {
+        let file_contents = fs::read_to_string(&self.src)?;
 
-        if let Ok(metadata) = fs::metadata(path) {
-            if let Ok(modified) = metadata.modified() {
-                if let Ok(modified) = modified.duration_since(time::SystemTime::UNIX_EPOCH) {
-                    etag = format!("W/\"{}-{}\"", contents.len(), modified.as_secs());
+        match process(file_contents) {
+            Ok(body) => {
+                if let Some(directory) = self.cache.parent() {
+                    fs::create_dir_all(directory)?;
+                }
+
+                fs::write(&self.cache, &body)?;
+
+                let mut response = HttpResponse::Ok();
+                response.content_type(&self.content_type);
+
+                let etag = get_etag(&self.cache, &body);
+
+                if etag != String::default() {
+                    response.header("etag", etag);
+                }
+
+                Ok(response.body(body))
+            }
+            Err(err) => {
+                eprint!("{:?}", err);
+
+                Err(ErrorInternalServerError(err))
+            }
+        }
+    }
+
+    fn get_cached(&self, req: HttpRequest) -> Result<HttpResponse> {
+        let cache_body = fs::read_to_string(&self.cache)?;
+
+        let etag = get_etag(&self.cache, &cache_body);
+
+        let mut send_body = true;
+
+        if let Some(header) = req.headers().get("if-none-match") {
+            if let Ok(value) = header.to_str() {
+                if value == etag {
+                    send_body = false;
                 }
             }
         }
 
-        etag
+        if send_body {
+            Ok(HttpResponse::Ok()
+                .content_type(&self.content_type)
+                .header("etag", etag)
+                .body(cache_body))
+        } else {
+            Ok(HttpResponse::build(StatusCode::NOT_MODIFIED)
+                .header("etag", etag)
+                .body(String::default()))
+        }
     }
+}
+
+struct StaticAsset {
+    src: path::PathBuf,
+}
+
+impl StaticAsset {
+    fn get_response(&self, _req: HttpRequest) -> Result<NamedFile> {
+        match fs::metadata(&self.src) {
+            Ok(_) => match NamedFile::open(&self.src) {
+                Ok(file) => Ok(file
+                    .prefer_utf8(true)
+                    .use_etag(true)
+                    .use_last_modified(true)
+                    .disable_content_disposition()),
+                Err(err) => Err(ErrorNotFound(err)),
+            },
+            Err(err) => Err(ErrorNotFound(err)),
+        }
+    }
+}
+
+fn get_etag(path: &path::PathBuf, contents: &String) -> String {
+    let mut etag = String::default();
+
+    if let Ok(metadata) = fs::metadata(path) {
+        if let Ok(modified) = metadata.modified() {
+            if let Ok(modified) = modified.duration_since(time::SystemTime::UNIX_EPOCH) {
+                etag = format!("W/\"{}-{}\"", contents.len(), modified.as_secs());
+            }
+        }
+    }
+
+    etag
 }
 
 fn render_markdown(markdown: String) -> String {
