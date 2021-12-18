@@ -1,27 +1,16 @@
 $hue: 100;
 $transparent: hsla(0, 0%, 0%, 0);
 $mobile-breakpoint: "(max-width: 768px)";
-$primary-color-light: hsl($hue, 25%, 60%);
-$primary-color-dark: hsl($hue, 25%, 50%);
 
-@mixin prefer-color-scheme(
-  $scheme,
-  $primary-color,
-  $anchor-color,
-  $background-color,
-  $text-color
-) {
-  @media (prefers-color-scheme: #{$scheme}) {
-    --primary-color: $primary-color;
-    --anchor-color: $anchor-color;
-    --text-color: $text-color;
-    --background-color: $background-color;
-    --banner-background-color: adjust-color($primary-color, $alpha: -0.125);
-    --banner-gradient-color-1: adjust-color($primary-color, $hue: 30);
-    --banner-gradient-color-2: adjust-color($primary-color, $hue: -30);
-    --banner-gradient-color-3: adjust-color($background-color, $alpha: -0.75);
-  }
-}
+$primary-color-light: hsl($hue, 25%, 60%);
+$anchor-color-light: adjust-color($primary-color-light, $lightness: -25%);
+$background-color-light: hsl($hue, 10%, 98%);
+$text-color-light: hsl($hue, 10%, 25%);
+
+$primary-color-dark: hsl($hue, 25%, 50%);
+$anchor-color-dark: adjust-color($primary-color-dark, $lightness: 15%);
+$background-color-dark: hsl($hue, 10%, 15%);
+$text-color-dark: hsl($hue, 10%, 90%);
 
 @font-face {
   font-display: swap;
@@ -63,20 +52,35 @@ html {
     --space-half: 0.5rem;
   }
 
+  @mixin prefer-color-scheme(
+    $scheme,
+    $primary-color,
+    $anchor-color,
+    $background-color,
+    $text-color
+  ) {
+    @media (prefers-color-scheme: #{$scheme}) {
+      --primary-color: $primary-color;
+      --anchor-color: $anchor-color;
+      --text-color: $text-color;
+      --background-color: $background-color;
+    }
+  }
+
   @include prefer-color-scheme(
     $scheme: light,
     $primary-color: $primary-color-light,
-    $anchor-color: adjust-color($primary-color-light, $lightness: -25%),
-    $background-color: hsl($hue, 10%, 98%),
-    $text-color: hsl($hue, 10%, 25%)
+    $anchor-color: $anchor-color-light,
+    $background-color: $background-color-light,
+    $text-color: $text-color-light
   );
 
   @include prefer-color-scheme(
     $scheme: dark,
     $primary-color: $primary-color-dark,
-    $anchor-color: adjust-color($primary-color-dark, $lightness: 15%),
-    $background-color: hsl($hue, 10%, 15%),
-    $text-color: hsl($hue, 10%, 90%)
+    $anchor-color: $anchor-color-dark,
+    $background-color: $background-color-dark,
+    $text-color: $text-color-dark
   );
 }
 
@@ -118,19 +122,40 @@ a {
 }
 
 .banner {
+  @mixin prefer-color-scheme($scheme, $primary-color, $background-color) {
+    @media (prefers-color-scheme: #{$scheme}) {
+      --background-color: adjust-color($primary-color, $alpha: -0.125);
+      --gradient-color-1: adjust-color($primary-color, $hue: 30);
+      --gradient-color-2: adjust-color($primary-color, $hue: -30);
+      --gradient-color-3: adjust-color($background-color, $alpha: -0.75);
+    }
+  }
+
+  @include prefer-color-scheme(
+    $scheme: light,
+    $primary-color: $primary-color-light,
+    $background-color: $background-color-light
+  );
+
+  @include prefer-color-scheme(
+    $scheme: dark,
+    $primary-color: $primary-color-dark,
+    $background-color: $background-color-dark
+  );
+
   &.root {
-    background-color: var(--banner-background-color);
+    background-color: var(--background-color);
     background-image: radial-gradient(
         $transparent 25%,
-        var(--banner-gradient-color-3) 25%,
-        var(--banner-gradient-color-3) 50%,
+        var(--gradient-color-3) 25%,
+        var(--gradient-color-3) 50%,
         $transparent 50%
       ),
       linear-gradient(
         -45deg,
-        var(--banner-gradient-color-2),
-        var(--banner-gradient-color-1),
-        var(--banner-gradient-color-2)
+        var(--gradient-color-2),
+        var(--gradient-color-1),
+        var(--gradient-color-2)
       );
     background-size: 0.25rem 0.25rem, 100% 100%;
     background-position: 50% 0;
