@@ -26,7 +26,7 @@ async fn main() -> io::Result<()> {
 
     env_logger::init();
 
-    fs::remove_dir_all("storage/html")?;
+    fs::remove_dir_all("storage/html").ok();
 
     let mut builder = SslAcceptor::mozilla_intermediate(SslMethod::tls())?;
 
