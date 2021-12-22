@@ -26,6 +26,8 @@ async fn main() -> io::Result<()> {
 
     env_logger::init();
 
+    fs::remove_dir_all("storage/html")?;
+
     let mut builder = SslAcceptor::mozilla_intermediate(SslMethod::tls())?;
 
     builder.set_private_key_file(

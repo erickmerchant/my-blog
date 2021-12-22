@@ -6,6 +6,7 @@
     <meta name="description" content="The personal site of Erick Merchant.">
     <link href="/static/favicon.svg" rel="icon" type="image/svg+xml">
     <link href="/styles/index.css" rel="stylesheet">
+    <script type="module" src="/static/main.js"></script>
     <title>
       ErickMerchant.com | {% block title %}{{data.title}}{% endblock %}
     </title>
@@ -14,6 +15,7 @@
     <header class="banner root">
       <div class="banner heading">ErickMerchant.com</div>
     </header>
+    <site-nav></site-nav>
     <article class="content root">
       {% block content %}
         <h1>{{data.title}}</h1>
