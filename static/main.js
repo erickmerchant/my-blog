@@ -2,7 +2,7 @@ import {
   render,
   register,
   html,
-} from "/modules/@hyper-views/framework/index.js";
+} from "/modules/@hyper-views/framework/main.js";
 
 register(
   class {
