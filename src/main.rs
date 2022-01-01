@@ -7,7 +7,13 @@ use actix_web::middleware::{Compress, Logger};
 use actix_web::{web, App, HttpRequest, HttpResponse, HttpServer, Result};
 use dotenv::dotenv;
 use openssl::ssl::{SslAcceptor, SslFiletype, SslMethod};
+use std::sync::Arc;
 use std::{env, fs, io, path};
+use swc::config::JsMinifyOptions;
+use swc_common::{
+    errors::{ColorConfig, Handler},
+    SourceMap,
+};
 
 #[macro_use]
 extern crate lazy_static;
@@ -55,6 +61,10 @@ async fn main() -> io::Result<()> {
             .route(
                 "/modules/{module:[/@a-zA-Z0-9_-]*?\\.js}",
                 web::get().to(handle_module),
+            )
+            .route(
+                "/static/{static_file:[/@a-zA-Z0-9_-]*?\\.js}",
+                web::get().to(handle_static_js_file),
             )
             .route(
                 "/static/{static_file:[/@a-zA-Z0-9_-]*?\\.[a-z0-9]+}",
@@ -116,6 +126,44 @@ async fn handle_module(req: HttpRequest, module: web::Path<String>) -> Result<Na
     get_static_response(
         req,
         path::Path::new("storage/modules").join(module.as_str()),
+    )
+}
+
+async fn handle_static_js_file(
+    req: HttpRequest,
+    static_file: web::Path<String>,
+) -> Result<NamedFile> {
+    get_dynamic_response(
+        req,
+        path::Path::new("static").join(static_file.as_str()),
+        path::Path::new("storage/static").join(static_file.as_str()),
+        |_file_contents: String| {
+            let cm = Arc::<SourceMap>::default();
+            let handler = Arc::new(Handler::with_tty_emitter(
+                ColorConfig::Auto,
+                true,
+                false,
+                Some(cm.clone()),
+            ));
+            let c = swc::Compiler::new(cm.clone());
+
+            let p = format!("static/{}", static_file);
+
+            let fm = cm.load_file(path::Path::new(&p))?;
+
+            let options: JsMinifyOptions = serde_json::from_str(
+                r#"{
+                    "compress": false,
+                    "mangle": true
+                }"#,
+            )
+            .unwrap();
+
+            match c.minify(fm, &handler, &options) {
+                Ok(transformed) => Ok(transformed.code.to_string()),
+                Err(err) => Err(err),
+            }
+        },
     )
 }
 
