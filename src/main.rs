@@ -196,8 +196,7 @@ fn get_js_response(req: HttpRequest, src: path::PathBuf) -> Result<NamedFile> {
                                 "defaults": false
                             },
                             "mangle": true
-                        },
-                        "loose": false
+                        }
                     },
                     "module": {
                         "type": "es6"
