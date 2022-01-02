@@ -123,18 +123,14 @@ async fn handle_stylesheet(req: HttpRequest, stylesheet: web::Path<String>) -> R
 }
 
 async fn handle_module(req: HttpRequest, module: web::Path<String>) -> Result<NamedFile> {
-    let cache = path::Path::new("modules").join(module.as_str());
-
-    get_js_response(req, path::Path::new("storage").join(&cache), cache)
+    get_js_response(req, path::Path::new("modules").join(module.as_str()))
 }
 
 async fn handle_static_js_file(
     req: HttpRequest,
     static_file: web::Path<String>,
 ) -> Result<NamedFile> {
-    let src = path::Path::new("static").join(static_file.as_str());
-
-    get_js_response(req, src.to_owned(), src)
+    get_js_response(req, path::Path::new("static").join(static_file.as_str()))
 }
 
 async fn handle_static_file(req: HttpRequest, static_file: web::Path<String>) -> Result<NamedFile> {
@@ -171,15 +167,11 @@ fn handle_internal_error<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerRespo
     )))
 }
 
-fn get_js_response(
-    req: HttpRequest,
-    src: path::PathBuf,
-    cache: path::PathBuf,
-) -> Result<NamedFile> {
+fn get_js_response(req: HttpRequest, src: path::PathBuf) -> Result<NamedFile> {
     get_dynamic_response(
         req,
         src.to_owned(),
-        path::Path::new("storage/cache").join(cache),
+        path::Path::new("storage/cache").join(&src),
         |_file_contents: String| {
             let cm = Arc::<SourceMap>::default();
             let handler = Arc::new(Handler::with_tty_emitter(
@@ -190,7 +182,7 @@ fn get_js_response(
             ));
             let c = swc::Compiler::new(cm.clone());
 
-            let fm = cm.load_file(path::Path::new(&src))?;
+            let fm = cm.load_file(&src)?;
 
             let options: Options = serde_json::from_str(
                 r#"{
@@ -245,9 +237,7 @@ fn get_dynamic_response<
 
                 match process(file_contents) {
                     Ok(body) => {
-                        if let Some(directory) = cache.parent() {
-                            fs::create_dir_all(directory)?;
-                        }
+                        fs::create_dir_all(cache.with_file_name(""))?;
 
                         fs::write(&cache, &body)?;
 
