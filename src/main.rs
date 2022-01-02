@@ -32,7 +32,7 @@ async fn main() -> io::Result<()> {
 
     env_logger::init();
 
-    fs::remove_dir_all("storage/cache/html").ok();
+    fs::remove_dir_all("storage/cache").ok();
 
     let mut builder = SslAcceptor::mozilla_intermediate(SslMethod::tls())?;
 
@@ -192,10 +192,12 @@ fn get_js_response(req: HttpRequest, src: path::PathBuf) -> Result<NamedFile> {
                     },
                     "jsc": {
                         "minify": {
-                            "compress": true,
+                            "compress": {
+                                "defaults": false
+                            },
                             "mangle": true
                         },
-                        "loose": true
+                        "loose": false
                     },
                     "module": {
                         "type": "es6"
