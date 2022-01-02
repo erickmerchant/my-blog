@@ -32,7 +32,7 @@ async fn main() -> io::Result<()> {
 
     env_logger::init();
 
-    fs::remove_dir_all("storage/html").ok();
+    fs::remove_dir_all("storage/cache/html").ok();
 
     let mut builder = SslAcceptor::mozilla_intermediate(SslMethod::tls())?;
 
@@ -95,7 +95,7 @@ async fn handle_page(req: HttpRequest, page: web::Path<String>) -> Result<NamedF
         path::Path::new("content")
             .join(page.as_str())
             .with_extension("md"),
-        path::Path::new("storage/html")
+        path::Path::new("storage/cache/html")
             .join(page.as_str())
             .with_extension("html"),
         |file_contents: String| {
@@ -112,7 +112,7 @@ async fn handle_stylesheet(req: HttpRequest, stylesheet: web::Path<String>) -> R
         path::Path::new("styles")
             .join(stylesheet.as_str())
             .with_extension("scss"),
-        path::Path::new("storage/css").join(stylesheet.as_str()),
+        path::Path::new("storage/cache/css").join(stylesheet.as_str()),
         |file_contents: String| {
             grass::from_string(
                 file_contents,
@@ -125,7 +125,7 @@ async fn handle_stylesheet(req: HttpRequest, stylesheet: web::Path<String>) -> R
 async fn handle_module(req: HttpRequest, module: web::Path<String>) -> Result<NamedFile> {
     get_static_response(
         req,
-        path::Path::new("storage/modules").join(module.as_str()),
+        path::Path::new("storage/cache/modules").join(module.as_str()),
     )
 }
 
@@ -136,7 +136,7 @@ async fn handle_static_js_file(
     get_dynamic_response(
         req,
         path::Path::new("static").join(static_file.as_str()),
-        path::Path::new("storage/static").join(static_file.as_str()),
+        path::Path::new("storage/cache/static").join(static_file.as_str()),
         |_file_contents: String| {
             let cm = Arc::<SourceMap>::default();
             let handler = Arc::new(Handler::with_tty_emitter(
@@ -263,13 +263,6 @@ fn get_static_response(_req: HttpRequest, src: path::PathBuf) -> Result<NamedFil
     }
 }
 
-fn render_markdown(markdown: String) -> String {
-    let mut content = String::new();
-    let md_parser = pulldown_cmark::Parser::new_ext(&markdown, pulldown_cmark::Options::empty());
-    pulldown_cmark::html::push_html(&mut content, md_parser);
-    content
-}
-
 fn get_context(file_contents: String) -> tera::Context {
     let mut context = tera::Context::new();
 
@@ -280,7 +273,13 @@ fn get_context(file_contents: String) -> tera::Context {
             context.insert("data", &frontmatter);
         }
 
-        context.insert("content", &render_markdown(file_parts[2].to_string()));
+        let markdown = file_parts[2].to_string();
+        let mut content = String::new();
+        let md_parser =
+            pulldown_cmark::Parser::new_ext(&markdown, pulldown_cmark::Options::empty());
+        pulldown_cmark::html::push_html(&mut content, md_parser);
+
+        context.insert("content", &content);
     } else {
         context.insert("content", &file_contents);
     }
