@@ -9,7 +9,7 @@ use dotenv::dotenv;
 use openssl::ssl::{SslAcceptor, SslFiletype, SslMethod};
 use std::sync::Arc;
 use std::{env, fs, io, path};
-use swc::config::JsMinifyOptions;
+use swc::config::Options;
 use swc_common::{
     errors::{ColorConfig, Handler},
     SourceMap,
@@ -123,48 +123,18 @@ async fn handle_stylesheet(req: HttpRequest, stylesheet: web::Path<String>) -> R
 }
 
 async fn handle_module(req: HttpRequest, module: web::Path<String>) -> Result<NamedFile> {
-    get_static_response(
-        req,
-        path::Path::new("storage/cache/modules").join(module.as_str()),
-    )
+    let cache = path::Path::new("modules").join(module.as_str());
+
+    get_js_response(req, path::Path::new("storage").join(&cache), cache)
 }
 
 async fn handle_static_js_file(
     req: HttpRequest,
     static_file: web::Path<String>,
 ) -> Result<NamedFile> {
-    get_dynamic_response(
-        req,
-        path::Path::new("static").join(static_file.as_str()),
-        path::Path::new("storage/cache/static").join(static_file.as_str()),
-        |_file_contents: String| {
-            let cm = Arc::<SourceMap>::default();
-            let handler = Arc::new(Handler::with_tty_emitter(
-                ColorConfig::Auto,
-                true,
-                false,
-                Some(cm.clone()),
-            ));
-            let c = swc::Compiler::new(cm.clone());
+    let src = path::Path::new("static").join(static_file.as_str());
 
-            let p = format!("static/{}", static_file);
-
-            let fm = cm.load_file(path::Path::new(&p))?;
-
-            let options: JsMinifyOptions = serde_json::from_str(
-                r#"{
-                    "compress": false,
-                    "mangle": true
-                }"#,
-            )
-            .unwrap();
-
-            match c.minify(fm, &handler, &options) {
-                Ok(transformed) => Ok(transformed.code.to_string()),
-                Err(err) => Err(err),
-            }
-        },
-    )
+    get_js_response(req, src.to_owned(), src)
 }
 
 async fn handle_static_file(req: HttpRequest, static_file: web::Path<String>) -> Result<NamedFile> {
@@ -199,6 +169,54 @@ fn handle_internal_error<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerRespo
             .body("An error occurred. Please try again later.")
             .into_body(),
     )))
+}
+
+fn get_js_response(
+    req: HttpRequest,
+    src: path::PathBuf,
+    cache: path::PathBuf,
+) -> Result<NamedFile> {
+    get_dynamic_response(
+        req,
+        src.to_owned(),
+        path::Path::new("storage/cache").join(cache),
+        |_file_contents: String| {
+            let cm = Arc::<SourceMap>::default();
+            let handler = Arc::new(Handler::with_tty_emitter(
+                ColorConfig::Auto,
+                true,
+                false,
+                Some(cm.clone()),
+            ));
+            let c = swc::Compiler::new(cm.clone());
+
+            let fm = cm.load_file(path::Path::new(&src))?;
+
+            let options: Options = serde_json::from_str(
+                r#"{
+                    "minify": true,
+                    "env": {
+                        "targets": "defaults and supports es6-module and supports es6-module-dynamic-import and not dead"
+                    },
+                    "jsc": {
+                        "minify": {
+                            "compress": true,
+                            "mangle": true
+                        },
+                        "loose": true
+                    },
+                    "module": {
+                        "type": "es6"
+                    }
+                }"#,
+            )?;
+
+            match c.process_js_file(fm, &handler, &options) {
+                Ok(transformed) => Ok(transformed.code.to_string()),
+                Err(err) => Err(err),
+            }
+        },
+    )
 }
 
 fn get_dynamic_response<
