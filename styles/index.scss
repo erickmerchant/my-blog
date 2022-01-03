@@ -144,15 +144,9 @@ a {
       );
     display: grid;
     align-content: end;
+    justify-items: center;
     height: 50vh;
-    padding-bottom: var(--space-half);
-
-    > * {
-      width: 100%;
-      max-width: 40rem;
-      padding: 0 var(--space-half);
-      margin: 0 auto;
-    }
+    margin-bottom: var(--space-half);
 
     @media #{$mobile-breakpoint} {
       height: 25vh;
@@ -162,6 +156,9 @@ a {
   &.heading {
     font-size: 2.5em;
     font-weight: 900;
+    width: 100%;
+    max-width: 40rem;
+    padding: 0 var(--space-half);
 
     @media #{$mobile-breakpoint} {
       font-size: 1.5em;
