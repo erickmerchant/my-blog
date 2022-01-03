@@ -78,7 +78,7 @@ html {
 
 body {
   display: grid;
-  grid-template: max-content 1fr / 100%;
+  grid-template: max-content max-content 1fr / 100%;
   justify-content: center;
   min-height: 100%;
   height: 100%;
