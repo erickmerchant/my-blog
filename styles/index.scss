@@ -142,6 +142,7 @@ a {
         var(--gradient-color-1),
         var(--gradient-color-2)
       );
+    background-attachment: fixed;
     display: grid;
     align-content: end;
     justify-items: center;
