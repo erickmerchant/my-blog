@@ -102,6 +102,8 @@ h3 {
 h1,
 h2,
 h3 {
+  margin-top: var(--space-half);
+
   @media #{$mobile-breakpoint} {
     font-size: 1em;
   }
@@ -147,7 +149,6 @@ a {
     align-content: end;
     justify-items: center;
     height: 50vh;
-    margin-bottom: var(--space-half);
 
     @media #{$mobile-breakpoint} {
       height: 25vh;
@@ -160,6 +161,7 @@ a {
     width: 100%;
     max-width: 40rem;
     padding: 0 var(--space-half);
+    margin-bottom: 0.5rem;
 
     @media #{$mobile-breakpoint} {
       font-size: 1.5em;
@@ -172,7 +174,7 @@ a {
     width: 40rem;
     max-width: 100%;
     padding: 0 var(--space-half) var(--space);
-    margin: var(--space-half) auto 0;
+    margin: 0 auto;
 
     > * + * {
       margin-top: var(--space-half);
