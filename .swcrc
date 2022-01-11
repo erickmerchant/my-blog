@@ -1,0 +1,17 @@
+{
+  "minify": true,
+  "env": {
+    "targets": "defaults and supports es6-module and supports es6-module-dynamic-import and not dead"
+  },
+  "jsc": {
+    "minify": {
+      "compress": {
+        "defaults": false
+      },
+      "mangle": true
+    }
+  },
+  "module": {
+    "type": "es6"
+  }
+}

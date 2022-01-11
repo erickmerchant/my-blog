@@ -116,25 +116,9 @@ fn get_js_response(req: HttpRequest, src: path::PathBuf) -> Result<NamedFile> {
 
       let fm = cm.load_file(&src)?;
 
-      let options: Options = serde_json::from_str(
-        r#"{
-                    "minify": true,
-                    "env": {
-                        "targets": "defaults and supports es6-module and supports es6-module-dynamic-import and not dead"
-                    },
-                    "jsc": {
-                        "minify": {
-                            "compress": {
-                                "defaults": false
-                            },
-                            "mangle": true
-                        }
-                    },
-                    "module": {
-                        "type": "es6"
-                    }
-                }"#,
-      )?;
+      let options_str = fs::read_to_string(".swcrc")?;
+
+      let options: Options = serde_json::from_str(options_str.as_str())?;
 
       match c.process_js_file(fm, &handler, &options) {
         Ok(transformed) => Ok(transformed.code.to_string()),
