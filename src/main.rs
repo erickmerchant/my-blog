@@ -1,30 +1,12 @@
-use actix_files::NamedFile;
-use actix_web::dev::ServiceResponse;
-use actix_web::error::{ErrorInternalServerError, ErrorNotFound};
+mod handlers;
+
 use actix_web::http::StatusCode;
-use actix_web::middleware::errhandlers::{ErrorHandlerResponse, ErrorHandlers};
+use actix_web::middleware::errhandlers::ErrorHandlers;
 use actix_web::middleware::{Compress, Logger};
-use actix_web::{web, App, HttpRequest, HttpResponse, HttpServer, Result};
+use actix_web::{web, App, HttpServer};
 use dotenv::dotenv;
 use openssl::ssl::{SslAcceptor, SslFiletype, SslMethod};
-use std::sync::Arc;
-use std::{env, fs, io, path};
-use swc::config::Options;
-use swc_common::{
-    errors::{ColorConfig, Handler},
-    SourceMap,
-};
-
-#[macro_use]
-extern crate lazy_static;
-
-lazy_static! {
-    pub static ref TEMPLATES: tera::Tera = {
-        let mut tera = tera::Tera::new("templates/**/*").expect("Tera parsing error");
-        tera.autoescape_on(vec!["html"]);
-        tera
-    };
-}
+use std::{env, fs, io};
 
 #[actix_web::main]
 async fn main() -> io::Result<()> {
@@ -49,32 +31,29 @@ async fn main() -> io::Result<()> {
         App::new()
             .wrap(Compress::default())
             .wrap(Logger::new("%s %r"))
-            .route("/", web::get().to(handle_index))
+            .route("/", web::get().to(handlers::index_page))
+            .route("/{file:[/@a-zA-Z0-9_-]*}", web::get().to(handlers::page))
             .route(
-                "/{content_path:[/@a-zA-Z0-9_-]*}",
-                web::get().to(handle_page),
+                "/styles/{file:[/@a-zA-Z0-9_-]*?\\.css}",
+                web::get().to(handlers::stylesheet),
             )
             .route(
-                "/styles/{stylesheet:[/@a-zA-Z0-9_-]*?\\.css}",
-                web::get().to(handle_stylesheet),
+                "/modules/{file:[/@a-zA-Z0-9_-]*?\\.js}",
+                web::get().to(handlers::modules_js),
             )
             .route(
-                "/modules/{module:[/@a-zA-Z0-9_-]*?\\.js}",
-                web::get().to(handle_module),
+                "/static/{file:[/@a-zA-Z0-9_-]*?\\.js}",
+                web::get().to(handlers::static_js),
             )
             .route(
-                "/static/{static_file:[/@a-zA-Z0-9_-]*?\\.js}",
-                web::get().to(handle_static_js_file),
+                "/static/{file:[/@a-zA-Z0-9_-]*?\\.[a-z0-9]+}",
+                web::get().to(handlers::file),
             )
-            .route(
-                "/static/{static_file:[/@a-zA-Z0-9_-]*?\\.[a-z0-9]+}",
-                web::get().to(handle_static_file),
-            )
-            .route("/robots.txt", web::get().to(handle_robots))
-            .wrap(ErrorHandlers::new().handler(StatusCode::NOT_FOUND, handle_not_found_page))
+            .route("/robots.txt", web::get().to(handlers::robots))
+            .wrap(ErrorHandlers::new().handler(StatusCode::NOT_FOUND, handlers::not_found_page))
             .wrap(
                 ErrorHandlers::new()
-                    .handler(StatusCode::INTERNAL_SERVER_ERROR, handle_internal_error),
+                    .handler(StatusCode::INTERNAL_SERVER_ERROR, handlers::internal_error),
             )
     })
     .bind_openssl(
@@ -83,215 +62,4 @@ async fn main() -> io::Result<()> {
     )?
     .run()
     .await
-}
-
-async fn handle_index(req: HttpRequest) -> Result<NamedFile> {
-    handle_page(req, web::Path(String::from("index"))).await
-}
-
-async fn handle_page(req: HttpRequest, page: web::Path<String>) -> Result<NamedFile> {
-    get_dynamic_response(
-        req,
-        path::Path::new("content")
-            .join(page.as_str())
-            .with_extension("md"),
-        path::Path::new("storage/cache/html")
-            .join(page.as_str())
-            .with_extension("html"),
-        |file_contents: String| {
-            let context = get_context(file_contents);
-
-            TEMPLATES.render("layout.html", &context)
-        },
-    )
-}
-
-async fn handle_stylesheet(req: HttpRequest, stylesheet: web::Path<String>) -> Result<NamedFile> {
-    get_dynamic_response(
-        req,
-        path::Path::new("styles")
-            .join(stylesheet.as_str())
-            .with_extension("scss"),
-        path::Path::new("storage/cache/css").join(stylesheet.as_str()),
-        |file_contents: String| {
-            grass::from_string(
-                file_contents,
-                &grass::Options::default().style(grass::OutputStyle::Compressed),
-            )
-        },
-    )
-}
-
-async fn handle_module(req: HttpRequest, module: web::Path<String>) -> Result<NamedFile> {
-    get_js_response(req, path::Path::new("modules").join(module.as_str()))
-}
-
-async fn handle_static_js_file(
-    req: HttpRequest,
-    static_file: web::Path<String>,
-) -> Result<NamedFile> {
-    get_js_response(req, path::Path::new("static").join(static_file.as_str()))
-}
-
-async fn handle_static_file(req: HttpRequest, static_file: web::Path<String>) -> Result<NamedFile> {
-    get_static_response(req, path::Path::new("static").join(static_file.as_str()))
-}
-
-async fn handle_robots(req: HttpRequest) -> Result<NamedFile> {
-    get_static_response(req, path::Path::new("static/robots.txt").to_path_buf())
-}
-
-fn handle_not_found_page<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerResponse<B>> {
-    match TEMPLATES.render("not_found.html", &tera::Context::new()) {
-        Ok(page) => Ok(ErrorHandlerResponse::Response(ServiceResponse::new(
-            res.request().clone(),
-            HttpResponse::NotFound()
-                .content_type("text/html; charset=utf-8")
-                .body(page)
-                .into_body(),
-        ))),
-        Err(err) => {
-            eprint!("{:?}", err);
-
-            Err(ErrorInternalServerError(err))
-        }
-    }
-}
-
-fn handle_internal_error<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerResponse<B>> {
-    Ok(ErrorHandlerResponse::Response(ServiceResponse::new(
-        res.request().clone(),
-        HttpResponse::InternalServerError()
-            .body("An error occurred. Please try again later.")
-            .into_body(),
-    )))
-}
-
-fn get_js_response(req: HttpRequest, src: path::PathBuf) -> Result<NamedFile> {
-    get_dynamic_response(
-        req,
-        src.to_owned(),
-        path::Path::new("storage/cache").join(&src),
-        |_file_contents: String| {
-            let cm = Arc::<SourceMap>::default();
-            let handler = Arc::new(Handler::with_tty_emitter(
-                ColorConfig::Auto,
-                true,
-                false,
-                Some(cm.clone()),
-            ));
-            let c = swc::Compiler::new(cm.clone());
-
-            let fm = cm.load_file(&src)?;
-
-            let options: Options = serde_json::from_str(
-                r#"{
-                    "minify": true,
-                    "env": {
-                        "targets": "defaults and supports es6-module and supports es6-module-dynamic-import and not dead"
-                    },
-                    "jsc": {
-                        "minify": {
-                            "compress": {
-                                "defaults": false
-                            },
-                            "mangle": true
-                        }
-                    },
-                    "module": {
-                        "type": "es6"
-                    }
-                }"#,
-            )?;
-
-            match c.process_js_file(fm, &handler, &options) {
-                Ok(transformed) => Ok(transformed.code.to_string()),
-                Err(err) => Err(err),
-            }
-        },
-    )
-}
-
-fn get_dynamic_response<
-    F: Fn(String) -> std::result::Result<String, E>,
-    E: std::fmt::Debug + std::fmt::Display + 'static,
->(
-    req: HttpRequest,
-    src: path::PathBuf,
-    cache: path::PathBuf,
-    process: F,
-) -> Result<NamedFile> {
-    match fs::metadata(&src) {
-        Ok(src_metadata) => {
-            let mut use_cache = false;
-
-            if let Ok(cache_metadata) = fs::metadata(&cache) {
-                if let (Ok(cache_time), Ok(src_time)) =
-                    (cache_metadata.modified(), src_metadata.modified())
-                {
-                    use_cache = cache_time > src_time;
-                }
-            }
-
-            if !use_cache {
-                let file_contents = fs::read_to_string(&src)?;
-
-                match process(file_contents) {
-                    Ok(body) => {
-                        fs::create_dir_all(cache.with_file_name(""))?;
-
-                        fs::write(&cache, &body)?;
-
-                        Ok(())
-                    }
-                    Err(err) => {
-                        eprint!("{:?}", err);
-
-                        Err(ErrorInternalServerError(err))
-                    }
-                }?
-            }
-
-            get_static_response(req, cache)
-        }
-        Err(err) => Err(ErrorNotFound(err)),
-    }
-}
-
-fn get_static_response(_req: HttpRequest, src: path::PathBuf) -> Result<NamedFile> {
-    match fs::metadata(&src) {
-        Ok(_) => match NamedFile::open(&src) {
-            Ok(file) => Ok(file
-                .prefer_utf8(true)
-                .use_etag(true)
-                .use_last_modified(true)
-                .disable_content_disposition()),
-            Err(err) => Err(ErrorNotFound(err)),
-        },
-        Err(err) => Err(ErrorNotFound(err)),
-    }
-}
-
-fn get_context(file_contents: String) -> tera::Context {
-    let mut context = tera::Context::new();
-
-    let file_parts: Vec<&str> = file_contents.splitn(3, "+++").collect();
-
-    if file_parts.len() == 3 {
-        if let Ok(frontmatter) = file_parts[1].parse::<toml::Value>() {
-            context.insert("data", &frontmatter);
-        }
-
-        let markdown = file_parts[2].to_string();
-        let mut content = String::new();
-        let md_parser =
-            pulldown_cmark::Parser::new_ext(&markdown, pulldown_cmark::Options::empty());
-        pulldown_cmark::html::push_html(&mut content, md_parser);
-
-        context.insert("content", &content);
-    } else {
-        context.insert("content", &file_contents);
-    }
-
-    context
 }
