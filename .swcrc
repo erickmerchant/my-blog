@@ -1,7 +1,7 @@
 {
   "minify": true,
   "env": {
-    "targets": "defaults and supports es6-module and supports es6-module-dynamic-import and not dead"
+    "targets": "defaults and supports es6-module"
   },
   "jsc": {
     "minify": {
