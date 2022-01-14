@@ -65,7 +65,7 @@ pub async fn modules_js(req: HttpRequest, file: web::Path<String>) -> Result<Nam
 pub async fn file(req: HttpRequest, file: web::Path<String>) -> Result<NamedFile> {
   let cache = path::Path::new("static").join(file.as_str());
 
-  if file.ends_with("js") {
+  if file.ends_with(".js") {
     get_js_response(req, cache)
   } else {
     get_static_response(req, cache)
