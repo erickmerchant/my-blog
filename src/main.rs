@@ -1,9 +1,10 @@
 mod handlers;
 
-use actix_web::http::StatusCode;
-use actix_web::middleware::errhandlers::ErrorHandlers;
-use actix_web::middleware::{Compress, Logger};
-use actix_web::{web, App, HttpServer};
+use actix_web::{
+    http::StatusCode,
+    middleware::{errhandlers::ErrorHandlers, Compress, Logger},
+    web, App, HttpServer,
+};
 use dotenv::dotenv;
 use openssl::ssl::{SslAcceptor, SslFiletype, SslMethod};
 use std::{env, fs, io};
@@ -32,23 +33,10 @@ async fn main() -> io::Result<()> {
             .wrap(Compress::default())
             .wrap(Logger::new("%s %r"))
             .route("/", web::get().to(handlers::index_page))
-            .route("/{file:[/@a-zA-Z0-9_-]*}", web::get().to(handlers::page))
-            .route(
-                "/styles/{file:[/@a-zA-Z0-9_-]*?\\.css}",
-                web::get().to(handlers::stylesheet),
-            )
-            .route(
-                "/modules/{file:[/@a-zA-Z0-9_-]*?\\.js}",
-                web::get().to(handlers::modules_js),
-            )
-            .route(
-                "/static/{file:[/@a-zA-Z0-9_-]*?\\.js}",
-                web::get().to(handlers::static_js),
-            )
-            .route(
-                "/static/{file:[/@a-zA-Z0-9_-]*?\\.[a-z0-9]+}",
-                web::get().to(handlers::file),
-            )
+            .route("/styles/{file:.*}", web::get().to(handlers::stylesheet))
+            .route("/modules/{file:.*}", web::get().to(handlers::modules_js))
+            .route("/static/{file:.*}", web::get().to(handlers::file))
+            .route("/{file:.*}", web::get().to(handlers::page))
             .route("/robots.txt", web::get().to(handlers::robots))
             .wrap(ErrorHandlers::new().handler(StatusCode::NOT_FOUND, handlers::not_found_page))
             .wrap(

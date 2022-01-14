@@ -1,11 +1,12 @@
 use actix_files::NamedFile;
-use actix_web::dev::ServiceResponse;
-use actix_web::error::{ErrorInternalServerError, ErrorNotFound};
-use actix_web::middleware::errhandlers::ErrorHandlerResponse;
-use actix_web::{web, HttpRequest, HttpResponse, Result};
+use actix_web::{
+  dev::ServiceResponse,
+  error::{ErrorInternalServerError, ErrorNotFound},
+  middleware::errhandlers::ErrorHandlerResponse,
+  web, HttpRequest, HttpResponse, Result,
+};
 use lazy_static::lazy_static;
-use std::sync::Arc;
-use std::{fs, path};
+use std::{fs, path, sync::Arc};
 use swc::config::Options;
 use swc_common::{
   errors::{ColorConfig, Handler},
@@ -61,12 +62,14 @@ pub async fn modules_js(req: HttpRequest, file: web::Path<String>) -> Result<Nam
   get_js_response(req, path::Path::new("modules").join(file.as_str()))
 }
 
-pub async fn static_js(req: HttpRequest, file: web::Path<String>) -> Result<NamedFile> {
-  get_js_response(req, path::Path::new("static").join(file.as_str()))
-}
-
 pub async fn file(req: HttpRequest, file: web::Path<String>) -> Result<NamedFile> {
-  get_static_response(req, path::Path::new("static").join(file.as_str()))
+  let cache = path::Path::new("static").join(file.as_str());
+
+  if file.ends_with("js") {
+    get_js_response(req, cache)
+  } else {
+    get_static_response(req, cache)
+  }
 }
 
 pub async fn robots(req: HttpRequest) -> Result<NamedFile> {
