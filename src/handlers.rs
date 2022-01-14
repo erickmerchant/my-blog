@@ -6,7 +6,7 @@ use actix_web::{
   web, HttpRequest, HttpResponse, Result,
 };
 use lazy_static::lazy_static;
-use std::{fs, path, sync::Arc};
+use std::{convert::AsRef, fs, path::Path, sync::Arc};
 use swc::config::Options;
 use swc_common::{
   errors::{ColorConfig, Handler},
@@ -28,11 +28,11 @@ pub async fn index_page(req: HttpRequest) -> Result<NamedFile> {
 pub async fn page(req: HttpRequest, file: web::Path<String>) -> Result<NamedFile> {
   get_dynamic_response(
     req,
-    path::Path::new("content")
-      .join(file.as_str())
+    Path::new("content")
+      .join(file.to_owned())
       .with_extension("md"),
-    path::Path::new("storage/cache/html")
-      .join(file.as_str())
+    Path::new("storage/cache/html")
+      .join(file.to_owned())
       .with_extension("html"),
     |file_contents: String| {
       let context = get_context(file_contents);
@@ -45,10 +45,10 @@ pub async fn page(req: HttpRequest, file: web::Path<String>) -> Result<NamedFile
 pub async fn stylesheet(req: HttpRequest, file: web::Path<String>) -> Result<NamedFile> {
   get_dynamic_response(
     req,
-    path::Path::new("styles")
-      .join(file.as_str())
+    Path::new("styles")
+      .join(file.to_owned())
       .with_extension("scss"),
-    path::Path::new("storage/cache/css").join(file.as_str()),
+    Path::new("storage/cache/css").join(file.to_owned()),
     |file_contents: String| {
       grass::from_string(
         file_contents,
@@ -59,11 +59,11 @@ pub async fn stylesheet(req: HttpRequest, file: web::Path<String>) -> Result<Nam
 }
 
 pub async fn modules_js(req: HttpRequest, file: web::Path<String>) -> Result<NamedFile> {
-  get_js_response(req, path::Path::new("modules").join(file.as_str()))
+  get_js_response(req, Path::new("modules").join(file.to_owned()))
 }
 
 pub async fn file(req: HttpRequest, file: web::Path<String>) -> Result<NamedFile> {
-  let cache = path::Path::new("static").join(file.as_str());
+  let cache = Path::new("static").join(file.to_owned());
 
   if file.ends_with(".js") {
     get_js_response(req, cache)
@@ -73,7 +73,7 @@ pub async fn file(req: HttpRequest, file: web::Path<String>) -> Result<NamedFile
 }
 
 pub async fn robots(req: HttpRequest) -> Result<NamedFile> {
-  get_static_response(req, path::Path::new("static/robots.txt").to_path_buf())
+  get_static_response(req, Path::new("static/robots.txt"))
 }
 
 pub fn not_found_page<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerResponse<B>> {
@@ -102,11 +102,11 @@ pub fn internal_error<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerResponse
   )))
 }
 
-fn get_js_response(req: HttpRequest, src: path::PathBuf) -> Result<NamedFile> {
+fn get_js_response<P: AsRef<Path>>(req: HttpRequest, src: P) -> Result<NamedFile> {
   get_dynamic_response(
     req,
-    src.to_owned(),
-    path::Path::new("storage/cache").join(&src),
+    src.as_ref(),
+    Path::new("storage/cache").join(src.as_ref()).as_ref(),
     |_file_contents: String| {
       let cm = Arc::<SourceMap>::default();
       let handler = Arc::new(Handler::with_tty_emitter(
@@ -117,14 +117,14 @@ fn get_js_response(req: HttpRequest, src: path::PathBuf) -> Result<NamedFile> {
       ));
       let c = swc::Compiler::new(cm.clone());
 
-      let fm = cm.load_file(&src)?;
+      let fm = cm.load_file(src.as_ref())?;
 
-      let options_str = fs::read_to_string(".swcrc")?;
+      let swcrc = fs::read_to_string(".swcrc")?;
 
-      let options: Options = serde_json::from_str(options_str.as_str())?;
+      let options: Options = serde_json::from_str(swcrc.as_str())?;
 
       match c.process_js_file(fm, &handler, &options) {
-        Ok(transformed) => Ok(transformed.code.to_string()),
+        Ok(transformed) => Ok(transformed.code),
         Err(err) => Err(err),
       }
     },
@@ -134,17 +134,18 @@ fn get_js_response(req: HttpRequest, src: path::PathBuf) -> Result<NamedFile> {
 fn get_dynamic_response<
   F: Fn(String) -> std::result::Result<String, E>,
   E: std::fmt::Debug + std::fmt::Display + 'static,
+  P: AsRef<Path>,
 >(
   req: HttpRequest,
-  src: path::PathBuf,
-  cache: path::PathBuf,
+  src: P,
+  cache: P,
   process: F,
 ) -> Result<NamedFile> {
-  match fs::metadata(&src) {
+  match fs::metadata(src.as_ref()) {
     Ok(src_metadata) => {
       let mut use_cache = false;
 
-      if let Ok(cache_metadata) = fs::metadata(&cache) {
+      if let Ok(cache_metadata) = fs::metadata(cache.as_ref()) {
         if let (Ok(cache_time), Ok(src_time)) = (cache_metadata.modified(), src_metadata.modified())
         {
           use_cache = cache_time > src_time;
@@ -152,13 +153,13 @@ fn get_dynamic_response<
       }
 
       if !use_cache {
-        let file_contents = fs::read_to_string(&src)?;
+        let file_contents = fs::read_to_string(src)?;
 
         match process(file_contents) {
           Ok(body) => {
-            fs::create_dir_all(cache.with_file_name(""))?;
+            fs::create_dir_all(cache.as_ref().with_file_name(""))?;
 
-            fs::write(&cache, &body)?;
+            fs::write(cache.as_ref(), body)?;
 
             Ok(())
           }
@@ -176,9 +177,9 @@ fn get_dynamic_response<
   }
 }
 
-fn get_static_response(_req: HttpRequest, src: path::PathBuf) -> Result<NamedFile> {
-  match fs::metadata(&src) {
-    Ok(_) => match NamedFile::open(&src) {
+fn get_static_response<P: AsRef<Path>>(_req: HttpRequest, src: P) -> Result<NamedFile> {
+  match fs::metadata(src.as_ref()) {
+    Ok(_) => match NamedFile::open(src) {
       Ok(file) => Ok(
         file
           .prefer_utf8(true)
@@ -202,9 +203,9 @@ fn get_context(file_contents: String) -> tera::Context {
       context.insert("data", &frontmatter);
     }
 
-    let markdown = file_parts[2].to_string();
+    let markdown = file_parts[2];
     let mut content = String::new();
-    let md_parser = pulldown_cmark::Parser::new_ext(&markdown, pulldown_cmark::Options::empty());
+    let md_parser = pulldown_cmark::Parser::new_ext(markdown, pulldown_cmark::Options::empty());
     pulldown_cmark::html::push_html(&mut content, md_parser);
 
     context.insert("content", &content);
