@@ -32,8 +32,7 @@ fn main() {
             .to_str()
             .expect("Failed to read header x-import-url"),
         )
-        .unwrap()
-        .as_str(),
+        .unwrap(),
     )
     .unwrap();
 

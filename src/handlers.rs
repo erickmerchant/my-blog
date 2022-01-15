@@ -123,10 +123,8 @@ fn get_js_response<P: AsRef<Path>>(req: HttpRequest, src: P) -> Result<NamedFile
 
       let options: Options = serde_json::from_str(swcrc.as_str())?;
 
-      match c.process_js_file(fm, &handler, &options) {
-        Ok(transformed) => Ok(transformed.code),
-        Err(err) => Err(err),
-      }
+      c.process_js_file(fm, &handler, &options)
+        .and_then(|transformed| Ok(transformed.code))
     },
   )
 }
@@ -178,19 +176,17 @@ fn get_dynamic_response<
 }
 
 fn get_static_response<P: AsRef<Path>>(_req: HttpRequest, src: P) -> Result<NamedFile> {
-  match fs::metadata(src.as_ref()) {
-    Ok(_) => match NamedFile::open(src) {
-      Ok(file) => Ok(
+  NamedFile::open(src)
+    .and_then(|file| {
+      Ok(
         file
           .prefer_utf8(true)
           .use_etag(true)
           .use_last_modified(true)
           .disable_content_disposition(),
-      ),
-      Err(err) => Err(ErrorNotFound(err)),
-    },
-    Err(err) => Err(ErrorNotFound(err)),
-  }
+      )
+    })
+    .or_else(|err| Err(ErrorNotFound(err)))
 }
 
 fn get_context(file_contents: String) -> tera::Context {
