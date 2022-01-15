@@ -1,23 +1,23 @@
-use std::{fs, path::Path};
+use std::{convert::AsRef, fs, path::Path};
 use url::Url;
 
-struct Dependency {
-  name: String,
-  version: String,
-  file: String,
+struct Dependency<S: AsRef<str>> {
+  name: S,
+  version: S,
+  file: S,
 }
 
 fn main() {
   let domain = "https://cdn.skypack.dev";
   let deps = [Dependency {
-    name: String::from("@hyper-views/framework"),
-    version: String::from("v2"),
-    file: String::from("main.js"),
+    name: "@hyper-views/framework",
+    version: "v2",
+    file: "main.js",
   }];
 
   fs::remove_dir_all("modules").ok();
 
-  for dep in &deps {
+  for dep in deps {
     let res = reqwest::blocking::get(
       format!("{}/{}@{}/{}", domain, dep.name, dep.version, dep.file).to_string(),
     )
@@ -37,7 +37,7 @@ fn main() {
     .unwrap();
 
     let body = res.text().expect("Empty body");
-    let full_destination = Path::new("modules").join(&dep.name).join(&dep.file);
+    let full_destination = Path::new("modules").join(dep.name).join(dep.file);
 
     fs::create_dir_all(full_destination.parent().unwrap()).unwrap();
 

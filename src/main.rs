@@ -1,4 +1,6 @@
-mod handlers;
+mod assets;
+mod common;
+mod pages;
 
 use actix_web::{
     http::StatusCode,
@@ -32,16 +34,16 @@ async fn main() -> io::Result<()> {
         App::new()
             .wrap(Compress::default())
             .wrap(Logger::new("%s %r"))
-            .route("/", web::get().to(handlers::index_page))
-            .route("/styles/{file:.*}", web::get().to(handlers::stylesheet))
-            .route("/modules/{file:.*}", web::get().to(handlers::modules_js))
-            .route("/static/{file:.*}", web::get().to(handlers::file))
-            .route("/{file:.*}", web::get().to(handlers::page))
-            .route("/robots.txt", web::get().to(handlers::robots))
-            .wrap(ErrorHandlers::new().handler(StatusCode::NOT_FOUND, handlers::not_found_page))
+            .route("/", web::get().to(pages::index))
+            .route("/styles/{file:.*}", web::get().to(assets::stylesheet))
+            .route("/modules/{file:.*}", web::get().to(assets::modules_js))
+            .route("/static/{file:.*}", web::get().to(assets::file))
+            .route("/{file:.*}", web::get().to(pages::page))
+            .route("/robots.txt", web::get().to(assets::robots))
+            .wrap(ErrorHandlers::new().handler(StatusCode::NOT_FOUND, pages::not_found))
             .wrap(
                 ErrorHandlers::new()
-                    .handler(StatusCode::INTERNAL_SERVER_ERROR, handlers::internal_error),
+                    .handler(StatusCode::INTERNAL_SERVER_ERROR, pages::internal_error),
             )
     })
     .bind_openssl(
