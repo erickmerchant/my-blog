@@ -28,20 +28,11 @@ pub fn dynamic_response<
       if !use_cache {
         let file_contents = fs::read_to_string(src)?;
 
-        match process(file_contents) {
-          Ok(body) => {
-            fs::create_dir_all(cache.as_ref().with_file_name(""))?;
+        let body = process(file_contents).or_else(|err| Err(ErrorInternalServerError(err)))?;
 
-            fs::write(cache.as_ref(), body)?;
+        fs::create_dir_all(cache.as_ref().with_file_name(""))?;
 
-            Ok(())
-          }
-          Err(err) => {
-            eprint!("{:?}", err);
-
-            Err(ErrorInternalServerError(err))
-          }
-        }?
+        fs::write(cache.as_ref(), body)?;
       }
 
       static_response(cache)

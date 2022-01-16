@@ -1,7 +1,10 @@
 use crate::common::dynamic_response;
 use actix_files::NamedFile;
 use actix_web::{
-  dev::ServiceResponse, middleware::errhandlers::ErrorHandlerResponse, web, HttpResponse, Result,
+  dev::ServiceResponse,
+  http::header::{HeaderName, HeaderValue},
+  middleware::ErrorHandlerResponse,
+  web, Result,
 };
 use lazy_static::lazy_static;
 use std::path::Path;
@@ -35,7 +38,7 @@ lazy_static! {
 }
 
 pub async fn index() -> Result<NamedFile> {
-  page(web::Path(String::from("index"))).await
+  page(web::Path::from(String::from("index"))).await
 }
 
 pub async fn page(file: web::Path<String>) -> Result<NamedFile> {
@@ -49,29 +52,51 @@ pub async fn page(file: web::Path<String>) -> Result<NamedFile> {
     |file_contents: String| {
       let context = get_context(file_contents);
 
-      TEMPLATES.render("layout.html", &context)
+      let mut template = "page.html";
+
+      if let Some(_template) = context
+        .get("data")
+        .and_then(|d| d.get("_template"))
+        .and_then(|t| t.as_str())
+      {
+        template = _template;
+      }
+
+      TEMPLATES.render(template, &context)
     },
   )
 }
 
 pub fn not_found<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerResponse<B>> {
-  Ok(ErrorHandlerResponse::Response(ServiceResponse::new(
-    res.request().clone(),
-    HttpResponse::NotFound()
-      .content_type("text/html; charset=utf-8")
-      .body(NOT_FOUND_BODY.clone())
-      .into_body(),
-  )))
+  get_error_response(res, NOT_FOUND_BODY.to_owned())
 }
 
 pub fn internal_error<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerResponse<B>> {
-  Ok(ErrorHandlerResponse::Response(ServiceResponse::new(
-    res.request().clone(),
-    HttpResponse::NotFound()
-      .content_type("text/html; charset=utf-8")
-      .body(INTERNAL_ERROR_BODY.clone())
-      .into_body(),
-  )))
+  get_error_response(res, INTERNAL_ERROR_BODY.to_owned())
+}
+
+pub fn get_error_response<B>(
+  res: ServiceResponse<B>,
+  body: String,
+) -> Result<ErrorHandlerResponse<B>> {
+  let (req, res) = res.into_parts();
+
+  let res = res.set_body(body);
+
+  let mut res = ServiceResponse::new(req, res)
+    .map_into_boxed_body()
+    .map_into_right_body();
+
+  let headers = res.headers_mut();
+
+  headers.insert(
+    HeaderName::from_static("content-type"),
+    HeaderValue::from_static("text/html; charset=utf-8"),
+  );
+
+  let res = ErrorHandlerResponse::Response(res);
+
+  Ok(res)
 }
 
 fn get_context(file_contents: String) -> tera::Context {

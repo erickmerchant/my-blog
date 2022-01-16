@@ -1,0 +1,8 @@
+{% extends '_layout.html' %}
+
+{% block title %}{{data.title}}{% endblock %}
+
+{% block content %}
+  <h1>{{data.title}}</h1>
+  {{content|safe}}
+{% endblock %}

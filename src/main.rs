@@ -4,7 +4,7 @@ mod pages;
 
 use actix_web::{
     http::StatusCode,
-    middleware::{errhandlers::ErrorHandlers, Compress, Logger},
+    middleware::{Compress, ErrorHandlers, Logger},
     web, App, HttpServer,
 };
 use dotenv::dotenv;
@@ -32,6 +32,11 @@ async fn main() -> io::Result<()> {
 
     HttpServer::new(move || {
         App::new()
+            .wrap(ErrorHandlers::new().handler(StatusCode::NOT_FOUND, pages::not_found))
+            .wrap(
+                ErrorHandlers::new()
+                    .handler(StatusCode::INTERNAL_SERVER_ERROR, pages::internal_error),
+            )
             .wrap(Compress::default())
             .wrap(Logger::new("%s %r"))
             .route("/", web::get().to(pages::index))
@@ -40,11 +45,6 @@ async fn main() -> io::Result<()> {
             .route("/static/{file:.*}", web::get().to(assets::file))
             .route("/{file:.*}", web::get().to(pages::page))
             .route("/robots.txt", web::get().to(assets::robots))
-            .wrap(ErrorHandlers::new().handler(StatusCode::NOT_FOUND, pages::not_found))
-            .wrap(
-                ErrorHandlers::new()
-                    .handler(StatusCode::INTERNAL_SERVER_ERROR, pages::internal_error),
-            )
     })
     .bind_openssl(
         env::var("BIND_ADDRESS").expect("Failed to read env variable BIND_ADDRESS"),
