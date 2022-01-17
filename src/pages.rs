@@ -68,17 +68,14 @@ pub async fn page(file: web::Path<String>) -> Result<NamedFile> {
 }
 
 pub fn not_found<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerResponse<B>> {
-  get_error_response(res, NOT_FOUND_BODY.to_owned())
+  error_response(res, NOT_FOUND_BODY.to_owned())
 }
 
 pub fn internal_error<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerResponse<B>> {
-  get_error_response(res, INTERNAL_ERROR_BODY.to_owned())
+  error_response(res, INTERNAL_ERROR_BODY.to_owned())
 }
 
-pub fn get_error_response<B>(
-  res: ServiceResponse<B>,
-  body: String,
-) -> Result<ErrorHandlerResponse<B>> {
+pub fn error_response<B>(res: ServiceResponse<B>, body: String) -> Result<ErrorHandlerResponse<B>> {
   let (req, res) = res.into_parts();
 
   let res = res.set_body(body);
