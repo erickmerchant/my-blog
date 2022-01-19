@@ -1,0 +1,162 @@
+@font-face {
+  font-display: swap;
+  font-family: "Public Sans";
+  font-style: normal;
+  font-weight: 100 900;
+  src: url("/static/fonts/Public_Sans/PublicSans-VariableFont_wght-subset.woff2")
+    format("woff2");
+}
+
+@font-face {
+  font-display: swap;
+  font-family: "Public Sans";
+  font-style: italic;
+  font-weight: 100 900;
+  src: url("/static/fonts/Public_Sans/PublicSans-Italic-VariableFont_wght-subset.woff2")
+    format("woff2");
+}
+
+* {
+  font: inherit;
+  box-sizing: border-box;
+  max-width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  color: hsl(var(--text-color));
+  background-color: hsl(var(--background-color));
+  font: 100 max(20px, 1.5vw) / 1.5 "Public Sans", system-ui, sans-serif;
+  height: 100%;
+
+  --space: 2rem;
+  --space-half: 1rem;
+
+  @media (max-width: 768px) {
+    --space: 1rem;
+    --space-half: 0.5rem;
+  }
+
+  @media (prefers-color-scheme: light) {
+    --primary-color: 100 20% 60%;
+    --primary-color-minus: 70 20% 60%;
+    --primary-color-plus: 130 20% 60%;
+    --anchor-color: 100 30% 35%;
+    --text-color: 100 10% 25%;
+    --background-color: 100 10% 98%;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    --primary-color: 100 25% 50%;
+    --primary-color-minus: 70 25% 50%;
+    --primary-color-plus: 130 25% 50%;
+    --anchor-color: 100 45% 35%;
+    --text-color: 100 10% 90%;
+    --background-color: 100 10% 15%;
+  }
+}
+
+body {
+  display: grid;
+  grid-template: max-content max-content 1fr / 100%;
+  justify-content: center;
+  min-height: 100%;
+  height: 100%;
+}
+
+h1 {
+  font-weight: 800;
+  font-size: 2em;
+}
+
+h2 {
+  font-weight: 700;
+  font-size: 1.5em;
+}
+
+h3 {
+  font-weight: 600;
+  font-size: 1em;
+}
+
+h1,
+h2,
+h3 {
+  margin-top: var(--space-half);
+
+  @media (max-width: 768px) {
+    font-size: 1em;
+  }
+}
+
+a {
+  color: hsl(var(--anchor-color));
+  font-weight: 200;
+  text-underline-offset: 0.125em;
+}
+
+.banner {
+  &.root {
+    background-image: repeating-linear-gradient(
+        45deg,
+        hsla(0, 0%, 0%, 0),
+        hsla(0, 0%, 0%, 0) 1px,
+        hsl(var(--gradient-color-3)) 1px,
+        hsl(var(--gradient-color-3)) 5px
+      ),
+      linear-gradient(
+        -45deg,
+        hsl(var(--gradient-color-2)),
+        hsl(var(--gradient-color-1)),
+        hsl(var(--gradient-color-2))
+      );
+    background-attachment: fixed;
+    display: grid;
+    align-content: end;
+    justify-items: center;
+    height: 50vh;
+
+    @media (prefers-color-scheme: light) {
+      --gradient-color-1: var(--primary-color-plus);
+      --gradient-color-2: var(--primary-color-minus);
+      --gradient-color-3: var(--background-color) / 0.15;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      --gradient-color-1: var(--primary-color-plus);
+      --gradient-color-2: var(--primary-color-minus);
+      --gradient-color-3: var(--background-color) / 0.15;
+    }
+
+    @media (max-width: 768px) {
+      height: 25vh;
+    }
+  }
+
+  &.heading {
+    font-size: 2.5em;
+    font-weight: 900;
+    width: 100%;
+    max-width: 40rem;
+    padding: 0 var(--space-half);
+    margin-bottom: 0.5rem;
+
+    @media (max-width: 768px) {
+      font-size: 1.5em;
+    }
+  }
+}
+
+.content {
+  &.root {
+    width: 40rem;
+    max-width: 100%;
+    padding: 0 var(--space-half) var(--space);
+    margin: 0 auto;
+
+    & > * + * {
+      margin-top: var(--space-half);
+    }
+  }
+}

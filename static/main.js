@@ -1,8 +1,4 @@
-import {
-  render,
-  register,
-  html,
-} from "/modules/@hyper-views/framework/main.js";
+import { render, register, html } from "/vendor/@hyper-views/framework/main.js";
 
 register(
   class {
