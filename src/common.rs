@@ -16,15 +16,15 @@ pub fn dynamic_response<
 ) -> Result<NamedFile> {
   match fs::metadata(src.as_ref()).and_then(|metadata| metadata.modified()) {
     Ok(src_time) => {
-      let mut use_cache = false;
+      let mut is_cached = false;
 
       if let Ok(cache_time) =
         fs::metadata(cache.as_ref()).and_then(|cache_metadata| cache_metadata.modified())
       {
-        use_cache = cache_time > src_time;
+        is_cached = cache_time > src_time;
       }
 
-      if !use_cache {
+      if !is_cached {
         let file_contents = fs::read_to_string(src)?;
 
         let body = process(file_contents).or_else(|err| Err(ErrorInternalServerError(err)))?;

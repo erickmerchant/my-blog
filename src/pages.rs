@@ -41,7 +41,12 @@ pub async fn index() -> Result<NamedFile> {
   page(web::Path::from(String::from("index"))).await
 }
 
-pub async fn page(file: web::Path<String>) -> Result<NamedFile> {
+pub async fn page(mut file: web::Path<String>) -> Result<NamedFile> {
+  match file.ends_with("/") {
+    true => file.push_str("index.md"),
+    false => file.push_str(".md"),
+  };
+
   dynamic_response(
     Path::new("content")
       .join(file.to_owned())
@@ -54,12 +59,12 @@ pub async fn page(file: web::Path<String>) -> Result<NamedFile> {
 
       let mut template = "page.html";
 
-      if let Some(_template) = context
+      if let Some(t) = context
         .get("data")
         .and_then(|d| d.get("_template"))
         .and_then(|t| t.as_str())
       {
-        template = _template;
+        template = t;
       }
 
       TEMPLATES.render(template, &context)

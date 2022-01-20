@@ -1,3 +1,5 @@
+@custom-media --mobile (max-width: 768px);
+
 @font-face {
   font-display: swap;
   font-family: "Public Sans";
@@ -33,7 +35,7 @@ html {
   --space: 2rem;
   --space-half: 1rem;
 
-  @media (max-width: 768px) {
+  @media (--mobile) {
     --space: 1rem;
     --space-half: 0.5rem;
   }
@@ -85,7 +87,7 @@ h2,
 h3 {
   margin-top: var(--space-half);
 
-  @media (max-width: 768px) {
+  @media (--mobile) {
     font-size: 1em;
   }
 }
@@ -129,7 +131,7 @@ a {
       --gradient-color-3: var(--background-color) / 0.15;
     }
 
-    @media (max-width: 768px) {
+    @media (--mobile) {
       height: 25vh;
     }
   }
@@ -142,7 +144,7 @@ a {
     padding: 0 var(--space-half);
     margin-bottom: 0.5rem;
 
-    @media (max-width: 768px) {
+    @media (--mobile) {
       font-size: 1.5em;
     }
   }

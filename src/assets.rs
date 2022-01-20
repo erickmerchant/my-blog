@@ -84,6 +84,10 @@ fn css_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
 
       let mut parser_options = stylesheet::ParserOptions::default();
       parser_options.nesting = true;
+      parser_options.custom_media = true;
+
+      let mut minifier_options = stylesheet::MinifyOptions::default();
+      minifier_options.targets = targets;
 
       let mut printer_options = stylesheet::PrinterOptions::default();
       printer_options.minify = true;
@@ -94,8 +98,11 @@ fn css_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
         &file_contents,
         parser_options,
       ) {
-        Ok(stylesheet) => match stylesheet.to_css(printer_options) {
-          Ok(css) => Ok(css.code),
+        Ok(mut stylesheet) => match stylesheet.minify(minifier_options) {
+          Ok(_) => match stylesheet.to_css(printer_options) {
+            Ok(css) => Ok(css.code),
+            Err(err) => Err(ErrorInternalServerError(err.reason())),
+          },
           Err(err) => Err(ErrorInternalServerError(err.reason())),
         },
         Err(err) => Err(ErrorInternalServerError(format!("{:?}", err))),

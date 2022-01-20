@@ -32,13 +32,13 @@ async fn main() -> io::Result<()> {
 
     HttpServer::new(move || {
         App::new()
-            .wrap(Compress::default())
             .wrap(Logger::new("%s %r"))
             .wrap(ErrorHandlers::new().handler(StatusCode::NOT_FOUND, pages::not_found))
             .wrap(
                 ErrorHandlers::new()
                     .handler(StatusCode::INTERNAL_SERVER_ERROR, pages::internal_error),
             )
+            .wrap(Compress::default())
             .route("/", web::get().to(pages::index))
             .route("/static/{file:.*}", web::get().to(assets::file))
             .route("/vendor/{file:.*}", web::get().to(assets::vendor_file))
