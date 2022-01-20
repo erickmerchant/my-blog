@@ -1,13 +1,7 @@
 use crate::common::{dynamic_response, static_response};
 use actix_files::NamedFile;
 use actix_web::{error::ErrorInternalServerError, web, Result};
-use parcel_css::{stylesheet, targets};
 use std::{convert::AsRef, fs, path::Path, sync::Arc};
-use swc::config::Options;
-use swc_common::{
-  errors::{ColorConfig, Handler},
-  SourceMap,
-};
 
 pub async fn vendor_file(file: web::Path<String>) -> Result<NamedFile> {
   get_file_response(Path::new("vendor").join(file.to_owned()))
@@ -24,13 +18,11 @@ pub async fn robots() -> Result<NamedFile> {
 fn get_file_response<P: AsRef<Path>>(cache: P) -> Result<NamedFile> {
   let mut ext_str = "";
 
-  if let Some(ext) = cache.as_ref().extension() {
-    if let Some(ext) = ext.to_str() {
-      ext_str = ext
-    }
+  if let Some(ext) = cache.as_ref().extension().and_then(|ext| ext.to_str()) {
+    ext_str = ext
   }
 
-  if ext_str == "js" {
+  if ext_str == "js" || ext_str == "mjs" {
     js_response(cache)
   } else if ext_str == "css" {
     css_response(cache)
@@ -40,6 +32,12 @@ fn get_file_response<P: AsRef<Path>>(cache: P) -> Result<NamedFile> {
 }
 
 fn js_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
+  use swc::config::Options;
+  use swc_common::{
+    errors::{ColorConfig, Handler},
+    SourceMap,
+  };
+
   dynamic_response(
     src.as_ref(),
     Path::new("storage/cache").join(src.as_ref()).as_ref(),
@@ -66,42 +64,40 @@ fn js_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
 }
 
 fn css_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
+  use parcel_css::{stylesheet, targets};
+
   dynamic_response(
     src.as_ref(),
     Path::new("storage/cache").join(src.as_ref()).as_ref(),
     |file_contents: String| -> Result<String> {
+      let targets = Some(targets::Browsers {
+        android: Some(96 << 16),
+        chrome: Some(94 << 16),
+        edge: Some(95 << 16),
+        firefox: Some(78 << 16),
+        ios_saf: Some((12 << 16) | (2 << 8)),
+        opera: Some(80 << 16),
+        safari: Some((13 << 16) | (1 << 8)),
+        samsung: Some(14 << 16),
+        ie: None,
+      });
+
       let mut parser_options = stylesheet::ParserOptions::default();
       parser_options.nesting = true;
 
       let mut printer_options = stylesheet::PrinterOptions::default();
       printer_options.minify = true;
-      printer_options.targets = Some(targets::Browsers {
-        android: Some(96),
-        chrome: Some(94),
-        edge: Some(95),
-        firefox: Some(78),
-        ie: None,
-        ios_saf: Some(12),
-        opera: Some(80),
-        safari: Some(13),
-        samsung: Some(14),
-      });
+      printer_options.targets = targets;
 
       match stylesheet::StyleSheet::parse(
         String::from(src.as_ref().to_str().unwrap_or_default()),
         &file_contents,
         parser_options,
       ) {
-        Ok(mut stylesheet) => {
-          stylesheet.minify(stylesheet::MinifyOptions::default());
-
-          let result = stylesheet.to_css(printer_options);
-
-          match result {
-            Ok(css) => Ok(css.code),
-            Err(err) => Err(ErrorInternalServerError(err.reason())),
-          }
-        }
+        Ok(stylesheet) => match stylesheet.to_css(printer_options) {
+          Ok(css) => Ok(css.code),
+          Err(err) => Err(ErrorInternalServerError(err.reason())),
+        },
         Err(err) => Err(ErrorInternalServerError(format!("{:?}", err))),
       }
     },

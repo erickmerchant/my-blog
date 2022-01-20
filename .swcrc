@@ -5,9 +5,7 @@
   },
   "jsc": {
     "minify": {
-      "compress": {
-        "defaults": false
-      },
+      "compress": true,
       "mangle": true
     }
   },

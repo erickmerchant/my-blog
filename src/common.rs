@@ -14,15 +14,14 @@ pub fn dynamic_response<
   cache: P,
   process: F,
 ) -> Result<NamedFile> {
-  match fs::metadata(src.as_ref()) {
-    Ok(src_metadata) => {
+  match fs::metadata(src.as_ref()).and_then(|metadata| metadata.modified()) {
+    Ok(src_time) => {
       let mut use_cache = false;
 
-      if let Ok(cache_metadata) = fs::metadata(cache.as_ref()) {
-        if let (Ok(cache_time), Ok(src_time)) = (cache_metadata.modified(), src_metadata.modified())
-        {
-          use_cache = cache_time > src_time;
-        }
+      if let Ok(cache_time) =
+        fs::metadata(cache.as_ref()).and_then(|cache_metadata| cache_metadata.modified())
+      {
+        use_cache = cache_time > src_time;
       }
 
       if !use_cache {
