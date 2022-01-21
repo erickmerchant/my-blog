@@ -219,7 +219,7 @@ dependencies = [
  "serde_urlencoded",
  "smallvec",
  "socket2",
- "time 0.3.5",
+ "time 0.3.6",
  "url",
 ]
 
@@ -573,7 +573,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "94d4706de1b0fa5b132270cddffa8585166037822e260a944fe161acd137ca05"
 dependencies = [
  "percent-encoding",
- "time 0.3.5",
+ "time 0.3.6",
  "version_check",
 ]
 
@@ -1637,6 +1637,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "num_threads"
+version = "0.1.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "71a1eb3a36534514077c1e079ada2fb170ef30c47d203aa6916138cf882ecd52"
+dependencies = [
+ "libc",
+]
+
+[[package]]
 name = "once_cell"
 version = "1.9.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2669,9 +2678,9 @@ checksum = "73473c0e59e6d5812c5dfe2a064a6444949f089e20eec9a2e5506596494e4623"
 
 [[package]]
 name = "swc"
-version = "0.116.16"
+version = "0.116.17"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "462048a2947ef6b30bd167f704125bff8d33b854b5da163fd82b09a49a983761"
+checksum = "5c03be561de852cb5763128ce5e6b56eb62e8136c93ec907850100a4a600a804"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2848,9 +2857,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.70.9"
+version = "0.70.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "30c3d66ceed604e09afe41aaabc68299bc2b9c31e94c2fa3fea34335afc61f2a"
+checksum = "41c2d97dbea222d8e9455aea0ff400146b359641a4fa2bff2efe734635ca9f1f"
 dependencies = [
  "ahash",
  "indexmap",
@@ -3152,9 +3161,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.110.15"
+version = "0.110.16"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e15d95bcbd7625c99805ac3bbcaa0f2d353b6e7f5e8d8aafcf2cfebe411d8a8a"
+checksum = "105b084f2b7df6eb5f679729494b6cb77bdcad60bd0d59ebd1de96212348d340"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_parser",
@@ -3331,12 +3340,13 @@ dependencies = [
 
 [[package]]
 name = "time"
-version = "0.3.5"
+version = "0.3.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "41effe7cfa8af36f439fac33861b66b049edc6f9a32331e2312660529c1c24ad"
+checksum = "c8d54b9298e05179c335de2b9645d061255bcd5155f843b3e328d2cfe0a5b413"
 dependencies = [
- "itoa 0.4.8",
+ "itoa 1.0.1",
  "libc",
+ "num_threads",
  "time-macros",
 ]
 
