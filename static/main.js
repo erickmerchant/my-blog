@@ -16,17 +16,22 @@ register(
       <page-layout open=${this.isOpen}>
         <style>
           @import "/static/page-layout.css";
+
+          button {
+            display: none;
+          }
         </style>
         <div part="toggle">
           <button
+            class="Button root"
             type="button"
             @click=${this.toggleOpen}
             aria-label=${this.isOpen ? "Close" : "Menu"}
           >
-            <div class="icon">
-              <span class="line"></span>
-              <span class="line"></span>
-              <span class="line"></span>
+            <div class="Icon root" aria-hidden="true">
+              <span class="Icon line"></span>
+              <span class="Icon line"></span>
+              <span class="Icon line"></span>
             </div>
           </button>
         </div>

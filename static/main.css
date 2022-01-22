@@ -102,6 +102,10 @@ page-layout {
   --content-left: 0;
   --toggle-color: var(--text-color);
 
+  &:not(:defined) [slot="nav"] {
+    display: none;
+  }
+
   &[open] {
     max-width: 100vw;
     overflow-x: hidden;
@@ -116,7 +120,7 @@ page-layout {
 
   &::part(toggle) {
     position: absolute;
-    top: var(--space-half);
+    top: var(--space);
     left: var(--space-half);
     z-index: 2;
     font-weight: 600;
@@ -151,7 +155,7 @@ page-layout {
   }
 }
 
-.banner {
+.Banner {
   &.root {
     background-image: repeating-linear-gradient(
         45deg,
@@ -206,7 +210,7 @@ page-layout {
   }
 }
 
-.content {
+.Content {
   &.root {
     display: flex;
     flex-direction: column;
