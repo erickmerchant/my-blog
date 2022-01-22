@@ -2,27 +2,37 @@ import { render, register, html } from "/vendor/@hyper-views/framework/main.js";
 
 register(
   class {
-    static tag = "site-nav";
+    static tag = "page-layout";
 
-    open = false;
+    isOpen = false;
 
     toggleOpen = () => {
-      this.open = !this.open;
-
-      document.body.classList.toggle("nav--open", this.open);
+      this.isOpen = !this.isOpen;
 
       render(this);
     };
 
     template = () => html`
-      <div>
+      <page-layout open=${this.isOpen}>
+        <style>
+          * {
+            font: inherit;
+            box-sizing: border-box;
+            max-width: 100%;
+            padding: 0;
+            margin: 0;
+          }
+        </style>
         <button part="toggle" type="button" @click=${this.toggleOpen}>
-          ${this.open ? "Close" : "Menu"}
+          ${this.isOpen ? "Close" : "Menu"}
         </button>
         <nav part="nav">
-          <slot />
+          <slot name="nav" />
         </nav>
-      </div>
+        <div part="panel">
+          <slot name="panel" />
+        </div>
+      </page-layout>
     `;
   }
 );

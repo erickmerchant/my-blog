@@ -11,20 +11,20 @@
       ErickMerchant.com | {% block title %}{% endblock %}
     </title>
   </head>
-  <body class="page root">
-    <site-nav class="page nav">
-      <ol>
+  <body>
+    <page-layout>
+      <ol slot="nav">
         <li><a href="/">Home</a></li>
       </ol>
-    </site-nav>
-    <div class="page inner">
-      <header class="banner root">
-        <div class="banner heading">ErickMerchant.com</div>
-      </header>
-      <article class="content root">
-        {% block content %}
-        {% endblock %}
-      </article>
-    </div>
+      <div slot="panel">
+        <header class="banner root">
+          <div class="banner heading">ErickMerchant.com</div>
+        </header>
+        <article class="content root">
+          {% block content %}
+          {% endblock %}
+        </article>
+      </div>
+    </page-layout>
   </body>
 </html>
