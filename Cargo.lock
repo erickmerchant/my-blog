@@ -31,9 +31,9 @@ dependencies = [
 
 [[package]]
 name = "actix-files"
-version = "0.6.0-beta.14"
+version = "0.6.0-beta.15"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5e05214f6534259a690fcc710e47c044480458a3d050c9d803628de2ce052052"
+checksum = "66862400e0b79538bc52926dadd965d01c9320b0477eecedac2d3d6bda5e9b92"
 dependencies = [
  "actix-http",
  "actix-service",
@@ -54,9 +54,9 @@ dependencies = [
 
 [[package]]
 name = "actix-http"
-version = "3.0.0-beta.18"
+version = "3.0.0-beta.19"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "05b95871724d27ac9a23d6db3246b23e4e42cd44a23145e1c6b04b78fb5271da"
+checksum = "ae58d21721388ea9b2cd0d4c11756b0f34424cdcd6e5cc74c3ce37b4641c8af0"
 dependencies = [
  "actix-codec",
  "actix-rt",
@@ -66,7 +66,7 @@ dependencies = [
  "ahash",
  "base64 0.13.0",
  "bitflags",
- "brotli2",
+ "brotli",
  "bytes",
  "bytestring",
  "derive_more",
@@ -102,9 +102,9 @@ dependencies = [
 
 [[package]]
 name = "actix-router"
-version = "0.5.0-rc.1"
+version = "0.5.0-rc.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4bdca166b1041184e2108ef05bd9909ec18cc6abc41152d31d30224cebfaac75"
+checksum = "5e0b59ad08167ffbb686ddb495846707231e96908b829b1fc218198ec581e2ad"
 dependencies = [
  "bytestring",
  "firestorm",
@@ -185,9 +185,9 @@ dependencies = [
 
 [[package]]
 name = "actix-web"
-version = "4.0.0-beta.20"
+version = "4.0.0-beta.21"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "aa8ba5081e9f8d0016cf34df516c699198158fd8c77990aa284115b055ead61b"
+checksum = "606fc29a9bde2907243086ceb93ce56df7584276c2c46abc64a524f645c63c5e"
 dependencies = [
  "actix-codec",
  "actix-http",
@@ -263,10 +263,25 @@ dependencies = [
 ]
 
 [[package]]
-name = "anyhow"
-version = "1.0.52"
+name = "alloc-no-stdlib"
+version = "2.0.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "84450d0b4a8bd1ba4144ce8ce718fbc5d071358b1e5384bace6536b3d1f2d5b3"
+checksum = "35ef4730490ad1c4eae5c4325b2a95f521d023e5c885853ff7aca0a6a1631db3"
+
+[[package]]
+name = "alloc-stdlib"
+version = "0.2.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "697ed7edc0f1711de49ce108c541623a0af97c6c60b2f6e2b65229847ac843c2"
+dependencies = [
+ "alloc-no-stdlib",
+]
+
+[[package]]
+name = "anyhow"
+version = "1.0.53"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "94a45b455c14666b85fc40a019e8ab9eb75e3a124e05494f5397122bc9eb06e0"
 
 [[package]]
 name = "arrayvec"
@@ -387,23 +402,24 @@ dependencies = [
 ]
 
 [[package]]
-name = "brotli-sys"
-version = "0.3.2"
+name = "brotli"
+version = "3.3.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4445dea95f4c2b41cde57cc9fee236ae4dbae88d8fcbdb4750fc1bb5d86aaecd"
+checksum = "f838e47a451d5a8fa552371f80024dd6ace9b7acdf25c4c3d0f9bc6816fb1c39"
 dependencies = [
- "cc",
- "libc",
+ "alloc-no-stdlib",
+ "alloc-stdlib",
+ "brotli-decompressor",
 ]
 
 [[package]]
-name = "brotli2"
-version = "0.3.2"
+name = "brotli-decompressor"
+version = "2.3.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0cb036c3eade309815c15ddbacec5b22c4d1f3983a774ab2eac2e3e9ea85568e"
+checksum = "59ad2d4653bf5ca36ae797b1f4bb4dbddb60ce49ca4aed8a2ce4829f60425b80"
 dependencies = [
- "brotli-sys",
- "libc",
+ "alloc-no-stdlib",
+ "alloc-stdlib",
 ]
 
 [[package]]
@@ -604,9 +620,9 @@ dependencies = [
 
 [[package]]
 name = "crc32fast"
-version = "1.3.0"
+version = "1.3.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "738c290dfaea84fc1ca15ad9c168d083b05a714e1efddd8edaab678dc28d2836"
+checksum = "a2209c310e29876f7f0b2721e7e26b84aff178aa3da5d091f9bfbf47669e60e3"
 dependencies = [
  "cfg-if 1.0.0",
 ]
@@ -2081,9 +2097,9 @@ dependencies = [
 
 [[package]]
 name = "quote"
-version = "1.0.14"
+version = "1.0.15"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "47aa80447ce4daf1717500037052af176af5d38cc3e571d9ec1c7353fc10c87d"
+checksum = "864d3e96a899863136fc6e99f3d7cae289dafe43bf2c5ac19b70df7210c0a145"
 dependencies = [
  "proc-macro2",
 ]
@@ -2420,9 +2436,9 @@ checksum = "388a1df253eca08550bef6c72392cfe7c30914bf41df5269b68cbd6ff8f570a3"
 
 [[package]]
 name = "serde"
-version = "1.0.133"
+version = "1.0.134"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "97565067517b60e2d1ea8b268e59ce036de907ac523ad83a0475da04e818989a"
+checksum = "96b3c34c1690edf8174f5b289a336ab03f568a4460d8c6df75f2f3a692b3bc6a"
 dependencies = [
  "serde_derive",
 ]
@@ -2441,9 +2457,9 @@ dependencies = [
 
 [[package]]
 name = "serde_derive"
-version = "1.0.133"
+version = "1.0.134"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ed201699328568d8d08208fdd080e3ff594e6c422e438b6705905da01005d537"
+checksum = "784ed1fbfa13fe191077537b0d70ec8ad1e903cfe04831da608aa36457cb653d"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -2678,9 +2694,9 @@ checksum = "73473c0e59e6d5812c5dfe2a064a6444949f089e20eec9a2e5506596494e4623"
 
 [[package]]
 name = "swc"
-version = "0.116.17"
+version = "0.116.18"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5c03be561de852cb5763128ce5e6b56eb62e8136c93ec907850100a4a600a804"
+checksum = "1a5c3c417ba12b4161c7cf565a219e0cda6a0fdbae2769e5b0895746b6dd0a92"
 dependencies = [
  "ahash",
  "anyhow",
