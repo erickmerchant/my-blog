@@ -15,17 +15,21 @@ register(
     template = () => html`
       <page-layout open=${this.isOpen}>
         <style>
-          * {
-            font: inherit;
-            box-sizing: border-box;
-            max-width: 100%;
-            padding: 0;
-            margin: 0;
-          }
+          @import "/static/page-layout.css";
         </style>
-        <button part="toggle" type="button" @click=${this.toggleOpen}>
-          ${this.isOpen ? "Close" : "Menu"}
-        </button>
+        <div part="toggle">
+          <button
+            type="button"
+            @click=${this.toggleOpen}
+            aria-label=${this.isOpen ? "Close" : "Menu"}
+          >
+            <div class="icon">
+              <span class="line"></span>
+              <span class="line"></span>
+              <span class="line"></span>
+            </div>
+          </button>
+        </div>
         <nav part="nav">
           <slot name="nav" />
         </nav>

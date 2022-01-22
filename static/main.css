@@ -20,6 +20,7 @@
 
 * {
   font: inherit;
+  color: inherit;
   box-sizing: border-box;
   max-width: 100%;
   padding: 0;
@@ -99,23 +100,27 @@ page-layout {
   height: 100%;
 
   --content-left: 0;
+  --toggle-color: var(--text-color);
 
   &[open] {
     max-width: 100vw;
     overflow-x: hidden;
 
     --content-left: calc(50vw);
+    --toggle-color: var(--background-color);
 
     @media (--mobile) {
-      --content-left: calc(100vw - 2em);
+      --content-left: calc(100vw);
     }
   }
 
   &::part(toggle) {
     position: absolute;
-    top: 1em;
-    left: 1em;
-    z-index: 5;
+    top: var(--space-half);
+    left: var(--space-half);
+    z-index: 2;
+    font-weight: 600;
+    color: hsl(var(--toggle-color));
   }
 
   &::part(nav) {
@@ -130,7 +135,6 @@ page-layout {
     color: hsl(0 0% 100%);
     display: grid;
     place-items: center;
-    padding-right: 1em;
 
     --anchor-color: currentColor;
 
@@ -170,6 +174,10 @@ page-layout {
     height: 50vh;
     width: 100%;
 
+    @media (--mobile) {
+      height: 25vh;
+    }
+
     @media (prefers-color-scheme: light) {
       --gradient-color-1: var(--primary-color-plus);
       --gradient-color-2: var(--primary-color-minus);
@@ -180,10 +188,6 @@ page-layout {
       --gradient-color-1: var(--primary-color-plus);
       --gradient-color-2: var(--primary-color-minus);
       --gradient-color-3: var(--background-color) / 0.15;
-    }
-
-    @media (--mobile) {
-      height: 25vh;
     }
   }
 
