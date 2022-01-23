@@ -155,6 +155,19 @@ page-layout {
   }
 }
 
+.Nav {
+  &.root {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+  }
+
+  & a {
+    font-weight: 300;
+  }
+}
+
 .Banner {
   @media (prefers-color-scheme: light) {
     --gradient-color-1: var(--primary-color-plus);

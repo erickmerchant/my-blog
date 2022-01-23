@@ -7,10 +7,6 @@
   margin: 0;
 }
 
-:host([open]) {
-  --degrees: 90deg;
-}
-
 .Button {
   &.root {
     display: block;
@@ -23,17 +19,56 @@
 
 .Icon {
   &.root {
+    transition: color 0.25s ease;
     pointer-events: none;
-    display: flex;
-    gap: 4px;
-    flex-direction: column;
-    transition: transform 0.25s ease, color 0.25s ease;
-    transform: rotate(var(--degrees, 0deg));
+    width: 28px;
+    height: 28px;
+    position: relative;
   }
 
   &.line {
-    height: 4px;
+    position: absolute;
+    display: block;
     width: 20px;
+    height: 4px;
     background-color: currentColor;
+  }
+
+  &.open * {
+    width: 20px;
+  }
+
+  &.open :nth-child(1) {
+    top: 4px;
+    left: 4px;
+  }
+
+  &.open :nth-child(2) {
+    top: 12px;
+    left: 4px;
+  }
+
+  &.open :nth-child(3) {
+    top: 20px;
+    left: 4px;
+  }
+
+  &.close * {
+    transition: transform 0.25s ease;
+  }
+
+  &.close :first-child,
+  &.close :last-child {
+    top: 12px;
+    left: 2px;
+    width: 24px;
+  }
+
+  &.close :first-child {
+    transform: rotate(45deg);
+  }
+
+  &.close :last-child {
+    transform: rotate(-45deg);
   }
 }

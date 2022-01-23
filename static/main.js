@@ -25,13 +25,16 @@ register(
           <button
             class="Button root"
             type="button"
-            @click=${this.toggleOpen}
             aria-label=${this.isOpen ? "Close" : "Menu"}
+            @click=${this.toggleOpen}
           >
-            <div class="Icon root" aria-hidden="true">
-              <span class="Icon line"></span>
-              <span class="Icon line"></span>
-              <span class="Icon line"></span>
+            <div
+              class=${["Icon root", this.isOpen ? "close" : "open"].join(" ")}
+              aria-hidden="true"
+            >
+              <span class="Icon line" />
+              <span class="Icon line" />
+              ${!this.isOpen ? html`<span class="Icon line" />` : ""}
             </div>
           </button>
         </div>
