@@ -55,10 +55,6 @@
 
   &.close * {
     transition: transform 0.25s ease;
-  }
-
-  &.close :first-child,
-  &.close :last-child {
     top: 12px;
     left: 2px;
     width: 24px;
