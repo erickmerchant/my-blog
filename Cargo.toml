@@ -8,19 +8,19 @@ default-run = "main"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-actix-files = "0.6.0-beta.14"
-actix-web = { version="4.0.0-beta.20", features = ["openssl"] }
+actix-files = { version = "0.6.0-beta.14", default-features = false }
+actix-web = { version = "4.0.0-beta.21", default-features = false, features = ["openssl", "compress-brotli"] }
 dotenv = "0.15.0"
 env_logger = "0.9"
 lazy_static = "1.4.0"
 openssl = { version = "0.10", features = ["v110"] }
 parcel_css = "1.0.0-alpha.12"
 pulldown-cmark = "0.9"
-reqwest = { version="0.11.7", features=["blocking"] }
+reqwest = { version = "0.11.7", features = ["blocking"] }
 serde = "1.0"
 serde_json = "1.0"
 swc = "0.116"
-swc_common = { version="0.17", features=["tty-emitter"] }
+swc_common = { version = "0.17", features = ["tty-emitter"] }
 tera = "1.15.0"
 toml = "0.5.8"
 url = "2.2.2"
