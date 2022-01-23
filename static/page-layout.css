@@ -7,6 +7,10 @@
   margin: 0;
 }
 
+:host([open]) {
+  --degrees: 90deg;
+}
+
 .Button {
   &.root {
     display: block;
@@ -24,18 +28,12 @@
     gap: 4px;
     flex-direction: column;
     transition: transform 0.25s ease, color 0.25s ease;
-    transform: rotate(0deg);
+    transform: rotate(var(--degrees, 0deg));
   }
 
   &.line {
     height: 4px;
     width: 20px;
     background-color: currentColor;
-  }
-}
-
-:host([open]) {
-  & .Icon.root {
-    transform: rotate(90deg);
   }
 }
