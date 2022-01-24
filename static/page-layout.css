@@ -18,7 +18,8 @@
 }
 
 .Icon {
-  &.root {
+  &.open,
+  &.close {
     transition: color 0.25s ease;
     pointer-events: none;
     width: 28px;
@@ -26,7 +27,7 @@
     position: relative;
   }
 
-  &.line {
+  & * {
     position: absolute;
     display: block;
     width: 20px;

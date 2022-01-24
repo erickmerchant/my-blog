@@ -29,12 +29,12 @@ register(
             @click=${this.toggleOpen}
           >
             <div
-              class=${["Icon root", this.isOpen ? "close" : "open"].join(" ")}
+              class=${`Icon ${!this.isOpen ? "open" : "close"}`}
               aria-hidden="true"
             >
-              <span class="Icon line" />
-              <span class="Icon line" />
-              ${!this.isOpen ? html`<span class="Icon line" />` : ""}
+              ${(!this.isOpen ? ["", "", ""] : ["", ""]).map(
+                () => html`<span />`
+              )}
             </div>
           </button>
         </div>
