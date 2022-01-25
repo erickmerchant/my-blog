@@ -35,10 +35,12 @@ html {
 
   --space: 2rem;
   --space-half: 1rem;
+  --space-quarter: 0.5rem;
 
   @media (--mobile) {
     --space: 1rem;
     --space-half: 0.5rem;
+    --space-quarter: 0.25rem;
   }
 
   @media (prefers-color-scheme: light) {
@@ -102,10 +104,6 @@ page-layout {
   --content-left: 0;
   --toggle-color: var(--text-color);
 
-  &:not(:defined) [slot="nav"] {
-    display: none;
-  }
-
   &[open] {
     max-width: 100vw;
     overflow-x: hidden;
@@ -121,10 +119,15 @@ page-layout {
   &::part(toggle) {
     position: absolute;
     top: var(--space);
-    left: var(--space-half);
+    left: var(--space);
     z-index: 2;
-    font-weight: 600;
     color: hsl(var(--toggle-color));
+    outline-offset: var(--space-quarter);
+
+    @media (--mobile) {
+      top: var(--space-half);
+      left: var(--space-half);
+    }
   }
 
   &::part(nav) {
@@ -156,7 +159,7 @@ page-layout {
 }
 
 .Nav {
-  &.root {
+  &.self {
     list-style: none;
     display: flex;
     flex-direction: column;
@@ -165,6 +168,15 @@ page-layout {
 
   & a {
     font-weight: 300;
+  }
+}
+
+:not(:defined) .Nav {
+  &.self {
+    flex-direction: row;
+    padding: var(--space);
+
+    --anchor-color: currentColor;
   }
 }
 
@@ -181,7 +193,7 @@ page-layout {
     --gradient-color-3: var(--background-color) / 0.15;
   }
 
-  &.root {
+  &.self {
     background-image: repeating-linear-gradient(
         45deg,
         hsla(0, 0%, 0%, 0),
@@ -224,7 +236,7 @@ page-layout {
 }
 
 .Content {
-  &.root {
+  &.self {
     display: flex;
     flex-direction: column;
     color: hsl(var(--text-color));

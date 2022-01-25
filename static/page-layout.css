@@ -8,64 +8,22 @@
 }
 
 .Button {
-  &.root {
+  &.self {
     display: block;
     appearance: none;
     border: 0;
     background: none;
     cursor: pointer;
+    height: 1em;
+    width: 1em;
   }
 }
 
 .Icon {
-  &.open,
-  &.close {
-    transition: color 0.25s ease;
+  &.self {
+    height: 1em;
+    width: 1em;
     pointer-events: none;
-    width: 28px;
-    height: 28px;
-    position: relative;
-  }
-
-  & * {
-    position: absolute;
-    display: block;
-    width: 20px;
-    height: 4px;
-    background-color: currentColor;
-  }
-
-  &.open * {
-    width: 20px;
-  }
-
-  &.open :nth-child(1) {
-    top: 4px;
-    left: 4px;
-  }
-
-  &.open :nth-child(2) {
-    top: 12px;
-    left: 4px;
-  }
-
-  &.open :nth-child(3) {
-    top: 20px;
-    left: 4px;
-  }
-
-  &.close * {
-    transition: transform 0.25s ease;
-    top: 12px;
-    left: 2px;
-    width: 24px;
-  }
-
-  &.close :first-child {
-    transform: rotate(45deg);
-  }
-
-  &.close :last-child {
-    transform: rotate(-45deg);
+    fill: currentColor;
   }
 }

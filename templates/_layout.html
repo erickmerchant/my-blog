@@ -13,18 +13,16 @@
   </head>
   <body>
     <page-layout>
-      <ol class="Nav root" slot="nav">
+      <header class="Banner self" slot="panel">
+        <div class="Banner heading">ErickMerchant.com</div>
+      </header>
+      <ol class="Nav self" slot="nav">
         <li><a href="/">Home</a></li>
       </ol>
-      <div slot="panel">
-        <header class="Banner root">
-          <div class="Banner heading">ErickMerchant.com</div>
-        </header>
-        <article class="Content root">
-          {% block content %}
-          {% endblock %}
-        </article>
-      </div>
+      <article class="Content self" slot="panel">
+        {% block content %}
+        {% endblock %}
+      </article>
     </page-layout>
   </body>
 </html>
