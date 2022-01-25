@@ -63,7 +63,7 @@ register(
           >
             ${this.isOpen ? closeIcon : menuIcon}
           </button>
-          <div part="nav"><slot name="nav" /></div>
+          <div part="nav">${this.isOpen ? html`<slot name="nav" />` : ""}</div>
         </nav>
         <div part="panel">
           <slot name="panel" />
