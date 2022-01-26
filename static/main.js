@@ -5,7 +5,7 @@ const closeIcon = html`
     viewBox="0 0 100 100"
     xmlns="http://www.w3.org/2000/svg"
     aria-hidden="true"
-    class="Icon self"
+    class="Nav icon"
   >
     <rect
       height="20"
@@ -23,7 +23,7 @@ const menuIcon = html`
     viewBox="0 0 100 100"
     xmlns="http://www.w3.org/2000/svg"
     aria-hidden="true"
-    class="Icon self"
+    class="Nav icon"
   >
     <rect x="0" y="0" height="20" width="100" />
     <rect x="0" y="40" height="20" width="100" />
@@ -46,16 +46,11 @@ register(
     template = () => html`
       <page-layout open=${this.isOpen}>
         <style>
-          @import "/static/page-layout.css";
-
-          button {
-            display: none;
-          }
+          @import "/static/main.css";
         </style>
-        <nav>
+        <nav class="Nav self">
           <button
-            part="toggle"
-            class="Button self"
+            class="Nav button"
             type="button"
             aria-label=${this.isOpen ? "Close nav" : "Open nav"}
             aria-expanded=${this.isOpen ? "true" : "false"}
@@ -63,9 +58,11 @@ register(
           >
             ${this.isOpen ? closeIcon : menuIcon}
           </button>
-          <div part="nav">${this.isOpen ? html`<slot name="nav" />` : ""}</div>
+          <div class="Nav links">
+            ${this.isOpen ? html`<slot name="links" />` : ""}
+          </div>
         </nav>
-        <div part="panel">
+        <div class="Panel self">
           <slot name="panel" />
         </div>
       </page-layout>

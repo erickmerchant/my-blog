@@ -103,28 +103,52 @@ a {
     height: 100%;
 
     --content-left: 0;
-    --toggle-color: var(--text-color);
-  }
+    --nav-color: var(--text-color);
 
-  &[open] {
-    max-width: 100vw;
-    overflow-x: hidden;
+    &[open] {
+      max-width: 100vw;
+      overflow-x: hidden;
 
-    --content-left: calc(50vw);
-    --toggle-color: var(--background-color);
+      --content-left: calc(50vw);
+      --nav-color: currentColor;
 
-    @media (--mobile) {
-      --content-left: calc(100vw);
+      @media (--mobile) {
+        --content-left: calc(100vw);
+      }
     }
   }
 
-  &::part(toggle) {
+  &:not(:defined) {
+    display: grid;
+    height: 100%;
+
+    @nest .no-js & {
+      grid-template-rows: min-content min-content 1fr;
+
+      --nav-color: var(--anchor-color);
+    }
+
+    @nest .js & {
+      grid-template-rows: min-content 1fr;
+    }
+  }
+}
+
+.Nav {
+  &.button {
+    display: block;
+    appearance: none;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    height: 1em;
+    width: 1em;
     position: absolute;
     top: var(--space);
     left: var(--space);
     z-index: 2;
-    color: hsl(var(--toggle-color));
     outline-offset: var(--space-quarter);
+    color: hsl(var(--nav-color));
 
     @media (--mobile) {
       top: var(--space-half);
@@ -132,7 +156,14 @@ a {
     }
   }
 
-  &::part(nav) {
+  &.icon {
+    height: 1em;
+    width: 1em;
+    pointer-events: none;
+    fill: currentColor;
+  }
+
+  &.links {
     display: block;
     position: absolute;
     top: 0;
@@ -140,46 +171,48 @@ a {
     z-index: 0;
     width: 50vw;
     height: 100vh;
-    background-color: hsl(var(--text-color));
-    color: hsl(0 0% 100%);
     display: grid;
     place-items: center;
-
-    --anchor-color: currentColor;
 
     @media (--mobile) {
       width: 100vw;
     }
   }
+}
 
-  &::part(panel) {
+.Panel {
+  &.self {
     position: relative;
     z-index: 1;
     transform: translateX(var(--content-left));
     transition: transform 0.25s ease;
     display: grid;
-    height: 100%;
     grid-template-rows: min-content 1fr;
+    height: 100%;
   }
 }
 
-.Nav {
+.Links {
   &.self {
     list-style: none;
     display: flex;
     flex-direction: column;
     gap: 0.5em;
 
-    @nest :not(:defined) & {
+    @nest .no-js .Page:not(:defined) & {
+      background-color: hsl(var(--background-color));
       flex-direction: row;
-      padding: var(--space);
+      padding: var(--space-half) var(--space-half) 0;
+    }
 
-      --anchor-color: currentColor;
+    @nest .js .Page:not(:defined) & {
+      display: none;
     }
   }
 
-  & a {
+  &.link {
     font-weight: 300;
+    color: hsl(var(--nav-color));
   }
 }
 
