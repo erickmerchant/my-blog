@@ -281,8 +281,8 @@ a {
     width: 100%;
 
     & > * {
-      width: 40rem;
-      max-width: 100%;
+      max-width: 40rem;
+      width: 100%;
       padding: 0 var(--space-half);
       margin: var(--space-half) auto 0;
     }
