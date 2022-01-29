@@ -4,11 +4,11 @@ use actix_web::{error::ErrorInternalServerError, web, Result};
 use std::{convert::AsRef, fs, path::Path, sync::Arc};
 
 pub async fn file(file: web::Path<String>) -> Result<NamedFile> {
-  get_file_response(Path::new("static").join(file.to_owned()))
+  get_file_response(Path::new("assets").join(file.to_owned()))
 }
 
 pub async fn robots() -> Result<NamedFile> {
-  static_response(Path::new("static/robots.txt"))
+  static_response(Path::new("assets/robots.txt"))
 }
 
 fn get_file_response<P: AsRef<Path>>(cache: P) -> Result<NamedFile> {
