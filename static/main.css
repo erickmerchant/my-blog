@@ -100,6 +100,7 @@ a {
 
 .Page {
   &.self {
+    display: block;
     height: 100%;
 
     --content-left: 0;
@@ -115,21 +116,6 @@ a {
       @media (--mobile) {
         --content-left: calc(100vw);
       }
-    }
-  }
-
-  &:not(:defined) {
-    display: grid;
-    height: 100%;
-
-    @nest .no-js & {
-      grid-template-rows: min-content min-content 1fr;
-
-      --nav-color: var(--anchor-color);
-    }
-
-    @nest .js & {
-      grid-template-rows: min-content 1fr;
     }
   }
 }
@@ -180,6 +166,20 @@ a {
   }
 }
 
+.Links {
+  &.self {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+  }
+
+  &.link {
+    font-weight: 300;
+    color: hsl(var(--nav-color));
+  }
+}
+
 .Panel {
   &.self {
     position: relative;
@@ -189,30 +189,6 @@ a {
     display: grid;
     grid-template-rows: min-content 1fr;
     height: 100%;
-  }
-}
-
-.Links {
-  &.self {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5em;
-
-    @nest .no-js .Page:not(:defined) & {
-      background-color: hsl(var(--background-color));
-      flex-direction: row;
-      padding: var(--space-half) var(--space-half) 0;
-    }
-
-    @nest .js .Page:not(:defined) & {
-      display: none;
-    }
-  }
-
-  &.link {
-    font-weight: 300;
-    color: hsl(var(--nav-color));
   }
 }
 
