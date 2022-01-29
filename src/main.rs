@@ -41,7 +41,6 @@ async fn main() -> io::Result<()> {
             .wrap(Compress::default())
             .route("/", web::get().to(pages::index))
             .route("/static/{file:.*}", web::get().to(assets::file))
-            .route("/vendor/{file:.*}", web::get().to(assets::vendor_file))
             .route("/{file:.*}", web::get().to(pages::page))
             .route("/robots.txt", web::get().to(assets::robots))
     })

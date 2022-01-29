@@ -3,10 +3,6 @@ use actix_files::NamedFile;
 use actix_web::{error::ErrorInternalServerError, web, Result};
 use std::{convert::AsRef, fs, path::Path, sync::Arc};
 
-pub async fn vendor_file(file: web::Path<String>) -> Result<NamedFile> {
-  get_file_response(Path::new("vendor").join(file.to_owned()))
-}
-
 pub async fn file(file: web::Path<String>) -> Result<NamedFile> {
   get_file_response(Path::new("static").join(file.to_owned()))
 }
