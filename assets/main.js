@@ -23,7 +23,7 @@ window.customElements.define(
       const button = this.shadowRoot?.querySelector("button");
 
       button
-        ?.querySelector("element-match")
+        ?.querySelector("icon-match")
         ?.setAttribute("name", this.isOpen ? "close" : "menu");
 
       button?.setAttribute(
@@ -37,7 +37,7 @@ window.customElements.define(
 );
 
 window.customElements.define(
-  "element-match",
+  "icon-match",
   class extends HTMLElement {
     static get observedAttributes() {
       return ["name"];
