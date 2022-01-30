@@ -2410,9 +2410,9 @@ checksum = "73473c0e59e6d5812c5dfe2a064a6444949f089e20eec9a2e5506596494e4623"
 
 [[package]]
 name = "swc"
-version = "0.119.8"
+version = "0.119.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0d62204695e283bb638dbba8479167805379c2df661d692bf4ad363c6514e61e"
+checksum = "7979b504b87824cf34cec12406529c9be27b913bd83d749d2b730d2ce7345210"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2553,9 +2553,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "0.11.0"
+version = "0.11.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3d6520a7a629d5004e129f562ae663421be494895b3591a7e8e1877c5399f467"
+checksum = "0d163a59183a48cd53ce5ad0e1d3243160aa4316f28819174d16828d775664d5"
 dependencies = [
  "auto_impl",
  "parking_lot",

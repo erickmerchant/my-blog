@@ -56,7 +56,6 @@ pub async fn page(mut file: web::Path<String>) -> Result<NamedFile> {
       .with_extension("html"),
     |file_contents: String| {
       let context = get_context(file_contents);
-
       let mut template = "page.html";
 
       if let Some(t) = context
@@ -82,13 +81,10 @@ pub fn internal_error<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerResponse
 
 pub fn error_response<B>(res: ServiceResponse<B>, body: String) -> Result<ErrorHandlerResponse<B>> {
   let (req, res) = res.into_parts();
-
   let res = res.set_body(body);
-
   let mut res = ServiceResponse::new(req, res)
     .map_into_boxed_body()
     .map_into_right_body();
-
   let headers = res.headers_mut();
 
   headers.insert(
@@ -103,7 +99,6 @@ pub fn error_response<B>(res: ServiceResponse<B>, body: String) -> Result<ErrorH
 
 fn get_context(file_contents: String) -> tera::Context {
   let mut context = tera::Context::new();
-
   let file_parts: Vec<&str> = file_contents.splitn(3, "+++").collect();
   let mut content = String::new();
   let mut markdown = file_contents.as_str();
@@ -119,9 +114,9 @@ fn get_context(file_contents: String) -> tera::Context {
   }
 
   let md_parser = pulldown_cmark::Parser::new_ext(markdown, pulldown_cmark::Options::empty());
+
   pulldown_cmark::html::push_html(&mut content, md_parser);
 
   context.insert("content", &content);
-
   context
 }

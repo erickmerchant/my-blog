@@ -25,7 +25,6 @@ async fn main() -> io::Result<()> {
         env::var("SSL_KEY").expect("Failed to read env variable SSL_KEY"),
         SslFiletype::PEM,
     )?;
-
     builder.set_certificate_chain_file(
         env::var("SSL_CERT").expect("Failed to read env variable SSL_CERT"),
     )?;

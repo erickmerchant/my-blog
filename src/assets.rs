@@ -46,11 +46,8 @@ fn js_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
         Some(cm.clone()),
       ));
       let c = swc::Compiler::new(cm.clone());
-
       let fm = cm.load_file(src.as_ref())?;
-
       let swcrc = fs::read_to_string(".swcrc")?;
-
       let options: Options = serde_json::from_str(swcrc.as_str())?;
 
       c.process_js_file(fm, &handler, &options)
@@ -77,15 +74,17 @@ fn css_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
         samsung: Some(14 << 16),
         ie: None,
       });
-
       let mut parser_options = stylesheet::ParserOptions::default();
+
       parser_options.nesting = true;
       parser_options.custom_media = true;
 
       let mut minifier_options = stylesheet::MinifyOptions::default();
+
       minifier_options.targets = targets;
 
       let mut printer_options = stylesheet::PrinterOptions::default();
+
       printer_options.minify = true;
       printer_options.targets = targets;
 
