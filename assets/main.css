@@ -245,7 +245,7 @@ a {
     flex-direction: column;
     color: hsl(var(--text-color));
     background-color: hsl(var(--background-color));
-    padding: 0 var(--space-half);
+    padding: 0 var(--space-half) var(--space-half);
     width: 100%;
 
     & > * {
