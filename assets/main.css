@@ -45,7 +45,6 @@ html {
 
   @media (prefers-color-scheme: light) {
     --primary-color: 100 20% 60%;
-    --accent-color: 150 20% 60%;
     --anchor-color: 100 50% 50%;
     --text-color: 100 10% 25%;
     --background-color: 100 10% 100%;
@@ -53,7 +52,6 @@ html {
 
   @media (prefers-color-scheme: dark) {
     --primary-color: 100 20% 60%;
-    --accent-color: 150 20% 60%;
     --anchor-color: 100 50% 50%;
     --text-color: 100 0% 100%;
     --background-color: 100 10% 25%;
@@ -193,38 +191,21 @@ a {
 }
 
 .Banner {
-  @media (prefers-color-scheme: light) {
-    --gradient-color-1: var(--primary-color);
-    --gradient-color-2: var(--accent-color);
-    --gradient-color-3: var(--background-color) / 0.15;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    --gradient-color-1: var(--primary-color);
-    --gradient-color-2: var(--accent-color);
-    --gradient-color-3: var(--background-color) / 0.15;
-  }
-
   &.self {
+    background-color: hsl(var(--primary-color));
     background-image: repeating-linear-gradient(
-        45deg,
-        hsla(0, 0%, 0%, 0),
-        hsla(0, 0%, 0%, 0) 1px,
-        hsl(var(--gradient-color-3)) 1px,
-        hsl(var(--gradient-color-3)) 5px
-      ),
-      linear-gradient(
-        -45deg,
-        hsl(var(--gradient-color-2)),
-        hsl(var(--gradient-color-1)),
-        hsl(var(--gradient-color-2))
-      );
+      55deg,
+      hsla(0, 0%, 0%, 0),
+      hsla(0, 0%, 0%, 0) 1px,
+      hsl(var(--background-color) / 0.15) 1px,
+      hsl(var(--background-color) / 0.15) 5px
+    );
     background-attachment: fixed;
     color: hsl(var(--text-color));
     display: grid;
     align-content: end;
     justify-items: center;
-    height: 25vh;
+    height: 37.5vh;
     width: 100%;
     padding: 0 var(--space-half);
   }

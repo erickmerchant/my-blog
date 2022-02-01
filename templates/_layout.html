@@ -13,13 +13,13 @@
     <page-layout class="Page self">
       {% include "includes/page-layout-template.html" %}
 
-      <header class="Banner self" slot="panel">
-        <div class="Banner heading">ErickMerchant.com</div>
-      </header>
-
       <ol class="Links self" slot="links">
         <li><a class="Links link" href="/">Home</a></li>
       </ol>
+
+      <header class="Banner self" slot="panel">
+        <div class="Banner heading">ErickMerchant.com</div>
+      </header>
 
       <article class="Content self" slot="panel">
         {% block content %} {% endblock %}
