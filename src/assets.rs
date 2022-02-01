@@ -4,7 +4,7 @@ use actix_web::{error::ErrorInternalServerError, web, Result};
 use std::{convert::AsRef, path::Path, sync::Arc};
 
 pub async fn file(file: web::Path<String>) -> Result<NamedFile> {
-  get_file_response(Path::new("assets").join(file.to_owned()))
+  get_file_response(Path::new("assets").join(file.to_string()))
 }
 
 pub async fn robots() -> Result<NamedFile> {

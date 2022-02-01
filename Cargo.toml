@@ -9,7 +9,7 @@ default-run = "main"
 
 [dependencies]
 actix-files = { version = "0.6.0-beta.14", default-features = false }
-actix-web = { version = "4.0.0-beta.21", default-features = false, features = ["openssl", "compress-brotli"] }
+actix-web = { version = "4.0.0-rc.1", default-features = false, features = ["openssl", "compress-brotli"] }
 dotenv = "0.15.0"
 env_logger = "0.9"
 lazy_static = "1.4.0"

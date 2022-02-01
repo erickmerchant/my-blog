@@ -22,19 +22,19 @@ lazy_static! {
     title = ""
   "#
   .parse::<toml::Value>()
-  .expect("default front matter");
+  .expect("Failed to deserialize default front matter");
 }
 
 lazy_static! {
   static ref NOT_FOUND_BODY: String = TEMPLATES
     .render("not_found.html", &tera::Context::new())
-    .expect("not found template");
+    .expect("Failed to render not_found.html");
 }
 
 lazy_static! {
   static ref INTERNAL_ERROR_BODY: String = TEMPLATES
     .render("internal_error.html", &tera::Context::new())
-    .expect("internal error template");
+    .expect("Failed to render internal_error.html");
 }
 
 pub async fn index() -> Result<NamedFile> {
@@ -49,10 +49,10 @@ pub async fn page(mut file: web::Path<String>) -> Result<NamedFile> {
 
   dynamic_response(
     Path::new("content")
-      .join(file.to_owned())
+      .join(file.to_string())
       .with_extension("md"),
     Path::new("storage/cache/html")
-      .join(file.to_owned())
+      .join(file.to_string())
       .with_extension("html"),
     |file_contents: String| {
       let context = get_context(file_contents);

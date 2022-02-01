@@ -61,6 +61,7 @@ html {
 body {
   height: 100%;
   overflow-x: hidden;
+  background-color: hsl(var(--nav-background-color));
 }
 
 h1 {
@@ -110,9 +111,6 @@ a {
     --nav-toggle-color: hsl(var(--text-color));
 
     &[open] {
-      max-width: 100vw;
-      overflow-x: hidden;
-
       --nav-toggle-color: hsl(var(--nav-text-color));
       --content-left: var(--drawer-width);
     }
@@ -156,11 +154,10 @@ a {
     left: 0;
     z-index: 0;
     width: var(--drawer-width);
-    height: 100vh;
+    height: 100%;
     display: grid;
     place-items: center;
     color: hsl(var(--nav-text-color));
-    background-color: hsl(var(--nav-background-color));
   }
 }
 
