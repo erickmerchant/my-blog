@@ -113,7 +113,12 @@ fn get_context(file_contents: String) -> tera::Context {
     context.insert("data", &DEFAULT_FRONTMATTER.clone());
   }
 
-  let md_parser = pulldown_cmark::Parser::new_ext(markdown, pulldown_cmark::Options::empty());
+  let mut options = pulldown_cmark::Options::empty();
+
+  options.insert(pulldown_cmark::Options::ENABLE_STRIKETHROUGH);
+  options.insert(pulldown_cmark::Options::ENABLE_SMART_PUNCTUATION);
+
+  let md_parser = pulldown_cmark::Parser::new_ext(markdown, options);
 
   pulldown_cmark::html::push_html(&mut content, md_parser);
 
