@@ -1,0 +1,47 @@
++++
+title = "Hello world"
+template = "home.html"
++++
+
+<h2>New design</h2>
+
+<p>As I tend to do from time to time, I have recently rewritten this site in technologies that currently interest me. A quick summary is it is now written in Rust on the server side, uses web components on the client side, and all the CSS is new.</p>
+
+<h3>Why Rust?</h3>
+
+<p>I started learning <a href="https://www.rust-lang.org/">Rust</a> in 2020 as something to do. I had long wanted to learn a statically typed language, and also wanted to experiment with web assembly, so Rust ended up being at the top of my list of possible languages to learn.</p>
+
+<p>I did not get far in 2020 with it. I read <a href="https://doc.rust-lang.org/book/">the book</a> and reread it. Certain concepts took some time to grasp. Then I made some experimental programs with it, and followed some tutorials. I made a static site, and then a dynamic one that used wasm to fetch markdown and render it.</p>
+
+<p>Some time in 2021 I started to feel fairly comfortable doing certain things. I am still very much a novice, and suspect I will be for a while longer, but I can make simple programs in it. Rust is a lot of fun.</p>
+
+<h3>Server requirements</h3>
+
+<p>So I decided to make my personal site a dynamic website, instead of static, for the first time probably since somewhere close to ten years. I chose a web framework called <a href="https://actix.rs/">Actix</a>. I had a few hard requirements for a new site, server-wise.</p>
+
+<ul>
+  <li>Local SSL</li>
+  <li>HTTP/2</li>
+  <li>Brotli compression</li>
+</ul>
+
+<p>Actix was able to do all these. I have been lurking on their Discord for a few months, and the community is helpful. Apart from middleware which is a little beyond my current understanding, Actix's api is really versatile and easy to learn. The best place to look has been their examples repo.</p>
+
+<h3>Cargo dependencies</h3>
+
+<p>Some of the more important Cargo dependencies that I am using, besides Actix:</p>
+
+<dl>
+  <dt><a href="https://tera.netlify.app/">Tera</a></dt>
+  <dd>Tera is a jinja implementation essentially, a templating language. <a href="https://djc.github.io/askama/">Askama</a> is also a really good choice here, but I wanted to be able to add templates while I worked on the content of the site.</dd>
+
+  <dt><a href="https://swc.rs/">SWC</a></dt>
+  <dd>SWC is for transpiling JavaScript. It is basically a Rust Babel, but aims to be many things, such as a Eslint replacement as well. The project is great, but I do worry that its ambitions are a little too big. However I think Deno and Vercel are using it so maybe its ambitions are realistic.</dd>
+
+  <dt><a href="https://parceljs.org/blog/parcel-css/">Parcel CSS</a></dt>
+  <dd>And finally Parcel CSS is for transpiling CSS. It is basically like Postcss in Rust. It was actually released when I had most of the server written already. Originally I was using a Sass implementation in Rust, and I had forgotten how strange Sass is, so I was not really happy using it. Parcel CSS is great, allowing me to do nesting and forget about prefixes. The only downside here is its alpha, so it sometimes breaks. Committing my lock file has been a very good thing.</dd>
+</dl>
+
+<h3>Declarative shadow dom</h3>
+
+<h3>Not a blog</h3>

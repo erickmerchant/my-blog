@@ -28,7 +28,7 @@
 }
 
 html {
-  font: 200 max(20px, 1.5vw) / 1.5 "Public Sans", system-ui, sans-serif;
+  font: 300 max(20px, 1.5vw) / 1.5 "Public Sans", system-ui, sans-serif;
   height: 100%;
 
   --space: 2rem;
@@ -36,6 +36,7 @@ html {
   --space-quarter: 0.5rem;
   --nav-text-color: 100 0% 100%;
   --nav-background-color: 100 10% 30%;
+  --primary-color: 100 20% 50%;
 
   @media (--mobile) {
     --space: 1rem;
@@ -44,16 +45,14 @@ html {
   }
 
   @media (prefers-color-scheme: light) {
-    --primary-color: 100 20% 60%;
-    --anchor-color: 100 50% 50%;
+    --anchor-color: 100 50% 37.5%;
     --text-color: 100 10% 25%;
     --background-color: 100 10% 100%;
   }
 
   @media (prefers-color-scheme: dark) {
-    --primary-color: 100 20% 60%;
-    --anchor-color: 100 50% 50%;
-    --text-color: 100 0% 100%;
+    --anchor-color: 100 50% 62.5%;
+    --text-color: 100 10% 100%;
     --background-color: 100 10% 25%;
   }
 }
@@ -65,17 +64,17 @@ body {
 }
 
 h1 {
-  font-weight: 800;
+  font-weight: 900;
   font-size: 1.5em;
 }
 
 h2 {
-  font-weight: 600;
-  font-size: 1em;
+  font-weight: 900;
+  font-size: 1.25em;
 }
 
 h3 {
-  font-weight: 400;
+  font-weight: 900;
   font-size: 1em;
 }
 
@@ -83,21 +82,25 @@ h1,
 h2,
 h3 {
   margin-block-start: var(--space-half);
-
-  @media (--mobile) {
-    font-size: 1em;
-  }
 }
 
 ul,
 ol {
   list-style-position: inside;
+  padding-inline-start: var(--space-quarter);
+}
+
+dt,
+strong {
+  font-weight: 700;
+}
+
+dd {
   padding-inline-start: var(--space-half);
 }
 
 a {
   color: hsl(var(--anchor-color));
-  font-weight: 200;
   text-underline-offset: 0.125em;
 }
 
@@ -170,7 +173,6 @@ a {
   }
 
   &.link {
-    font-weight: 300;
     color: hsl(var(--nav-color));
   }
 }
@@ -202,14 +204,14 @@ a {
     display: grid;
     align-content: end;
     justify-items: center;
-    height: 37.5vh;
+    height: max(6em, 37.5vh);
     width: 100%;
     padding: 0 var(--space-half);
   }
 
   &.heading {
     font-size: 1.5em;
-    font-weight: 800;
+    font-weight: 900;
     max-width: 40rem;
     margin-block-end: 0.5rem;
     width: 100%;
@@ -230,6 +232,10 @@ a {
       max-width: 40rem;
       width: 100%;
       margin: var(--space-half) auto 0;
+    }
+
+    & dl > :nth-child(1n + 2) {
+      margin-block-start: var(--space-half);
     }
   }
 }

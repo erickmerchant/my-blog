@@ -43,24 +43,20 @@ pub async fn index() -> Result<NamedFile> {
 
 pub async fn page(mut file: web::Path<String>) -> Result<NamedFile> {
   match file.ends_with("/") {
-    true => file.push_str("index.md"),
-    false => file.push_str(".md"),
+    true => file.push_str("index.html"),
+    false => file.push_str(".html"),
   };
 
   dynamic_response(
-    Path::new("content")
-      .join(file.to_string())
-      .with_extension("md"),
-    Path::new("storage/cache/html")
-      .join(file.to_string())
-      .with_extension("html"),
+    Path::new("content").join(file.to_string()),
+    Path::new("storage/cache/html").join(file.to_string()),
     |file_contents: String| {
       let context = get_context(file_contents);
       let mut template = "page.html";
 
       if let Some(t) = context
         .get("data")
-        .and_then(|d| d.get("_template"))
+        .and_then(|d| d.get("template"))
         .and_then(|t| t.as_str())
       {
         template = t;
@@ -100,27 +96,17 @@ pub fn error_response<B>(res: ServiceResponse<B>, body: String) -> Result<ErrorH
 fn get_context(file_contents: String) -> tera::Context {
   let mut context = tera::Context::new();
   let file_parts: Vec<&str> = file_contents.splitn(3, "+++").collect();
-  let mut content = String::new();
-  let mut markdown = file_contents.as_str();
+  let mut content = file_contents.as_str();
 
   if file_parts.len() == 3 {
     if let Ok(frontmatter) = file_parts[1].parse::<toml::Value>() {
       context.insert("data", &frontmatter);
     }
 
-    markdown = file_parts[2];
+    content = file_parts[2];
   } else {
     context.insert("data", &DEFAULT_FRONTMATTER.clone());
   }
-
-  let mut options = pulldown_cmark::Options::empty();
-
-  options.insert(pulldown_cmark::Options::ENABLE_STRIKETHROUGH);
-  options.insert(pulldown_cmark::Options::ENABLE_SMART_PUNCTUATION);
-
-  let md_parser = pulldown_cmark::Parser::new_ext(markdown, options);
-
-  pulldown_cmark::html::push_html(&mut content, md_parser);
 
   context.insert("content", &content);
   context
