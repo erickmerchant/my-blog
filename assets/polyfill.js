@@ -1,7 +1,13 @@
-(function o(t) {
-  t.querySelectorAll("template[shadowroot]").forEach((t) => {
-    let e = t.getAttribute("shadowroot"),
-      a = t.parentNode.attachShadow({ mode: e });
-    a.appendChild(t.content), t.remove(), o(a);
-  });
-})(document);
+let polyfillDeclartiveShadowDOM = (target) => {
+  for (let template of target.querySelectorAll("template[shadowroot]")) {
+    let mode = template.getAttribute("shadowroot");
+    let shadowRoot = template.parentNode.attachShadow({ mode });
+
+    shadowRoot.appendChild(template.content);
+    template.remove();
+
+    polyfillDeclartiveShadowDOM(shadowRoot);
+  }
+};
+
+polyfillDeclartiveShadowDOM(document);

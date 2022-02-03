@@ -7,7 +7,6 @@
     <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
     <link href="/main.css" rel="stylesheet" />
     <script type="module" src="/main.js"></script>
-    <script type="module" src="/polyfill.js"></script>
     <title>{% block title %}ErickMerchant.com{% endblock %}</title>
   </head>
   <body>
@@ -26,5 +25,6 @@
         {% block content %} {% endblock %}
       </article>
     </page-layout>
+    <script src="/polyfill.js"></script>
   </body>
 </html>
