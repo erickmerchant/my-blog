@@ -7,10 +7,6 @@ pub async fn file(file: web::Path<String>) -> Result<NamedFile> {
   get_file_response(Path::new("assets").join(file.to_string()))
 }
 
-pub async fn robots() -> Result<NamedFile> {
-  static_response(Path::new("assets/robots.txt"))
-}
-
 fn get_file_response<P: AsRef<Path>>(cache: P) -> Result<NamedFile> {
   let mut ext_str = "";
 

@@ -2,6 +2,7 @@ use crate::common::dynamic_response;
 use actix_files::NamedFile;
 use actix_web::{
   dev::ServiceResponse,
+  error::ErrorInternalServerError,
   http::header::{HeaderName, HeaderValue},
   middleware::ErrorHandlerResponse,
   web, Result,
@@ -38,19 +39,25 @@ lazy_static! {
 }
 
 pub async fn index() -> Result<NamedFile> {
-  page(web::Path::from(String::from("index"))).await
+  page(web::Path::from(String::from("index.html"))).await
 }
 
 pub async fn page(mut file: web::Path<String>) -> Result<NamedFile> {
-  match file.ends_with("/") {
-    true => file.push_str("index.html"),
-    false => file.push_str(".html"),
-  };
+  if file.ends_with("/") {
+    file.push_str("index.html");
+  }
 
   dynamic_response(
     Path::new("content").join(file.to_string()),
     Path::new("storage/cache/html").join(file.to_string()),
     |file_contents: String| {
+      use minify_html_onepass::{in_place_str, Cfg};
+
+      let cfg = &Cfg {
+        minify_js: false,
+        minify_css: false,
+      };
+
       let context = get_context(file_contents);
       let mut template = "page.html";
 
@@ -62,7 +69,16 @@ pub async fn page(mut file: web::Path<String>) -> Result<NamedFile> {
         template = t;
       }
 
-      TEMPLATES.render(template, &context)
+      match TEMPLATES.render(template, &context) {
+        Ok(html) => {
+          let mut html_clone = html.clone();
+
+          let html = in_place_str(&mut html_clone, cfg).unwrap_or_else(|_| &html);
+
+          Ok(html.to_string())
+        }
+        Err(err) => Err(ErrorInternalServerError(err)),
+      }
     },
   )
 }

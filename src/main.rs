@@ -19,13 +19,13 @@ async fn main() -> io::Result<()> {
 
     fs::remove_dir_all("storage/cache").ok();
 
-    let mut builder = SslAcceptor::mozilla_intermediate(SslMethod::tls())?;
+    let mut ssl_builder = SslAcceptor::mozilla_intermediate(SslMethod::tls())?;
 
-    builder.set_private_key_file(
+    ssl_builder.set_private_key_file(
         env::var("SSL_KEY").expect("Failed to read env variable SSL_KEY"),
         SslFiletype::PEM,
     )?;
-    builder.set_certificate_chain_file(
+    ssl_builder.set_certificate_chain_file(
         env::var("SSL_CERT").expect("Failed to read env variable SSL_CERT"),
     )?;
 
@@ -39,13 +39,12 @@ async fn main() -> io::Result<()> {
             )
             .wrap(Compress::default())
             .route("/", web::get().to(pages::index))
-            .route("/assets/{file:.*}", web::get().to(assets::file))
-            .route("/{file:.*}", web::get().to(pages::page))
-            .route("/robots.txt", web::get().to(assets::robots))
+            .route("/{file:.*.html}", web::get().to(pages::page))
+            .route("/{file:.*?}", web::get().to(assets::file))
     })
     .bind_openssl(
         env::var("BIND_ADDRESS").expect("Failed to read env variable BIND_ADDRESS"),
-        builder,
+        ssl_builder,
     )?
     .run()
     .await

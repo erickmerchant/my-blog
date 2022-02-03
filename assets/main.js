@@ -10,7 +10,7 @@ window.customElements.define(
     };
 
     connectedCallback() {
-      const button = this.shadowRoot?.querySelector("button");
+      let button = this.shadowRoot?.querySelector("button");
 
       button?.setAttribute("aria-hidden", "false");
       button?.setAttribute("tabindex", "0");
@@ -22,7 +22,7 @@ window.customElements.define(
     render() {
       this.shadowRoot?.host?.toggleAttribute("open", this.isOpen);
 
-      const button = this.shadowRoot?.querySelector("button");
+      let button = this.shadowRoot?.querySelector("button");
 
       button
         ?.querySelector("icon-match")
@@ -48,7 +48,7 @@ window.customElements.define(
     }
 
     render() {
-      const slot = this.shadowRoot?.querySelector("slot");
+      let slot = this.shadowRoot?.querySelector("slot");
 
       slot?.setAttribute("name", this.shadowRoot?.host?.getAttribute("name"));
     }

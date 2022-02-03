@@ -1,14 +1,10 @@
 <template shadowroot="open">
-  <style>
-    @import "/assets/main.css";
-  </style>
+  <style>@import "/main.css";</style>
 
   <nav class="Nav self">
     <button class="Nav button" type="button" aria-hidden="true" tabindex="-1">
       <icon-match name="menu">
-        <template shadowroot="open">
-          <slot></slot>
-        </template>
+        {% include "includes/icon-match-template.html" %}
 
         <svg
           viewBox="0 0 100 100"
