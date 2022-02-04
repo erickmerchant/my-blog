@@ -8,6 +8,7 @@ use actix_web::{
     web, App, HttpServer,
 };
 use dotenv::dotenv;
+use handlebars::Handlebars;
 use openssl::ssl::{SslAcceptor, SslFiletype, SslMethod};
 use std::{env, fs, io};
 
@@ -30,6 +31,12 @@ async fn main() -> io::Result<()> {
     )?;
 
     HttpServer::new(move || {
+        let mut handlebars = Handlebars::new();
+        handlebars
+            .register_templates_directory(".hbs", "./templates")
+            .expect("Templates");
+        let handlebars_ref = web::Data::new(handlebars);
+
         App::new()
             .wrap(Logger::new("%s %r"))
             .wrap(ErrorHandlers::new().handler(StatusCode::NOT_FOUND, pages::not_found))
@@ -38,6 +45,7 @@ async fn main() -> io::Result<()> {
                     .handler(StatusCode::INTERNAL_SERVER_ERROR, pages::internal_error),
             )
             .wrap(Compress::default())
+            .app_data(handlebars_ref.clone())
             .route("/", web::get().to(pages::index))
             .route("/{file:.*.html}", web::get().to(pages::page))
             .route("/{file:.*?}", web::get().to(assets::file))

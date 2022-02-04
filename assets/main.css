@@ -63,42 +63,6 @@ body {
   background-color: hsl(var(--nav-background-color));
 }
 
-h1 {
-  font-weight: 900;
-  font-size: 1.5em;
-}
-
-h2 {
-  font-weight: 900;
-  font-size: 1.25em;
-}
-
-h3 {
-  font-weight: 900;
-  font-size: 1em;
-}
-
-h1,
-h2,
-h3 {
-  margin-block-start: var(--space-half);
-}
-
-ul,
-ol {
-  list-style-position: inside;
-  padding-inline-start: var(--space-quarter);
-}
-
-dt,
-strong {
-  font-weight: 700;
-}
-
-dd {
-  padding-inline-start: var(--space-half);
-}
-
 a {
   color: hsl(var(--anchor-color));
   text-underline-offset: 0.125em;
@@ -113,7 +77,7 @@ a {
     --drawer-width: max(768px, 50vw);
     --nav-toggle-color: hsl(var(--text-color));
 
-    &[open] {
+    &:where([open]) {
       --nav-toggle-color: hsl(var(--nav-text-color));
       --content-left: var(--drawer-width);
     }
@@ -160,7 +124,6 @@ a {
     height: 100%;
     display: grid;
     place-items: center;
-    color: hsl(var(--nav-text-color));
   }
 }
 
@@ -173,7 +136,8 @@ a {
   }
 
   &.link {
-    color: hsl(var(--nav-color));
+    font-weight: 500;
+    --anchor-color: var(--nav-text-color);
   }
 }
 
@@ -233,9 +197,30 @@ a {
       width: 100%;
       margin: var(--space-half) auto 0;
     }
+  }
 
-    & dl > :nth-child(1n + 2) {
+  &.heading {
+    font-weight: 900;
+    font-size: 1.25em;
+  }
+
+  &.sub-heading {
+    font-weight: 900;
+    font-size: 1em;
+  }
+
+  &.list {
+    list-style-position: inside;
+    padding-inline-start: var(--space-quarter);
+  }
+
+  &.definition-list {
+    & > :where(:not(:first-child)) {
       margin-block-start: var(--space-half);
     }
+  }
+
+  &.definition-heading {
+    font-weight: 700;
   }
 }

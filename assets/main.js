@@ -12,9 +12,9 @@ window.customElements.define(
     connectedCallback() {
       let button = this.shadowRoot?.querySelector("button");
 
+      button?.addEventListener("click", this.toggleOpen);
       button?.setAttribute("aria-hidden", "false");
       button?.setAttribute("tabindex", "0");
-      button?.addEventListener("click", this.toggleOpen);
 
       this.render();
     }
@@ -24,14 +24,14 @@ window.customElements.define(
 
       let button = this.shadowRoot?.querySelector("button");
 
-      button
-        ?.querySelector("icon-match")
-        ?.setAttribute("name", this.isOpen ? "close" : "menu");
+      button?.setAttribute("aria-expanded", this.isOpen ? "true" : "false");
       button?.setAttribute(
         "aria-label",
         this.isOpen ? "Close nav" : "Open nav"
       );
-      button?.setAttribute("aria-expanded", this.isOpen ? "true" : "false");
+      button
+        ?.querySelector("icon-match")
+        ?.setAttribute("name", this.isOpen ? "close" : "menu");
     }
   }
 );

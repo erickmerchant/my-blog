@@ -7,24 +7,24 @@
     <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
     <link href="/main.css" rel="stylesheet" />
     <script type="module" src="/main.js"></script>
-    <title>{% block title %}ErickMerchant.com{% endblock %}</title>
+    <title>{{#> title}}ErickMerchant.com{{/title}}{{#if data.title}} | {{data.title}}{{/if}}</title>
   </head>
   <body>
-    <page-layout class="Page self">
-      {% include "includes/page-layout-template.html" %}
-
+    {{#> page-layout}}
       <ol class="Links self" slot="links">
         <li><a class="Links link" href="/">Home</a></li>
       </ol>
 
       <header class="Banner self" slot="panel">
-        {% block heading %}<div class="Banner heading">ErickMerchant.com</div>{% endblock %}
+        {{#> heading}}<div class="Banner heading">ErickMerchant.com</div>{{/heading}}
       </header>
 
       <article class="Content self" slot="panel">
-        {% block content %} {% endblock %}
+        {{#> content}}
+          {{{content}}}
+        {{/content}}
       </article>
-    </page-layout>
+    {{/page-layout}}
     <script src="/polyfill.js"></script>
   </body>
 </html>

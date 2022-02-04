@@ -7,42 +7,14 @@ use actix_web::{
   middleware::ErrorHandlerResponse,
   web, Result,
 };
-use lazy_static::lazy_static;
+use handlebars::Handlebars;
 use std::path::Path;
 
-lazy_static! {
-  static ref TEMPLATES: tera::Tera = {
-    let mut tera = tera::Tera::new("templates/**/*").expect("Tera parsing error");
-    tera.autoescape_on(vec![".html"]);
-    tera
-  };
+pub async fn index(hb: web::Data<Handlebars<'_>>) -> Result<NamedFile> {
+  page(hb, web::Path::from(String::from("index.html"))).await
 }
 
-lazy_static! {
-  static ref DEFAULT_FRONTMATTER: toml::Value = r#"
-    title = ""
-  "#
-  .parse::<toml::Value>()
-  .expect("Failed to deserialize default front matter");
-}
-
-lazy_static! {
-  static ref NOT_FOUND_BODY: String = TEMPLATES
-    .render("not_found.html", &tera::Context::new())
-    .expect("Failed to render not_found.html");
-}
-
-lazy_static! {
-  static ref INTERNAL_ERROR_BODY: String = TEMPLATES
-    .render("internal_error.html", &tera::Context::new())
-    .expect("Failed to render internal_error.html");
-}
-
-pub async fn index() -> Result<NamedFile> {
-  page(web::Path::from(String::from("index.html"))).await
-}
-
-pub async fn page(mut file: web::Path<String>) -> Result<NamedFile> {
+pub async fn page(hb: web::Data<Handlebars<'_>>, mut file: web::Path<String>) -> Result<NamedFile> {
   if file.ends_with("/") {
     file.push_str("index.html");
   }
@@ -59,7 +31,7 @@ pub async fn page(mut file: web::Path<String>) -> Result<NamedFile> {
       };
 
       let context = get_context(file_contents);
-      let mut template = "page.html";
+      let mut template = "page";
 
       if let Some(t) = context
         .get("data")
@@ -69,7 +41,7 @@ pub async fn page(mut file: web::Path<String>) -> Result<NamedFile> {
         template = t;
       }
 
-      match TEMPLATES.render(template, &context) {
+      match hb.render(template, &context) {
         Ok(html) => {
           let mut html_clone = html.clone();
 
@@ -84,11 +56,36 @@ pub async fn page(mut file: web::Path<String>) -> Result<NamedFile> {
 }
 
 pub fn not_found<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerResponse<B>> {
-  error_response(res, NOT_FOUND_BODY.to_owned())
+  let request = res.request();
+  let body = match request
+    .app_data::<web::Data<Handlebars>>()
+    .map(|t| t.get_ref())
+  {
+    Some(hb) => hb
+      .render("error", &serde_json::json!({"data":{"title": "Page Not Found", "message": "That resource was moved, removed, or never existed."}}))
+      .unwrap_or_default(),
+    None => String::from(""),
+  };
+
+  error_response(res, body)
 }
 
 pub fn internal_error<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerResponse<B>> {
-  error_response(res, INTERNAL_ERROR_BODY.to_owned())
+  let request = res.request();
+  let body = match request
+    .app_data::<web::Data<Handlebars>>()
+    .map(|t| t.get_ref())
+  {
+    Some(hb) => hb
+      .render(
+        "error",
+        &serde_json::json!({"data":{"title": "Internal Error", "message": "An error occurred. Please try again later."}}),
+      )
+      .unwrap_or_default(),
+    None => String::from(""),
+  };
+
+  error_response(res, body)
 }
 
 pub fn error_response<B>(res: ServiceResponse<B>, body: String) -> Result<ErrorHandlerResponse<B>> {
@@ -109,21 +106,21 @@ pub fn error_response<B>(res: ServiceResponse<B>, body: String) -> Result<ErrorH
   Ok(res)
 }
 
-fn get_context(file_contents: String) -> tera::Context {
-  let mut context = tera::Context::new();
-  let file_parts: Vec<&str> = file_contents.splitn(3, "+++").collect();
+fn get_context(file_contents: String) -> serde_json::Value {
+  let mut context = serde_json::json!({});
+  let file_parts: Vec<&str> = file_contents.splitn(3, "---").collect();
   let mut content = file_contents.as_str();
 
   if file_parts.len() == 3 {
-    if let Ok(frontmatter) = file_parts[1].parse::<toml::Value>() {
-      context.insert("data", &frontmatter);
+    if let Ok(frontmatter) = file_parts[1].parse::<serde_json::Value>() {
+      context["data"] = frontmatter;
     }
 
     content = file_parts[2];
   } else {
-    context.insert("data", &DEFAULT_FRONTMATTER.clone());
+    context["data"] = serde_json::json!({});
   }
 
-  context.insert("content", &content);
+  context["content"] = serde_json::Value::from(content);
   context
 }
