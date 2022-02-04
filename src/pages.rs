@@ -62,7 +62,15 @@ pub fn not_found<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerResponse<B>> 
     .map(|t| t.get_ref())
   {
     Some(hb) => hb
-      .render("error", &serde_json::json!({"data":{"title": "Page Not Found", "message": "That resource was moved, removed, or never existed."}}))
+      .render(
+        "pages/error",
+        &serde_json::json!({
+          "data": {
+            "title": "Page Not Found",
+            "message": "That resource was moved, removed, or never existed."
+          }
+        }),
+      )
       .unwrap_or_default(),
     None => String::from(""),
   };
@@ -78,7 +86,7 @@ pub fn internal_error<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerResponse
   {
     Some(hb) => hb
       .render(
-        "error",
+        "pages/error",
         &serde_json::json!({"data":{"title": "Internal Error", "message": "An error occurred. Please try again later."}}),
       )
       .unwrap_or_default(),
