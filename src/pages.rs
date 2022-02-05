@@ -34,7 +34,7 @@ pub fn internal_error<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerResponse
   error_response(res, String::from("content/500.html"))
 }
 
-pub fn error_response<B>(
+fn error_response<B>(
   res: ServiceResponse<B>,
   content_location: String,
 ) -> Result<ErrorHandlerResponse<B>> {

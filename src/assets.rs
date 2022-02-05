@@ -4,13 +4,11 @@ use actix_web::{error::ErrorInternalServerError, web, Result};
 use std::{convert::AsRef, path::Path, sync::Arc};
 
 pub async fn file(file: web::Path<String>) -> Result<NamedFile> {
-  get_file_response(Path::new("assets").join(file.to_string()))
-}
+  let cache = Path::new("assets").join(file.to_string());
 
-fn get_file_response<P: AsRef<Path>>(cache: P) -> Result<NamedFile> {
   let mut ext_str = "";
 
-  if let Some(ext) = cache.as_ref().extension().and_then(|ext| ext.to_str()) {
+  if let Some(ext) = cache.extension().and_then(|ext| ext.to_str()) {
     ext_str = ext
   }
 
