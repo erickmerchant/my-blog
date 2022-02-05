@@ -26,11 +26,9 @@ pub fn dynamic_response<
 
       if !is_cached {
         let file_contents = fs::read_to_string(src)?;
-
         let body = process(file_contents).or_else(|err| Err(ErrorInternalServerError(err)))?;
 
         fs::create_dir_all(cache.as_ref().with_file_name(""))?;
-
         fs::write(cache.as_ref(), body)?;
       }
 

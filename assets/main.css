@@ -1,0 +1,226 @@
+@custom-media --mobile (max-width: 768px);
+
+@font-face {
+  font-display: swap;
+  font-family: "Public Sans";
+  font-style: normal;
+  font-weight: 100 900;
+  src: url("/fonts/Public_Sans/PublicSans-VariableFont_wght-subset.woff2")
+    format("woff2");
+}
+
+@font-face {
+  font-display: swap;
+  font-family: "Public Sans";
+  font-style: italic;
+  font-weight: 100 900;
+  src: url("/fonts/Public_Sans/PublicSans-Italic-VariableFont_wght-subset.woff2")
+    format("woff2");
+}
+
+* {
+  font: inherit;
+  color: inherit;
+  box-sizing: border-box;
+  max-width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  font: 300 max(20px, 1.5vw) / 1.5 "Public Sans", system-ui, sans-serif;
+  height: 100%;
+
+  --space: 2rem;
+  --space-half: 1rem;
+  --space-quarter: 0.5rem;
+  --nav-text-color: 100 0% 100%;
+  --nav-background-color: 100 10% 30%;
+  --primary-color: 100 20% 50%;
+
+  @media (--mobile) {
+    --space: 1rem;
+    --space-half: 0.5rem;
+    --space-quarter: 0.25rem;
+  }
+
+  @media (prefers-color-scheme: light) {
+    --anchor-color: 100 50% 37.5%;
+    --text-color: 100 10% 25%;
+    --background-color: 100 10% 100%;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    --anchor-color: 100 50% 62.5%;
+    --text-color: 100 10% 100%;
+    --background-color: 100 10% 25%;
+  }
+}
+
+body {
+  height: 100%;
+  overflow-x: hidden;
+  background-color: hsl(var(--nav-background-color));
+}
+
+a {
+  color: hsl(var(--anchor-color));
+  text-underline-offset: 0.125em;
+}
+
+.Page {
+  &.self {
+    display: block;
+    height: 100%;
+
+    --content-left: 0;
+    --drawer-width: max(768px, 50vw);
+    --nav-toggle-color: hsl(var(--text-color));
+
+    &:where([open]) {
+      --nav-toggle-color: hsl(var(--nav-text-color));
+      --content-left: var(--drawer-width);
+    }
+  }
+}
+
+.Nav {
+  &.button {
+    display: block;
+    appearance: none;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    height: 1em;
+    width: 1em;
+    position: absolute;
+    top: var(--space);
+    left: var(--space);
+    z-index: 2;
+    outline-offset: var(--space-quarter);
+    color: var(--nav-toggle-color);
+
+    @media (--mobile) {
+      top: var(--space-half);
+      left: var(--space-half);
+    }
+  }
+
+  &.icon {
+    display: block;
+    height: 1em;
+    width: 1em;
+    pointer-events: none;
+    fill: currentColor;
+  }
+
+  &.links {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    width: var(--drawer-width);
+    height: 100%;
+    display: grid;
+    place-items: center;
+  }
+}
+
+.Links {
+  &.self {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-quarter);
+  }
+
+  &.link {
+    font-weight: 500;
+    --anchor-color: var(--nav-text-color);
+  }
+}
+
+.Panel {
+  &.self {
+    position: relative;
+    z-index: 1;
+    transform: translateX(var(--content-left));
+    transition: transform 0.25s ease;
+    display: grid;
+    grid-template-rows: min-content 1fr;
+    height: 100%;
+  }
+}
+
+.Banner {
+  &.self {
+    background-color: hsl(var(--primary-color));
+    background-image: repeating-linear-gradient(
+      55deg,
+      hsla(0, 0%, 0%, 0),
+      hsla(0, 0%, 0%, 0) 1px,
+      hsl(var(--background-color) / 0.15) 1px,
+      hsl(var(--background-color) / 0.15) 5px
+    );
+    background-attachment: fixed;
+    color: hsl(var(--text-color));
+    display: grid;
+    align-content: end;
+    justify-items: center;
+    height: max(6em, 37.5vh);
+    width: 100%;
+    padding: 0 var(--space-half);
+  }
+
+  &.heading {
+    font-size: 1.5em;
+    font-weight: 900;
+    max-width: 40rem;
+    margin-block-end: 0.5rem;
+    width: 100%;
+    text-align: left;
+  }
+}
+
+.Content {
+  &.self {
+    display: flex;
+    flex-direction: column;
+    color: hsl(var(--text-color));
+    background-color: hsl(var(--background-color));
+    padding: 0 var(--space-half) var(--space-half);
+    width: 100%;
+
+    & > * {
+      max-width: 40rem;
+      width: 100%;
+      margin: var(--space-half) auto 0;
+    }
+  }
+
+  &.heading {
+    font-weight: 900;
+    font-size: 1.25em;
+  }
+
+  &.sub-heading {
+    font-weight: 900;
+    font-size: 1em;
+  }
+
+  &.list {
+    list-style-position: inside;
+    padding-inline-start: var(--space-quarter);
+  }
+
+  &.definition-list {
+    & > :where(:not(:first-child)) {
+      margin-block-start: var(--space-half);
+    }
+  }
+
+  &.definition-heading {
+    font-weight: 700;
+  }
+}

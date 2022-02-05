@@ -1,18 +1,10 @@
 use crate::common::{dynamic_response, static_response};
 use actix_files::NamedFile;
 use actix_web::{error::ErrorInternalServerError, web, Result};
-use std::{convert::AsRef, fs, path::Path, sync::Arc};
-
-pub async fn vendor_file(file: web::Path<String>) -> Result<NamedFile> {
-  get_file_response(Path::new("vendor").join(file.to_owned()))
-}
+use std::{convert::AsRef, path::Path, sync::Arc};
 
 pub async fn file(file: web::Path<String>) -> Result<NamedFile> {
-  get_file_response(Path::new("static").join(file.to_owned()))
-}
-
-pub async fn robots() -> Result<NamedFile> {
-  static_response(Path::new("static/robots.txt"))
+  get_file_response(Path::new("assets").join(file.to_string()))
 }
 
 fn get_file_response<P: AsRef<Path>>(cache: P) -> Result<NamedFile> {
@@ -50,12 +42,23 @@ fn js_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
         Some(cm.clone()),
       ));
       let c = swc::Compiler::new(cm.clone());
-
       let fm = cm.load_file(src.as_ref())?;
-
-      let swcrc = fs::read_to_string(".swcrc")?;
-
-      let options: Options = serde_json::from_str(swcrc.as_str())?;
+      let json = r#"{
+        "minify": true,
+        "env": {
+          "targets": "defaults and supports es6-module"
+        },
+        "jsc": {
+          "minify": {
+            "compress": true,
+            "mangle": true
+          }
+        },
+        "module": {
+          "type": "es6"
+        }
+      }"#;
+      let options: Options = serde_json::from_str(json)?;
 
       c.process_js_file(fm, &handler, &options)
         .and_then(|transformed| Ok(transformed.code))
@@ -81,15 +84,17 @@ fn css_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
         samsung: Some(14 << 16),
         ie: None,
       });
-
       let mut parser_options = stylesheet::ParserOptions::default();
+
       parser_options.nesting = true;
       parser_options.custom_media = true;
 
       let mut minifier_options = stylesheet::MinifyOptions::default();
+
       minifier_options.targets = targets;
 
       let mut printer_options = stylesheet::PrinterOptions::default();
+
       printer_options.minify = true;
       printer_options.targets = targets;
 

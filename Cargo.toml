@@ -9,18 +9,14 @@ default-run = "main"
 
 [dependencies]
 actix-files = { version = "0.6.0-beta.14", default-features = false }
-actix-web = { version = "4.0.0-beta.21", default-features = false, features = ["openssl", "compress-brotli"] }
+actix-web = { version = "4.0.0-rc.1", default-features = false, features = ["openssl", "compress-brotli", "macros"] }
 dotenv = "0.15.0"
 env_logger = "0.9"
-lazy_static = "1.4.0"
+handlebars = { version = "4.2.1", features = ["dir_source"] }
+minify-html-onepass = "0.8.0"
 openssl = { version = "0.10", features = ["v110"] }
 parcel_css = "1.0.0-alpha.12"
-pulldown-cmark = "0.9"
-reqwest = { version = "0.11.7", features = ["blocking"] }
 serde = "1.0"
 serde_json = "1.0"
-swc = "0.119"
+swc = "0.121"
 swc_common = { version = "0.17", features = ["tty-emitter"] }
-tera = "1.15.0"
-toml = "0.5.8"
-url = "2.2.2"
