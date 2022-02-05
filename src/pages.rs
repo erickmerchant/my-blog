@@ -8,7 +8,7 @@ use actix_web::{
   web, Result,
 };
 use handlebars::Handlebars;
-use std::path::Path;
+use std::{fs, path::Path};
 
 pub async fn index(hb: web::Data<Handlebars<'_>>) -> Result<NamedFile> {
   page(hb, web::Path::from(String::from("index.html"))).await
@@ -22,81 +22,35 @@ pub async fn page(hb: web::Data<Handlebars<'_>>, mut file: web::Path<String>) ->
   dynamic_response(
     Path::new("content").join(file.to_string()),
     Path::new("storage/cache/html").join(file.to_string()),
-    |file_contents: String| {
-      use minify_html_onepass::{in_place_str, Cfg};
-
-      let cfg = &Cfg {
-        minify_js: false,
-        minify_css: false,
-      };
-
-      let context = get_context(file_contents);
-      let mut template = "page";
-
-      if let Some(t) = context
-        .get("data")
-        .and_then(|d| d.get("template"))
-        .and_then(|t| t.as_str())
-      {
-        template = t;
-      }
-
-      match hb.render(template, &context) {
-        Ok(html) => {
-          let mut html_clone = html.clone();
-
-          let html = in_place_str(&mut html_clone, cfg).unwrap_or_else(|_| &html);
-
-          Ok(html.to_string())
-        }
-        Err(err) => Err(ErrorInternalServerError(err)),
-      }
-    },
+    |file_contents: String| render_content(hb.clone(), file_contents),
   )
 }
 
 pub fn not_found<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerResponse<B>> {
-  let request = res.request();
-  let body = match request
-    .app_data::<web::Data<Handlebars>>()
-    .map(|t| t.get_ref())
-  {
-    Some(hb) => hb
-      .render(
-        "pages/error",
-        &serde_json::json!({
-          "data": {
-            "title": "Page Not Found",
-            "message": "That resource was moved, removed, or never existed."
-          }
-        }),
-      )
-      .unwrap_or_default(),
-    None => String::from(""),
-  };
-
-  error_response(res, body)
+  error_response(res, String::from("content/404.html"))
 }
 
 pub fn internal_error<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerResponse<B>> {
+  error_response(res, String::from("content/500.html"))
+}
+
+pub fn error_response<B>(
+  res: ServiceResponse<B>,
+  content_location: String,
+) -> Result<ErrorHandlerResponse<B>> {
   let request = res.request();
-  let body = match request
-    .app_data::<web::Data<Handlebars>>()
-    .map(|t| t.get_ref())
-  {
-    Some(hb) => hb
-      .render(
-        "pages/error",
-        &serde_json::json!({"data":{"title": "Internal Error", "message": "An error occurred. Please try again later."}}),
-      )
-      .unwrap_or_default(),
+  let body = match request.app_data::<web::Data<Handlebars>>() {
+    Some(hb) => {
+      let file_contents = fs::read_to_string(content_location)?;
+
+      match render_content(hb.clone(), file_contents) {
+        Ok(html) => html,
+        Err(_) => String::from(""),
+      }
+    }
     None => String::from(""),
   };
 
-  error_response(res, body)
-}
-
-pub fn error_response<B>(res: ServiceResponse<B>, body: String) -> Result<ErrorHandlerResponse<B>> {
   let (req, res) = res.into_parts();
   let res = res.set_body(body);
   let mut res = ServiceResponse::new(req, res)
@@ -114,7 +68,14 @@ pub fn error_response<B>(res: ServiceResponse<B>, body: String) -> Result<ErrorH
   Ok(res)
 }
 
-fn get_context(file_contents: String) -> serde_json::Value {
+fn render_content(hb: web::Data<Handlebars>, file_contents: String) -> Result<String> {
+  use minify_html_onepass::{in_place_str, Cfg};
+
+  let cfg = &Cfg {
+    minify_js: false,
+    minify_css: false,
+  };
+
   let mut context = serde_json::json!({});
   let file_parts: Vec<&str> = file_contents.splitn(3, "---").collect();
   let mut content = file_contents.as_str();
@@ -130,5 +91,25 @@ fn get_context(file_contents: String) -> serde_json::Value {
   }
 
   context["content"] = serde_json::Value::from(content);
-  context
+
+  let mut template = "page";
+
+  if let Some(t) = context
+    .get("data")
+    .and_then(|d| d.get("template"))
+    .and_then(|t| t.as_str())
+  {
+    template = t;
+  }
+
+  match hb.render(template, &context) {
+    Ok(html) => {
+      let mut html_clone = html.clone();
+
+      let html = in_place_str(&mut html_clone, cfg).unwrap_or_else(|_| &html);
+
+      Ok(html.to_string())
+    }
+    Err(err) => Err(ErrorInternalServerError(err)),
+  }
 }
