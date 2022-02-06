@@ -80,15 +80,18 @@ fn render_content(hb: web::Data<Handlebars>, file_contents: String) -> Result<St
   let file_parts: Vec<&str> = file_contents.splitn(3, "---").collect();
   let mut content = file_contents.as_str();
 
-  if file_parts.len() == 3 {
-    if let Ok(frontmatter) = file_parts[1].parse::<serde_json::Value>() {
-      context["data"] = frontmatter;
-    }
+  match file_parts.len() {
+    3 => {
+      if let Ok(frontmatter) = file_parts[1].parse::<serde_json::Value>() {
+        context["data"] = frontmatter;
+      }
 
-    content = file_parts[2];
-  } else {
-    context["data"] = serde_json::json!({});
-  }
+      content = file_parts[2];
+    }
+    _ => {
+      context["data"] = serde_json::json!({});
+    }
+  };
 
   context["content"] = serde_json::Value::from(content);
 

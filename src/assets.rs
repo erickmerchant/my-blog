@@ -4,20 +4,18 @@ use actix_web::{error::ErrorInternalServerError, web, Result};
 use std::{convert::AsRef, path::Path, sync::Arc};
 
 pub async fn file(file: web::Path<String>) -> Result<NamedFile> {
-  let cache = Path::new("assets").join(file.to_string());
+  let src = Path::new("assets").join(file.to_string());
 
   let mut ext_str = "";
 
-  if let Some(ext) = cache.extension().and_then(|ext| ext.to_str()) {
+  if let Some(ext) = src.extension().and_then(|ext| ext.to_str()) {
     ext_str = ext
   }
 
-  if ext_str == "js" || ext_str == "mjs" {
-    js_response(cache)
-  } else if ext_str == "css" {
-    css_response(cache)
-  } else {
-    static_response(cache)
+  match ext_str {
+    "js" => js_response(src),
+    "css" => css_response(src),
+    _ => static_response(src),
   }
 }
 
