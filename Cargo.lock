@@ -1155,7 +1155,6 @@ dependencies = [
  "minify-html-onepass",
  "openssl",
  "parcel_css",
- "serde",
  "serde_json",
  "swc",
  "swc_common",

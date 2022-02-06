@@ -41,10 +41,6 @@ version = "1.0.0-alpha.12"
 default-features = false
 features = ["grid"]
 
-[dependencies.serde]
-version = "1.0"
-default-features = false
-
 [dependencies.serde_json]
 version = "1.0"
 default-features = false

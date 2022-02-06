@@ -20,10 +20,12 @@ pub async fn file(file: web::Path<String>) -> Result<NamedFile> {
 }
 
 fn js_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
-  use swc::config::Options;
-  use swc_common::{
-    errors::{ColorConfig, Handler},
-    SourceMap,
+  use swc::{
+    common::{
+      errors::{ColorConfig, Handler},
+      SourceMap,
+    },
+    config::Options,
   };
 
   dynamic_response(
