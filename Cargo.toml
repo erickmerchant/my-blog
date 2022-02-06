@@ -5,18 +5,55 @@ version = "0.1.0"
 edition = "2021"
 default-run = "main"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[dependencies.actix-files]
+version = "0.6.0-beta.14"
+default-features = false
 
-[dependencies]
-actix-files = { version = "0.6.0-beta.14", default-features = false }
-actix-web = { version = "4.0.0-rc.1", default-features = false, features = ["openssl", "compress-brotli", "macros"] }
-dotenv = "0.15.0"
-env_logger = "0.9"
-handlebars = { version = "4.2.1", features = ["dir_source"] }
-minify-html-onepass = "0.8.0"
-openssl = { version = "0.10", features = ["v110"] }
-parcel_css = "1.0.0-alpha.12"
-serde = "1.0"
-serde_json = "1.0"
-swc = "0.121"
-swc_common = { version = "0.17", features = ["tty-emitter"] }
+[dependencies.actix-web]
+version = "4.0.0-rc.1"
+default-features = false
+features = ["openssl", "compress-brotli", "macros"]
+
+[dependencies.dotenv]
+version = "0.15.0"
+default-features = false
+
+[dependencies.env_logger]
+version = "0.9"
+default-features = false
+
+[dependencies.handlebars]
+version = "4.2.1"
+default-features = false
+features = ["dir_source"]
+
+[dependencies.minify-html-onepass]
+version = "0.8.0"
+default-features = false
+
+[dependencies.openssl]
+version = "0.10"
+default-features = false
+features = ["v110"]
+
+[dependencies.parcel_css]
+version = "1.0.0-alpha.12"
+default-features = false
+features = ["grid"]
+
+[dependencies.serde]
+version = "1.0"
+default-features = false
+
+[dependencies.serde_json]
+version = "1.0"
+default-features = false
+
+[dependencies.swc]
+version = "0.121"
+default-features = false
+
+[dependencies.swc_common]
+version = "0.17"
+default-features = false
+features = ["tty-emitter"]
