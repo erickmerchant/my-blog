@@ -23,15 +23,21 @@ window.customElements.define(
       this.shadowRoot?.host?.toggleAttribute("open", this.isOpen);
 
       let button = this.shadowRoot?.querySelector("button");
+      let expanded, label, name;
 
-      button?.setAttribute("aria-expanded", this.isOpen ? "true" : "false");
-      button?.setAttribute(
-        "aria-label",
-        this.isOpen ? "Close nav" : "Open nav"
-      );
-      button
-        ?.querySelector("icon-match")
-        ?.setAttribute("name", this.isOpen ? "close" : "menu");
+      if (this.isOpen) {
+        expanded = "true";
+        label = "Close nav";
+        name = "close";
+      } else {
+        expanded = "false";
+        label = "Open nav";
+        name = "menu";
+      }
+
+      button?.setAttribute("aria-expanded", expanded);
+      button?.setAttribute("aria-label", label);
+      button?.querySelector("icon-match")?.setAttribute("name", name);
     }
   }
 );
