@@ -9,6 +9,20 @@ window.customElements.define(
       this.render();
     };
 
+    static get observedAttributes() {
+      return ["open"];
+    }
+
+    attributeChangedCallback(_, __, newVal) {
+      const open = newVal == "";
+
+      if (this.open !== open) {
+        this.open = open;
+
+        this.render();
+      }
+    }
+
     connectedCallback() {
       let button = this.shadowRoot?.querySelector("button");
 
