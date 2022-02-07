@@ -1,10 +1,10 @@
 window.customElements.define(
   "page-layout",
   class extends HTMLElement {
-    isOpen = false;
+    open = false;
 
     toggleOpen = () => {
-      this.isOpen = !this.isOpen;
+      this.open = !this.open;
 
       this.render();
     };
@@ -20,24 +20,15 @@ window.customElements.define(
     }
 
     render() {
-      this.shadowRoot?.host?.toggleAttribute("open", this.isOpen);
+      this.shadowRoot?.host?.toggleAttribute("open", this.open);
 
       let button = this.shadowRoot?.querySelector("button");
-      let expanded, label, name;
 
-      if (this.isOpen) {
-        expanded = "true";
-        label = "Close nav";
-        name = "close";
-      } else {
-        expanded = "false";
-        label = "Open nav";
-        name = "menu";
-      }
-
-      button?.setAttribute("aria-expanded", expanded);
-      button?.setAttribute("aria-label", label);
-      button?.querySelector("icon-match")?.setAttribute("name", name);
+      button?.setAttribute("aria-expanded", this.open ? "true" : "false");
+      button?.setAttribute("aria-label", this.open ? "Close nav" : "Open nav");
+      button
+        ?.querySelector("icon-match")
+        ?.setAttribute("name", this.open ? "close" : "menu");
     }
   }
 );

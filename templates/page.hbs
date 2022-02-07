@@ -13,6 +13,7 @@
     {{#> custom-elements/page-layout}}
       <ol class="Links self" slot="links">
         <li><a class="Links link" href="/">Home</a></li>
+        <li><a class="Links link" href="https://github.com/erickmerchant/my-blog">View Source</a></li>
       </ol>
 
       <header class="Banner self" slot="panel">
@@ -24,6 +25,8 @@
           {{{content}}}
         {{/content}}
       </article>
+
+      <footer class="Footer self" slot="panel"><p class="Footer copyright">© 2022 Erick Merchant</p></footer>
     {{/custom-elements/page-layout}}
     <script src="/polyfill.js"></script>
   </body>

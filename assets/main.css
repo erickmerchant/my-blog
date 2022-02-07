@@ -34,9 +34,6 @@ html {
   --space: 2rem;
   --space-half: 1rem;
   --space-quarter: 0.5rem;
-  --nav-text-color: 100 0% 100%;
-  --nav-background-color: 100 10% 30%;
-  --primary-color: 100 20% 50%;
 
   @media (--mobile) {
     --space: 1rem;
@@ -45,15 +42,21 @@ html {
   }
 
   @media (prefers-color-scheme: light) {
-    --anchor-color: 100 50% 37.5%;
+    --primary-color: 100 20% 55%;
+    --anchor-color: 100 50% 25%;
     --text-color: 100 10% 25%;
-    --background-color: 100 10% 100%;
+    --background-color: 100 0% 100%;
+    --nav-text-color: 100 10% 25%;
+    --nav-background-color: 100 10% 90%;
   }
 
   @media (prefers-color-scheme: dark) {
+    --primary-color: 100 20% 45%;
     --anchor-color: 100 50% 62.5%;
     --text-color: 100 10% 100%;
     --background-color: 100 10% 25%;
+    --nav-text-color: 100 0% 100%;
+    --nav-background-color: 100 10% 30%;
   }
 }
 
@@ -222,5 +225,21 @@ a {
 
   &.definition-heading {
     font-weight: 700;
+  }
+}
+
+.Footer {
+  &.self {
+    color: hsl(var(--text-color));
+    background-color: hsl(var(--background-color));
+    padding: 0 var(--space-half) var(--space-half);
+    width: 100%;
+  }
+
+  &.copyright {
+    max-width: 40rem;
+    width: 100%;
+    margin: var(--space-half) auto 0;
+    font-size: 0.75em;
   }
 }
