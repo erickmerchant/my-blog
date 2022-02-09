@@ -7,7 +7,7 @@
     <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
     <link href="/main.css" rel="stylesheet" />
     <script type="module" src="/main.js"></script>
-    <title>ErickMerchant.com{{#if data.title}} | {{data.title}}{{/if}}</title>
+    <title>{{> title}} | ErickMerchant.com</title>
   </head>
   <body>
     {{#> custom-elements/page-layout}}
@@ -21,9 +21,7 @@
       </header>
 
       <article class="Content self" slot="panel">
-        {{#> content}}
-          {{{content}}}
-        {{/content}}
+        {{> content}}
       </article>
 
       <footer class="Footer self" slot="panel"><p class="Footer copyright">© 2022 Erick Merchant</p></footer>

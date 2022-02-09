@@ -1,7 +1,7 @@
 use crate::common::{dynamic_response, static_response};
 use actix_files::NamedFile;
 use actix_web::{error::ErrorInternalServerError, web, Result};
-use std::{convert::AsRef, path::Path, sync::Arc};
+use std::{convert::AsRef, fs, path::Path, sync::Arc};
 
 pub async fn file(file: web::Path<String>) -> Result<NamedFile> {
   let src = Path::new("assets").join(file.to_string());
@@ -31,7 +31,7 @@ fn js_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
   dynamic_response(
     src.as_ref(),
     Path::new("storage/cache").join(src.as_ref()).as_ref(),
-    |_file_contents: String| {
+    || {
       let cm = Arc::<SourceMap>::default();
       let handler = Arc::new(Handler::with_tty_emitter(
         ColorConfig::Auto,
@@ -70,7 +70,8 @@ fn css_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
   dynamic_response(
     src.as_ref(),
     Path::new("storage/cache").join(src.as_ref()).as_ref(),
-    |file_contents: String| -> Result<String> {
+    || -> Result<String> {
+      let file_contents = fs::read_to_string(&src)?;
       let targets = Some(targets::Browsers {
         android: Some(96 << 16),
         chrome: Some(94 << 16),
@@ -98,7 +99,7 @@ fn css_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
 
       match stylesheet::StyleSheet::parse(
         String::from(src.as_ref().to_str().unwrap_or_default()),
-        &file_contents,
+        &file_contents.clone(),
         parser_options,
       ) {
         Ok(mut stylesheet) => match stylesheet.minify(minifier_options) {

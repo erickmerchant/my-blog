@@ -46,7 +46,7 @@ version = "1.0"
 default-features = false
 
 [dependencies.swc]
-version = "0.121"
+version = "0.123"
 default-features = false
 
 [dependencies.swc_common]

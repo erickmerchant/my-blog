@@ -41,7 +41,7 @@ html {
     --space-quarter: 0.25rem;
   }
 
-  @media (prefers-color-scheme: light) {
+  @media (prefers-color-scheme: light), screen {
     --primary-color: 100 20% 55%;
     --anchor-color: 100 50% 25%;
     --text-color: 100 10% 25%;
@@ -56,13 +56,12 @@ html {
     --text-color: 100 10% 100%;
     --background-color: 100 10% 25%;
     --nav-text-color: 100 0% 100%;
-    --nav-background-color: 100 10% 30%;
+    --nav-background-color: 100 10% 35%;
   }
 }
 
 body {
   height: 100%;
-  overflow-x: hidden;
   background-color: hsl(var(--nav-background-color));
 }
 
@@ -73,8 +72,11 @@ a {
 
 .Page {
   &.self {
+    position: relative;
     display: block;
     height: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
 
     --content-left: 0;
     --drawer-width: max(768px, 50vw);
@@ -89,24 +91,19 @@ a {
 
 .Nav {
   &.button {
-    display: block;
-    appearance: none;
-    border: 0;
-    background: none;
-    cursor: pointer;
-    height: 1em;
-    width: 1em;
     position: absolute;
-    top: var(--space);
-    left: var(--space);
+    top: 0;
+    left: 0;
     z-index: 2;
-    outline-offset: var(--space-quarter);
+    appearance: none;
+    cursor: pointer;
+    border: 0;
+    background-color: hsl(0 0% 0% / 0);
     color: var(--nav-toggle-color);
-
-    @media (--mobile) {
-      top: var(--space-half);
-      left: var(--space-half);
-    }
+    height: 2em;
+    width: 2em;
+    display: grid;
+    place-content: center;
   }
 
   &.icon {
@@ -158,15 +155,13 @@ a {
 
 .Banner {
   &.self {
-    background-color: hsl(var(--primary-color));
-    background-image: repeating-linear-gradient(
-      55deg,
-      hsla(0, 0%, 0%, 0),
-      hsla(0, 0%, 0%, 0) 1px,
-      hsl(var(--background-color) / 0.15) 1px,
-      hsl(var(--background-color) / 0.15) 5px
-    );
-    background-attachment: fixed;
+    position: relative;
+    background-color: hsl(var(--background-color));
+    background-image: repeating-linear-gradient(35deg, var(--gradient-1)),
+      repeating-linear-gradient(125deg, var(--gradient-1)),
+      repeating-linear-gradient(150deg, var(--gradient-2)),
+      repeating-linear-gradient(240deg, var(--gradient-2));
+    background-attachment: scroll;
     color: hsl(var(--text-color));
     display: grid;
     align-content: end;
@@ -174,6 +169,25 @@ a {
     height: max(6em, 37.5vh);
     width: 100%;
     padding: 0 var(--space-half);
+
+    --gradient-1: hsla(var(--background-color) / 0.25),
+      hsla(var(--background-color) / 0.25) 1px,
+      hsl(var(--primary-color) / 0.25) 1px, hsl(var(--primary-color) / 0.25) 1em;
+    --gradient-2: hsla(var(--background-color) / 0.5),
+      hsla(var(--background-color) / 0.5) 1px,
+      hsl(var(--primary-color) / 0.5) 1px, hsl(var(--primary-color) / 0.5) 0.5em;
+
+    &::after {
+      content: "";
+      display: block;
+      width: 0;
+      height: 0;
+      border-top: 3.75em solid hsla(var(--nav-background-color));
+      border-right: 3.75em solid hsla(0 0% 0% / 0);
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
   }
 
   &.heading {
@@ -208,7 +222,7 @@ a {
   }
 
   &.sub-heading {
-    font-weight: 900;
+    font-weight: 700;
     font-size: 1em;
   }
 
@@ -228,6 +242,26 @@ a {
   }
 }
 
+.Home {
+  &.posts {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space);
+    list-style: none;
+  }
+
+  &.post {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-half);
+  }
+
+  &.post-title {
+    font-weight: 900;
+    font-size: 1.25em;
+  }
+}
+
 .Footer {
   &.self {
     color: hsl(var(--text-color));
@@ -241,5 +275,24 @@ a {
     width: 100%;
     margin: var(--space-half) auto 0;
     font-size: 0.75em;
+  }
+}
+
+:where(.Page:not(:defined)) * {
+  &.Links {
+    &.self {
+      flex-wrap: wrap;
+      flex-direction: row;
+      gap: var(--space);
+      padding: var(--space-half);
+    }
+  }
+
+  &.Banner {
+    &.self {
+      &::after {
+        display: none;
+      }
+    }
   }
 }

@@ -8,7 +8,7 @@ use actix_web::{
   web, Result,
 };
 use handlebars::Handlebars;
-use std::{fs, path::Path};
+use std::{convert::AsRef, path::Path};
 
 pub async fn index(hb: web::Data<Handlebars<'_>>) -> Result<NamedFile> {
   page(hb, web::Path::from(String::from("index.html"))).await
@@ -20,35 +20,35 @@ pub async fn page(hb: web::Data<Handlebars<'_>>, mut file: web::Path<String>) ->
   }
 
   dynamic_response(
-    Path::new("content").join(file.to_string()),
+    Path::new("templates/pages")
+      .join(file.to_string())
+      .with_extension("hbs"),
     Path::new("storage/cache/html").join(file.to_string()),
-    |file_contents: String| render_content(hb.clone(), file_contents),
+    || {
+      render_content(
+        hb.clone(),
+        Path::new("pages").join(file.to_string()).with_extension(""),
+      )
+    },
   )
 }
 
 pub fn not_found<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerResponse<B>> {
-  error_response(res, String::from("content/404.html"))
+  error_response(res, "pages/404")
 }
 
 pub fn internal_error<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerResponse<B>> {
-  error_response(res, String::from("content/500.html"))
+  error_response(res, "pages/500")
 }
 
-fn error_response<B>(
-  res: ServiceResponse<B>,
-  content_location: String,
-) -> Result<ErrorHandlerResponse<B>> {
+fn error_response<B>(res: ServiceResponse<B>, src: &str) -> Result<ErrorHandlerResponse<B>> {
   let request = res.request();
   let body = match request.app_data::<web::Data<Handlebars>>() {
-    Some(hb) => {
-      let file_contents = fs::read_to_string(content_location)?;
-
-      match render_content(hb.clone(), file_contents) {
-        Ok(html) => html,
-        Err(_) => String::from(""),
-      }
-    }
-    None => String::from(""),
+    Some(hb) => match render_content(hb.clone(), src.to_owned()) {
+      Ok(html) => html,
+      Err(_) => String::default(),
+    },
+    None => String::default(),
   };
 
   let (req, res) = res.into_parts();
@@ -68,44 +68,19 @@ fn error_response<B>(
   Ok(res)
 }
 
-fn render_content(hb: web::Data<Handlebars>, file_contents: String) -> Result<String> {
+fn render_content<P: AsRef<Path>>(hb: web::Data<Handlebars>, src: P) -> Result<String> {
   use minify_html_onepass::{in_place_str, Cfg};
+
+  let src = src.as_ref().with_extension("");
 
   let cfg = &Cfg {
     minify_js: false,
     minify_css: false,
   };
 
-  let mut context = serde_json::json!({});
-  let file_parts: Vec<&str> = file_contents.splitn(3, "---").collect();
-  let mut content = file_contents.as_str();
+  let template = src.to_str().expect("Template src");
 
-  match file_parts.len() {
-    3 => {
-      if let Ok(frontmatter) = file_parts[1].parse::<serde_json::Value>() {
-        context["data"] = frontmatter;
-      }
-
-      content = file_parts[2];
-    }
-    _ => {
-      context["data"] = serde_json::json!({});
-    }
-  };
-
-  context["content"] = serde_json::Value::from(content);
-
-  let mut template = "page";
-
-  if let Some(t) = context
-    .get("data")
-    .and_then(|d| d.get("template"))
-    .and_then(|t| t.as_str())
-  {
-    template = t;
-  }
-
-  match hb.render(template, &context) {
+  match hb.render(template, &serde_json::json!({})) {
     Ok(html) => {
       let mut html_clone = html.clone();
 
