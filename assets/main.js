@@ -24,6 +24,8 @@ window.customElements.define(
     }
 
     connectedCallback() {
+      this.shadowRoot?.host?.setAttribute("mounted", "");
+
       let button = this.shadowRoot?.querySelector("button");
 
       button?.addEventListener("click", this.toggleOpen);

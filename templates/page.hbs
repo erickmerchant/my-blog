@@ -4,9 +4,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="The personal site of Erick Merchant." />
-    <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
-    <link href="/main.css" rel="stylesheet" />
     <script type="module" src="/main.js"></script>
+    <link href="/main.css" rel="stylesheet" />
+    <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
     <title>{{> title}} | ErickMerchant.com</title>
   </head>
   <body>
@@ -17,7 +17,9 @@
       </ol>
 
       <header class="Banner self" slot="panel">
-        {{#> heading}}<div class="Banner heading">ErickMerchant.com</div>{{/heading}}
+        {{#> heading}}
+          <div class="Banner heading">ErickMerchant.com</div>
+        {{/heading}}
       </header>
 
       <article class="Content self" slot="panel">

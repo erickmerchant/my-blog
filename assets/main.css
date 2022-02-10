@@ -28,7 +28,7 @@
 }
 
 html {
-  font: 300 max(20px, 1.5vw) / 1.5 "Public Sans", system-ui, sans-serif;
+  font: 300 140% / 1.5 "Public Sans", system-ui, sans-serif;
   height: 100%;
 
   --space: 2rem;
@@ -43,26 +43,31 @@ html {
 
   @media (prefers-color-scheme: light), screen {
     --primary-color: 100 20% 55%;
-    --anchor-color: 100 50% 25%;
+    --anchor-color: 100 50% 30%;
     --text-color: 100 10% 25%;
-    --background-color: 100 0% 100%;
-    --nav-text-color: 100 10% 25%;
+    --background-color: 0 0% 100%;
     --nav-background-color: 100 10% 90%;
   }
 
   @media (prefers-color-scheme: dark) {
-    --primary-color: 100 20% 45%;
-    --anchor-color: 100 50% 62.5%;
-    --text-color: 100 10% 100%;
-    --background-color: 100 10% 25%;
-    --nav-text-color: 100 0% 100%;
+    --primary-color: 100 15% 50%;
+    --anchor-color: 100 50% 65%;
+    --text-color: 0 0% 100%;
+    --background-color: 100 5% 30%;
     --nav-background-color: 100 10% 35%;
   }
 }
 
 body {
   height: 100%;
+  background: var(--gradient-1) 0 0, var(--gradient-1) 2px 2px;
   background-color: hsl(var(--nav-background-color));
+  background-size: 4px 4px;
+
+  --gradient-1: radial-gradient(
+    hsl(var(--background-color)) 15%,
+    hsl(var(--nav-background-color)) 16%
+  );
 }
 
 a {
@@ -70,6 +75,7 @@ a {
   text-underline-offset: 0.125em;
 }
 
+/* no js base styles. specificity: 0 2 0 */
 .Page {
   &.self {
     position: relative;
@@ -80,10 +86,8 @@ a {
 
     --content-left: 0;
     --drawer-width: max(768px, 50vw);
-    --nav-toggle-color: hsl(var(--text-color));
 
     &:where([open]) {
-      --nav-toggle-color: hsl(var(--nav-text-color));
       --content-left: var(--drawer-width);
     }
   }
@@ -91,39 +95,7 @@ a {
 
 .Nav {
   &.button {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 2;
-    appearance: none;
-    cursor: pointer;
-    border: 0;
-    background-color: hsl(0 0% 0% / 0);
-    color: var(--nav-toggle-color);
-    height: 2em;
-    width: 2em;
-    display: grid;
-    place-content: center;
-  }
-
-  &.icon {
-    display: block;
-    height: 1em;
-    width: 1em;
-    pointer-events: none;
-    fill: currentColor;
-  }
-
-  &.links {
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 0;
-    width: var(--drawer-width);
-    height: 100%;
-    display: grid;
-    place-items: center;
+    display: none;
   }
 }
 
@@ -137,19 +109,15 @@ a {
 
   &.link {
     font-weight: 500;
-    --anchor-color: var(--nav-text-color);
+    --anchor-color: var(--text-color);
   }
 }
 
 .Panel {
   &.self {
-    position: relative;
-    z-index: 1;
-    transform: translateX(var(--content-left));
-    transition: transform 0.25s ease;
-    display: grid;
-    grid-template-rows: min-content 1fr;
-    height: 100%;
+    display: flex;
+    flex-direction: column;
+    flex: auto;
   }
 }
 
@@ -166,28 +134,21 @@ a {
     display: grid;
     align-content: end;
     justify-items: center;
-    height: max(6em, 37.5vh);
+    min-height: max(6em, 37.5vh);
     width: 100%;
     padding: 0 var(--space-half);
 
-    --gradient-1: hsla(var(--background-color) / 0.25),
-      hsla(var(--background-color) / 0.25) 1px,
-      hsl(var(--primary-color) / 0.25) 1px, hsl(var(--primary-color) / 0.25) 1em;
+    --gradient-1: hsla(var(--background-color) / 0.3),
+      hsla(var(--background-color) / 0.3) 1px,
+      hsl(var(--primary-color) / 0.3) 1px, hsl(var(--primary-color) / 0.3) 20px;
     --gradient-2: hsla(var(--background-color) / 0.5),
-      hsla(var(--background-color) / 0.5) 1px,
-      hsl(var(--primary-color) / 0.5) 1px, hsl(var(--primary-color) / 0.5) 0.5em;
-
-    &::after {
-      content: "";
-      display: block;
-      width: 0;
-      height: 0;
-      border-top: 3.75em solid hsla(var(--nav-background-color));
-      border-right: 3.75em solid hsla(0 0% 0% / 0);
-      position: absolute;
-      top: 0;
-      left: 0;
-    }
+      hsla(var(--background-color) / 0.5) 0.5px,
+      hsl(var(--primary-color) / 0.5) 0.5px,
+      hsl(var(--primary-color) / 0.5) 15.5px,
+      hsla(var(--background-color) / 0.5) 15.5px,
+      hsla(var(--background-color) / 0.5) 17.5px,
+      hsl(var(--primary-color) / 0.5) 17.5px,
+      hsl(var(--primary-color) / 0.5) 22.5px;
   }
 
   &.heading {
@@ -202,6 +163,7 @@ a {
 
 .Content {
   &.self {
+    flex: auto;
     display: flex;
     flex-direction: column;
     color: hsl(var(--text-color));
@@ -264,6 +226,7 @@ a {
 
 .Footer {
   &.self {
+    display: flex;
     color: hsl(var(--text-color));
     background-color: hsl(var(--background-color));
     padding: 0 var(--space-half) var(--space-half);
@@ -278,21 +241,86 @@ a {
   }
 }
 
-:where(.Page:not(:defined)) * {
-  &.Links {
-    &.self {
-      flex-wrap: wrap;
-      flex-direction: row;
-      gap: var(--space);
-      padding: var(--space-half);
+/* no js styles. specificity: 0 2 0  */
+.Page:where(:not(:defined)) {
+  &.self {
+    display: flex;
+    flex-direction: column;
+  }
+
+  & * {
+    &.Links {
+      &.self {
+        flex-wrap: wrap;
+        flex-direction: row;
+        gap: var(--space);
+        padding: var(--space-half);
+      }
+    }
+  }
+}
+
+/* js enhancement styles. specificity: 0 3 0  */
+:host(:where([mounted])) {
+  & .Nav {
+    &.button {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 3;
+      appearance: none;
+      cursor: pointer;
+      border: 0;
+      background-color: hsl(0 0% 0% / 0);
+      color: hsl(var(--anchor-color));
+      height: 2em;
+      width: 2em;
+      display: grid;
+      place-content: center;
+    }
+
+    &.triangle {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 2;
+      display: block;
+      width: 0;
+      height: 0;
+      border: 0;
+      border-top: 3.75em solid hsla(var(--background-color));
+      border-right: 3.75em solid hsla(0 0% 0% / 0);
+    }
+
+    &.icon {
+      display: block;
+      height: 1em;
+      width: 1em;
+      pointer-events: none;
+      fill: currentColor;
+    }
+
+    &.links {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 0;
+      width: var(--drawer-width);
+      height: 100%;
+      display: grid;
+      place-items: center;
     }
   }
 
-  &.Banner {
+  & .Panel {
     &.self {
-      &::after {
-        display: none;
-      }
+      position: relative;
+      z-index: 1;
+      transform: translateX(var(--content-left));
+      transition: transform 0.25s ease;
+      display: grid;
+      grid-template-rows: min-content 1fr;
+      height: 100%;
     }
   }
 }

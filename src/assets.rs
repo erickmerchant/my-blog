@@ -105,11 +105,11 @@ fn css_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
         Ok(mut stylesheet) => match stylesheet.minify(minifier_options) {
           Ok(_) => match stylesheet.to_css(printer_options) {
             Ok(css) => Ok(css.code),
-            Err(err) => Err(ErrorInternalServerError(err.reason())),
+            Err(err) => Err(ErrorInternalServerError(format!("{err:?}"))),
           },
-          Err(err) => Err(ErrorInternalServerError(err.reason())),
+          Err(err) => Err(ErrorInternalServerError(format!("{err:?}"))),
         },
-        Err(err) => Err(ErrorInternalServerError(format!("{:?}", err))),
+        Err(err) => Err(ErrorInternalServerError(format!("{err:?}"))),
       }
     },
   )
