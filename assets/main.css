@@ -129,7 +129,6 @@ a {
       repeating-linear-gradient(125deg, var(--gradient-1)),
       repeating-linear-gradient(150deg, var(--gradient-2)),
       repeating-linear-gradient(240deg, var(--gradient-2));
-    background-attachment: scroll;
     color: hsl(var(--text-color));
     display: grid;
     align-content: end;
