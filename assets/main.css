@@ -243,78 +243,86 @@ a {
   }
 }
 
-/* no js styles. specificity: 0 2 0  */
-.Page:not(:defined) {
-  &:where(.self) {
-    display: flex;
-    flex-direction: column;
+/* no js styles. specificity: 0 3 0  */
+:not(:defined) {
+  &.Page {
+    &.self {
+      display: flex;
+      flex-direction: column;
+    }
   }
 
-  & :where(.Links.self) {
-    flex-wrap: wrap;
-    flex-direction: row;
-    gap: var(--space);
-    padding: var(--space-half);
+  & .Links {
+    &.self {
+      flex-wrap: wrap;
+      flex-direction: row;
+      gap: var(--space);
+      padding: var(--space-half);
+    }
   }
 }
 
-/* js enhancement styles. specificity: 0 2 0  */
+/* js enhancement styles. specificity: 0 4 0  */
 :host([mounted]) {
-  & :where(.Nav.button) {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 3;
-    appearance: none;
-    cursor: pointer;
-    border: 0;
-    background: hsl(0 0% 0% / 0);
-    color: hsl(var(--anchor-color));
-    height: 2em;
-    width: 2em;
-    display: grid;
-    place-content: center;
+  & .Nav {
+    &.button {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 3;
+      appearance: none;
+      cursor: pointer;
+      border: 0;
+      background: hsl(0 0% 0% / 0);
+      color: hsl(var(--anchor-color));
+      height: 2em;
+      width: 2em;
+      display: grid;
+      place-content: center;
+    }
+
+    &.triangle {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 2;
+      display: block;
+      width: 0;
+      height: 0;
+      border: 0;
+      border-top: 3.75em solid hsl(var(--background));
+      border-right: 3.75em solid hsl(0 0% 0% / 0);
+    }
+
+    &.icon {
+      display: block;
+      height: 1em;
+      width: 1em;
+      pointer-events: none;
+      fill: currentColor;
+    }
+
+    &.links {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 0;
+      width: var(--drawer-width);
+      height: 100%;
+      display: grid;
+      place-items: center;
+    }
   }
 
-  & :where(.Nav.triangle) {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 2;
-    display: block;
-    width: 0;
-    height: 0;
-    border: 0;
-    border-top: 3.75em solid hsl(var(--background));
-    border-right: 3.75em solid hsl(0 0% 0% / 0);
-  }
-
-  & :where(.Nav.icon) {
-    display: block;
-    height: 1em;
-    width: 1em;
-    pointer-events: none;
-    fill: currentColor;
-  }
-
-  & :where(.Nav.links) {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 0;
-    width: var(--drawer-width);
-    height: 100%;
-    display: grid;
-    place-items: center;
-  }
-
-  & :where(.Panel.self) {
-    position: relative;
-    z-index: 1;
-    transform: translateX(var(--content-left));
-    transition: transform 0.25s ease;
-    display: grid;
-    grid-template-rows: min-content 1fr;
-    height: 100%;
+  & .Panel {
+    &.self {
+      position: relative;
+      z-index: 1;
+      transform: translateX(var(--content-left));
+      transition: transform 0.25s ease;
+      display: grid;
+      grid-template-rows: min-content 1fr;
+      height: 100%;
+    }
   }
 }
