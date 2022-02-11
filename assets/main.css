@@ -138,15 +138,15 @@ a {
     width: 100%;
     padding: 0 var(--space-half);
 
-    --gradient-1: hsla(var(--background-color) / 0.3),
-      hsla(var(--background-color) / 0.3) 1px,
+    --gradient-1: hsl(var(--background-color) / 0.3),
+      hsl(var(--background-color) / 0.3) 1px,
       hsl(var(--primary-color) / 0.3) 1px, hsl(var(--primary-color) / 0.3) 20px;
-    --gradient-2: hsla(var(--background-color) / 0.5),
-      hsla(var(--background-color) / 0.5) 0.5px,
+    --gradient-2: hsl(var(--background-color) / 0.5),
+      hsl(var(--background-color) / 0.5) 0.5px,
       hsl(var(--primary-color) / 0.5) 0.5px,
       hsl(var(--primary-color) / 0.5) 15px,
-      hsla(var(--background-color) / 0.5) 15px,
-      hsla(var(--background-color) / 0.5) 17px,
+      hsl(var(--background-color) / 0.5) 15px,
+      hsl(var(--background-color) / 0.5) 17px,
       hsl(var(--primary-color) / 0.5) 17px, hsl(var(--primary-color) / 0.5) 22px;
   }
 
@@ -282,8 +282,8 @@ a {
     width: 0;
     height: 0;
     border: 0;
-    border-top: 3.75em solid hsla(var(--background-color));
-    border-right: 3.75em solid hsla(0 0% 0% / 0);
+    border-top: 3.75em solid hsl(var(--background-color));
+    border-right: 3.75em solid hsl(0 0% 0% / 0);
   }
 
   & :where(.Nav.icon) {
