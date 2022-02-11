@@ -42,31 +42,33 @@ html {
   }
 
   @media (prefers-color-scheme: light), screen {
-    --primary-color: 100 20% 55%;
     --anchor-color: 100 50% 30%;
     --text-color: 100 10% 25%;
-    --background-color: 0 0% 100%;
-    --nav-background-color: 100 10% 90%;
+    --background: 0 0% 100%;
+    --nav-background: 100 10% 90%;
+    --gradient-foreground: 100 20% 55%;
+    --gradient-background: var(--background);
   }
 
   @media (prefers-color-scheme: dark) {
-    --primary-color: 100 15% 50%;
     --anchor-color: 100 50% 65%;
     --text-color: 0 0% 100%;
-    --background-color: 100 5% 30%;
-    --nav-background-color: 100 10% 35%;
+    --background: 100 5% 30%;
+    --nav-background: 100 10% 35%;
+    --gradient-foreground: 100 10% 50%;
+    --gradient-background: var(--anchor-color);
   }
 }
 
 body {
   height: 100%;
-  background: var(--gradient-1) 0 0, var(--gradient-1) 2px 2px;
-  background-color: hsl(var(--nav-background-color));
-  background-size: 4px 4px;
+  background-color: hsl(var(--nav-background));
+  background-image: var(--gradient), var(--gradient);
+  background-size: 5px 5px;
 
-  --gradient-1: radial-gradient(
-    hsl(var(--background-color)) 15%,
-    hsl(var(--nav-background-color)) 16%
+  --gradient: radial-gradient(
+    hsl(var(--background)) 15%,
+    hsl(var(--nav-background)) 16%
   );
 }
 
@@ -124,12 +126,11 @@ a {
 .Banner {
   &.self {
     position: relative;
-    background-color: hsl(var(--background-color));
+    background: hsl(var(--background));
     background-image: repeating-linear-gradient(35deg, var(--gradient-1)),
       repeating-linear-gradient(125deg, var(--gradient-1)),
       repeating-linear-gradient(150deg, var(--gradient-2)),
       repeating-linear-gradient(60deg, var(--gradient-2));
-    background-repeat: no-repeat;
     color: hsl(var(--text-color));
     display: grid;
     align-content: end;
@@ -138,16 +139,18 @@ a {
     width: 100%;
     padding: 0 var(--space-half);
 
-    --gradient-1: hsl(var(--background-color) / 0.3),
-      hsl(var(--background-color) / 0.3) 1px,
-      hsl(var(--primary-color) / 0.3) 1px, hsl(var(--primary-color) / 0.3) 20px;
-    --gradient-2: hsl(var(--background-color) / 0.5),
-      hsl(var(--background-color) / 0.5) 0.5px,
-      hsl(var(--primary-color) / 0.5) 0.5px,
-      hsl(var(--primary-color) / 0.5) 15px,
-      hsl(var(--background-color) / 0.5) 15px,
-      hsl(var(--background-color) / 0.5) 17px,
-      hsl(var(--primary-color) / 0.5) 17px, hsl(var(--primary-color) / 0.5) 22px;
+    --gradient-1: hsl(var(--gradient-background) / 0.3),
+      hsl(var(--gradient-background) / 0.3) 1px,
+      hsl(var(--gradient-foreground) / 0.3) 1px,
+      hsl(var(--gradient-foreground) / 0.3) 20px;
+    --gradient-2: hsl(var(--gradient-background) / 0.5),
+      hsl(var(--gradient-background) / 0.5) 0.5px,
+      hsl(var(--gradient-foreground) / 0.5) 0.5px,
+      hsl(var(--gradient-foreground) / 0.5) 15px,
+      hsl(var(--gradient-background) / 0.5) 15px,
+      hsl(var(--gradient-background) / 0.5) 17px,
+      hsl(var(--gradient-foreground) / 0.5) 17px,
+      hsl(var(--gradient-foreground) / 0.5) 22px;
   }
 
   &.heading {
@@ -166,7 +169,7 @@ a {
     display: flex;
     flex-direction: column;
     color: hsl(var(--text-color));
-    background-color: hsl(var(--background-color));
+    background: hsl(var(--background));
     padding: 0 var(--space-half) var(--space-half);
     width: 100%;
 
@@ -227,7 +230,7 @@ a {
   &.self {
     display: flex;
     color: hsl(var(--text-color));
-    background-color: hsl(var(--background-color));
+    background: hsl(var(--background));
     padding: 0 var(--space-half) var(--space-half);
     width: 100%;
   }
@@ -265,7 +268,7 @@ a {
     appearance: none;
     cursor: pointer;
     border: 0;
-    background-color: hsl(0 0% 0% / 0);
+    background: hsl(0 0% 0% / 0);
     color: hsl(var(--anchor-color));
     height: 2em;
     width: 2em;
@@ -282,7 +285,7 @@ a {
     width: 0;
     height: 0;
     border: 0;
-    border-top: 3.75em solid hsl(var(--background-color));
+    border-top: 3.75em solid hsl(var(--background));
     border-right: 3.75em solid hsl(0 0% 0% / 0);
   }
 
