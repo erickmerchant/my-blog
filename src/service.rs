@@ -1,7 +1,3 @@
-mod assets;
-mod common;
-mod pages;
-
 use actix_web::{
   http::StatusCode,
   middleware::{Compress, ErrorHandlers, Logger},
@@ -20,12 +16,15 @@ pub fn configure(cfg: &mut web::ServiceConfig) {
   cfg.service(
     web::scope("")
       .wrap(Logger::new("%s %r"))
-      .wrap(ErrorHandlers::new().handler(StatusCode::NOT_FOUND, pages::not_found))
-      .wrap(ErrorHandlers::new().handler(StatusCode::INTERNAL_SERVER_ERROR, pages::internal_error))
+      .wrap(ErrorHandlers::new().handler(StatusCode::NOT_FOUND, crate::pages::not_found))
+      .wrap(ErrorHandlers::new().handler(
+        StatusCode::INTERNAL_SERVER_ERROR,
+        crate::pages::internal_error,
+      ))
       .wrap(Compress::default())
       .app_data(handlebars_ref.clone())
-      .route("/", web::get().to(pages::index))
-      .route("/{file:.*.html}", web::get().to(pages::page))
-      .route("/{file:.*?}", web::get().to(assets::file)),
+      .route("/", web::get().to(crate::pages::index))
+      .route("/{file:.*.html}", web::get().to(crate::pages::page))
+      .route("/{file:.*?}", web::get().to(crate::assets::file)),
   );
 }

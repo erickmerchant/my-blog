@@ -1,3 +1,6 @@
+mod assets;
+mod common;
+mod pages;
 mod service;
 
 use actix_web::{App, HttpServer};

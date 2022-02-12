@@ -1,4 +1,4 @@
-use crate::service::common::{dynamic_response, static_response};
+use crate::common::{dynamic_response, static_response};
 use actix_files::NamedFile;
 use actix_web::{error::ErrorInternalServerError, web, Result};
 use std::{convert::AsRef, fs, path::Path, sync::Arc};

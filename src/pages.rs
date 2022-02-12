@@ -1,4 +1,4 @@
-use crate::service::common::dynamic_response;
+use crate::common::dynamic_response;
 use actix_files::NamedFile;
 use actix_web::{
   dev::ServiceResponse,
