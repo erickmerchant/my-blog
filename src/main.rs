@@ -34,7 +34,7 @@ pub fn configure_app(cfg: &mut web::ServiceConfig) {
     );
 }
 
-#[cfg(feature = "local-dev")]
+#[cfg(feature = "local")]
 #[actix_web::main]
 async fn main() -> io::Result<()> {
     use dotenv::dotenv;
@@ -65,7 +65,7 @@ async fn main() -> io::Result<()> {
         .await
 }
 
-#[cfg(not(feature = "local-dev"))]
+#[cfg(not(feature = "local"))]
 #[actix_web::main]
 async fn main() -> io::Result<()> {
     let port = env::var("PORT").expect("Failed to read env variable PORT");
