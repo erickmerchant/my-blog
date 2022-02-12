@@ -17,6 +17,7 @@ features = ["openssl", "compress-brotli", "macros"]
 [dependencies.dotenv]
 version = "0.15.0"
 default-features = false
+optional = true
 
 [dependencies.env_logger]
 version = "0.9"
@@ -35,6 +36,7 @@ default-features = false
 version = "0.10"
 default-features = false
 features = ["v110"]
+optional = true
 
 [dependencies.parcel_css]
 version = "1.0.0-alpha.12"
@@ -53,3 +55,6 @@ default-features = false
 version = "0.17"
 default-features = false
 features = ["tty-emitter"]
+
+[features]
+local-dev = ["openssl", "dotenv"]
