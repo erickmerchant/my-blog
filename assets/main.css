@@ -190,6 +190,11 @@ a {
     font-size: 1em;
   }
 
+  &.sub-sub-heading {
+    font-weight: 500;
+    font-size: 1em;
+  }
+
   &.list {
     list-style-position: inside;
     padding-inline-start: var(--space-quarter);
@@ -199,10 +204,6 @@ a {
     & > :where(:not(:first-child)) {
       margin-block-start: var(--space-half);
     }
-  }
-
-  &.definition-heading {
-    font-weight: 700;
   }
 }
 
