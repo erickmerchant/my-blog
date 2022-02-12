@@ -9,7 +9,7 @@ use actix_web::{
 };
 
 use handlebars::Handlebars;
-use std::io;
+use std::{env, io};
 
 pub fn configure_app(cfg: &mut web::ServiceConfig) {
     let mut handlebars = Handlebars::new();
@@ -39,7 +39,7 @@ pub fn configure_app(cfg: &mut web::ServiceConfig) {
 async fn main() -> io::Result<()> {
     use dotenv::dotenv;
     use openssl::ssl::{SslAcceptor, SslFiletype, SslMethod};
-    use std::{env, fs};
+    use std::fs;
 
     dotenv().expect("Failed to read .env file");
 
@@ -57,11 +57,10 @@ async fn main() -> io::Result<()> {
         env::var("SSL_CERT").expect("Failed to read env variable SSL_CERT"),
     )?;
 
+    let port = env::var("PORT").expect("Failed to read env variable PORT");
+
     HttpServer::new(move || App::new().configure(configure_app))
-        .bind_openssl(
-            env::var("BIND_ADDRESS").expect("Failed to read env variable BIND_ADDRESS"),
-            ssl_builder,
-        )?
+        .bind_openssl(format!("0.0.0.0:{port}"), ssl_builder)?
         .run()
         .await
 }
@@ -69,8 +68,10 @@ async fn main() -> io::Result<()> {
 #[cfg(not(feature = "local-dev"))]
 #[actix_web::main]
 async fn main() -> io::Result<()> {
+    let port = env::var("PORT").expect("Failed to read env variable PORT");
+
     HttpServer::new(move || App::new().configure(configure_app))
-        .bind("0.0.0.0:1000")?
+        .bind(format!("0.0.0.0:{port}"))?
         .run()
         .await
 }
