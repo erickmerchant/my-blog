@@ -1,0 +1,8 @@
+{
+  "posts": {
+    "new-design": {
+      "title": "New design",
+      "description": "I describe the latest site rewrite to Rust and Declarative Shadow DOM."
+    }
+  }
+}

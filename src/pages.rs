@@ -8,7 +8,19 @@ use actix_web::{
   web, Result,
 };
 use handlebars::Handlebars;
-use std::{convert::AsRef, path::Path};
+use lazy_static::lazy_static;
+use serde_json::value::Value;
+use std::{convert::AsRef, fs, path::Path};
+
+lazy_static! {
+  static ref DATA: Value = {
+    let contents = fs::read_to_string("data.json").expect("Failed to read data.json");
+
+    let data: Value = serde_json::from_str(&contents).expect("Failed to parse data.json");
+
+    data
+  };
+}
 
 pub async fn index(hb: web::Data<Handlebars<'_>>) -> Result<NamedFile> {
   page(hb, web::Path::from(String::from("index.html"))).await
@@ -80,7 +92,7 @@ fn render_content<P: AsRef<Path>>(hb: web::Data<Handlebars>, src: P) -> Result<S
 
   let template = src.to_str().expect("Template src");
 
-  match hb.render(template, &serde_json::json!({})) {
+  match hb.render(template, &DATA.to_owned()) {
     Ok(html) => {
       let mut html_clone = html.clone();
 

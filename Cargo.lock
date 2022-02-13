@@ -1151,6 +1151,7 @@ dependencies = [
  "dotenv",
  "env_logger",
  "handlebars",
+ "lazy_static",
  "minify-html-onepass",
  "openssl",
  "parcel_css",
@@ -2347,9 +2348,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "0.14.5"
+version = "0.14.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "95777b10976fbd455cc959d54ef42791c0a0a3a858a8636cda0c254946f65eed"
+checksum = "df820fe8ba2cfd8523c0d1dbdc85b3f2729ff5091de892095cb21e68189804de"
 dependencies = [
  "ahash",
  "auto_impl",
