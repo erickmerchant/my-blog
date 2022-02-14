@@ -25,6 +25,7 @@ pub fn configure(cfg: &mut web::ServiceConfig) {
       .app_data(handlebars_ref.clone())
       .route("/", web::get().to(crate::pages::index))
       .route("/{file:.*.html}", web::get().to(crate::pages::page))
+      .route("/{file:.*.rss}", web::get().to(crate::pages::page))
       .route("/{file:.*?}", web::get().to(crate::assets::file)),
   );
 }

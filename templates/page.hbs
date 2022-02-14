@@ -3,11 +3,11 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="The personal site of Erick Merchant." />
+    <meta name="description" content="{{site.description}}" />
     <script type="module" src="/main.js"></script>
     <link href="/main.css" rel="stylesheet" />
     <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
-    <title>{{> title}} | ErickMerchant.com</title>
+    <title>{{title}} | {{site.title}}</title>
   </head>
   <body>
     {{#> custom-elements/page-layout}}
@@ -18,12 +18,12 @@
 
       <header class="Banner self" slot="panel">
         {{#> heading}}
-          <div class="Banner heading">ErickMerchant.com</div>
+          <div class="Banner heading">{{site.title}}</div>
         {{/heading}}
       </header>
 
       <article class="Content self" slot="panel">
-        {{> content}}
+        {{> @partial-block}}
       </article>
 
       <footer class="Footer self" slot="panel"><p class="Footer copyright">© 2022 Erick Merchant</p></footer>

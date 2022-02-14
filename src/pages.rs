@@ -32,25 +32,18 @@ pub async fn page(hb: web::Data<Handlebars<'_>>, mut file: web::Path<String>) ->
   }
 
   dynamic_response(
-    Path::new("templates/pages")
-      .join(file.to_string())
-      .with_extension("hbs"),
+    Path::new("templates/pages").join(format!("{file}.hbs")),
     Path::new("storage/cache/html").join(file.to_string()),
-    || {
-      render_content(
-        hb.clone(),
-        Path::new("pages").join(file.to_string()).with_extension(""),
-      )
-    },
+    || render_content(hb.clone(), Path::new("pages").join(file.to_string())),
   )
 }
 
 pub fn not_found<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerResponse<B>> {
-  error_response(res, "pages/404")
+  error_response(res, "pages/404.html")
 }
 
 pub fn internal_error<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerResponse<B>> {
-  error_response(res, "pages/500")
+  error_response(res, "pages/500.html")
 }
 
 fn error_response<B>(res: ServiceResponse<B>, src: &str) -> Result<ErrorHandlerResponse<B>> {
@@ -83,7 +76,7 @@ fn error_response<B>(res: ServiceResponse<B>, src: &str) -> Result<ErrorHandlerR
 fn render_content<P: AsRef<Path>>(hb: web::Data<Handlebars>, src: P) -> Result<String> {
   use minify_html_onepass::{in_place_str, Cfg};
 
-  let src = src.as_ref().with_extension("");
+  let src = src.as_ref();
 
   let cfg = &Cfg {
     minify_js: false,

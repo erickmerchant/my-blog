@@ -1,4 +1,8 @@
 {
+  "site": {
+    "title": "ErickMerchant.com",
+    "description": "The personal site of Erick Merchant."
+  },
   "posts": {
     "new-design": {
       "title": "New design",
