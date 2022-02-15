@@ -1,5 +1,5 @@
 window.customElements.define(
-  "page-layout",
+  "side-nav",
   class extends HTMLElement {
     open = false;
 

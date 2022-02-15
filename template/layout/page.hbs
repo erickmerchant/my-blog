@@ -10,7 +10,7 @@
     <title>{{title}} | {{site.title}}</title>
   </head>
   <body>
-    {{#> custom-elements/page-layout}}
+    {{#> custom-element/side-nav}}
       <ol class="Links self" slot="links">
         <li><a class="Links link" href="/">Home</a></li>
         <li><a class="Links link" href="https://github.com/erickmerchant/my-blog">View Source</a></li>
@@ -27,7 +27,7 @@
       </article>
 
       <footer class="Footer self" slot="panel"><p class="Footer copyright">© 2022 Erick Merchant</p></footer>
-    {{/custom-elements/page-layout}}
+    {{/custom-element/side-nav}}
     <script src="/polyfill.js"></script>
   </body>
 </html>

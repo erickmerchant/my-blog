@@ -3,7 +3,7 @@
     "title": "ErickMerchant.com",
     "description": "The personal site of Erick Merchant."
   },
-  "posts": {
+  "postList": {
     "new-design": {
       "title": "New design",
       "description": "I describe the latest site rewrite to Rust and Declarative Shadow DOM."

@@ -1,14 +1,14 @@
-{{#> page title="Home"}}
+{{#> layout/page title="Home"}}
   {{#*inline "heading"}}
     <h1 class="Banner heading">{{site.title}}</h1>
   {{/inline}}
 
-  <ol class="Home posts">
-    {{#each posts as |post|}}
+  <ol class="Home post-list">
+    {{#each postList as |post|}}
       <li class="Home post">
-        <h2 class="Home post-title"><a href="/posts/{{@key}}.html">{{post.title}}</a></h2>
+        <h2 class="Home post-title"><a href="/post/{{@key}}.html">{{post.title}}</a></h2>
         <p class="Home post-description">{{post.description}}</p>
       </li>
     {{/each}}
   </ol>
-{{/page}}
+{{/layout/page}}

@@ -9,7 +9,7 @@ use handlebars::Handlebars;
 pub fn configure(cfg: &mut web::ServiceConfig) {
   let mut handlebars = Handlebars::new();
   handlebars
-    .register_templates_directory(".hbs", "./templates")
+    .register_templates_directory(".hbs", "./template")
     .expect("Templates");
   let handlebars_ref = web::Data::new(handlebars);
 

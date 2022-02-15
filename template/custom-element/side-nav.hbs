@@ -1,10 +1,10 @@
-<page-layout class="Page self">
+<side-nav class="Page self">
   <template shadowroot="open">
     <style>@import "/main.css";</style>
 
     <nav class="Nav self">
       <button class="Nav button" type="button" aria-hidden="true" tabindex="-1">
-        {{#> custom-elements/icon-match name="menu"}}
+        {{#> custom-element/icon-match name="menu"}}
           <svg
             viewBox="0 0 100 100"
             xmlns="http://www.w3.org/2000/svg"
@@ -39,7 +39,7 @@
             <rect x="0" y="40" height="20" width="100" />
             <rect x="0" y="80" height="20" width="100" />
           </svg>
-        {{/custom-elements/icon-match}}
+        {{/custom-element/icon-match}}
       </button>
       <div class="Nav triangle"></div>
       <div class="Nav links">
@@ -53,4 +53,4 @@
   </template>
 
   {{> @partial-block}}
-</page-layout>
+</side-nav>

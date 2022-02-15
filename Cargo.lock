@@ -26,7 +26,24 @@ dependencies = [
  "memchr",
  "pin-project-lite",
  "tokio",
- "tokio-util",
+ "tokio-util 0.6.9",
+]
+
+[[package]]
+name = "actix-codec"
+version = "0.5.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "57a7559404a7f3573127aab53c08ce37a6c6a315c374a31070f3c91cd1b4a7fe"
+dependencies = [
+ "bitflags",
+ "bytes",
+ "futures-core",
+ "futures-sink",
+ "log",
+ "memchr",
+ "pin-project-lite",
+ "tokio",
+ "tokio-util 0.7.0",
 ]
 
 [[package]]
@@ -58,7 +75,7 @@ version = "3.0.0-rc.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "fb0185d65352deeea60d92231708068c04dc64f1ab307a1a307206a47d5a45d3"
 dependencies = [
- "actix-codec",
+ "actix-codec 0.4.2",
  "actix-rt",
  "actix-service",
  "actix-tls",
@@ -153,11 +170,11 @@ dependencies = [
 
 [[package]]
 name = "actix-tls"
-version = "3.0.2"
+version = "3.0.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a31ab31563b611fa822480b4255e8750cf0af9ce1b8b7bde298afe8447ef9333"
+checksum = "9fde0cf292f7cdc7f070803cb9a0d45c018441321a78b1042ffbbb81ec333297"
 dependencies = [
- "actix-codec",
+ "actix-codec 0.5.0",
  "actix-rt",
  "actix-service",
  "actix-utils",
@@ -166,7 +183,7 @@ dependencies = [
  "openssl",
  "pin-project-lite",
  "tokio-openssl",
- "tokio-util",
+ "tokio-util 0.7.0",
 ]
 
 [[package]]
@@ -185,7 +202,7 @@ version = "4.0.0-rc.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "83e3c85bc4116b69913b03f16cff8cade1212508fcd321847d9cfe3d3e41f991"
 dependencies = [
- "actix-codec",
+ "actix-codec 0.4.2",
  "actix-http",
  "actix-macros",
  "actix-router",
@@ -904,7 +921,7 @@ dependencies = [
  "indexmap",
  "slab",
  "tokio",
- "tokio-util",
+ "tokio-util 0.6.9",
  "tracing",
 ]
 
@@ -2195,9 +2212,9 @@ checksum = "6446ced80d6c486436db5c078dde11a9f73d42b57fb273121e160b84f63d894c"
 
 [[package]]
 name = "swc"
-version = "0.124.7"
+version = "0.125.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "641f1c22ba48b1756ab94fccd2af3379e67e3a3e8122a4d86771ac62103cff12"
+checksum = "0da7b85c3aef9b6c613571c6cdacb6c1c506bd51f55abd9f4af646f0aaa672f5"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2338,9 +2355,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "0.14.6"
+version = "0.14.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "df820fe8ba2cfd8523c0d1dbdc85b3f2729ff5091de892095cb21e68189804de"
+checksum = "a93bc0c848b2a204ce1e1deb3e071f0454f657c979c1e6ca6db4e6d19422fe70"
 dependencies = [
  "ahash",
  "auto_impl",
@@ -2868,6 +2885,20 @@ name = "tokio-util"
 version = "0.6.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "9e99e1983e5d376cd8eb4b66604d2e99e79f5bd988c3055891dcd8c9e2604cc0"
+dependencies = [
+ "bytes",
+ "futures-core",
+ "futures-sink",
+ "log",
+ "pin-project-lite",
+ "tokio",
+]
+
+[[package]]
+name = "tokio-util"
+version = "0.7.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "64910e1b9c1901aaf5375561e35b9c057d95ff41a44ede043a03e09279eabaf1"
 dependencies = [
  "bytes",
  "futures-core",

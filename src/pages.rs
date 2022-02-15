@@ -32,18 +32,18 @@ pub async fn page(hb: web::Data<Handlebars<'_>>, mut file: web::Path<String>) ->
   }
 
   dynamic_response(
-    Path::new("templates/pages").join(format!("{file}.hbs")),
+    Path::new("template/page").join(format!("{file}.hbs")),
     Path::new("storage/cache/html").join(file.to_string()),
-    || render_content(hb.clone(), Path::new("pages").join(file.to_string())),
+    || render_content(hb.clone(), Path::new("page").join(file.to_string())),
   )
 }
 
 pub fn not_found<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerResponse<B>> {
-  error_response(res, "pages/404.html")
+  error_response(res, "page/404.html")
 }
 
 pub fn internal_error<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerResponse<B>> {
-  error_response(res, "pages/500.html")
+  error_response(res, "page/500.html")
 }
 
 fn error_response<B>(res: ServiceResponse<B>, src: &str) -> Result<ErrorHandlerResponse<B>> {
