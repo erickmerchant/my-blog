@@ -43,7 +43,7 @@ features = ["v110"]
 optional = true
 
 [dependencies.parcel_css]
-version = "=1.0.0-alpha.14"
+version = "1.0.0-alpha.16"
 default-features = false
 features = ["grid"]
 
