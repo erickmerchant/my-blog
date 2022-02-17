@@ -13,11 +13,9 @@ window.customElements.define(
       return ["open"];
     }
 
-    attributeChangedCallback(_, __, newVal) {
-      const open = newVal == "";
-
-      if (this.open !== open) {
-        this.open = open;
+    attributeChangedCallback(_, __, open) {
+      if (this.open !== (open === "")) {
+        this.open = open === "";
 
         this.render();
       }
@@ -56,14 +54,18 @@ window.customElements.define(
       return ["name"];
     }
 
-    attributeChangedCallback() {
-      this.render();
+    attributeChangedCallback(_, __, name) {
+      if (this.name !== name) {
+        this.name = name;
+
+        this.render();
+      }
     }
 
     render() {
       let slot = this.shadowRoot?.querySelector("slot");
 
-      slot?.setAttribute("name", this.shadowRoot?.host?.getAttribute("name"));
+      slot?.setAttribute("name", this.name);
     }
   }
 );
