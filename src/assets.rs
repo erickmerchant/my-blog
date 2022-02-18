@@ -28,20 +28,17 @@ fn js_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
     config::Options,
   };
 
-  dynamic_response(
-    src.as_ref(),
-    Path::new("storage/cache").join(src.as_ref()).as_ref(),
-    || {
-      let cm = Arc::<SourceMap>::default();
-      let handler = Arc::new(Handler::with_tty_emitter(
-        ColorConfig::Auto,
-        true,
-        false,
-        Some(cm.clone()),
-      ));
-      let c = swc::Compiler::new(cm.clone());
-      let fm = cm.load_file(src.as_ref())?;
-      let json = r#"{
+  dynamic_response(Path::new("storage/cache").join(&src), || {
+    let cm = Arc::<SourceMap>::default();
+    let handler = Arc::new(Handler::with_tty_emitter(
+      ColorConfig::Auto,
+      true,
+      false,
+      Some(cm.clone()),
+    ));
+    let c = swc::Compiler::new(cm.clone());
+    let fm = cm.load_file(src.as_ref())?;
+    let json = r#"{
         "minify": true,
         "env": {
           "targets": "defaults and supports es6-module"
@@ -56,20 +53,18 @@ fn js_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
           "type": "es6"
         }
       }"#;
-      let options: Options = serde_json::from_str(json)?;
+    let options: Options = serde_json::from_str(json)?;
 
-      c.process_js_file(fm, &handler, &options)
-        .and_then(|transformed| Ok(transformed.code))
-    },
-  )
+    c.process_js_file(fm, &handler, &options)
+      .and_then(|transformed| Ok(transformed.code))
+  })
 }
 
 fn css_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
   use parcel_css::{stylesheet, targets};
 
   dynamic_response(
-    src.as_ref(),
-    Path::new("storage/cache").join(src.as_ref()).as_ref(),
+    Path::new("storage/cache").join(&src),
     || -> Result<String> {
       let file_contents = fs::read_to_string(&src)?;
       let targets = Some(targets::Browsers {

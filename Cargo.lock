@@ -363,6 +363,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "904dfeac50f3cdaba28fc6f57fdcddb75f49ed61346676a78c4ffe55877802fd"
 
 [[package]]
+name = "better_scoped_tls"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b73e8ecdec39e98aa3b19e8cd0b8ed8f77ccb86a6b0b2dc7cd86d105438a2123"
+dependencies = [
+ "scoped-tls",
+]
+
+[[package]]
 name = "bitflags"
 version = "1.3.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1207,7 +1216,6 @@ dependencies = [
  "dotenv",
  "env_logger",
  "handlebars",
- "lazy_static",
  "minify-html-onepass",
  "openssl",
  "parcel_css",
@@ -2315,13 +2323,14 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.17.5"
+version = "0.17.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "dfac713c943b08c8e364801b24a2ea24ea657eadf22826840aa858eccd04d828"
+checksum = "4d19bc6562975d33b8f37964b3cfd5af708df3bce22c22aeb92cc001eed4a783"
 dependencies = [
  "ahash",
  "ast_node",
  "atty",
+ "better_scoped_tls",
  "cfg-if 0.1.10",
  "debug_unreachable",
  "either",
@@ -2329,9 +2338,8 @@ dependencies = [
  "num-bigint",
  "once_cell",
  "owning_ref",
- "parking_lot 0.11.2",
+ "parking_lot 0.12.0",
  "rustc-hash",
- "scoped-tls",
  "serde",
  "siphasher",
  "sourcemap",
@@ -2407,9 +2415,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "0.14.10"
+version = "0.14.12"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "96a6d20eb1728d458216cfd2e189ef2c635852f8de3a65a1a63d5f50275f0d8e"
+checksum = "28c8da14cd96c29a40498046fb839d2aba8935b8623ade3b09350df2d24d05e3"
 dependencies = [
  "ahash",
  "auto_impl",
@@ -2544,13 +2552,13 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.58.2"
+version = "0.58.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e79e4c87b02ff0e227963000e90dff59e4ad75bf0c66bf886ba8dba7ec36f5b0"
+checksum = "9476fc0cd42cfc262764a21033a4b2cf5ee9b67d207007e0515af14f9e2aa253"
 dependencies = [
+ "better_scoped_tls",
  "once_cell",
  "phf",
- "scoped-tls",
  "serde",
  "smallvec",
  "swc_atoms",
@@ -2963,9 +2971,9 @@ dependencies = [
 
 [[package]]
 name = "tracing"
-version = "0.1.30"
+version = "0.1.31"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2d8d93354fe2a8e50d5953f5ae2e47a3fc2ef03292e7ea46e3cc38f549525fb9"
+checksum = "f6c650a8ef0cd2dd93736f033d21cbd1224c5a967aa0c258d00fcf7dafef9b9f"
 dependencies = [
  "cfg-if 1.0.0",
  "pin-project-lite",

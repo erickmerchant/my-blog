@@ -2,14 +2,12 @@
 <rss version="2.0">
   <channel>
     <link>https://erickmerchant.com/</link>
-    <title>{{site.title}}</title>
-    <description>{{site.description}}</description>
-    {{#each postList as |post|}}
-      <item>
-        <link>https://erickmerchant.com/post/{{@key}}.html</link>
-        <title>{{post.title}}</title>
-        <description><![CDATA[{{post.description}}]]></description>
-      </item>
-    {{/each}}
+    <title>ErickMerchant.com</title>
+    <description>The personal site of Erick Merchant.</description>
+    <item>
+      <link>https://erickmerchant.com/post/new-design.html</link>
+      <title>New design</title>
+      <description><![CDATA[I describe the latest site rewrite to Rust and Declarative Shadow DOM.]]></description>
+    </item>
   </channel>
 </rss>

@@ -129,8 +129,8 @@ a {
     background: hsl(var(--background));
     background-image: repeating-linear-gradient(35deg, var(--gradient-1)),
       repeating-linear-gradient(125deg, var(--gradient-1)),
-      repeating-linear-gradient(150deg, var(--gradient-2)),
-      repeating-linear-gradient(60deg, var(--gradient-2));
+      repeating-linear-gradient(170deg, var(--gradient-2)),
+      repeating-linear-gradient(80deg, var(--gradient-2));
     color: hsl(var(--text-color));
     display: grid;
     align-content: end;
@@ -140,17 +140,17 @@ a {
     padding: 0 var(--space-half);
 
     --gradient-1: hsl(var(--gradient-background) / 0.3),
-      hsl(var(--gradient-background) / 0.3) 1px,
-      hsl(var(--gradient-foreground) / 0.3) 1px,
-      hsl(var(--gradient-foreground) / 0.3) 20px;
+      hsl(var(--gradient-background) / 0.3) 0.05em,
+      hsl(var(--gradient-foreground) / 0.3) 0.05em,
+      hsl(var(--gradient-foreground) / 0.3) 1em;
     --gradient-2: hsl(var(--gradient-background) / 0.5),
-      hsl(var(--gradient-background) / 0.5) 0.5px,
-      hsl(var(--gradient-foreground) / 0.5) 0.5px,
-      hsl(var(--gradient-foreground) / 0.5) 15px,
-      hsl(var(--gradient-background) / 0.5) 15px,
-      hsl(var(--gradient-background) / 0.5) 17px,
-      hsl(var(--gradient-foreground) / 0.5) 17px,
-      hsl(var(--gradient-foreground) / 0.5) 22px;
+      hsl(var(--gradient-background) / 0.5) 0.025em,
+      hsl(var(--gradient-foreground) / 0.5) 0.025em,
+      hsl(var(--gradient-foreground) / 0.5) 0.9em,
+      hsl(var(--gradient-background) / 0.5) 0.9em,
+      hsl(var(--gradient-background) / 0.5) 1em,
+      hsl(var(--gradient-foreground) / 0.5) 1em,
+      hsl(var(--gradient-foreground) / 0.5) 1.5em;
   }
 
   &.heading {
