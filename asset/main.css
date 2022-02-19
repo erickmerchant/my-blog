@@ -129,8 +129,8 @@ a {
     background: hsl(var(--background));
     background-image: repeating-linear-gradient(35deg, var(--gradient-1)),
       repeating-linear-gradient(125deg, var(--gradient-1)),
-      repeating-linear-gradient(170deg, var(--gradient-2)),
-      repeating-linear-gradient(80deg, var(--gradient-2));
+      repeating-linear-gradient(160deg, var(--gradient-2)),
+      repeating-linear-gradient(70deg, var(--gradient-2));
     color: hsl(var(--text-color));
     display: grid;
     align-content: end;
