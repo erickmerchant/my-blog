@@ -1,15 +1,12 @@
-use crate::common::dynamic_response;
+use crate::common::{render_content, template_response};
 use actix_files::NamedFile;
 use actix_web::{
   dev::ServiceResponse,
-  error::ErrorInternalServerError,
   http::header::{HeaderName, HeaderValue},
   middleware::ErrorHandlerResponse,
   web, Result,
 };
 use handlebars::Handlebars;
-use serde_json::json;
-use std::{convert::AsRef, path::Path};
 
 pub async fn index(hb: web::Data<Handlebars<'_>>) -> Result<NamedFile> {
   page(hb, web::Path::from(String::from("index.html"))).await
@@ -20,10 +17,7 @@ pub async fn page(hb: web::Data<Handlebars<'_>>, mut file: web::Path<String>) ->
     file.push_str("index.html");
   }
 
-  dynamic_response(
-    Path::new("storage/cache/html").join(file.to_string()),
-    || render_content(hb.clone(), Path::new("page").join(file.to_string())),
-  )
+  template_response(hb.clone(), file.to_string())
 }
 
 pub fn not_found<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerResponse<B>> {
@@ -59,28 +53,4 @@ fn error_response<B>(res: ServiceResponse<B>, src: &str) -> Result<ErrorHandlerR
   let res = ErrorHandlerResponse::Response(res);
 
   Ok(res)
-}
-
-fn render_content<P: AsRef<Path>>(hb: web::Data<Handlebars>, src: P) -> Result<String> {
-  use minify_html_onepass::{in_place_str, Cfg};
-
-  let src = src.as_ref();
-
-  let cfg = &Cfg {
-    minify_js: false,
-    minify_css: false,
-  };
-
-  let template = src.to_str().expect("Template src");
-
-  match hb.render(template, &json!({})) {
-    Ok(html) => {
-      let mut html_clone = html.clone();
-
-      let html = in_place_str(&mut html_clone, cfg).unwrap_or_else(|_| &html);
-
-      Ok(html.to_string())
-    }
-    Err(err) => Err(ErrorInternalServerError(err)),
-  }
 }

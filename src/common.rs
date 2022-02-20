@@ -1,8 +1,10 @@
 use actix_files::NamedFile;
 use actix_web::{
   error::{ErrorInternalServerError, ErrorNotFound},
-  Result,
+  web, Result,
 };
+use handlebars::Handlebars;
+use serde_json::json;
 use std::{convert::AsRef, fs, path::Path};
 
 pub fn dynamic_response<
@@ -10,14 +12,16 @@ pub fn dynamic_response<
   E: std::fmt::Debug + std::fmt::Display + 'static,
   P: AsRef<Path>,
 >(
-  cache: P,
+  src: P,
   process: F,
 ) -> Result<NamedFile> {
-  if let Err(_meta) = fs::metadata(cache.as_ref()) {
+  let cache = Path::new("storage/cache").join(src.as_ref());
+
+  if let Err(_meta) = fs::metadata(&cache) {
     let body = process().or_else(|err| Err(ErrorInternalServerError(err)))?;
 
-    fs::create_dir_all(cache.as_ref().with_file_name(""))?;
-    fs::write(cache.as_ref(), body)?;
+    fs::create_dir_all(&cache.with_file_name(""))?;
+    fs::write(&cache, body)?;
   }
 
   static_response(cache)
@@ -35,4 +39,34 @@ pub fn static_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
       )
     })
     .or_else(|err| Err(ErrorNotFound(err)))
+}
+
+pub fn template_response<P: AsRef<Path>>(hb: web::Data<Handlebars>, src: P) -> Result<NamedFile> {
+  dynamic_response(src.as_ref(), || {
+    render_content(hb.clone(), Path::new("page").join(src.as_ref()))
+  })
+}
+
+pub fn render_content<P: AsRef<Path>>(hb: web::Data<Handlebars>, src: P) -> Result<String> {
+  use minify_html_onepass::{in_place_str, Cfg};
+
+  let src = src.as_ref();
+
+  let cfg = &Cfg {
+    minify_js: false,
+    minify_css: false,
+  };
+
+  let template = src.to_str().expect("Template src");
+
+  match hb.render(template, &json!({})) {
+    Ok(html) => {
+      let mut html_clone = html.clone();
+
+      let html = in_place_str(&mut html_clone, cfg).unwrap_or_else(|_| &html);
+
+      Ok(html.to_string())
+    }
+    Err(err) => Err(ErrorInternalServerError(err)),
+  }
 }
