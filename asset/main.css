@@ -1,4 +1,4 @@
-@custom-media --mobile (max-width: 768px);
+@custom-media --mobile (max-width: 415px);
 
 @font-face {
   font-display: swap;
@@ -36,6 +36,8 @@ html {
   --space-quarter: 0.5rem;
 
   @media (--mobile) {
+    font-size: 100%;
+
     --space: 1rem;
     --space-half: 0.5rem;
     --space-quarter: 0.25rem;
