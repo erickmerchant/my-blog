@@ -14,6 +14,10 @@ version = "4.0.0-rc.1"
 default-features = false
 features = ["openssl", "compress-brotli", "macros"]
 
+[dependencies.derive_more]
+version = "0.99"
+default-features = false
+
 [dependencies.dotenv]
 version = "0.15.0"
 default-features = false
@@ -43,18 +47,27 @@ version = "1.0.0-alpha.16"
 default-features = false
 features = ["grid"]
 
+[dependencies.serde]
+version = "1.0"
+features = ["derive"]
+default-features = false
+
 [dependencies.serde_json]
 version = "1.0"
 default-features = false
 
 [dependencies.swc]
-version = "0.132"
+version = "0.134"
 default-features = false
 
 [dependencies.swc_common]
 version = "0.17"
 default-features = false
 features = ["tty-emitter"]
+
+[dependencies.toml]
+version = "0.5"
+default-features = false
 
 [features]
 local = ["openssl", "dotenv"]

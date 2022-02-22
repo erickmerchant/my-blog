@@ -1,6 +1,6 @@
-use crate::common::{dynamic_response, static_response};
+use crate::common::{dynamic_response, static_response, CustomError};
 use actix_files::NamedFile;
-use actix_web::{error::ErrorInternalServerError, web, Result};
+use actix_web::{web, Result};
 use std::{convert::AsRef, fs, path::Path, sync::Arc};
 
 pub async fn file(file: web::Path<String>) -> Result<NamedFile> {
@@ -37,7 +37,11 @@ fn js_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
       Some(cm.clone()),
     ));
     let c = swc::Compiler::new(cm.clone());
-    let fm = cm.load_file(src.as_ref())?;
+    let fm = cm
+      .load_file(src.as_ref())
+      .map_err(|err| CustomError::Internal {
+        message: format!("{err:?}"),
+      })?;
     let json = r#"{
         "minify": true,
         "env": {
@@ -53,18 +57,25 @@ fn js_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
           "type": "es6"
         }
       }"#;
-    let options: Options = serde_json::from_str(json)?;
+    let options: Options = serde_json::from_str(json).map_err(|err| CustomError::Internal {
+      message: format!("{err:?}"),
+    })?;
 
     c.process_js_file(fm, &handler, &options)
       .and_then(|transformed| Ok(transformed.code))
+      .map_err(|err| CustomError::Internal {
+        message: format!("{err:?}"),
+      })
   })
 }
 
 fn css_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
   use parcel_css::{stylesheet, targets};
 
-  dynamic_response(&src, || -> Result<String> {
-    let file_contents = fs::read_to_string(&src)?;
+  dynamic_response(&src, || -> Result<String, CustomError> {
+    let file_contents = fs::read_to_string(&src).map_err(|err| CustomError::Internal {
+      message: format!("{err:?}"),
+    })?;
     let targets = Some(targets::Browsers {
       android: Some(96 << 16),
       chrome: Some(94 << 16),
@@ -98,11 +109,17 @@ fn css_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
       Ok(mut stylesheet) => match stylesheet.minify(minifier_options) {
         Ok(_) => match stylesheet.to_css(printer_options) {
           Ok(css) => Ok(css.code),
-          Err(err) => Err(ErrorInternalServerError(format!("{err:?}"))),
+          Err(err) => Err(CustomError::Internal {
+            message: format!("{err:?}"),
+          }),
         },
-        Err(err) => Err(ErrorInternalServerError(format!("{err:?}"))),
+        Err(err) => Err(CustomError::Internal {
+          message: format!("{err:?}"),
+        }),
       },
-      Err(err) => Err(ErrorInternalServerError(format!("{err:?}"))),
+      Err(err) => Err(CustomError::Internal {
+        message: format!("{err:?}"),
+      }),
     }
   })
 }

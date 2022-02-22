@@ -1,24 +1,17 @@
 use actix_files::NamedFile;
-use actix_web::{
-  error::{ErrorInternalServerError, ErrorNotFound},
-  web, Result,
-};
+use actix_web::{error, error::ErrorNotFound, http::StatusCode, web, Result};
+use derive_more::{Display, Error};
 use handlebars::Handlebars;
-use serde_json::json;
 use std::{convert::AsRef, fs, path::Path};
 
-pub fn dynamic_response<
-  F: Fn() -> std::result::Result<String, E>,
-  E: std::fmt::Debug + std::fmt::Display + 'static,
-  P: AsRef<Path>,
->(
+pub fn dynamic_response<F: Fn() -> std::result::Result<String, CustomError>, P: AsRef<Path>>(
   src: P,
   process: F,
 ) -> Result<NamedFile> {
   let cache = Path::new("storage/cache").join(src.as_ref());
 
   if let Err(_meta) = fs::metadata(&cache) {
-    let body = process().or_else(|err| Err(ErrorInternalServerError(err)))?;
+    let body = process()?;
 
     fs::create_dir_all(&cache.with_file_name(""))?;
     fs::write(&cache, body)?;
@@ -41,13 +34,11 @@ pub fn static_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
     .or_else(|err| Err(ErrorNotFound(err)))
 }
 
-pub fn template_response<P: AsRef<Path>>(hb: web::Data<Handlebars>, src: P) -> Result<NamedFile> {
-  dynamic_response(src.as_ref(), || {
-    render_content(hb.clone(), Path::new("page").join(src.as_ref()))
-  })
-}
-
-pub fn render_content<P: AsRef<Path>>(hb: web::Data<Handlebars>, src: P) -> Result<String> {
+pub fn render_content<P: AsRef<Path>>(
+  hb: web::Data<Handlebars>,
+  src: P,
+  data: &serde_json::Value,
+) -> Result<String, CustomError> {
   use minify_html_onepass::{in_place_str, Cfg};
 
   let src = src.as_ref();
@@ -59,7 +50,7 @@ pub fn render_content<P: AsRef<Path>>(hb: web::Data<Handlebars>, src: P) -> Resu
 
   let template = src.to_str().expect("Template src");
 
-  match hb.render(template, &json!({})) {
+  match hb.render(template, &data) {
     Ok(html) => {
       let mut html_clone = html.clone();
 
@@ -67,6 +58,23 @@ pub fn render_content<P: AsRef<Path>>(hb: web::Data<Handlebars>, src: P) -> Resu
 
       Ok(html.to_string())
     }
-    Err(err) => Err(ErrorInternalServerError(err)),
+    Err(err) => Err(CustomError::Internal {
+      message: format!("{err:?}"),
+    }),
+  }
+}
+
+#[derive(Debug, Display, Error)]
+pub enum CustomError {
+  NotFound {},
+  Internal { message: String },
+}
+
+impl error::ResponseError for CustomError {
+  fn status_code(&self) -> StatusCode {
+    match self {
+      CustomError::NotFound {} => StatusCode::NOT_FOUND,
+      CustomError::Internal { message: _message } => StatusCode::INTERNAL_SERVER_ERROR,
+    }
   }
 }
