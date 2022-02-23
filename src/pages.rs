@@ -19,9 +19,9 @@ struct Feed {
 
 fn get_feed() -> serde_json::Value {
   let file_contents =
-    fs::read_to_string("content/Posts.toml").expect("Failed to read content/Posts.toml");
-  let feed = toml::from_str::<Feed>(&file_contents).expect("Failed to parse content/Posts.toml");
-  serde_json::to_value(&feed).expect("Failed to parse content/Posts.toml")
+    fs::read_to_string("content/Posts.toml").expect("failed to read content/Posts.toml");
+  let feed = toml::from_str::<Feed>(&file_contents).expect("failed to parse content/Posts.toml");
+  serde_json::to_value(&feed).expect("failed to convert content/Posts.toml")
 }
 
 pub async fn home(hb: web::Data<Handlebars<'_>>) -> Result<NamedFile> {
@@ -43,7 +43,7 @@ pub async fn feed(hb: web::Data<Handlebars<'_>>) -> Result<NamedFile> {
 pub async fn post(hb: web::Data<Handlebars<'_>>, post: web::Path<String>) -> Result<NamedFile> {
   let slug = Path::new(post.as_ref().as_str()).with_extension("");
 
-  let slug = slug.to_str().expect("Failed to find slug");
+  let slug = slug.to_str().expect("invalid slug");
 
   dynamic_response(post.as_ref().as_str(), || {
     let feed = get_feed();

@@ -22,7 +22,7 @@ async fn main() -> io::Result<()> {
     use openssl::ssl::{SslAcceptor, SslFiletype, SslMethod};
     use std::fs;
 
-    dotenv().expect("Failed to read .env file");
+    dotenv().expect("failed to read .env file");
 
     env_logger::init();
 
@@ -31,20 +31,20 @@ async fn main() -> io::Result<()> {
     let mut ssl_builder = SslAcceptor::mozilla_intermediate(SslMethod::tls())?;
 
     ssl_builder.set_private_key_file(
-        env::var("SSL_KEY").expect("Failed to read env variable SSL_KEY"),
+        env::var("SSL_KEY").expect("failed to read env variable SSL_KEY"),
         SslFiletype::PEM,
     )?;
     ssl_builder.set_certificate_chain_file(
-        env::var("SSL_CERT").expect("Failed to read env variable SSL_CERT"),
+        env::var("SSL_CERT").expect("failed to read env variable SSL_CERT"),
     )?;
 
-    let port = env::var("PORT").expect("Failed to read env variable PORT");
+    let port = env::var("PORT").expect("failed to read env variable PORT");
 
     HttpServer::new(move || {
         let mut handlebars = Handlebars::new();
         handlebars
             .register_templates_directory(".hbs", "./template")
-            .expect("Templates");
+            .expect("failed to register templates");
         let handlebars_ref = web::Data::new(handlebars);
 
         App::new()
@@ -63,13 +63,13 @@ async fn main() -> io::Result<()> {
 #[cfg(not(feature = "local"))]
 #[actix_web::main]
 async fn main() -> io::Result<()> {
-    let port = env::var("PORT").expect("Failed to read env variable PORT");
+    let port = env::var("PORT").expect("failed to read env variable PORT");
 
     HttpServer::new(move || {
         let mut handlebars = Handlebars::new();
         handlebars
             .register_templates_directory(".hbs", "./template")
-            .expect("Templates");
+            .expect("failed to register templates");
         let handlebars_ref = web::Data::new(handlebars);
 
         App::new()

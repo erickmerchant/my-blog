@@ -48,7 +48,7 @@ pub fn render_content<P: AsRef<Path>>(
     minify_css: false,
   };
 
-  let template = src.to_str().expect("Template src");
+  let template = src.to_str().expect("invalid src");
 
   match hb.render(template, &data) {
     Ok(html) => {
