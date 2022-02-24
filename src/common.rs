@@ -1,10 +1,10 @@
 use actix_files::NamedFile;
-use actix_web::{error, error::ErrorNotFound, http::StatusCode, web, Result};
+use actix_web::{error, error::ErrorNotFound, http::StatusCode, web, HttpResponse, Result};
 use derive_more::{Display, Error};
 use handlebars::Handlebars;
 use std::{convert::AsRef, fs, path::Path};
 
-pub fn dynamic_response<F: Fn() -> std::result::Result<String, CustomError>, P: AsRef<Path>>(
+pub fn cacheable_response<F: Fn() -> std::result::Result<String, CustomError>, P: AsRef<Path>>(
   src: P,
   process: F,
 ) -> Result<NamedFile> {
@@ -18,6 +18,18 @@ pub fn dynamic_response<F: Fn() -> std::result::Result<String, CustomError>, P: 
   }
 
   static_response(cache)
+}
+
+pub fn dynamic_response<F: Fn() -> std::result::Result<String, CustomError>>(
+  process: F,
+) -> Result<HttpResponse> {
+  let body = process()?;
+
+  Ok(
+    HttpResponse::Ok()
+      .content_type("text/html; charset=utf-8")
+      .body(body),
+  )
 }
 
 pub fn static_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {

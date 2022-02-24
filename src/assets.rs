@@ -1,4 +1,4 @@
-use crate::common::{dynamic_response, static_response, CustomError};
+use crate::common::{cacheable_response, static_response, CustomError};
 use actix_files::NamedFile;
 use actix_web::{web, Result};
 use std::{convert::AsRef, fs, path::Path, sync::Arc};
@@ -28,7 +28,7 @@ fn js_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
     config::Options,
   };
 
-  dynamic_response(&src, || {
+  cacheable_response(&src, || {
     let cm = Arc::<SourceMap>::default();
     let handler = Arc::new(Handler::with_tty_emitter(
       ColorConfig::Auto,
@@ -72,7 +72,7 @@ fn js_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
 fn css_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
   use parcel_css::{stylesheet, targets};
 
-  dynamic_response(&src, || -> Result<String, CustomError> {
+  cacheable_response(&src, || -> Result<String, CustomError> {
     let file_contents = fs::read_to_string(&src).map_err(|err| CustomError::Internal {
       message: format!("{err:?}"),
     })?;

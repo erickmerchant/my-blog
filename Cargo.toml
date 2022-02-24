@@ -47,6 +47,10 @@ version = "1.0.0-alpha.16"
 default-features = false
 features = ["grid"]
 
+[dependencies.rand]
+version = "0.8"
+default-features = false
+
 [dependencies.serde]
 version = "1.0"
 features = ["derive"]

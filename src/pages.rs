@@ -1,4 +1,4 @@
-use crate::common::{dynamic_response, render_content, CustomError};
+use crate::common::{cacheable_response, render_content, CustomError};
 use actix_files::NamedFile;
 use actix_web::{web, Result};
 use handlebars::Handlebars;
@@ -25,7 +25,7 @@ fn get_feed() -> serde_json::Value {
 }
 
 pub async fn home(hb: web::Data<Handlebars<'_>>) -> Result<NamedFile> {
-  dynamic_response(Path::new("index.html"), || {
+  cacheable_response(Path::new("index.html"), || {
     let feed = get_feed();
 
     render_content(hb.clone(), Path::new("page/index.html"), &feed)
@@ -33,7 +33,7 @@ pub async fn home(hb: web::Data<Handlebars<'_>>) -> Result<NamedFile> {
 }
 
 pub async fn feed(hb: web::Data<Handlebars<'_>>) -> Result<NamedFile> {
-  dynamic_response(Path::new("feed.rss"), || {
+  cacheable_response(Path::new("feed.rss"), || {
     let feed = get_feed();
 
     render_content(hb.clone(), Path::new("page/feed.rss"), &feed)
@@ -45,7 +45,7 @@ pub async fn post(hb: web::Data<Handlebars<'_>>, post: web::Path<String>) -> Res
 
   let slug = slug.to_str().expect("invalid slug");
 
-  dynamic_response(post.as_ref().as_str(), || {
+  cacheable_response(post.as_ref().as_str(), || {
     let feed = get_feed();
 
     match feed

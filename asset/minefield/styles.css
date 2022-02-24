@@ -1,0 +1,134 @@
+* {
+  box-sizing: border-box;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  font: inherit;
+}
+
+html {
+  font-family: Courier, monospace;
+  font-size: 20px;
+  -webkit-text-size-adjust: none;
+  line-height: 1.5;
+  height: 100%;
+  background-color: var(--white);
+
+  --black: hsl(30 2% 30%);
+  --gray: hsl(30 2% 70%);
+  --silver: hsl(30 2% 80%);
+  --white: hsl(30 2% 90%);
+  --color-1: hsl(120 90% 40%);
+  --color-2: hsl(180 90% 40%);
+  --color-3: hsl(210 90% 40%);
+  --color-4: hsl(60 90% 40%);
+  --color-5: hsl(30 90% 40%);
+  --color-6: hsl(0 90% 40%);
+  --color-7: hsl(300 90% 40%);
+  --color-8: var(--black);
+}
+
+.App {
+  &.self {
+    display: grid;
+    min-height: 100%;
+    align-content: center;
+    margin-inline: auto;
+    max-width: max-content;
+    grid-template-columns: max-content;
+    margin: 0 auto;
+    gap: 1em;
+    padding-block: 1em;
+  }
+
+  &.heading {
+    font-size: 1.5em;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+  }
+}
+
+.Nav {
+  &.self {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  &.item {
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.25em;
+  }
+
+  &.link {
+    color: var(--color-3);
+  }
+}
+
+.Stats {
+  &.self {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+
+  &.stat {
+    color: var(--black);
+    background-color: var(--white);
+    display: flex;
+    align-items: center;
+    padding-inline: 1em;
+    gap: 0.5em;
+  }
+}
+
+.Field {
+  &.self {
+    display: grid;
+    grid-template-columns: repeat(var(--width), 1fr);
+    grid-template-rows: repeat(var(--height), 1fr);
+    gap: 1px;
+    background-color: var(--gray);
+    border: 5px solid var(--gray);
+    border-radius: 4px;
+    min-width: calc(var(--width) * 2em);
+    min-height: calc(var(--height) * 2em);
+  }
+
+  &.tile {
+    display: flex;
+    aspect-ratio: 1 / 1;
+  }
+
+  &.button {
+    &:where(.hidden, .shown) {
+      background-color: none;
+      border: none;
+      cursor: pointer;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      aspect-ratio: 1 / 1;
+      height: 100%;
+      appearance: none;
+    }
+
+    &:where(.hidden) {
+      background-color: var(--gray);
+      border: 4px outset var(--silver);
+      border-radius: 4px;
+    }
+  }
+
+  &.icon {
+    pointer-events: none;
+  }
+}
