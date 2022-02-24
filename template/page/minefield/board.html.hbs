@@ -4,9 +4,7 @@
     style="--width: {{width}}; --height: {{height}};"
   >
     <template shadowroot="open">
-      <style>
-        @import "/minefield/styles.css";
-      </style>
+      <style>@import "/minefield/styles.css";</style>
 
       <div class="Stats self">
         <span class="Stats stat">
@@ -21,11 +19,9 @@
 
       <div class="Field self">
         {{#each tiles as |tile|}}
-          <minefield-tile class="Field tile">
+          <minefield-tile class="Field tile" row="{{tile.row}}" column="{{tile.column}}">
             <template shadowroot="open">
-              <style>
-                @import "/minefield/styles.css";
-              </style>
+              <style>@import "/minefield/styles.css";</style>
 
               <button
                 class="Field button shown"

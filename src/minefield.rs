@@ -19,7 +19,9 @@ pub async fn start(hb: web::Data<Handlebars<'_>>) -> Result<NamedFile> {
 #[derive(Serialize, Deserialize, Debug, Clone)]
 struct Tile {
   mine: bool,
-  neighbors: u16,
+  neighbors: usize,
+  row: usize,
+  column: usize,
 }
 
 pub async fn board(
@@ -33,14 +35,18 @@ pub async fn board(
     vec![
       Tile {
         mine: true,
-        neighbors: 0
+        neighbors: 0,
+        row: 0,
+        column: 0,
       };
       count.to_owned()
     ],
     vec![
       Tile {
         mine: false,
-        neighbors: 0
+        neighbors: 0,
+        row: 0,
+        column: 0,
       };
       (size - count).to_owned()
     ],
@@ -50,11 +56,14 @@ pub async fn board(
   tiles.shuffle(&mut thread_rng());
 
   for i in 0..size {
-    if let Some(tile) = tiles.get(i) {
-      if tile.mine {
-        let column = i % width;
-        let row = i / width;
+    if let Some(tile) = tiles.get_mut(i) {
+      let column = i % width;
+      let row = i / width;
 
+      tile.column = column;
+      tile.row = row;
+
+      if tile.mine {
         let mut steps = vec![];
 
         if row > 0 {
