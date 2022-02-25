@@ -1,7 +1,8 @@
-use crate::common::{cacheable_response, render_content, CustomError};
+use crate::common::{cacheable_response, minify_markup, CustomError};
+use crate::templates::page_layout;
 use actix_files::NamedFile;
 use actix_web::{web, Result};
-use handlebars::Handlebars;
+use maud::{html, PreEscaped};
 use serde::{Deserialize, Serialize};
 use std::{fs, path::Path};
 
@@ -17,30 +18,67 @@ struct Feed {
   posts: std::collections::HashMap<String, Post>,
 }
 
-fn get_feed() -> serde_json::Value {
+fn get_feed() -> Feed {
   let file_contents =
     fs::read_to_string("content/Posts.toml").expect("failed to read content/Posts.toml");
   let feed = toml::from_str::<Feed>(&file_contents).expect("failed to parse content/Posts.toml");
-  serde_json::to_value(&feed).expect("failed to convert content/Posts.toml")
+
+  feed
 }
 
-pub async fn home(hb: web::Data<Handlebars<'_>>) -> Result<NamedFile> {
+pub async fn home() -> Result<NamedFile> {
   cacheable_response(Path::new("index.html"), || {
     let feed = get_feed();
 
-    render_content(hb.clone(), Path::new("page/index.html"), &feed)
+    minify_markup(page_layout(
+      "Home",
+      html! {
+        ol .Home.post-list {
+          @for (slug, post) in feed.posts {
+            li .Home.post {
+              h2 .Home.post-title { a href={ "/post/" (slug) ".html" } { (post.title) } }
+              p .Home.post-description { (post.description ) }
+            }
+          }
+        }
+      },
+      Some(html! {
+        h1 .Banner.heading { "ErickMerchant.com" }
+      }),
+    ))
   })
 }
 
-pub async fn feed(hb: web::Data<Handlebars<'_>>) -> Result<NamedFile> {
+pub async fn feed_rss() -> Result<NamedFile> {
+  use rss::{ChannelBuilder, ItemBuilder};
+
   cacheable_response(Path::new("feed.rss"), || {
     let feed = get_feed();
 
-    render_content(hb.clone(), Path::new("page/feed.rss"), &feed)
+    let mut channel = ChannelBuilder::default();
+
+    let channel = channel
+      .link("https://erickmerchant.com/")
+      .title("ErickMerchant.com")
+      .description("The personal site of Erick Merchant.");
+
+    for (slug, post) in feed.posts {
+      channel.item(
+        ItemBuilder::default()
+          .link(format!("https://erickmerchant.com/post/{slug}.html"))
+          .title(post.title)
+          .description(post.description)
+          .build(),
+      );
+    }
+
+    let channel = channel.build();
+
+    Ok(channel.to_string())
   })
 }
 
-pub async fn post(hb: web::Data<Handlebars<'_>>, post: web::Path<String>) -> Result<NamedFile> {
+pub async fn post(post: web::Path<String>) -> Result<NamedFile> {
   let slug = Path::new(post.as_ref().as_str()).with_extension("");
 
   let slug = slug.to_str().expect("invalid slug");
@@ -48,29 +86,15 @@ pub async fn post(hb: web::Data<Handlebars<'_>>, post: web::Path<String>) -> Res
   cacheable_response(post.as_ref().as_str(), || {
     let feed = get_feed();
 
-    match feed
-      .get("posts")
-      .and_then(|posts| posts.get(slug))
-      .and_then(|post| Some((post, post.get("content"))))
-    {
-      Some((post, Some(content))) => {
-        match hb.render_template(content.as_str().unwrap_or_default(), &serde_json::json!({})) {
-          Ok(rendered) => {
-            let mut post = post.clone();
-
-            post["content"] = serde_json::Value::String(rendered.to_string());
-
-            render_content(
-              hb.clone(),
-              Path::new("page/post.html"),
-              &serde_json::json!({ "post": post.to_owned() }),
-            )
-          }
-          Err(err) => Err(CustomError::Internal {
-            message: format!("{:?}", &err),
-          }),
-        }
-      }
+    match feed.posts.get(slug).and_then(|post| Some(post)) {
+      Some(post) => minify_markup(page_layout(
+        post.title.as_str(),
+        html! {
+          h1 .Content.heading { (post.title) }
+          (PreEscaped(post.content.to_owned()))
+        },
+        None,
+      )),
       _ => Err(CustomError::NotFound {}),
     }
   })

@@ -1,20 +1,10 @@
-use crate::common::{cacheable_response, dynamic_response, render_content};
+use crate::common::{cacheable_response, dynamic_response, minify_markup};
 use actix_files::NamedFile;
 use actix_web::{web, HttpResponse, Result};
-use handlebars::Handlebars;
+use maud::{html, Markup, DOCTYPE};
 use rand::{seq::SliceRandom, thread_rng};
 use serde::{Deserialize, Serialize};
 use std::{path::Path, vec};
-
-pub async fn start(hb: web::Data<Handlebars<'_>>) -> Result<NamedFile> {
-  cacheable_response(Path::new("minefield/start.html"), || {
-    render_content(
-      hb.clone(),
-      Path::new("page/minefield/start.html"),
-      &serde_json::json!({}),
-    )
-  })
-}
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 struct Tile {
@@ -24,14 +14,63 @@ struct Tile {
   column: usize,
 }
 
-pub async fn board(
-  hb: web::Data<Handlebars<'_>>,
-  dimensions: web::Path<(usize, usize, usize)>,
-) -> Result<HttpResponse> {
+fn page_layout(title: &str, content: Markup) -> Markup {
+  html! {
+    (DOCTYPE)
+    html lang="en-US" {
+      head {
+        meta charset="utf-8";
+        meta name="viewport" content="width=device-width, initial-scale=1";
+        meta name="description" content="The personal site of Erick Merchant.";
+        script type="module" src="/minefield/game.js" {}
+        link href="/minefield/styles.css" rel="stylesheet";
+        link href="/favicon.svg" rel="icon" type="image/svg+xml";
+        title { (title) " | ErickMerchant.com" }
+      }
+      body {
+        (content)
+        script src="/polyfill.js" {}
+      }
+    }
+  }
+}
+
+pub async fn start() -> Result<NamedFile> {
+  cacheable_response(Path::new("minefield/start.html"), || {
+    minify_markup(page_layout(
+      "Minefield",
+      html! {
+        main .App.self {
+          h1 .App.heading {
+            span { "💥" }
+            "Minefield"
+          }
+          p { "Choose your level:" }
+          ol .Nav.self {
+            li .Nav.item {
+              span { "🚩" }
+              a .Nav.link href="/minefield/8/8/10.html" { "Novice" }
+            }
+            li .Nav.item {
+              span { "🚩" }
+              a .Nav.link href="/minefield/16/16/40.html" { "Intermediate" }
+            }
+            li .Nav.item {
+              span { "🚩" }
+              a .Nav.link href="/minefield/30/16/99.html" { "Pro" }
+            }
+          }
+        }
+      },
+    ))
+  })
+}
+
+pub async fn board(dimensions: web::Path<(usize, usize, usize)>) -> Result<HttpResponse> {
   let (width, height, count) = dimensions.as_ref();
   let size = width * height;
 
-  let mut tiles = [
+  let mut tiles = vec![
     vec![
       Tile {
         mine: true,
@@ -108,10 +147,50 @@ pub async fn board(
   }
 
   dynamic_response(|| {
-    render_content(
-      hb.clone(),
-      Path::new("page/minefield/board.html"),
-      &serde_json::json!({"width": width, "height": height, "count": count, "tiles": tiles}),
-    )
+    minify_markup(page_layout(
+      "Minefield",
+      html! {
+        minefield-game .App.self style={ "--width: " (width) "; --height: " (height) ";" } {
+          template shadowroot="open" {
+            style { "@import '/minefield/styles.css';" }
+
+            div .Stats.self {
+              span .Stats.stat {
+                span { "🚩" }
+                (count)
+              }
+              span .Stats.stat {
+                minefield-time { "0" }
+                span { "⏱" }
+              }
+            }
+
+            div .Field.self {
+              slot {}
+            }
+          }
+
+          @for tile in &tiles {
+            minefield-tile .Field.tile row={(tile.row)} column={(tile.column)} {
+              template shadowroot="open" {
+                style { "@import '/minefield/styles.css';" }
+
+                button .Field.button.shown type="button" style={"color: var(--color-" (tile.neighbors) ");"} {
+                  slot name="shown" {}
+                }
+              }
+
+              div slot="hidden" {}
+
+              @if tile.mine {
+                div slot="shown" { "💥" }
+              } @else if tile.neighbors > 0 {
+                div slot="shown" { (tile.neighbors ) }
+              }
+            }
+          }
+        }
+      },
+    ))
   })
 }

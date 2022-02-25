@@ -27,10 +27,10 @@ optional = true
 version = "0.9"
 default-features = false
 
-[dependencies.handlebars]
-version = "4.2.1"
+[dependencies.maud]
+version = "0.23.0"
 default-features = false
-features = ["dir_source"]
+features = ["actix-web"]
 
 [dependencies.minify-html-onepass]
 version = "0.8.0"
@@ -50,6 +50,11 @@ features = ["grid"]
 [dependencies.rand]
 version = "0.8"
 default-features = false
+
+[dependencies.rss]
+version = "2.0"
+default-features = false
+features = ["builders"]
 
 [dependencies.serde]
 version = "1.0"

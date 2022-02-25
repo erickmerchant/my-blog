@@ -28,6 +28,10 @@ html {
   --color-8: var(--black);
 }
 
+body {
+  height: 100%;
+}
+
 .App {
   &.self {
     display: grid;

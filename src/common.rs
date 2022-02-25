@@ -1,7 +1,7 @@
 use actix_files::NamedFile;
-use actix_web::{error, error::ErrorNotFound, http::StatusCode, web, HttpResponse, Result};
+use actix_web::{error, error::ErrorNotFound, http::StatusCode, HttpResponse, Result};
 use derive_more::{Display, Error};
-use handlebars::Handlebars;
+use maud::Markup;
 use std::{convert::AsRef, fs, path::Path};
 
 pub fn cacheable_response<F: Fn() -> std::result::Result<String, CustomError>, P: AsRef<Path>>(
@@ -46,30 +46,19 @@ pub fn static_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
     .or_else(|err| Err(ErrorNotFound(err)))
 }
 
-pub fn render_content<P: AsRef<Path>>(
-  hb: web::Data<Handlebars>,
-  src: P,
-  data: &serde_json::Value,
-) -> Result<String, CustomError> {
+pub fn minify_markup(html: Markup) -> Result<String, CustomError> {
   use minify_html_onepass::{in_place_str, Cfg};
-
-  let src = src.as_ref();
 
   let cfg = &Cfg {
     minify_js: false,
     minify_css: false,
   };
 
-  let template = src.to_str().expect("invalid src");
+  let mut html_clone = html.into_string();
+  let html_clone = html_clone.as_mut_str();
 
-  match hb.render(template, &data) {
-    Ok(html) => {
-      let mut html_clone = html.clone();
-
-      let html = in_place_str(&mut html_clone, cfg).unwrap_or_else(|_| &html);
-
-      Ok(html.to_string())
-    }
+  match in_place_str(html_clone, cfg) {
+    Ok(html) => Ok(html.to_string()),
     Err(err) => Err(CustomError::Internal {
       message: format!("{err:?}"),
     }),

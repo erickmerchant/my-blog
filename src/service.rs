@@ -5,7 +5,7 @@ pub fn configure(cfg: &mut web::ServiceConfig) {
   cfg.service(
     web::scope("")
       .route("/", web::get().to(pages::home))
-      .route("/feed.rss", web::get().to(pages::feed))
+      .route("/feed.rss", web::get().to(pages::feed_rss))
       .route("/post/{post:.*.html}", web::get().to(pages::post))
       .route("/minefield/start.html", web::get().to(minefield::start))
       .route(

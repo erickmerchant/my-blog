@@ -3,6 +3,7 @@ mod common;
 mod minefield;
 mod pages;
 mod service;
+mod templates;
 
 use actix_web::{
     dev::ServiceResponse,
@@ -10,10 +11,9 @@ use actix_web::{
     http::StatusCode,
     middleware::ErrorHandlerResponse,
     middleware::{Compress, ErrorHandlers, Logger},
-    web, App, HttpServer, Result,
+    App, HttpServer, Result,
 };
-use common::render_content;
-use handlebars::Handlebars;
+use maud::Markup;
 use std::{env, io};
 
 #[cfg(feature = "local")]
@@ -42,18 +42,11 @@ async fn main() -> io::Result<()> {
     let port = env::var("PORT").expect("failed to read env variable PORT");
 
     HttpServer::new(move || {
-        let mut handlebars = Handlebars::new();
-        handlebars
-            .register_templates_directory(".hbs", "./template")
-            .expect("failed to register templates");
-        let handlebars_ref = web::Data::new(handlebars);
-
         App::new()
             .wrap(Logger::new("%s %r"))
             .wrap(ErrorHandlers::new().handler(StatusCode::NOT_FOUND, not_found))
             .wrap(ErrorHandlers::new().handler(StatusCode::INTERNAL_SERVER_ERROR, internal_error))
             .wrap(Compress::default())
-            .app_data(handlebars_ref.clone())
             .configure(service::configure)
     })
     .bind_openssl(format!("0.0.0.0:{port}"), ssl_builder)?
@@ -67,18 +60,11 @@ async fn main() -> io::Result<()> {
     let port = env::var("PORT").expect("failed to read env variable PORT");
 
     HttpServer::new(move || {
-        let mut handlebars = Handlebars::new();
-        handlebars
-            .register_templates_directory(".hbs", "./template")
-            .expect("failed to register templates");
-        let handlebars_ref = web::Data::new(handlebars);
-
         App::new()
             .wrap(Logger::new("%s %r"))
             .wrap(ErrorHandlers::new().handler(StatusCode::NOT_FOUND, not_found))
             .wrap(ErrorHandlers::new().handler(StatusCode::INTERNAL_SERVER_ERROR, internal_error))
             .wrap(Compress::default())
-            .app_data(handlebars_ref.clone())
             .configure(service::configure)
     })
     .bind(format!("0.0.0.0:{port}"))?
@@ -87,23 +73,15 @@ async fn main() -> io::Result<()> {
 }
 
 fn not_found<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerResponse<B>> {
-    error_response(res, "page/404.html")
+    error_response(res, templates::not_found())
 }
 
 fn internal_error<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerResponse<B>> {
-    error_response(res, "page/500.html")
+    error_response(res, templates::internal_error())
 }
 
-fn error_response<B>(res: ServiceResponse<B>, src: &str) -> Result<ErrorHandlerResponse<B>> {
-    let request = res.request();
-    let body = match request.app_data::<web::Data<Handlebars>>() {
-        Some(hb) => match render_content(hb.clone(), src.to_owned(), &serde_json::json!({})) {
-            Ok(html) => html,
-            Err(_) => String::default(),
-        },
-        None => String::default(),
-    };
-
+fn error_response<B>(res: ServiceResponse<B>, src: Markup) -> Result<ErrorHandlerResponse<B>> {
+    let body = common::minify_markup(src).expect("body minified");
     let (req, res) = res.into_parts();
     let res = res.set_body(body);
     let mut res = ServiceResponse::new(req, res)

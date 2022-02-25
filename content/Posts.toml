@@ -29,8 +29,8 @@ content = """
 <p class="Content paragraph">Some of the more important Cargo dependencies that I am using, besides Actix:</p>
 
 <dl class="Content definition-list">
-  <dt class="Content sub-sub-heading"><a href="https://github.com/sunng87/handlebars-rust">Handlebars</a></dt>
-  <dd>A rust implementation of <a href="https://handlebarsjs.com/guide/">Handlebars</a>. The syntax is not my first choice, but its powerful partial system allowed me to use declarative shadow DOM in a templated way.</dd>
+  <dt class="Content sub-sub-heading"><a href="https://github.com/lambda-fairy/maud">Maud</a></dt>
+  <dd>For templating. The only downside to Maud for me is that the changing a template means recompiling the project.</dd>
 
   <dt class="Content sub-sub-heading"><a href="https://swc.rs/">SWC</a></dt>
   <dd>SWC is for compiling JavaScript. It is basically a Rust Babel, but aims to be many things, such as a Eslint replacement as well. The project is great, but I do worry that its ambitions are a little too big. However I think Deno and Vercel are using it so maybe its ambitions are realistic.</dd>

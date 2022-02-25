@@ -4,7 +4,7 @@ use actix_web::{web, Result};
 use std::{convert::AsRef, fs, path::Path, sync::Arc};
 
 pub async fn file(file: web::Path<String>) -> Result<NamedFile> {
-  let src = Path::new("asset").join(file.to_string());
+  let src = Path::new("assets").join(file.to_string());
 
   let mut ext_str = "";
 
