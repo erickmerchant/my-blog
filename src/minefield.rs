@@ -154,18 +154,18 @@ pub async fn board(dimensions: web::Path<(usize, usize, usize)>) -> Result<HttpR
           template shadowroot="open" {
             style { "@import '/minefield/styles.css';" }
 
-            div .Stats.self {
-              span .Stats.stat {
+            .Stats.self {
+              .Stats.stat {
                 span { "🚩" }
                 (count)
               }
-              span .Stats.stat {
+              .Stats.stat {
                 minefield-time { "0" }
                 span { "⏱" }
               }
             }
 
-            div .Field.self {
+            .Field.self {
               slot {}
             }
           }

@@ -44,13 +44,13 @@ pub fn side_nav(content: Markup) -> Markup {
               }
             }))
           }
-          div .Nav.triangle {}
-          div .Nav.links {
+          .Nav.triangle {}
+          .Nav.links {
             slot name="links" {}
           }
         }
 
-        div .Panel.self {
+        .Panel.self {
           slot name="panel" {}
         }
       }
@@ -85,7 +85,7 @@ pub fn page_layout(title: &str, content: Markup, heading: Option<Markup>) -> Mar
               @if let Some(heading) = heading {
                 (heading)
               } @else {
-                div .Banner.heading { "ErickMerchant.com" }
+                .Banner.heading { "ErickMerchant.com" }
               }
             }
 
