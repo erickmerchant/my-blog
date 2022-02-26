@@ -41,14 +41,14 @@ window.customElements.define(
       button?.setAttribute("aria-expanded", this.open ? "true" : "false");
       button?.setAttribute("aria-label", this.open ? "Close nav" : "Open nav");
       button
-        ?.querySelector("icon-match")
+        ?.querySelector("slot-match")
         ?.setAttribute("name", this.open ? "close" : "menu");
     }
   }
 );
 
 window.customElements.define(
-  "icon-match",
+  "slot-match",
   class extends HTMLElement {
     static get observedAttributes() {
       return ["name"];

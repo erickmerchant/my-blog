@@ -1,4 +1,5 @@
 use crate::common::{cacheable_response, dynamic_response, minify_markup};
+use crate::templates::slot_match;
 use actix_files::NamedFile;
 use actix_web::{web, HttpResponse, Result};
 use maud::{html, Markup, DOCTYPE};
@@ -22,8 +23,9 @@ fn page_layout(title: &str, content: Markup) -> Markup {
         meta charset="utf-8";
         meta name="viewport" content="width=device-width, initial-scale=1";
         meta name="description" content="The personal site of Erick Merchant.";
-        script type="module" src="/minefield/game.js" {}
-        link href="/minefield/styles.css" rel="stylesheet";
+        script type="module" src="/main.js" {}
+        script type="module" src="/minefield.js" {}
+        link href="/minefield.css" rel="stylesheet";
         link href="/favicon.svg" rel="icon" type="image/svg+xml";
         title { (title) " | ErickMerchant.com" }
       }
@@ -68,6 +70,9 @@ pub async fn start() -> Result<NamedFile> {
 
 pub async fn board(dimensions: web::Path<(usize, usize, usize)>) -> Result<HttpResponse> {
   let (width, height, count) = dimensions.as_ref();
+
+  // @todo validate
+
   let size = width * height;
 
   let mut tiles = vec![
@@ -95,15 +100,19 @@ pub async fn board(dimensions: web::Path<(usize, usize, usize)>) -> Result<HttpR
   tiles.shuffle(&mut thread_rng());
 
   for i in 0..size {
-    if let Some(tile) = tiles.get_mut(i) {
-      let column = i % width;
-      let row = i / width;
+    let column = i % width;
+    let row = i / width;
+    let mut steps = vec![];
+    let mut modify = false;
 
+    if let Some(tile) = tiles.get_mut(i) {
       tile.column = column;
       tile.row = row;
+    }
 
+    if let Some(tile) = tiles.get(i) {
       if tile.mine {
-        let mut steps = vec![];
+        modify = true;
 
         if row > 0 {
           if column > 0 {
@@ -136,11 +145,13 @@ pub async fn board(dimensions: web::Path<(usize, usize, usize)>) -> Result<HttpR
             steps.push(i + width + 1);
           }
         }
+      }
+    }
 
-        for step in steps {
-          if let Some(tile) = tiles.get_mut(step) {
-            tile.neighbors = tile.neighbors + 1;
-          }
+    if modify {
+      for step in steps {
+        if let Some(neighbor) = tiles.get_mut(step) {
+          neighbor.neighbors = neighbor.neighbors + 1;
         }
       }
     }
@@ -152,40 +163,49 @@ pub async fn board(dimensions: web::Path<(usize, usize, usize)>) -> Result<HttpR
       html! {
         minefield-game .App.self style={ "--width: " (width) "; --height: " (height) ";" } {
           template shadowroot="open" {
-            style { "@import '/minefield/styles.css';" }
+            style { "@import '/minefield.css';" }
 
             .Stats.self {
               .Stats.stat {
-                span { "🚩" }
-                (count)
+                "🚩"
+                minefield-flags { (count) }
               }
               .Stats.stat {
                 minefield-time { "0" }
-                span { "⏱" }
+                "⏱"
               }
             }
 
             .Field.self {
-              slot {}
-            }
-          }
+              @for tile in &tiles {
+                @let empty = !tile.mine && tile.neighbors == 0;
 
-          @for tile in &tiles {
-            minefield-tile .Field.tile row={(tile.row)} column={(tile.column)} {
-              template shadowroot="open" {
-                style { "@import '/minefield/styles.css';" }
+                minefield-tile .Field.tile row=(tile.row) column=(tile.column) empty[empty] {
+                  template shadowroot="open" {
+                    style { "@import '/minefield.css';" }
 
-                button .Field.button.shown type="button" style={"color: var(--color-" (tile.neighbors) ");"} {
-                  slot name="shown" {}
+                    (slot_match(
+                      "hidden",
+                      "Field tile-content",
+                      html! {
+                        button .Field.hidden type="button" slot="hidden" {
+                        }
+
+                        .Field.shown slot="shown" {
+                          slot {}
+                        }
+                      }
+                    ))
+                  }
+
+                  span style={"color: var(--color-" (tile.neighbors) ");"} {
+                    @if tile.mine {
+                      "💥"
+                    } @else if tile.neighbors > 0 {
+                      (tile.neighbors)
+                    }
+                  }
                 }
-              }
-
-              div slot="hidden" {}
-
-              @if tile.mine {
-                div slot="shown" { "💥" }
-              } @else if tile.neighbors > 0 {
-                div slot="shown" { (tile.neighbors ) }
               }
             }
           }

@@ -1,8 +1,8 @@
 use maud::{html, Markup, DOCTYPE};
 
-pub fn icon_match(name: &str, content: Markup) -> Markup {
+pub fn slot_match(name: &str, class_name: &str, content: Markup) -> Markup {
   html! {
-    icon-match name=(name) {
+    slot-match class=(class_name) name=(name) {
       template shadowroot="open" {
         slot {}
       }
@@ -19,7 +19,7 @@ pub fn side_nav(content: Markup) -> Markup {
 
         nav .Nav.self {
           button .Nav.button type="button" aria-hidden="true" tabindex="-1" {
-            (icon_match("menu", html! {
+            (slot_match("menu", "", html! {
               svg
                 .Nav.icon
                 viewBox="0 0 100 100"
