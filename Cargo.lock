@@ -3060,9 +3060,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.93.3"
+version = "0.93.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5e7f9ee99deeaca261fcb8583b96e8a4fceeef199ef513e21b4e8d4e00c8e6a0"
+checksum = "aa81be3ef5a662291f5b387681d497b8c73fabb846459fb3a84097cfe7e127c3"
 dependencies = [
  "bitflags",
  "memchr",
@@ -3174,9 +3174,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.91.10"
+version = "0.91.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4dacb5ca47d0453ffb3eb2f53643cbe684b38bd7d7d3b9f5853329d2eba262d4"
+checksum = "58b099ab64a9e667ffcacbbf043710eabccd910f5664a82c997b4a1ff8bc9ed6"
 dependencies = [
  "either",
  "enum_kind",

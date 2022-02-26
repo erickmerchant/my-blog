@@ -1,4 +1,32 @@
 window.customElements.define(
+  "minefield-game",
+  class extends HTMLElement {
+    connectedCallback() {
+      this.addEventListener("minefield:reveal", (e) => {
+        const { row, column } = e.detail;
+
+        const selectors = [
+          `[row="${row - 1}"][column="${column - 1}"]`,
+          `[row="${row - 1}"][column="${column}"]`,
+          `[row="${row - 1}"][column="${column + 1}"]`,
+          `[row="${row}"][column="${column - 1}"]`,
+          `[row="${row}"][column="${column + 1}"]`,
+          `[row="${row + 1}"][column="${column - 1}"]`,
+          `[row="${row + 1}"][column="${column}"]`,
+          `[row="${row + 1}"][column="${column + 1}"]`,
+        ];
+
+        for (const selector of selectors) {
+          this.shadowRoot
+            ?.querySelector(`minefield-tile${selector}[neighbors][hidden]`)
+            ?.reveal();
+        }
+      });
+    }
+  }
+);
+
+window.customElements.define(
   "minefield-tile",
   class extends HTMLElement {
     flagged = false;
@@ -15,29 +43,10 @@ window.customElements.define(
     toggleClicked = (e) => {
       e.preventDefault();
 
-      this.clicked = !this.clicked;
-
-      if (this.empty) {
-        const event = new CustomEvent("minefield:emptyrevealed", {
-          bubbles: true,
-          composed: true,
-        });
-
-        this.shadowRoot?.host?.dispatchEvent(event);
-      }
-
-      this.render();
+      this.reveal();
     };
 
     connectedCallback() {
-      this.shadowRoot?.host?.addEventListener(
-        "minefield:emptyrevealed",
-        () => {
-          console.log(this.row, this.column);
-        },
-        true
-      );
-
       const button = this.shadowRoot?.querySelector("button");
 
       button?.addEventListener("click", this.toggleClicked);
@@ -45,7 +54,31 @@ window.customElements.define(
 
       this.row = Number(this.shadowRoot?.host?.getAttribute("row"));
       this.column = Number(this.shadowRoot?.host?.getAttribute("column"));
-      this.empty = this.shadowRoot?.host?.hasAttribute("empty");
+
+      const neighbors = this.shadowRoot?.host?.getAttribute("neighbors");
+
+      this.neighbors = neighbors != null ? Number(neighbors) : null;
+    }
+
+    reveal() {
+      this.clicked = !this.clicked;
+
+      if (this.neighbors === 0) {
+        Promise.resolve().then(() => {
+          const event = new CustomEvent("minefield:reveal", {
+            bubbles: true,
+            composed: true,
+            detail: {
+              row: this.row,
+              column: this.column,
+            },
+          });
+
+          this.dispatchEvent(event);
+        });
+      }
+
+      this.render();
     }
 
     render() {
@@ -58,6 +91,8 @@ window.customElements.define(
       this.shadowRoot
         ?.querySelector("slot-match")
         ?.setAttribute("name", this.clicked ? "shown" : "hidden");
+
+      this.shadowRoot?.host?.toggleAttribute("hidden", !this.clicked);
     }
   }
 );

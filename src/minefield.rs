@@ -178,9 +178,9 @@ pub async fn board(dimensions: web::Path<(usize, usize, usize)>) -> Result<HttpR
 
             .Field.self {
               @for tile in &tiles {
-                @let empty = !tile.mine && tile.neighbors == 0;
+                @let neighbors_attr = if !tile.mine { Some(tile.neighbors) } else { None };
 
-                minefield-tile .Field.tile row=(tile.row) column=(tile.column) empty[empty] {
+                minefield-tile .Field.tile row=(tile.row) column=(tile.column) neighbors=[neighbors_attr] hidden {
                   template shadowroot="open" {
                     style { "@import '/minefield.css';" }
 
