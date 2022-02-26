@@ -22,7 +22,7 @@ pub fn cacheable_response<F: Fn() -> std::result::Result<String, CustomError>, P
 
 pub fn dynamic_response<F: Fn() -> std::result::Result<String, CustomError>>(
   process: F,
-) -> Result<HttpResponse> {
+) -> Result<HttpResponse, CustomError> {
   let body = process()?;
 
   Ok(

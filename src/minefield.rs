@@ -1,4 +1,4 @@
-use crate::common::{cacheable_response, dynamic_response, minify_markup};
+use crate::common::{cacheable_response, dynamic_response, minify_markup, CustomError};
 use crate::templates::slot_match;
 use actix_files::NamedFile;
 use actix_web::{web, HttpResponse, Result};
@@ -68,10 +68,16 @@ pub async fn start() -> Result<NamedFile> {
   })
 }
 
-pub async fn board(dimensions: web::Path<(usize, usize, usize)>) -> Result<HttpResponse> {
+pub async fn board(
+  dimensions: web::Path<(usize, usize, usize)>,
+) -> Result<HttpResponse, CustomError> {
   let (width, height, count) = dimensions.as_ref();
 
-  // @todo validate
+  if width > &(30 as usize) || height > &(30 as usize) || count > &(99 as usize) {
+    return Err(CustomError::Internal {
+      message: String::from("invalid request"),
+    });
+  }
 
   let size = width * height;
 
@@ -161,17 +167,27 @@ pub async fn board(dimensions: web::Path<(usize, usize, usize)>) -> Result<HttpR
     minify_markup(page_layout(
       "Minefield",
       html! {
-        minefield-game .App.self style={ "--width: " (width) "; --height: " (height) ";" } {
+        @let remaining = height * width - count;
+
+        minefield-game .App.self style={ "--width: " (width) "; --height: " (height) ";" } remaining=(remaining) {
           template shadowroot="open" {
             style { "@import '/minefield.css';" }
 
             .Stats.self {
               .Stats.stat {
                 "🚩"
-                minefield-flags { (count) }
+                minefield-flags count=(count) {
+                  template shadowroot="open" {
+                    (count)
+                  }
+                }
               }
               .Stats.stat {
-                minefield-time { "0" }
+                minefield-time {
+                  template shadowroot="open" {
+                    "0"
+                  }
+                }
                 "⏱"
               }
             }

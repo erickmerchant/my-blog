@@ -1,27 +1,137 @@
 window.customElements.define(
   "minefield-game",
   class extends HTMLElement {
+    gameOver = false;
+
     connectedCallback() {
+      this.remaining = Number(this.shadowRoot?.host?.getAttribute("remaining"));
+
       this.addEventListener("minefield:reveal", (e) => {
-        const { row, column } = e.detail;
+        const { row, column, neighbors } = e.detail;
 
-        const selectors = [
-          `[row="${row - 1}"][column="${column - 1}"]`,
-          `[row="${row - 1}"][column="${column}"]`,
-          `[row="${row - 1}"][column="${column + 1}"]`,
-          `[row="${row}"][column="${column - 1}"]`,
-          `[row="${row}"][column="${column + 1}"]`,
-          `[row="${row + 1}"][column="${column - 1}"]`,
-          `[row="${row + 1}"][column="${column}"]`,
-          `[row="${row + 1}"][column="${column + 1}"]`,
-        ];
+        if (neighbors === 0) {
+          const pairs = [
+            [row - 1, column - 1],
+            [row - 1, column],
+            [row - 1, column + 1],
+            [row, column - 1],
+            [row, column + 1],
+            [row + 1, column - 1],
+            [row + 1, column],
+            [row + 1, column + 1],
+          ];
 
-        for (const selector of selectors) {
-          this.shadowRoot
-            ?.querySelector(`minefield-tile${selector}[neighbors][hidden]`)
-            ?.reveal();
+          for (const [row, column] of pairs) {
+            this.shadowRoot
+              ?.querySelector(
+                `minefield-tile[row="${row}"][column="${column}"][neighbors][hidden]`
+              )
+              ?.reveal();
+          }
+        }
+
+        if (!this.gameOver) {
+          const timeElement = this.shadowRoot?.querySelector(`minefield-time`);
+
+          if (neighbors == null) {
+            this.gameOver = true;
+
+            timeElement?.stopIfStarted();
+
+            this.confirmReset("You lost. Try again?");
+          } else {
+            this.remaining--;
+
+            if (this.remaining > 0) {
+              timeElement?.startIfStopped();
+            } else {
+              this.gameOver = true;
+
+              timeElement?.stopIfStarted();
+
+              this.confirmReset("You won! Start new game?");
+            }
+          }
         }
       });
+
+      this.addEventListener("minefield:flag", (e) => {
+        this.shadowRoot?.querySelector(`minefield-flags`)?.decrement();
+      });
+
+      this.addEventListener("minefield:unflag", (e) => {
+        this.shadowRoot?.querySelector(`minefield-flags`)?.increment();
+      });
+    }
+
+    confirmReset(message) {
+      setTimeout(() => {
+        const reload = window.confirm(message);
+
+        if (reload) {
+          window.location.reload();
+        }
+      }, 0);
+    }
+  }
+);
+
+window.customElements.define(
+  "minefield-flags",
+  class extends HTMLElement {
+    connectedCallback() {
+      this.count = Number(this.shadowRoot?.host?.getAttribute("count"));
+    }
+
+    increment() {
+      this.count++;
+
+      this.render();
+    }
+
+    decrement() {
+      this.count--;
+
+      this.render();
+    }
+
+    render() {
+      if (this.shadowRoot) this.shadowRoot.innerHTML = this.count;
+    }
+  }
+);
+
+window.customElements.define(
+  "minefield-time",
+  class extends HTMLElement {
+    startTime = null;
+
+    startIfStopped() {
+      if (this.startTime == null) {
+        this.startTime = Date.now();
+
+        this.tick();
+      }
+    }
+
+    stopIfStarted() {
+      if (this.startTime != null) {
+        this.startTime = null;
+      }
+    }
+
+    tick() {
+      if (this.startTime == null) return;
+
+      setTimeout(() => {
+        this.tick();
+      }, 250);
+
+      if (this.shadowRoot) {
+        const time = Math.floor((Date.now() - this.startTime) / 1000);
+
+        this.shadowRoot.innerHTML = time;
+      }
     }
   }
 );
@@ -34,6 +144,17 @@ window.customElements.define(
 
     toggleFlagged = (e) => {
       e.preventDefault();
+
+      const eventType = this.flagged ? "minefield:unflag" : "minefield:flag";
+
+      Promise.resolve().then(() => {
+        const event = new CustomEvent(eventType, {
+          bubbles: true,
+          composed: true,
+        });
+
+        this.dispatchEvent(event);
+      });
 
       this.flagged = !this.flagged;
 
@@ -61,24 +182,25 @@ window.customElements.define(
     }
 
     reveal() {
-      this.clicked = !this.clicked;
-
-      if (this.neighbors === 0) {
-        Promise.resolve().then(() => {
-          const event = new CustomEvent("minefield:reveal", {
-            bubbles: true,
-            composed: true,
-            detail: {
-              row: this.row,
-              column: this.column,
-            },
-          });
-
-          this.dispatchEvent(event);
+      Promise.resolve().then(() => {
+        const event = new CustomEvent("minefield:reveal", {
+          bubbles: true,
+          composed: true,
+          detail: {
+            row: this.row,
+            column: this.column,
+            neighbors: this.neighbors,
+          },
         });
-      }
 
-      this.render();
+        this.dispatchEvent(event);
+      });
+
+      if (!this.flagged) {
+        this.clicked = !this.clicked;
+
+        this.render();
+      }
     }
 
     render() {
