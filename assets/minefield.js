@@ -96,7 +96,7 @@ window.customElements.define(
     }
 
     render() {
-      if (this.shadowRoot) this.shadowRoot.innerHTML = this.count;
+      this.shadowRoot.replaceChildren(this.count);
     }
   }
 );
@@ -130,7 +130,7 @@ window.customElements.define(
       if (this.shadowRoot) {
         const time = Math.floor((Date.now() - this.startTime) / 1000);
 
-        this.shadowRoot.innerHTML = time;
+        this.shadowRoot.replaceChildren(time);
       }
     }
   }
@@ -204,11 +204,9 @@ window.customElements.define(
     }
 
     render() {
-      let button = this.shadowRoot?.querySelector("button");
-
-      if (button) {
-        button.innerHTML = this.flagged ? "🚩" : "";
-      }
+      this.shadowRoot
+        ?.querySelector("button")
+        .replaceChildren(this.flagged ? "🚩" : "");
 
       this.shadowRoot
         ?.querySelector("slot-match")
