@@ -4,7 +4,7 @@ window.customElements.define(
     gameOver = false;
 
     connectedCallback() {
-      this.remaining = Number(this.shadowRoot?.host?.getAttribute("remaining"));
+      this.remaining = Number(this.getAttribute("remaining"));
 
       this.addEventListener("minefield:reveal", (e) => {
         const { row, column, neighbors } = e.detail;
@@ -80,7 +80,7 @@ window.customElements.define(
   "minefield-flags",
   class extends HTMLElement {
     connectedCallback() {
-      this.count = Number(this.shadowRoot?.host?.getAttribute("count"));
+      this.count = Number(this.getAttribute("count"));
     }
 
     increment() {
@@ -110,7 +110,7 @@ window.customElements.define(
       if (this.startTime == null) {
         this.startTime = Date.now();
 
-        this.tick();
+        this.render();
       }
     }
 
@@ -120,11 +120,11 @@ window.customElements.define(
       }
     }
 
-    tick() {
+    render() {
       if (this.startTime == null) return;
 
       setTimeout(() => {
-        this.tick();
+        this.render();
       }, 250);
 
       if (this.shadowRoot) {
@@ -173,10 +173,10 @@ window.customElements.define(
       button?.addEventListener("click", this.toggleClicked);
       button?.addEventListener("contextmenu", this.toggleFlagged);
 
-      this.row = Number(this.shadowRoot?.host?.getAttribute("row"));
-      this.column = Number(this.shadowRoot?.host?.getAttribute("column"));
+      this.row = Number(this.getAttribute("row"));
+      this.column = Number(this.getAttribute("column"));
 
-      const neighbors = this.shadowRoot?.host?.getAttribute("neighbors");
+      const neighbors = this.getAttribute("neighbors");
 
       this.neighbors = neighbors != null ? Number(neighbors) : null;
     }
@@ -212,9 +212,9 @@ window.customElements.define(
 
       this.shadowRoot
         ?.querySelector("slot-match")
-        ?.setAttribute("name", this.clicked ? "shown" : "hidden");
+        .setName(this.clicked ? "shown" : "hidden");
 
-      this.shadowRoot?.host?.toggleAttribute("hidden", !this.clicked);
+      this.toggleAttribute("hidden", !this.clicked);
     }
   }
 );

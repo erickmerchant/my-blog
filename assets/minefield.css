@@ -110,6 +110,7 @@ body {
   &.tile-content {
     display: flex;
     aspect-ratio: 1 / 1;
+    width: 100%;
   }
 
   &.hidden,

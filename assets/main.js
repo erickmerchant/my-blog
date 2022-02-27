@@ -9,20 +9,10 @@ window.customElements.define(
       this.render();
     };
 
-    static get observedAttributes() {
-      return ["open"];
-    }
-
-    attributeChangedCallback(_, __, open) {
-      if (this.open !== (open === "")) {
-        this.open = open === "";
-
-        this.render();
-      }
-    }
-
     connectedCallback() {
-      this.shadowRoot?.host?.setAttribute("mounted", "");
+      this.open = this.getAttribute("open");
+
+      this.setAttribute("mounted", "");
 
       let button = this.shadowRoot?.querySelector("button");
 
@@ -34,15 +24,13 @@ window.customElements.define(
     }
 
     render() {
-      this.shadowRoot?.host?.toggleAttribute("open", this.open);
+      this.toggleAttribute("open", this.open);
 
       let button = this.shadowRoot?.querySelector("button");
 
       button?.setAttribute("aria-expanded", this.open ? "true" : "false");
       button?.setAttribute("aria-label", this.open ? "Close nav" : "Open nav");
-      button
-        ?.querySelector("slot-match")
-        ?.setAttribute("name", this.open ? "close" : "menu");
+      button?.querySelector("slot-match").setName(this.open ? "close" : "menu");
     }
   }
 );
@@ -50,16 +38,14 @@ window.customElements.define(
 window.customElements.define(
   "slot-match",
   class extends HTMLElement {
-    static get observedAttributes() {
-      return ["name"];
+    connectedCallback() {
+      this.setName(this.getAttribute("name"));
     }
 
-    attributeChangedCallback(_, __, name) {
-      if (this.name !== name) {
-        this.name = name;
+    setName(name) {
+      this.name = name;
 
-        this.render();
-      }
+      this.render();
     }
 
     render() {
