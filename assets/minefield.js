@@ -2,11 +2,12 @@ window.customElements.define(
   "minefield-game",
   class extends HTMLElement {
     gameOver = false;
+    message;
     remaining;
 
     onReveal = (e) => {
-      const { row, column, mine, empty } = e.detail;
-      const { revealed, pairs } =
+      let { row, column, mine, empty } = e.detail;
+      let { revealed, pairs } =
         this.shadowRoot
           ?.querySelector(
             `minefield-tile[row="${row}"][column="${column}"][hidden]`
@@ -19,9 +20,9 @@ window.customElements.define(
 
       if (empty) {
         while (pairs.length) {
-          const [row, column] = pairs.shift();
+          let [row, column] = pairs.shift();
 
-          const result =
+          let result =
             this.shadowRoot
               ?.querySelector(
                 `minefield-tile[row="${row}"][column="${column}"][hidden]:not([mine])`
@@ -39,12 +40,12 @@ window.customElements.define(
       }
 
       if (!this.gameOver) {
-        const timeElement = this.shadowRoot?.querySelector(`minefield-time`);
+        let timeElement = this.shadowRoot?.querySelector(`minefield-time`);
 
         if (mine) {
           this.gameOver = true;
 
-          for (const tile of this.shadowRoot?.querySelectorAll(
+          for (let tile of this.shadowRoot?.querySelectorAll(
             `minefield-tile[hidden]`
           )) {
             tile.reveal();
@@ -52,7 +53,7 @@ window.customElements.define(
 
           timeElement?.stopIfStarted();
 
-          this.confirmReset("You lost. Try again?");
+          this.message = "You lost. Try again?";
         } else {
           if (this.remaining > 0) {
             timeElement?.startIfStopped();
@@ -61,10 +62,12 @@ window.customElements.define(
 
             timeElement?.stopIfStarted();
 
-            this.confirmReset("You won! Start new game?");
+            this.message = "You won! Start new game?";
           }
         }
       }
+
+      this.render();
     };
 
     onFlag = (e) => {
@@ -78,14 +81,39 @@ window.customElements.define(
       this.addEventListener("minefield:flag", this.onFlag);
     }
 
-    confirmReset(message) {
-      window.setTimeout(() => {
-        const reload = window.confirm(message);
+    render() {
+      let confirm = this.shadowRoot?.querySelector("minefield-confirm");
 
-        if (reload) {
+      if (this.message) {
+        confirm?.replaceChildren(this.message);
+      }
+
+      if (this.gameOver) {
+        confirm?.show();
+      }
+    }
+  }
+);
+
+window.customElements.define(
+  "minefield-confirm",
+  class extends HTMLElement {
+    show() {
+      this.shadowRoot?.querySelector("slot-match")?.setName("open");
+
+      let button = this.shadowRoot?.querySelector("button");
+
+      button?.addEventListener(
+        "click",
+        () => {
           window.location.reload();
+        },
+        {
+          once: true,
         }
-      }, 250);
+      );
+
+      button?.focus();
     }
   }
 );
@@ -106,7 +134,7 @@ window.customElements.define(
     }
 
     render() {
-      this.shadowRoot.replaceChildren(this.count);
+      this.shadowRoot?.replaceChildren(this.count);
     }
   }
 );
@@ -137,11 +165,9 @@ window.customElements.define(
         this.render();
       }, 250);
 
-      if (this.shadowRoot) {
-        const time = Math.floor((Date.now() - this.startTime) / 1000);
+      let time = Math.floor((Date.now() - this.startTime) / 1000);
 
-        this.shadowRoot.replaceChildren(time);
-      }
+      this.shadowRoot?.replaceChildren(time);
     }
   }
 );
@@ -159,7 +185,7 @@ window.customElements.define(
     toggleFlagged = (e) => {
       e.preventDefault();
 
-      const event = new CustomEvent("minefield:flag", {
+      let event = new CustomEvent("minefield:flag", {
         bubbles: true,
         composed: true,
         detail: {
@@ -177,7 +203,7 @@ window.customElements.define(
     toggleClicked = (e) => {
       e.preventDefault();
 
-      const event = new CustomEvent("minefield:reveal", {
+      let event = new CustomEvent("minefield:reveal", {
         bubbles: true,
         composed: true,
         detail: {
@@ -220,7 +246,7 @@ window.customElements.define(
     }
 
     connectedCallback() {
-      const button = this.shadowRoot?.querySelector("button");
+      let button = this.shadowRoot?.querySelector("button");
 
       button?.addEventListener("click", this.toggleClicked);
       button?.addEventListener("contextmenu", this.toggleFlagged);

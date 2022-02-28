@@ -173,6 +173,23 @@ pub async fn board(
           template shadowroot="open" {
             style { "@import '/minefield.css';" }
 
+            minefield-confirm {
+              template shadowroot="open" {
+                style { "@import '/minefield.css';" }
+
+                (slot_match(
+                  "hidden",
+                  "Message self",
+                  html! {
+                    div .Message.content slot="open" {
+                      span { slot {} }
+                      button .Message.button { "OK" }
+                    }
+                  }
+                ))
+              }
+            }
+
             .Stats.self {
               .Stats.stat {
                 "🚩"
@@ -202,8 +219,7 @@ pub async fn board(
                       "hidden",
                       "Field tile-content",
                       html! {
-                        button .Field.hidden type="button" slot="hidden" {
-                        }
+                        button .Field.hidden type="button" slot="hidden" {}
 
                         .Field.shown slot="shown" {
                           slot {}

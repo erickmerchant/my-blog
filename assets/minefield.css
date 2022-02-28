@@ -75,6 +75,30 @@ body {
   }
 }
 
+.Message {
+  &.self {
+    height: 1.5em;
+    display: flex;
+  }
+
+  &.content {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: stretch
+    gap: 1em;
+  }
+
+  &.button {
+    appearance: none;
+    border: 1px solid currentColor;
+    border-radius: 0.125em;
+    padding: 0.125em 0.5em;
+    display: inline-flex;
+    align-items: center;
+  }
+}
+
 .Stats {
   &.self {
     display: flex;
