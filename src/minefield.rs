@@ -194,9 +194,7 @@ pub async fn board(
 
             .Field.self {
               @for tile in &tiles {
-                @let neighbors_attr = if !tile.mine { Some(tile.neighbors) } else { None };
-
-                minefield-tile .Field.tile row=(tile.row) column=(tile.column) neighbors=[neighbors_attr] hidden {
+                minefield-tile .Field.tile row=(tile.row) column=(tile.column) empty[!tile.mine && tile.neighbors == 0] mine[tile.mine] hidden {
                   template shadowroot="open" {
                     style { "@import '/minefield.css';" }
 
