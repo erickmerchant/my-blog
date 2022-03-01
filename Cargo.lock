@@ -2510,9 +2510,9 @@ dependencies = [
 
 [[package]]
 name = "redox_syscall"
-version = "0.2.10"
+version = "0.2.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8383f39639269cde97d255a32bdb68c047337295414940c68bdd30c2e13203ff"
+checksum = "8380fe0152551244f0747b1bf41737e0f8a74f97a14ccefd1148187271634f3c"
 dependencies = [
  "bitflags",
 ]
@@ -3145,9 +3145,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.81.0"
+version = "0.81.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "34cb4cbd991b8b5bff358e9cea740485f8b392935049a8afa488896ca797b0b2"
+checksum = "1e122f185aa9e036e00cc90d951ee85da17f79a101f88ac841311270c10cc493"
 dependencies = [
  "ahash",
  "indexmap",

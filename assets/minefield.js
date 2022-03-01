@@ -7,34 +7,32 @@ window.customElements.define(
 
     onReveal = (e) => {
       let { row, column, mine, empty } = e.detail;
-      let { revealed, pairs } =
-        this.shadowRoot
-          ?.querySelector(
-            `minefield-tile[row="${row}"][column="${column}"][hidden]`
-          )
-          ?.reveal() ?? {};
 
-      if (revealed) {
-        this.remaining--;
-      }
+      let pairs = [[row, column]];
+      let go = true;
 
-      if (empty) {
-        while (pairs.length) {
-          let [row, column] = pairs.shift();
+      while (go && pairs.length) {
+        go = empty;
+        let [row, column] = pairs.shift();
+        let tile = this.shadowRoot?.querySelector(
+          `minefield-tile[row="${row}"][column="${column}"][hidden]:not([mine])`
+        );
+        let revealed = tile?.reveal() ?? false;
 
-          let result =
-            this.shadowRoot
-              ?.querySelector(
-                `minefield-tile[row="${row}"][column="${column}"][hidden]:not([mine])`
-              )
-              ?.reveal() ?? {};
+        if (revealed) {
+          this.remaining--;
 
-          if (result.revealed) {
-            this.remaining--;
-          }
-
-          if (result.pairs) {
-            pairs.push(...result.pairs);
+          if (tile.empty) {
+            pairs.push(
+              [row - 1, column - 1],
+              [row - 1, column],
+              [row - 1, column + 1],
+              [row, column - 1],
+              [row, column + 1],
+              [row + 1, column - 1],
+              [row + 1, column],
+              [row + 1, column + 1]
+            );
           }
         }
       }
@@ -189,7 +187,7 @@ window.customElements.define(
         bubbles: true,
         composed: true,
         detail: {
-          number: this.flagged ? -1 : 1,
+          number: this.flagged ? 1 : -1,
         },
       });
 
@@ -203,6 +201,7 @@ window.customElements.define(
     toggleClicked = (e) => {
       e.preventDefault();
 
+      // the reveal() call happens in minefield-game
       let event = new CustomEvent("minefield:reveal", {
         bubbles: true,
         composed: true,
@@ -219,7 +218,6 @@ window.customElements.define(
 
     reveal() {
       let revealed = false;
-      let pairs = [];
 
       if (!this.flagged && !this.shown) {
         this.shown = true;
@@ -227,22 +225,9 @@ window.customElements.define(
         this.render();
 
         revealed = true;
-
-        if (this.empty) {
-          pairs = [
-            [this.row - 1, this.column - 1],
-            [this.row - 1, this.column],
-            [this.row - 1, this.column + 1],
-            [this.row, this.column - 1],
-            [this.row, this.column + 1],
-            [this.row + 1, this.column - 1],
-            [this.row + 1, this.column],
-            [this.row + 1, this.column + 1],
-          ];
-        }
       }
 
-      return { revealed, pairs };
+      return revealed;
     }
 
     connectedCallback() {
