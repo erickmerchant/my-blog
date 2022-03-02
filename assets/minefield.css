@@ -36,6 +36,12 @@ body {
   &.self {
     display: grid;
     min-height: 100%;
+    place-content: center;
+  }
+
+  &.display {
+    display: grid;
+    min-height: 100%;
     align-content: center;
     margin-inline: auto;
     max-width: max-content;
@@ -77,20 +83,42 @@ body {
 
 .Message {
   &.self {
-    height: 1.5em;
-    display: flex;
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    inset: 0;
+    pointer-events: none;
+
+    &:where([name="open"]) {
+      pointer-events: auto;
+      background-color: hsl(0 0% 0% / 0.25);
+    }
   }
 
   &.content {
+    position: relative;
+    height: 100%;
     width: 100%;
+    display: grid;
+    place-content: center;
+    pointer-events: none;
+  }
+
+  &.dialog {
+    pointer-events: auto;
+    position: static;
     display: flex;
     justify-content: space-around;
-    align-items: stretch
+    align-items: stretch;
+    padding: 1em;
+    border: 0 solid transparent;
+    border-radius: 0.125em;
     gap: 1em;
   }
 
   &.button {
     appearance: none;
+    cursor: pointer;
     border: 1px solid currentColor;
     border-radius: 0.125em;
     padding: 0.125em 0.5em;

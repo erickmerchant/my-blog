@@ -15,8 +15,8 @@ struct Tile {
   column: usize,
 }
 
-fn page_layout(title: &str, content: Markup) -> Markup {
-  html! {
+fn page_layout(title: &str, content: Markup) -> Result<String, CustomError> {
+  minify_markup(html! {
     (DOCTYPE)
     html lang="en-US" {
       head {
@@ -34,37 +34,39 @@ fn page_layout(title: &str, content: Markup) -> Markup {
         script src="/polyfill.js" {}
       }
     }
-  }
+  })
 }
 
 pub async fn start() -> Result<NamedFile> {
   cacheable_response(Path::new("minefield/start.html"), || {
-    minify_markup(page_layout(
+    page_layout(
       "Minefield",
       html! {
         main .App.self {
-          h1 .App.heading {
-            span { "💥" }
-            "Minefield"
-          }
-          p { "Choose your level:" }
-          ol .Nav.self {
-            li .Nav.item {
-              span { "🚩" }
-              a .Nav.link href="/minefield/8/8/10.html" { "Novice" }
+          div .App.display {
+            h1 .App.heading {
+              span { "💥" }
+              "Minefield"
             }
-            li .Nav.item {
-              span { "🚩" }
-              a .Nav.link href="/minefield/16/16/40.html" { "Intermediate" }
-            }
-            li .Nav.item {
-              span { "🚩" }
-              a .Nav.link href="/minefield/30/16/99.html" { "Pro" }
+            p { "Choose your level:" }
+            ol .Nav.self {
+              li .Nav.item {
+                span { "🚩" }
+                a .Nav.link href="/minefield/8/8/10.html" { "Novice" }
+              }
+              li .Nav.item {
+                span { "🚩" }
+                a .Nav.link href="/minefield/16/16/40.html" { "Intermediate" }
+              }
+              li .Nav.item {
+                span { "🚩" }
+                a .Nav.link href="/minefield/30/16/99.html" { "Pro" }
+              }
             }
           }
         }
       },
-    ))
+    )
   })
 }
 
@@ -164,7 +166,7 @@ pub async fn board(
   }
 
   dynamic_response(|| {
-    minify_markup(page_layout(
+    page_layout(
       "Minefield",
       html! {
         @let remaining = height * width - count;
@@ -173,74 +175,92 @@ pub async fn board(
           template shadowroot="open" {
             style { "@import '/minefield.css';" }
 
-            minefield-confirm {
+            .App.display {
+              .Stats.self {
+                .Stats.stat {
+                  "🚩"
+                  minefield-flags count=(count) {
+                    template shadowroot="open" {
+                      (count)
+                    }
+                  }
+                }
+                .Stats.stat {
+                  minefield-time {
+                    template shadowroot="open" {
+                      "0"
+                    }
+                  }
+                  "⏱"
+                }
+              }
+
+              .Field.self {
+                @for tile in &tiles {
+                  minefield-tile .Field.tile row=(tile.row) column=(tile.column) empty[!tile.mine && tile.neighbors == 0] mine[tile.mine] hidden {
+                    template shadowroot="open" {
+                      style { "@import '/minefield.css';" }
+
+                      (slot_match(
+                        "hidden",
+                        "switch",
+                        "Field tile-content",
+                        html! {
+                          button .Field.hidden type="button" slot="hidden" id="reveal-button" aria-label={"row " (tile.row) " column " (tile.column)} {}
+
+                          .Field.shown slot="shown" {
+                            slot {}
+                          }
+
+                          .Field.shown slot="disarmed" {
+                            "💣"
+                          }
+                        }
+                      ))
+                    }
+
+                    span style={"color: var(--color-" (tile.neighbors) ");"} {
+                      @if tile.mine {
+                        "💥"
+                      } @else if tile.neighbors > 0 {
+                        (tile.neighbors)
+                      }
+                    }
+                  }
+                }
+              }
+            }
+
+            minefield-dialog .Message.self {
               template shadowroot="open" {
                 style { "@import '/minefield.css';" }
 
                 (slot_match(
-                  "hidden",
-                  "Message self",
+                  "closed",
+                  "switch",
+                  "Message content",
                   html! {
-                    div .Message.content slot="open" {
-                      span { slot {} }
-                      button .Message.button { "OK" }
+                    dialog .Message.dialog slot="mulligan" {
+                      span { "😅 Phew! That was close." }
+                      button .Message.button id="mulligan-ok" { "OK" }
+                    }
+                    dialog .Message.dialog slot="loss" {
+                      span { "🙁 You lost. Try again?" }
+                      button .Message.button id="loss-ok" { "OK" }
+                      button .Message.button id="loss-cancel" { "Cancel" }
+                    }
+                    dialog .Message.dialog slot="win" {
+                      span { "🙂 You won! Start new game?" }
+                      button .Message.button id="win-ok" { "OK" }
+                      button .Message.button id="win-cancel" { "Cancel" }
                     }
                   }
                 ))
               }
             }
-
-            .Stats.self {
-              .Stats.stat {
-                "🚩"
-                minefield-flags count=(count) {
-                  template shadowroot="open" {
-                    (count)
-                  }
-                }
-              }
-              .Stats.stat {
-                minefield-time {
-                  template shadowroot="open" {
-                    "0"
-                  }
-                }
-                "⏱"
-              }
-            }
-
-            .Field.self {
-              @for tile in &tiles {
-                minefield-tile .Field.tile row=(tile.row) column=(tile.column) empty[!tile.mine && tile.neighbors == 0] mine[tile.mine] hidden {
-                  template shadowroot="open" {
-                    style { "@import '/minefield.css';" }
-
-                    (slot_match(
-                      "hidden",
-                      "Field tile-content",
-                      html! {
-                        button .Field.hidden type="button" slot="hidden" {}
-
-                        .Field.shown slot="shown" {
-                          slot {}
-                        }
-                      }
-                    ))
-                  }
-
-                  span style={"color: var(--color-" (tile.neighbors) ");"} {
-                    @if tile.mine {
-                      "💥"
-                    } @else if tile.neighbors > 0 {
-                      (tile.neighbors)
-                    }
-                  }
-                }
-              }
-            }
           }
         }
       },
-    ))
+    )
   })
 }

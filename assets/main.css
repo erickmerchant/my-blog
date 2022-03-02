@@ -270,8 +270,7 @@ a {
   & .Nav {
     &.button {
       position: absolute;
-      top: 0;
-      left: 0;
+      inset: 0;
       z-index: 3;
       appearance: none;
       cursor: pointer;
@@ -286,8 +285,7 @@ a {
 
     &.triangle {
       position: absolute;
-      top: 0;
-      left: 0;
+      inset: 0;
       z-index: 2;
       display: block;
       width: 0;
@@ -307,8 +305,7 @@ a {
 
     &.links {
       position: absolute;
-      top: 0;
-      left: 0;
+      inset: 0;
       z-index: 0;
       width: var(--drawer-width);
       height: 100%;

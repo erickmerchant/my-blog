@@ -5,6 +5,7 @@ mod pages;
 mod service;
 mod templates;
 
+use crate::common::CustomError;
 use actix_web::{
     dev::ServiceResponse,
     http::header::{HeaderName, HeaderValue},
@@ -13,7 +14,6 @@ use actix_web::{
     middleware::{Compress, ErrorHandlers, Logger},
     App, HttpServer, Result,
 };
-use maud::Markup;
 use std::{env, io};
 
 #[cfg(feature = "local")]
@@ -80,8 +80,11 @@ fn internal_error<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerResponse<B>>
     error_response(res, templates::internal_error())
 }
 
-fn error_response<B>(res: ServiceResponse<B>, src: Markup) -> Result<ErrorHandlerResponse<B>> {
-    let body = common::minify_markup(src).expect("body minified");
+fn error_response<B>(
+    res: ServiceResponse<B>,
+    body: Result<String, CustomError>,
+) -> Result<ErrorHandlerResponse<B>> {
+    let body = body.expect("failed to produce body");
     let (req, res) = res.into_parts();
     let res = res.set_body(body);
     let mut res = ServiceResponse::new(req, res)

@@ -1,4 +1,4 @@
-use crate::common::{cacheable_response, minify_markup, CustomError};
+use crate::common::{cacheable_response, CustomError};
 use crate::templates::page_layout;
 use actix_files::NamedFile;
 use actix_web::{web, Result};
@@ -30,7 +30,7 @@ pub async fn home() -> Result<NamedFile> {
   cacheable_response(Path::new("index.html"), || {
     let feed = get_feed();
 
-    minify_markup(page_layout(
+    page_layout(
       "Home",
       html! {
         ol .Home.post-list {
@@ -45,7 +45,7 @@ pub async fn home() -> Result<NamedFile> {
       Some(html! {
         h1 .Banner.heading { "ErickMerchant.com" }
       }),
-    ))
+    )
   })
 }
 
@@ -87,14 +87,14 @@ pub async fn post(post: web::Path<String>) -> Result<NamedFile> {
     let feed = get_feed();
 
     match feed.posts.get(slug).and_then(|post| Some(post)) {
-      Some(post) => minify_markup(page_layout(
+      Some(post) => page_layout(
         post.title.as_str(),
         html! {
           h1 .Content.heading { (post.title) }
           (PreEscaped(post.content.to_owned()))
         },
         None,
-      )),
+      ),
       _ => Err(CustomError::NotFound {}),
     }
   })

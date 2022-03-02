@@ -1,8 +1,9 @@
+use crate::common::{minify_markup, CustomError};
 use maud::{html, Markup, DOCTYPE};
 
-pub fn slot_match(name: &str, class_name: &str, content: Markup) -> Markup {
+pub fn slot_match(name: &str, id: &str, class_name: &str, content: Markup) -> Markup {
   html! {
-    slot-match class=(class_name) name=(name) {
+    slot-match name=(name) id=(id) class=(class_name) {
       template shadowroot="open" {
         slot {}
       }
@@ -18,8 +19,8 @@ pub fn side_nav(content: Markup) -> Markup {
         style { "@import '/main.css';" }
 
         nav .Nav.self {
-          button .Nav.button type="button" aria-hidden="true" tabindex="-1" {
-            (slot_match("menu", "", html! {
+          button .Nav.button type="button" aria-hidden="true" tabindex="-1" id="toggle" {
+            (slot_match("menu", "icon", "", html! {
               svg
                 .Nav.icon
                 viewBox="0 0 100 100"
@@ -60,8 +61,12 @@ pub fn side_nav(content: Markup) -> Markup {
   }
 }
 
-pub fn page_layout(title: &str, content: Markup, heading: Option<Markup>) -> Markup {
-  html! {
+pub fn page_layout(
+  title: &str,
+  content: Markup,
+  heading: Option<Markup>,
+) -> Result<String, CustomError> {
+  minify_markup(html! {
     (DOCTYPE)
     html lang="en-US" {
       head {
@@ -99,10 +104,10 @@ pub fn page_layout(title: &str, content: Markup, heading: Option<Markup>) -> Mar
         script src="/polyfill.js" {}
       }
     }
-  }
+  })
 }
 
-pub fn not_found() -> Markup {
+pub fn not_found() -> Result<String, CustomError> {
   let title = "Page Not Found";
 
   page_layout(
@@ -115,7 +120,7 @@ pub fn not_found() -> Markup {
   )
 }
 
-pub fn internal_error() -> Markup {
+pub fn internal_error() -> Result<String, CustomError> {
   let title = "Internal Error";
 
   page_layout(

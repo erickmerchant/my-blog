@@ -1,124 +1,51 @@
 window.customElements.define(
-  "minefield-game",
-  class extends HTMLElement {
-    gameOver = false;
-    message;
-    remaining;
-
-    onReveal = (e) => {
-      let { row, column, mine, empty } = e.detail;
-
-      let pairs = [[row, column]];
-      let go = true;
-
-      while (go && pairs.length) {
-        go = empty;
-        let [row, column] = pairs.shift();
-        let tile = this.shadowRoot?.querySelector(
-          `minefield-tile[row="${row}"][column="${column}"][hidden]:not([mine])`
-        );
-        let revealed = tile?.reveal() ?? false;
-
-        if (revealed) {
-          this.remaining--;
-
-          if (tile.empty) {
-            pairs.push(
-              [row - 1, column - 1],
-              [row - 1, column],
-              [row - 1, column + 1],
-              [row, column - 1],
-              [row, column + 1],
-              [row + 1, column - 1],
-              [row + 1, column],
-              [row + 1, column + 1]
-            );
-          }
-        }
-      }
-
-      if (!this.gameOver) {
-        let timeElement = this.shadowRoot?.querySelector(`minefield-time`);
-
-        if (mine) {
-          this.gameOver = true;
-
-          for (let tile of this.shadowRoot?.querySelectorAll(
-            `minefield-tile[hidden]`
-          )) {
-            tile.reveal();
-          }
-
-          timeElement?.stopIfStarted();
-
-          this.message = "You lost. Try again?";
-        } else {
-          if (this.remaining > 0) {
-            timeElement?.startIfStopped();
-          } else {
-            this.gameOver = true;
-
-            timeElement?.stopIfStarted();
-
-            this.message = "You won! Start new game?";
-          }
-        }
-      }
-
-      this.render();
+  "minefield-dialog",
+  class MinefieldDialog extends HTMLElement {
+    onOk = () => {
+      window.location.reload();
     };
 
-    onFlag = (e) => {
-      this.shadowRoot?.querySelector(`minefield-flags`)?.step(e.detail?.number);
+    onClose = () => {
+      this.shadowRoot?.getElementById("switch")?.setName("closed");
     };
 
     connectedCallback() {
-      this.remaining = Number(this.getAttribute("remaining"));
+      this.shadowRoot
+        ?.getElementById("mulligan-ok")
+        ?.addEventListener("click", this.onClose);
 
-      this.addEventListener("minefield:reveal", this.onReveal);
-      this.addEventListener("minefield:flag", this.onFlag);
+      this.shadowRoot
+        ?.getElementById("loss-ok")
+        ?.addEventListener("click", this.onOk);
+
+      this.shadowRoot
+        ?.getElementById("loss-cancel")
+        ?.addEventListener("click", this.onClose);
+
+      this.shadowRoot
+        ?.getElementById("win-ok")
+        ?.addEventListener("click", this.onOk);
+
+      this.shadowRoot
+        ?.getElementById("win-cancel")
+        ?.addEventListener("click", this.onClose);
     }
 
-    render() {
-      let confirm = this.shadowRoot?.querySelector("minefield-confirm");
+    show(type) {
+      this.shadowRoot?.getElementById("switch")?.setName(type);
 
-      if (this.message) {
-        confirm?.replaceChildren(this.message);
+      this.shadowRoot?.querySelector("button")?.focus();
+
+      if (type == "mulligan") {
+        setTimeout(this.onClose, 3000);
       }
-
-      if (this.gameOver) {
-        confirm?.show();
-      }
-    }
-  }
-);
-
-window.customElements.define(
-  "minefield-confirm",
-  class extends HTMLElement {
-    show() {
-      this.shadowRoot?.querySelector("slot-match")?.setName("open");
-
-      let button = this.shadowRoot?.querySelector("button");
-
-      button?.addEventListener(
-        "click",
-        () => {
-          window.location.reload();
-        },
-        {
-          once: true,
-        }
-      );
-
-      button?.focus();
     }
   }
 );
 
 window.customElements.define(
   "minefield-flags",
-  class extends HTMLElement {
+  class MinefieldFlags extends HTMLElement {
     count;
 
     connectedCallback() {
@@ -139,7 +66,7 @@ window.customElements.define(
 
 window.customElements.define(
   "minefield-time",
-  class extends HTMLElement {
+  class MinefieldTime extends HTMLElement {
     startTime = null;
 
     startIfStopped() {
@@ -172,9 +99,9 @@ window.customElements.define(
 
 window.customElements.define(
   "minefield-tile",
-  class extends HTMLElement {
+  class MinefieldTile extends HTMLElement {
     flagged = false;
-    shown = false;
+    state = 0; // 0: hidden, 1: shown, 2: disarmed
     row;
     column;
     empty;
@@ -219,8 +146,22 @@ window.customElements.define(
     reveal() {
       let revealed = false;
 
-      if (!this.flagged && !this.shown) {
-        this.shown = true;
+      if (!this.flagged && this.state === 0) {
+        this.state = 1;
+
+        this.render();
+
+        revealed = true;
+      }
+
+      return revealed;
+    }
+
+    disarm() {
+      let revealed = false;
+
+      if (!this.flagged && this.state === 0) {
+        this.state = 2;
 
         this.render();
 
@@ -231,7 +172,7 @@ window.customElements.define(
     }
 
     connectedCallback() {
-      let button = this.shadowRoot?.querySelector("button");
+      let button = this.shadowRoot?.getElementById("reveal-button");
 
       button?.addEventListener("click", this.toggleClicked);
       button?.addEventListener("contextmenu", this.toggleFlagged);
@@ -244,14 +185,120 @@ window.customElements.define(
 
     render() {
       this.shadowRoot
-        ?.querySelector("button")
-        .replaceChildren(this.flagged ? "🚩" : "");
+        ?.getElementById("reveal-button")
+        ?.replaceChildren(this.flagged ? "🚩" : "");
 
       this.shadowRoot
-        ?.querySelector("slot-match")
-        .setName(this.shown ? "shown" : "hidden");
+        ?.getElementById("switch")
+        ?.setName(["hidden", "shown", "disarmed"][this.state]);
 
-      this.toggleAttribute("hidden", !this.shown);
+      this.toggleAttribute("hidden", this.state === 0);
+    }
+  }
+);
+
+window.customElements.define(
+  "minefield-game",
+  class MinefieldGame extends HTMLElement {
+    gameOver = false;
+    gameStarted = false;
+    remaining;
+    dialogType;
+
+    onReveal = (e) => {
+      let { row, column, mine, empty } = e.detail;
+
+      this.dialogType = null;
+
+      if (mine && !this.gameStarted) {
+        if (
+          this.shadowRoot
+            ?.querySelector(
+              `minefield-tile[row="${row}"][column="${column}"][hidden]`
+            )
+            ?.disarm()
+        ) {
+          this.remaining--;
+
+          this.dialogType = "mulligan";
+        }
+      } else {
+        let pairs = [[row, column]];
+
+        do {
+          let [row, column] = pairs.shift();
+          let tile = this.shadowRoot?.querySelector(
+            `minefield-tile[row="${row}"][column="${column}"][hidden]:not([mine])`
+          );
+          let revealed = tile?.reveal() ?? false;
+
+          if (revealed) {
+            this.remaining--;
+
+            if (tile.empty) {
+              pairs.push(
+                [row - 1, column - 1],
+                [row - 1, column],
+                [row - 1, column + 1],
+                [row, column - 1],
+                [row, column + 1],
+                [row + 1, column - 1],
+                [row + 1, column],
+                [row + 1, column + 1]
+              );
+            }
+          }
+        } while (empty && pairs.length);
+      }
+
+      if (!this.gameOver) {
+        let timeElement = this.shadowRoot?.querySelector(`minefield-time`);
+
+        if (mine && this.gameStarted) {
+          this.gameOver = true;
+
+          for (let tile of this.shadowRoot?.querySelectorAll(
+            `minefield-tile[hidden]`
+          )) {
+            tile.reveal();
+          }
+
+          timeElement?.stopIfStarted();
+
+          this.dialogType = "loss";
+        } else if (this.remaining > 0) {
+          timeElement?.startIfStopped();
+        } else {
+          this.gameOver = true;
+
+          timeElement?.stopIfStarted();
+
+          this.dialogType = "win";
+        }
+      }
+
+      this.gameStarted = true;
+
+      this.render();
+    };
+
+    onFlag = (e) => {
+      this.shadowRoot?.querySelector(`minefield-flags`)?.step(e.detail?.number);
+    };
+
+    connectedCallback() {
+      this.remaining = Number(this.getAttribute("remaining"));
+
+      this.addEventListener("minefield:reveal", this.onReveal);
+      this.addEventListener("minefield:flag", this.onFlag);
+    }
+
+    render() {
+      let confirm = this.shadowRoot?.querySelector("minefield-dialog");
+
+      if (this.dialogType) {
+        confirm?.show(this.dialogType);
+      }
     }
   }
 );
