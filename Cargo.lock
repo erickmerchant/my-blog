@@ -3145,9 +3145,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.81.6"
+version = "0.81.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "94a55b618a5191b87ba8c7dcdfaa4c1d71c92438581083e0db0c8c17604ce21b"
+checksum = "da69f3073736fa632bb1b5fedb02df5456640177c8051b1a54de2063ac00bcd2"
 dependencies = [
  "ahash",
  "indexmap",
@@ -3240,9 +3240,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.63.0"
+version = "0.63.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "49cfcab3966f8dc8c82604a50ccf54541dcc4101bff72ff70bbd6e73a37a1af7"
+checksum = "1ea3b97d2dbd83cc0fb60cc271be48ed5ac938941b11e8d89a2d03f3788ed82e"
 dependencies = [
  "better_scoped_tls",
  "once_cell",

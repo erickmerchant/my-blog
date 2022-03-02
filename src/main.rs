@@ -1,5 +1,6 @@
 mod assets;
 mod common;
+mod content;
 mod minefield;
 mod pages;
 mod service;

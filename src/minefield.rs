@@ -1,4 +1,5 @@
 use crate::common::{cacheable_response, dynamic_response, minify_markup, CustomError};
+use crate::content::get_site_content;
 use crate::templates::slot_match;
 use actix_files::NamedFile;
 use actix_web::{web, HttpResponse, Result};
@@ -15,22 +16,23 @@ struct Tile {
   column: usize,
 }
 
-fn page_layout(title: &str, content: Markup) -> Result<String, CustomError> {
+fn page_layout(title: &str, body_content: Markup) -> Result<String, CustomError> {
+  let content = get_site_content();
+
   minify_markup(html! {
     (DOCTYPE)
     html lang="en-US" {
       head {
         meta charset="utf-8";
         meta name="viewport" content="width=device-width, initial-scale=1";
-        meta name="description" content="The personal site of Erick Merchant.";
         script type="module" src="/main.js" {}
         script type="module" src="/minefield.js" {}
         link href="/minefield.css" rel="stylesheet";
         link href="/favicon.svg" rel="icon" type="image/svg+xml";
-        title { (title) " | ErickMerchant.com" }
+        title { (title) " | " (content.title) }
       }
       body {
-        (content)
+        (body_content)
         script src="/polyfill.js" {}
       }
     }
@@ -171,9 +173,16 @@ pub async fn board(
       html! {
         @let remaining = height * width - count;
 
-        minefield-game .App.self style={ "--width: " (width) "; --height: " (height) ";" } remaining=(remaining) {
+        minefield-game .App.self remaining=(remaining) {
           template shadowroot="open" {
-            style { "@import '/minefield.css';" }
+            style {
+              "@import '/minefield.css';"
+
+              ":host {"
+                "--width: " (width) ";"
+                "--height: " (height) ";"
+              "}"
+            }
 
             .App.display {
               .Stats.self {
@@ -199,7 +208,13 @@ pub async fn board(
                 @for tile in &tiles {
                   minefield-tile .Field.tile row=(tile.row) column=(tile.column) empty[!tile.mine && tile.neighbors == 0] mine[tile.mine] hidden {
                     template shadowroot="open" {
-                      style { "@import '/minefield.css';" }
+                      style {
+                        "@import '/minefield.css';"
+
+                        ":host {"
+                          "color: var(--color-" (tile.neighbors) ");"
+                        "}"
+                      }
 
                       (slot_match(
                         "hidden",
@@ -219,12 +234,10 @@ pub async fn board(
                       ))
                     }
 
-                    span style={"color: var(--color-" (tile.neighbors) ");"} {
-                      @if tile.mine {
-                        "💥"
-                      } @else if tile.neighbors > 0 {
-                        (tile.neighbors)
-                      }
+                    @if tile.mine {
+                      "💥"
+                    } @else if tile.neighbors > 0 {
+                      (tile.neighbors)
                     }
                   }
                 }

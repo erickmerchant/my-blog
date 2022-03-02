@@ -45,7 +45,7 @@ fn js_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
     let json = r#"{
         "minify": true,
         "env": {
-          "targets": "defaults and supports es6-module"
+          "targets": "defaults and supports es6-module and not dead"
         },
         "jsc": {
           "minify": {

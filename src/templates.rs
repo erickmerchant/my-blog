@@ -1,4 +1,5 @@
 use crate::common::{minify_markup, CustomError};
+use crate::content::{get_site_content, Site};
 use maud::{html, Markup, DOCTYPE};
 
 pub fn slot_match(name: &str, id: &str, class_name: &str, content: Markup) -> Markup {
@@ -62,8 +63,9 @@ pub fn side_nav(content: Markup) -> Markup {
 }
 
 pub fn page_layout(
+  content: Site,
   title: &str,
-  content: Markup,
+  body: Markup,
   heading: Option<Markup>,
 ) -> Result<String, CustomError> {
   minify_markup(html! {
@@ -72,33 +74,34 @@ pub fn page_layout(
       head {
         meta charset="utf-8";
         meta name="viewport" content="width=device-width, initial-scale=1";
-        meta name="description" content="The personal site of Erick Merchant.";
+        meta name="description" content=(content.description);
         script type="module" src="/main.js" {}
         link href="/main.css" rel="stylesheet";
         link href="/favicon.svg" rel="icon" type="image/svg+xml";
-        title { (title) " | ErickMerchant.com" }
+        title { (title) " | " (content.title) }
       }
       body {
         (side_nav(
           html! {
             ol .Links.self slot="links" {
-              li { a .Links.link href="/" { "Home" } }
-              li { a .Links.link href="https://github.com/erickmerchant/my-blog" { "View Source" } }
+              @for link in content.links {
+                li { a .Links.link href=(link.href) { (link.title) } }
+              }
             }
 
             header .Banner.self slot="panel" {
               @if let Some(heading) = heading {
                 (heading)
               } @else {
-                .Banner.heading { "ErickMerchant.com" }
+                .Banner.heading { (content.title) }
               }
             }
 
             main .Content.self slot="panel" {
-              (content)
+              (body)
             }
 
-            footer .Footer.self slot="panel" { p .Footer.copyright { "© 2022 Erick Merchant" } }
+            footer .Footer.self slot="panel" { p .Footer.copyright { (content.copyright) } }
           }
         ))
         script src="/polyfill.js" {}
@@ -110,7 +113,10 @@ pub fn page_layout(
 pub fn not_found() -> Result<String, CustomError> {
   let title = "Page Not Found";
 
+  let content = get_site_content();
+
   page_layout(
+    content.to_owned(),
     title,
     html! {
       h1 .Content.heading { (title) }
@@ -123,7 +129,10 @@ pub fn not_found() -> Result<String, CustomError> {
 pub fn internal_error() -> Result<String, CustomError> {
   let title = "Internal Error";
 
+  let content = get_site_content();
+
   page_layout(
+    content.to_owned(),
     title,
     html! {
       h1 .Content.heading { (title) }
