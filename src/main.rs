@@ -6,7 +6,6 @@ mod pages;
 mod service;
 mod templates;
 
-use crate::common::CustomError;
 use actix_web::{
     dev::ServiceResponse,
     http::header::{HeaderName, HeaderValue},
@@ -15,6 +14,7 @@ use actix_web::{
     middleware::{Compress, ErrorHandlers, Logger},
     App, HttpServer, Result,
 };
+use common::CustomError;
 use std::{env, io};
 
 #[cfg(feature = "local")]

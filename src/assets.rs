@@ -9,7 +9,7 @@ pub async fn file(file: web::Path<String>) -> Result<NamedFile> {
   let mut ext_str = "";
 
   if let Some(ext) = src.extension().and_then(|ext| ext.to_str()) {
-    ext_str = ext
+    ext_str = ext;
   }
 
   match ext_str {
@@ -102,7 +102,7 @@ fn css_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
     printer_options.targets = targets;
 
     match stylesheet::StyleSheet::parse(
-      String::from(src.as_ref().to_str().unwrap_or_default()),
+      src.as_ref().to_str().unwrap_or_default().to_string(),
       &file_contents.clone(),
       parser_options,
     ) {

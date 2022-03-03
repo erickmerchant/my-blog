@@ -15,7 +15,6 @@ title = "Minefield"
 href = "https://github.com/erickmerchant/my-blog"
 title = "View Source"
 
-
 [posts.new-design]
 title = "New design"
 description = "All about the latest design, and rewrite to Rust."

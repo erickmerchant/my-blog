@@ -46,7 +46,7 @@ pub fn static_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
     .or_else(|err| Err(ErrorNotFound(err)))
 }
 
-pub fn minify_markup(html: Markup) -> Result<String, CustomError> {
+pub fn html_response(html: Markup) -> Result<String, CustomError> {
   use minify_html_onepass::{in_place_str, Cfg};
 
   let cfg = &Cfg {

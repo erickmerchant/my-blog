@@ -1,4 +1,4 @@
-use crate::common::{cacheable_response, dynamic_response, minify_markup, CustomError};
+use crate::common::{cacheable_response, dynamic_response, html_response, CustomError};
 use crate::content::get_site_content;
 use crate::templates::slot_match;
 use actix_files::NamedFile;
@@ -16,10 +16,10 @@ struct Tile {
   column: usize,
 }
 
-fn page_layout(title: &str, body_content: Markup) -> Result<String, CustomError> {
+fn page_layout(title: &str, children: Markup) -> Result<String, CustomError> {
   let content = get_site_content();
 
-  minify_markup(html! {
+  html_response(html! {
     (DOCTYPE)
     html lang="en-US" {
       head {
@@ -32,7 +32,7 @@ fn page_layout(title: &str, body_content: Markup) -> Result<String, CustomError>
         title { (title) " | " (content.title) }
       }
       body {
-        (body_content)
+        (children)
         script src="/polyfill.js" {}
       }
     }
@@ -79,7 +79,7 @@ pub async fn board(
 
   if width > &(30 as usize) || height > &(30 as usize) || count > &(99 as usize) {
     return Err(CustomError::Internal {
-      message: String::from("invalid request"),
+      message: "invalid request".to_string(),
     });
   }
 
@@ -176,12 +176,12 @@ pub async fn board(
         minefield-game .App.self remaining=(remaining) {
           template shadowroot="open" {
             style {
-              "@import '/minefield.css';"
+              "@import '/minefield.css';
 
-              ":host {"
-                "--width: " (width) ";"
-                "--height: " (height) ";"
-              "}"
+              :host {
+                --width: " (width) ";
+                --height: " (height) ";
+              }"
             }
 
             .App.display {

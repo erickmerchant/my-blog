@@ -1,19 +1,19 @@
-use crate::common::{minify_markup, CustomError};
+use crate::common::{html_response, CustomError};
 use crate::content::{get_site_content, Site};
 use maud::{html, Markup, DOCTYPE};
 
-pub fn slot_match(name: &str, id: &str, class_name: &str, content: Markup) -> Markup {
+pub fn slot_match(name: &str, id: &str, class_name: &str, children: Markup) -> Markup {
   html! {
     slot-match name=(name) id=(id) class=(class_name) {
       template shadowroot="open" {
         slot {}
       }
-      (content)
+      (children)
     }
   }
 }
 
-pub fn side_nav(content: Markup) -> Markup {
+pub fn side_nav(children: Markup) -> Markup {
   html! {
     side-nav .Page.self {
       template shadowroot="open" {
@@ -57,7 +57,7 @@ pub fn side_nav(content: Markup) -> Markup {
         }
       }
 
-      (content)
+      (children)
     }
   }
 }
@@ -65,10 +65,10 @@ pub fn side_nav(content: Markup) -> Markup {
 pub fn page_layout(
   content: Site,
   title: &str,
-  body: Markup,
+  children: Markup,
   heading: Option<Markup>,
 ) -> Result<String, CustomError> {
-  minify_markup(html! {
+  html_response(html! {
     (DOCTYPE)
     html lang="en-US" {
       head {
@@ -98,7 +98,7 @@ pub fn page_layout(
             }
 
             main .Content.self slot="panel" {
-              (body)
+              (children)
             }
 
             footer .Footer.self slot="panel" { p .Footer.copyright { (content.copyright) } }

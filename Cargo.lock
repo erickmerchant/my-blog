@@ -2033,9 +2033,9 @@ dependencies = [
 
 [[package]]
 name = "parcel_css"
-version = "1.0.0-alpha.17"
+version = "1.0.0-alpha.18"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "70b1ed86c409a9679d7b53827a937a47917e04b3baf8129a96375e25e2eedd8f"
+checksum = "cd3dce4ed5c7e4fb667576916fc03afbfdb666de168da1a9b09033ba5f6560cc"
 dependencies = [
  "bitflags",
  "cssparser",
@@ -3145,9 +3145,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.81.7"
+version = "0.81.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "da69f3073736fa632bb1b5fedb02df5456640177c8051b1a54de2063ac00bcd2"
+checksum = "e1e1bbdde4202528c071fd331f0af797bee60fe5e4638566133d74f10b8edce4"
 dependencies = [
  "ahash",
  "indexmap",
@@ -3335,9 +3335,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.94.0"
+version = "0.94.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4103b2ba1f24dd7ff735d2fa33d86be5eefad4316d046e09509c11dba4f9bb5f"
+checksum = "0f80c4e79b15a077e16f9ce84fea3fece096ad6a8b333918938400de94e6591c"
 dependencies = [
  "ahash",
  "dashmap 4.0.2",
@@ -3546,9 +3546,9 @@ dependencies = [
 
 [[package]]
 name = "termcolor"
-version = "1.1.2"
+version = "1.1.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2dfed899f0eb03f32ee8c6a0aabdb8a7949659e3466561fc0adf54e26d88c5f4"
+checksum = "bab24d30b911b2376f3a13cc2cd443142f0c81dda04c118693e35b3835757755"
 dependencies = [
  "winapi-util",
 ]
