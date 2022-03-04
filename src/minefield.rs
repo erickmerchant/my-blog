@@ -1,6 +1,6 @@
 use crate::common::{cacheable_response, dynamic_response, html_response, CustomError};
 use crate::content::get_site_content;
-use crate::templates::slot_match;
+use crate::templates::SlotMatch;
 use actix_files::NamedFile;
 use actix_web::{web, HttpResponse, Result};
 use maud::{html, Markup, DOCTYPE};
@@ -216,11 +216,11 @@ pub async fn board(
                         "}"
                       }
 
-                      (slot_match(
-                        "hidden",
-                        "switch",
-                        "Field tile-content",
-                        html! {
+                      (SlotMatch {
+                        name: "hidden".to_string(),
+                        id: "switch".to_string(),
+                        class: "Field tile-content".to_string(),
+                        children: html! {
                           button .Field.hidden type="button" slot="hidden" id="reveal-button" aria-label={"row " (tile.row) " column " (tile.column)} {}
 
                           .Field.shown slot="shown" {
@@ -231,7 +231,7 @@ pub async fn board(
                             "💣"
                           }
                         }
-                      ))
+                      })
                     }
 
                     @if tile.mine {
@@ -248,11 +248,11 @@ pub async fn board(
               template shadowroot="open" {
                 style { "@import '/minefield.css';" }
 
-                (slot_match(
-                  "closed",
-                  "switch",
-                  "Message content",
-                  html! {
+                (SlotMatch {
+                  name: "".to_string(),
+                  id: "switch".to_string(),
+                  class: "Message content".to_string(),
+                  children: html! {
                     dialog .Message.dialog slot="mulligan" {
                       span { "😅 Phew! That was close." }
                       button .Message.button id="mulligan-ok" { "OK" }
@@ -268,7 +268,7 @@ pub async fn board(
                       button .Message.button id="win-cancel" { "Cancel" }
                     }
                   }
-                ))
+                })
               }
             }
           }

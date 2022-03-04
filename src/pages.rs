@@ -1,5 +1,5 @@
 use crate::common::{cacheable_response, CustomError};
-use crate::content::get_site_content;
+use crate::content::{get_blog_content, get_site_content};
 use crate::templates::page_layout;
 use actix_files::NamedFile;
 use actix_web::{web, Result};
@@ -8,14 +8,15 @@ use std::path::Path;
 
 pub async fn home() -> Result<NamedFile> {
   cacheable_response(Path::new("index.html"), || {
-    let content = get_site_content();
+    let site_content = get_site_content();
+    let blog_content = get_blog_content();
 
     page_layout(
-      content.to_owned(),
+      site_content.to_owned(),
       "Home",
       html! {
         ol .Home.post-list {
-          @for (slug, post) in content.posts {
+          @for (slug, post) in blog_content.posts {
             li .Home.post {
               h2 .Home.post-title { a href={ "/post/" (slug) ".html" } { (post.title) } }
               p .Home.post-description { (post.description ) }
@@ -24,7 +25,7 @@ pub async fn home() -> Result<NamedFile> {
         }
       },
       Some(html! {
-        h1 .Banner.heading { (content.title) }
+        h1 .Banner.heading { (site_content.title) }
       }),
     )
   })
@@ -34,18 +35,19 @@ pub async fn feed_rss() -> Result<NamedFile> {
   use rss::{ChannelBuilder, ItemBuilder};
 
   cacheable_response(Path::new("feed.rss"), || {
-    let content = get_site_content();
+    let site_content = get_site_content();
+    let blog_content = get_blog_content();
 
     let mut channel = ChannelBuilder::default();
 
-    let base = content.base;
+    let base = site_content.base;
 
     let channel = channel
       .link(&base)
-      .title(content.title)
-      .description(content.description);
+      .title(site_content.title)
+      .description(site_content.description);
 
-    for (slug, post) in content.posts {
+    for (slug, post) in blog_content.posts {
       channel.item(
         ItemBuilder::default()
           .link(format!("{base}/post/{slug}.html"))
@@ -67,11 +69,12 @@ pub async fn post(post: web::Path<String>) -> Result<NamedFile> {
   let slug = slug.to_str().expect("invalid slug");
 
   cacheable_response(post.as_ref().as_str(), || {
-    let content = get_site_content();
+    let site_content = get_site_content();
+    let blog_content = get_blog_content();
 
-    match content.posts.get(slug).and_then(|post| Some(post)) {
+    match blog_content.posts.get(slug).and_then(|post| Some(post)) {
       Some(post) => page_layout(
-        content.to_owned(),
+        site_content.to_owned(),
         post.title.as_str(),
         html! {
           h1 .Content.heading { (post.title) }

@@ -1,63 +1,84 @@
 use crate::common::{html_response, CustomError};
 use crate::content::{get_site_content, Site};
-use maud::{html, Markup, DOCTYPE};
+use maud::{html, Markup, Render, DOCTYPE};
 
-pub fn slot_match(name: &str, id: &str, class_name: &str, children: Markup) -> Markup {
-  html! {
-    slot-match name=(name) id=(id) class=(class_name) {
-      template shadowroot="open" {
-        slot {}
+pub struct SlotMatch {
+  pub name: String,
+  pub id: String,
+  pub class: String,
+  pub children: Markup,
+}
+
+impl Render for SlotMatch {
+  fn render(&self) -> Markup {
+    html! {
+      slot-match name=(self.name) id=(self.id) class=(self.class) {
+        template shadowroot="open" {
+          slot {}
+        }
+        (self.children)
       }
-      (children)
     }
   }
 }
 
-pub fn side_nav(children: Markup) -> Markup {
-  html! {
-    side-nav .Page.self {
-      template shadowroot="open" {
-        style { "@import '/main.css';" }
+struct SideNav {
+  class: String,
+  children: Markup,
+}
 
-        nav .Nav.self {
-          button .Nav.button type="button" aria-hidden="true" tabindex="-1" id="toggle" {
-            (slot_match("menu", "icon", "", html! {
-              svg
-                .Nav.icon
-                viewBox="0 0 100 100"
-                xmlns="http://www.w3.org/2000/svg"
-                aria-hidden="true"
-                slot="close"
-              {
-                rect height="20" width="120" transform="rotate(-45,50,50)" x="-10" y="40" {}
-                rect height="20" width="120" transform="rotate(45,50,50)" x="-10" y="40" {}
-              }
+impl Render for SideNav {
+  fn render(&self) -> Markup {
+    html! {
+      side-nav class=(self.class) {
+        template shadowroot="open" {
+          style { "@import '/main.css';" }
 
-              svg
-                .Nav.icon
-                viewBox="0 0 100 100"
-                xmlns="http://www.w3.org/2000/svg"
-                aria-hidden="true"
-                slot="menu"
-              {
-                rect x="0" y="0" height="20" width="100" {}
-                rect x="0" y="40" height="20" width="100" {}
-                rect x="0" y="80" height="20" width="100" {}
-              }
-            }))
+          nav .SideNav-Nav.self {
+            button .SideNav-Nav.button type="button" aria-hidden="true" tabindex="-1" id="toggle" {
+              (SlotMatch {
+                name: "menu".to_string(),
+                id: "icon".to_string(),
+                class: "SideNav-Nav button-content".to_string(),
+                children: html! {
+                  svg
+                    .SideNav-Nav.icon
+                    viewBox="0 0 100 100"
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                    slot="close"
+                  {
+                    rect height="20" width="120" transform="rotate(-45,50,50)" x="-10" y="40" {}
+                    rect height="20" width="120" transform="rotate(45,50,50)" x="-10" y="40" {}
+                  }
+
+                  svg
+                    .SideNav-Nav.icon
+                    viewBox="0 0 100 100"
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                    slot="menu"
+                  {
+                    rect x="0" y="0" height="20" width="100" {}
+                    rect x="0" y="40" height="20" width="100" {}
+                    rect x="0" y="80" height="20" width="100" {}
+                  }
+                }
+              })
+            }
+            .SideNav-Nav.triangle {}
+            .SideNav-Nav.links {
+              slot name="links" {}
+            }
           }
-          .Nav.triangle {}
-          .Nav.links {
-            slot name="links" {}
+
+          .SideNav-Panel.self {
+            slot name="panel" {}
           }
         }
 
-        .Panel.self {
-          slot name="panel" {}
-        }
+        (self.children)
       }
-
-      (children)
     }
   }
 }
@@ -81,8 +102,9 @@ pub fn page_layout(
         title { (title) " | " (content.title) }
       }
       body {
-        (side_nav(
-          html! {
+        (SideNav {
+          class: "Page self".to_owned(),
+          children: html! {
             ol .Links.self slot="links" {
               @for link in content.links {
                 li { a .Links.link href=(link.href) { (link.title) } }
@@ -103,7 +125,7 @@ pub fn page_layout(
 
             footer .Footer.self slot="panel" { p .Footer.copyright { (content.copyright) } }
           }
-        ))
+        })
         script src="/polyfill.js" {}
       }
     }
