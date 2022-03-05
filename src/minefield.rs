@@ -3,17 +3,90 @@ use crate::content::get_site_content;
 use crate::templates::SlotMatch;
 use actix_files::NamedFile;
 use actix_web::{web, HttpResponse, Result};
-use maud::{html, Markup, DOCTYPE};
+use maud::{html, Markup, Render, DOCTYPE};
 use rand::{seq::SliceRandom, thread_rng};
 use serde::{Deserialize, Serialize};
 use std::{path::Path, vec};
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
-struct Tile {
+struct MinefieldTile {
   mine: bool,
   neighbors: usize,
   row: usize,
   column: usize,
+}
+
+impl Render for MinefieldTile {
+  fn render(&self) -> Markup {
+    html! {
+      minefield-tile .Field.tile row=(self.row) column=(self.column) empty[!self.mine && self.neighbors == 0] mine[self.mine] hidden {
+        template shadowroot="open" {
+          style {
+            "@import '/minefield.css';
+
+            :host {
+              color: var(--color-" (self.neighbors) ");
+            }"
+          }
+
+          (SlotMatch {
+            name: "hidden".to_string(),
+            id: "switch".to_string(),
+            class: "Field tile-content".to_string(),
+            children: html! {
+              button #reveal-button.Field.hidden type="button" slot="hidden" aria-label={"row " (self.row) " column " (self.column)} {}
+
+              .Field.shown slot="shown" {
+                slot {}
+              }
+
+              .Field.shown slot="disarmed" {
+                "💣"
+              }
+            }
+          })
+        }
+
+        @if self.mine {
+          "💥"
+        } @else if self.neighbors > 0 {
+          (self.neighbors)
+        }
+      }
+    }
+  }
+}
+
+struct MinefieldDialog {
+  class: String,
+  slot: String,
+  message: String,
+  close_text: String,
+  confirm_text: Option<String>,
+  has_timeout: bool,
+}
+
+impl Render for MinefieldDialog {
+  fn render(&self) -> Markup {
+    html! {
+      minefield-dialog class=(self.class) has-timeout[(self.has_timeout)] slot=(self.slot) {
+        template shadowroot="open" {
+          style { "@import '/minefield.css';" }
+          dialog #dialog.MinefieldDialog.self {
+            span { (self.message) }
+            @if let Some(confirm_text) = &self.confirm_text {
+              button #submit.MinefieldDialog.button type="button" {
+                (confirm_text)
+              }
+            }
+            button #cancel.MinefieldDialog.button type="button" {
+              (self.close_text)
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 fn page_layout(title: &str, children: Markup) -> Result<String, CustomError> {
@@ -87,7 +160,7 @@ pub async fn board(
 
   let mut tiles = vec![
     vec![
-      Tile {
+      MinefieldTile {
         mine: true,
         neighbors: 0,
         row: 0,
@@ -96,7 +169,7 @@ pub async fn board(
       count.to_owned()
     ],
     vec![
-      Tile {
+      MinefieldTile {
         mine: false,
         neighbors: 0,
         row: 0,
@@ -188,14 +261,14 @@ pub async fn board(
               .Stats.self {
                 .Stats.stat {
                   "🚩"
-                  minefield-flags count=(count) {
+                  minefield-flags #flags count=(count) {
                     template shadowroot="open" {
                       (count)
                     }
                   }
                 }
                 .Stats.stat {
-                  minefield-time {
+                  minefield-time #time {
                     template shadowroot="open" {
                       "0"
                     }
@@ -206,71 +279,42 @@ pub async fn board(
 
               .Field.self {
                 @for tile in &tiles {
-                  minefield-tile .Field.tile row=(tile.row) column=(tile.column) empty[!tile.mine && tile.neighbors == 0] mine[tile.mine] hidden {
-                    template shadowroot="open" {
-                      style {
-                        "@import '/minefield.css';"
-
-                        ":host {"
-                          "color: var(--color-" (tile.neighbors) ");"
-                        "}"
-                      }
-
-                      (SlotMatch {
-                        name: "hidden".to_string(),
-                        id: "switch".to_string(),
-                        class: "Field tile-content".to_string(),
-                        children: html! {
-                          button .Field.hidden type="button" slot="hidden" id="reveal-button" aria-label={"row " (tile.row) " column " (tile.column)} {}
-
-                          .Field.shown slot="shown" {
-                            slot {}
-                          }
-
-                          .Field.shown slot="disarmed" {
-                            "💣"
-                          }
-                        }
-                      })
-                    }
-
-                    @if tile.mine {
-                      "💥"
-                    } @else if tile.neighbors > 0 {
-                      (tile.neighbors)
-                    }
-                  }
+                  (tile.to_owned())
                 }
               }
             }
 
-            minefield-dialog .Message.self {
-              template shadowroot="open" {
-                style { "@import '/minefield.css';" }
-
-                (SlotMatch {
-                  name: "".to_string(),
-                  id: "switch".to_string(),
+            (SlotMatch {
+              name: "".to_string(),
+              id: "dialog-switch".to_string(),
+              class: "Message self".to_string(),
+              children: html! {
+                (MinefieldDialog {
                   class: "Message content".to_string(),
-                  children: html! {
-                    dialog .Message.dialog slot="mulligan" {
-                      span { "😅 Phew! That was close." }
-                      button .Message.button id="mulligan-ok" { "OK" }
-                    }
-                    dialog .Message.dialog slot="loss" {
-                      span { "🙁 You lost. Try again?" }
-                      button .Message.button id="loss-ok" { "OK" }
-                      button .Message.button id="loss-cancel" { "Cancel" }
-                    }
-                    dialog .Message.dialog slot="win" {
-                      span { "🙂 You won! Start new game?" }
-                      button .Message.button id="win-ok" { "OK" }
-                      button .Message.button id="win-cancel" { "Cancel" }
-                    }
-                  }
+                  slot: "mulligan".to_string(),
+                  message: "😅 Phew! That was close.".to_string(),
+                  close_text: "OK".to_string(),
+                  confirm_text: None,
+                  has_timeout: true
+                })
+                (MinefieldDialog {
+                  class: "Message content".to_string(),
+                  slot: "loss".to_string(),
+                  message: "🙁 You lost. Try again?".to_string(),
+                  close_text: "Cancel".to_string(),
+                  confirm_text: Some("OK".to_string()),
+                  has_timeout: false
+                })
+                (MinefieldDialog {
+                  class: "Message content".to_string(),
+                  slot: "win".to_string(),
+                  message: "🙂 You won! Start new game?".to_string(),
+                  close_text: "Cancel".to_string(),
+                  confirm_text: Some("OK".to_string()),
+                  has_timeout: false
                 })
               }
-            }
+            })
           }
         }
       },

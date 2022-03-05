@@ -12,9 +12,13 @@ window.customElements.define(
     }
 
     render() {
-      let slot = this.shadowRoot?.querySelector("slot");
+      let slot = this.shadowRoot?.getElementById("slot");
 
       slot?.setAttribute("name", this.name);
+
+      this.querySelector(`[slot="${this.name}"]`)?.dispatchEvent(
+        new CustomEvent("slot:enter", {})
+      );
     }
   }
 );

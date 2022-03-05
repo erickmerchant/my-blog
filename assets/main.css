@@ -105,7 +105,7 @@ a {
 
 .Links {
   &.self {
-    list-style: none;
+    list-style: disc;
     display: flex;
     flex-direction: column;
     gap: var(--space-quarter);
@@ -129,10 +129,10 @@ a {
   &.self {
     position: relative;
     background: hsl(var(--background));
-    background-image: repeating-linear-gradient(35deg, var(--gradient-1)),
-      repeating-linear-gradient(125deg, var(--gradient-1)),
-      repeating-linear-gradient(160deg, var(--gradient-2)),
-      repeating-linear-gradient(70deg, var(--gradient-2));
+    background-image: repeating-linear-gradient(0deg, var(--gradient-1)),
+      repeating-linear-gradient(90deg, var(--gradient-1)),
+      repeating-linear-gradient(135deg, var(--gradient-2)),
+      repeating-linear-gradient(45deg, var(--gradient-2));
     color: hsl(var(--text-color));
     display: grid;
     align-content: end;
@@ -277,8 +277,8 @@ a {
       border: 0;
       background: hsl(0 0% 0% / 0);
       color: hsl(var(--anchor-color));
-      height: 2em;
       width: 2em;
+      aspect-ratio: 1 / 1;
       display: grid;
       place-content: center;
     }
@@ -297,8 +297,8 @@ a {
 
     &.icon {
       display: block;
-      height: 1em;
       width: 1em;
+      aspect-ratio: 1 / 1;
       pointer-events: none;
       fill: currentColor;
     }

@@ -83,37 +83,35 @@ body {
 
 .Message {
   &.self {
+    display: block;
     position: fixed;
-    height: 100%;
-    width: 100%;
     inset: 0;
     pointer-events: none;
-
-    &:where([name="open"]) {
-      pointer-events: auto;
-      background-color: hsl(0 0% 0% / 0.25);
-    }
   }
 
   &.content {
-    position: relative;
-    height: 100%;
-    width: 100%;
-    display: grid;
-    place-content: center;
-    pointer-events: none;
+    &:where([open]) {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      display: grid;
+      align-items: center;
+      background-color: hsl(0 0% 0% / 0.25);
+    }
   }
+}
 
-  &.dialog {
-    pointer-events: auto;
-    position: static;
-    display: flex;
-    justify-content: space-around;
-    align-items: stretch;
-    padding: 1em;
-    border: 0 solid transparent;
-    border-radius: 0.125em;
-    gap: 1em;
+.MinefieldDialog {
+  &.self {
+    &:where([open]) {
+      pointer-events: auto;
+      padding: 1em;
+      border: 0 solid transparent;
+      border-radius: 0.125em;
+      gap: 1em;
+      display: flex;
+      margin-inline: auto;
+    }
   }
 
   &.button {
@@ -161,8 +159,8 @@ body {
   &.tile,
   &.tile-content {
     display: flex;
-    aspect-ratio: 1 / 1;
     width: 100%;
+    height: 100%;
   }
 
   &.hidden,
@@ -171,8 +169,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    aspect-ratio: 1 / 1;
     width: 100%;
+    height: 100%;
   }
 
   &.shown {

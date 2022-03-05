@@ -1,44 +1,42 @@
 window.customElements.define(
   "minefield-dialog",
   class MinefieldDialog extends HTMLElement {
-    onOk = () => {
+    hasTimeout;
+
+    onConfirm = () => {
       window.location.reload();
     };
 
     onClose = () => {
-      this.shadowRoot?.getElementById("switch")?.setName("closed");
+      this.toggleAttribute("open", false);
+
+      this.shadowRoot?.getElementById("dialog")?.close();
     };
 
-    connectedCallback() {
-      this.shadowRoot
-        ?.getElementById("mulligan-ok")
-        ?.addEventListener("click", this.onClose);
+    onOpen = () => {
+      this.toggleAttribute("open", true);
 
-      this.shadowRoot
-        ?.getElementById("loss-ok")
-        ?.addEventListener("click", this.onOk);
-
-      this.shadowRoot
-        ?.getElementById("loss-cancel")
-        ?.addEventListener("click", this.onClose);
-
-      this.shadowRoot
-        ?.getElementById("win-ok")
-        ?.addEventListener("click", this.onOk);
-
-      this.shadowRoot
-        ?.getElementById("win-cancel")
-        ?.addEventListener("click", this.onClose);
-    }
-
-    show(type) {
-      this.shadowRoot?.getElementById("switch")?.setName(type);
+      this.shadowRoot?.getElementById("dialog")?.show();
 
       this.shadowRoot?.querySelector("button")?.focus();
 
-      if (type == "mulligan") {
+      if (this.hasTimeout) {
         setTimeout(this.onClose, 3000);
       }
+    };
+
+    connectedCallback() {
+      this.hasTimeout = this.hasAttribute("has-timeout");
+
+      this.addEventListener("slot:enter", this.onOpen);
+
+      this.shadowRoot
+        ?.getElementById("submit")
+        ?.addEventListener("click", this.onConfirm);
+
+      this.shadowRoot
+        ?.getElementById("cancel")
+        ?.addEventListener("click", this.onClose);
     }
   }
 );
@@ -203,12 +201,12 @@ window.customElements.define(
     gameOver = false;
     gameStarted = false;
     remaining;
-    dialogType;
+    dialogName;
 
     onReveal = (e) => {
       let { row, column, mine, empty } = e.detail;
 
-      this.dialogType = null;
+      this.dialogName = null;
 
       if (mine && !this.gameStarted) {
         if (
@@ -220,7 +218,7 @@ window.customElements.define(
         ) {
           this.remaining--;
 
-          this.dialogType = "mulligan";
+          this.dialogName = "mulligan";
         }
       } else {
         let pairs = [[row, column]];
@@ -252,7 +250,7 @@ window.customElements.define(
       }
 
       if (!this.gameOver) {
-        let timeElement = this.shadowRoot?.querySelector(`minefield-time`);
+        let timeElement = this.shadowRoot?.getElementById("time");
 
         if (mine && this.gameStarted) {
           this.gameOver = true;
@@ -265,7 +263,7 @@ window.customElements.define(
 
           timeElement?.stopIfStarted();
 
-          this.dialogType = "loss";
+          this.dialogName = "loss";
         } else if (this.remaining > 0) {
           timeElement?.startIfStopped();
         } else {
@@ -273,7 +271,7 @@ window.customElements.define(
 
           timeElement?.stopIfStarted();
 
-          this.dialogType = "win";
+          this.dialogName = "win";
         }
       }
 
@@ -283,7 +281,7 @@ window.customElements.define(
     };
 
     onFlag = (e) => {
-      this.shadowRoot?.querySelector(`minefield-flags`)?.step(e.detail?.number);
+      this.shadowRoot?.getElementById("flags")?.step(e.detail?.number);
     };
 
     connectedCallback() {
@@ -294,10 +292,10 @@ window.customElements.define(
     }
 
     render() {
-      let confirm = this.shadowRoot?.querySelector("minefield-dialog");
+      let confirm = this.shadowRoot?.getElementById("dialog-switch");
 
-      if (this.dialogType) {
-        confirm?.show(this.dialogType);
+      if (this.dialogName) {
+        confirm?.setName(this.dialogName);
       }
     }
   }

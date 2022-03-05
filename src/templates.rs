@@ -12,9 +12,9 @@ pub struct SlotMatch {
 impl Render for SlotMatch {
   fn render(&self) -> Markup {
     html! {
-      slot-match name=(self.name) id=(self.id) class=(self.class) {
+      slot-match #{(self.id)} name=(self.name) class=(self.class) {
         template shadowroot="open" {
-          slot {}
+          slot #slot {}
         }
         (self.children)
       }
@@ -35,7 +35,7 @@ impl Render for SideNav {
           style { "@import '/main.css';" }
 
           nav .SideNav-Nav.self {
-            button .SideNav-Nav.button type="button" aria-hidden="true" tabindex="-1" id="toggle" {
+            button #toggle.SideNav-Nav.button type="button" aria-hidden="true" tabindex="-1" {
               (SlotMatch {
                 name: "menu".to_string(),
                 id: "icon".to_string(),
