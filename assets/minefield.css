@@ -36,7 +36,7 @@ body {
   &.self {
     display: grid;
     min-height: 100%;
-    place-content: center;
+    margin-inline: auto;
   }
 
   &.display {
@@ -88,41 +88,6 @@ body {
     inset: 0;
     pointer-events: none;
   }
-
-  &.content {
-    &:where([open]) {
-      position: fixed;
-      width: 100%;
-      height: 100%;
-      display: grid;
-      align-items: center;
-      background-color: hsl(0 0% 0% / 0.25);
-    }
-  }
-}
-
-.MinefieldDialog {
-  &.self {
-    &:where([open]) {
-      pointer-events: auto;
-      padding: 1em;
-      border: 0 solid transparent;
-      border-radius: 0.125em;
-      gap: 1em;
-      display: flex;
-      margin-inline: auto;
-    }
-  }
-
-  &.button {
-    appearance: none;
-    cursor: pointer;
-    border: 1px solid currentColor;
-    border-radius: 0.125em;
-    padding: 0.125em 0.5em;
-    display: inline-flex;
-    align-items: center;
-  }
 }
 
 .Stats {
@@ -143,7 +108,7 @@ body {
   }
 }
 
-.Field {
+.Tiles {
   &.self {
     display: grid;
     grid-template-columns: repeat(var(--width), 1fr);
@@ -155,9 +120,11 @@ body {
     min-width: calc(var(--width) * 2em);
     min-height: calc(var(--height) * 2em);
   }
+}
 
-  &.tile,
-  &.tile-content {
+.MinefieldTile {
+  &.self,
+  &.content {
     display: flex;
     width: 100%;
     height: 100%;
@@ -184,5 +151,40 @@ body {
     border: 4px outset var(--silver);
     border-radius: 4px;
     appearance: none;
+  }
+}
+
+.MinefieldDialog {
+  &.self {
+    &:where([open]) {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      display: grid;
+      align-items: center;
+      background-color: hsl(0 0% 0% / 0.25);
+    }
+  }
+
+  &.dialog {
+    &:where([open]) {
+      pointer-events: auto;
+      padding: 1em;
+      border: 0 solid transparent;
+      border-radius: 0.125em;
+      gap: 1em;
+      display: flex;
+      margin-inline: auto;
+    }
+  }
+
+  &.button {
+    appearance: none;
+    cursor: pointer;
+    border: 1px solid currentColor;
+    border-radius: 0.125em;
+    padding: 0.125em 0.5em;
+    display: inline-flex;
+    align-items: center;
   }
 }

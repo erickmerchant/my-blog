@@ -80,7 +80,7 @@ a {
 }
 
 /* no js base styles. specificity: 0 2 0 */
-.Page {
+.SideNav {
   &.self {
     position: relative;
     display: block;
@@ -95,11 +95,15 @@ a {
       --content-left: var(--drawer-width);
     }
   }
-}
 
-.SideNav-Nav {
   &.button {
     display: none;
+  }
+
+  &.panel {
+    display: flex;
+    flex-direction: column;
+    flex: auto;
   }
 }
 
@@ -114,14 +118,6 @@ a {
   &.link {
     font-weight: 500;
     --anchor-color: var(--text-color);
-  }
-}
-
-.SideNav-Panel {
-  &.self {
-    display: flex;
-    flex-direction: column;
-    flex: auto;
   }
 }
 
@@ -248,7 +244,7 @@ a {
 
 /* no js styles. specificity: 0 3 0  */
 :not(:defined) {
-  &.Page {
+  &.SideNav {
     &.self {
       display: flex;
       flex-direction: column;
@@ -257,17 +253,20 @@ a {
 
   & .Links {
     &.self {
+      list-style: none;
       flex-wrap: wrap;
       flex-direction: row;
       gap: var(--space);
       padding: var(--space-half);
+      font-size: 0.875em;
+      background-color: hsl(var(--background));
     }
   }
 }
 
 /* js enhancement styles. specificity: 0 4 0  */
 :host([mounted]) {
-  & .SideNav-Nav {
+  & .SideNav {
     &.button {
       position: absolute;
       inset: 0;
@@ -312,10 +311,8 @@ a {
       display: grid;
       place-items: center;
     }
-  }
 
-  & .SideNav-Panel {
-    &.self {
+    &.panel {
       position: relative;
       z-index: 1;
       transform: translateX(var(--content-left));

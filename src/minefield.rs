@@ -19,7 +19,7 @@ struct MinefieldTile {
 impl Render for MinefieldTile {
   fn render(&self) -> Markup {
     html! {
-      minefield-tile .Field.tile row=(self.row) column=(self.column) empty[!self.mine && self.neighbors == 0] mine[self.mine] hidden {
+      minefield-tile .MinefieldTile.self row=(self.row) column=(self.column) empty[!self.mine && self.neighbors == 0] mine[self.mine] hidden {
         template shadowroot="open" {
           style {
             "@import '/minefield.css';
@@ -32,15 +32,15 @@ impl Render for MinefieldTile {
           (SlotMatch {
             name: "hidden".to_string(),
             id: "switch".to_string(),
-            class: "Field tile-content".to_string(),
+            class: "MinefieldTile content".to_string(),
             children: html! {
-              button #reveal-button.Field.hidden type="button" slot="hidden" aria-label={"row " (self.row) " column " (self.column)} {}
+              button #reveal-button.MinefieldTile.hidden type="button" slot="hidden" aria-label={"row " (self.row) " column " (self.column)} {}
 
-              .Field.shown slot="shown" {
+              .MinefieldTile.shown slot="shown" {
                 slot {}
               }
 
-              .Field.shown slot="disarmed" {
+              .MinefieldTile.shown slot="disarmed" {
                 "💣"
               }
             }
@@ -58,7 +58,6 @@ impl Render for MinefieldTile {
 }
 
 struct MinefieldDialog {
-  class: String,
   slot: String,
   message: String,
   close_text: String,
@@ -69,10 +68,10 @@ struct MinefieldDialog {
 impl Render for MinefieldDialog {
   fn render(&self) -> Markup {
     html! {
-      minefield-dialog class=(self.class) has-timeout[(self.has_timeout)] slot=(self.slot) {
+      minefield-dialog .MinefieldDialog.self has-timeout[(self.has_timeout)] slot=(self.slot) {
         template shadowroot="open" {
           style { "@import '/minefield.css';" }
-          dialog #dialog.MinefieldDialog.self {
+          dialog #dialog.MinefieldDialog.dialog {
             span { (self.message) }
             @if let Some(confirm_text) = &self.confirm_text {
               button #submit.MinefieldDialog.button type="button" {
@@ -277,7 +276,7 @@ pub async fn board(
                 }
               }
 
-              .Field.self {
+              .Tiles.self {
                 @for tile in &tiles {
                   (tile.to_owned())
                 }
@@ -290,7 +289,6 @@ pub async fn board(
               class: "Message self".to_string(),
               children: html! {
                 (MinefieldDialog {
-                  class: "Message content".to_string(),
                   slot: "mulligan".to_string(),
                   message: "😅 Phew! That was close.".to_string(),
                   close_text: "OK".to_string(),
@@ -298,7 +296,6 @@ pub async fn board(
                   has_timeout: true
                 })
                 (MinefieldDialog {
-                  class: "Message content".to_string(),
                   slot: "loss".to_string(),
                   message: "🙁 You lost. Try again?".to_string(),
                   close_text: "Cancel".to_string(),
@@ -306,7 +303,6 @@ pub async fn board(
                   has_timeout: false
                 })
                 (MinefieldDialog {
-                  class: "Message content".to_string(),
                   slot: "win".to_string(),
                   message: "🙂 You won! Start new game?".to_string(),
                   close_text: "Cancel".to_string(),

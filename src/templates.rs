@@ -23,26 +23,25 @@ impl Render for SlotMatch {
 }
 
 struct SideNav {
-  class: String,
   children: Markup,
 }
 
 impl Render for SideNav {
   fn render(&self) -> Markup {
     html! {
-      side-nav class=(self.class) {
+      side-nav class="SideNav self" {
         template shadowroot="open" {
           style { "@import '/main.css';" }
 
-          nav .SideNav-Nav.self {
-            button #toggle.SideNav-Nav.button type="button" aria-hidden="true" tabindex="-1" {
+          nav .SideNav.nav {
+            button #toggle.SideNav.button type="button" aria-hidden="true" tabindex="-1" {
               (SlotMatch {
                 name: "menu".to_string(),
                 id: "icon".to_string(),
-                class: "SideNav-Nav button-content".to_string(),
+                class: "SideNav button-content".to_string(),
                 children: html! {
                   svg
-                    .SideNav-Nav.icon
+                    .SideNav.icon
                     viewBox="0 0 100 100"
                     xmlns="http://www.w3.org/2000/svg"
                     aria-hidden="true"
@@ -53,7 +52,7 @@ impl Render for SideNav {
                   }
 
                   svg
-                    .SideNav-Nav.icon
+                    .SideNav.icon
                     viewBox="0 0 100 100"
                     xmlns="http://www.w3.org/2000/svg"
                     aria-hidden="true"
@@ -66,13 +65,13 @@ impl Render for SideNav {
                 }
               })
             }
-            .SideNav-Nav.triangle {}
-            .SideNav-Nav.links {
+            .SideNav.triangle {}
+            .SideNav.links {
               slot name="links" {}
             }
           }
 
-          .SideNav-Panel.self {
+          .SideNav.panel {
             slot name="panel" {}
           }
         }
@@ -103,7 +102,6 @@ pub fn page_layout(
       }
       body {
         (SideNav {
-          class: "Page self".to_owned(),
           children: html! {
             ol .Links.self slot="links" {
               @for link in content.links {
