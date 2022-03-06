@@ -70,7 +70,7 @@ version = "0.6.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d81bde9a79336aa51ebed236e91fc1a0528ff67cfdf4f68ca4c61ede9fd26fb5"
 dependencies = [
- "actix-http 3.0.1",
+ "actix-http 3.0.2",
  "actix-service 2.0.2",
  "actix-utils 3.0.0",
  "actix-web 4.0.1",
@@ -134,9 +134,9 @@ dependencies = [
 
 [[package]]
 name = "actix-http"
-version = "3.0.1"
+version = "3.0.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5753ed977cb402da7f63445cfcca2f3e514189d516bd0b0d8cd1e24979bfcd3c"
+checksum = "bc14de609ea2ae2467f5a626d403082ce3c5ca248ba26c9ee6f617a5fd096517"
 dependencies = [
  "actix-codec 0.5.0",
  "actix-rt 2.6.0",
@@ -434,7 +434,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f4e5ebffd51d50df56a3ae0de0e59487340ca456f05dd0b90c0a7a6dd6a74d31"
 dependencies = [
  "actix-codec 0.5.0",
- "actix-http 3.0.1",
+ "actix-http 3.0.2",
  "actix-macros 0.2.3",
  "actix-router 0.5.0",
  "actix-rt 2.6.0",

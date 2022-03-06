@@ -18,7 +18,9 @@ pub async fn home() -> Result<NamedFile> {
         ol .Home.post-list {
           @for (slug, post) in blog_content.posts {
             li .Home.post {
-              h2 .Home.post-title { a href={ "/post/" (slug) ".html" } { (post.title) } }
+              h2 .Home.post-title {
+                a href={ "/post/" (slug) ".html" } { (post.title) }
+              }
               p .Home.post-description { (post.description ) }
             }
           }

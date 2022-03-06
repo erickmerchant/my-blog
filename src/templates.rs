@@ -34,7 +34,11 @@ impl Render for SideNav {
           style { "@import '/main.css';" }
 
           nav .SideNav.nav {
-            button #toggle.SideNav.button type="button" aria-hidden="true" tabindex="-1" {
+            button
+              #toggle.SideNav.button
+              type="button"
+              aria-hidden="true"
+              tabindex="-1" {
               (SlotMatch {
                 name: "menu".to_string(),
                 id: "icon".to_string(),
@@ -47,8 +51,18 @@ impl Render for SideNav {
                     aria-hidden="true"
                     slot="close"
                   {
-                    rect height="20" width="120" transform="rotate(-45,50,50)" x="-10" y="40" {}
-                    rect height="20" width="120" transform="rotate(45,50,50)" x="-10" y="40" {}
+                    rect
+                      height="20"
+                      width="120"
+                      transform="rotate(-45,50,50)"
+                      x="-10"
+                      y="40" {}
+                    rect
+                      height="20"
+                      width="120"
+                      transform="rotate(45,50,50)"
+                      x="-10"
+                      y="40" {}
                   }
 
                   svg
@@ -121,7 +135,9 @@ pub fn page_layout(
               (children)
             }
 
-            footer .Footer.self slot="panel" { p .Footer.copyright { (content.copyright) } }
+            footer .Footer.self slot="panel" {
+              p .Footer.copyright { (content.copyright) }
+            }
           }
         })
         script src="/polyfill.js" {}
@@ -140,7 +156,9 @@ pub fn not_found() -> Result<String, CustomError> {
     title,
     html! {
       h1 .Content.heading { (title) }
-      p .Content.paragraph { "That resource was moved, removed, or never existed." }
+      p .Content.paragraph {
+        "That resource was moved, removed, or never existed."
+      }
     },
     None,
   )

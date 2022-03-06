@@ -19,7 +19,13 @@ struct MinefieldTile {
 impl Render for MinefieldTile {
   fn render(&self) -> Markup {
     html! {
-      minefield-tile .MinefieldTile.self row=(self.row) column=(self.column) empty[!self.mine && self.neighbors == 0] mine[self.mine] hidden {
+      minefield-tile
+        .MinefieldTile.self
+        row=(self.row)
+        column=(self.column)
+        empty[!self.mine && self.neighbors == 0]
+        mine[self.mine]
+        hidden {
         template shadowroot="open" {
           style {
             "@import '/minefield.css';
@@ -34,7 +40,11 @@ impl Render for MinefieldTile {
             id: "switch".to_string(),
             class: "MinefieldTile content".to_string(),
             children: html! {
-              button #reveal-button.MinefieldTile.hidden type="button" slot="hidden" aria-label={"row " (self.row) " column " (self.column)} {}
+              button
+                #reveal-button.MinefieldTile.hidden
+                type="button"
+                slot="hidden"
+                aria-label={"row " (self.row) " column " (self.column)} {}
 
               .MinefieldTile.shown slot="shown" {
                 slot {}
@@ -68,7 +78,10 @@ struct MinefieldDialog {
 impl Render for MinefieldDialog {
   fn render(&self) -> Markup {
     html! {
-      minefield-dialog .MinefieldDialog.self has-timeout[(self.has_timeout)] slot=(self.slot) {
+      minefield-dialog
+        .MinefieldDialog.self
+        has-timeout[(self.has_timeout)]
+        slot=(self.slot) {
         template shadowroot="open" {
           style { "@import '/minefield.css';" }
           dialog #dialog.MinefieldDialog.dialog {
@@ -126,15 +139,21 @@ pub async fn start() -> Result<NamedFile> {
             ol .Nav.self {
               li .Nav.item {
                 span { "🚩" }
-                a .Nav.link href="/minefield/8/8/10.html" { "Novice" }
+                a .Nav.link href="/minefield/8/8/10.html" {
+                  "Novice"
+                }
               }
               li .Nav.item {
                 span { "🚩" }
-                a .Nav.link href="/minefield/16/16/40.html" { "Intermediate" }
+                a .Nav.link href="/minefield/16/16/40.html" {
+                  "Intermediate"
+                }
               }
               li .Nav.item {
                 span { "🚩" }
-                a .Nav.link href="/minefield/30/16/99.html" { "Pro" }
+                a .Nav.link href="/minefield/30/16/99.html" {
+                  "Pro"
+                }
               }
             }
           }
