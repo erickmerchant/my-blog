@@ -130,7 +130,7 @@ pub async fn start() -> Result<NamedFile> {
       "Minefield",
       html! {
         main .App.self {
-          div .App.display {
+          .App.display {
             h1 .App.heading {
               span { "💥" }
               "Minefield"
