@@ -14,6 +14,10 @@ version = "4.0.0"
 default-features = false
 features = ["openssl", "compress-brotli", "macros"]
 
+[dependencies.chrono]
+version = "0.4.0"
+default-features = false
+
 [dependencies.derive_more]
 version = "0.99"
 default-features = false
@@ -66,7 +70,7 @@ version = "1.0"
 default-features = false
 
 [dependencies.swc]
-version = "0.144"
+version = "0.145"
 default-features = false
 
 [dependencies.swc_common]

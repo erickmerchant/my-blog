@@ -7,13 +7,10 @@ pub fn configure(cfg: &mut web::ServiceConfig) {
       .route("/", web::get().to(pages::home))
       .route("/feed.rss", web::get().to(pages::feed_rss))
       .route("/post/{post:.*.html}", web::get().to(pages::post))
-      .service(
-        web::scope("minefield")
-          .route("/start.html", web::get().to(minefield::start))
-          .route(
-            "/{width}/{height}/{count}.html",
-            web::get().to(minefield::board),
-          ),
+      .route("/minefield/start.html", web::get().to(minefield::start))
+      .route(
+        "/minefield/{width}/{height}/{count}.html",
+        web::get().to(minefield::board),
       )
       .route("/{file:.*?}", web::get().to(assets::file)),
   );

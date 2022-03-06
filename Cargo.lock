@@ -1718,6 +1718,7 @@ version = "0.1.0"
 dependencies = [
  "actix-files",
  "actix-web 4.0.1",
+ "chrono",
  "derive_more",
  "dotenv",
  "env_logger",
@@ -2954,9 +2955,9 @@ checksum = "73473c0e59e6d5812c5dfe2a064a6444949f089e20eec9a2e5506596494e4623"
 
 [[package]]
 name = "swc"
-version = "0.144.0"
+version = "0.145.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "890315991514933ad224f5526f0c6c2e39ff356269b03bccc0f9f8901b1db6bf"
+checksum = "138f47983451436f3573f68283ed0f7086b73e00389744bffa992554154149ea"
 dependencies = [
  "ahash",
  "anyhow",

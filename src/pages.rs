@@ -1,6 +1,6 @@
 use crate::common::{cacheable_response, CustomError};
-use crate::content::{get_blog_content, get_site_content};
-use crate::templates::page_layout;
+use crate::models::{Blog, Readable, Site};
+use crate::views::page_layout;
 use actix_files::NamedFile;
 use actix_web::{web, Result};
 use maud::{html, PreEscaped};
@@ -8,8 +8,8 @@ use std::path::Path;
 
 pub async fn home() -> Result<NamedFile> {
   cacheable_response(Path::new("index.html"), || {
-    let site_content = get_site_content();
-    let blog_content = get_blog_content();
+    let site_content = Site::read();
+    let blog_content = Blog::read();
 
     page_layout(
       site_content.to_owned(),
@@ -37,8 +37,8 @@ pub async fn feed_rss() -> Result<NamedFile> {
   use rss::{ChannelBuilder, ItemBuilder};
 
   cacheable_response(Path::new("feed.rss"), || {
-    let site_content = get_site_content();
-    let blog_content = get_blog_content();
+    let site_content = Site::read();
+    let blog_content = Blog::read();
 
     let mut channel = ChannelBuilder::default();
 
@@ -71,8 +71,8 @@ pub async fn post(post: web::Path<String>) -> Result<NamedFile> {
   let slug = slug.to_str().expect("invalid slug");
 
   cacheable_response(post.as_ref().as_str(), || {
-    let site_content = get_site_content();
-    let blog_content = get_blog_content();
+    let site_content = Site::read();
+    let blog_content = Blog::read();
 
     match blog_content.posts.get(slug).and_then(|post| Some(post)) {
       Some(post) => page_layout(

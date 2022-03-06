@@ -109,7 +109,7 @@ a {
 
 .Links {
   &.self {
-    list-style: disc;
+    list-style: none;
     display: flex;
     flex-direction: column;
     gap: var(--space-quarter);

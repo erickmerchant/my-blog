@@ -10,9 +10,31 @@ pub struct Site {
   pub links: Vec<Link>,
 }
 
+impl Readable for Site {
+  fn read() -> Site {
+    let file_contents =
+      fs::read_to_string("content/Site.toml").expect("failed to read content/Site.toml");
+    let content =
+      toml::from_str::<Site>(&file_contents).expect("failed to parse content/Site.toml");
+
+    content
+  }
+}
+
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Blog {
   pub posts: HashMap<String, Post>,
+}
+
+impl Readable for Blog {
+  fn read() -> Blog {
+    let file_contents =
+      fs::read_to_string("content/Blog.toml").expect("failed to read content/Blog.toml");
+    let content =
+      toml::from_str::<Blog>(&file_contents).expect("failed to parse content/Blog.toml");
+
+    content
+  }
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -28,18 +50,6 @@ pub struct Link {
   pub title: String,
 }
 
-pub fn get_site_content() -> Site {
-  let file_contents =
-    fs::read_to_string("content/Site.toml").expect("failed to read content/Site.toml");
-  let content = toml::from_str::<Site>(&file_contents).expect("failed to parse content/Site.toml");
-
-  content
-}
-
-pub fn get_blog_content() -> Blog {
-  let file_contents =
-    fs::read_to_string("content/Blog.toml").expect("failed to read content/Blog.toml");
-  let content = toml::from_str::<Blog>(&file_contents).expect("failed to parse content/Blog.toml");
-
-  content
+pub trait Readable {
+  fn read() -> Self;
 }

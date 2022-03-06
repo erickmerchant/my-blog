@@ -1,128 +1,13 @@
-use crate::common::{cacheable_response, dynamic_response, html_response, CustomError};
-use crate::content::get_site_content;
-use crate::templates::SlotMatch;
+mod views;
+
+use crate::common::{cacheable_response, dynamic_response, CustomError};
+use crate::views::SlotMatch;
 use actix_files::NamedFile;
 use actix_web::{web, HttpResponse, Result};
-use maud::{html, Markup, Render, DOCTYPE};
+use maud::html;
 use rand::{seq::SliceRandom, thread_rng};
-use serde::{Deserialize, Serialize};
 use std::{path::Path, vec};
-
-#[derive(Serialize, Deserialize, Debug, Clone)]
-struct MinefieldTile {
-  mine: bool,
-  neighbors: usize,
-  row: usize,
-  column: usize,
-}
-
-impl Render for MinefieldTile {
-  fn render(&self) -> Markup {
-    html! {
-      minefield-tile
-        .MinefieldTile.self
-        row=(self.row)
-        column=(self.column)
-        empty[!self.mine && self.neighbors == 0]
-        mine[self.mine]
-        hidden {
-        template shadowroot="open" {
-          style {
-            "@import '/minefield.css';
-
-            :host {
-              color: var(--color-" (self.neighbors) ");
-            }"
-          }
-
-          (SlotMatch {
-            name: "hidden".to_string(),
-            id: "switch".to_string(),
-            class: "MinefieldTile content".to_string(),
-            children: html! {
-              button
-                #reveal-button.MinefieldTile.hidden
-                type="button"
-                slot="hidden"
-                aria-label={"row " (self.row) " column " (self.column)} {}
-
-              .MinefieldTile.shown slot="shown" {
-                slot {}
-              }
-
-              .MinefieldTile.shown slot="disarmed" {
-                "💣"
-              }
-            }
-          })
-        }
-
-        @if self.mine {
-          "💥"
-        } @else if self.neighbors > 0 {
-          (self.neighbors)
-        }
-      }
-    }
-  }
-}
-
-struct MinefieldDialog {
-  slot: String,
-  message: String,
-  close_text: String,
-  confirm_text: Option<String>,
-  has_timeout: bool,
-}
-
-impl Render for MinefieldDialog {
-  fn render(&self) -> Markup {
-    html! {
-      minefield-dialog
-        .MinefieldDialog.self
-        has-timeout[(self.has_timeout)]
-        slot=(self.slot) {
-        template shadowroot="open" {
-          style { "@import '/minefield.css';" }
-          dialog #dialog.MinefieldDialog.dialog {
-            span { (self.message) }
-            @if let Some(confirm_text) = &self.confirm_text {
-              button #submit.MinefieldDialog.button type="button" {
-                (confirm_text)
-              }
-            }
-            button #cancel.MinefieldDialog.button type="button" {
-              (self.close_text)
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
-fn page_layout(title: &str, children: Markup) -> Result<String, CustomError> {
-  let content = get_site_content();
-
-  html_response(html! {
-    (DOCTYPE)
-    html lang="en-US" {
-      head {
-        meta charset="utf-8";
-        meta name="viewport" content="width=device-width, initial-scale=1";
-        script type="module" src="/main.js" {}
-        script type="module" src="/minefield.js" {}
-        link href="/minefield.css" rel="stylesheet";
-        link href="/favicon.svg" rel="icon" type="image/svg+xml";
-        title { (title) " | " (content.title) }
-      }
-      body {
-        (children)
-        script src="/polyfill.js" {}
-      }
-    }
-  })
-}
+use views::{page_layout, MinefieldDialog, MinefieldTile};
 
 pub async fn start() -> Result<NamedFile> {
   cacheable_response(Path::new("minefield/start.html"), || {
@@ -267,7 +152,7 @@ pub async fn board(
         minefield-game .App.self remaining=(remaining) {
           template shadowroot="open" {
             style {
-              "@import '/minefield.css';
+              "@import '/minefield/main.css';
 
               :host {
                 --width: " (width) ";

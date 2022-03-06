@@ -1,5 +1,5 @@
 use crate::common::{html_response, CustomError};
-use crate::content::{get_site_content, Site};
+use crate::models::{Readable, Site};
 use maud::{html, Markup, Render, DOCTYPE};
 
 pub struct SlotMatch {
@@ -149,7 +149,7 @@ pub fn page_layout(
 pub fn not_found() -> Result<String, CustomError> {
   let title = "Page Not Found";
 
-  let content = get_site_content();
+  let content = Site::read();
 
   page_layout(
     content.to_owned(),
@@ -167,7 +167,7 @@ pub fn not_found() -> Result<String, CustomError> {
 pub fn internal_error() -> Result<String, CustomError> {
   let title = "Internal Error";
 
-  let content = get_site_content();
+  let content = Site::read();
 
   page_layout(
     content.to_owned(),

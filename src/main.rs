@@ -1,10 +1,10 @@
 mod assets;
 mod common;
-mod content;
 mod minefield;
+mod models;
 mod pages;
 mod service;
-mod templates;
+mod views;
 
 use actix_web::{
     dev::ServiceResponse,
@@ -74,11 +74,11 @@ async fn main() -> io::Result<()> {
 }
 
 fn not_found<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerResponse<B>> {
-    error_response(res, templates::not_found())
+    error_response(res, views::not_found())
 }
 
 fn internal_error<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerResponse<B>> {
-    error_response(res, templates::internal_error())
+    error_response(res, views::internal_error())
 }
 
 fn error_response<B>(
