@@ -53,11 +53,11 @@ html {
   }
 
   @media (prefers-color-scheme: dark) {
-    --anchor-color: 100 50% 65%;
+    --anchor-color: 100 70% 75%;
     --text-color: 0 0% 100%;
     --background: 100 5% 30%;
-    --nav-background: 100 10% 35%;
-    --gradient-foreground: 100 10% 50%;
+    --nav-background: 100 10% 40%;
+    --gradient-foreground: 100 10% 40%;
     --gradient-background: var(--anchor-color);
   }
 }
@@ -77,6 +77,12 @@ body {
 a {
   color: hsl(var(--anchor-color));
   text-underline-offset: 0.125em;
+}
+
+.Icon {
+  &.bg-fill {
+    fill: hsl(var(--background));
+  }
 }
 
 /* no js base styles. specificity: 0 2 0 */
@@ -176,6 +182,19 @@ a {
       width: 100%;
       margin: var(--space-half) auto 0;
     }
+  }
+
+  &.date {
+    display: flex;
+    gap: 0.25em;
+    font-weight: 500;
+    font-size: 0.875em;
+  }
+
+  &.date-icon {
+    width: 1em;
+    aspect-ratio: 1 / 1;
+    fill: currentColor;
   }
 
   &.heading {

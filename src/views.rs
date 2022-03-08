@@ -1,5 +1,5 @@
 use crate::common::{html_response, CustomError};
-use crate::models::{Readable, Site};
+use crate::models::*;
 use maud::{html, Markup, Render, DOCTYPE};
 
 pub struct SlotMatch {

@@ -155,8 +155,8 @@ body {
 }
 
 .MinefieldDialog {
-  &.self {
-    &:where([open]) {
+  &:where([open]) {
+    &.self {
       position: fixed;
       width: 100%;
       height: 100%;
@@ -164,10 +164,8 @@ body {
       align-items: center;
       background-color: hsl(0 0% 0% / 0.25);
     }
-  }
 
-  &.dialog {
-    &:where([open]) {
+    &.dialog {
       pointer-events: auto;
       padding: 1em;
       border: 0 solid transparent;

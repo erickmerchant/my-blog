@@ -1,0 +1,38 @@
++++
+title = "New design"
+publish_date = 2022-03-07
+description = "All about the latest design, and rewrite to Rust."
++++
+
+<p class="Content paragraph">As I tend to do from time to time, I have recently rewritten this site in technologies that currently interest me. It is now written in Rust on the server side, uses Web Components on the client side with heavy use of Declarative Shadom DOM, and all the CSS is new.</p>
+
+<h2 class="Content sub-heading">Rust server</h2>
+
+<p class="Content paragraph">I started learning <a href="https://www.rust-lang.org/">Rust</a> in 2020 as something to do. Some time in 2021 I started to feel fairly comfortable doing certain things. I was having a lot of fun with Rust and I started to think I wanted to rewrite my blog to use a Rust web framework. I compared as many frameworks as I could find, and ultimately chose <a href="https://actix.rs/">Actix</a>. I had a few hard requirements for the server: Local SSL, HTTP/2, and Brotli compression. Actix was able to do all these. Apart from middleware which is a little beyond my current understanding, Actix's API is really versatile and easy to learn. The best place to look for help has been their examples repo.</p>
+
+<h3 class="Content sub-heading">Cargo dependencies</h3>
+
+<p class="Content paragraph">Some of the more important Cargo dependencies that I am using, besides Actix:</p>
+
+<dl class="Content definition-list">
+  <dt class="Content sub-sub-heading"><a href="https://github.com/lambda-fairy/maud">Maud</a></dt>
+  <dd>For templating. The only downside to Maud for me is that the changing a template means recompiling the project.</dd>
+
+  <dt class="Content sub-sub-heading"><a href="https://swc.rs/">SWC</a></dt>
+  <dd>SWC is for compiling JavaScript. It is basically a Rust Babel, but aims to be many things, such as a Eslint replacement as well. The project is great, but I do worry that its ambitions are a little too big. However I think Deno and Vercel are using it so maybe its ambitions are realistic.</dd>
+
+  <dt class="Content sub-sub-heading"><a href="https://parceljs.org/blog/parcel-css/">Parcel CSS</a></dt>
+  <dd>And finally Parcel CSS is for compiling CSS. It is basically like Postcss in Rust. It was actually released when I had most of the server written already. Originally I was using a Sass implementation in Rust, but I had forgotten how sometimes Sass syntax conflicts with vanilla CSS, so I welcomed Parcel's arrival. It is great, allowing me to do nesting and forget about prefixes. The only downside here is its alpha, so it sometimes breaks. Committing my lock file has been a very good thing.</dd>
+</dl>
+
+<h2 class="Content sub-heading">Front-end overview</h2>
+
+<p class="Content paragraph">For the site redesign I decided to experiment with <a href="https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements">Custom Elements</a> and <a href="https://web.dev/declarative-shadow-dom/">Declarative Shadow DOM</a>. Declarative shadow DOM is a game changer I think honestly. I will be writing more about that in a later post.</p>
+
+<h3 class="Content sub-sub-heading">Front-end dependencies</h3>
+
+<p class="Content paragraph">I also did not want to use NPM for this project, because I wanted the only dependency to be Rust, Cargo, and Cargo dependencies. I wanted to see if I could just use something like Skypack maybe. I ended up using no third-party JS or CSS, even if I wrote it, so there ended up being no need for NPM or Skypack.</p>
+
+<h3 class="Content sub-sub-heading">BEM for nested CSS</h3>
+
+<p class="Content paragraph">Also in a later post I plan to write a bit about how I organized CSS. I started thinking of it as BEM for nested CSS, and I think its worth describing. The design itself is nothing great but I am happy with the gradient in the header and the menu I came up with.</p>
