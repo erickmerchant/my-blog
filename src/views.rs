@@ -37,8 +37,8 @@ impl Render for SideNav {
             button
               #toggle.SideNav.button
               type="button"
-              aria-hidden="true"
-              tabindex="-1" {
+              tabindex="-1"
+              aria-hidden="true" {
               (SlotMatch {
                 name: "menu".to_string(),
                 id: "icon".to_string(),
@@ -48,8 +48,8 @@ impl Render for SideNav {
                     .SideNav.icon
                     viewBox="0 0 100 100"
                     xmlns="http://www.w3.org/2000/svg"
-                    aria-hidden="true"
                     slot="close"
+                    aria-hidden="true"
                   {
                     rect
                       height="20"
@@ -69,8 +69,8 @@ impl Render for SideNav {
                     .SideNav.icon
                     viewBox="0 0 100 100"
                     xmlns="http://www.w3.org/2000/svg"
-                    aria-hidden="true"
                     slot="menu"
+                    aria-hidden="true"
                   {
                     rect x="0" y="0" height="20" width="100" {}
                     rect x="0" y="40" height="20" width="100" {}

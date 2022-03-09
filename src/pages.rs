@@ -9,28 +9,32 @@ use std::path::Path;
 pub async fn home() -> Result<NamedFile> {
   cacheable_response(Path::new("index.html"), || {
     let site_content = Site::read();
-    let blog_content = Blog::read();
+    let posts: Vec<Option<Post>> = site_content
+      .posts
+      .iter()
+      .map(|slug| Post::read(slug.to_string()))
+      .collect();
 
-    let children = match blog_content.posts.len() {
+    let children = match posts.len() {
       len if len > 1 => html! {
         ol .Home.post-list {
-          @for post in blog_content.posts {
-            li .Home.post {
-              h2 .Home.post-title {
-                a href={ "/post/" (post.slug) ".html" } { (post.title) }
+          @for post in posts {
+            @if let Some(post) = post {
+              li .Home.post {
+                h2 .Home.post-title {
+                  a href={ "/posts/" (post.data.slug) ".html" } { (post.data.title) }
+                }
+                p .Home.post-description { (post.data.description ) }
               }
-              p .Home.post-description { (post.description ) }
             }
           }
         }
       },
       _ => {
-        if let Some(post) = blog_content.posts.first() {
-          get_post_html(post)
+        if let Some(post) = posts.get(0) {
+          get_post_html(post.to_owned())
         } else {
-          html! {
-            h1 .Content.heading { "Nothing written yet." }
-          }
+          get_post_html(None)
         }
       }
     };
@@ -51,7 +55,12 @@ pub async fn feed_rss() -> Result<NamedFile> {
 
   cacheable_response(Path::new("feed.rss"), || {
     let site_content = Site::read();
-    let blog_content = Blog::read();
+
+    let posts: Vec<Option<Post>> = site_content
+      .posts
+      .iter()
+      .map(|slug| Post::read(slug.to_string()))
+      .collect();
 
     let mut channel = ChannelBuilder::default();
 
@@ -62,16 +71,18 @@ pub async fn feed_rss() -> Result<NamedFile> {
       .title(site_content.title)
       .description(site_content.description);
 
-    for post in blog_content.posts {
-      let slug = post.slug;
+    for post in posts {
+      if let Some(post) = post {
+        let slug = post.data.slug;
 
-      channel.item(
-        ItemBuilder::default()
-          .link(format!("{base}/post/{slug}.html"))
-          .title(post.title)
-          .description(post.description)
-          .build(),
-      );
+        channel.item(
+          ItemBuilder::default()
+            .link(format!("{base}/posts/{slug}.html"))
+            .title(post.data.title)
+            .description(post.data.description)
+            .build(),
+        );
+      }
     }
 
     let channel = channel.build();
@@ -87,18 +98,12 @@ pub async fn post(post: web::Path<String>) -> Result<NamedFile> {
 
   cacheable_response(post.as_ref().as_str(), || {
     let site_content = Site::read();
-    let blog_content = Blog::read();
 
-    match blog_content
-      .posts
-      .iter()
-      .find(|post| post.slug == slug.to_string())
-      .and_then(|post| Some(post))
-    {
+    match Post::read(slug.to_string()) {
       Some(post) => page_layout(
         site_content.to_owned(),
-        post.title.as_str(),
-        get_post_html(post.to_owned()),
+        post.data.title.as_str(),
+        get_post_html(Some(post.to_owned())),
         None,
       ),
       _ => Err(CustomError::NotFound {}),
@@ -106,26 +111,69 @@ pub async fn post(post: web::Path<String>) -> Result<NamedFile> {
   })
 }
 
-fn get_post_html(post: &Post) -> Markup {
-  html! {
-    h1 .Content.heading { (post.title) }
-    p {
-      time.Content.date {
-        svg .Content.date-icon viewBox="0 0 100 100" {
-          rect
-            width="100"
-            height="100"
-            x="0"
-            y="0"
-            rx="6"
-            stroke-width="0" {}
-          rect .Icon.bg-fill width="82" height="61" x="9" y="30" stroke-width="0" {}
-          rect width="28" height="28" x="18" y="39" stroke-width="0" {}
+fn get_post_html(post: Option<Post>) -> Markup {
+  match post {
+    Some(post) => html! {
+      h1 .Content.heading { (post.data.title) }
+      p .Content.date-paragraph {
+        time .Content.date {
+          svg
+            .Content.date-icon
+            viewBox="0 0 100 100"
+            aria-hidden="true" {
+            rect
+              width="100"
+              height="100"
+              x="0"
+              y="0"
+              rx="6" {}
+            rect
+              .Icon.bg-fill
+              width="82"
+              height="61"
+              x="9"
+              y="30" {}
+            rect
+              width="4"
+              height="100"
+              x="26"
+              y="0" {}
+            rect
+              width="4"
+              height="100"
+              x="48"
+              y="0" {}
+            rect
+              width="4"
+              height="100"
+              x="70"
+              y="0" {}
+            rect
+              width="100"
+              height="4"
+              x="0"
+              y="42" {}
+            rect
+              width="100"
+              height="4"
+              x="0"
+              y="58" {}
+            rect
+              width="100"
+              height="4"
+              x="0"
+              y="75" {}
+          }
+          @if let Ok(date) = chrono::NaiveDate::parse_from_str(post.data.date.as_str(), "%Y-%m-%d") {
+            (date.format("%B %e, %Y"))
+          }
         }
-        (post.date.format("%B %e, %Y"))
       }
-    }
 
-    (PreEscaped(post.content.to_owned()))
+      (PreEscaped(post.content.to_owned()))
+    },
+    None => html! {
+      h1 .Content.heading { "Nothing written yet." }
+    },
   }
 }

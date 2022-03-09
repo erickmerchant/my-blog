@@ -184,9 +184,13 @@ a {
     }
   }
 
+  &.date-paragraph {
+    margin: var(--space-quarter) auto 0;
+  }
+
   &.date {
     display: flex;
-    gap: 0.25em;
+    gap: 0.5em;
     font-weight: 500;
     font-size: 0.875em;
   }
