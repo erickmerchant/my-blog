@@ -292,7 +292,8 @@ a {
   & .SideNav {
     &.button {
       position: absolute;
-      inset: 0;
+      top: 0;
+      left: 0;
       z-index: 3;
       appearance: none;
       cursor: pointer;
@@ -307,7 +308,8 @@ a {
 
     &.triangle {
       position: absolute;
-      inset: 0;
+      top: 0;
+      left: 0;
       z-index: 2;
       display: block;
       width: 0;
