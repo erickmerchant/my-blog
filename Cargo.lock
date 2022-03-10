@@ -70,7 +70,7 @@ version = "0.6.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d81bde9a79336aa51ebed236e91fc1a0528ff67cfdf4f68ca4c61ede9fd26fb5"
 dependencies = [
- "actix-http 3.0.3",
+ "actix-http 3.0.4",
  "actix-service 2.0.2",
  "actix-utils 3.0.0",
  "actix-web 4.0.1",
@@ -134,9 +134,9 @@ dependencies = [
 
 [[package]]
 name = "actix-http"
-version = "3.0.3"
+version = "3.0.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "86f4fb03b18c988b0944792e2538c7c1a4b32d3019214e2a734846e45207743e"
+checksum = "a5885cb81a0d4d0d322864bea1bb6c2a8144626b4fdc625d4c51eba197e7797a"
 dependencies = [
  "actix-codec 0.5.0",
  "actix-rt 2.7.0",
@@ -153,7 +153,7 @@ dependencies = [
  "encoding_rs",
  "flate2",
  "futures-core",
- "h2 0.3.11",
+ "h2 0.3.12",
  "http",
  "httparse",
  "httpdate",
@@ -436,7 +436,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f4e5ebffd51d50df56a3ae0de0e59487340ca456f05dd0b90c0a7a6dd6a74d31"
 dependencies = [
  "actix-codec 0.5.0",
- "actix-http 3.0.3",
+ "actix-http 3.0.4",
  "actix-macros 0.2.3",
  "actix-router 0.5.0",
  "actix-rt 2.7.0",
@@ -1434,9 +1434,9 @@ dependencies = [
 
 [[package]]
 name = "h2"
-version = "0.3.11"
+version = "0.3.12"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d9f1f717ddc7b2ba36df7e871fd88db79326551d3d6f1fc406fbfd28b582ff8e"
+checksum = "62eeb471aa3e3c9197aa4bfeabfe02982f6dc96f750486c0bb0009ac58b26d2b"
 dependencies = [
  "bytes 1.1.0",
  "fnv",
@@ -3226,9 +3226,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.87.3"
+version = "0.87.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a48398fb23bdf853456d3e4ad7e34d4675667f120d80eb2278861dec82aa8b0b"
+checksum = "46996f7fe93416c5eb6ceca74389c29d71f78ced9e34ca5b7a765dcda69c7e65"
 dependencies = [
  "ahash",
  "indexmap",
@@ -3256,9 +3256,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.92.4"
+version = "0.92.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3681627a9cf905a1ad9748778b46d6085212414077c08fe72ef085778ddff056"
+checksum = "219124d1e9bc2e21b9d98b1acac5633c179f6861eee37fcf75802e145616e2d5"
 dependencies = [
  "either",
  "enum_kind",
@@ -3355,9 +3355,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.78.1"
+version = "0.78.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a38a4e74368831fbc4c0548a38b8cb3029507ee7dbe2ece1046f8e3cda5c1067"
+checksum = "00db8cbdb473e5fc0d424b7dcfd3b9175c97e3870dc883bf67405a8b2d9365dd"
 dependencies = [
  "ahash",
  "arrayvec 0.7.2",
@@ -3394,9 +3394,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "0.89.4"
+version = "0.89.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "235718de3019b69fa3c1ffbea7f5492d6ed103a7cf2722880a25a458f7a222be"
+checksum = "5d1f48431d5c475df377a43236966ef7b39763f7932295c1b199941f97d4df63"
 dependencies = [
  "Inflector",
  "ahash",
@@ -3840,9 +3840,9 @@ dependencies = [
 
 [[package]]
 name = "tracing"
-version = "0.1.31"
+version = "0.1.32"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f6c650a8ef0cd2dd93736f033d21cbd1224c5a967aa0c258d00fcf7dafef9b9f"
+checksum = "4a1bdf54a7c28a2bbf701e1d2233f6c77f473486b94bee4f9678da5a148dca7f"
 dependencies = [
  "cfg-if 1.0.0",
  "log",
