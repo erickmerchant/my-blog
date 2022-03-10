@@ -15,8 +15,8 @@ pub async fn home() -> Result<NamedFile> {
       .map(|slug| Post::read(slug.to_string()))
       .collect();
 
-    let children = match posts.len() {
-      len if len > 1 => html! {
+    let children = match posts.len() > 1 {
+      true => html! {
         ol .Home.post-list {
           @for post in posts {
             @if let Some(post) = post {
@@ -30,13 +30,7 @@ pub async fn home() -> Result<NamedFile> {
           }
         }
       },
-      _ => {
-        if let Some(post) = posts.get(0) {
-          get_post_html(post.to_owned())
-        } else {
-          get_post_html(None)
-        }
-      }
+      false => get_post_html(posts.get(0).and_then(|p| p.to_owned())),
     };
 
     page_layout(
@@ -106,7 +100,7 @@ pub async fn post(post: web::Path<String>) -> Result<NamedFile> {
         get_post_html(Some(post.to_owned())),
         None,
       ),
-      _ => Err(CustomError::NotFound {}),
+      None => Err(CustomError::NotFound {}),
     }
   })
 }

@@ -124,10 +124,11 @@ pub fn page_layout(
             }
 
             header .Banner.self slot="panel" {
-              @if let Some(heading) = heading {
-                (heading)
-              } @else {
-                .Banner.heading { (content.title) }
+              @match heading {
+                Some(heading) => { (heading) }
+                None => {
+                  .Banner.heading { (content.title) }
+                }
               }
             }
 
