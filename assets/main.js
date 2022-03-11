@@ -14,6 +14,12 @@ window.customElements.define(
     render() {
       let slot = this.shadowRoot?.getElementById("slot");
 
+      let prevName = slot?.getAttribute("name");
+
+      this.querySelector(`[slot="${prevName}"]`)?.dispatchEvent(
+        new CustomEvent("slot:leave", {})
+      );
+
       slot?.setAttribute("name", this.name);
 
       this.querySelector(`[slot="${this.name}"]`)?.dispatchEvent(
@@ -37,7 +43,7 @@ window.customElements.define(
     connectedCallback() {
       this.open = this.getAttribute("open");
 
-      this.setAttribute("mounted", "");
+      this.toggleAttribute("mounted", true);
 
       let button = this.shadowRoot?.getElementById("toggle");
 
