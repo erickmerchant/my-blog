@@ -1,7 +1,9 @@
 mod views;
 
-use crate::common::{cacheable_response, dynamic_response, CustomError};
-use crate::views::SlotMatch;
+use crate::{
+  common::{cacheable_response, dynamic_response, CustomError},
+  views::SlotMatch,
+};
 use actix_files::NamedFile;
 use actix_web::{web, HttpResponse, Result};
 use maud::html;

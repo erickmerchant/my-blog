@@ -1,5 +1,7 @@
-use crate::common::{html_response, CustomError};
-use crate::models::*;
+use crate::{
+  common::{html_response, CustomError},
+  models::*,
+};
 use maud::{html, Markup, Render, DOCTYPE};
 
 pub struct SlotMatch {

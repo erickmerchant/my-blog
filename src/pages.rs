@@ -1,6 +1,8 @@
-use crate::common::{cacheable_response, CustomError};
-use crate::models::*;
-use crate::views::page_layout;
+use crate::{
+  common::{cacheable_response, CustomError},
+  models::*,
+  views::page_layout,
+};
 use actix_files::NamedFile;
 use actix_web::{web, Result};
 use maud::{html, Markup, PreEscaped};

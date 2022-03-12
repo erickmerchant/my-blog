@@ -1,7 +1,7 @@
 use crate::common::{cacheable_response, static_response, CustomError};
 use actix_files::NamedFile;
 use actix_web::{web, Result};
-use std::{convert::AsRef, fs, path::Path, sync::Arc};
+use std::{convert::AsRef, fs, path::Path};
 
 pub async fn file(file: web::Path<String>) -> Result<NamedFile> {
   let src = Path::new("assets").join(file.to_string());
@@ -20,6 +20,7 @@ pub async fn file(file: web::Path<String>) -> Result<NamedFile> {
 }
 
 fn js_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
+  use std::sync::Arc;
   use swc::{
     common::{
       errors::{ColorConfig, Handler},
@@ -57,7 +58,7 @@ fn js_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
           "type": "es6"
         }
       }"#;
-    let options: Options = serde_json::from_str(json).map_err(|err| CustomError::Internal {
+    let options = serde_json::from_str::<Options>(json).map_err(|err| CustomError::Internal {
       message: format!("{err:?}"),
     })?;
 
