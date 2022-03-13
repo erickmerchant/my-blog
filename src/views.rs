@@ -51,8 +51,7 @@ impl Render for SideNav {
                     viewBox="0 0 100 100"
                     xmlns="http://www.w3.org/2000/svg"
                     slot="close"
-                    aria-hidden="true"
-                  {
+                    aria-hidden="true" {
                     rect
                       height="20"
                       width="120"
@@ -72,8 +71,7 @@ impl Render for SideNav {
                     viewBox="0 0 100 100"
                     xmlns="http://www.w3.org/2000/svg"
                     slot="menu"
-                    aria-hidden="true"
-                  {
+                    aria-hidden="true" {
                     rect x="0" y="0" height="20" width="100" {}
                     rect x="0" y="40" height="20" width="100" {}
                     rect x="0" y="80" height="20" width="100" {}

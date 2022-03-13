@@ -25,42 +25,42 @@ impl Render for MinefieldTile {
         empty[!self.mine && self.neighbors == 0]
         mine[self.mine]
         hidden {
-          template shadowroot="open" {
-            style {
-              "@import '/minefield/main.css';
+        template shadowroot="open" {
+          style {
+            "@import '/minefield/main.css';
 
-              :host {
-                color: var(--color-" (self.neighbors) ");
-              }"
-            }
+            :host {
+              color: var(--color-" (self.neighbors) ");
+            }"
+          }
 
-            (SlotMatch {
-              name: "hidden".to_string(),
-              id: "switch".to_string(),
-              class: "MinefieldTile content".to_string(),
-              children: html! {
-                button
-                  #reveal-button.MinefieldTile.hidden
-                  type="button"
-                  slot="hidden"
-                  aria-label={"row " (self.row) " column " (self.column)} {}
+          (SlotMatch {
+            name: "hidden".to_string(),
+            id: "switch".to_string(),
+            class: "MinefieldTile content".to_string(),
+            children: html! {
+              button
+                #reveal-button.MinefieldTile.hidden
+                type="button"
+                slot="hidden"
+                aria-label={"row " (self.row) " column " (self.column)} {}
 
-                .MinefieldTile.shown slot="shown" {
-                  slot {}
-                }
-
-                .MinefieldTile.shown slot="disarmed" {
-                  "💣"
-                }
+              .MinefieldTile.shown slot="shown" {
+                slot {}
               }
-            })
-          }
 
-          @if self.mine {
-            "💥"
-          } @else if self.neighbors > 0 {
-            (self.neighbors)
-          }
+              .MinefieldTile.shown slot="disarmed" {
+                "💣"
+              }
+            }
+          })
+        }
+
+        @if self.mine {
+          "💥"
+        } @else if self.neighbors > 0 {
+          (self.neighbors)
+        }
       }
     }
   }
