@@ -1,48 +1,22 @@
 use crate::{
   common::{cacheable_response, CustomError},
   models::*,
-  views::page_layout,
+  views::{home_page, page_layout, post_page},
 };
 use actix_files::NamedFile;
 use actix_web::{web, Result};
-use maud::{html, Markup, PreEscaped};
 use std::path::Path;
 
 pub async fn home() -> Result<NamedFile> {
   cacheable_response(Path::new("index.html"), || {
-    let site_content = Site::read();
-    let posts: Vec<Option<Post>> = site_content
+    let site = Site::read();
+    let posts: Vec<Option<Post>> = site
       .posts
       .iter()
       .map(|slug| Post::read(slug.to_string()))
       .collect();
 
-    let children = match posts.len() > 1 {
-      true => html! {
-        ol .Home.post-list {
-          @for post in posts {
-            @if let Some(post) = post {
-              li .Home.post {
-                h2 .Home.post-title {
-                  a href={ "/posts/" (post.data.slug) ".html" } { (post.data.title) }
-                }
-                p .Home.post-description { (post.data.description ) }
-              }
-            }
-          }
-        }
-      },
-      false => get_post_html(posts.get(0).and_then(|p| p.to_owned())),
-    };
-
-    page_layout(
-      site_content.to_owned(),
-      "Home",
-      children,
-      Some(html! {
-        h1 .Banner.heading { (site_content.title) }
-      }),
-    )
+    home_page(site, posts)
   })
 }
 
@@ -99,77 +73,10 @@ pub async fn post(post: web::Path<String>) -> Result<NamedFile> {
       Some(post) => page_layout(
         site_content.to_owned(),
         post.data.title.as_str(),
-        get_post_html(Some(post.to_owned())),
+        post_page(Some(post.to_owned())),
         None,
       ),
       None => Err(CustomError::NotFound {}),
     }
   })
-}
-
-fn get_post_html(post: Option<Post>) -> Markup {
-  match post {
-    Some(post) => html! {
-      h1 .Content.heading { (post.data.title) }
-      p .Content.date-paragraph {
-        time .Content.date {
-          svg
-            .Content.date-icon
-            viewBox="0 0 100 100"
-            aria-hidden="true" {
-            rect
-              width="100"
-              height="100"
-              x="0"
-              y="0"
-              rx="6" {}
-            rect
-              .Icon.bg-fill
-              width="82"
-              height="61"
-              x="9"
-              y="30" {}
-            rect
-              width="4"
-              height="100"
-              x="26"
-              y="0" {}
-            rect
-              width="4"
-              height="100"
-              x="48"
-              y="0" {}
-            rect
-              width="4"
-              height="100"
-              x="70"
-              y="0" {}
-            rect
-              width="100"
-              height="4"
-              x="0"
-              y="42" {}
-            rect
-              width="100"
-              height="4"
-              x="0"
-              y="58" {}
-            rect
-              width="100"
-              height="4"
-              x="0"
-              y="75" {}
-          }
-          @if let Ok(date) = chrono::NaiveDate::parse_from_str(post.data.date.as_str(), "%Y-%m-%d") {
-            (date.format("%B %e, %Y"))
-          }
-        }
-      }
-
-      (PreEscaped(post.content.to_owned()))
-    },
-    None => html! {
-      h1 .Content.heading { "Nothing written yet." }
-    },
-  }
 }

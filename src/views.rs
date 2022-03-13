@@ -2,7 +2,7 @@ use crate::{
   common::{html_response, CustomError},
   models::*,
 };
-use maud::{html, Markup, Render, DOCTYPE};
+use maud::{html, Markup, PreEscaped, Render, DOCTYPE};
 
 pub struct SlotMatch {
   pub name: String,
@@ -49,7 +49,6 @@ impl Render for SideNav {
                   svg
                     .SideNav.icon
                     viewBox="0 0 100 100"
-                    xmlns="http://www.w3.org/2000/svg"
                     slot="close"
                     aria-hidden="true" {
                     rect
@@ -69,7 +68,6 @@ impl Render for SideNav {
                   svg
                     .SideNav.icon
                     viewBox="0 0 100 100"
-                    xmlns="http://www.w3.org/2000/svg"
                     slot="menu"
                     aria-hidden="true" {
                     rect x="0" y="0" height="20" width="100" {}
@@ -178,5 +176,71 @@ pub fn internal_error() -> Result<String, CustomError> {
       p .Content.paragraph { "An error occurred. Please try again later." }
     },
     None,
+  )
+}
+
+pub fn post_page(post: Option<Post>) -> Markup {
+  match post {
+    Some(post) => html! {
+      h1 .Content.heading { (post.data.title) }
+      p .Content.date-paragraph {
+        time .Content.date {
+          svg
+          .Content.date-icon
+          viewBox="0 0 100 100"
+          aria-hidden="true" {
+            rect
+            width="100"
+            height="100"
+            x="0"
+            y="0"
+            rx="6" {}
+            rect
+            .Icon.bg-fill
+            width="84"
+            height="59"
+            x="8"
+            y="33" {}
+          }
+          @if let Ok(date) = chrono::NaiveDate::parse_from_str(post.data.date.as_str(), "%Y-%m-%d") {
+            (date.format("%B %e, %Y"))
+          }
+        }
+      }
+
+      (PreEscaped(post.content.to_owned()))
+    },
+    None => html! {
+      h1 .Content.heading { "Nothing written yet." }
+    },
+  }
+}
+
+pub fn home_page(site: Site, posts: Vec<Option<Post>>) -> Result<String, CustomError> {
+  let children = match posts.len() > 1 {
+    true => html! {
+      ol .Home.post-list {
+        @for post in posts {
+          @if let Some(post) = post {
+            li .Home.post {
+              h2 .Home.post-title {
+                a href={ "/posts/" (post.data.slug) ".html" } { (post.data.title) }
+              }
+              p .Home.post-description { (post.data.description ) }
+            }
+          }
+        }
+      }
+    },
+    false => post_page(posts.get(0).and_then(|p| p.to_owned())),
+  };
+
+  page_layout(
+    site.to_owned(),
+    "Home",
+    children,
+    Some(html! {
+      h1 .Banner.heading { (site.title) }
+    }),
   )
 }

@@ -1,53 +1,14 @@
 mod views;
 
-use crate::{
-  common::{cacheable_response, dynamic_response, CustomError},
-  views::SlotMatch,
-};
+use crate::common::{cacheable_response, dynamic_response, CustomError};
 use actix_files::NamedFile;
 use actix_web::{web, HttpResponse, Result};
-use maud::html;
 use rand::{seq::SliceRandom, thread_rng};
 use std::{path::Path, vec};
-use views::{page_layout, MinefieldDialog, MinefieldTile};
+use views::{board_page, start_page, MinefieldTile};
 
 pub async fn start() -> Result<NamedFile> {
-  cacheable_response(Path::new("minefield/start.html"), || {
-    page_layout(
-      "Minefield",
-      html! {
-        main .App.self {
-          .App.display {
-            h1 .App.heading {
-              span { "💥" }
-              "Minefield"
-            }
-            p { "Choose your level:" }
-            ol .Nav.self {
-              li .Nav.item {
-                span { "🚩" }
-                a .Nav.link href="/minefield/8/8/10.html" {
-                  "Novice"
-                }
-              }
-              li .Nav.item {
-                span { "🚩" }
-                a .Nav.link href="/minefield/16/16/40.html" {
-                  "Intermediate"
-                }
-              }
-              li .Nav.item {
-                span { "🚩" }
-                a .Nav.link href="/minefield/30/16/99.html" {
-                  "Pro"
-                }
-              }
-            }
-          }
-        }
-      },
-    )
-  })
+  cacheable_response(Path::new("minefield/start.html"), || start_page())
 }
 
 pub async fn board(
@@ -146,80 +107,11 @@ pub async fn board(
   }
 
   dynamic_response(|| {
-    page_layout(
-      "Minefield",
-      html! {
-        @let remaining = height * width - count;
-
-        minefield-game .App.self remaining=(remaining) {
-          template shadowroot="open" {
-            style {
-              "@import '/minefield/main.css';
-
-              :host {
-                --width: " (width) ";
-                --height: " (height) ";
-              }"
-            }
-
-            .App.display {
-              .Stats.self {
-                .Stats.stat {
-                  "🚩"
-                  minefield-flags #flags count=(count) {
-                    template shadowroot="open" {
-                      (count)
-                    }
-                  }
-                }
-                .Stats.stat {
-                  minefield-time #time {
-                    template shadowroot="open" {
-                      "0"
-                    }
-                  }
-                  "⏱"
-                }
-              }
-
-              .Tiles.self {
-                @for tile in &tiles {
-                  (tile.to_owned())
-                }
-              }
-            }
-
-            (SlotMatch {
-              name: "".to_string(),
-              id: "dialog-switch".to_string(),
-              class: "Message self".to_string(),
-              children: html! {
-                (MinefieldDialog {
-                  slot: "mulligan".to_string(),
-                  message: "😅 Phew! That was close.".to_string(),
-                  close_text: "OK".to_string(),
-                  confirm_text: None,
-                  has_timeout: true
-                })
-                (MinefieldDialog {
-                  slot: "loss".to_string(),
-                  message: "🙁 You lost. Try again?".to_string(),
-                  close_text: "Cancel".to_string(),
-                  confirm_text: Some("OK".to_string()),
-                  has_timeout: false
-                })
-                (MinefieldDialog {
-                  slot: "win".to_string(),
-                  message: "🙂 You won! Start new game?".to_string(),
-                  close_text: "Cancel".to_string(),
-                  confirm_text: Some("OK".to_string()),
-                  has_timeout: false
-                })
-              }
-            })
-          }
-        }
-      },
+    board_page(
+      width.to_owned(),
+      height.to_owned(),
+      count.to_owned(),
+      tiles.to_owned(),
     )
   })
 }
