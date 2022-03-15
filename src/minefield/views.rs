@@ -1,6 +1,6 @@
 use crate::{
   common::{html_response, CustomError},
-  models::*,
+  models,
   views::SlotMatch,
 };
 use actix_web::Result;
@@ -100,33 +100,40 @@ impl Render for MinefieldDialog {
   }
 }
 
-pub fn page_layout(title: &str, children: Markup) -> Result<String, CustomError> {
-  let content = Site::read();
+pub struct Layout {
+  pub title: String,
+  pub children: Markup,
+}
 
-  html_response(html! {
-    (DOCTYPE)
-    html lang="en-US" {
-      head {
-        meta charset="utf-8";
-        meta name="viewport" content="width=device-width, initial-scale=1";
-        script type="module" src="/main.js" {}
-        script type="module" src="/minefield/main.js" {}
-        link href="/minefield/main.css" rel="stylesheet";
-        link href="/minefield/favicon.svg" rel="icon" type="image/svg+xml";
-        title { (title) " | " (content.title) }
-      }
-      body {
-        (children)
-        script src="/polyfill.js" {}
+impl Render for Layout {
+  fn render(&self) -> Markup {
+    let content = models::Site::read();
+
+    html! {
+      (DOCTYPE)
+      html lang="en-US" {
+        head {
+          meta charset="utf-8";
+          meta name="viewport" content="width=device-width, initial-scale=1";
+          script type="module" src="/main.js" {}
+          script type="module" src="/minefield/main.js" {}
+          link href="/minefield/main.css" rel="stylesheet";
+          link href="/minefield/favicon.svg" rel="icon" type="image/svg+xml";
+          title { (self.title) " | " (content.title) }
+        }
+        body {
+          (self.children)
+          script src="/polyfill.js" {}
+        }
       }
     }
-  })
+  }
 }
 
 pub fn start_page() -> Result<String, CustomError> {
-  page_layout(
-    "Minefield",
-    html! {
+  html_response(Layout {
+    title: "Minefield".to_string(),
+    children: html! {
       main .App.self {
         .App.display {
           h1 .App.heading {
@@ -157,18 +164,18 @@ pub fn start_page() -> Result<String, CustomError> {
         }
       }
     },
-  )
+  })
 }
 
 pub fn board_page(
-  width: usize,
-  height: usize,
-  count: usize,
+  dimensions: (usize, usize, usize),
   tiles: Vec<MinefieldTile>,
 ) -> Result<String, CustomError> {
-  page_layout(
-    "Minefield",
-    html! {
+  html_response(Layout {
+    title: "Minefield".to_string(),
+    children: html! {
+      @let (width, height, count) = dimensions;
+
       @let remaining = height * width - count;
 
       minefield-game .App.self remaining=(remaining) {
@@ -240,5 +247,5 @@ pub fn board_page(
         }
       }
     },
-  )
+  })
 }

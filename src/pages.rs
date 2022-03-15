@@ -1,7 +1,7 @@
 use crate::{
-  common::{cacheable_response, CustomError},
-  models::*,
-  views::{home_page, page_layout, post_page},
+  common::cacheable_response,
+  models,
+  views::{home_page, post_page},
 };
 use actix_files::NamedFile;
 use actix_web::{web, Result};
@@ -9,11 +9,11 @@ use std::path::Path;
 
 pub async fn home() -> Result<NamedFile> {
   cacheable_response(Path::new("index.html"), || {
-    let site = Site::read();
-    let posts: Vec<Option<Post>> = site
+    let site = models::Site::read();
+    let posts: Vec<Option<models::Post>> = site
       .posts
       .iter()
-      .map(|slug| Post::read(slug.to_string()))
+      .map(|slug| models::Post::read(slug.to_string()))
       .collect();
 
     home_page(site, posts)
@@ -24,12 +24,12 @@ pub async fn feed_rss() -> Result<NamedFile> {
   use rss::{ChannelBuilder, ItemBuilder};
 
   cacheable_response(Path::new("feed.rss"), || {
-    let site_content = Site::read();
+    let site_content = models::Site::read();
 
-    let posts: Vec<Option<Post>> = site_content
+    let posts: Vec<Option<models::Post>> = site_content
       .posts
       .iter()
-      .map(|slug| Post::read(slug.to_string()))
+      .map(|slug| models::Post::read(slug.to_string()))
       .collect();
 
     let mut channel = ChannelBuilder::default();
@@ -67,16 +67,8 @@ pub async fn post(post: web::Path<String>) -> Result<NamedFile> {
   let slug = slug.to_str().expect("invalid slug");
 
   cacheable_response(post.as_ref().as_str(), || {
-    let site_content = Site::read();
+    let site = models::Site::read();
 
-    match Post::read(slug.to_string()) {
-      Some(post) => page_layout(
-        site_content.to_owned(),
-        post.data.title.as_str(),
-        post_page(Some(post.to_owned())),
-        None,
-      ),
-      None => Err(CustomError::NotFound {}),
-    }
+    post_page(site, models::Post::read(slug.to_string()))
   })
 }

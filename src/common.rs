@@ -1,7 +1,7 @@
 use actix_files::NamedFile;
 use actix_web::{error, error::ErrorNotFound, http::StatusCode, HttpResponse, Result};
 use derive_more::{Display, Error};
-use maud::Markup;
+use maud::Render;
 use std::{convert::AsRef, fs, path::Path};
 
 pub fn cacheable_response<F: Fn() -> std::result::Result<String, CustomError>, P: AsRef<Path>>(
@@ -46,7 +46,7 @@ pub fn static_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
     .or_else(|err| Err(ErrorNotFound(err)))
 }
 
-pub fn html_response(html: Markup) -> Result<String, CustomError> {
+pub fn html_response(html: impl Render) -> Result<String, CustomError> {
   use minify_html_onepass::{in_place_str, Cfg};
 
   let cfg = &Cfg {
@@ -54,7 +54,7 @@ pub fn html_response(html: Markup) -> Result<String, CustomError> {
     minify_css: false,
   };
 
-  let mut html_clone = html.into_string();
+  let mut html_clone = html.render().into_string();
   let html_clone = html_clone.as_mut_str();
 
   match in_place_str(html_clone, cfg) {

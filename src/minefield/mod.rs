@@ -8,7 +8,7 @@ use std::{path::Path, vec};
 use views::{board_page, start_page, MinefieldTile};
 
 pub async fn start() -> Result<NamedFile> {
-  cacheable_response(Path::new("minefield/start.html"), || start_page())
+  cacheable_response(Path::new("minefield/start.html"), start_page)
 }
 
 pub async fn board(
@@ -106,12 +106,5 @@ pub async fn board(
     }
   }
 
-  dynamic_response(|| {
-    board_page(
-      width.to_owned(),
-      height.to_owned(),
-      count.to_owned(),
-      tiles.to_owned(),
-    )
-  })
+  dynamic_response(|| board_page(dimensions.as_ref().to_owned(), tiles.to_owned()))
 }
