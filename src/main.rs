@@ -1,10 +1,6 @@
 mod assets;
 mod common;
-mod minefield;
-mod models;
-mod pages;
 mod service;
-mod views;
 
 use actix_web::{
     dev::ServiceResponse,
@@ -12,11 +8,9 @@ use actix_web::{
         header::{HeaderName, HeaderValue},
         StatusCode,
     },
-    middleware::ErrorHandlerResponse,
-    middleware::{Compress, ErrorHandlers, Logger},
+    middleware::{Compress, ErrorHandlerResponse, ErrorHandlers, Logger},
     App, HttpServer, Result,
 };
-use common::CustomError;
 use std::{env, io};
 
 #[cfg(feature = "local")]
@@ -76,16 +70,16 @@ async fn main() -> io::Result<()> {
 }
 
 fn not_found<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerResponse<B>> {
-    error_response(res, views::not_found())
+    error_response(res, service::views::not_found())
 }
 
 fn internal_error<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerResponse<B>> {
-    error_response(res, views::internal_error())
+    error_response(res, service::views::internal_error())
 }
 
 fn error_response<B>(
     res: ServiceResponse<B>,
-    body: Result<String, CustomError>,
+    body: Result<String, common::CustomError>,
 ) -> Result<ErrorHandlerResponse<B>> {
     let body = body.expect("failed to produce body");
     let (req, res) = res.into_parts();

@@ -5,10 +5,9 @@ use actix_files::NamedFile;
 use actix_web::{web, HttpResponse, Result};
 use rand::{seq::SliceRandom, thread_rng};
 use std::{path::Path, vec};
-use views::{board_page, start_page, MinefieldTile};
 
 pub async fn start() -> Result<NamedFile> {
-  cacheable_response(Path::new("minefield/start.html"), start_page)
+  cacheable_response(Path::new("minefield/start.html"), views::start_page)
 }
 
 pub async fn board(
@@ -26,7 +25,7 @@ pub async fn board(
 
   let mut tiles = vec![
     vec![
-      MinefieldTile {
+      views::MinefieldTile {
         mine: true,
         neighbors: 0,
         row: 0,
@@ -35,7 +34,7 @@ pub async fn board(
       count.to_owned()
     ],
     vec![
-      MinefieldTile {
+      views::MinefieldTile {
         mine: false,
         neighbors: 0,
         row: 0,
@@ -106,5 +105,5 @@ pub async fn board(
     }
   }
 
-  dynamic_response(|| board_page(dimensions.as_ref().to_owned(), tiles.to_owned()))
+  dynamic_response(|| views::board_page(dimensions.as_ref().to_owned(), tiles.to_owned()))
 }

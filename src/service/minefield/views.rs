@@ -1,8 +1,5 @@
-use crate::{
-  common::{html_response, CustomError},
-  models,
-  views::SlotMatch,
-};
+use super::super::{models, views::SlotMatch};
+use crate::common::{html_response, CustomError};
 use actix_web::Result;
 use maud::{html, Markup, Render, DOCTYPE};
 use serde::{Deserialize, Serialize};

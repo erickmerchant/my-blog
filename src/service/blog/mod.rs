@@ -1,8 +1,7 @@
-use crate::{
-  common::cacheable_response,
-  models,
-  views::{home_page, post_page},
-};
+pub mod models;
+pub mod views;
+
+use crate::common::cacheable_response;
 use actix_files::NamedFile;
 use actix_web::{web, Result};
 use std::path::Path;
@@ -16,7 +15,7 @@ pub async fn home() -> Result<NamedFile> {
       .map(|slug| models::Post::read(slug.to_string()))
       .collect();
 
-    home_page(site, posts)
+    views::home_page(site, posts)
   })
 }
 
@@ -69,6 +68,6 @@ pub async fn post(post: web::Path<String>) -> Result<NamedFile> {
   cacheable_response(post.as_ref().as_str(), || {
     let site = models::Site::read();
 
-    post_page(site, models::Post::read(slug.to_string()))
+    views::post_page(site, models::Post::read(slug.to_string()))
   })
 }
