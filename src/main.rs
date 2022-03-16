@@ -8,8 +8,10 @@ mod views;
 
 use actix_web::{
     dev::ServiceResponse,
-    http::header::{HeaderName, HeaderValue},
-    http::StatusCode,
+    http::{
+        header::{HeaderName, HeaderValue},
+        StatusCode,
+    },
     middleware::ErrorHandlerResponse,
     middleware::{Compress, ErrorHandlers, Logger},
     App, HttpServer, Result,

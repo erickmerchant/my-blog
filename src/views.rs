@@ -149,40 +149,6 @@ impl Render for Layout {
   }
 }
 
-pub fn not_found() -> Result<String, CustomError> {
-  let title = "Page Not Found";
-
-  let content = models::Site::read();
-
-  html_response(Layout {
-    content: content.to_owned(),
-    title: title.to_string(),
-    children: html! {
-      h1 .Content.heading { (title) }
-      p .Content.paragraph {
-        "That resource was moved, removed, or never existed."
-      }
-    },
-    heading: None,
-  })
-}
-
-pub fn internal_error() -> Result<String, CustomError> {
-  let title = "Internal Error";
-
-  let content = models::Site::read();
-
-  html_response(Layout {
-    content: content.to_owned(),
-    title: title.to_string(),
-    children: html! {
-      h1 .Content.heading { (title) }
-      p .Content.paragraph { "An error occurred. Please try again later." }
-    },
-    heading: None,
-  })
-}
-
 pub struct Post {
   pub post: Option<models::Post>,
 }
@@ -274,4 +240,38 @@ pub fn post_page(site: models::Site, post: Option<models::Post>) -> Result<Strin
     }),
     None => Err(CustomError::NotFound {}),
   }
+}
+
+pub fn not_found() -> Result<String, CustomError> {
+  let title = "Page Not Found";
+
+  let content = models::Site::read();
+
+  html_response(Layout {
+    content: content.to_owned(),
+    title: title.to_string(),
+    children: html! {
+      h1 .Content.heading { (title) }
+      p .Content.paragraph {
+        "That resource was moved, removed, or never existed."
+      }
+    },
+    heading: None,
+  })
+}
+
+pub fn internal_error() -> Result<String, CustomError> {
+  let title = "Internal Error";
+
+  let content = models::Site::read();
+
+  html_response(Layout {
+    content: content.to_owned(),
+    title: title.to_string(),
+    children: html! {
+      h1 .Content.heading { (title) }
+      p .Content.paragraph { "An error occurred. Please try again later." }
+    },
+    heading: None,
+  })
 }

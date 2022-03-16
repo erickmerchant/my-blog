@@ -899,9 +899,9 @@ dependencies = [
 
 [[package]]
 name = "crossbeam-channel"
-version = "0.5.2"
+version = "0.5.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e54ea8bc3fb1ee042f5aace6e3c6e025d3874866da222930f70ce62aceba0bfa"
+checksum = "fdbfe11fe19ff083c48923cf179540e8cd0535903dc35e178a1fdeeb59aef51f"
 dependencies = [
  "cfg-if 1.0.0",
  "crossbeam-utils",
@@ -920,10 +920,11 @@ dependencies = [
 
 [[package]]
 name = "crossbeam-epoch"
-version = "0.9.7"
+version = "0.9.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c00d6d2ea26e8b151d99093005cb442fb9a37aeaca582a03ec70946f49ab5ed9"
+checksum = "1145cf131a2c6ba0615079ab6a638f7e1973ac9c2634fcbeaaad6114246efe8c"
 dependencies = [
+ "autocfg",
  "cfg-if 1.0.0",
  "crossbeam-utils",
  "lazy_static",
@@ -933,9 +934,9 @@ dependencies = [
 
 [[package]]
 name = "crossbeam-utils"
-version = "0.8.7"
+version = "0.8.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b5e5bed1f1c269533fa816a0a5492b3545209a205ca1a54842be180eb63a16a6"
+checksum = "0bf124c720b7686e3c2663cf54062ab0f68a88af2fb6a030e87e30bf721fcb38"
 dependencies = [
  "cfg-if 1.0.0",
  "lazy_static",
@@ -1776,9 +1777,9 @@ dependencies = [
 
 [[package]]
 name = "lexical-write-float"
-version = "0.8.3"
+version = "0.8.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "26f6202bff3d35ede41a6200227837468bb92e4ecdd437328b1055ed218fb855"
+checksum = "8a89ec1d062e481210c309b672f73a0567b7855f21e7d2fae636df44d12e97f9"
 dependencies = [
  "lexical-util",
  "lexical-write-integer",
@@ -3234,9 +3235,9 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.152.0"
+version = "0.153.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "18abe9e792523e755f6b43be98e35a2de831a5887bb3c31bca90539afe276239"
+checksum = "281e341ae44c50a58ebe49333259bff0b6fe01f1d4fefb55d504bd9a22bf138d"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3434,9 +3435,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.90.0"
+version = "0.90.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5ed10aa8af460ad30260b1abd45ef7d1daa78b89d5c0e63bbd8faa4193e51b86"
+checksum = "5ec67db7904f530bdf1264e2debc0832fee8eae22adfbc748febb77aa266cd11"
 dependencies = [
  "ahash",
  "indexmap",
@@ -3465,9 +3466,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.94.0"
+version = "0.94.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0dafe3385616617de45d7c7a144f3be85da1ed20853a58d228f9ba11bedd17cd"
+checksum = "ad96c5d9e23ae7a093ba7d28dd42e0daf48180e02b6831916e3de12892555b0f"
 dependencies = [
  "either",
  "enum_kind",
@@ -3530,9 +3531,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.68.1"
+version = "0.68.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "dbadc83329e35bf7abf964a0dfde7a2c71eb74b7599ddbfa2a2cd0b54c605e09"
+checksum = "4856a5d0e36ab70758efdf749883797a41d5878ac49bb1670d6ac5f697886410"
 dependencies = [
  "better_scoped_tls",
  "once_cell",
@@ -3564,9 +3565,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.81.0"
+version = "0.81.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a9c8247fcac7f466d6e335f4eaa5187d32a6b5ca8c23ca22547b5d8a4bc17bd6"
+checksum = "65468dd3759ef5105f8d4df9c2b5cdc3a1edf47f7fe707bde11ee65d01e5c2ea"
 dependencies = [
  "ahash",
  "arrayvec 0.7.2",
@@ -3649,9 +3650,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_proposal"
-version = "0.89.0"
+version = "0.89.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e8a496534ce2b9e140d585a80767323c4a6319f74c20df3ed1f14dfd54ef4533"
+checksum = "fe913454bcc7a6a9f6ff8451e202a350a88ca55b0bc44f7479495ce8befa8015"
 dependencies = [
  "either",
  "serde",
