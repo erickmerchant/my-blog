@@ -79,12 +79,6 @@ a {
   text-underline-offset: 0.125em;
 }
 
-.Icon {
-  &.bg-fill {
-    fill: hsl(var(--background));
-  }
-}
-
 /* no js base styles. specificity: 0 2 0 */
 .SideNav {
   &.self {
@@ -185,20 +179,9 @@ a {
   }
 
   &.date-paragraph {
-    margin: var(--space-quarter) auto 0;
-  }
-
-  &.date {
-    display: flex;
-    gap: 0.5em;
     font-weight: 500;
-    font-size: 0.875em;
-  }
-
-  &.date-icon {
-    width: 1em;
-    aspect-ratio: 1 / 1;
-    fill: currentColor;
+    font-size: 0.75em;
+    margin-block: var(--space-quarter) 0;
   }
 
   &.heading {

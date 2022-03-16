@@ -3,8 +3,7 @@ mod minefield;
 
 use crate::assets;
 use actix_web::web;
-pub use blog::models;
-pub use blog::views;
+pub use blog::{models, views};
 
 pub fn configure(cfg: &mut web::ServiceConfig) {
   cfg.service(

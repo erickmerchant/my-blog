@@ -157,24 +157,7 @@ impl Render for Post {
       Some(post) => html! {
         h1 .Content.heading { (post.data.title) }
         p .Content.date-paragraph {
-          time .Content.date {
-            svg
-            .Content.date-icon
-            viewBox="0 0 100 100"
-            aria-hidden="true" {
-              rect
-                width="100"
-                height="100"
-                x="0"
-                y="0"
-                rx="6" {}
-              rect
-                .Icon.bg-fill
-                width="84"
-                height="59"
-                x="8"
-                y="33" {}
-            }
+          time {
             @if let Ok(date) = chrono::NaiveDate::parse_from_str(post.data.date.as_str(), "%Y-%m-%d") {
               (date.format("%B %e, %Y"))
             }
