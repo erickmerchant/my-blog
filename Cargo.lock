@@ -3394,9 +3394,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "0.24.0"
+version = "0.24.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a4a955e1ea102725410c98e2167d7c47221d06789e42dab9e56af35a65b35f72"
+checksum = "f3a78dcc9ef6bfed684e19c4885f413b45db5b8e4cb6c92015abbbe5622c9957"
 dependencies = [
  "ahash",
  "auto_impl",
