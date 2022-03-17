@@ -104,7 +104,7 @@ pub struct Layout {
 
 impl Render for Layout {
   fn render(&self) -> Markup {
-    let content = models::Site::read();
+    let site = models::Site::read();
 
     html! {
       (DOCTYPE)
@@ -116,7 +116,7 @@ impl Render for Layout {
           script type="module" src="/minefield/main.js" {}
           link href="/minefield/main.css" rel="stylesheet";
           link href="/minefield/favicon.svg" rel="icon" type="image/svg+xml";
-          title { (self.title) " | " (content.title) }
+          title { (self.title) " | " (site.title) }
         }
         body {
           (self.children)
@@ -227,14 +227,14 @@ pub fn board_page(
               })
               (MinefieldDialog {
                 slot: "loss".to_string(),
-                message: "🙁 You lost. Try again?".to_string(),
+                message: "🙁 Sorry, you lost. Try again?".to_string(),
                 close_text: "Cancel".to_string(),
                 confirm_text: Some("OK".to_string()),
                 has_timeout: false
               })
               (MinefieldDialog {
                 slot: "win".to_string(),
-                message: "🙂 You won! Start new game?".to_string(),
+                message: "🙂 You won! Start a new game?".to_string(),
                 close_text: "Cancel".to_string(),
                 confirm_text: Some("OK".to_string()),
                 has_timeout: false

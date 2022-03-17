@@ -1,6 +1,6 @@
-pub mod models;
 pub mod views;
 
+use super::models;
 use crate::common::cacheable_response;
 use actix_files::NamedFile;
 use actix_web::{web, Result};

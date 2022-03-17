@@ -182,6 +182,14 @@ a {
     font-weight: 500;
     font-size: 0.75em;
     margin-block: var(--space-quarter) 0;
+    display: flex;
+    gap: 0.5em;
+    align-items: center;
+  }
+
+  &.date-icon {
+    height: 1em;
+    aspect-ratio: 1 / 1;
   }
 
   &.heading {
