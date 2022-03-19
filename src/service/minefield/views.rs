@@ -110,7 +110,6 @@ impl Render for Layout {
         head {
           meta charset="utf-8";
           meta name="viewport" content="width=device-width, initial-scale=1";
-          script type="module" src="/dom.js" {}
           script type="module" src="/main.js" {}
           script type="module" src="/minefield/main.js" {}
           link href="/minefield/main.css" rel="stylesheet";
