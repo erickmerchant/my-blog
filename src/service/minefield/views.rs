@@ -43,7 +43,11 @@ impl Render for MinefieldTile {
                 aria-label={"row " (self.row) " column " (self.column)} {}
 
               .MinefieldTile.shown slot="shown" {
-                slot {}
+                @if self.mine {
+                  "💥"
+                } @else if self.neighbors > 0 {
+                  (self.neighbors)
+                }
               }
 
               .MinefieldTile.shown slot="disarmed" {
@@ -51,12 +55,6 @@ impl Render for MinefieldTile {
               }
             }
           })
-        }
-
-        @if self.mine {
-          "💥"
-        } @else if self.neighbors > 0 {
-          (self.neighbors)
         }
       }
     }
@@ -112,6 +110,7 @@ impl Render for Layout {
         head {
           meta charset="utf-8";
           meta name="viewport" content="width=device-width, initial-scale=1";
+          script type="module" src="/dom.js" {}
           script type="module" src="/main.js" {}
           script type="module" src="/minefield/main.js" {}
           link href="/minefield/main.css" rel="stylesheet";
