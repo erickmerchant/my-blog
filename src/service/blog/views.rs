@@ -2,96 +2,6 @@ use super::models;
 use crate::common::{html_response, CustomError};
 use maud::{html, Markup, PreEscaped, Render, DOCTYPE};
 
-pub struct SlotMatch {
-  pub name: String,
-  pub id: String,
-  pub class: String,
-  pub children: Markup,
-}
-
-impl Render for SlotMatch {
-  fn render(&self) -> Markup {
-    html! {
-      slot-match #{(self.id)} name=(self.name) class=(self.class) {
-        template shadowroot="open" {
-          slot #slot {}
-        }
-        (self.children)
-      }
-    }
-  }
-}
-
-struct SideNav {
-  children: Markup,
-}
-
-impl Render for SideNav {
-  fn render(&self) -> Markup {
-    html! {
-      side-nav class="SideNav self" {
-        template shadowroot="open" {
-          style { "@import '/main.css';" }
-
-          nav .SideNav.nav {
-            button
-              #toggle.SideNav.button
-              type="button"
-              tabindex="-1"
-              aria-hidden="true" {
-              (SlotMatch {
-                name: "menu".to_string(),
-                id: "icon".to_string(),
-                class: "SideNav button-content".to_string(),
-                children: html! {
-                  svg
-                    .SideNav.icon
-                    viewBox="0 0 100 100"
-                    slot="close"
-                    aria-hidden="true" {
-                    rect
-                      height="20"
-                      width="120"
-                      transform="rotate(-45,50,50)"
-                      x="-10"
-                      y="40" {}
-                    rect
-                      height="20"
-                      width="120"
-                      transform="rotate(45,50,50)"
-                      x="-10"
-                      y="40" {}
-                  }
-
-                  svg
-                    .SideNav.icon
-                    viewBox="0 0 100 100"
-                    slot="menu"
-                    aria-hidden="true" {
-                    rect x="0" y="0" height="20" width="100" {}
-                    rect x="0" y="40" height="20" width="100" {}
-                    rect x="0" y="80" height="20" width="100" {}
-                  }
-                }
-              })
-            }
-            .SideNav.triangle {}
-            .SideNav.links {
-              slot name="links" {}
-            }
-          }
-
-          .SideNav.panel {
-            slot name="panel" {}
-          }
-        }
-
-        (self.children)
-      }
-    }
-  }
-}
-
 pub struct Layout {
   pub content: models::Site,
   pub title: String,
@@ -108,39 +18,36 @@ impl Render for Layout {
           meta charset="utf-8";
           meta name="viewport" content="width=device-width, initial-scale=1";
           meta name="description" content=(self.content.description);
-          script type="module" src="/main.js" {}
+          script type="module" src="/main.jsx" {}
           link href="/main.css" rel="stylesheet";
           link href="/favicon.svg" rel="icon" type="image/svg+xml";
           title { (self.title) " | " (self.content.title) }
         }
         body {
-          (SideNav {
-            children: html! {
-              ol .Links.self slot="links" {
-                @for link in self.content.to_owned().links {
-                  li { a .Links.link href=(link.href) { (link.title) } }
-                }
-              }
-
-              header .Banner.self slot="panel" {
-                @match self.heading.to_owned() {
-                  Some(heading) => { (heading) }
-                  None => {
-                    .Banner.heading { (self.content.title) }
-                  }
-                }
-              }
-
-              main .Content.self slot="panel" {
-                (self.children)
-              }
-
-              footer .Footer.self slot="panel" {
-                p .Footer.copyright { (self.content.copyright) }
+          side-nav .SideNav.self {
+            ol .Links.self slot="links" {
+              @for link in self.content.to_owned().links {
+                li { a .Links.link href=(link.href) { (link.title) } }
               }
             }
-          })
-          script src="/polyfill.js" {}
+
+            header .Banner.self slot="panel" {
+              @match self.heading.to_owned() {
+                Some(heading) => { (heading) }
+                None => {
+                  .Banner.heading { (self.content.title) }
+                }
+              }
+            }
+
+            main .Content.self slot="panel" {
+              (self.children)
+            }
+
+            footer .Footer.self slot="panel" {
+              p .Footer.copyright { (self.content.copyright) }
+            }
+          }
         }
       }
     }

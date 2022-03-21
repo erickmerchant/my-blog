@@ -79,7 +79,6 @@ a {
   text-underline-offset: 0.125em;
 }
 
-/* no js base styles. specificity: 0 2 0 */
 .SideNav {
   &.self {
     position: relative;
@@ -97,13 +96,60 @@ a {
   }
 
   &.button {
-    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 3;
+    appearance: none;
+    cursor: pointer;
+    border: 0;
+    background: hsl(0 0% 0% / 0);
+    color: hsl(var(--anchor-color));
+    width: 2em;
+    aspect-ratio: 1 / 1;
+    display: grid;
+    place-content: center;
+  }
+
+  &.icon {
+    display: block;
+    width: 1em;
+    aspect-ratio: 1 / 1;
+    pointer-events: none;
+    fill: currentColor;
+  }
+
+  &.triangle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    display: block;
+    width: 0;
+    height: 0;
+    border: 0;
+    border-top: 3.75em solid hsl(var(--background));
+    border-right: 3.75em solid hsl(0 0% 0% / 0);
+  }
+
+  &.links {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    width: var(--drawer-width);
+    height: 100%;
+    display: grid;
+    place-items: center;
   }
 
   &.panel {
-    display: flex;
-    flex-direction: column;
-    flex: auto;
+    position: relative;
+    z-index: 1;
+    transform: translateX(var(--content-left));
+    transition: transform 0.25s ease;
+    display: grid;
+    grid-template-rows: min-content 1fr;
+    height: 100%;
   }
 }
 
@@ -256,7 +302,7 @@ a {
   }
 }
 
-/* no js styles. specificity: 0 3 0  */
+/* no js styles  */
 :not(:defined) {
   &.SideNav {
     &.self {
@@ -274,68 +320,6 @@ a {
       padding: var(--space-half);
       font-size: 0.875em;
       background-color: hsl(var(--background));
-    }
-  }
-}
-
-/* js enhancement styles. specificity: 0 4 0  */
-:host([mounted]) {
-  & .SideNav {
-    &.button {
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: 3;
-      appearance: none;
-      cursor: pointer;
-      border: 0;
-      background: hsl(0 0% 0% / 0);
-      color: hsl(var(--anchor-color));
-      width: 2em;
-      aspect-ratio: 1 / 1;
-      display: grid;
-      place-content: center;
-    }
-
-    &.triangle {
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: 2;
-      display: block;
-      width: 0;
-      height: 0;
-      border: 0;
-      border-top: 3.75em solid hsl(var(--background));
-      border-right: 3.75em solid hsl(0 0% 0% / 0);
-    }
-
-    &.icon {
-      display: block;
-      width: 1em;
-      aspect-ratio: 1 / 1;
-      pointer-events: none;
-      fill: currentColor;
-    }
-
-    &.links {
-      position: absolute;
-      inset: 0;
-      z-index: 0;
-      width: var(--drawer-width);
-      height: 100%;
-      display: grid;
-      place-items: center;
-    }
-
-    &.panel {
-      position: relative;
-      z-index: 1;
-      transform: translateX(var(--content-left));
-      transition: transform 0.25s ease;
-      display: grid;
-      grid-template-rows: min-content 1fr;
-      height: 100%;
     }
   }
 }

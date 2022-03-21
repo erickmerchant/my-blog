@@ -14,6 +14,7 @@ pub async fn file(file: web::Path<String>) -> Result<NamedFile> {
 
   match ext_str {
     "js" => js_response(src),
+    "jsx" => js_response(src),
     "css" => css_response(src),
     _ => static_response(src),
   }
@@ -43,24 +44,37 @@ fn js_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
       .map_err(|err| CustomError::Internal {
         message: format!("{err:?}"),
       })?;
-    let json = r#"{
+    let mut jsx = false;
+
+    if let Some(ext) = src.as_ref().extension() {
+      jsx = ext == "jsx";
+    }
+
+    let json = format!(
+      r#"{{
         "minify": true,
-        "env": {
+        "env": {{
           "targets": "defaults and supports es6-module and not dead"
-        },
-        "jsc": {
-          "minify": {
+        }},
+        "jsc": {{
+          "parser": {{
+            "syntax": "ecmascript",
+            "jsx": {jsx}
+          }},
+          "minify": {{
             "compress": true,
             "mangle": true
-          }
-        },
-        "module": {
+          }}
+        }},
+        "module": {{
           "type": "es6"
-        }
-      }"#;
-    let options = serde_json::from_str::<Options>(json).map_err(|err| CustomError::Internal {
-      message: format!("{err:?}"),
-    })?;
+        }}
+      }}"#
+    );
+    let options =
+      serde_json::from_str::<Options>(json.as_str()).map_err(|err| CustomError::Internal {
+        message: format!("{err:?}"),
+      })?;
 
     c.process_js_file(fm, &handler, &options)
       .and_then(|transformed| Ok(transformed.code))

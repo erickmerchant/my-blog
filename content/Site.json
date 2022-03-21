@@ -9,10 +9,6 @@
       "title": "Home"
     },
     {
-      "href": "/minefield/start.html",
-      "title": "Minefield"
-    },
-    {
       "href": "/feed.rss",
       "title": "RSS Feed"
     },
