@@ -21,15 +21,25 @@ pub fn cacheable_response<F: Fn() -> std::result::Result<String, CustomError>, P
 }
 
 pub fn static_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
+  let mut jsx = false;
+
+  if let Some(ext) = src.as_ref().extension() {
+    jsx = ext == "jsx";
+  }
+
   NamedFile::open(src)
     .and_then(|file| {
-      Ok(
-        file
-          .prefer_utf8(true)
-          .use_etag(true)
-          .use_last_modified(true)
-          .disable_content_disposition(),
-      )
+      let mut file = file
+        .prefer_utf8(true)
+        .use_etag(true)
+        .use_last_modified(true)
+        .disable_content_disposition();
+
+      if jsx == true {
+        file = file.set_content_type(mime::APPLICATION_JAVASCRIPT);
+      }
+
+      Ok(file)
     })
     .or_else(|err| Err(ErrorNotFound(err)))
 }

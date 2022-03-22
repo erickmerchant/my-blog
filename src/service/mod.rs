@@ -3,7 +3,7 @@ pub mod models;
 
 use crate::assets;
 use actix_web::web;
-pub use blog::views;
+pub use blog::views::{internal_error, not_found};
 
 pub fn configure(cfg: &mut web::ServiceConfig) {
   cfg.service(

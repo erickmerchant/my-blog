@@ -71,6 +71,7 @@ fn js_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
         }}
       }}"#
     );
+
     let options =
       serde_json::from_str::<Options>(json.as_str()).map_err(|err| CustomError::Internal {
         message: format!("{err:?}"),

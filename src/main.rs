@@ -70,11 +70,11 @@ async fn main() -> io::Result<()> {
 }
 
 fn not_found<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerResponse<B>> {
-    error_response(res, service::views::not_found())
+    error_response(res, service::not_found())
 }
 
 fn internal_error<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerResponse<B>> {
-    error_response(res, service::views::internal_error())
+    error_response(res, service::internal_error())
 }
 
 fn error_response<B>(
