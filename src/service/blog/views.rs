@@ -18,19 +18,14 @@ impl Render for Layout {
           meta charset="utf-8";
           meta name="viewport" content="width=device-width, initial-scale=1";
           meta name="description" content=(self.content.description);
-          script type="module" src="/main.jsx" {}
           link href="/main.css" rel="stylesheet";
           link href="/favicon.svg" rel="icon" type="image/svg+xml";
+          link href="/html.js" rel="modulepreload";
           title { (self.title) " | " (self.content.title) }
+          script type="module" src="/main.jsx" {}
         }
         body {
           side-nav .SideNav.self {
-            ol .Links.self slot="links" {
-              @for link in self.content.to_owned().links {
-                li { a .Links.link href=(link.href) { (link.title) } }
-              }
-            }
-
             header .Banner.self slot="panel" {
               @match self.heading.to_owned() {
                 Some(heading) => { (heading) }
@@ -47,6 +42,12 @@ impl Render for Layout {
             footer .Footer.self slot="panel" {
               p .Footer.copyright { (self.content.copyright) }
             }
+
+            ol .Links.self slot="links" {
+              @for link in self.content.to_owned().links {
+                li { a .Links.link href=(link.href) { (link.title) } }
+              }
+            }
           }
         }
       }
@@ -62,7 +63,7 @@ impl Render for Post {
   fn render(&self) -> Markup {
     match self.post.to_owned() {
       Some(post) => html! {
-        h1 .Content.heading { (post.data.title) }
+        h1 .Content.heading1 { (post.data.title) }
         p .Content.date-paragraph {
           svg
             .Content.date-icon
@@ -124,7 +125,7 @@ impl Render for Post {
         (PreEscaped(post.content.to_owned()))
       },
       None => html! {
-        h1 .Content.heading { "Nothing written yet." }
+        h1 .Content.heading1 { "Nothing written yet." }
       },
     }
   }
@@ -189,7 +190,7 @@ pub fn not_found() -> Result<String, CustomError> {
     content: content.to_owned(),
     title: title.to_string(),
     children: html! {
-      h1 .Content.heading { (title) }
+      h1 .Content.heading1 { (title) }
       p .Content.paragraph {
         "That resource was moved, removed, or never existed."
       }
@@ -207,7 +208,7 @@ pub fn internal_error() -> Result<String, CustomError> {
     content: content.to_owned(),
     title: title.to_string(),
     children: html! {
-      h1 .Content.heading { (title) }
+      h1 .Content.heading1 { (title) }
       p .Content.paragraph { "An error occurred. Please try again later." }
     },
     heading: None,

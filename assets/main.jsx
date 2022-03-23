@@ -3,7 +3,7 @@
   @jsxFrag fragment
 */
 
-import { h, fragment, render, selector, proxy } from "./html.js";
+import { h, fragment, render, select, proxy } from "./html.js";
 
 window.customElements.define(
   "side-nav",
@@ -13,28 +13,30 @@ window.customElements.define(
       return ["open"];
     }
 
-    attributeChangedCallback(name, oldValue, newValue) {
-      let isTrue = newValue === "";
-
-      if (oldValue !== newValue && this.state[name] !== isTrue) {
-        this.state[name] = isTrue;
-      }
-    }
-
     state = proxy({
       open: false,
     });
 
     toggleOpen = () => {
       this.state.open = !this.state.open;
-      this.toggleAttribute("open", this.state.open);
+
+      this.update();
     };
+
+    update(updateAttributes = true) {
+      if (updateAttributes) {
+        this.toggleAttribute("open", this.state.open);
+      }
+
+      for (const anchor of this.querySelectorAll('[slot="links"] a')) {
+        anchor.setAttribute("tabIndex", this.state.open ? "0" : "-1");
+      }
+    }
 
     connectedCallback() {
       this.attachShadow({ mode: "open" });
-      this.toggleAttribute("open", this.state.open);
 
-      let open = selector(this.state, "open");
+      this.update();
 
       render(
         <>
@@ -44,8 +46,10 @@ window.customElements.define(
             <button
               class="SideNav button"
               type="button"
-              aria-expanded={open((o) => (o ? "true" : "false"))}
-              aria-label={open((o) => (o ? "Close nav" : "Open nav"))}
+              aria-expanded={select(() => (this.state.open ? "true" : "false"))}
+              aria-label={select(() =>
+                this.state.open ? "Close nav" : "Open nav"
+              )}
               onclick={this.toggleOpen}
             >
               <svg
@@ -54,8 +58,8 @@ window.customElements.define(
                 viewBox="0 0 100 100"
                 aria-hidden="true"
               >
-                {open((o) =>
-                  o ? (
+                {select(() =>
+                  this.state.open ? (
                     <>
                       <rect
                         height="20"
@@ -97,6 +101,16 @@ window.customElements.define(
 
         this.shadowRoot
       );
+    }
+
+    attributeChangedCallback(name, oldValue, newValue) {
+      let isTrue = newValue === "";
+
+      if (oldValue !== newValue && this.state[name] !== isTrue) {
+        this.state[name] = isTrue;
+
+        this.update(false);
+      }
     }
   }
 );

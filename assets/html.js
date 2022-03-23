@@ -4,16 +4,20 @@ let hookMap = new WeakMap();
 
 export { fragment_symbol as fragment };
 
-let addHook = (obj, prop, payload) => {
-  let map = hookMap.get(obj);
+let addHook = (pathes, payload) => {
+  for (let i = 0; i < pathes.length; i++) {
+    let [obj, prop] = pathes[i];
 
-  if (!map) {
-    map = {};
-    hookMap.set(obj, map);
+    let map = hookMap.get(obj);
+
+    if (!map) {
+      map = {};
+      hookMap.set(obj, map);
+    }
+
+    map[prop] = map[prop] ?? [];
+    map[prop].push(payload);
   }
-
-  map[prop] = map[prop] ?? [];
-  map[prop].push(payload);
 };
 
 let setAttr = (element, key, value) => {
@@ -36,25 +40,28 @@ let buildElement = (element, attrs, isSvg, ...children) => {
 
     for (let i = 0; i < attrs.length; i++) {
       let [key, value] = attrs[i];
-      let isRef = value[ref_symbol] != null,
-        prop,
-        obj,
-        cb;
+      let isRef = value[ref_symbol] != null;
+      let initial = value;
 
       if (isRef) {
-        [obj, prop, cb] = value[ref_symbol];
-        value = cb != null ? cb(obj[prop]) : obj[prop];
+        initial = value[ref_symbol].initial;
       }
 
       if (key.startsWith("on")) {
         isRef = false;
-        element.addEventListener(key.substring(2), ...toArray(value));
+        element.addEventListener(key.substring(2), ...toArray(initial));
       } else {
-        setAttr(element, key, value);
+        setAttr(element, key, initial);
       }
 
       if (isRef) {
-        addHook(obj, prop, [1, new WeakRef(element), key, cb, null]);
+        addHook(value[ref_symbol].pathes, [
+          1,
+          new WeakRef(element),
+          key,
+          null,
+          value[ref_symbol].callback,
+        ]);
       }
     }
   }
@@ -65,13 +72,18 @@ let buildElement = (element, attrs, isSvg, ...children) => {
 
       if (!isRef) return toNodes(isSvg, toArray(value));
 
-      let [obj, prop, cb] = value[ref_symbol];
       let [nodes, refs] = toNodesAndRefs(
         isSvg,
-        toArray(cb != null ? cb(obj[prop]) : obj[prop])
+        toArray(value[ref_symbol].initial)
       );
 
-      addHook(obj, prop, [2, refs, null, cb, isSvg]);
+      addHook(value[ref_symbol].pathes, [
+        2,
+        refs,
+        null,
+        isSvg,
+        value[ref_symbol].callback,
+      ]);
 
       return nodes;
     })
@@ -140,49 +152,55 @@ export let render = (args, element) => {
   return buildElement(element, attrs, element.nodeName === "svg", ...children);
 };
 
-let makeSelector =
-  (...a) =>
-  (...b) => {
-    let c = a.concat(b);
+let pathes = [];
+let recordPathes = false;
 
-    if (c.length >= 3) {
-      return {
-        [ref_symbol]: c,
-      };
-    } else {
-      return makeSelector(...c);
-    }
+export let select = (callback) => {
+  recordPathes = true;
+
+  let initial = callback();
+
+  recordPathes = false;
+
+  return {
+    [ref_symbol]: {
+      initial,
+      callback,
+      pathes: pathes.splice(0, pathes.length),
+    },
   };
-
-export let selector = makeSelector();
+};
 
 let changes = [];
-
 let changesScheduled = false;
 
 let runChanges = () => {
+  let itemSet = new Set();
+
   while (changes.length) {
     let [obj, prop, val, proxy] = changes.shift();
     let map = hookMap.get(proxy);
 
-    if (map && map[prop]) {
+    if (map && map[prop] && !itemSet.has(map[prop])) {
       let item = map[prop];
 
+      itemSet.add(item);
+
       for (let i = 0; i < item.length; i++) {
-        let [type, ref, key, cb, isSvg] = item[i];
+        let [type, ref, key, isSvg, callback] = item[i];
 
         if (type === 1) {
           let element = ref.deref();
 
           if (element) {
-            setAttr(element, key, cb != null ? cb(val) : val);
+            setAttr(element, key, callback != null ? callback(val) : val);
           }
         }
 
         if (type === 2) {
           let [nodes, refs] = toNodesAndRefs(
               isSvg,
-              toArray(cb != null ? cb(val) : val)
+              toArray(callback != null ? callback(val) : val)
             ),
             node;
 
@@ -217,6 +235,13 @@ let runChanges = () => {
 
 export let proxy = (state) =>
   new Proxy(state, {
+    get(obj, key, proxy) {
+      if (recordPathes) {
+        pathes.push([proxy, key]);
+      }
+
+      return Reflect.get(obj, key, proxy);
+    },
     set(obj, key, val, proxy) {
       changes.push([obj, key, val, proxy]);
 
@@ -226,8 +251,6 @@ export let proxy = (state) =>
         Promise.resolve().then(runChanges);
       }
 
-      obj[key] = val;
-
-      return true;
+      return Reflect.set(obj, key, val, proxy);
     },
   });

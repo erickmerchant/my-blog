@@ -238,17 +238,17 @@ a {
     aspect-ratio: 1 / 1;
   }
 
-  &.heading {
+  &.heading1 {
     font-weight: 900;
     font-size: 1.25em;
   }
 
-  &.sub-heading {
+  &.heading2 {
     font-weight: 700;
     font-size: 1em;
   }
 
-  &.sub-sub-heading {
+  &.heading3 {
     font-weight: 500;
     font-size: 1em;
   }
@@ -302,8 +302,7 @@ a {
   }
 }
 
-/* no js styles  */
-:not(:defined) {
+:where(:not(:defined)) {
   &.SideNav {
     &.self {
       display: flex;
@@ -319,7 +318,7 @@ a {
       gap: var(--space);
       padding: var(--space-half);
       font-size: 0.875em;
-      background-color: hsl(var(--background));
+      background-color: hsl(var(--nav-background));
     }
   }
 }
