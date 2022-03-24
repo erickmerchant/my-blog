@@ -66,7 +66,7 @@ impl Render for Post {
         h1 .Content.heading1 { (post.data.title) }
         p .Content.date-paragraph {
           svg
-            .Content.date-icon
+            .Icon.self
             viewBox="0 0 95 95"
             aria-hidden="true" {
             rect

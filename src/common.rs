@@ -7,6 +7,7 @@ use std::{convert::AsRef, fs, path::Path};
 pub fn cacheable_response<F: Fn() -> std::result::Result<String, CustomError>, P: AsRef<Path>>(
   src: P,
   process: F,
+  content_type_override: Option<mime::Mime>,
 ) -> Result<NamedFile> {
   let cache = Path::new("storage/cache").join(src.as_ref());
 
@@ -17,16 +18,13 @@ pub fn cacheable_response<F: Fn() -> std::result::Result<String, CustomError>, P
     fs::write(&cache, body)?;
   }
 
-  static_response(cache)
+  static_response(cache, content_type_override)
 }
 
-pub fn static_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
-  let mut jsx = false;
-
-  if let Some(ext) = src.as_ref().extension() {
-    jsx = ext == "jsx";
-  }
-
+pub fn static_response<P: AsRef<Path>>(
+  src: P,
+  content_type_override: Option<mime::Mime>,
+) -> Result<NamedFile> {
   NamedFile::open(src)
     .and_then(|file| {
       let mut file = file
@@ -35,8 +33,8 @@ pub fn static_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
         .use_last_modified(true)
         .disable_content_disposition();
 
-      if jsx == true {
-        file = file.set_content_type(mime::APPLICATION_JAVASCRIPT);
+      if let Some(content_type) = content_type_override {
+        file = file.set_content_type(content_type);
       }
 
       Ok(file)

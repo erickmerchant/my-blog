@@ -79,6 +79,16 @@ a {
   text-underline-offset: 0.125em;
 }
 
+.Icon {
+  &.self {
+    display: inline-block;
+    width: 1em;
+    aspect-ratio: 1 / 1;
+    pointer-events: none;
+    fill: currentColor;
+  }
+}
+
 .SideNav {
   &.self {
     position: relative;
@@ -109,14 +119,6 @@ a {
     aspect-ratio: 1 / 1;
     display: grid;
     place-content: center;
-  }
-
-  &.icon {
-    display: block;
-    width: 1em;
-    aspect-ratio: 1 / 1;
-    pointer-events: none;
-    fill: currentColor;
   }
 
   &.triangle {
@@ -163,7 +165,6 @@ a {
 
   &.link {
     font-weight: 500;
-    --anchor-color: var(--text-color);
   }
 }
 
@@ -231,11 +232,6 @@ a {
     display: flex;
     gap: 0.5em;
     align-items: center;
-  }
-
-  &.date-icon {
-    height: 1em;
-    aspect-ratio: 1 / 1;
   }
 
   &.heading1 {

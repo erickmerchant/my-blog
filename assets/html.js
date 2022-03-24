@@ -4,19 +4,25 @@ let hookMap = new WeakMap();
 
 export { fragment_symbol as fragment };
 
-let addHook = (pathes, payload) => {
-  for (let i = 0; i < pathes.length; i++) {
-    let [obj, prop] = pathes[i];
+let toArray = (value) => {
+  if (Array.isArray(value)) return value;
 
-    let map = hookMap.get(obj);
+  return [value];
+};
+
+let addHook = (paths, payload) => {
+  for (let i = 0; i < paths.length; i++) {
+    let [object, property] = paths[i];
+
+    let map = hookMap.get(object);
 
     if (!map) {
       map = {};
-      hookMap.set(obj, map);
+      hookMap.set(object, map);
     }
 
-    map[prop] = map[prop] ?? [];
-    map[prop].push(payload);
+    map[property] = map[property] ?? [];
+    map[property].push(payload);
   }
 };
 
@@ -28,18 +34,12 @@ let setAttr = (element, key, value) => {
   }
 };
 
-let toArray = (val) => {
-  if (Array.isArray(val)) return val;
+let buildElement = (element, attributes, svg, ...children) => {
+  if (attributes != null) {
+    attributes = Object.entries(attributes);
 
-  return [val];
-};
-
-let buildElement = (element, attrs, isSvg, ...children) => {
-  if (attrs != null) {
-    attrs = Object.entries(attrs);
-
-    for (let i = 0; i < attrs.length; i++) {
-      let [key, value] = attrs[i];
+    for (let i = 0; i < attributes.length; i++) {
+      let [key, value] = attributes[i];
       let isRef = value[ref_symbol] != null;
       let initial = value;
 
@@ -55,35 +55,33 @@ let buildElement = (element, attrs, isSvg, ...children) => {
       }
 
       if (isRef) {
-        addHook(value[ref_symbol].pathes, [
-          1,
-          new WeakRef(element),
+        addHook(value[ref_symbol].paths, {
+          type: 1,
+          refs: new WeakRef(element),
           key,
-          null,
-          value[ref_symbol].callback,
-        ]);
+          callback: value[ref_symbol].callback,
+        });
       }
     }
   }
 
-  element.replaceChildren(
+  element.append(
     ...children.flatMap((value) => {
       let isRef = value[ref_symbol] != null;
 
-      if (!isRef) return toNodes(isSvg, toArray(value));
+      if (!isRef) return toNodes(svg, toArray(value));
 
       let [nodes, refs] = toNodesAndRefs(
-        isSvg,
+        svg,
         toArray(value[ref_symbol].initial)
       );
 
-      addHook(value[ref_symbol].pathes, [
-        2,
+      addHook(value[ref_symbol].paths, {
+        type: 2,
         refs,
-        null,
-        isSvg,
-        value[ref_symbol].callback,
-      ]);
+        svg,
+        callback: value[ref_symbol].callback,
+      });
 
       return nodes;
     })
@@ -92,38 +90,38 @@ let buildElement = (element, attrs, isSvg, ...children) => {
   return element;
 };
 
-let toNode = (isSvg, node) => {
+let toNode = (svg, node) => {
   if (typeof node !== "object") {
     return document.createTextNode(node);
   }
 
-  let { tag, attrs, children } = node;
+  let { tag, attributes, children } = node;
 
-  isSvg = tag === "svg" ? true : isSvg;
+  svg = tag === "svg" ? true : svg;
 
-  let element = !isSvg
+  let element = !svg
     ? document.createElement(tag)
     : document.createElementNS("http://www.w3.org/2000/svg", tag);
 
-  return buildElement(element, attrs, isSvg, ...children);
+  return buildElement(element, attributes, svg, ...children);
 };
 
-let toNodes = (isSvg, list) => {
+let toNodes = (svg, list) => {
   let nodes = [];
 
   for (let i = 0; i < list.length; i++) {
-    nodes.push(toNode(isSvg, list[i]));
+    nodes.push(toNode(svg, list[i]));
   }
 
   return nodes;
 };
 
-let toNodesAndRefs = (isSvg, list) => {
+let toNodesAndRefs = (svg, list) => {
   let nodes = [];
   let refs = [];
 
   for (let i = 0; i < list.length; i++) {
-    let node = toNode(isSvg, list[i]);
+    let node = toNode(svg, list[i]);
 
     nodes.push(node);
     refs.push(new WeakRef(node));
@@ -132,41 +130,46 @@ let toNodesAndRefs = (isSvg, list) => {
   return [nodes, refs];
 };
 
-export let h = (tag, attrs, ...children) => {
+export let h = (tag, attributes, ...children) => {
   if (tag === fragment_symbol) return children;
 
-  return { tag, attrs, children };
+  return { tag, attributes, children };
 };
 
 export let render = (args, element) => {
-  let attrs = null,
+  let attributes = null,
     children;
 
   if (Array.isArray(args)) {
     children = args;
   } else {
-    attrs = args.attrs;
+    attributes = args.attributes;
     children = args.children;
   }
 
-  return buildElement(element, attrs, element.nodeName === "svg", ...children);
+  return buildElement(
+    element,
+    attributes,
+    element.nodeName === "svg",
+    ...children
+  );
 };
 
-let pathes = [];
-let recordPathes = false;
+let paths = [];
+let recordPaths = false;
 
 export let select = (callback) => {
-  recordPathes = true;
+  recordPaths = true;
 
   let initial = callback();
 
-  recordPathes = false;
+  recordPaths = false;
 
   return {
     [ref_symbol]: {
       initial,
       callback,
-      pathes: pathes.splice(0, pathes.length),
+      paths: paths.splice(0, paths.length),
     },
   };
 };
@@ -178,36 +181,36 @@ let runChanges = () => {
   let itemSet = new Set();
 
   while (changes.length) {
-    let [obj, prop, val, proxy] = changes.shift();
+    let { object, property, value, proxy } = changes.shift();
     let map = hookMap.get(proxy);
 
-    if (map && map[prop] && !itemSet.has(map[prop])) {
-      let item = map[prop];
+    if (map && map[property] && !itemSet.has(map[property])) {
+      let item = map[property];
 
       itemSet.add(item);
 
       for (let i = 0; i < item.length; i++) {
-        let [type, ref, key, isSvg, callback] = item[i];
+        let { type, refs, key, svg, callback } = item[i];
 
         if (type === 1) {
-          let element = ref.deref();
+          let element = refs.deref();
 
           if (element) {
-            setAttr(element, key, callback != null ? callback(val) : val);
+            setAttr(element, key, callback(value));
           }
         }
 
         if (type === 2) {
-          let [nodes, refs] = toNodesAndRefs(
-              isSvg,
-              toArray(callback != null ? callback(val) : val)
+          let [nodes, additions] = toNodesAndRefs(
+              svg,
+              toArray(callback(value))
             ),
             node;
 
-          item[i][1] = refs;
+          item[i].refs = additions;
 
-          for (let i = 0; i < ref.length; i++) {
-            let element = ref[i].deref();
+          for (let i = 0; i < refs.length; i++) {
+            let element = refs[i].deref();
 
             node = nodes.shift();
 
@@ -227,7 +230,7 @@ let runChanges = () => {
       }
     }
 
-    obj[prop] = val;
+    object[property] = value;
   }
 
   changesScheduled = false;
@@ -235,15 +238,15 @@ let runChanges = () => {
 
 export let proxy = (state) =>
   new Proxy(state, {
-    get(obj, key, proxy) {
-      if (recordPathes) {
-        pathes.push([proxy, key]);
+    get(object, property, proxy) {
+      if (recordPaths) {
+        paths.push([proxy, property]);
       }
 
-      return Reflect.get(obj, key, proxy);
+      return Reflect.get(object, property, proxy);
     },
-    set(obj, key, val, proxy) {
-      changes.push([obj, key, val, proxy]);
+    set(object, property, value, proxy) {
+      changes.push({ object, property, value, proxy });
 
       if (!changesScheduled) {
         changesScheduled = true;
@@ -251,6 +254,6 @@ export let proxy = (state) =>
         Promise.resolve().then(runChanges);
       }
 
-      return Reflect.set(obj, key, val, proxy);
+      return Reflect.set(object, property, value, proxy);
     },
   });

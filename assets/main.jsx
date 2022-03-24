@@ -3,7 +3,7 @@
   @jsxFrag fragment
 */
 
-import { h, fragment, render, select, proxy } from "./html.js";
+import { fragment, h, proxy, render, select } from "./html.js";
 
 window.customElements.define(
   "side-nav",
@@ -19,24 +19,19 @@ window.customElements.define(
 
     toggleOpen = () => {
       this.state.open = !this.state.open;
-
-      this.update();
     };
-
-    update(updateAttributes = true) {
-      if (updateAttributes) {
-        this.toggleAttribute("open", this.state.open);
-      }
-
-      for (const anchor of this.querySelectorAll('[slot="links"] a')) {
-        anchor.setAttribute("tabIndex", this.state.open ? "0" : "-1");
-      }
-    }
 
     connectedCallback() {
       this.attachShadow({ mode: "open" });
 
-      this.update();
+      render(<side-nav open={select(() => this.state.open)} />, this);
+
+      for (const anchor of this.querySelectorAll('[slot="links"] a')) {
+        render(
+          <a tabIndex={select(() => (this.state.open ? "0" : "-1"))} />,
+          anchor
+        );
+      }
 
       render(
         <>
@@ -54,7 +49,7 @@ window.customElements.define(
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="SideNav icon"
+                class="Icon self"
                 viewBox="0 0 100 100"
                 aria-hidden="true"
               >
@@ -108,8 +103,6 @@ window.customElements.define(
 
       if (oldValue !== newValue && this.state[name] !== isTrue) {
         this.state[name] = isTrue;
-
-        this.update(false);
       }
     }
   }
