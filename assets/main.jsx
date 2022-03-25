@@ -3,9 +3,9 @@
   @jsxFrag fragment
 */
 
-import { fragment, h, proxy, render, select } from "./html.js";
+import { fragment, h, proxy, render, compute } from "./html.js";
 
-window.customElements.define(
+customElements.define(
   "side-nav",
 
   class SideNav extends HTMLElement {
@@ -24,11 +24,11 @@ window.customElements.define(
     connectedCallback() {
       this.attachShadow({ mode: "open" });
 
-      render(<side-nav open={select(() => this.state.open)} />, this);
+      render(<side-nav open={compute(() => this.state.open)} />, this);
 
       for (const anchor of this.querySelectorAll('[slot="links"] a')) {
         render(
-          <a tabIndex={select(() => (this.state.open ? "0" : "-1"))} />,
+          <a tabIndex={compute(() => (this.state.open ? "0" : "-1"))} />,
           anchor
         );
       }
@@ -41,8 +41,10 @@ window.customElements.define(
             <button
               class="SideNav button"
               type="button"
-              aria-expanded={select(() => (this.state.open ? "true" : "false"))}
-              aria-label={select(() =>
+              aria-expanded={compute(() =>
+                this.state.open ? "true" : "false"
+              )}
+              aria-label={compute(() =>
                 this.state.open ? "Close nav" : "Open nav"
               )}
               onclick={this.toggleOpen}
@@ -53,7 +55,7 @@ window.customElements.define(
                 viewBox="0 0 100 100"
                 aria-hidden="true"
               >
-                {select(() =>
+                {compute(() =>
                   this.state.open ? (
                     <>
                       <rect

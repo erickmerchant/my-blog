@@ -158,7 +158,7 @@ export let render = (args, element) => {
 let paths = [];
 let recordPaths = false;
 
-export let select = (callback) => {
+export let compute = (callback) => {
   recordPaths = true;
 
   let initial = callback();
