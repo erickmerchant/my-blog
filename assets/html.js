@@ -181,7 +181,7 @@ let runChanges = () => {
   let itemSet = new Set();
 
   while (changes.length) {
-    let { object, property, value, proxy } = changes.shift();
+    let { property, value, proxy } = changes.shift();
     let map = hookMap.get(proxy);
 
     if (map && map[property] && !itemSet.has(map[property])) {
@@ -229,24 +229,38 @@ let runChanges = () => {
         }
       }
     }
-
-    object[property] = value;
   }
 
   changesScheduled = false;
 };
 
-export let proxy = (state) =>
-  new Proxy(state, {
-    get(object, property, proxy) {
+let proxy_symbol = Symbol("proxy");
+
+export let proxy = (state) => {
+  state[proxy_symbol] = true;
+
+  return new Proxy(state, {
+    get(object, property, self) {
+      let value = Reflect.get(object, property, self);
+
       if (recordPaths) {
-        paths.push([proxy, property]);
+        paths.push([self, property]);
+
+        if (
+          value != null &&
+          typeof value === "object" &&
+          !value[proxy_symbol]
+        ) {
+          value = proxy(value);
+
+          Reflect.set(object, property, value, self);
+        }
       }
 
-      return Reflect.get(object, property, proxy);
+      return value;
     },
-    set(object, property, value, proxy) {
-      changes.push({ object, property, value, proxy });
+    set(object, property, value, self) {
+      changes.push({ property, value, proxy: self });
 
       if (!changesScheduled) {
         changesScheduled = true;
@@ -254,6 +268,7 @@ export let proxy = (state) =>
         Promise.resolve().then(runChanges);
       }
 
-      return Reflect.set(object, property, value, proxy);
+      return Reflect.set(object, property, value, self);
     },
   });
+};
