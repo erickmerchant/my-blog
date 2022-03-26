@@ -3,7 +3,13 @@
   @jsxFrag fragment
 */
 
-import { fragment, h, proxy, render, compute } from "./html.js";
+import {
+  fragment,
+  h,
+  proxy,
+  render,
+  compute,
+} from "/vendor/@hyper-views/dom/main.js";
 
 customElements.define(
   "side-nav",

@@ -20,7 +20,7 @@ impl Render for Layout {
           meta name="description" content=(self.content.description);
           link href="/main.css" rel="stylesheet";
           link href="/favicon.svg" rel="icon" type="image/svg+xml";
-          link href="/html.js" rel="modulepreload";
+          link href="/vendor/@hyper-views/dom/main.js" rel="modulepreload";
           title { (self.title) " | " (self.content.title) }
           script type="module" src="/main.jsx" {}
         }
