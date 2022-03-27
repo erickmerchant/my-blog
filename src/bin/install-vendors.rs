@@ -21,17 +21,24 @@ fn main() {
     fs::remove_dir_all("assets/vendor").ok();
 
     for dep in deps {
-      let mut res = client
+      let destination = Path::new("assets/vendor").join(dep.name).join(dep.file);
+
+      destination
+        .parent()
+        .map(|parent| fs::create_dir_all(parent))
+        .map(|_| ())
+        .expect("failed to create parent directory");
+
+      let body = client
         .get(format!("{}/{}@{}/{}", domain, dep.name, dep.version, dep.file).to_string())
         .send()
         .await
-        .unwrap();
+        .expect("failed to respond")
+        .body()
+        .await
+        .expect("failed to get body");
 
-      let full_destination = Path::new("assets/vendor").join(dep.name).join(dep.file);
-
-      fs::create_dir_all(full_destination.parent().unwrap()).unwrap();
-
-      fs::write(full_destination, res.body().await.unwrap()).unwrap();
+      fs::write(destination, body).expect("failed to write");
     }
   });
 }
