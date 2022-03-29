@@ -1,14 +1,11 @@
+let changes = [];
+let changesScheduled = false;
 let fragment_symbol = Symbol("fragment");
-let ref_symbol = Symbol("ref");
 let hookMap = new WeakMap();
-
-export { fragment_symbol as fragment };
-
-let toArray = (value) => {
-  if (Array.isArray(value)) return value;
-
-  return [value];
-};
+let paths = [];
+let proxy_symbol = Symbol("proxy");
+let recordPaths = false;
+let ref_symbol = Symbol("ref");
 
 let addHook = (paths, payload) => {
   for (let i = 0; i < paths.length; i++) {
@@ -23,14 +20,6 @@ let addHook = (paths, payload) => {
 
     map[property] = map[property] ?? [];
     map[property].push(payload);
-  }
-};
-
-let setAttr = (element, key, value) => {
-  if (value === true || value === false) {
-    element.toggleAttribute(key, value);
-  } else {
-    element.setAttribute(key, value);
   }
 };
 
@@ -87,97 +76,12 @@ let buildElement = (element, attributes, svg, children) => {
   return element;
 };
 
-let toNode = (svg, node) => {
-  if (typeof node !== "object") {
-    return document.createTextNode(node);
-  }
-
-  let { tag, attributes, children } = node;
-
-  svg = tag === "svg" ? true : svg;
-
-  let element = !svg
-    ? document.createElement(tag)
-    : document.createElementNS("http://www.w3.org/2000/svg", tag);
-
-  return buildElement(element, attributes, svg, children);
-};
-
-let toNodes = (svg, list, andRefs = false) => {
-  let result = { nodes: [] };
-
-  if (andRefs) result.refs = [];
-
-  list = toArray(list).flat(Infinity);
-
-  for (let i = 0; i < list.length; i++) {
-    let node = toNode(svg, list[i]);
-
-    result.nodes.push(node);
-
-    if (andRefs) result.refs.push(new WeakRef(node));
-  }
-
-  return result;
-};
-
-export let h = (tag, attributes, ...children) => {
-  if (tag === fragment_symbol) return children;
-
-  if (typeof tag === "function") {
-    return tag({ ...attributes, children });
-  }
-
-  return { tag, attributes, children };
-};
-
-export let render = (args, element) => {
-  let attributes = null,
-    children;
-
-  if (Array.isArray(args)) {
-    children = args;
-  } else {
-    attributes = args.attributes;
-    children = args.children;
-  }
-
-  return buildElement(
-    element,
-    attributes,
-    element.nodeName === "svg",
-    children
-  );
-};
-
-let paths = [];
-let recordPaths = false;
-
-export let compute = (callback) => {
-  recordPaths = true;
-
-  let initial = callback();
-
-  recordPaths = false;
-
-  return {
-    [ref_symbol]: {
-      initial,
-      callback,
-      paths: paths.splice(0, paths.length),
-    },
-  };
-};
-
-let changes = [];
-let changesScheduled = false;
-
 let runChanges = () => {
   let itemSet = new Set();
 
   while (changes.length) {
-    let { property, value, proxy } = changes.shift();
-    let map = hookMap.get(proxy);
+    let { property, value, receiver } = changes.shift();
+    let map = hookMap.get(receiver);
 
     if (map && map[property] && !itemSet.has(map[property])) {
       let item = map[property];
@@ -226,7 +130,81 @@ let runChanges = () => {
   changesScheduled = false;
 };
 
-let proxy_symbol = Symbol("proxy");
+let setAttr = (element, key, value) => {
+  if (value === true || value === false) {
+    element.toggleAttribute(key, value);
+  } else {
+    element.setAttribute(key, value);
+  }
+};
+
+let toArray = (value) => {
+  if (Array.isArray(value)) return value;
+
+  return [value];
+};
+
+let toNode = (svg, node) => {
+  if (typeof node !== "object") {
+    return document.createTextNode(node);
+  }
+
+  let { tag, attributes, children } = node;
+
+  svg = tag === "svg" ? true : svg;
+
+  let element = !svg
+    ? document.createElement(tag)
+    : document.createElementNS("http://www.w3.org/2000/svg", tag);
+
+  return buildElement(element, attributes, svg, children);
+};
+
+let toNodes = (svg, list, andRefs = false) => {
+  let result = { nodes: [] };
+
+  if (andRefs) result.refs = [];
+
+  list = toArray(list).flat(Infinity);
+
+  for (let i = 0; i < list.length; i++) {
+    let node = toNode(svg, list[i]);
+
+    result.nodes.push(node);
+
+    if (andRefs) result.refs.push(new WeakRef(node));
+  }
+
+  return result;
+};
+
+export let compute = (callback) => {
+  recordPaths = true;
+
+  let initial = callback();
+
+  recordPaths = false;
+
+  return {
+    [ref_symbol]: {
+      initial,
+      callback,
+      paths: paths.splice(0, paths.length),
+    },
+  };
+};
+
+export { fragment_symbol as fragment };
+
+export let h = (tag, attributes, ...children) => {
+  if (tag === fragment_symbol) return children;
+
+  if (typeof tag === "function") {
+    return tag({ ...attributes, children });
+  }
+
+  return { tag, attributes, children };
+};
 
 export let proxy = (state) => {
   state[proxy_symbol] = true;
@@ -251,8 +229,8 @@ export let proxy = (state) => {
 
       return value;
     },
-    set(object, property, value, self) {
-      changes.push({ property, value, proxy: self });
+    set(object, property, value, receiver) {
+      changes.push({ property, value, receiver });
 
       if (!changesScheduled) {
         changesScheduled = true;
@@ -260,7 +238,26 @@ export let proxy = (state) => {
         Promise.resolve().then(runChanges);
       }
 
-      return Reflect.set(object, property, value, self);
+      return Reflect.set(object, property, value, receiver);
     },
   });
+};
+
+export let render = (args, element) => {
+  let attributes = null,
+    children;
+
+  if (Array.isArray(args)) {
+    children = args;
+  } else {
+    attributes = args.attributes;
+    children = args.children;
+  }
+
+  return buildElement(
+    element,
+    attributes,
+    element.nodeName === "svg",
+    children
+  );
 };
