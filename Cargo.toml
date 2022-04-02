@@ -22,7 +22,7 @@ parcel_css = { version = "1.0.0-alpha.16", features = ["grid"] }
 rss = { version = "2.0", features = ["builders"] }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
-swc = "0.162"
+swc = "0.163"
 swc_common = { version = "0.17", features = ["tty-emitter"] }
 
 [features]

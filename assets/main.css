@@ -34,6 +34,8 @@ html {
   --space: 2rem;
   --space-half: 1rem;
   --space-quarter: 0.5rem;
+  --gradient-foreground: 100 20% 55%;
+  --gradient-background: var(--background);
 
   @media (--mobile) {
     font-size: 100%;
@@ -48,30 +50,24 @@ html {
     --text-color: 100 10% 25%;
     --background: 0 0% 100%;
     --nav-background: 100 10% 90%;
-    --gradient-foreground: 100 20% 55%;
-    --gradient-background: var(--background);
   }
 
   @media (prefers-color-scheme: dark) {
     --anchor-color: 100 70% 75%;
     --text-color: 0 0% 100%;
-    --background: 100 5% 30%;
+    --background: 100 5% 25%;
     --nav-background: 100 10% 40%;
-    --gradient-foreground: 100 10% 40%;
-    --gradient-background: var(--anchor-color);
   }
 }
 
 body {
   height: 100%;
   background-color: hsl(var(--nav-background));
-  background-image: var(--gradient), var(--gradient);
-  background-size: 5px 5px;
-
-  --gradient: radial-gradient(
+  background-image: radial-gradient(
     hsl(var(--background)) 15%,
     hsl(var(--nav-background)) 16%
   );
+  background-size: 5px 5px;
 }
 
 a {
