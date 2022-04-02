@@ -20,9 +20,9 @@ impl Render for Layout {
           meta name="description" content=(self.content.description);
           link href="/main.css" rel="stylesheet";
           link href="/favicon.svg" rel="icon" type="image/svg+xml";
-          link href="/vendor/@hyper-views/dom/main.js" rel="modulepreload";
+          link href="/vendor/@hyper-views/framework/main.js" rel="modulepreload";
           title { (self.title) " | " (self.content.title) }
-          script type="module" src="/main.jsx" {}
+          script type="module" src="/main.js" {}
         }
         body {
           side-nav .SideNav.self {
@@ -69,51 +69,15 @@ impl Render for Post {
             .Icon.self
             viewBox="0 0 95 95"
             aria-hidden="true" {
-            rect
-              height="25"
-              width="25"
-              x="0"
-              y="0" {}
-            rect
-              height="25"
-              width="25"
-              x="35"
-              y="0" {}
-            rect
-              height="25"
-              width="25"
-              x="70"
-              y="0" {}
-            rect
-              height="25"
-              width="25"
-              x="0"
-              y="35" {}
-            rect
-              height="25"
-              width="25"
-              x="35"
-              y="35" {}
-            rect
-              height="25"
-              width="25"
-              x="70"
-              y="35" {}
-            rect
-              height="25"
-              width="25"
-              x="0"
-              y="70" {}
-            rect
-              height="25"
-              width="25"
-              x="35"
-              y="70" {}
-            rect
-              height="25"
-              width="25"
-              x="70"
-              y="70" {}
+            rect height="25" width="25" x="0" y="0" {}
+            rect height="25" width="25" x="35" y="0" {}
+            rect height="25" width="25" x="70" y="0" {}
+            rect height="25" width="25" x="0" y="35" {}
+            rect height="25" width="25" x="35" y="35" {}
+            rect height="25" width="25" x="70" y="35" {}
+            rect height="25" width="25" x="0" y="70" {}
+            rect height="25" width="25" x="35" y="70" {}
+            rect height="25" width="25" x="70" y="70" {}
           }
           time {
             @if let Ok(date) = chrono::NaiveDate::parse_from_str(post.data.date.as_str(), "%Y-%m-%d") {
@@ -125,7 +89,7 @@ impl Render for Post {
         (PreEscaped(post.content.to_owned()))
       },
       None => html! {
-        h1 .Content.heading1 { "Nothing written yet." }
+        h1 .Content.heading1 { "Nothing has been written yet." }
       },
     }
   }

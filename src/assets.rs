@@ -13,14 +13,13 @@ pub async fn file(file: web::Path<String>) -> Result<NamedFile> {
   }
 
   match ext_str {
-    "js" => js_response(src, false),
-    "jsx" => js_response(src, true),
+    "js" => js_response(src),
     "css" => css_response(src),
     _ => static_response(src, None),
   }
 }
 
-fn js_response<P: AsRef<Path>>(src: P, jsx: bool) -> Result<NamedFile> {
+fn js_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
   use std::sync::Arc;
   use swc::{
     common::{
@@ -47,32 +46,26 @@ fn js_response<P: AsRef<Path>>(src: P, jsx: bool) -> Result<NamedFile> {
           message: format!("{err:?}"),
         })?;
 
-      let json = format!(
-        r#"{{
+      let json = r#"{
         "minify": true,
-        "env": {{
-          "targets": "defaults and supports es6-module and not dead"
-        }},
-        "jsc": {{
-          "parser": {{
-            "syntax": "ecmascript",
-            "jsx": {jsx}
-          }},
-          "minify": {{
+        "env": {
+          "targets": "defaults and supports es6-module and not dead and > 1%",
+          "bugfixes": false
+        },
+        "jsc": {
+          "minify": {
             "compress": true,
             "mangle": true
-          }}
-        }},
-        "module": {{
+          }
+        },
+        "module": {
           "type": "es6"
-        }}
-      }}"#
-      );
+        }
+      }"#;
 
-      let options =
-        serde_json::from_str::<Options>(json.as_str()).map_err(|err| CustomError::Internal {
-          message: format!("{err:?}"),
-        })?;
+      let options = serde_json::from_str::<Options>(json).map_err(|err| CustomError::Internal {
+        message: format!("{err:?}"),
+      })?;
 
       c.process_js_file(fm, &handler, &options)
         .and_then(|transformed| Ok(transformed.code))

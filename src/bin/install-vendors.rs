@@ -13,8 +13,8 @@ fn main() {
     let client = Client::default();
     let domain = "https://unpkg.com";
     let deps = [Dependency {
-      name: "@hyper-views/dom",
-      version: "1",
+      name: "@hyper-views/framework",
+      version: "4",
       file: "main.js",
     }];
 

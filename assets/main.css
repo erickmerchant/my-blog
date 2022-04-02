@@ -81,7 +81,7 @@ a {
 
 .Icon {
   &.self {
-    display: inline-block;
+    display: inline-grid;
     width: 1em;
     aspect-ratio: 1 / 1;
     pointer-events: none;
@@ -92,7 +92,7 @@ a {
 .SideNav {
   &.self {
     position: relative;
-    display: block;
+    display: grid;
     height: 100%;
     overflow-y: scroll;
     overflow-x: hidden;
@@ -126,7 +126,7 @@ a {
     top: 0;
     left: 0;
     z-index: 2;
-    display: block;
+    display: grid;
     width: 0;
     height: 0;
     border: 0;
