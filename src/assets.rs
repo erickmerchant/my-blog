@@ -1,7 +1,7 @@
 use crate::common::{cacheable_response, static_response, CustomError};
 use actix_files::NamedFile;
 use actix_web::{web, Result};
-use std::{convert::AsRef, fs, path::Path};
+use std::{convert::AsRef, env, fs, path::Path};
 
 pub async fn file(file: web::Path<String>) -> Result<NamedFile> {
   let src = Path::new("assets").join(file.to_string());
@@ -26,7 +26,7 @@ fn js_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
       errors::{ColorConfig, Handler},
       SourceMap,
     },
-    config::Options,
+    config::{Options, SourceMapsConfig},
   };
 
   cacheable_response(
@@ -63,9 +63,20 @@ fn js_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
         }
       }"#;
 
-      let options = serde_json::from_str::<Options>(json).map_err(|err| CustomError::Internal {
-        message: format!("{err:?}"),
-      })?;
+      let mut options =
+        serde_json::from_str::<Options>(&json).map_err(|err| CustomError::Internal {
+          message: format!("{err:?}"),
+        })?;
+
+      let mut source_maps = false;
+
+      if let Ok(sm) = env::var("SOURCE_MAPS") {
+        source_maps = sm.parse::<bool>().unwrap();
+      }
+
+      if source_maps {
+        options.source_maps = Some(SourceMapsConfig::Str("inline".to_string()));
+      }
 
       c.process_js_file(fm, &handler, &options)
         .and_then(|transformed| Ok(transformed.code))
@@ -110,6 +121,12 @@ fn css_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
 
       printer_options.minify = true;
       printer_options.targets = targets;
+
+      // let mut source_maps = false;
+
+      // if let Ok(sm) = env::var("SOURCE_MAPS") {
+      //   source_maps = sm.parse::<bool>().unwrap();
+      // }
 
       match stylesheet::StyleSheet::parse(
         src.as_ref().to_str().unwrap_or_default().to_string(),

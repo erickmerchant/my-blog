@@ -22,11 +22,11 @@ pub async fn home() -> Result<NamedFile> {
   cacheable_response(
     Path::new("index.html"),
     || {
-      let site = models::Site::read();
+      let site = models::Site::get();
       let posts: Vec<Option<models::Post>> = site
         .posts
         .iter()
-        .map(|slug| models::Post::read(slug.to_string()))
+        .map(|slug| models::Post::get_by_slug(slug.to_string()))
         .collect();
 
       views::home_page(site, posts)
@@ -41,12 +41,12 @@ pub async fn feed_rss() -> Result<NamedFile> {
   cacheable_response(
     Path::new("feed.rss"),
     || {
-      let site_content = models::Site::read();
+      let site_content = models::Site::get();
 
       let posts: Vec<Option<models::Post>> = site_content
         .posts
         .iter()
-        .map(|slug| models::Post::read(slug.to_string()))
+        .map(|slug| models::Post::get_by_slug(slug.to_string()))
         .collect();
 
       let mut channel = ChannelBuilder::default();
@@ -88,9 +88,9 @@ pub async fn post(post: web::Path<String>) -> Result<NamedFile> {
   cacheable_response(
     post.as_ref().as_str(),
     || {
-      let site = models::Site::read();
+      let site = models::Site::get();
 
-      views::post_page(site, models::Post::read(slug.to_string()))
+      views::post_page(site, models::Post::get_by_slug(slug.to_string()))
     },
     None,
   )

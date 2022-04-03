@@ -27,7 +27,7 @@ impl Render for Layout {
         body {
           side-nav .SideNav.self {
             header .Banner.self slot="panel" {
-              @match self.heading.to_owned() {
+              @match self.heading.clone() {
                 Some(heading) => { (heading) }
                 None => {
                   .Banner.heading { (self.content.title) }
@@ -44,7 +44,7 @@ impl Render for Layout {
             }
 
             ol .Links.self slot="links" {
-              @for link in self.content.to_owned().links {
+              @for link in self.content.clone().links {
                 li { a .Links.link href=(link.href) { (link.title) } }
               }
             }
@@ -61,7 +61,7 @@ pub struct Post {
 
 impl Render for Post {
   fn render(&self) -> Markup {
-    match self.post.to_owned() {
+    match self.post.clone() {
       Some(post) => html! {
         h1 .Content.heading1 { (post.data.title) }
         p .Content.date-paragraph {
@@ -69,9 +69,7 @@ impl Render for Post {
             .Icon.self
             viewBox="0 0 95 95"
             aria-hidden="true" {
-            rect height="25" width="25" x="0" y="0" {}
-            rect height="25" width="25" x="35" y="0" {}
-            rect height="25" width="25" x="70" y="0" {}
+            rect height="25" width="95" x="0" y="0" {}
             rect height="25" width="25" x="0" y="35" {}
             rect height="25" width="25" x="35" y="35" {}
             rect height="25" width="25" x="70" y="35" {}
@@ -86,7 +84,7 @@ impl Render for Post {
           }
         }
 
-        (PreEscaped(post.content.to_owned()))
+        (PreEscaped(post.content.clone()))
       },
       None => html! {
         h1 .Content.heading1 { "Nothing has been written yet." }
@@ -115,13 +113,13 @@ pub fn home_page(
       }
     },
     false => Post {
-      post: posts.get(0).and_then(|p| p.to_owned()),
+      post: posts.get(0).and_then(|p| p.clone()),
     }
     .render(),
   };
 
   html_response(Layout {
-    content: site.to_owned(),
+    content: site.clone(),
     title: "Home".to_string(),
     children: children,
     heading: Some(html! {
@@ -133,10 +131,10 @@ pub fn home_page(
 pub fn post_page(site: models::Site, post: Option<models::Post>) -> Result<String, CustomError> {
   match post {
     Some(post) => html_response(Layout {
-      content: site.to_owned(),
-      title: post.data.title.to_owned(),
+      content: site.clone(),
+      title: post.data.title.clone(),
       children: Post {
-        post: Some(post.to_owned()),
+        post: Some(post.clone()),
       }
       .render(),
       heading: None,
@@ -148,10 +146,10 @@ pub fn post_page(site: models::Site, post: Option<models::Post>) -> Result<Strin
 pub fn not_found() -> Result<String, CustomError> {
   let title = "Page Not Found";
 
-  let content = models::Site::read();
+  let content = models::Site::get();
 
   html_response(Layout {
-    content: content.to_owned(),
+    content: content.clone(),
     title: title.to_string(),
     children: html! {
       h1 .Content.heading1 { (title) }
@@ -166,10 +164,10 @@ pub fn not_found() -> Result<String, CustomError> {
 pub fn internal_error() -> Result<String, CustomError> {
   let title = "Internal Error";
 
-  let content = models::Site::read();
+  let content = models::Site::get();
 
   html_response(Layout {
-    content: content.to_owned(),
+    content: content.clone(),
     title: title.to_string(),
     children: html! {
       h1 .Content.heading1 { (title) }

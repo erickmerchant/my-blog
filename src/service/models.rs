@@ -12,7 +12,7 @@ pub struct Site {
 }
 
 impl Site {
-  pub fn read() -> Site {
+  pub fn get() -> Site {
     let file_contents =
       fs::read_to_string("content/Site.json").expect("failed to read content/Site.json");
     let content =
@@ -35,7 +35,7 @@ pub struct Post {
 }
 
 impl Post {
-  pub fn read(slug: String) -> Option<Post> {
+  pub fn get_by_slug(slug: String) -> Option<Post> {
     let mut result = None;
     let path = Path::new("content/posts").join(slug).with_extension("html");
     if let Ok(contents) = fs::read_to_string(path) {
