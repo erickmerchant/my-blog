@@ -7,7 +7,6 @@ use std::{convert::AsRef, fs, path::Path};
 pub fn cacheable_response<F: Fn() -> std::result::Result<String, CustomError>, P: AsRef<Path>>(
   src: P,
   process: F,
-  content_type_override: Option<mime::Mime>,
 ) -> Result<NamedFile> {
   let cache = Path::new("storage/cache").join(src.as_ref());
 
@@ -18,24 +17,17 @@ pub fn cacheable_response<F: Fn() -> std::result::Result<String, CustomError>, P
     fs::write(&cache, body)?;
   }
 
-  static_response(cache, content_type_override)
+  static_response(cache)
 }
 
-pub fn static_response<P: AsRef<Path>>(
-  src: P,
-  content_type_override: Option<mime::Mime>,
-) -> Result<NamedFile> {
+pub fn static_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
   NamedFile::open(src)
     .and_then(|file| {
-      let mut file = file
+      let file = file
         .prefer_utf8(true)
         .use_etag(true)
         .use_last_modified(true)
         .disable_content_disposition();
-
-      if let Some(content_type) = content_type_override {
-        file = file.set_content_type(content_type);
-      }
 
       Ok(file)
     })

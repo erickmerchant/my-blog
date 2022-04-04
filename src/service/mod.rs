@@ -19,65 +19,57 @@ pub fn configure(cfg: &mut web::ServiceConfig) {
 }
 
 pub async fn home() -> Result<NamedFile> {
-  cacheable_response(
-    Path::new("index.html"),
-    || {
-      let site = models::Site::get();
-      let posts: Vec<Option<models::Post>> = site
-        .posts
-        .iter()
-        .map(|slug| models::Post::get_by_slug(slug.to_string()))
-        .collect();
+  cacheable_response(Path::new("index.html"), || {
+    let site = models::Site::get();
+    let posts: Vec<Option<models::Post>> = site
+      .posts
+      .iter()
+      .map(|slug| models::Post::get_by_slug(slug.to_string()))
+      .collect();
 
-      views::home_page(site, posts)
-    },
-    None,
-  )
+    views::home_page(site, posts)
+  })
 }
 
 pub async fn feed_rss() -> Result<NamedFile> {
   use rss::{ChannelBuilder, ItemBuilder};
 
-  cacheable_response(
-    Path::new("feed.rss"),
-    || {
-      let site_content = models::Site::get();
+  cacheable_response(Path::new("feed.rss"), || {
+    let site_content = models::Site::get();
 
-      let posts: Vec<Option<models::Post>> = site_content
-        .posts
-        .iter()
-        .map(|slug| models::Post::get_by_slug(slug.to_string()))
-        .collect();
+    let posts: Vec<Option<models::Post>> = site_content
+      .posts
+      .iter()
+      .map(|slug| models::Post::get_by_slug(slug.to_string()))
+      .collect();
 
-      let mut channel = ChannelBuilder::default();
+    let mut channel = ChannelBuilder::default();
 
-      let base = site_content.base;
+    let base = site_content.base;
 
-      let channel = channel
-        .link(&base)
-        .title(site_content.title)
-        .description(site_content.description);
+    let channel = channel
+      .link(&base)
+      .title(site_content.title)
+      .description(site_content.description);
 
-      for post in posts {
-        if let Some(post) = post {
-          let slug = post.data.slug;
+    for post in posts {
+      if let Some(post) = post {
+        let slug = post.data.slug;
 
-          channel.item(
-            ItemBuilder::default()
-              .link(format!("{base}/posts/{slug}.html"))
-              .title(post.data.title)
-              .description(post.data.description)
-              .build(),
-          );
-        }
+        channel.item(
+          ItemBuilder::default()
+            .link(format!("{base}/posts/{slug}.html"))
+            .title(post.data.title)
+            .description(post.data.description)
+            .build(),
+        );
       }
+    }
 
-      let channel = channel.build();
+    let channel = channel.build();
 
-      Ok(channel.to_string())
-    },
-    None,
-  )
+    Ok(channel.to_string())
+  })
 }
 
 pub async fn post(post: web::Path<String>) -> Result<NamedFile> {
@@ -85,13 +77,9 @@ pub async fn post(post: web::Path<String>) -> Result<NamedFile> {
 
   let slug = slug.to_str().expect("invalid slug");
 
-  cacheable_response(
-    post.as_ref().as_str(),
-    || {
-      let site = models::Site::get();
+  cacheable_response(post.as_ref().as_str(), || {
+    let site = models::Site::get();
 
-      views::post_page(site, models::Post::get_by_slug(slug.to_string()))
-    },
-    None,
-  )
+    views::post_page(site, models::Post::get_by_slug(slug.to_string()))
+  })
 }

@@ -15,7 +15,7 @@ pub async fn file(file: web::Path<String>) -> Result<NamedFile> {
   match ext_str {
     "js" => js_response(src),
     "css" => css_response(src),
-    _ => static_response(src, None),
+    _ => static_response(src),
   }
 }
 
@@ -87,7 +87,6 @@ fn js_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
           CustomError::Internal
         })
     },
-    Some(mime::APPLICATION_JAVASCRIPT),
   )
 }
 
@@ -204,6 +203,5 @@ fn css_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
         }
       }
     },
-    None,
   )
 }
