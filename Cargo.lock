@@ -1747,6 +1747,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "json_comments"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ab25c689752fbb49903458495d3e71853229e262a2e6136325359e0705606483"
+
+[[package]]
 name = "kernel32-sys"
 version = "0.2.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1927,6 +1933,7 @@ dependencies = [
  "derive_more",
  "dotenv",
  "env_logger",
+ "log",
  "maud",
  "mime",
  "minify-html-onepass",
@@ -3292,9 +3299,9 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.163.0"
+version = "0.163.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6ac9ef32978ce057b04871938f73faee3be58ba950bf7ec4ad141b8239fe79f3"
+checksum = "563b43033459c8d67797577b1da318621e9548ed6f4b9afc26c5ee47105a1059"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3302,6 +3309,7 @@ dependencies = [
  "dashmap 5.2.0",
  "either",
  "indexmap",
+ "json_comments",
  "lru",
  "once_cell",
  "parking_lot 0.12.0",
@@ -3493,9 +3501,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.99.2"
+version = "0.99.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1ce67135297d22058f38dbef65e3610edddcb821019d98fd7317bbdac796945b"
+checksum = "85ad85f30a518f7ae8ba7a143c85a93d39e130d1dd30a9468a49dd8cbe4314b5"
 dependencies = [
  "ahash",
  "indexmap",
