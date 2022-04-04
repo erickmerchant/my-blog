@@ -90,6 +90,8 @@ fn js_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
 
 fn css_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
   use parcel_css::{stylesheet, targets};
+  use parcel_sourcemap::SourceMap;
+  use serde_json::json;
 
   cacheable_response(
     &src,
@@ -122,11 +124,29 @@ fn css_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
       printer_options.minify = true;
       printer_options.targets = targets;
 
-      // let mut source_maps = false;
+      let mut source_maps = false;
 
-      // if let Ok(sm) = env::var("SOURCE_MAPS") {
-      //   source_maps = sm.parse::<bool>().unwrap();
-      // }
+      if let Ok(sm) = env::var("SOURCE_MAPS") {
+        source_maps = sm.parse::<bool>().unwrap();
+      }
+
+      let mut source_map = if source_maps {
+        let mut source_map = SourceMap::new("/");
+
+        source_map.add_source(src.as_ref().to_str().unwrap_or_default());
+
+        let source_map = if let Ok(_) = source_map.set_source_content(0, &file_contents.clone()) {
+          Some(source_map)
+        } else {
+          None
+        };
+
+        source_map
+      } else {
+        None
+      };
+
+      printer_options.source_map = source_map.as_mut();
 
       match stylesheet::StyleSheet::parse(
         src.as_ref().to_str().unwrap_or_default().to_string(),
@@ -135,7 +155,31 @@ fn css_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
       ) {
         Ok(mut stylesheet) => match stylesheet.minify(minifier_options) {
           Ok(_) => match stylesheet.to_css(printer_options) {
-            Ok(css) => Ok(css.code),
+            Ok(css) => {
+              let mut code = css.code;
+              if let Some(mut source_map) = source_map {
+                let mut vlq_output: Vec<u8> = Vec::new();
+                source_map.write_vlq(&mut vlq_output).ok();
+
+                let sm = json!({
+                  "version": 3,
+                  "mappings": String::from_utf8(vlq_output).unwrap(),
+                  "sources": source_map.get_sources(),
+                  "sourcesContent": source_map.get_sources_content(),
+                  "names": source_map.get_names(),
+                });
+
+                code.push_str("\n/*# sourceMappingURL=data:application/json;base64,");
+                base64::encode_config_buf(
+                  sm.to_string().as_bytes(),
+                  base64::Config::new(base64::CharacterSet::Standard, true),
+                  &mut code,
+                );
+                code.push_str(" */")
+              };
+
+              Ok(code)
+            }
             Err(err) => Err(CustomError::Internal {
               message: format!("{err:?}"),
             }),

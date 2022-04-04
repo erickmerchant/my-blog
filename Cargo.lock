@@ -1898,9 +1898,9 @@ dependencies = [
 
 [[package]]
 name = "lru"
-version = "0.7.3"
+version = "0.7.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "fcb87f3080f6d1d69e8c564c0fcfde1d7aa8cc451ce40cae89479111f03bc0eb"
+checksum = "22e8810f0ab5b02d4fc737c818258c8560a3216b7ebd5fd756cb437e23157fc6"
 dependencies = [
  "hashbrown",
 ]
@@ -1922,6 +1922,7 @@ dependencies = [
  "actix-rt 2.7.0",
  "actix-web 4.0.1",
  "awc 3.0.0",
+ "base64 0.13.0",
  "chrono",
  "derive_more",
  "dotenv",
@@ -1931,6 +1932,7 @@ dependencies = [
  "minify-html-onepass",
  "openssl",
  "parcel_css",
+ "parcel_sourcemap",
  "rss",
  "serde",
  "serde_json",
@@ -3684,9 +3686,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.111.0"
+version = "0.111.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2e073b79641f526fb81348cc78672a156df8046a1111a107ae1c6f311d56828f"
+checksum = "d9b56363fc5736a039558d2e0a23da6501eceb5b9b7a9d0764c56fefdf128a7c"
 dependencies = [
  "ahash",
  "dashmap 5.2.0",
