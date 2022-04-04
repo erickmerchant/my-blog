@@ -20,6 +20,7 @@ pub async fn file(file: web::Path<String>) -> Result<NamedFile> {
 }
 
 fn js_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
+  use serde_json::{from_value, json};
   use std::sync::Arc;
   use swc::{
     common::{
@@ -46,7 +47,7 @@ fn js_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
         CustomError::Internal
       })?;
 
-      let json = r#"{
+      let mut options = from_value::<Options>(json!({
         "minify": true,
         "env": {
           "targets": "defaults and supports es6-module and not dead and > 1%",
@@ -61,9 +62,8 @@ fn js_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
         "module": {
           "type": "es6"
         }
-      }"#;
-
-      let mut options = serde_json::from_str::<Options>(&json).map_err(|err| {
+      }))
+      .map_err(|err| {
         log::error!("{err:?}");
 
         CustomError::Internal
