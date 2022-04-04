@@ -87,7 +87,7 @@ a {
 .SideNav {
   &.self {
     position: relative;
-    display: grid;
+    display: block;
     height: 100%;
     overflow-y: scroll;
     overflow-x: hidden;
@@ -121,7 +121,7 @@ a {
     top: 0;
     left: 0;
     z-index: 2;
-    display: grid;
+    display: block;
     width: 0;
     height: 0;
     border: 0;
@@ -179,12 +179,12 @@ a {
     width: 100%;
     padding: 0 var(--space-half);
 
-    --gradient-1: hsl(var(--background) / 0.4),
-      hsl(var(--background) / 0.4) 0.05em, hsl(0 0% 0% / 0) 0.05em,
+    --gradient-1: hsl(var(--background) / 0.3),
+      hsl(var(--background) / 0.3) 0.05em, hsl(0 0% 0% / 0) 0.05em,
       hsl(0 0% 0% / 0) 1em;
     --gradient-2: hsl(0 0% 0% / 0), hsl(0 0% 0% / 0) 0.9em,
       hsl(var(--background) / 0.1) 0.9em, hsl(var(--background) / 0.1) 1em,
-      hsl(0 0% 0% / 0) 1em, hsl(0 0% 0% / 0) 1.66em;
+      hsl(0 0% 0% / 0) 1em, hsl(0 0% 0% / 0) 1.7em;
   }
 
   &.heading {
