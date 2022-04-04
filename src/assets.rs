@@ -40,11 +40,11 @@ fn js_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
         Some(cm.clone()),
       ));
       let c = swc::Compiler::new(cm.clone());
-      let fm = cm
-        .load_file(src.as_ref())
-        .map_err(|err| CustomError::Internal {
-          message: format!("{err:?}"),
-        })?;
+      let fm = cm.load_file(src.as_ref()).map_err(|err| {
+        log::error!("{err:?}");
+
+        CustomError::Internal
+      })?;
 
       let json = r#"{
         "minify": true,
@@ -63,10 +63,11 @@ fn js_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
         }
       }"#;
 
-      let mut options =
-        serde_json::from_str::<Options>(&json).map_err(|err| CustomError::Internal {
-          message: format!("{err:?}"),
-        })?;
+      let mut options = serde_json::from_str::<Options>(&json).map_err(|err| {
+        log::error!("{err:?}");
+
+        CustomError::Internal
+      })?;
 
       let mut source_maps = false;
 
@@ -80,8 +81,10 @@ fn js_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
 
       c.process_js_file(fm, &handler, &options)
         .and_then(|transformed| Ok(transformed.code))
-        .map_err(|err| CustomError::Internal {
-          message: format!("{err:?}"),
+        .map_err(|err| {
+          log::error!("{err:?}");
+
+          CustomError::Internal
         })
     },
     Some(mime::APPLICATION_JAVASCRIPT),
@@ -96,8 +99,10 @@ fn css_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
   cacheable_response(
     &src,
     || -> Result<String, CustomError> {
-      let file_contents = fs::read_to_string(&src).map_err(|err| CustomError::Internal {
-        message: format!("{err:?}"),
+      let file_contents = fs::read_to_string(&src).map_err(|err| {
+        log::error!("{err:?}");
+
+        CustomError::Internal
       })?;
       let targets = Some(targets::Browsers {
         android: Some(96 << 16),
@@ -180,17 +185,23 @@ fn css_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
 
               Ok(code)
             }
-            Err(err) => Err(CustomError::Internal {
-              message: format!("{err:?}"),
-            }),
+            Err(err) => {
+              log::error!("{err:?}");
+
+              Err(CustomError::Internal)
+            }
           },
-          Err(err) => Err(CustomError::Internal {
-            message: format!("{err:?}"),
-          }),
+          Err(err) => {
+            log::error!("{err:?}");
+
+            Err(CustomError::Internal)
+          }
         },
-        Err(err) => Err(CustomError::Internal {
-          message: format!("{err:?}"),
-        }),
+        Err(err) => {
+          log::error!("{err:?}");
+
+          Err(CustomError::Internal)
+        }
       }
     },
     None,

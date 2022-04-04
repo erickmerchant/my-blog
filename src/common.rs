@@ -55,23 +55,25 @@ pub fn html_response(html: impl Render) -> Result<String, CustomError> {
 
   match in_place_str(html_clone, cfg) {
     Ok(html) => Ok(html.to_string()),
-    Err(err) => Err(CustomError::Internal {
-      message: format!("{err:?}"),
-    }),
+    Err(err) => {
+      log::error!("{err:?}");
+
+      Err(CustomError::Internal)
+    }
   }
 }
 
 #[derive(Debug, Display, Error)]
 pub enum CustomError {
-  NotFound {},
-  Internal { message: String },
+  NotFound,
+  Internal,
 }
 
 impl error::ResponseError for CustomError {
   fn status_code(&self) -> StatusCode {
     match self {
-      CustomError::NotFound {} => StatusCode::NOT_FOUND,
-      CustomError::Internal { message: _message } => StatusCode::INTERNAL_SERVER_ERROR,
+      CustomError::NotFound => StatusCode::NOT_FOUND,
+      CustomError::Internal => StatusCode::INTERNAL_SERVER_ERROR,
     }
   }
 }
