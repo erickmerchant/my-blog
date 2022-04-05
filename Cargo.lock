@@ -1243,9 +1243,9 @@ checksum = "e78d4f1cc4ae33bbfc157ed5d5a5ef3bc29227303d595861deb238fcec4e9457"
 
 [[package]]
 name = "encoding_rs"
-version = "0.8.30"
+version = "0.8.31"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7896dc8abb250ffdda33912550faa54c88ec8b998dec0b2c55ab224921ce11df"
+checksum = "9852635589dc9f9ea1b6fe9f05b50ef208c85c834a562f0c6abb1c475736ec2b"
 dependencies = [
  "cfg-if 1.0.0",
 ]
@@ -3414,9 +3414,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.102.0"
+version = "0.102.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f5ae900c3be1f9ed683585b766cb47981ecf1c7ecdd040eb10e15ced4b9160e7"
+checksum = "4e6df238c1861a7982bb2813e544c674a695729fe77b9bd4fe4062813eb70830"
 dependencies = [
  "bitflags",
  "memchr",
@@ -3501,9 +3501,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.99.3"
+version = "0.99.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "85ad85f30a518f7ae8ba7a143c85a93d39e130d1dd30a9468a49dd8cbe4314b5"
+checksum = "8f1255bd8a063d8d484ea269a486bf17b6bcff5c04a45ec1692180f9ba022f22"
 dependencies = [
  "ahash",
  "indexmap",
