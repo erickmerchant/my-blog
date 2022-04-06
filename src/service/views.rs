@@ -70,12 +70,7 @@ impl Render for Post {
             viewBox="0 0 95 95"
             aria-hidden="true" {
             rect height="25" width="95" x="0" y="0" {}
-            rect height="25" width="25" x="0" y="35" {}
-            rect height="25" width="25" x="35" y="35" {}
-            rect height="25" width="25" x="70" y="35" {}
-            rect height="25" width="25" x="0" y="70" {}
-            rect height="25" width="25" x="35" y="70" {}
-            rect height="25" width="25" x="70" y="70" {}
+            rect height="60" width="95" x="0" y="35" {}
           }
           time {
             @if let Ok(date) = chrono::NaiveDate::parse_from_str(post.data.date.as_str(), "%Y-%m-%d") {
