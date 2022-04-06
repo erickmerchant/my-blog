@@ -2,11 +2,11 @@ use super::models;
 use crate::common::{html_response, CustomError};
 use maud::{html, Markup, PreEscaped, Render, DOCTYPE};
 
-pub struct Layout {
-  pub content: models::Site,
-  pub title: String,
-  pub children: Markup,
-  pub heading: Option<Markup>,
+struct Layout {
+  content: models::Site,
+  title: String,
+  children: Markup,
+  heading: Option<Markup>,
 }
 
 impl Render for Layout {
@@ -55,8 +55,8 @@ impl Render for Layout {
   }
 }
 
-pub struct Post {
-  pub post: Option<models::Post>,
+struct Post {
+  post: Option<models::Post>,
 }
 
 impl Render for Post {

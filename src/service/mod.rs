@@ -18,7 +18,7 @@ pub fn configure(cfg: &mut web::ServiceConfig) {
   );
 }
 
-pub async fn home() -> Result<NamedFile> {
+async fn home() -> Result<NamedFile> {
   cacheable_response(Path::new("index.html"), || {
     let site = models::Site::get();
     let posts: Vec<Option<models::Post>> = site
@@ -31,7 +31,7 @@ pub async fn home() -> Result<NamedFile> {
   })
 }
 
-pub async fn feed_rss() -> Result<NamedFile> {
+async fn feed_rss() -> Result<NamedFile> {
   use rss::{ChannelBuilder, ItemBuilder};
 
   cacheable_response(Path::new("feed.rss"), || {
@@ -72,7 +72,7 @@ pub async fn feed_rss() -> Result<NamedFile> {
   })
 }
 
-pub async fn post(post: web::Path<String>) -> Result<NamedFile> {
+async fn post(post: web::Path<String>) -> Result<NamedFile> {
   let slug = Path::new(post.as_ref().as_str()).with_extension("");
 
   let slug = slug.to_str().expect("invalid slug");
