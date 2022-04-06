@@ -64,8 +64,8 @@ pub enum CustomError {
 impl error::ResponseError for CustomError {
   fn status_code(&self) -> StatusCode {
     match self {
-      CustomError::NotFound => StatusCode::NOT_FOUND,
-      CustomError::Internal => StatusCode::INTERNAL_SERVER_ERROR,
+      Self::NotFound => StatusCode::NOT_FOUND,
+      Self::Internal => StatusCode::INTERNAL_SERVER_ERROR,
     }
   }
 }
