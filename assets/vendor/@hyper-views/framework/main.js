@@ -179,7 +179,6 @@ const parse = (read, parent, tag, variables) => {
     type: 'node',
     attributes: [],
     children: [],
-    offset: null,
   };
 
   let token;
@@ -263,12 +262,11 @@ export const html = (strs, ...variables) => {
     const read = () => tokens.next().value;
 
     const children = [];
-    const offset = null;
     let token;
 
     while ((token = read())) {
       if (token.type === 'tag') {
-        parse(read, {children, offset}, token.value, variables);
+        parse(read, {children}, token.value, variables);
       } else if (token.type === 'text' && token.value.trim()) {
         children.push({
           type: 'text',
@@ -327,21 +325,22 @@ const readMeta = (target) => {
 };
 
 const subRender = (view, variables, target, childNode, prevMeta = {}) => {
-  const existing = childNode != null;
-  let same = prevMeta.same || false;
+  let mode = 0;
 
-  if (existing) {
+  if (childNode != null) {
     const meta = readMeta(childNode);
 
-    same = view.view === meta.view;
+    if (view.view !== meta.view) {
+      mode = 1;
+    }
+  } else {
+    mode = 2;
   }
 
   const svg =
     prevMeta.svg || view.tag === 'svg' || target.namespaceURI === svgNamespace;
 
   const ownerDocument = target.ownerDocument;
-
-  const mode = !existing ? 2 : !same ? 1 : 0;
 
   let currentChildNode = childNode;
 
@@ -370,7 +369,7 @@ const subRender = (view, variables, target, childNode, prevMeta = {}) => {
         ) {
           const attribute = view.attributes[attributeIndex];
 
-          if (existing && same && attribute.type !== 'variable') {
+          if (!mode && attribute.type !== 'variable') {
             break;
           }
 
@@ -395,13 +394,13 @@ const subRender = (view, variables, target, childNode, prevMeta = {}) => {
           } else if (firstChar === '@') {
             const meta = readMeta(currentChildNode);
 
-            value = value == null ? value : [].concat(value);
-
             if (meta[key] != null && meta[key] !== value) {
               currentChildNode.removeEventListener(key, ...meta[key]);
             }
 
             if (value != null) {
+              value = [].concat(value);
+
               currentChildNode.addEventListener(key, ...value);
             }
 
@@ -418,7 +417,7 @@ const subRender = (view, variables, target, childNode, prevMeta = {}) => {
 
       let childIndex = 0;
 
-      if (existing && same) {
+      if (!mode) {
         childIndex = view.offset;
 
         currentGrandChildNode = currentChildNode.childNodes[childIndex];
@@ -445,7 +444,7 @@ const subRender = (view, variables, target, childNode, prevMeta = {}) => {
               currentGrandChildNode = render(
                 currentGrandChildView,
                 currentChildNode,
-                currentGrandChildNode ?? null,
+                currentGrandChildNode,
                 false
               );
             } else {
@@ -455,8 +454,7 @@ const subRender = (view, variables, target, childNode, prevMeta = {}) => {
                 currentChildNode,
                 currentGrandChildNode,
                 {
-                  existing,
-                  same,
+                  mode,
                   svg,
                 }
               );
@@ -519,7 +517,7 @@ export const render = (
       const currentView = view[j] ?? '';
 
       if (currentView.views) {
-        childNode = render(currentView, target, childNode ?? null, false);
+        childNode = render(currentView, target, childNode, false);
       } else {
         childNode = subRender(
           currentView,
