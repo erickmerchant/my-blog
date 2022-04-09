@@ -122,32 +122,34 @@ const tokenizer = {
           if (char === '=') {
             nextChar();
 
-            let quote = '';
-            let value = '';
+            if (char) {
+              let terminator = ' ';
+              let value = '';
 
-            if (isQuoteChar(char)) {
-              quote = char;
+              if (isQuoteChar(char)) {
+                terminator = char;
 
-              nextChar();
+                nextChar();
+              }
 
-              while (char !== quote) {
+              while (char !== terminator) {
                 if (char) {
                   value += char;
 
                   nextChar();
                 } else {
-                  throwAssertionError('', quote);
+                  throwAssertionError('', terminator);
                 }
               }
 
-              nextChar();
+              if (terminator !== ' ') {
+                nextChar();
+              }
 
               yield {
                 type: 'value',
                 value,
               };
-            } else if (char) {
-              throwAssertionError(char, '"');
             }
           } else {
             yield TRUE;
@@ -216,7 +218,9 @@ const parse = (read, parent, tag, variables) => {
   while ((token = read())) {
     if (token.type === 'endtag' && token.value === child.tag) {
       break;
-    } else if (token.type === 'tag') {
+    }
+
+    if (token.type === 'tag') {
       const dynamic = parse(read, child, token.value, variables);
 
       child.dynamic ||= dynamic;
@@ -325,129 +329,146 @@ const readMeta = (target) => {
 };
 
 const subRender = (view, variables, target, childNode, prevMeta = {}) => {
-  let mode = 0;
+  let result;
 
-  if (childNode != null) {
-    const meta = readMeta(childNode);
-
-    if (view.view !== meta.view) {
-      mode = 1;
-    }
-  } else {
-    mode = 2;
+  if (view.type === 'variable') {
+    view = variables[view.value];
   }
 
-  const svg =
-    prevMeta.svg || view.tag === 'svg' || target.namespaceURI === svgNamespace;
+  if (!Array.isArray(view)) {
+    view = [view];
+  }
 
-  const ownerDocument = target.ownerDocument;
+  for (let i = 0; i < view.length; i++) {
+    const current = view[i] ?? '';
 
-  let currentChildNode = childNode;
+    if (current.views) {
+      result = render(current, target, childNode, false);
 
-  if (!view?.type || view.type === 'text') {
-    const value = view?.value ?? view ?? '';
-
-    if (mode) {
-      currentChildNode = ownerDocument.createTextNode(value);
-    } else if (childNode.data !== value) {
-      childNode.data = value;
-    }
-  } else {
-    if (mode) {
-      currentChildNode =
-        svg || view.tag === 'svg'
-          ? ownerDocument.createElementNS(svgNamespace, view.tag)
-          : ownerDocument.createElement(view.tag);
+      continue;
     }
 
-    if (mode || view.dynamic) {
-      if (view.attributes) {
-        for (
-          let attributeIndex = 0;
-          attributeIndex < view.attributes.length;
-          attributeIndex++
-        ) {
-          const attribute = view.attributes[attributeIndex];
+    variables = current.variables ?? variables;
 
-          if (!mode && attribute.type !== 'variable') {
-            break;
-          }
+    let mode = 0;
 
-          let value = attribute.value;
+    if (childNode != null) {
+      const meta = readMeta(childNode);
 
-          if (attribute.type === 'variable') {
-            value = variables[value];
-          }
+      if (current.view !== meta.view) {
+        mode = 1;
+      }
+    } else {
+      mode = 2;
+    }
 
-          let key = attribute.key;
+    const svg =
+      prevMeta.svg ||
+      current.tag === 'svg' ||
+      target.namespaceURI === svgNamespace;
 
-          const firstChar = key.charAt(0);
+    const ownerDocument = target.ownerDocument;
 
-          if (firstChar === ':' || firstChar === '@') {
-            key = key.substring(1);
-          }
+    let currentChildNode = childNode;
 
-          if (firstChar === ':') {
-            if (currentChildNode[key] !== value) {
-              currentChildNode[attrToProp[key] ?? key] = value;
+    if (!current?.type || current.type === 'text') {
+      const value = current?.value ?? current ?? '';
+
+      if (mode) {
+        currentChildNode = ownerDocument.createTextNode(value);
+      } else if (childNode.data !== value) {
+        childNode.data = value;
+      }
+    } else {
+      if (mode) {
+        currentChildNode =
+          svg || current.tag === 'svg'
+            ? ownerDocument.createElementNS(svgNamespace, current.tag)
+            : ownerDocument.createElement(current.tag);
+      }
+
+      if (mode || current.dynamic) {
+        if (current.attributes) {
+          for (
+            let attributeIndex = 0;
+            attributeIndex < current.attributes.length;
+            attributeIndex++
+          ) {
+            const attribute = current.attributes[attributeIndex];
+
+            if (!mode && attribute.type !== 'variable') {
+              break;
             }
-          } else if (firstChar === '@') {
-            const meta = readMeta(currentChildNode);
 
-            if (meta[key] != null && meta[key] !== value) {
-              currentChildNode.removeEventListener(key, ...meta[key]);
+            let value = attribute.value;
+
+            if (attribute.type === 'variable') {
+              value = variables[value];
             }
 
-            if (value != null) {
-              value = [].concat(value);
+            let key = attribute.key;
 
-              currentChildNode.addEventListener(key, ...value);
+            const firstChar = key.charAt(0);
+
+            if (firstChar === ':' || firstChar === '@') {
+              key = key.substring(1);
             }
 
-            meta[key] = value;
-          } else if (value == null || value === false) {
-            currentChildNode.removeAttribute(key);
-          } else if (currentChildNode.getAttribute(key) !== value) {
-            currentChildNode.setAttribute(key, value === true ? '' : value);
+            if (firstChar === ':') {
+              if (currentChildNode[key] !== value) {
+                currentChildNode[attrToProp[key] ?? key] = value;
+              }
+            } else if (firstChar === '@') {
+              const meta = readMeta(currentChildNode);
+
+              if (meta[key] != null && meta[key] !== value) {
+                currentChildNode.removeEventListener(key, ...meta[key]);
+              }
+
+              if (value != null) {
+                if (!Array.isArray(value)) {
+                  value = [value];
+                }
+
+                currentChildNode.addEventListener(key, ...value);
+              }
+
+              meta[key] = value;
+            } else if (value == null || value === false) {
+              currentChildNode.removeAttribute(key);
+            } else if (currentChildNode.getAttribute(key) !== value) {
+              currentChildNode.setAttribute(key, value === true ? '' : value);
+            }
           }
         }
-      }
 
-      let currentGrandChildNode;
+        let currentGrandChildNode;
 
-      let childIndex = 0;
+        let childIndex = 0;
 
-      if (!mode) {
-        childIndex = view.offset;
+        if (mode) {
+          currentGrandChildNode = currentChildNode.firstChild;
+        } else {
+          childIndex = current.offset;
 
-        currentGrandChildNode = currentChildNode.childNodes[childIndex];
-      } else {
-        currentGrandChildNode = currentChildNode.firstChild;
-      }
+          currentGrandChildNode = currentChildNode.childNodes[childIndex];
+        }
 
-      if (view.children) {
-        for (; childIndex < view.children.length; childIndex++) {
-          let grandChildView = view.children[childIndex];
+        if (current.children) {
+          for (; childIndex < current.children.length; childIndex++) {
+            let grandChildView = current.children[childIndex];
 
-          if (grandChildView.type === 'variable') {
-            grandChildView = variables[grandChildView.value];
-          }
+            if (grandChildView.type === 'variable') {
+              grandChildView = variables[grandChildView.value];
+            }
 
-          if (!Array.isArray(grandChildView)) {
-            grandChildView = [grandChildView];
-          }
+            if (!Array.isArray(grandChildView)) {
+              grandChildView = [grandChildView];
+            }
 
-          for (let i = 0; i < grandChildView.length; i++) {
-            const currentGrandChildView = grandChildView[i] ?? '';
+            for (let i = 0; i < grandChildView.length; i++) {
+              const currentGrandChildView = grandChildView[i] ?? '';
 
-            if (currentGrandChildView.views) {
-              currentGrandChildNode = render(
-                currentGrandChildView,
-                currentChildNode,
-                currentGrandChildNode,
-                false
-              );
-            } else {
               currentGrandChildNode = subRender(
                 currentGrandChildView,
                 currentGrandChildView.variables ?? variables,
@@ -461,39 +482,29 @@ const subRender = (view, variables, target, childNode, prevMeta = {}) => {
             }
           }
         }
+
+        cleanUpChildren(currentGrandChildNode, currentChildNode);
       }
-
-      cleanUpChildren(currentGrandChildNode, currentChildNode);
     }
+
+    if (mode && current.view) {
+      const meta = readMeta(currentChildNode);
+
+      meta.view = current.view;
+    }
+
+    if (mode === 2) {
+      target.appendChild(currentChildNode);
+    }
+
+    if (mode === 1) {
+      target.replaceChild(currentChildNode, childNode);
+    }
+
+    result = currentChildNode?.nextSibling;
   }
 
-  if (mode && view.view) {
-    const meta = readMeta(currentChildNode);
-
-    meta.view = view.view;
-  }
-
-  if (mode === 2) {
-    target.appendChild(currentChildNode);
-  }
-
-  if (mode === 1) {
-    target.replaceChild(currentChildNode, childNode);
-  }
-
-  return currentChildNode?.nextSibling;
-};
-
-const cleanUpChildren = (childNode, target) => {
-  let nextChild;
-
-  while (childNode) {
-    nextChild = childNode?.nextSibling;
-
-    target.removeChild(childNode);
-
-    childNode = nextChild;
-  }
+  return result;
 };
 
 export const render = (
@@ -516,16 +527,12 @@ export const render = (
     for (let j = 0; j < view.length; j++) {
       const currentView = view[j] ?? '';
 
-      if (currentView.views) {
-        childNode = render(currentView, target, childNode, false);
-      } else {
-        childNode = subRender(
-          currentView,
-          currentView.variables ?? next.variables,
-          target,
-          childNode
-        );
-      }
+      childNode = subRender(
+        currentView,
+        currentView.variables ?? next.variables,
+        target,
+        childNode
+      );
     }
   }
 
@@ -534,4 +541,16 @@ export const render = (
   }
 
   return childNode;
+};
+
+const cleanUpChildren = (childNode, target) => {
+  let nextChild;
+
+  while (childNode) {
+    nextChild = childNode?.nextSibling;
+
+    target.removeChild(childNode);
+
+    childNode = nextChild;
+  }
 };

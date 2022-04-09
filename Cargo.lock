@@ -3501,9 +3501,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.100.3"
+version = "0.100.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8a7b6627251f05a63c5e6ca09dd8a90b701e1fcb08da0d97b9c72d99a58d3a9d"
+checksum = "f0fed7b2e1039f410e1fc194783a068d09e6436fc8aad65e58e7c75e66fa0514"
 dependencies = [
  "ahash",
  "indexmap",
@@ -3694,9 +3694,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.112.0"
+version = "0.112.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a4d892a269f4fd26f37967fd8e98d841b379c1f66f2381c84b71f986792562fb"
+checksum = "af43d7d92e0bb8ba60d64ce8a7edcab7738f7e858b8e42814fca5c133ba17c19"
 dependencies = [
  "ahash",
  "dashmap 5.2.0",
@@ -3776,9 +3776,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.79.0"
+version = "0.79.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "80f80b0e71cca39f27c903dad76b33112fe4a8348a0f5555a7cd6801d0ed15ed"
+checksum = "44ee8d60b9977f58214af7102dc30855a6754e742afe6d6e26e5bf13883c7b91"
 dependencies = [
  "indexmap",
  "once_cell",
@@ -4242,9 +4242,9 @@ checksum = "1a01404663e3db436ed2746d9fefef640d868edae3cceb81c3b8d5732fda678f"
 
 [[package]]
 name = "unicode-id"
-version = "0.3.0"
+version = "0.3.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4285d92be83dfbc8950a2601178b89ed36f979ebf51bfcf7b272b17001184e6c"
+checksum = "69fe8d9274f490a36442acb4edfd0c4e473fdfc6a8b5cd32f28a0235761aedbe"
 
 [[package]]
 name = "unicode-linebreak"
