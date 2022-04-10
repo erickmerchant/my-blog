@@ -39,11 +39,9 @@ fn js_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
       Some(cm.clone()),
     ));
     let c = swc::Compiler::new(cm.clone());
-    let fm = cm.load_file(src.as_ref()).map_err(|err| {
-      log::error!("{err:?}");
-
-      CustomError::Internal
-    })?;
+    let fm = cm
+      .load_file(src.as_ref())
+      .map_err(CustomError::new_internal)?;
 
     let mut options = from_value::<Options>(json!({
       "minify": true,
@@ -61,11 +59,7 @@ fn js_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
         "type": "es6"
       }
     }))
-    .map_err(|err| {
-      log::error!("{err:?}");
-
-      CustomError::Internal
-    })?;
+    .map_err(CustomError::new_internal)?;
 
     let mut source_maps = false;
 
@@ -79,11 +73,7 @@ fn js_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
 
     c.process_js_file(fm, &handler, &options)
       .and_then(|transformed| Ok(transformed.code))
-      .map_err(|err| {
-        log::error!("{err:?}");
-
-        CustomError::Internal
-      })
+      .map_err(CustomError::new_internal)
   })
 }
 
@@ -93,11 +83,7 @@ fn css_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
   use serde_json::json;
 
   cacheable_response(&src, || -> Result<String, CustomError> {
-    let file_contents = fs::read_to_string(&src).map_err(|err| {
-      log::error!("{err:?}");
-
-      CustomError::Internal
-    })?;
+    let file_contents = fs::read_to_string(&src).map_err(CustomError::new_internal)?;
     let targets = Some(targets::Browsers {
       android: Some(96 << 16),
       chrome: Some(94 << 16),
@@ -152,23 +138,15 @@ fn css_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
       &file_contents,
       parser_options,
     )
-    .map_err(|err| {
-      log::error!("{err:?}");
+    .map_err(CustomError::new_internal)?;
 
-      CustomError::Internal
-    })?;
+    stylesheet
+      .minify(minifier_options)
+      .map_err(CustomError::new_internal)?;
 
-    stylesheet.minify(minifier_options).map_err(|err| {
-      log::error!("{err:?}");
-
-      CustomError::Internal
-    })?;
-
-    let css = stylesheet.to_css(printer_options).map_err(|err| {
-      log::error!("{err:?}");
-
-      CustomError::Internal
-    })?;
+    let css = stylesheet
+      .to_css(printer_options)
+      .map_err(CustomError::new_internal)?;
 
     let mut code = css.code;
     if let Some(mut source_map) = source_map {

@@ -45,27 +45,30 @@ pub fn html_response(html: impl Render) -> Result<String, CustomError> {
   let mut html_clone = html.render().into_string();
   let html_clone = html_clone.as_mut_str();
 
-  match in_place_str(html_clone, cfg) {
-    Ok(html) => Ok(html.to_string()),
-    Err(err) => {
-      log::error!("{err:?}");
+  let html = in_place_str(html_clone, cfg).map_err(CustomError::new_internal)?;
 
-      Err(CustomError::Internal)
-    }
-  }
+  Ok(html.to_string())
 }
 
 #[derive(Debug, Display, Error)]
 pub enum CustomError {
   NotFound,
-  Internal,
+  Internal {},
+}
+
+impl CustomError {
+  pub fn new_internal<E: std::fmt::Debug>(err: E) -> Self {
+    log::error!("{err:?}");
+
+    Self::Internal {}
+  }
 }
 
 impl error::ResponseError for CustomError {
   fn status_code(&self) -> StatusCode {
     match self {
       Self::NotFound => StatusCode::NOT_FOUND,
-      Self::Internal => StatusCode::INTERNAL_SERVER_ERROR,
+      Self::Internal {} => StatusCode::INTERNAL_SERVER_ERROR,
     }
   }
 }
