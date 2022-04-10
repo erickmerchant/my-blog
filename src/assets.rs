@@ -46,7 +46,7 @@ fn js_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
     let mut options = from_value::<Options>(json!({
       "minify": true,
       "env": {
-        "targets": "defaults and supports es6-module and not dead and > 1%",
+        "targets": "supports es6-module and last 2 versions",
         "bugfixes": false
       },
       "jsc": {
