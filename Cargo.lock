@@ -3369,9 +3369,9 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.17.20"
+version = "0.17.21"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "41b22848d9ad250e618289ea94a171392aea86d8d878caf0b1cad4589521b6f7"
+checksum = "daac2e6fea713c68d37b29ea5fd6342213ca2915a868f38a3fd4aa6750a9b9f8"
 dependencies = [
  "ahash",
  "ast_node",
@@ -3460,9 +3460,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "0.31.0"
+version = "0.31.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5af16f1f01c10ef7793546a7e414ad2e89f479192eeea3ceb8c6b649f8f47dde"
+checksum = "faf25dce7c668e9c42abd133c622604181240a6c49176da57a7abace1f78bf83"
 dependencies = [
  "ahash",
  "auto_impl",
@@ -3501,9 +3501,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.100.4"
+version = "0.100.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f0fed7b2e1039f410e1fc194783a068d09e6436fc8aad65e58e7c75e66fa0514"
+checksum = "3351240509020dcfec0442907fff87c7023dd2ff4bf42aefec01a7e38d58babf"
 dependencies = [
  "ahash",
  "indexmap",
@@ -4133,9 +4133,9 @@ dependencies = [
 
 [[package]]
 name = "tracing"
-version = "0.1.32"
+version = "0.1.33"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4a1bdf54a7c28a2bbf701e1d2233f6c77f473486b94bee4f9678da5a148dca7f"
+checksum = "80b9fa4360528139bc96100c160b7ae879f5567f49f1782b0b02035b0358ebf3"
 dependencies = [
  "cfg-if 1.0.0",
  "log",
