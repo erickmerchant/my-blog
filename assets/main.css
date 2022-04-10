@@ -28,7 +28,7 @@
 }
 
 html {
-  font: 300 140% / 1.5 "Public Sans", system-ui, sans-serif;
+  font: 300 125% / 1.5 "Public Sans", system-ui, sans-serif;
   height: 100%;
 
   --space: 2rem;
@@ -61,12 +61,6 @@ html {
 
 body {
   height: 100%;
-  background-color: hsl(var(--nav-background));
-  background-image: radial-gradient(
-    hsl(var(--background)) 15%,
-    hsl(var(--nav-background)) 16%
-  );
-  background-size: 5px 5px;
 }
 
 a {
@@ -84,16 +78,22 @@ a {
   }
 }
 
-.SideNav {
+.SiteContainer {
   &.self {
     position: relative;
     display: block;
     height: 100%;
     overflow-y: scroll;
     overflow-x: hidden;
+    background-color: hsl(var(--nav-background));
+    background-image: radial-gradient(
+      hsl(var(--background)) 15%,
+      hsl(var(--nav-background)) 16%
+    );
+    background-size: 0.25em 0.25em;
 
     --content-left: 0;
-    --drawer-width: max(768px, 50vw);
+    --drawer-width: max(38.4em, 50vw);
 
     &:where([open]) {
       --content-left: var(--drawer-width);
@@ -288,7 +288,7 @@ a {
 }
 
 :where(:not(:defined)) {
-  &.SideNav {
+  &.SiteContainer {
     &.self {
       display: flex;
       flex-direction: column;

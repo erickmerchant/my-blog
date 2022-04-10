@@ -25,7 +25,7 @@ impl Render for Layout {
           script type="module" src="/main.js" {}
         }
         body {
-          side-nav .SideNav.self {
+          site-container .SiteContainer.self {
             header .Banner.self slot="panel" {
               @match self.heading.clone() {
                 Some(heading) => { (heading) }

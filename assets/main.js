@@ -1,6 +1,6 @@
 import { html, render } from "/vendor/@hyper-views/framework/main.js";
 
-class SideNav extends HTMLElement {
+class SiteContainer extends HTMLElement {
   open = false;
 
   toggleOpen = () => {
@@ -25,9 +25,9 @@ class SideNav extends HTMLElement {
         @import "/main.css";
       </style>
 
-      <nav class="SideNav nav">
+      <nav class="SiteContainer nav">
         <button
-          class="SideNav button"
+          class="SiteContainer button"
           type="button"
           aria-expanded=${this.open ? "true" : "false"}
           aria-label=${this.open ? "Close nav" : "Open nav"}
@@ -59,14 +59,14 @@ class SideNav extends HTMLElement {
           </svg>
         </button>
 
-        <div class="SideNav triangle" />
+        <div class="SiteContainer triangle" />
 
-        <div class="SideNav links">
+        <div class="SiteContainer links">
           <slot name="links" />
         </div>
       </nav>
 
-      <div class="SideNav panel">
+      <div class="SiteContainer panel">
         <slot name="panel" />
       </div>
     `;
@@ -79,4 +79,4 @@ class SideNav extends HTMLElement {
   }
 }
 
-customElements.define("side-nav", SideNav);
+customElements.define("site-container", SiteContainer);
