@@ -1,37 +1,34 @@
 use actix_files::NamedFile;
-use actix_web::{error, error::ErrorNotFound, http::StatusCode, Result};
+use actix_web::{error, http::StatusCode, Result};
 use derive_more::{Display, Error};
 use maud::Render;
 use std::{convert::AsRef, fs, path::Path};
 
-pub fn cacheable_response<F: Fn() -> std::result::Result<String, CustomError>, P: AsRef<Path>>(
+pub fn cacheable_response<F: Fn() -> Result<String, CustomError>, P: AsRef<Path>>(
   src: P,
   process: F,
 ) -> Result<NamedFile> {
   let cache = Path::new("storage/cache").join(src.as_ref());
 
   if let Err(_meta) = fs::metadata(&cache) {
-    let body = process()?;
+    let body = process().map_err(CustomError::new_internal)?;
 
-    fs::create_dir_all(&cache.with_file_name(""))?;
-    fs::write(&cache, body)?;
+    fs::create_dir_all(&cache.with_file_name("")).map_err(CustomError::new_internal)?;
+    fs::write(&cache, body).map_err(CustomError::new_internal)?;
   }
 
   static_response(cache)
 }
 
 pub fn static_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
-  NamedFile::open(src)
-    .and_then(|file| {
-      let file = file
-        .prefer_utf8(true)
-        .use_etag(true)
-        .use_last_modified(true)
-        .disable_content_disposition();
+  let file = NamedFile::open(src).map_err(|_| CustomError::NotFound)?;
+  let file = file
+    .prefer_utf8(true)
+    .use_etag(true)
+    .use_last_modified(true)
+    .disable_content_disposition();
 
-      Ok(file)
-    })
-    .or_else(|err| Err(ErrorNotFound(err)))
+  Ok(file)
 }
 
 pub fn html_response(html: impl Render) -> Result<String, CustomError> {
