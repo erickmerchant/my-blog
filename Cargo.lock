@@ -1935,7 +1935,6 @@ dependencies = [
  "env_logger",
  "log",
  "maud",
- "mime",
  "minify-html-onepass",
  "openssl",
  "parcel_css",
