@@ -65,14 +65,12 @@ fn js_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
 
     let mut options = from_value::<Options>(options).map_err(CustomError::new_internal)?;
 
-    let mut source_maps = false;
-
     if let Ok(sm) = env::var("SOURCE_MAPS") {
-      source_maps = sm.parse::<bool>().map_err(CustomError::new_internal)?;
-    }
+      let source_maps = sm.parse::<bool>().map_err(CustomError::new_internal)?;
 
-    if source_maps {
-      options.source_maps = Some(SourceMapsConfig::Str("inline".to_string()));
+      if source_maps {
+        options.source_maps = Some(SourceMapsConfig::Str("inline".to_string()));
+      }
     }
 
     c.process_js_file(fm, &handler, &options)
@@ -115,26 +113,20 @@ fn css_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
     printer_options.minify = true;
     printer_options.targets = targets;
 
-    let mut source_maps = false;
+    let mut source_map = None;
 
     if let Ok(sm) = env::var("SOURCE_MAPS") {
-      source_maps = sm.parse::<bool>().map_err(CustomError::new_internal)?;
-    }
+      let source_maps = sm.parse::<bool>().map_err(CustomError::new_internal)?;
 
-    let mut source_map = if source_maps {
-      let mut source_map = SourceMap::new("/");
+      if source_maps {
+        let mut sm = SourceMap::new("/");
 
-      source_map.add_source(src.as_ref().to_str().unwrap_or_default());
+        sm.add_source(src.as_ref().to_str().unwrap_or_default());
 
-      let source_map = if let Ok(_) = source_map.set_source_content(0, &file_contents.clone()) {
-        Some(source_map)
-      } else {
-        None
+        if let Ok(_) = sm.set_source_content(0, &file_contents.clone()) {
+          source_map = Some(sm)
+        };
       };
-
-      source_map
-    } else {
-      None
     };
 
     printer_options.source_map = source_map.as_mut();
