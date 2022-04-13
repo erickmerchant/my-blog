@@ -43,28 +43,32 @@ fn js_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
       .load_file(src.as_ref())
       .map_err(CustomError::new_internal)?;
 
-    let mut options = from_value::<Options>(json!({
+    let options = json!({
       "minify": true,
       "env": {
         "targets": "supports es6-module and last 2 versions",
-        "bugfixes": false
+        "bugfixes": true
       },
       "jsc": {
         "minify": {
-          "compress": true,
-          "mangle": true
+          "compress": {
+            "conditionals": false,
+            "dead_code": false
+          },
+          "mangle": true,
         }
       },
       "module": {
         "type": "es6"
       }
-    }))
-    .map_err(CustomError::new_internal)?;
+    });
+
+    let mut options = from_value::<Options>(options).map_err(CustomError::new_internal)?;
 
     let mut source_maps = false;
 
     if let Ok(sm) = env::var("SOURCE_MAPS") {
-      source_maps = sm.parse::<bool>().unwrap();
+      source_maps = sm.parse::<bool>().map_err(CustomError::new_internal)?;
     }
 
     if source_maps {
@@ -82,17 +86,19 @@ fn css_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
   use parcel_sourcemap::SourceMap;
   use serde_json::json;
 
+  let version = |a: u32, b: u32, c: u32| -> Option<u32> { Some((a << 16) | (b << 8) | c) };
+
   cacheable_response(&src, || -> Result<String, CustomError> {
     let file_contents = fs::read_to_string(&src).map_err(CustomError::new_internal)?;
     let targets = Some(targets::Browsers {
-      android: Some(96 << 16),
-      chrome: Some(94 << 16),
-      edge: Some(95 << 16),
-      firefox: Some(78 << 16),
-      ios_saf: Some((12 << 16) | (2 << 8)),
-      opera: Some(80 << 16),
-      safari: Some((13 << 16) | (1 << 8)),
-      samsung: Some(14 << 16),
+      android: version(96, 0, 0),
+      chrome: version(94, 0, 0),
+      edge: version(95, 0, 0),
+      firefox: version(78, 0, 0),
+      ios_saf: version(12, 2, 0),
+      opera: version(80, 0, 0),
+      safari: version(13, 1, 0),
+      samsung: version(14, 0, 0),
       ie: None,
     });
     let mut parser_options = stylesheet::ParserOptions::default();
@@ -112,7 +118,7 @@ fn css_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
     let mut source_maps = false;
 
     if let Ok(sm) = env::var("SOURCE_MAPS") {
-      source_maps = sm.parse::<bool>().unwrap();
+      source_maps = sm.parse::<bool>().map_err(CustomError::new_internal)?;
     }
 
     let mut source_map = if source_maps {
@@ -155,7 +161,7 @@ fn css_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
 
       let sm = json!({
         "version": 3,
-        "mappings": String::from_utf8(vlq_output).unwrap(),
+        "mappings": String::from_utf8(vlq_output).map_err(CustomError::new_internal)?,
         "sources": source_map.get_sources(),
         "sourcesContent": source_map.get_sources_content(),
         "names": source_map.get_names(),
