@@ -132,7 +132,7 @@ fn css_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
     printer_options.source_map = source_map.as_mut();
 
     let mut stylesheet = stylesheet::StyleSheet::parse(
-      src.as_ref().to_str().unwrap_or_default().to_string(),
+      src.as_ref().to_str().unwrap_or_default(),
       &file_contents,
       parser_options,
     )
