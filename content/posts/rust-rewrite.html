@@ -7,24 +7,24 @@
 }
 ===
 
-<p class="Content paragraph">As I tend to do from time to time, I have recently rewritten this site in technologies that currently interest me. It is now written in Rust on the server side, uses Web Components on the client side along with my usual go to @hyper-views/framework, and all the CSS is new. The design is nothing great but I am happy with the grid pattern in the header and the menu I came up with.</p>
+<p>As I tend to do from time to time, I have recently rewritten this site in technologies that currently interest me. It is now written in Rust on the server side, uses Web Components on the client side along with my usual go to @hyper-views/framework, and all the CSS is new. The design is nothing great but I am happy with the grid pattern in the header and the menu I came up with.</p>
 
-<h2 class="Content heading2">Why Rust?</h2>
+<h2>Why Rust?</h2>
 
-<p class="Content paragraph">I started learning <a href="https://www.rust-lang.org/">Rust</a> in 2020 as something to do. I intially wanted to use WebAssembly, so Rust was a natural choice. By 2021 I started to feel comfortable doing certain things. I was having a lot of fun with Rust and I started to think I wanted to rewrite my blog to use a Rust web framework. I compared as many frameworks as I could find, and ultimately chose <a href="https://actix.rs/">Actix</a>. I had a few hard requirements for the server: Local SSL, HTTP/2, and Brotli compression. Actix was able to do all these. Apart from middleware which is a little beyond my current understanding, Actix's API is really versatile and easy to learn. The best place to look for help has been their examples repo. They also have a Discord.</p>
+<p>I started learning <a href="https://www.rust-lang.org/">Rust</a> in 2020 as something to do. I intially wanted to use WebAssembly, so Rust was a natural choice. By 2021 I started to feel comfortable doing certain things. I was having a lot of fun with Rust and I started to think I wanted to rewrite my blog to use a Rust web framework. I compared as many frameworks as I could find, and ultimately chose <a href="https://actix.rs/">Actix</a>. I had a few hard requirements for the server: Local SSL, HTTP/2, and Brotli compression. Actix was able to do all these. Apart from middleware which is a little beyond my current understanding, Actix's API is really versatile and easy to learn. The best place to look for help has been their examples repo. They also have a Discord.</p>
 
-<h3 class="Content heading2">Cargo dependencies</h3>
+<h3>Cargo dependencies</h3>
 
-<p class="Content paragraph">Some of the more important Cargo dependencies that I am using, besides Actix:</p>
+<p>Some of the more important Cargo dependencies that I am using, besides Actix:</p>
 
-<dl class="Content definition-list">
-  <dt class="Content heading3"><a href="https://github.com/lambda-fairy/maud">Maud</a></dt>
+<dl>
+  <dt><a href="https://github.com/lambda-fairy/maud">Maud</a></dt>
   <dd>Maud is for templating. The only downside to Maud for me is that changing a template means recompiling the project. I love the syntax though, and the Render trait is awesome.</dd>
 
-  <dt class="Content heading3"><a href="https://swc.rs/">SWC</a></dt>
+  <dt><a href="https://swc.rs/">SWC</a></dt>
   <dd>SWC is for compiling JavaScript. It is basically a Rust Babel. It does aim to be many other things as well, but I am just using it to compile some JavaScript.</dd>
 
-  <dt class="Content heading3"><a href="https://parceljs.org/blog/parcel-css/">Parcel CSS</a></dt>
+  <dt><a href="https://parceljs.org/blog/parcel-css/">Parcel CSS</a></dt>
   <dd>And finally Parcel CSS is for compiling CSS. It is basically like Postcss in Rust. It was actually released when I had most of the server written already. Originally I was using a Sass implementation in Rust, but I had forgotten how sometimes Sass syntax conflicts with vanilla CSS, so I welcomed Parcel's arrival. It allows me to do nesting and forget about prefixes. The only downside here is its alpha, so it sometimes breaks. Committing my lock file has been a life saver.</dd>
 </dl>
 

@@ -24,8 +24,8 @@ impl Render for Layout {
           title { (self.title) " | " (self.content.title) }
           script type="module" src="/main.js" {}
         }
-        body {
-          site-container .SiteContainer.self {
+        body .Site {
+          site-container .Site.site-container {
             header .Banner.self slot="panel" {
               @match self.heading.clone() {
                 Some(heading) => { (heading) }

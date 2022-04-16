@@ -78,8 +78,8 @@ a {
   }
 }
 
-.SiteContainer {
-  &.self {
+.Site {
+  &.site-container {
     position: relative;
     display: block;
     height: 100%;
@@ -99,7 +99,9 @@ a {
       --content-left: var(--drawer-width);
     }
   }
+}
 
+.SiteContainer {
   &.button {
     position: absolute;
     top: 0;
@@ -228,23 +230,18 @@ a {
     font-size: 1.25em;
   }
 
-  &.heading2 {
-    font-weight: 700;
-    font-size: 1em;
-  }
+  &.self {
+    & :where(h2) {
+      font-weight: 700;
+      font-size: 1em;
+    }
 
-  &.heading3 {
-    font-weight: 500;
-    font-size: 1em;
-  }
+    & :where(h3) {
+      font-weight: 500;
+      font-size: 1em;
+    }
 
-  &.list {
-    list-style-position: inside;
-    padding-inline-start: var(--space-quarter);
-  }
-
-  &.definition-list {
-    & > :where(:not(:first-child)) {
+    & :where(dt, dd):where(:not(:first-child)) {
       margin-block-start: var(--space-half);
     }
   }
@@ -288,8 +285,8 @@ a {
 }
 
 :where(:not(:defined)) {
-  &.SiteContainer {
-    &.self {
+  &.Site {
+    &.site-container {
       display: flex;
       flex-direction: column;
     }
