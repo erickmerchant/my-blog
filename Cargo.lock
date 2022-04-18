@@ -692,15 +692,15 @@ dependencies = [
 
 [[package]]
 name = "backtrace"
-version = "0.3.64"
+version = "0.3.65"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5e121dee8023ce33ab248d9ce1493df03c3b38a659b240096fcbd7048ff9c31f"
+checksum = "11a17d453482a265fd5f8479f2a3f405566e6ca627837aaddb85af8b1ab8ef61"
 dependencies = [
  "addr2line",
  "cc",
  "cfg-if 1.0.0",
  "libc",
- "miniz_oxide 0.4.4",
+ "miniz_oxide",
  "object",
  "rustc-demangle",
 ]
@@ -1302,7 +1302,7 @@ dependencies = [
  "cfg-if 1.0.0",
  "crc32fast",
  "libc",
- "miniz_oxide 0.5.1",
+ "miniz_oxide",
 ]
 
 [[package]]
@@ -1998,9 +1998,9 @@ dependencies = [
 
 [[package]]
 name = "miette"
-version = "4.4.0"
+version = "4.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0a097de91d72c13382f60213ed9f7f7a26afd8bee0ea320b47f886a9a67ca5a1"
+checksum = "01ff8e2f24552a78cbf93f2b197f6a788192200c7200648514647cce438714bf"
 dependencies = [
  "atty",
  "backtrace",
@@ -2018,9 +2018,9 @@ dependencies = [
 
 [[package]]
 name = "miette-derive"
-version = "4.4.0"
+version = "4.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "45a95a48d0bc28f9af628286e8a4da09f96f34a97744a2e9a5a4db9814ad527d"
+checksum = "7119608a3ee194199d537849bb7b600f9e04bb1c91b98fb2620b9a867f17ef20"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -2059,16 +2059,6 @@ name = "minimal-lexical"
 version = "0.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "68354c5c6bd36d73ff3feceb05efa59b6acb7626617f4962be322a825e61f79a"
-
-[[package]]
-name = "miniz_oxide"
-version = "0.4.4"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a92518e98c078586bc6c934028adcca4c92a53d6a958196de835170a01d84e4b"
-dependencies = [
- "adler",
- "autocfg",
-]
 
 [[package]]
 name = "miniz_oxide"
@@ -2247,9 +2237,9 @@ dependencies = [
 
 [[package]]
 name = "object"
-version = "0.27.1"
+version = "0.28.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "67ac1d3f9a1d3616fd9a60c8d74296f22406a238b6a72f5cc1e6f314df4ffbf9"
+checksum = "40bec70ba014595f99f7aa110b84331ffe1ee9aece7fe6f387cc7e3ecda4d456"
 dependencies = [
  "memchr",
 ]
@@ -3678,9 +3668,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "0.105.0"
+version = "0.105.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7b921ed7a081930439567cb64daccda9fda42a030e825c3b2b9655a6fda3b313"
+checksum = "678b0a606eaf68b1af778e0f96cf5ee7f31ca3bdf001bba230670280bc6200cd"
 dependencies = [
  "Inflector",
  "ahash",
