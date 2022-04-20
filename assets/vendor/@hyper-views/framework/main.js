@@ -4,13 +4,33 @@ const throwAssertionError = (actual, expected) => {
   throw Error(`Expected ${expected}. Found ${actual}.`);
 };
 
-const TRUE = {
-  type: 'value',
-  value: true,
+const TYPE = 'type';
+const VALUE = 'value';
+const NAME = 'name';
+const DYNAMIC = 'dynamic';
+const ATTRIBUTES = 'attributes';
+const CHILDREN = 'children';
+const END = 'end';
+const TAG = 'tag';
+const ENDTAG = 'endtag';
+const TEXT = 'text';
+const NODE = 'node';
+const VARIABLE = 'variable';
+const CONSTANT = 'constant';
+const KEY = 'key';
+const SVG = 'svg';
+const OFFSET = 'offset';
+const VARIABLES = 'variables';
+const VIEW = 'view';
+const VIEWS = 'views';
+
+const TRUE_TOKEN = {
+  [TYPE]: VALUE,
+  [VALUE]: true,
 };
 
-const END = {
-  type: 'end',
+const END_TOKEN = {
+  [TYPE]: END,
 };
 
 const attrToProp = {
@@ -38,10 +58,10 @@ const tokenizer = {
 
       nextChar();
 
-      let tag = acc.tag;
+      let name = acc[NAME];
 
       while (char) {
-        if (!tag) {
+        if (!name) {
           let value = '';
 
           if (char === '<') {
@@ -62,11 +82,11 @@ const tokenizer = {
             }
 
             yield {
-              type: !end ? 'tag' : 'endtag',
-              value,
+              [TYPE]: !end ? TAG : ENDTAG,
+              [VALUE]: value,
             };
 
-            tag = value;
+            name = value;
           } else {
             while (char && char !== '<') {
               value += char;
@@ -76,8 +96,8 @@ const tokenizer = {
 
             if (value.trim()) {
               yield {
-                type: 'text',
-                value,
+                [TYPE]: TEXT,
+                [VALUE]: value,
               };
             }
           }
@@ -88,21 +108,21 @@ const tokenizer = {
 
           if (char === '>') {
             yield* [
-              END,
+              END_TOKEN,
               {
-                type: 'endtag',
-                value: tag,
+                [TYPE]: ENDTAG,
+                [VALUE]: name,
               },
             ];
 
-            tag = false;
+            name = false;
 
             nextChar();
           }
         } else if (char === '>') {
-          yield END;
+          yield END_TOKEN;
 
-          tag = false;
+          name = false;
 
           nextChar();
         } else if (isNameChar(char)) {
@@ -115,8 +135,8 @@ const tokenizer = {
           } while (isNameChar(char));
 
           yield {
-            type: 'key',
-            value,
+            [TYPE]: KEY,
+            [VALUE]: value,
           };
 
           if (char === '=') {
@@ -147,109 +167,109 @@ const tokenizer = {
               }
 
               yield {
-                type: 'value',
-                value,
+                [TYPE]: VALUE,
+                [VALUE]: value,
               };
             }
           } else {
-            yield TRUE;
+            yield TRUE_TOKEN;
           }
         } else {
           yield {
-            type: 'tag',
-            value: tag,
+            [TYPE]: TAG,
+            [VALUE]: name,
           };
         }
       }
 
-      acc.tag = tag;
+      acc[NAME] = name;
 
       if (index < vlength) {
         yield {
-          type: 'variable',
-          value: index,
+          [TYPE]: VARIABLE,
+          [VALUE]: index,
         };
       }
     }
   },
 };
 
-const parse = (read, parent, tag, variables) => {
+const parse = (read, parent, name, variables) => {
   const child = {
-    tag,
-    dynamic: false,
-    type: 'node',
-    attributes: [],
-    children: [],
+    [NAME]: name,
+    [DYNAMIC]: false,
+    [TYPE]: NODE,
+    [ATTRIBUTES]: [],
+    [CHILDREN]: [],
   };
 
   let token;
 
   while ((token = read())) {
-    if (token === END) break;
+    if (token === END_TOKEN) break;
 
-    if (token.type === 'key') {
-      const key = token.value;
+    if (token[TYPE] === KEY) {
+      const key = token[VALUE];
 
       token = read();
 
-      const value = token.value;
+      const value = token[VALUE];
 
-      if (token.type === 'value') {
-        child.attributes.push({
-          type: 'constant',
-          key,
-          value,
+      if (token[TYPE] === VALUE) {
+        child[ATTRIBUTES].push({
+          [TYPE]: CONSTANT,
+          [KEY]: key,
+          [VALUE]: value,
         });
       } else {
-        child.dynamic = true;
+        child[DYNAMIC] = true;
 
-        child.attributes.unshift({
-          type: 'variable',
-          key,
-          value,
+        child[ATTRIBUTES].unshift({
+          [TYPE]: VARIABLE,
+          [KEY]: key,
+          [VALUE]: value,
         });
       }
     } else {
-      throwAssertionError(token.type, 'end');
+      throwAssertionError(token[TYPE], END);
     }
   }
 
   while ((token = read())) {
-    if (token.type === 'endtag' && token.value === child.tag) {
+    if (token[TYPE] === ENDTAG && token[VALUE] === child[NAME]) {
       break;
     }
 
-    if (token.type === 'tag') {
-      const dynamic = parse(read, child, token.value, variables);
+    if (token[TYPE] === TAG) {
+      const dynamic = parse(read, child, token[VALUE], variables);
 
-      child.dynamic ||= dynamic;
-    } else if (token.type === 'text') {
-      child.children.push({
-        type: 'text',
-        value: token.value,
+      child[DYNAMIC] ||= dynamic;
+    } else if (token[TYPE] === TEXT) {
+      child[CHILDREN].push({
+        [TYPE]: TEXT,
+        [VALUE]: token[VALUE],
       });
-    } else if (token.type === 'variable') {
-      child.dynamic = true;
+    } else if (token[TYPE] === VARIABLE) {
+      child[DYNAMIC] = true;
 
-      child.offset ??= child.children.length;
+      child[OFFSET] ??= child[CHILDREN].length;
 
-      child.children.push({
-        type: 'variable',
-        value: token.value,
+      child[CHILDREN].push({
+        [TYPE]: VARIABLE,
+        [VALUE]: token[VALUE],
       });
     }
   }
 
-  if (child.dynamic) {
-    parent.offset ??= parent.children.length;
+  if (child[DYNAMIC]) {
+    parent[OFFSET] ??= parent[CHILDREN].length;
   }
 
-  parent.children.push(child);
+  parent[CHILDREN].push(child);
 
-  child.offset ??= child.children.length;
+  child[OFFSET] ??= child[CHILDREN].length;
 
-  return child.dynamic;
+  return child[DYNAMIC];
 };
 
 let id = 1;
@@ -259,33 +279,33 @@ export const html = (strs, ...variables) => {
 
   if (!views) {
     const acc = {
-      tag: false,
+      [NAME]: false,
     };
 
     const tokens = tokenizer.tokenize(acc, strs, variables.length);
-    const read = () => tokens.next().value;
+    const read = () => tokens.next()[VALUE];
 
     const children = [];
     let token;
 
     while ((token = read())) {
-      if (token.type === 'tag') {
-        parse(read, {children}, token.value, variables);
-      } else if (token.type === 'text' && token.value.trim()) {
+      if (token[TYPE] === TAG) {
+        parse(read, {[CHILDREN]: children}, token[VALUE], variables);
+      } else if (token[TYPE] === TEXT && token[VALUE].trim()) {
         children.push({
-          type: 'text',
-          value: token.value.trim(),
+          [TYPE]: TEXT,
+          [VALUE]: token[VALUE].trim(),
         });
-      } else if (token.type === 'variable') {
+      } else if (token[TYPE] === VARIABLE) {
         children.push({
-          type: 'variable',
-          value: token.value,
+          [TYPE]: VARIABLE,
+          [VALUE]: token[VALUE],
         });
       }
     }
 
     for (let i = 0; i < children.length; i++) {
-      children[i].view = id++;
+      children[i][VIEW] = id++;
     }
 
     views = children;
@@ -294,20 +314,20 @@ export const html = (strs, ...variables) => {
   }
 
   return {
-    dynamic: true,
-    views,
-    variables,
+    [DYNAMIC]: true,
+    [VIEWS]: views,
+    [VARIABLES]: variables,
   };
 };
 
 export const cache = (result) => {
-  if (result.views) {
-    for (let i = 0; i < result.views.length; i++) {
-      result.views[i].dynamic = false;
+  if (result[VIEWS]) {
+    for (let i = 0; i < result[VIEWS].length; i++) {
+      result[VIEWS][i][DYNAMIC] = false;
     }
   }
 
-  result.dynamic = false;
+  result[DYNAMIC] = false;
 
   return result;
 };
@@ -328,11 +348,11 @@ const readMeta = (target) => {
   return result;
 };
 
-const subRender = (view, variables, target, childNode, prevMeta = {}) => {
+const subRender = (view, variables, target, childNode, prevSvg) => {
   let result;
 
-  if (view.type === 'variable') {
-    view = variables[view.value];
+  if (view[TYPE] === VARIABLE) {
+    view = variables[view[VALUE]];
   }
 
   if (!Array.isArray(view)) {
@@ -342,20 +362,20 @@ const subRender = (view, variables, target, childNode, prevMeta = {}) => {
   for (let i = 0; i < view.length; i++) {
     const current = view[i] ?? '';
 
-    if (current.views) {
+    if (current[VIEWS]) {
       result = render(current, target, childNode, false);
 
       continue;
     }
 
-    variables = current.variables ?? variables;
+    variables = current[VARIABLES] ?? variables;
 
     let mode = 0;
 
     if (childNode != null) {
       const meta = readMeta(childNode);
 
-      if (current.view !== meta.view) {
+      if (current[VIEW] !== meta[VIEW]) {
         mode = 1;
       }
     } else {
@@ -363,16 +383,14 @@ const subRender = (view, variables, target, childNode, prevMeta = {}) => {
     }
 
     const svg =
-      prevMeta.svg ||
-      current.tag === 'svg' ||
-      target.namespaceURI === svgNamespace;
+      prevSvg || current[NAME] === SVG || target.namespaceURI === svgNamespace;
 
     const ownerDocument = target.ownerDocument;
 
     let currentChildNode = childNode;
 
-    if (!current?.type || current.type === 'text') {
-      const value = current?.value ?? current ?? '';
+    if (!current?.[TYPE] || current[TYPE] === TEXT) {
+      const value = current?.[VALUE] ?? current ?? '';
 
       if (mode) {
         currentChildNode = ownerDocument.createTextNode(value);
@@ -382,31 +400,31 @@ const subRender = (view, variables, target, childNode, prevMeta = {}) => {
     } else {
       if (mode) {
         currentChildNode =
-          svg || current.tag === 'svg'
-            ? ownerDocument.createElementNS(svgNamespace, current.tag)
-            : ownerDocument.createElement(current.tag);
+          svg || current[NAME] === SVG
+            ? ownerDocument.createElementNS(svgNamespace, current[NAME])
+            : ownerDocument.createElement(current[NAME]);
       }
 
-      if (mode || current.dynamic) {
-        if (current.attributes) {
+      if (mode || current[DYNAMIC]) {
+        if (current[ATTRIBUTES]) {
           for (
             let attributeIndex = 0;
-            attributeIndex < current.attributes.length;
+            attributeIndex < current[ATTRIBUTES].length;
             attributeIndex++
           ) {
-            const attribute = current.attributes[attributeIndex];
+            const attribute = current[ATTRIBUTES][attributeIndex];
 
-            if (!mode && attribute.type !== 'variable') {
+            if (!mode && attribute[TYPE] !== VARIABLE) {
               break;
             }
 
-            let value = attribute.value;
+            let value = attribute[VALUE];
 
-            if (attribute.type === 'variable') {
+            if (attribute[TYPE] === VARIABLE) {
               value = variables[value];
             }
 
-            let key = attribute.key;
+            let key = attribute[KEY];
 
             const firstChar = key.charAt(0);
 
@@ -449,17 +467,17 @@ const subRender = (view, variables, target, childNode, prevMeta = {}) => {
         if (mode) {
           currentGrandChildNode = currentChildNode.firstChild;
         } else {
-          childIndex = current.offset;
+          childIndex = current[OFFSET];
 
           currentGrandChildNode = currentChildNode.childNodes[childIndex];
         }
 
-        if (current.children) {
-          for (; childIndex < current.children.length; childIndex++) {
-            let grandChildView = current.children[childIndex];
+        if (current[CHILDREN]) {
+          for (; childIndex < current[CHILDREN].length; childIndex++) {
+            let grandChildView = current[CHILDREN][childIndex];
 
-            if (grandChildView.type === 'variable') {
-              grandChildView = variables[grandChildView.value];
+            if (grandChildView[TYPE] === VARIABLE) {
+              grandChildView = variables[grandChildView[VALUE]];
             }
 
             if (!Array.isArray(grandChildView)) {
@@ -471,13 +489,10 @@ const subRender = (view, variables, target, childNode, prevMeta = {}) => {
 
               currentGrandChildNode = subRender(
                 currentGrandChildView,
-                currentGrandChildView.variables ?? variables,
+                currentGrandChildView[VARIABLES] ?? variables,
                 currentChildNode,
                 currentGrandChildNode,
-                {
-                  mode,
-                  svg,
-                }
+                svg
               );
             }
           }
@@ -487,10 +502,10 @@ const subRender = (view, variables, target, childNode, prevMeta = {}) => {
       }
     }
 
-    if (mode && current.view) {
+    if (mode && current[VIEW]) {
       const meta = readMeta(currentChildNode);
 
-      meta.view = current.view;
+      meta[VIEW] = current[VIEW];
     }
 
     if (mode === 2) {
@@ -513,11 +528,11 @@ export const render = (
   childNode = target.firstChild,
   cleanUp = true
 ) => {
-  for (let i = 0; i < next.views.length; i++) {
-    let view = next.views[i];
+  for (let i = 0; i < next[VIEWS].length; i++) {
+    let view = next[VIEWS][i];
 
-    if (view.type === 'variable') {
-      view = next.variables[view.value];
+    if (view[TYPE] === VARIABLE) {
+      view = next[VARIABLES][view[VALUE]];
     }
 
     if (!Array.isArray(view)) {
@@ -529,7 +544,7 @@ export const render = (
 
       childNode = subRender(
         currentView,
-        currentView.variables ?? next.variables,
+        currentView[VARIABLES] ?? next[VARIABLES],
         target,
         childNode
       );

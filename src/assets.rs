@@ -52,7 +52,7 @@ fn js_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
       "jsc": {
         "minify": {
           "compress": true,
-          "mangle": true,
+          "mangle": true
         }
       },
       "module": {
