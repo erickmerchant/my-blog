@@ -238,7 +238,6 @@ version = "2.7.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7ea16c295198e958ef31930a6ef37d0fb64e9ca3b6116e6b93a8bdae96ee1000"
 dependencies = [
- "actix-macros 0.2.3",
  "futures-core",
  "tokio 1.17.0",
 ]
@@ -1925,7 +1924,6 @@ name = "main"
 version = "0.1.0"
 dependencies = [
  "actix-files",
- "actix-rt 2.7.0",
  "actix-web 4.0.1",
  "awc 3.0.0",
  "base64 0.13.0",

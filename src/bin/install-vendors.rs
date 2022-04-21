@@ -1,4 +1,4 @@
-use actix_rt::System;
+use actix_web::rt::System;
 use awc::Client;
 use std::{convert::AsRef, fs, path::Path};
 
