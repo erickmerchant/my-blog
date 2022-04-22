@@ -13,7 +13,6 @@ use actix_web::{
 };
 use std::{env, io};
 
-#[cfg(feature = "local")]
 #[actix_web::main]
 async fn main() -> io::Result<()> {
     use dotenv::dotenv;
@@ -47,24 +46,6 @@ async fn main() -> io::Result<()> {
             .configure(service::configure)
     })
     .bind_openssl(format!("0.0.0.0:{port}"), ssl_builder)?
-    .run()
-    .await
-}
-
-#[cfg(not(feature = "local"))]
-#[actix_web::main]
-async fn main() -> io::Result<()> {
-    let port = env::var("PORT").expect("failed to read env variable PORT");
-
-    HttpServer::new(move || {
-        App::new()
-            .wrap(Logger::new("%s %r"))
-            .wrap(ErrorHandlers::new().handler(StatusCode::NOT_FOUND, not_found))
-            .wrap(ErrorHandlers::new().handler(StatusCode::INTERNAL_SERVER_ERROR, internal_error))
-            .wrap(Compress::default())
-            .configure(service::configure)
-    })
-    .bind(format!("0.0.0.0:{port}"))?
     .run()
     .await
 }
