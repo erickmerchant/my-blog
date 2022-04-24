@@ -1,4 +1,3 @@
-node_modules
-dist
+.env
 storage
-package-lock.json
+target

@@ -1,0 +1,21 @@
+{
+  "title": "ErickMerchant.com",
+  "base": "https://erickmerchant.com",
+  "description": "The personal site of Erick Merchant.",
+  "copyright": "© 2022 Erick Merchant",
+  "links": [
+    {
+      "href": "/",
+      "title": "Home"
+    },
+    {
+      "href": "/feed.rss",
+      "title": "RSS Feed"
+    },
+    {
+      "href": "https://github.com/erickmerchant/my-blog",
+      "title": "View Source"
+    }
+  ],
+  "posts": ["rust-rewrite"]
+}

@@ -1,0 +1,306 @@
+@custom-media --mobile (max-width: 415px);
+
+@font-face {
+  font-display: swap;
+  font-family: "Public Sans";
+  font-style: normal;
+  font-weight: 100 900;
+  src: url("/fonts/Public_Sans/PublicSans-VariableFont_wght-subset.woff2")
+    format("woff2");
+}
+
+@font-face {
+  font-display: swap;
+  font-family: "Public Sans";
+  font-style: italic;
+  font-weight: 100 900;
+  src: url("/fonts/Public_Sans/PublicSans-Italic-VariableFont_wght-subset.woff2")
+    format("woff2");
+}
+
+* {
+  font: inherit;
+  color: inherit;
+  box-sizing: border-box;
+  max-width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  font: 300 125% / 1.5 "Public Sans", system-ui, sans-serif;
+  height: 100%;
+
+  --space: 2rem;
+  --space-half: 1rem;
+  --space-quarter: 0.5rem;
+  --gradient-foreground: 100 20% 55%;
+
+  @media (--mobile) {
+    font-size: 100%;
+
+    --space: 1rem;
+    --space-half: 0.5rem;
+    --space-quarter: 0.25rem;
+  }
+
+  @media (prefers-color-scheme: light), screen {
+    --anchor-color: 100 50% 30%;
+    --text-color: 100 10% 25%;
+    --background: 0 0% 100%;
+    --nav-background: 100 10% 90%;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    --anchor-color: 100 70% 75%;
+    --text-color: 0 0% 100%;
+    --background: 100 5% 30%;
+    --nav-background: 100 5% 40%;
+  }
+}
+
+body {
+  height: 100%;
+}
+
+a {
+  color: hsl(var(--anchor-color));
+  text-underline-offset: 0.125em;
+}
+
+.Icon {
+  &.self {
+    display: inline-grid;
+    width: 1em;
+    aspect-ratio: 1 / 1;
+    pointer-events: none;
+    fill: currentColor;
+  }
+}
+
+.Site {
+  &.site-container {
+    position: relative;
+    display: block;
+    height: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    background-color: hsl(var(--nav-background));
+    background-image: radial-gradient(
+      hsl(var(--background)) 15%,
+      hsl(var(--nav-background)) 16%
+    );
+    background-size: 0.25em 0.25em;
+
+    --content-left: 0;
+    --drawer-width: max(38.4em, 50vw);
+
+    &:where([open]) {
+      --content-left: var(--drawer-width);
+    }
+  }
+}
+
+.SiteContainer {
+  &.button {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 3;
+    appearance: none;
+    cursor: pointer;
+    border: 0;
+    background: hsl(0 0% 0% / 0);
+    color: hsl(var(--anchor-color));
+    width: 2em;
+    aspect-ratio: 1 / 1;
+    display: grid;
+    place-content: center;
+  }
+
+  &.triangle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    display: block;
+    width: 0;
+    height: 0;
+    border: 0;
+    border-top: 3.75em solid hsl(var(--background));
+    border-right: 3.75em solid hsl(0 0% 0% / 0);
+  }
+
+  &.links {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    width: var(--drawer-width);
+    height: 100%;
+    display: grid;
+    place-items: center;
+  }
+
+  &.panel {
+    position: relative;
+    z-index: 1;
+    transform: translateX(var(--content-left));
+    transition: transform 0.25s ease;
+    display: grid;
+    grid-template-rows: min-content 1fr;
+    height: 100%;
+  }
+}
+
+.Links {
+  &.self {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-quarter);
+  }
+
+  &.link {
+    font-weight: 500;
+  }
+}
+
+.Banner {
+  &.self {
+    position: relative;
+    background: hsl(var(--gradient-foreground));
+    background-image: repeating-linear-gradient(0deg, var(--gradient-1)),
+      repeating-linear-gradient(90deg, var(--gradient-1)),
+      repeating-linear-gradient(135deg, var(--gradient-2)),
+      repeating-linear-gradient(45deg, var(--gradient-2));
+    color: hsl(var(--text-color));
+    display: grid;
+    align-content: end;
+    justify-items: center;
+    min-height: max(6em, 37.5vh);
+    width: 100%;
+    padding: 0 var(--space-half);
+
+    --gradient-1: hsl(var(--background) / 0.3),
+      hsl(var(--background) / 0.3) 0.05em, hsl(0 0% 0% / 0) 0.05em,
+      hsl(0 0% 0% / 0) 1em;
+    --gradient-2: hsl(var(--background) / 0.07) 0.9em,
+      hsl(var(--background) / 0.07) 1em, hsl(0 0% 0% / 0) 1em,
+      hsl(0 0% 0% / 0) 2.5em;
+  }
+
+  &.heading {
+    font-size: 1.5em;
+    font-weight: 900;
+    max-width: 40rem;
+    margin-block-end: 0.5rem;
+    width: 100%;
+    text-align: left;
+  }
+}
+
+.Content {
+  &.self {
+    flex: auto;
+    display: flex;
+    flex-direction: column;
+    color: hsl(var(--text-color));
+    background: hsl(var(--background));
+    padding: 0 var(--space-half) var(--space-half);
+    width: 100%;
+
+    & > * {
+      max-width: 40rem;
+      width: 100%;
+      margin: var(--space-half) auto 0;
+    }
+  }
+
+  &.date-paragraph {
+    font-weight: 500;
+    font-size: 0.75em;
+    margin-block: var(--space-quarter) 0;
+    display: flex;
+    gap: 0.5em;
+    align-items: center;
+  }
+
+  &.heading1 {
+    font-weight: 900;
+    font-size: 1.25em;
+  }
+
+  &.self {
+    & :where(h2) {
+      font-weight: 700;
+      font-size: 1em;
+    }
+
+    & :where(h3) {
+      font-weight: 500;
+      font-size: 1em;
+    }
+
+    & :where(dt, dd):where(:not(:first-child)) {
+      margin-block-start: var(--space-half);
+    }
+  }
+}
+
+.Home {
+  &.post-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space);
+    list-style: none;
+  }
+
+  &.post {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-half);
+  }
+
+  &.post-title {
+    font-weight: 900;
+    font-size: 1.25em;
+  }
+}
+
+.Footer {
+  &.self {
+    display: flex;
+    color: hsl(var(--text-color));
+    background: hsl(var(--background));
+    padding: 0 var(--space-half) var(--space-half);
+    width: 100%;
+  }
+
+  &.copyright {
+    max-width: 40rem;
+    width: 100%;
+    margin: var(--space-half) auto 0;
+    font-size: 0.75em;
+  }
+}
+
+:where(:not(:defined)) {
+  &.Site {
+    &.site-container {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  & .Links {
+    &.self {
+      list-style: none;
+      flex-wrap: wrap;
+      flex-direction: row;
+      gap: var(--space);
+      padding: var(--space-half);
+      font-size: 0.875em;
+      background-color: hsl(var(--nav-background));
+    }
+  }
+}
