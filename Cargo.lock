@@ -61,7 +61,6 @@ dependencies = [
  "actix-codec",
  "actix-rt",
  "actix-service",
- "actix-tls",
  "actix-utils",
  "ahash",
  "base64 0.13.0",
@@ -195,7 +194,6 @@ dependencies = [
  "actix-rt",
  "actix-server",
  "actix-service",
- "actix-tls",
  "actix-utils",
  "actix-web-codegen",
  "ahash",
@@ -1403,7 +1401,6 @@ dependencies = [
  "log",
  "maud",
  "minify-html-onepass",
- "openssl",
  "parcel_css",
  "parcel_sourcemap",
  "rss",
@@ -1457,9 +1454,9 @@ dependencies = [
 
 [[package]]
 name = "miette"
-version = "4.5.0"
+version = "4.6.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "01ff8e2f24552a78cbf93f2b197f6a788192200c7200648514647cce438714bf"
+checksum = "8218047465aa2a0aa5ceca2b5065ae27b54f744c16bf9272fdbc39917362785f"
 dependencies = [
  "atty",
  "backtrace",
@@ -1477,9 +1474,9 @@ dependencies = [
 
 [[package]]
 name = "miette-derive"
-version = "4.5.0"
+version = "4.6.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7119608a3ee194199d537849bb7b600f9e04bb1c91b98fb2620b9a867f17ef20"
+checksum = "e04d56e20719ef4fc7fd02960f72a2451a724e3c348627a941e2f37dda37b247"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -1694,9 +1691,9 @@ dependencies = [
 
 [[package]]
 name = "owo-colors"
-version = "3.3.0"
+version = "3.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5e72e30578e0d0993c8ae20823dd9cff2bc5517d2f586a8aef462a581e8a03eb"
+checksum = "decf7381921fea4dcb2549c5667eda59b3ec297ab7e2b5fc33eac69d2e7da87b"
 
 [[package]]
 name = "parcel_css"
@@ -2512,9 +2509,9 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.170.0"
+version = "0.170.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e120b0149cfe12d21c2d7142618d8c2820ede1432878c835fd0eef33dc523f0b"
+checksum = "90b26e15f6d591aee7649c92ef5a4795c28a997b699e4b45faadfd759ce3ab18"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2716,9 +2713,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.105.1"
+version = "0.105.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ae9538f315b203d837850929770286600fc543800a0fee66d27a02f478b8d299"
+checksum = "439e1cb27158567fa9232a11c78058afc949997ffb435c0bed1f7be8fc2c1ff7"
 dependencies = [
  "ahash",
  "arrayvec",
@@ -2748,9 +2745,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.102.4"
+version = "0.102.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "af84da2e786dbc410c2cd15678f87809112b330870457ad9fcd31d316220a65e"
+checksum = "de33ed0782015e45a8e98a0e28eaebd51f49bdb25551032a15dfade6fded8db7"
 dependencies = [
  "either",
  "enum_kind",

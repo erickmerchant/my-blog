@@ -7,7 +7,7 @@ default-run = "main"
 
 [dependencies]
 actix-files = "0.6.0"
-actix-web = { version = "4.0.0", features = ["openssl", "macros"] }
+actix-web = { version = "4.0.0" }
 awc = { version = "3.0.0", features = ["openssl"] }
 base64 = "0.13.0"
 chrono = "0.4.0"
@@ -17,7 +17,6 @@ env_logger = "0.9"
 log = "0.4.16"
 maud = "0.23.0"
 minify-html-onepass = "0.8.0"
-openssl = { version = "0.10", features = ["v110"] }
 parcel_css = { version = "1.0.0-alpha.16", features = ["grid"] }
 parcel_sourcemap = "2.0.2"
 rss = { version = "2.0", features = ["builders"] }
