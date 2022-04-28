@@ -12,7 +12,6 @@ awc = { version = "3.0.0", features = ["rustls"], default-features = false }
 base64 = { version = "0.13.0", default-features = false }
 chrono = { version = "0.4.0", default-features = false }
 derive_more = { version = "0.99", default-features = false }
-dotenv = { version = "0.15.0", default-features = false }
 env_logger = { version = "0.9", default-features = false }
 log = { version = "0.4.16", default-features = false }
 maud = { version = "0.23.0", default-features = false }
@@ -22,5 +21,5 @@ parcel_sourcemap = { version = "2.0.2", default-features = false }
 rss = { version = "2.0", features = ["builders"], default-features = false }
 serde = { version = "1.0", features = ["derive"], default-features = false }
 serde_json = { version = "1.0", default-features = false }
-swc = { version = "=0.170.1", default-features = false }
+swc = { version = "0.172", default-features = false }
 swc_common = { version = "0.17", features = ["tty-emitter"], default-features = false }

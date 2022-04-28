@@ -11,18 +11,23 @@ use actix_web::{
     middleware::{Compress, ErrorHandlerResponse, ErrorHandlers, Logger},
     web, App, HttpServer, Result,
 };
-use std::io;
+use std::{env, io};
 
 #[actix_web::main]
 async fn main() -> io::Result<()> {
-    use dotenv::dotenv;
     use std::fs;
-
-    dotenv().expect("failed to read .env file");
 
     env_logger::init();
 
     fs::remove_dir_all("storage/cache").ok();
+
+    let mut port = 8080;
+
+    if let Ok(p) = env::var("PORT") {
+        if let Ok(p) = p.parse::<u16>() {
+            port = p
+        }
+    };
 
     HttpServer::new(move || {
         App::new()
@@ -33,7 +38,7 @@ async fn main() -> io::Result<()> {
             .route("/health", web::get().to(health))
             .configure(service::configure)
     })
-    .bind("0.0.0.0:8080")?
+    .bind(format!("0.0.0.0:{port}"))?
     .run()
     .await
 }

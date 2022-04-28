@@ -1,18 +1,13 @@
-FROM rust:1.60.0-slim as build
+FROM rust:1.60.0-alpine as build
+RUN apk add build-base
 WORKDIR /build
 COPY . .
-RUN cargo build --package=main --release
+RUN rustup target add aarch64-unknown-linux-musl
+RUN cargo build --target=aarch64-unknown-linux-musl --package=main --release
 
-FROM debian:bullseye-slim as app
-RUN apt-get update
-RUN apt-get install -y ca-certificates
-RUN rm -rf /var/lib/apt/lists/*
-ENV USER=app
-RUN groupadd ${USER}
-RUN useradd -g ${USER} ${USER}
+FROM alpine
+RUN apk --no-cache add ca-certificates
 WORKDIR /app
 COPY . .
-COPY --from=build /build/target/release/main ./main
-RUN chown -R ${USER}:${USER} /app
-USER ${USER}
+COPY --from=build /build/target/aarch64-unknown-linux-musl/release/main ./main
 CMD ["./main"]
