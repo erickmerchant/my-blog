@@ -2,11 +2,10 @@ mod models;
 mod views;
 
 use crate::assets;
-use crate::common::cacheable_response;
+use crate::common::{cacheable_response, html_response, CustomError};
 use actix_files::NamedFile;
 use actix_web::{web, Result};
 use std::path::Path;
-pub use views::{internal_error, not_found};
 
 pub fn configure(cfg: &mut web::ServiceConfig) {
   cfg.service(
@@ -27,7 +26,20 @@ async fn home() -> Result<NamedFile> {
       .map(|slug| models::Post::get_by_slug(slug.to_string()))
       .collect();
 
-    views::home_page(site, posts)
+    let title = "Home".to_string();
+
+    match posts.len() > 1 {
+      true => html_response(views::HomeTemplate {
+        site: site,
+        title: title,
+        posts: posts,
+      }),
+      false => html_response(views::PostTemplate {
+        site: site,
+        title: title,
+        post: posts.get(0).and_then(|p| p.clone()),
+      }),
+    }
   })
 }
 
@@ -80,6 +92,35 @@ async fn post(post: web::Path<String>) -> Result<NamedFile> {
   cacheable_response(post.as_ref().as_str(), || {
     let site = models::Site::get();
 
-    views::post_page(site, models::Post::get_by_slug(slug.to_string()))
+    let post = models::Post::get_by_slug(slug.to_string());
+
+    match post {
+      Some(post) => html_response(views::PostTemplate {
+        site: site,
+        title: post.data.title.clone(),
+        post: Some(post.clone()),
+      }),
+      None => Err(CustomError::NotFound {}),
+    }
+  })
+}
+
+pub fn not_found() -> Result<String, CustomError> {
+  let title = "Page Not Found".to_string();
+  let site = models::Site::get();
+
+  html_response(views::NotFoundTemplate {
+    site: site,
+    title: title,
+  })
+}
+
+pub fn internal_error() -> Result<String, CustomError> {
+  let title = "Internal Error".to_string();
+  let site = models::Site::get();
+
+  html_response(views::InternalErrorTemplate {
+    site: site,
+    title: title,
   })
 }
