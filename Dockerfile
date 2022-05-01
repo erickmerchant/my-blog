@@ -3,14 +3,13 @@ RUN apk add build-base
 WORKDIR /build
 RUN mkdir src
 RUN echo "fn main() {}" > src/main.rs
-COPY Cargo.toml Cargo.toml
-COPY Cargo.lock Cargo.lock
+COPY Cargo.toml Cargo.lock .
 RUN cargo build --package=main --release
 RUN rm -rf ./target/release/main ./target/release/deps/main-* ./src
 COPY . .
 RUN cargo build --package=main --release
 RUN mv ./target/release/main ./main
-RUN rm -rf target src Cargo.lock Cargo.toml .git .gitignore Dockerfile .dockerignore
+RUN rm -rf target src Cargo.lock Cargo.toml
 
 FROM alpine
 WORKDIR /app

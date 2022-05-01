@@ -36,6 +36,20 @@ html {
   --space-quarter: 0.5rem;
   --gradient-foreground: 100 20% 55%;
 
+  & .light {
+    --anchor-color: 100 50% 30%;
+    --text-color: 100 10% 25%;
+    --background: 0 0% 100%;
+    --nav-background: 100 10% 90%;
+  }
+
+  & .dark {
+    --anchor-color: 100 70% 75%;
+    --text-color: 0 0% 100%;
+    --background: 100 5% 30%;
+    --nav-background: 100 5% 40%;
+  }
+
   @media (--mobile) {
     font-size: 100%;
 
@@ -153,7 +167,7 @@ a {
 }
 
 .Links {
-  &.self {
+  &.links {
     list-style: none;
     display: flex;
     flex-direction: column;
@@ -293,7 +307,7 @@ a {
   }
 
   & .Links {
-    &.self {
+    &.links {
       list-style: none;
       flex-wrap: wrap;
       flex-direction: row;

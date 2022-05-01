@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="{{site.description}}">
+    <link href="/main.css" rel="stylesheet">
+    <link href="/favicon.svg" rel="icon" type="image/svg+xml">
+    <link href="/vendor/@hyper-views/framework/main.js" rel="modulepreload">
+    <title>{{title}} | {{site.title}}</title>
+    <script type="module" src="/main.js"></script>
+  </head>
+  <body class="Site self">
+    <site-container class="Site site-container">
+      <header class="Banner self" slot="panel">
+        {% block heading %}
+          <div class="Banner heading">{{site.title}}</div>
+        {% endblock %}
+      </header>
+
+      <main class="Content self" slot="panel">
+        {% block main %}
+        {% endblock %}
+      </main>
+
+      <footer class="Footer self" slot="panel">
+        <p class="Footer copyright">{{site.copyright}}</p>
+      </footer>
+
+      <div class="Links self" slot="links">
+        <ul class="Links links">
+          {% for link in site.links %}
+            <li><a class="Links link" href="{{link.href}}">{{link.title}}</a></li>
+          {% endfor %}
+        </ul>
+
+        <theme-selector></theme-selector>
+      </div>
+    </site-container>
+  </body>
+</html>
+

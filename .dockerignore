@@ -1,2 +1,6 @@
 target
 storage
+.git
+.gitignore
+Dockerfile
+.dockerignore

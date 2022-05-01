@@ -1,7 +1,7 @@
 use actix_files::NamedFile;
 use actix_web::{error, http::StatusCode, Result};
+use askama::Template;
 use derive_more::{Display, Error};
-use maud::Render;
 use std::{convert::AsRef, fs, path::Path};
 
 pub fn cacheable_response<F: Fn() -> Result<String, CustomError>, P: AsRef<Path>>(
@@ -31,7 +31,7 @@ pub fn static_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
   Ok(file)
 }
 
-pub fn html_response(html: impl Render) -> Result<String, CustomError> {
+pub fn html_response(html: impl Template) -> Result<String, CustomError> {
   use minify_html_onepass::{in_place_str, Cfg};
 
   let cfg = &Cfg {
@@ -39,7 +39,7 @@ pub fn html_response(html: impl Render) -> Result<String, CustomError> {
     minify_css: false,
   };
 
-  let mut html_clone = html.render().into_string();
+  let mut html_clone = html.render().unwrap_or_default();
   let html_clone = html_clone.as_mut_str();
 
   let html = in_place_str(html_clone, cfg).map_err(CustomError::new_internal)?;
