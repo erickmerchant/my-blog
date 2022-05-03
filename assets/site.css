@@ -34,13 +34,14 @@ html {
   --space: 2rem;
   --space-half: 1rem;
   --space-quarter: 0.5rem;
-  --gradient-foreground: 100 20% 55%;
+  --max-width: 40rem;
 
   & [data-theme="light"] {
     --anchor-color: 100 50% 30%;
     --text-color: 100 10% 25%;
     --background: 0 0% 100%;
     --nav-background: 100 10% 90%;
+    --gradient-foreground: 100 20% 55%;
   }
 
   & [data-theme="dark"] {
@@ -48,6 +49,7 @@ html {
     --text-color: 0 0% 100%;
     --background: 100 5% 30%;
     --nav-background: 100 5% 40%;
+    --gradient-foreground: 100 30% 55%;
   }
 
   @media (--mobile) {
@@ -56,6 +58,7 @@ html {
     --space: 1rem;
     --space-half: 0.5rem;
     --space-quarter: 0.25rem;
+    --max-width: 20rem;
   }
 
   @media (prefers-color-scheme: light), screen {
@@ -63,6 +66,7 @@ html {
     --text-color: 100 10% 25%;
     --background: 0 0% 100%;
     --nav-background: 100 10% 90%;
+    --gradient-foreground: 100 20% 55%;
   }
 
   @media (prefers-color-scheme: dark) {
@@ -70,6 +74,7 @@ html {
     --text-color: 0 0% 100%;
     --background: 100 5% 30%;
     --nav-background: 100 5% 40%;
+    --gradient-foreground: 100 30% 55%;
   }
 }
 
@@ -139,7 +144,7 @@ a {
     display: grid;
     align-content: end;
     justify-items: center;
-    min-height: max(6em, 37.5vh);
+    min-height: 12rem;
     width: 100%;
     padding: 0 var(--space-half);
 
@@ -154,7 +159,7 @@ a {
   &.heading {
     font-size: 1.5em;
     font-weight: 900;
-    max-width: 40rem;
+    max-width: var(--max-width);
     margin-block-end: 0.5rem;
     width: 100%;
     text-align: left;
@@ -169,7 +174,7 @@ a {
     width: 100%;
 
     & > * {
-      max-width: 40rem;
+      max-width: var(--max-width);
       width: 100%;
       margin: var(--space-half) auto 0;
     }
@@ -234,7 +239,7 @@ a {
   }
 
   &.copyright {
-    max-width: 40rem;
+    max-width: var(--max-width);
     width: 100%;
     margin: var(--space-half) auto 0;
     font-size: 0.75em;

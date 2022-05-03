@@ -2,7 +2,17 @@ import { html, render } from "/vendor/@hyper-views/framework/main.js";
 
 class PageApp extends HTMLElement {
   open = false;
-  theme = window.localStorage.getItem("theme") ?? "auto";
+
+  prefersColorSchemeDark = window.matchMedia("(prefers-color-scheme: dark)");
+
+  initTheme = () => {
+    return (
+      window.localStorage.getItem("theme") ??
+      (this.prefersColorSchemeDark.matches ? "dark" : "light")
+    );
+  };
+
+  theme = this.initTheme();
 
   toggleOpen = () => {
     this.open = !this.open;
@@ -36,7 +46,7 @@ class PageApp extends HTMLElement {
 
   view = () => html`
     <style>
-      @import "/main.css";
+      @import "/site.css";
       @import "/app.css";
     </style>
 
@@ -130,6 +140,12 @@ class PageApp extends HTMLElement {
     this.attachShadow({ mode: "open" });
 
     this.update();
+
+    this.prefersColorSchemeDark.addEventListener("change", () => {
+      this.theme = this.initTheme();
+
+      this.update();
+    });
   }
 }
 
