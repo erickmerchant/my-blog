@@ -36,14 +36,14 @@ html {
   --space-quarter: 0.5rem;
   --gradient-foreground: 100 20% 55%;
 
-  & .light {
+  & [data-theme="light"] {
     --anchor-color: 100 50% 30%;
     --text-color: 100 10% 25%;
     --background: 0 0% 100%;
     --nav-background: 100 10% 90%;
   }
 
-  & .dark {
+  & [data-theme="dark"] {
     --anchor-color: 100 70% 75%;
     --text-color: 0 0% 100%;
     --background: 100 5% 30%;
@@ -93,7 +93,7 @@ a {
 }
 
 .Site {
-  &.site-container {
+  &.page-app {
     position: relative;
     display: block;
     height: 100%;
@@ -115,62 +115,10 @@ a {
   }
 }
 
-.SiteContainer {
-  &.button {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 3;
-    appearance: none;
-    cursor: pointer;
-    border: 0;
-    background: hsl(0 0% 0% / 0);
-    color: hsl(var(--anchor-color));
-    width: 2em;
-    aspect-ratio: 1 / 1;
-    display: grid;
-    place-content: center;
-  }
-
-  &.triangle {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 2;
-    display: block;
-    width: 0;
-    height: 0;
-    border: 0;
-    border-top: 3.75em solid hsl(var(--background));
-    border-right: 3.75em solid hsl(0 0% 0% / 0);
-  }
-
-  &.links {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    width: var(--drawer-width);
-    height: 100%;
-    display: grid;
-    place-items: center;
-  }
-
-  &.panel {
-    position: relative;
-    z-index: 1;
-    transform: translateX(var(--content-left));
-    transition: transform 0.25s ease;
-    display: grid;
-    grid-template-rows: min-content 1fr;
-    height: 100%;
-  }
-}
-
 .Links {
-  &.links {
+  &.self {
     list-style: none;
-    display: flex;
-    flex-direction: column;
+    display: grid;
     gap: var(--space-quarter);
   }
 
@@ -215,9 +163,6 @@ a {
 
 .Content {
   &.self {
-    flex: auto;
-    display: flex;
-    flex-direction: column;
     color: hsl(var(--text-color));
     background: hsl(var(--background));
     padding: 0 var(--space-half) var(--space-half);
@@ -234,9 +179,10 @@ a {
     font-weight: 500;
     font-size: 0.75em;
     margin-block: var(--space-quarter) 0;
-    display: flex;
+    display: grid;
+    grid-template-columns: max-content 1fr;
     gap: 0.5em;
-    align-items: center;
+    /* align-items: center; */
   }
 
   &.heading1 {
@@ -263,15 +209,13 @@ a {
 
 .Home {
   &.post-list {
-    display: flex;
-    flex-direction: column;
+    display: grid;
     gap: var(--space);
     list-style: none;
   }
 
   &.post {
-    display: flex;
-    flex-direction: column;
+    display: grid;
     gap: var(--space-half);
   }
 
@@ -283,7 +227,6 @@ a {
 
 .Footer {
   &.self {
-    display: flex;
     color: hsl(var(--text-color));
     background: hsl(var(--background));
     padding: 0 var(--space-half) var(--space-half);
@@ -300,14 +243,22 @@ a {
 
 :where(:not(:defined)) {
   &.Site {
-    &.site-container {
+    &.page-app {
       display: flex;
       flex-direction: column;
+      height: 100%;
+    }
+  }
+
+  & .Content {
+    &.self {
+      flex: auto;
     }
   }
 
   & .Links {
-    &.links {
+    &.self {
+      display: flex;
       list-style: none;
       flex-wrap: wrap;
       flex-direction: row;

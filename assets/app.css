@@ -1,0 +1,86 @@
+.Nav {
+  &.toggle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 3;
+    appearance: none;
+    cursor: pointer;
+    border: 0;
+    background: hsl(0 0% 0% / 0);
+    color: hsl(var(--anchor-color));
+    width: 2em;
+    aspect-ratio: 1 / 1;
+    display: grid;
+    place-content: center;
+  }
+
+  &.triangle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    display: block;
+    width: 0;
+    height: 0;
+    border: 0;
+    border-top: 3.75em solid hsl(var(--background));
+    border-right: 3.75em solid hsl(0 0% 0% / 0);
+  }
+
+  &.content {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    width: var(--drawer-width);
+    height: 100%;
+    display: grid;
+    place-content: center;
+    gap: 1em;
+  }
+}
+
+.Theme {
+  &.self {
+    display: grid;
+    gap: 0.5em;
+    color: hsl(var(--text-color));
+    font-weight: 500;
+  }
+
+  &.heading {
+    font-weight: 700;
+  }
+
+  &.list {
+    list-style: none;
+    display: grid;
+    gap: 0.5em;
+  }
+
+  &.item {
+    display: grid;
+    gap: 0.5em;
+    grid-template-columns: max-content 1fr;
+    align-items: center;
+  }
+
+  &.input {
+    display: block;
+    accent-color: hsl(var(--anchor-color));
+    height: 1em;
+    width: 1em;
+  }
+}
+
+.Panel {
+  &.self {
+    position: relative;
+    z-index: 1;
+    transform: translateX(var(--content-left));
+    transition: transform 0.25s ease;
+    display: grid;
+    grid-template-rows: min-content 1fr;
+    height: 100%;
+  }
+}
