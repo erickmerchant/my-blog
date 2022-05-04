@@ -5,32 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="{{site.description}}">
     <link href="/site.css" rel="stylesheet">
-    <link href="/app.css" rel="preload" as="style">
     <link href="/favicon.svg" rel="icon" type="image/svg+xml">
     <link href="/vendor/@hyper-views/framework/main.js" rel="modulepreload">
     <title>{{title}} | {{site.title}}</title>
-    <script type="module" src="/app.js"></script>
+    <script type="module" src="/site.js"></script>
   </head>
-  <body class="Site self">
-    <page-app class="Site page-app">
-      <header class="Banner self" slot="panel">
+  <body>
+    <page-app>
+      <header class="banner" slot="panel">
         {% block heading %}
-          <div class="Banner heading">{{site.title}}</div>
+          <div>{{site.title}}</div>
         {% endblock %}
       </header>
 
-      <main class="Content self" slot="panel">
+      <main class="content" slot="panel">
         {% block main %}
         {% endblock %}
       </main>
 
-      <footer class="Footer self" slot="panel">
-        <p class="Footer copyright">{{site.copyright}}</p>
+      <footer class="footer" slot="panel">
+        <p class="copyright">{{site.copyright}}</p>
       </footer>
 
-      <ul class="Links self" slot="links">
+      <ul class="links" slot="links">
         {% for link in site.links %}
-          <li><a class="Links link" href="{{link.href}}">{{link.title}}</a></li>
+          <li><a href="{{link.href}}">{{link.title}}</a></li>
         {% endfor %}
       </ul>
     </page-app>

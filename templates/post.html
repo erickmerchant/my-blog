@@ -3,10 +3,10 @@
 {% block main %}
   {% match post %}
     {% when Some with (post) %}
-      <h1 class="Content heading1">{{post.data.title}}</h1>
-      <p class="Content date-paragraph">
+      <h1>{{post.data.title}}</h1>
+      <p class="date">
         <svg
-          class="Icon self"
+          class="icon"
           viewBox="0 0 95 95"
           aria-hidden="true">
           <rect height="25" width="95" x="0" y="0"></rect>
@@ -17,6 +17,6 @@
 
       {{post.content|safe}}
     {% else %}
-      <h1 class="Content heading1">Nothing has been written yet.</h1>
+      <h1>Nothing has been written yet.</h1>
   {% endmatch %}
 {% endblock %}

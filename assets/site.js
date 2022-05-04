@@ -47,18 +47,17 @@ class PageApp extends HTMLElement {
   view = () => html`
     <style>
       @import "/site.css";
-      @import "/app.css";
     </style>
 
-    <nav class="Nav self">
+    <nav>
       <button
-        class="Nav toggle"
+        class="nav-toggle"
         type="button"
         aria-expanded=${this.open ? "true" : "false"}
         aria-label=${this.open ? "Close nav" : "Open nav"}
         @click=${this.toggleOpen}
       >
-        <svg class="Icon self" viewBox="0 0 100 100" aria-hidden="true">
+        <svg class="icon" viewBox="0 0 100 100" aria-hidden="true">
           ${this.open
             ? html`
                 <rect
@@ -84,21 +83,20 @@ class PageApp extends HTMLElement {
         </svg>
       </button>
 
-      <div class="Nav triangle" />
+      <div class="nav-triangle" />
 
       <div
-        class="Nav content"
+        class="nav-content"
         aria-hidden=${this.open ? null : "true"}
         inert=${!this.open}
       >
         <slot name="links" />
 
-        <form class="Theme self">
-          <h2 class="Theme heading">Theme</h2>
-          <ul class="Theme list">
-            <li class="Theme item">
+        <form class="theme">
+          <h2 class="theme-heading">Theme</h2>
+          <ul class="theme-list">
+            <li>
               <input
-                class="Theme input"
                 type="radio"
                 id="light"
                 name="theme"
@@ -107,11 +105,10 @@ class PageApp extends HTMLElement {
                 :checked=${this.theme === "light"}
                 @change=${this.changeTheme}
               />
-              <label class="Theme label" for="light">Light</label>
+              <label for="light">Light</label>
             </li>
-            <li class="Theme item">
+            <li>
               <input
-                class="Theme input"
                 type="radio"
                 id="dark"
                 name="theme"
@@ -120,7 +117,7 @@ class PageApp extends HTMLElement {
                 :checked=${this.theme === "dark"}
                 @change=${this.changeTheme}
               />
-              <label class="Theme label" for="dark">Dark</label>
+              <label for="dark">Dark</label>
             </li>
           </ul>
         </form>
@@ -128,7 +125,7 @@ class PageApp extends HTMLElement {
     </nav>
 
     <div
-      class="Panel self"
+      class="panel"
       aria-hidden=${this.open ? "true" : null}
       inert=${this.open}
     >
