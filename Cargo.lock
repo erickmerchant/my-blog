@@ -1546,9 +1546,9 @@ dependencies = [
 
 [[package]]
 name = "num_threads"
-version = "0.1.5"
+version = "0.1.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "aba1801fb138d8e85e11d0fc70baf4fe1cdfffda7c6cd34a854905df588e5ed0"
+checksum = "2819ce041d2ee131036f4fc9d6ae7ae125a3a40e97ba64d04fe799ad9dabbb44"
 dependencies = [
  "libc",
 ]
@@ -2288,9 +2288,9 @@ dependencies = [
 
 [[package]]
 name = "sourcemap"
-version = "6.0.1"
+version = "6.0.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6e031f2463ecbdd5f34c950f89f5c1e1032f22c0f8e3dc4bdb2e8b6658cf61eb"
+checksum = "a2ca89636b276071e7276488131f531dbf43ad1c19bc4bd5a04f6a0ce1ddc138"
 dependencies = [
  "base64 0.11.0",
  "if_chain",
@@ -2653,9 +2653,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.102.11"
+version = "0.102.12"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "11759e3bc2e306415ea3e1ba34b0fb37033c2d783261164dce3051306f5de27a"
+checksum = "8016ea28ded39562ba4247c37fab9705057e1f7478c8dfef51481d8c6fd44c4a"
 dependencies = [
  "either",
  "enum_kind",
@@ -2792,9 +2792,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "0.108.0"
+version = "0.108.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "73806be942cea3054e01b57a5246681bf777ecef875b2e9e21eb454222ee610f"
+checksum = "ede71bc3f17014c44744c5dcd3523e4c7d21620ee4cb2804541b06764eb7d3de"
 dependencies = [
  "Inflector",
  "ahash",
@@ -3144,9 +3144,9 @@ dependencies = [
 
 [[package]]
 name = "tokio-rustls"
-version = "0.23.3"
+version = "0.23.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4151fda0cf2798550ad0b34bcfc9b9dcc2a9d2471c895c68f3a8818e54f2389e"
+checksum = "c43ee83903113e03984cb9e5cebe6c04a5116269e900e3ddba8f068a62adda59"
 dependencies = [
  "rustls",
  "tokio",
