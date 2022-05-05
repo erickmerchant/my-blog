@@ -9,11 +9,11 @@
     {% for post in posts %}
       {% match post %}
         {% when Some with (post) %}
-          <li class="post">
-            <h2 class="post-title">
+          <li>
+            <h2>
               <a href="/posts/{{post.data.slug}}.html">{{post.data.title}}</a>
             </h2>
-            <p class="post-description">{{post.data.description}}</p>
+            <p>{{post.data.description}}</p>
           </li>
         {% when None %}
       {% endmatch %}

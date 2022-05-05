@@ -5,14 +5,11 @@ class PageApp extends HTMLElement {
 
   prefersColorSchemeDark = window.matchMedia("(prefers-color-scheme: dark)");
 
-  initTheme = () => {
-    return (
-      window.localStorage.getItem("theme") ??
-      (this.prefersColorSchemeDark.matches ? "dark" : "light")
-    );
-  };
+  initColorScheme = () =>
+    window.localStorage.getItem("color-scheme") ??
+    (this.prefersColorSchemeDark.matches ? "dark" : "light");
 
-  theme = this.initTheme();
+  colorScheme = this.initColorScheme();
 
   toggleOpen = () => {
     this.open = !this.open;
@@ -20,16 +17,16 @@ class PageApp extends HTMLElement {
     this.update();
   };
 
-  changeTheme = (e) => {
-    this.theme = e.currentTarget.value;
+  changeColorScheme = (e) => {
+    this.colorScheme = e.currentTarget.value;
 
-    window.localStorage.setItem("theme", this.theme);
+    window.localStorage.setItem("color-scheme", this.colorScheme);
 
     this.update();
   };
 
   update = () => {
-    document.body.dataset.theme = this.theme;
+    this.setAttribute("color-scheme", this.colorScheme);
 
     this.toggleAttribute("open", this.open);
 
@@ -49,7 +46,7 @@ class PageApp extends HTMLElement {
       @import "/site.css";
     </style>
 
-    <nav>
+    <nav class="nav">
       <button
         class="nav-toggle"
         type="button"
@@ -92,18 +89,18 @@ class PageApp extends HTMLElement {
       >
         <slot name="links" />
 
-        <form class="theme">
-          <h2 class="theme-heading">Theme</h2>
-          <ul class="theme-list">
+        <form class="color-scheme-selector">
+          <h2>Color Scheme</h2>
+          <ul>
             <li>
               <input
                 type="radio"
                 id="light"
-                name="theme"
+                name="color-scheme"
                 value="light"
                 tabindex=${this.open ? "0" : "-1"}
-                :checked=${this.theme === "light"}
-                @change=${this.changeTheme}
+                :checked=${this.colorScheme === "light"}
+                @change=${this.changeColorScheme}
               />
               <label for="light">Light</label>
             </li>
@@ -111,11 +108,11 @@ class PageApp extends HTMLElement {
               <input
                 type="radio"
                 id="dark"
-                name="theme"
+                name="color-scheme"
                 value="dark"
                 tabindex=${this.open ? "0" : "-1"}
-                :checked=${this.theme === "dark"}
-                @change=${this.changeTheme}
+                :checked=${this.colorScheme === "dark"}
+                @change=${this.changeColorScheme}
               />
               <label for="dark">Dark</label>
             </li>
@@ -139,7 +136,7 @@ class PageApp extends HTMLElement {
     this.update();
 
     this.prefersColorSchemeDark.addEventListener("change", () => {
-      this.theme = this.initTheme();
+      this.colorScheme = this.initColorScheme();
 
       this.update();
     });

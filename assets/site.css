@@ -44,22 +44,6 @@ html {
     --space-quarter: 0.25rem;
     --max-width: 20rem;
   }
-
-  @media (prefers-color-scheme: light), screen {
-    --anchor-color: 100 50% 30%;
-    --text-color: 100 10% 25%;
-    --background: 0 0% 100%;
-    --nav-background: 100 10% 90%;
-    --gradient-foreground: 100 20% 55%;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    --anchor-color: 100 70% 75%;
-    --text-color: 0 0% 100%;
-    --background: 100 5% 30%;
-    --nav-background: 100 5% 40%;
-    --gradient-foreground: 100 25% 50%;
-  }
 }
 
 body {
@@ -87,6 +71,20 @@ page-app {
   --content-left: 0;
   --drawer-width: max(38.4em, 50vw);
 
+  --anchor-color: 100 50% 30%;
+  --text-color: 100 10% 25%;
+  --background: 0 0% 100%;
+  --nav-background: 100 10% 90%;
+  --gradient-foreground: 100 20% 55%;
+
+  &:where([color-scheme="dark"]) {
+    --anchor-color: 100 70% 75%;
+    --text-color: 0 0% 100%;
+    --background: 100 5% 30%;
+    --nav-background: 100 5% 40%;
+    --gradient-foreground: 100 30% 55%;
+  }
+
   &:where([open]) {
     --content-left: var(--drawer-width);
   }
@@ -111,22 +109,6 @@ page-app {
       background-color: hsl(var(--nav-background));
     }
   }
-}
-
-[data-theme="light"] {
-  --anchor-color: 100 50% 30%;
-  --text-color: 100 10% 25%;
-  --background: 0 0% 100%;
-  --nav-background: 100 10% 90%;
-  --gradient-foreground: 100 20% 55%;
-}
-
-[data-theme="dark"] {
-  --anchor-color: 100 70% 75%;
-  --text-color: 0 0% 100%;
-  --background: 100 5% 30%;
-  --nav-background: 100 5% 40%;
-  --gradient-foreground: 100 30% 55%;
 }
 
 .icon {
@@ -160,7 +142,7 @@ page-app {
   z-index: 2;
   display: block;
   width: 0;
-  height: 0;
+  aspect-ratio: 1 / 1;
   border: 0;
   border-top: 3.75em solid hsl(var(--background));
   border-right: 3.75em solid hsl(0 0% 0% / 0);
@@ -177,21 +159,21 @@ page-app {
   gap: 2em;
 }
 
-.theme {
+.color-scheme-selector {
   display: grid;
   gap: 0.5em;
   color: hsl(var(--text-color));
   font-weight: 500;
-}
 
-.theme-heading {
-  font-weight: 700;
-}
+  & :where(h2) {
+    font-weight: 700;
+  }
 
-.theme-list {
-  list-style: none;
-  display: grid;
-  gap: 0.5em;
+  & :where(ul) {
+    list-style: none;
+    display: grid;
+    gap: 0.5em;
+  }
 
   & :where(li) {
     display: grid;
@@ -308,16 +290,16 @@ page-app {
   display: grid;
   gap: var(--space);
   list-style: none;
-}
 
-.post {
-  display: grid;
-  gap: var(--space-half);
-}
+  & :where(li) {
+    display: grid;
+    gap: var(--space-half);
+  }
 
-.post-title {
-  font-weight: 900;
-  font-size: 1.25em;
+  & :where(h2) {
+    font-weight: 900;
+    font-size: 1.25em;
+  }
 }
 
 .footer {
