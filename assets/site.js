@@ -3,6 +3,12 @@ import { html, render } from "/vendor/@hyper-views/framework/main.js";
 class PageApp extends HTMLElement {
   open = false;
 
+  toggleOpen = () => {
+    this.open = !this.open;
+
+    this.update();
+  };
+
   prefersColorSchemeDark = window.matchMedia("(prefers-color-scheme: dark)");
 
   initColorScheme = () =>
@@ -10,12 +16,6 @@ class PageApp extends HTMLElement {
     (this.prefersColorSchemeDark.matches ? "dark" : "light");
 
   colorScheme = this.initColorScheme();
-
-  toggleOpen = () => {
-    this.open = !this.open;
-
-    this.update();
-  };
 
   changeColorScheme = (e) => {
     this.colorScheme = e.currentTarget.value;

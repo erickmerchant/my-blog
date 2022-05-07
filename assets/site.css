@@ -88,27 +88,6 @@ page-app {
   &:where([open]) {
     --content-left: var(--drawer-width);
   }
-
-  &:where(:not(:defined)) {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-
-    & :where(.content) {
-      flex: auto;
-    }
-
-    & :where(.links) {
-      display: flex;
-      list-style: none;
-      flex-wrap: wrap;
-      flex-direction: row;
-      gap: var(--space);
-      padding: var(--space-half);
-      font-size: 0.875em;
-      background-color: hsl(var(--nav-background));
-    }
-  }
 }
 
 .icon {
@@ -316,4 +295,25 @@ page-app {
   margin-block-start: var(--space-half);
   margin-inline: auto;
   font-size: 0.75em;
+}
+
+page-app:where(:not(:defined)) {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  height: 100%;
+
+  & .content {
+    flex: auto;
+  }
+
+  & .links {
+    display: flex;
+    list-style: none;
+    flex-wrap: wrap;
+    flex-direction: row;
+    gap: var(--space);
+    padding: var(--space-half);
+    background-color: hsl(var(--nav-background));
+  }
 }
