@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+  <channel>
+    <title>{{site.title}}</title>
+    <link>{{site.base}}</link>
+    <description>{{site.description}}</description>
+    {% for post in posts %}
+      {% match post %}
+        {% when Some with (post) %}
+          <item>
+            <title>{{post.data.title}}</title>
+            <link>{{site.base}}/posts/{{post.data.slug}}.html</link>
+            <description>
+              <![CDATA[
+                {{post.data.description}}
+              ]]>
+            </description>
+          </item>
+        {% when None %}
+      {% endmatch %}
+    {% endfor %}
+  </channel>
+</rss>

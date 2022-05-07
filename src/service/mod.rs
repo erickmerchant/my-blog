@@ -5,6 +5,7 @@ use crate::assets;
 use crate::common::{cacheable_response, html_response, CustomError};
 use actix_files::NamedFile;
 use actix_web::{web, Result};
+use askama::Template;
 use std::path::Path;
 
 pub fn configure(cfg: &mut web::ServiceConfig) {
@@ -44,43 +45,20 @@ async fn home() -> Result<NamedFile> {
 }
 
 async fn feed_rss() -> Result<NamedFile> {
-  use rss::{ChannelBuilder, ItemBuilder};
-
   cacheable_response(Path::new("feed.rss"), || {
-    let site_content = models::Site::get();
-
-    let posts: Vec<Option<models::Post>> = site_content
+    let site = models::Site::get();
+    let posts: Vec<Option<models::Post>> = site
       .posts
       .iter()
       .map(|slug| models::Post::get_by_slug(slug.to_string()))
       .collect();
 
-    let mut channel = ChannelBuilder::default();
+    let view = views::FeedTemplate {
+      site: site,
+      posts: posts,
+    };
 
-    let base = site_content.base;
-
-    let channel = channel
-      .link(&base)
-      .title(site_content.title)
-      .description(site_content.description);
-
-    for post in posts {
-      if let Some(post) = post {
-        let slug = post.data.slug;
-
-        channel.item(
-          ItemBuilder::default()
-            .link(format!("{base}/posts/{slug}.html"))
-            .title(post.data.title)
-            .description(post.data.description)
-            .build(),
-        );
-      }
-    }
-
-    let channel = channel.build();
-
-    Ok(channel.to_string())
+    Ok(view.render().unwrap_or_default().to_string())
   })
 }
 
