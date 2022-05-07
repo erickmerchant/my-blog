@@ -40,7 +40,6 @@ const attrToProp = {
 
 const createIsChar = (regex) => (char) => char && regex.test(char);
 
-const isSpaceChar = createIsChar(/\s/);
 const isNameChar = createIsChar(/[:@a-zA-Z0-9-]/);
 const isQuoteChar = createIsChar(/["']/);
 
@@ -53,7 +52,7 @@ const tokenizer = {
     };
 
     for (let index = 0; index < strs.length; index++) {
-      str = strs[index];
+      str = strs[index].replaceAll(/\s+/g, ' ');
       i = 0;
 
       nextChar();
@@ -101,7 +100,7 @@ const tokenizer = {
               };
             }
           }
-        } else if (isSpaceChar(char)) {
+        } else if (char === ' ') {
           nextChar();
         } else if (char === '/') {
           nextChar();
@@ -283,7 +282,8 @@ export const html = (strs, ...variables) => {
     };
 
     const tokens = tokenizer.tokenize(acc, strs, variables.length);
-    const read = () => tokens.next()[VALUE];
+
+    const read = () => tokens.next().value;
 
     const children = [];
     let token;
@@ -291,10 +291,10 @@ export const html = (strs, ...variables) => {
     while ((token = read())) {
       if (token[TYPE] === TAG) {
         parse(read, {[CHILDREN]: children}, token[VALUE], variables);
-      } else if (token[TYPE] === TEXT && token[VALUE].trim()) {
+      } else if (token[TYPE] === TEXT) {
         children.push({
           [TYPE]: TEXT,
-          [VALUE]: token[VALUE].trim(),
+          [VALUE]: token[VALUE],
         });
       } else if (token[TYPE] === VARIABLE) {
         children.push({
