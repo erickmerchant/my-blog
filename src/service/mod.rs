@@ -30,14 +30,10 @@ async fn home() -> Result<NamedFile> {
     let title = "Home".to_string();
 
     match posts.len() > 1 {
-      true => html_response(views::HomeTemplate {
-        site: site,
-        title: title,
-        posts: posts,
-      }),
+      true => html_response(views::HomeTemplate { site, title, posts }),
       false => html_response(views::PostTemplate {
-        site: site,
-        title: title,
+        site,
+        title,
         post: posts.get(0).and_then(|p| p.clone()),
       }),
     }
@@ -53,12 +49,9 @@ async fn feed_rss() -> Result<NamedFile> {
       .map(|slug| models::Post::get_by_slug(slug.to_string()))
       .collect();
 
-    let view = views::FeedTemplate {
-      site: site,
-      posts: posts,
-    };
+    let view = views::FeedTemplate { site, posts };
 
-    Ok(view.render().unwrap_or_default().to_string())
+    Ok(view.render().unwrap_or_default())
   })
 }
 
@@ -74,9 +67,9 @@ async fn post(post: web::Path<String>) -> Result<NamedFile> {
 
     match post {
       Some(post) => html_response(views::PostTemplate {
-        site: site,
+        site,
         title: post.data.title.clone(),
-        post: Some(post.clone()),
+        post: Some(post),
       }),
       None => Err(CustomError::NotFound {}),
     }
@@ -87,18 +80,12 @@ pub fn not_found() -> Result<String, CustomError> {
   let title = "Page Not Found".to_string();
   let site = models::Site::get();
 
-  html_response(views::NotFoundTemplate {
-    site: site,
-    title: title,
-  })
+  html_response(views::NotFoundTemplate { site, title })
 }
 
 pub fn internal_error() -> Result<String, CustomError> {
   let title = "Internal Error".to_string();
   let site = models::Site::get();
 
-  html_response(views::InternalErrorTemplate {
-    site: site,
-    title: title,
-  })
+  html_response(views::InternalErrorTemplate { site, title })
 }

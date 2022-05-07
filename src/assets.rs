@@ -73,7 +73,7 @@ fn js_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
     }
 
     c.process_js_file(fm, &handler, &options)
-      .and_then(|transformed| Ok(transformed.code))
+      .map(|transformed| transformed.code)
       .map_err(CustomError::new_internal)
   })
 }
@@ -98,19 +98,16 @@ fn css_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
       samsung: version(14, 0, 0),
       ie: None,
     });
-    let mut parser_options = stylesheet::ParserOptions::default();
+    let parser_options = stylesheet::ParserOptions {
+      nesting: true,
+      custom_media: true,
+      ..stylesheet::ParserOptions::default()
+    };
 
-    parser_options.nesting = true;
-    parser_options.custom_media = true;
-
-    let mut minifier_options = stylesheet::MinifyOptions::default();
-
-    minifier_options.targets = targets;
-
-    let mut printer_options = stylesheet::PrinterOptions::default();
-
-    printer_options.minify = true;
-    printer_options.targets = targets;
+    let minifier_options = stylesheet::MinifyOptions {
+      targets,
+      ..stylesheet::MinifyOptions::default()
+    };
 
     let mut source_map = None;
 
@@ -122,13 +119,18 @@ fn css_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
 
         sm.add_source(src.as_ref().to_str().unwrap_or_default());
 
-        if let Ok(_) = sm.set_source_content(0, &file_contents.clone()) {
+        if sm.set_source_content(0, &file_contents).is_ok() {
           source_map = Some(sm)
         };
       };
     };
 
-    printer_options.source_map = source_map.as_mut();
+    let printer_options = stylesheet::PrinterOptions {
+      minify: true,
+      targets,
+      source_map: source_map.as_mut(),
+      ..stylesheet::PrinterOptions::default()
+    };
 
     let mut stylesheet = stylesheet::StyleSheet::parse(
       src.as_ref().to_str().unwrap_or_default(),

@@ -25,7 +25,7 @@ fn main() {
 
       destination
         .parent()
-        .map(|parent| fs::create_dir_all(parent))
+        .map(fs::create_dir_all)
         .map(|_| ())
         .expect("failed to create parent directory");
 

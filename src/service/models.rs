@@ -15,10 +15,8 @@ impl Site {
   pub fn get() -> Self {
     let file_contents =
       fs::read_to_string("content/Site.json").expect("failed to read content/Site.json");
-    let content =
-      serde_json::from_str::<Self>(&file_contents).expect("failed to parse content/Site.json");
 
-    content
+    serde_json::from_str::<Self>(&file_contents).expect("failed to parse content/Site.json")
   }
 }
 
@@ -45,7 +43,7 @@ impl Post {
         if let (Some(data), Some(content)) = (parts.get(1), parts.get(2)) {
           if let Ok(data) = serde_json::from_str::<PostData>(data) {
             result = Some(Self {
-              data: data,
+              data,
               content: content.to_string(),
             });
           };
