@@ -31,20 +31,8 @@ pub fn static_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
   Ok(file)
 }
 
-pub fn html_response(html: impl Template) -> Result<String, CustomError> {
-  use minify_html_onepass::{in_place_str, Cfg};
-
-  let cfg = &Cfg {
-    minify_js: false,
-    minify_css: false,
-  };
-
-  let mut html_clone = html.render().unwrap_or_default();
-  let html_clone = html_clone.as_mut_str();
-
-  let html = in_place_str(html_clone, cfg).map_err(CustomError::new_internal)?;
-
-  Ok(html.to_string())
+pub fn render_template(html: impl Template) -> Result<String, CustomError> {
+  Ok(html.render().unwrap_or_default())
 }
 
 #[derive(Debug, Display, Error)]

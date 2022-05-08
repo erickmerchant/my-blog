@@ -2,10 +2,9 @@ mod models;
 mod views;
 
 use crate::assets;
-use crate::common::{cacheable_response, html_response, CustomError};
+use crate::common::{cacheable_response, render_template, CustomError};
 use actix_files::NamedFile;
 use actix_web::{web, Result};
-use askama::Template;
 use std::path::Path;
 
 pub fn configure(cfg: &mut web::ServiceConfig) {
@@ -30,8 +29,8 @@ async fn home() -> Result<NamedFile> {
     let title = "Home".to_string();
 
     match posts.len() > 1 {
-      true => html_response(views::HomeTemplate { site, title, posts }),
-      false => html_response(views::PostTemplate {
+      true => render_template(views::HomeTemplate { site, title, posts }),
+      false => render_template(views::PostTemplate {
         site,
         title,
         post: posts.get(0).and_then(|p| p.clone()),
@@ -49,9 +48,7 @@ async fn feed_rss() -> Result<NamedFile> {
       .map(|slug| models::Post::get_by_slug(slug.to_string()))
       .collect();
 
-    let view = views::FeedTemplate { site, posts };
-
-    Ok(view.render().unwrap_or_default())
+    render_template(views::FeedTemplate { site, posts })
   })
 }
 
@@ -66,7 +63,7 @@ async fn post(post: web::Path<String>) -> Result<NamedFile> {
     let post = models::Post::get_by_slug(slug.to_string());
 
     match post {
-      Some(post) => html_response(views::PostTemplate {
+      Some(post) => render_template(views::PostTemplate {
         site,
         title: post.data.title.clone(),
         post: Some(post),
@@ -80,12 +77,12 @@ pub fn not_found() -> Result<String, CustomError> {
   let title = "Page Not Found".to_string();
   let site = models::Site::get();
 
-  html_response(views::NotFoundTemplate { site, title })
+  render_template(views::NotFoundTemplate { site, title })
 }
 
 pub fn internal_error() -> Result<String, CustomError> {
   let title = "Internal Error".to_string();
   let site = models::Site::get();
 
-  html_response(views::InternalErrorTemplate { site, title })
+  render_template(views::InternalErrorTemplate { site, title })
 }
