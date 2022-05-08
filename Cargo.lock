@@ -1341,25 +1341,14 @@ dependencies = [
 
 [[package]]
 name = "mio"
-version = "0.8.2"
+version = "0.8.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "52da4364ffb0e4fe33a9841a98a3f3014fb964045ce4f7a45a398243c8d6b0c9"
+checksum = "713d550d9b44d89174e066b7a6217ae06234c10cb47819a88290d2b353c31799"
 dependencies = [
  "libc",
  "log",
- "miow",
- "ntapi",
  "wasi 0.11.0+wasi-snapshot-preview1",
- "winapi",
-]
-
-[[package]]
-name = "miow"
-version = "0.3.7"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b9f1c5b025cda876f66ef43a113f91ebc9f4ccef34843000e0adf6ebbab84e21"
-dependencies = [
- "winapi",
+ "windows-sys",
 ]
 
 [[package]]
@@ -1383,15 +1372,6 @@ name = "normpath"
 version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2a9da8c9922c35a1033d76f7272dfc2e7ee20392083d75aeea6ced23c6266578"
-dependencies = [
- "winapi",
-]
-
-[[package]]
-name = "ntapi"
-version = "0.3.7"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c28774a7fd2fbb4f0babd8237ce554b73af68021b5f695a3cebd6c59bac0980f"
 dependencies = [
  "winapi",
 ]
@@ -2149,12 +2129,12 @@ checksum = "f67ad224767faa3c7d8b6d91985b78e70a1324408abcb1cfcc2be4c06bc06043"
 
 [[package]]
 name = "socket2"
-version = "0.4.4"
+version = "0.4.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "66d72b759436ae32898a2af0a14218dbf55efde3feeb170eb623637db85ee1e0"
+checksum = "ca642ba17f8b2995138b1d7711829c92e98c0a25ea019de790f4f09279c4e296"
 dependencies = [
  "libc",
- "winapi",
+ "windows-sys",
 ]
 
 [[package]]
@@ -2282,9 +2262,9 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.175.0"
+version = "0.175.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "55ef7147de139d2e4e2880c54f1d93671d444a341cffce1a1e73ff2e0c40a509"
+checksum = "f8cd9eebfe87d386c80ae4e3f3a2a03eacc2a896709e00c463f7398c3d545f4c"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2383,9 +2363,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "0.77.0"
+version = "0.77.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "85c04cd31d52e59424b585bf84cedcf3353aa6600a0539c820f2096f304eeffa"
+checksum = "50cc75d1a709e466c1bcab59b88c01a04ba963237642fe7b6c0de071babb6a31"
 dependencies = [
  "is-macro",
  "num-bigint",
@@ -2583,9 +2563,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.82.1"
+version = "0.82.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "96ec977129e04fa2f18e4c7d1bc14dcfb223776eccd7c4d6e63a012c8268d67f"
+checksum = "636dcc91450b151c947a58ba2f7ed414063d278cb7f05236122c4a97479d7797"
 dependencies = [
  "better_scoped_tls",
  "once_cell",
@@ -2792,9 +2772,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.153.0"
+version = "0.153.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1ece13217d53487c851288c360e96c1b9404d342e55c39826b72abd2268d576e"
+checksum = "f8672adb1c90860e846d8f91b01102ba0cf4754dedbdbb5f6adfab7908745af0"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_parser",
@@ -2991,9 +2971,9 @@ checksum = "cda74da7e1a664f795bb1f8a87ec406fb89a02522cf6e50620d016add6dbbf5c"
 
 [[package]]
 name = "tokio"
-version = "1.18.1"
+version = "1.18.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "dce653fb475565de9f6fb0614b28bca8df2c430c0cf84bcd9c843f15de5414cc"
+checksum = "4903bf0427cf68dddd5aa6a93220756f8be0c34fcfa9f5e6191e103e15a31395"
 dependencies = [
  "bytes",
  "libc",
