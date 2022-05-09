@@ -1,6 +1,8 @@
 mod assets;
 mod common;
+mod models;
 mod service;
+mod views;
 
 use actix_web::{
     dev::ServiceResponse,
@@ -9,7 +11,7 @@ use actix_web::{
         StatusCode,
     },
     middleware::{Compress, ErrorHandlerResponse, ErrorHandlers, Logger},
-    web, App, HttpServer, Result,
+    App, HttpServer, Result,
 };
 use std::{env, io};
 
@@ -35,16 +37,11 @@ async fn main() -> io::Result<()> {
             .wrap(ErrorHandlers::new().handler(StatusCode::NOT_FOUND, not_found))
             .wrap(ErrorHandlers::new().handler(StatusCode::INTERNAL_SERVER_ERROR, internal_error))
             .wrap(Compress::default())
-            .route("/health", web::get().to(health))
             .configure(service::configure)
     })
     .bind(format!("0.0.0.0:{port}"))?
     .run()
     .await
-}
-
-async fn health() -> Result<String> {
-    Ok("OK".to_string())
 }
 
 fn not_found<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerResponse<B>> {

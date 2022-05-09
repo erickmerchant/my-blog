@@ -1,10 +1,10 @@
-mod models;
-mod views;
-
 use crate::assets;
-use crate::common::{cacheable_response, render_template, CustomError};
+use crate::common::{cacheable_response, CustomError};
+use crate::models;
+use crate::views;
 use actix_files::NamedFile;
 use actix_web::{web, Result};
+use askama::Template;
 use std::path::Path;
 
 pub fn configure(cfg: &mut web::ServiceConfig) {
@@ -29,8 +29,8 @@ async fn home() -> Result<NamedFile> {
     let title = "Home".to_string();
 
     match posts.len() > 1 {
-      true => render_template(views::HomeTemplate { site, title, posts }),
-      false => render_template(views::PostTemplate {
+      true => render_template(views::Home { site, title, posts }),
+      false => render_template(views::Post {
         site,
         title,
         post: posts.get(0).and_then(|p| p.clone()),
@@ -48,7 +48,7 @@ async fn feed_rss() -> Result<NamedFile> {
       .map(|slug| models::Post::get_by_slug(slug.to_string()))
       .collect();
 
-    render_template(views::FeedTemplate { site, posts })
+    render_template(views::Feed { site, posts })
   })
 }
 
@@ -63,7 +63,7 @@ async fn post(post: web::Path<String>) -> Result<NamedFile> {
     let post = models::Post::get_by_slug(slug.to_string());
 
     match post {
-      Some(post) => render_template(views::PostTemplate {
+      Some(post) => render_template(views::Post {
         site,
         title: post.data.title.clone(),
         post: Some(post),
@@ -77,12 +77,16 @@ pub fn not_found() -> Result<String, CustomError> {
   let title = "Page Not Found".to_string();
   let site = models::Site::get();
 
-  render_template(views::NotFoundTemplate { site, title })
+  render_template(views::NotFound { site, title })
 }
 
 pub fn internal_error() -> Result<String, CustomError> {
   let title = "Internal Error".to_string();
   let site = models::Site::get();
 
-  render_template(views::InternalErrorTemplate { site, title })
+  render_template(views::InternalError { site, title })
+}
+
+fn render_template(html: impl Template) -> Result<String, CustomError> {
+  Ok(html.render().unwrap_or_default())
 }

@@ -3,14 +3,14 @@ use askama::Template;
 
 #[derive(Template)]
 #[template(path = "feed.rss", escape = "xml")]
-pub struct FeedTemplate {
+pub struct Feed {
   pub site: models::Site,
   pub posts: Vec<Option<models::Post>>,
 }
 
 #[derive(Template)]
 #[template(path = "home.html")]
-pub struct HomeTemplate {
+pub struct Home {
   pub site: models::Site,
   pub title: String,
   pub posts: Vec<Option<models::Post>>,
@@ -18,7 +18,7 @@ pub struct HomeTemplate {
 
 #[derive(Template)]
 #[template(path = "post.html")]
-pub struct PostTemplate {
+pub struct Post {
   pub site: models::Site,
   pub title: String,
   pub post: Option<models::Post>,
@@ -26,14 +26,14 @@ pub struct PostTemplate {
 
 #[derive(Template)]
 #[template(path = "not_found.html")]
-pub struct NotFoundTemplate {
+pub struct NotFound {
   pub site: models::Site,
   pub title: String,
 }
 
 #[derive(Template)]
 #[template(path = "internal_error.html")]
-pub struct InternalErrorTemplate {
+pub struct InternalError {
   pub site: models::Site,
   pub title: String,
 }
