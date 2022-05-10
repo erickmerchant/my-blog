@@ -1,5 +1,6 @@
 use actix_files::NamedFile;
 use actix_web::{error, http::StatusCode, Result};
+use askama::Template;
 use derive_more::{Display, Error};
 use std::{convert::AsRef, fs, path::Path};
 
@@ -28,6 +29,10 @@ pub fn static_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
     .disable_content_disposition();
 
   Ok(file)
+}
+
+pub fn render_template(html: impl Template) -> Result<String, CustomError> {
+  Ok(html.render().unwrap_or_default())
 }
 
 #[derive(Debug, Display, Error)]

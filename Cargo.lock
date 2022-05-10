@@ -1428,9 +1428,9 @@ dependencies = [
 
 [[package]]
 name = "object"
-version = "0.28.3"
+version = "0.28.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "40bec70ba014595f99f7aa110b84331ffe1ee9aece7fe6f387cc7e3ecda4d456"
+checksum = "e42c982f2d955fac81dd7e1d0e1426a7d702acd9c98d19ab01083a6a0328c424"
 dependencies = [
  "memchr",
 ]
@@ -2466,9 +2466,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.110.5"
+version = "0.110.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "477ae06cce4b1bdccdaa153159f540d54727ba36556dcc68bd372225859e799d"
+checksum = "80302da339e6a85318fbd3df1fb2e3dc5af1f5c3ad1af5db0675e07ae6e62531"
 dependencies = [
  "ahash",
  "arrayvec",
@@ -2563,9 +2563,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.82.2"
+version = "0.82.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "636dcc91450b151c947a58ba2f7ed414063d278cb7f05236122c4a97479d7797"
+checksum = "53d19055f788b054ce3a177ccebb6ad1d698c8d8c5b32961511cdfd216bfab2e"
 dependencies = [
  "better_scoped_tls",
  "once_cell",
@@ -2743,9 +2743,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.83.0"
+version = "0.83.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a394f4ce467676abecbbabfe4d2787f804a0e6bc5b192837e38369a45db4e23f"
+checksum = "f42972203e18602ea8a8a4e382c2453e95ad6a1f2fc28764b2a02b60f05e0a20"
 dependencies = [
  "indexmap",
  "once_cell",
@@ -2807,9 +2807,9 @@ dependencies = [
 
 [[package]]
 name = "swc_macros_common"
-version = "0.3.4"
+version = "0.3.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "033f8b6e2fc4991a8e422a20b4f52741affcac2267c29357c931508a1a500797"
+checksum = "d5dca3f08d02da4684c3373150f7c045128f81ea00f0c434b1b012bc65a6cce3"
 dependencies = [
  "pmutil",
  "proc-macro2",

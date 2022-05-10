@@ -1,10 +1,9 @@
 use crate::assets;
-use crate::common::{cacheable_response, CustomError};
+use crate::common::{cacheable_response, render_template, CustomError};
 use crate::models;
 use crate::views;
 use actix_files::NamedFile;
 use actix_web::{web, Result};
-use askama::Template;
 use std::path::Path;
 
 pub fn configure(cfg: &mut web::ServiceConfig) {
@@ -71,22 +70,4 @@ async fn post(post: web::Path<String>) -> Result<NamedFile> {
       None => Err(CustomError::NotFound {}),
     }
   })
-}
-
-pub fn not_found() -> Result<String, CustomError> {
-  let title = "Page Not Found".to_string();
-  let site = models::Site::get();
-
-  render_template(views::NotFound { site, title })
-}
-
-pub fn internal_error() -> Result<String, CustomError> {
-  let title = "Internal Error".to_string();
-  let site = models::Site::get();
-
-  render_template(views::InternalError { site, title })
-}
-
-fn render_template(html: impl Template) -> Result<String, CustomError> {
-  Ok(html.render().unwrap_or_default())
 }

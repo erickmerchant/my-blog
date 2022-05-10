@@ -30,11 +30,9 @@ class PageApp extends HTMLElement {
 
     this.toggleAttribute("open", this.open);
 
-    for (const anchor of this.querySelectorAll('[slot="links"] a')) {
-      anchor.setAttribute("tabIndex", this.open ? "0" : "-1");
-    }
-
-    for (const anchor of this.querySelectorAll('[slot="panel"] a')) {
+    for (const anchor of this.querySelectorAll(
+      '[slot="links"] a, [slot="panel"] a'
+    )) {
       anchor.setAttribute("tabIndex", this.open ? "-1" : "0");
     }
 

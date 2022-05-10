@@ -1,7 +1,7 @@
 mod assets;
 mod common;
 mod models;
-mod service;
+mod routes;
 mod views;
 
 use actix_web::{
@@ -37,7 +37,7 @@ async fn main() -> io::Result<()> {
             .wrap(ErrorHandlers::new().handler(StatusCode::NOT_FOUND, not_found))
             .wrap(ErrorHandlers::new().handler(StatusCode::INTERNAL_SERVER_ERROR, internal_error))
             .wrap(Compress::default())
-            .configure(service::configure)
+            .configure(routes::configure)
     })
     .bind(format!("0.0.0.0:{port}"))?
     .run()
@@ -45,11 +45,23 @@ async fn main() -> io::Result<()> {
 }
 
 fn not_found<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerResponse<B>> {
-    error_response(res, service::not_found())
+    let title = "Page Not Found".to_string();
+    let site = models::Site::get();
+
+    error_response(
+        res,
+        common::render_template(views::NotFound { site, title }),
+    )
 }
 
 fn internal_error<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerResponse<B>> {
-    error_response(res, service::internal_error())
+    let title = "Internal Error".to_string();
+    let site = models::Site::get();
+
+    error_response(
+        res,
+        common::render_template(views::InternalError { site, title }),
+    )
 }
 
 fn error_response<B>(
