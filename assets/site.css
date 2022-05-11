@@ -1,23 +1,5 @@
 @custom-media --mobile (max-width: 415px);
 
-@font-face {
-  font-display: swap;
-  font-family: "Public Sans";
-  font-style: normal;
-  font-weight: 100 900;
-  src: url("/fonts/Public_Sans/PublicSans-VariableFont_wght-subset.woff2")
-    format("woff2");
-}
-
-@font-face {
-  font-display: swap;
-  font-family: "Public Sans";
-  font-style: italic;
-  font-weight: 100 900;
-  src: url("/fonts/Public_Sans/PublicSans-Italic-VariableFont_wght-subset.woff2")
-    format("woff2");
-}
-
 * {
   font: inherit;
   color: inherit;
@@ -28,7 +10,8 @@
 }
 
 html {
-  font: 300 125% / 1.5 "Public Sans", system-ui, sans-serif;
+  font: 500 125% / 1.5 system-ui, -apple-system, Segoe UI, Roboto, Noto Sans,
+    Ubuntu, Cantarell, Helvetica Neue;
   height: 100%;
 
   --space: 2rem;
@@ -52,7 +35,8 @@ body {
 
 a {
   color: hsl(var(--anchor-color));
-  text-underline-offset: 0.125em;
+  text-underline-offset: 0.2em;
+  text-decoration-thickness: 0.1em;
 }
 
 page-app {
@@ -71,18 +55,18 @@ page-app {
   --content-left: 0;
   --drawer-width: max(38.4em, 50vw);
 
-  --anchor-color: 100 50% 30%;
-  --text-color: 100 10% 25%;
+  --anchor-color: 200 60% 40%;
+  --text-color: 200 5% 5%;
   --background: 0 0% 100%;
-  --nav-background: 100 10% 90%;
-  --gradient-foreground: 100 20% 55%;
+  --nav-background: 200 5% 90%;
+  --banner-background: 200 5% 60%;
 
   &:where([color-scheme="dark"]) {
-    --anchor-color: 100 70% 75%;
+    --anchor-color: 200 50% 70%;
     --text-color: 0 0% 100%;
-    --background: 100 5% 30%;
-    --nav-background: 100 5% 40%;
-    --gradient-foreground: 100 30% 55%;
+    --background: 200 5% 20%;
+    --nav-background: 200 5% 30%;
+    --banner-background: 200 10% 50%;
   }
 
   &:where([open]) {
@@ -142,7 +126,6 @@ page-app {
   display: grid;
   gap: 0.5em;
   color: hsl(var(--text-color));
-  font-weight: 500;
 
   & :where(h2) {
     font-weight: 700;
@@ -183,19 +166,11 @@ page-app {
   list-style: none;
   display: grid;
   gap: var(--space-quarter);
-
-  & > :where(li) {
-    font-weight: 500;
-  }
 }
 
 .banner {
   position: relative;
-  background: hsl(var(--gradient-foreground));
-  background-image: repeating-linear-gradient(0deg, var(--gradient-1)),
-    repeating-linear-gradient(90deg, var(--gradient-1)),
-    repeating-linear-gradient(135deg, var(--gradient-2)),
-    repeating-linear-gradient(45deg, var(--gradient-2));
+  background-color: hsl(var(--banner-background));
   color: hsl(var(--text-color));
   display: grid;
   align-content: end;
@@ -203,13 +178,6 @@ page-app {
   min-height: 12rem;
   width: 100%;
   padding-inline: var(--space-half);
-
-  --gradient-1: hsl(var(--background) / 0.4),
-    hsl(var(--background) / 0.4) 0.05em, hsl(0 0% 0% / 0) 0.05em,
-    hsl(0 0% 0% / 0) 1em;
-  --gradient-2: hsl(var(--background) / 0.1) 0.9em,
-    hsl(var(--background) / 0.1) 1em, hsl(0 0% 0% / 0) 1em,
-    hsl(0 0% 0% / 0) 2.5em;
 
   & > * {
     font-size: 1.5em;
@@ -235,19 +203,9 @@ page-app {
     margin-inline: auto;
   }
 
-  & :where(h1) {
-    font-weight: 900;
-    font-size: 1.25em;
-  }
-
-  & :where(h2) {
+  & :where(h1, h2, h3) {
     font-weight: 700;
-    font-size: 1em;
-  }
-
-  & :where(h3) {
-    font-weight: 500;
-    font-size: 1em;
+    font-size: 1.25em;
   }
 
   & :where(dt, dd):where(:not(:first-child)) {
@@ -256,8 +214,8 @@ page-app {
 }
 
 .date {
-  font-weight: 500;
-  font-size: 0.75em;
+  font-weight: 700;
+  font-size: 0.8em;
   margin-block-start: var(--space-quarter);
   display: grid;
   grid-template-columns: max-content 1fr;
@@ -276,7 +234,7 @@ page-app {
   }
 
   & :where(h2) {
-    font-weight: 900;
+    font-weight: 700;
     font-size: 1.25em;
   }
 }
@@ -294,7 +252,7 @@ page-app {
   width: 100%;
   margin-block-start: var(--space-half);
   margin-inline: auto;
-  font-size: 0.75em;
+  font-size: 0.8em;
 }
 
 page-app:where(:not(:defined)) {
