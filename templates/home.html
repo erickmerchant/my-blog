@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block heading %}
-  <h1>{{site.title}}</h1>
+  <h1>Posts</h1>
 {% endblock %}
 
 {% block main %}
@@ -10,10 +10,9 @@
       {% match post %}
         {% when Some with (post) %}
           <li>
-            <h2>
-              <a href="/posts/{{post.data.slug}}.html">{{post.data.title}}</a>
-            </h2>
-            <p>{{post.data.description}}</p>
+            <h2><a href="/posts/{{post.data.slug}}.html">{{post.data.title}}</a></h2>
+            <p class="post-date">Published: <time>{{post.data.date|format_date("%B %e, %Y")}}</time></p>
+            <p class="post-description">{{post.data.description}}</p>
           </li>
         {% when None %}
       {% endmatch %}

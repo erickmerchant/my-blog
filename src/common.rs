@@ -11,7 +11,7 @@ pub fn cacheable_response<F: Fn() -> Result<String, CustomError>, P: AsRef<Path>
   let cache = Path::new("storage/cache").join(src.as_ref());
 
   if let Err(_meta) = fs::metadata(&cache) {
-    let body = process().map_err(CustomError::new_internal)?;
+    let body = process()?;
 
     fs::create_dir_all(&cache.with_file_name("")).map_err(CustomError::new_internal)?;
     fs::write(&cache, body).map_err(CustomError::new_internal)?;

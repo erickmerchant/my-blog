@@ -1,5 +1,7 @@
 @custom-media --mobile (max-width: 415px);
 
+/* 0 0 0 */
+
 * {
   font: inherit;
   color: inherit;
@@ -9,9 +11,10 @@
   margin: 0;
 }
 
+/* 0 0 1 */
+
 html {
-  font: 500 125% / 1.5 system-ui, -apple-system, Segoe UI, Roboto, Noto Sans,
-    Ubuntu, Cantarell, Helvetica Neue;
+  font: 300 125% / 1.5 system-ui, -apple-system;
   height: 100%;
 
   --space: 2rem;
@@ -74,6 +77,8 @@ page-app {
   }
 }
 
+/* 0 1 0 */
+
 .icon {
   display: inline-grid;
   width: 1em;
@@ -120,6 +125,7 @@ page-app {
   display: grid;
   place-content: center;
   gap: 2em;
+  font-weight: 400;
 }
 
 .color-scheme-selector {
@@ -127,8 +133,8 @@ page-app {
   gap: 0.5em;
   color: hsl(var(--text-color));
 
-  & :where(h2) {
-    font-weight: 700;
+  & :where(h6) {
+    font-weight: 500;
   }
 
   & :where(ul) {
@@ -180,7 +186,7 @@ page-app {
   padding-inline: var(--space-half);
 
   & > * {
-    font-size: 1.5em;
+    font-size: 2em;
     font-weight: 900;
     max-width: var(--max-width);
     margin-block-end: var(--space-quarter);
@@ -203,24 +209,24 @@ page-app {
     margin-inline: auto;
   }
 
-  & :where(h1, h2, h3) {
+  & :where(h2) {
+    font-weight: 800;
+    font-size: 1.375em;
+  }
+
+  & :where(h3) {
     font-weight: 700;
     font-size: 1.25em;
+  }
+
+  & :where(h4) {
+    font-weight: 600;
+    font-size: 1.125em;
   }
 
   & :where(dt, dd):where(:not(:first-child)) {
     margin-block-start: var(--space-half);
   }
-}
-
-.date {
-  font-weight: 700;
-  font-size: 0.8em;
-  margin-block-start: var(--space-quarter);
-  display: grid;
-  grid-template-columns: max-content 1fr;
-  gap: 0.5em;
-  align-items: center;
 }
 
 .post-list {
@@ -229,14 +235,15 @@ page-app {
   list-style: none;
 
   & :where(li) {
-    display: grid;
-    gap: var(--space-half);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-quarter);
   }
+}
 
-  & :where(h2) {
-    font-weight: 700;
-    font-size: 1.25em;
-  }
+.post-date {
+  font-style: italic;
+  font-size: 0.875em;
 }
 
 .footer {
@@ -252,8 +259,10 @@ page-app {
   width: 100%;
   margin-block-start: var(--space-half);
   margin-inline: auto;
-  font-size: 0.8em;
+  font-size: 0.875em;
 }
+
+/* 0 1 1 */
 
 page-app:where(:not(:defined)) {
   display: flex;

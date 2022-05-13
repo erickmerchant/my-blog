@@ -39,9 +39,9 @@ pub struct InternalError {
 }
 
 mod filters {
-  pub fn format_date(d: &str) -> askama::Result<String> {
+  pub fn format_date(d: &str, f: &str) -> askama::Result<String> {
     Ok(match chrono::NaiveDate::parse_from_str(d, "%Y-%m-%d") {
-      Ok(p) => p.format("%B %e, %Y").to_string(),
+      Ok(p) => p.format(f).to_string(),
       Err(_) => d.to_string(),
     })
   }

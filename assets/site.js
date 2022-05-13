@@ -90,7 +90,7 @@ class PageApp extends HTMLElement {
         <slot name="links" />
 
         <form class="color-scheme-selector">
-          <h2>Color Scheme</h2>
+          <h6>Color Scheme</h6>
           <ul>
             <li>
               <input
@@ -125,6 +125,7 @@ class PageApp extends HTMLElement {
       class="panel"
       aria-hidden=${this.open ? "true" : null}
       inert=${this.open}
+      @click=${this.open ? this.toggleOpen : null}
     >
       <slot name="panel" />
     </div>

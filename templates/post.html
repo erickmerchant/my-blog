@@ -1,22 +1,22 @@
 {% extends "layout.html" %}
 
-{% block main %}
+{% block heading %}
   {% match post %}
     {% when Some with (post) %}
       <h1>{{post.data.title}}</h1>
-      <p class="date">
-        <svg
-          class="icon"
-          viewBox="0 0 95 95"
-          aria-hidden="true">
-          <rect height="25" width="95" x="0" y="0"></rect>
-          <rect height="60" width="95" x="0" y="35"></rect>
-        </svg>
-        <time>{{post.data.date|format_date}}</time>
+    {% when None %}
+  {% endmatch %}
+{% endblock %}
+
+{% block main %}
+  {% match post %}
+    {% when Some with (post) %}
+      <p class="post-date">
+        Published: <time>{{post.data.date|format_date("%B %e, %Y")}}</time>
       </p>
 
       {{post.content|safe}}
     {% else %}
-      <h1>Nothing has been written yet.</h1>
+      <p>Nothing has been written yet.</p>
   {% endmatch %}
 {% endblock %}

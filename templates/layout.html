@@ -13,9 +13,10 @@
   <body>
     <page-app>
       <header class="banner" slot="panel">
-        {% block heading %}
-          <div>{{site.title}}</div>
-        {% endblock %}
+        <div>
+          {% block heading %}
+          {% endblock %}
+        </div>
       </header>
 
       <main class="content" slot="panel">
