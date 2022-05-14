@@ -132,12 +132,16 @@ This file is in BETA. Please test and contribute to the discussion:
             margin-block-start: 0.5em;
           }
 
+          strong {
+            font-weight: 600;
+          }
+
         </style>
       </head>
       <body>
         <nav>
           <p>
-            <strong>This is a web feed,</strong> also known as an RSS feed. <strong>Subscribe</strong> by copying the URL from the address bar into your newsreader.
+            This is an <strong>RSS feed</strong>. Subscribe by copying the URL from the address bar into your newsreader.
           </p>
           <p>
             Visit <a href="https://aboutfeeds.com">About Feeds</a> to get started with newsreaders and subscribing. It’s free.

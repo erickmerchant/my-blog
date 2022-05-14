@@ -62,7 +62,7 @@ page-app {
   --text-color: 200 5% 5%;
   --background: 0 0% 100%;
   --nav-background: 200 5% 90%;
-  --banner-background: 200 5% 60%;
+  --banner-background: 200 10% 70%;
 
   &:where([color-scheme="dark"]) {
     --anchor-color: 200 50% 70%;
@@ -176,7 +176,11 @@ page-app {
 
 .banner {
   position: relative;
-  background-color: hsl(var(--banner-background));
+  background: radial-gradient(
+    circle at 100% 0,
+    hsl(var(--banner-background)) 0,
+    hsl(var(--banner-background) / 0.25) 100%
+  );
   color: hsl(var(--text-color));
   display: grid;
   align-content: end;
@@ -186,7 +190,7 @@ page-app {
   padding-inline: var(--space-half);
 
   & > * {
-    font-size: 2em;
+    font-size: 1.625em;
     font-weight: 900;
     max-width: var(--max-width);
     margin-block-end: var(--space-quarter);
@@ -198,8 +202,7 @@ page-app {
 .content {
   color: hsl(var(--text-color));
   background: hsl(var(--background));
-  padding-inline: var(--space-half);
-  padding-block-end: var(--space-half);
+  padding: var(--space-half);
   width: 100%;
 
   & > * {
@@ -216,12 +219,12 @@ page-app {
 
   & :where(h3) {
     font-weight: 700;
-    font-size: 1.25em;
+    font-size: 1.1875em;
   }
 
   & :where(h4) {
     font-weight: 600;
-    font-size: 1.125em;
+    font-size: 1.0625em;
   }
 
   & :where(dt, dd):where(:not(:first-child)) {
@@ -249,8 +252,7 @@ page-app {
 .footer {
   color: hsl(var(--text-color));
   background: hsl(var(--background));
-  padding-inline: var(--space-half);
-  padding-block-end: var(--space-half);
+  padding: var(--space-half);
   width: 100%;
 }
 
