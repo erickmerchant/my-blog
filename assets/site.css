@@ -177,7 +177,7 @@ page-app {
 .banner {
   position: relative;
   background: radial-gradient(
-    circle at 100% 0,
+    circle at 50% 0,
     hsl(var(--banner-background)) 0,
     hsl(var(--banner-background) / 0.25) 100%
   );
