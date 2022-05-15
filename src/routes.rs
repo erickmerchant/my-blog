@@ -14,7 +14,7 @@ pub fn configure(cfg: &mut web::ServiceConfig) {
   cfg.service(
     web::scope("")
       .route("/", web::get().to(home))
-      .route("/feed.rss", web::get().to(feed_rss))
+      .route("/posts.rss", web::get().to(posts_rss))
       .route("/posts/{post:.*.html}", web::get().to(post))
       .route("/{file:.*?}", web::get().to(assets::file)),
   );
@@ -42,8 +42,8 @@ async fn home() -> Result<NamedFile> {
   })
 }
 
-async fn feed_rss(req: HttpRequest) -> HttpResponse<BoxBody> {
-  let result = cacheable_response(Path::new("feed.rss"), || {
+async fn posts_rss(req: HttpRequest) -> HttpResponse<BoxBody> {
+  let result = cacheable_response(Path::new("posts.rss"), || {
     let site = models::Site::get();
     let posts: Vec<Option<models::Post>> = site
       .posts

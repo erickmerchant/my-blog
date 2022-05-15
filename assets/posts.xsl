@@ -72,7 +72,7 @@ This file is in BETA. Please test and contribute to the discussion:
   <xsl:template match="/">
     <html xmlns="http://www.w3.org/1999/xhtml">
       <head>
-        <title><xsl:value-of select="/rss/channel/title"/> Web Feed</title>
+        <title>Posts | <xsl:value-of select="/rss/channel/title"/></title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
         <style type="text/css">
@@ -90,10 +90,10 @@ This file is in BETA. Please test and contribute to the discussion:
           }
 
           nav {
-            background: hsl(50 100% 90%);
-            padding-block: 2em;
+            background: hsl(60 90% 90%);
+            padding-block: 2em 3em;;
             margin-block-end: 1em;
-
+            font-size: 0.8rem;
           }
 
           nav ~ *, nav > * {
@@ -104,6 +104,12 @@ This file is in BETA. Please test and contribute to the discussion:
 
           header {
             margin-block: 3em;
+          }
+
+          a {
+            color: hsl(200 60% 40%);
+            text-underline-offset: 0.2em;
+            text-decoration-thickness: 0.1em;
           }
 
           h1 {
@@ -159,7 +165,7 @@ This file is in BETA. Please test and contribute to the discussion:
             </a>
           </p>
         </header>
-        <h3>Recent Items</h3>
+        <h3>Posts</h3>
         <xsl:for-each select="/rss/channel/item">
           <article>
             <h4>

@@ -2,7 +2,7 @@ use super::models;
 use askama::Template;
 
 #[derive(Template)]
-#[template(path = "feed.rss", escape = "xml")]
+#[template(path = "posts.rss", escape = "xml")]
 pub struct Feed {
   pub site: models::Site,
   pub posts: Vec<Option<models::Post>>,
