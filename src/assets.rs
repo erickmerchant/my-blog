@@ -83,19 +83,17 @@ fn css_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
   use parcel_sourcemap::SourceMap;
   use serde_json::json;
 
-  let version = |a: u32, b: u32, c: u32| -> Option<u32> { Some((a << 16) | (b << 8) | c) };
-
   cacheable_response(&src, || -> Result<String, CustomError> {
     let file_contents = fs::read_to_string(&src).map_err(CustomError::new_internal)?;
     let targets = Some(targets::Browsers {
-      android: version(96, 0, 0),
-      chrome: version(94, 0, 0),
-      edge: version(95, 0, 0),
-      firefox: version(78, 0, 0),
-      ios_saf: version(12, 2, 0),
-      opera: version(80, 0, 0),
-      safari: version(13, 1, 0),
-      samsung: version(14, 0, 0),
+      android: Some(6619136),
+      chrome: Some(6553600),
+      edge: Some(6553600),
+      firefox: Some(6488064),
+      ios_saf: Some(983552),
+      opera: Some(5570560),
+      safari: Some(983552),
+      samsung: Some(983040),
       ie: None,
     });
     let parser_options = stylesheet::ParserOptions {

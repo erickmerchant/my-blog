@@ -59,17 +59,17 @@ page-app {
   --drawer-width: max(38.4em, 50vw);
 
   --anchor-color: 200 60% 40%;
-  --text-color: 200 5% 5%;
+  --text-color: 200 5% 10%;
   --background: 0 0% 100%;
   --nav-background: 200 5% 90%;
   --banner-background: 200 10% 70%;
 
   &:where([color-scheme="dark"]) {
-    --anchor-color: 200 50% 70%;
+    --anchor-color: 200 60% 70%;
     --text-color: 0 0% 100%;
-    --background: 200 5% 20%;
-    --nav-background: 200 5% 30%;
-    --banner-background: 200 10% 50%;
+    --background: 200 5% 10%;
+    --nav-background: 200 5% 20%;
+    --banner-background: 200 10% 40%;
   }
 
   &:where([open]) {
