@@ -41,7 +41,7 @@ fn js_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
     let c = swc::Compiler::new(cm.clone());
     let fm = cm
       .load_file(src.as_ref())
-      .map_err(CustomError::new_internal)?;
+      .map_err(CustomError::new_not_found)?;
 
     let options = json!({
       "minify": true,
@@ -84,7 +84,7 @@ fn css_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
   use serde_json::json;
 
   cacheable_response(&src, || -> Result<String, CustomError> {
-    let file_contents = fs::read_to_string(&src).map_err(CustomError::new_internal)?;
+    let file_contents = fs::read_to_string(&src).map_err(CustomError::new_not_found)?;
     let targets = Some(targets::Browsers {
       android: Some(6619136),
       chrome: Some(6553600),

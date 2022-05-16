@@ -47,6 +47,12 @@ impl CustomError {
 
     Self::Internal {}
   }
+
+  pub fn new_not_found<E: std::fmt::Debug>(err: E) -> Self {
+    log::error!("{err:?}");
+
+    Self::NotFound
+  }
 }
 
 impl error::ResponseError for CustomError {
