@@ -179,7 +179,7 @@ page-app {
   background-color: hsl(var(--banner-background));
   background-image: linear-gradient(hsl(var(--background)) 1px, transparent 1px),
     linear-gradient(90deg, hsl(var(--background)) 1px, transparent 1px);
-  background-size: 1em 1em, 1em 1em, 0.2em 0.2em, 0.2em 0.2em;
+  background-size: 1em 1em, 1em 1em;
   background-position: -1px -1px;
   background-attachment: fixed;
   color: hsl(var(--text-color));
