@@ -51,7 +51,7 @@ class PageApp extends HTMLElement {
         class="nav-toggle"
         type="button"
         aria-expanded=${this.open ? "true" : "false"}
-        aria-label=${this.open ? "Close nav" : "Open nav"}
+        aria-label="Toggle nav"
         @click=${this.toggleOpen}
       >
         <svg class="icon" viewBox="0 0 100 100" aria-hidden="true">
