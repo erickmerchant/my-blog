@@ -1,7 +1,7 @@
-use serde::{Deserialize, Serialize};
+use serde::Deserialize;
 use std::{fs, path::Path, vec::Vec};
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Deserialize, Debug, Clone)]
 pub struct Site {
   pub title: String,
   pub base: String,
@@ -20,13 +20,13 @@ impl Site {
   }
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Deserialize, Debug, Clone)]
 pub struct Link {
   pub href: String,
   pub title: String,
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Deserialize, Debug, Clone)]
 pub struct Post {
   pub data: PostData,
   pub content: String,
@@ -55,7 +55,7 @@ impl Post {
   }
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Deserialize, Debug, Clone)]
 pub struct PostData {
   pub slug: String,
   pub title: String,

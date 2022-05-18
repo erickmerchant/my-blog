@@ -75,7 +75,7 @@ dependencies = [
  "http",
  "httparse",
  "httpdate",
- "itoa 1.0.2",
+ "itoa",
  "language-tags",
  "local-channel",
  "log",
@@ -202,7 +202,7 @@ dependencies = [
  "encoding_rs",
  "futures-core",
  "futures-util",
- "itoa 1.0.2",
+ "itoa",
  "language-tags",
  "log",
  "mime",
@@ -400,7 +400,7 @@ dependencies = [
  "futures-util",
  "h2",
  "http",
- "itoa 1.0.2",
+ "itoa",
  "log",
  "mime",
  "percent-encoding",
@@ -655,13 +655,13 @@ dependencies = [
 
 [[package]]
 name = "cssparser"
-version = "0.29.3"
+version = "0.29.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "31542adad356e4fd6e9df55221485a22eb69c470141e110e7dbb4a8052e45fa6"
+checksum = "fa268e04d5490bf19517eb61756f15ba20961c1e447a20811913e8988943c836"
 dependencies = [
  "cssparser-macros",
  "dtoa-short",
- "itoa 0.4.8",
+ "itoa",
  "matches",
  "phf 0.10.1",
  "proc-macro2",
@@ -978,7 +978,7 @@ checksum = "ff8670570af52249509a86f5e3e18a08c60b177071826898fde8997cf5f6bfbb"
 dependencies = [
  "bytes",
  "fnv",
- "itoa 1.0.2",
+ "itoa",
 ]
 
 [[package]]
@@ -1060,12 +1060,6 @@ checksum = "a9a9d19fa1e79b6215ff29b9d6880b706147f16e9b1dbb1e4e5947b5b02bc5e3"
 dependencies = [
  "either",
 ]
-
-[[package]]
-name = "itoa"
-version = "0.4.8"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b71991ff56294aa922b450139ee08b3bfc70982c6b2c7562771375cf73542dd4"
 
 [[package]]
 name = "itoa"
@@ -1950,9 +1944,9 @@ dependencies = [
 
 [[package]]
 name = "rustls"
-version = "0.20.5"
+version = "0.20.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a024a432ae760ab3bff924ad91ce1cfa52cb57ed16e1ef32d0d249cfee1a6c13"
+checksum = "5aab8ee6c7097ed6057f43c187a62418d0c05a4bd5f18b3571db50ee0f9ce033"
 dependencies = [
  "log",
  "ring",
@@ -2056,7 +2050,7 @@ version = "1.0.81"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "9b7ce2b32a1aed03c558dc61a5cd328f15aff2dbc17daad8fb8af04d2100e15c"
 dependencies = [
- "itoa 1.0.2",
+ "itoa",
  "ryu",
  "serde",
 ]
@@ -2068,7 +2062,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d3491c14715ca2294c4d6a88f15e84739788c1d030eed8c110436aafdaa2f3fd"
 dependencies = [
  "form_urlencoded",
- "itoa 1.0.2",
+ "itoa",
  "ryu",
  "serde",
 ]
@@ -2252,9 +2246,9 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.180.0"
+version = "0.180.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d811003b6ed9aa0d2efabf256de74ff9b19d6f013bc88d9c0b756a9e014f1971"
+checksum = "083f92846cbd888a0c2c1d97a9779cda6d66a277e2fdbe960254069cf4fea4c2"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2381,12 +2375,13 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "0.78.0"
+version = "0.78.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6ed68ad13e4489f309ffed9d302337d7c8bde11d00b8b275b7aa7fda4da035bf"
+checksum = "21f40169fe465e9a93cda5fe397c3afcb69be5ba2f76c4ab22137af6effaebcc"
 dependencies = [
  "is-macro",
  "num-bigint",
+ "scoped-tls",
  "serde",
  "string_enum",
  "swc_atoms",
@@ -2485,9 +2480,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.114.5"
+version = "0.114.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "bd914b26110a782b362e97b2cbf697c18a637293b1cccb5d02dc335dca419609"
+checksum = "9e785edfc1f643f1e1d7e836d9974b249f86eb254b394a2678b7d15b079038ac"
 dependencies = [
  "ahash",
  "arrayvec",
@@ -2682,9 +2677,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.124.0"
+version = "0.124.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e27080f65285ccd53bd9ad68e64e62faba2595d57144e4552a1752664525e474"
+checksum = "c995fb0565ace6368253af588cb848a92f0347dd74aef39e64af3c56466206d5"
 dependencies = [
  "ahash",
  "dashmap",
@@ -2972,7 +2967,7 @@ version = "0.3.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c2702e08a7a860f005826c6815dcac101b19b5eb330c27fe4a5928fec1d20ddd"
 dependencies = [
- "itoa 1.0.2",
+ "itoa",
  "libc",
  "num_threads",
 ]

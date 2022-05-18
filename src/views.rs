@@ -1,4 +1,4 @@
-use super::models;
+use crate::models;
 use askama::Template;
 
 #[derive(Template)]
