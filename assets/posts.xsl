@@ -91,25 +91,25 @@ This file is in BETA. Please test and contribute to the discussion:
 
           nav {
             background: hsl(60 90% 90%);
-            padding-block: 2em 3em;;
-            margin-block-end: 1em;
+            padding-block: 2rem 3rem;
+            margin-block-end: 1rem;
             font-size: 0.8rem;
           }
 
           nav ~ *, nav > * {
             max-width: 40rem;
             margin-inline: auto;
-            padding-inline: 2em;
+            padding-inline: 2rem;
           }
 
           header {
-            margin-block: 3em;
+            margin-block: 3rem;
           }
 
           a {
             color: hsl(200 60% 40%);
-            text-underline-offset: 0.2em;
-            text-decoration-thickness: 0.1em;
+            text-underline-offset: 0.2rem;
+            text-decoration-thickness: 0.1rem;
           }
 
           h1 {
@@ -129,17 +129,22 @@ This file is in BETA. Please test and contribute to the discussion:
           }
 
           h1, h2, h3, h4, p {
-            margin-block-start: 1em;
+            margin-block-start: 1rem;
           }
 
-          small {
+          article p:last-child {
             font-style: italic;
-            font-size: 0.8em;
-            margin-block-start: 0.5em;
+            font-size: 0.8rem;
+            margin-block-start: 0.5rem;
           }
 
           strong {
             font-weight: 600;
+          }
+
+          body > :last-child {
+            font-size: 0.8rem;
+            margin-block-start: 3rem;
           }
 
         </style>
@@ -176,11 +181,12 @@ This file is in BETA. Please test and contribute to the discussion:
                 <xsl:value-of select="title"/>
               </a>
             </h4>
-            <small>
+            <p>
               Published: <xsl:value-of select="pubDate" />
-            </small>
+            </p>
           </article>
         </xsl:for-each>
+        <p><xsl:value-of select="/rss/channel/copyright"/></p>
       </body>
     </html>
   </xsl:template>

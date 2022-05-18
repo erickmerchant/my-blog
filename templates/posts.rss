@@ -5,6 +5,7 @@
     <title>{{site.title}}</title>
     <link>{{site.base}}</link>
     <description>{{site.description}}</description>
+    <copyright>{{site.copyright}}</copyright>
     {% for post in posts %}
       {% match post %}
         {% when Some with (post) %}
@@ -12,11 +13,6 @@
             <title>{{post.data.title}}</title>
             <pubDate>{{post.data.date|format_date("%a, %d %h %Y")}}</pubDate>
             <link>{{site.base}}/posts/{{post.data.slug}}.html</link>
-            <description>
-              <![CDATA[
-                {{post.data.description}}
-              ]]>
-            </description>
           </item>
         {% when None %}
       {% endmatch %}
