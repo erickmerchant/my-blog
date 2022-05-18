@@ -17,6 +17,7 @@ html {
   font: 300 125% / 1.5 system-ui, -apple-system;
   height: 100%;
 
+  --anchor-weight: 400;
   --space: 2rem;
   --space-half: 1rem;
   --space-quarter: 0.5rem;
@@ -40,6 +41,7 @@ a {
   color: hsl(var(--anchor-color));
   text-underline-offset: 0.2em;
   text-decoration-thickness: 0.1em;
+  font-weight: var(--anchor-weight);
 }
 
 page-app {
@@ -58,18 +60,18 @@ page-app {
   --content-left: 0;
   --drawer-width: max(38.4em, 50vw);
 
-  --anchor-color: 200 80% 40%;
-  --text-color: 200 5% 10%;
+  --anchor-color: 150 60% 40%;
+  --text-color: 150 5% 10%;
   --background: 0 0% 100%;
-  --nav-background: 200 5% 90%;
-  --banner-background: 200 17.5% 80%;
+  --nav-background: 150 5% 90%;
+  --banner-background: 150 17.5% 80%;
 
   &:where([color-scheme="dark"]) {
-    --anchor-color: 200 80% 60%;
+    --anchor-color: 150 60% 60%;
     --text-color: 0 0% 100%;
-    --background: 200 5% 10%;
-    --nav-background: 200 5% 15%;
-    --banner-background: 200 17.5% 20%;
+    --background: 150 5% 10%;
+    --nav-background: 150 5% 15%;
+    --banner-background: 150 17.5% 20%;
   }
 
   &:where([open]) {
@@ -134,7 +136,7 @@ page-app {
   color: hsl(var(--text-color));
 
   & :where(h6) {
-    font-weight: 500;
+    font-weight: 600;
   }
 
   & :where(ul) {
@@ -172,6 +174,7 @@ page-app {
   list-style: none;
   display: grid;
   gap: var(--space-quarter);
+  --anchor-weight: 500;
 }
 
 .banner {
@@ -217,18 +220,21 @@ page-app {
   }
 
   & :where(h2) {
-    font-weight: 800;
     font-size: 1.375em;
+    font-weight: 800;
+    --anchor-weight: 800;
   }
 
   & :where(h3) {
-    font-weight: 700;
     font-size: 1.1875em;
+    font-weight: 700;
+    --anchor-weight: 700;
   }
 
-  & :where(h4) {
-    font-weight: 600;
+  & :where(h4, dt) {
     font-size: 1.0625em;
+    font-weight: 600;
+    --anchor-weight: 600;
   }
 
   & :where(dt, dd):where(:not(:first-child)) {
