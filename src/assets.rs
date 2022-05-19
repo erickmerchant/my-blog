@@ -13,13 +13,14 @@ pub async fn file(file: web::Path<String>) -> Result<NamedFile> {
   }
 
   match ext_str {
-    "js" => js_response(src),
+    "js" => js_response(src, false),
+    "jsx" => js_response(src, true),
     "css" => css_response(src),
     _ => static_response(src),
   }
 }
 
-fn js_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
+fn js_response<P: AsRef<Path>>(src: P, jsx: bool) -> Result<NamedFile> {
   use serde_json::{from_value, json};
   use std::sync::Arc;
   use swc::{
@@ -50,6 +51,10 @@ fn js_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
         "bugfixes": true
       },
       "jsc": {
+        "parser": {
+          "syntax": "ecmascript",
+          "jsx": jsx
+        },
         "minify": {
           "compress": {
             "inline": false
