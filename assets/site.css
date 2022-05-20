@@ -60,14 +60,14 @@ page-app {
   --content-left: 0;
   --drawer-width: max(38.4em, 50vw);
 
-  --anchor-color: 150 60% 40%;
+  --anchor-color: 150 60% 30%;
   --text-color: 150 5% 10%;
   --background: 0 0% 100%;
-  --nav-background: 150 5% 90%;
-  --banner-background: 150 17.5% 80%;
+  --nav-background: 150 5% 85%;
+  --banner-background: 150 17.5% 70%;
 
   &:where([color-scheme="dark"]) {
-    --anchor-color: 150 60% 60%;
+    --anchor-color: 150 60% 70%;
     --text-color: 0 0% 100%;
     --background: 150 5% 10%;
     --nav-background: 150 5% 15%;
@@ -293,6 +293,5 @@ page-app:where(:not(:defined)) {
     flex-direction: row;
     gap: var(--space);
     padding: var(--space-half);
-    background-color: hsl(var(--nav-background));
   }
 }
