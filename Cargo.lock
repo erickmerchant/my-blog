@@ -1421,9 +1421,9 @@ dependencies = [
 
 [[package]]
 name = "once_cell"
-version = "1.10.0"
+version = "1.11.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "87f3e037eac156d1775da914196f0f37741a274155e34a0b7e427c35d2a2ecb9"
+checksum = "7b10983b38c53aebdf33f542c6275b0f58a238129d00c4ae0e6fb59738d783ca"
 
 [[package]]
 name = "ordered-float"
@@ -1480,9 +1480,9 @@ dependencies = [
 
 [[package]]
 name = "parcel_sourcemap"
-version = "2.0.2"
+version = "2.0.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5e73da52f516be7449f988545bc2cb57f5c87b88c26685eed674fb972e6ee21e"
+checksum = "38cd944bdb674721049fe13fe2f4009abdab03e19d5acae530136dd520235b1d"
 dependencies = [
  "rkyv",
  "vlq",
@@ -2246,9 +2246,9 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.181.0"
+version = "0.181.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3fae5c4635bcfc161ed30553781fb95ac35c277e97bb312f2653a03a339af316"
+checksum = "624191cf55bb9927663c75c053818a7408639bc01a7dd7660f68d756009ea6e3"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2319,9 +2319,9 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.18.5"
+version = "0.18.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "269446a3916d32071ca4c1adb39761fd067bc352ba40e40fca11de881ece8007"
+checksum = "a27ecfcd5b720e06616ccf6aa2aefbdfae785be8524e84b07f1e839ce07a3539"
 dependencies = [
  "ahash",
  "ast_node",
@@ -2391,9 +2391,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.108.1"
+version = "0.108.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b65810646567ad2a34af1d90a0f51eaca250d220a7b50370f2a2dba834a375b4"
+checksum = "012de8d3583c4cce8ce08891dc6317136730f87ba53937d5f0eb3b86bca31048"
 dependencies = [
  "bitflags",
  "memchr",
@@ -2480,9 +2480,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.114.9"
+version = "0.114.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9e785edfc1f643f1e1d7e836d9974b249f86eb254b394a2678b7d15b079038ac"
+checksum = "9c43e526a9441730cb75e84f3420cbb6c19be4530e0147f7de0f3c52743d15c9"
 dependencies = [
  "ahash",
  "arrayvec",
