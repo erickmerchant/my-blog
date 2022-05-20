@@ -132,11 +132,17 @@ This file is in BETA. Please test and contribute to the discussion:
             margin-block-start: 1rem;
           }
 
-          article p:last-child {
+          article p:nth-child(2) {
             font-style: italic;
             font-size: 0.8rem;
             margin-block-start: 0.5rem;
           }
+
+          article p:nth-child(3) {
+            font-size: 0.8rem;
+            margin-block-start: 0.5rem;
+          }
+
 
           strong {
             font-weight: 600;
@@ -183,6 +189,9 @@ This file is in BETA. Please test and contribute to the discussion:
             </h4>
             <p>
               Published: <xsl:value-of select="pubDate" />
+            </p>
+            <p>
+              <xsl:value-of select="description" />
             </p>
           </article>
         </xsl:for-each>
