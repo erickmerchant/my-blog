@@ -676,9 +676,9 @@ dependencies = [
 
 [[package]]
 name = "cssparser"
-version = "0.29.4"
+version = "0.29.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "fa268e04d5490bf19517eb61756f15ba20961c1e447a20811913e8988943c836"
+checksum = "f93d03419cb5950ccfd3daf3ff1c7a36ace64609a1a8746d493df1ca0afde0fa"
 dependencies = [
  "cssparser-macros",
  "dtoa-short",
@@ -2695,9 +2695,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "0.112.2"
+version = "0.112.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6fc4ded6134ca3f31c918dd1b9772c3b2bdf2f8f83d782e4cf94c3e0016c4b41"
+checksum = "b48e040b454414a3340084a121a8d2a13c97d59b0230abb5e2c67de525757962"
 dependencies = [
  "Inflector",
  "ahash",
@@ -2787,9 +2787,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "0.117.0"
+version = "0.117.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "fa8f32954c5a7c6bdead39c8a8a1580127a1759f33ef8b87d00f754882e6090a"
+checksum = "5d67c8e0e215b75d241442d3b1600c5242c5d35ff1031d4fc3af87907b1bfe83"
 dependencies = [
  "serde",
  "swc_atoms",
