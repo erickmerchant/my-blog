@@ -60,18 +60,18 @@ page-app {
   --content-left: 0;
   --drawer-width: max(38.4em, 50vw);
 
-  --anchor-color: 150 60% 30%;
-  --text-color: 150 5% 10%;
+  --anchor-color: 100 60% 30%;
+  --text-color: 100 5% 10%;
   --background: 0 0% 100%;
-  --nav-background: 150 5% 85%;
-  --banner-background: 150 17.5% 70%;
+  --nav-background: 100 5% 90%;
+  --banner-background: 100 20% 75%;
 
   &:where([color-scheme="dark"]) {
-    --anchor-color: 150 60% 70%;
+    --anchor-color: 100 60% 70%;
     --text-color: 0 0% 100%;
-    --background: 150 5% 10%;
-    --nav-background: 150 5% 15%;
-    --banner-background: 150 17.5% 20%;
+    --background: 100 5% 10%;
+    --nav-background: 100 5% 15%;
+    --banner-background: 100 20% 25%;
   }
 
   &:where([open]) {
@@ -174,6 +174,7 @@ page-app {
   list-style: none;
   display: grid;
   gap: var(--space-quarter);
+
   --anchor-weight: 500;
 }
 
@@ -210,6 +211,7 @@ page-app {
   color: hsl(var(--text-color));
   background: hsl(var(--background));
   padding: var(--space-half);
+  padding-block-start: 0;
   width: 100%;
 
   & > * {
@@ -219,26 +221,43 @@ page-app {
     margin-inline: auto;
   }
 
+  & :where(h1) {
+    font-size: 1.625em;
+    font-weight: 900;
+
+    --anchor-weight: 900;
+  }
+
   & :where(h2) {
     font-size: 1.375em;
     font-weight: 800;
+
     --anchor-weight: 800;
   }
 
   & :where(h3) {
     font-size: 1.1875em;
     font-weight: 700;
+
     --anchor-weight: 700;
   }
 
   & :where(h4, dt) {
     font-size: 1.0625em;
     font-weight: 600;
+
     --anchor-weight: 600;
   }
 
   & :where(dt, dd):where(:not(:first-child)) {
     margin-block-start: var(--space-half);
+  }
+
+  & :where(hr) {
+    height: 0.05em;
+    background-color: hsl(var(--text-color));
+    border: none;
+    width: calc(min(var(--max-width), 100%) / 2);
   }
 }
 
@@ -248,8 +267,7 @@ page-app {
   list-style: none;
 
   & :where(li) {
-    display: flex;
-    flex-direction: column;
+    display: grid;
     gap: var(--space-quarter);
   }
 }

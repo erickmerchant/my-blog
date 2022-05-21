@@ -7,16 +7,12 @@
     <description>{{site.description}}</description>
     <copyright>{{site.copyright}}</copyright>
     {% for post in posts %}
-      {% match post %}
-        {% when Some with (post) %}
-          <item>
-            <title>{{post.data.title}}</title>
-            <link>{{site.base}}/posts/{{post.data.slug}}.html</link>
-            <pubDate>{{post.data.date|format_date("%a, %d %h %Y")}}</pubDate>
-            <description><![CDATA[{{post.data.description}}]]></description>
-          </item>
-        {% when None %}
-      {% endmatch %}
+      <item>
+        <title>{{post.data.title}}</title>
+        <link>{{site.base}}/posts/{{post.data.slug}}.html</link>
+        <pubDate>{{post.data.date|format_date("%a, %d %h %Y")}}</pubDate>
+        <description><![CDATA[{{post.data.description}}]]></description>
+      </item>
     {% endfor %}
   </channel>
 </rss>

@@ -1,21 +1,14 @@
 {% extends "layout.html" %}
 
-{% block heading %}
-  <h1>Posts</h1>
-{% endblock %}
-
 {% block main %}
+  <h1>Posts</h1>
   <ol class="post-list">
     {% for post in posts %}
-      {% match post %}
-        {% when Some with (post) %}
-          <li>
-            <h2><a href="/posts/{{post.data.slug}}.html">{{post.data.title}}</a></h2>
-            <p class="post-date">Published: <time>{{post.data.date|format_date("%B %e, %Y")}}</time></p>
-            <p class="post-description">{{post.data.description}}</p>
-          </li>
-        {% when None %}
-      {% endmatch %}
+      <li>
+        <h2><a href="/posts/{{post.data.slug}}.html">{{post.data.title}}</a></h2>
+        <p class="post-date">Published: <time>{{post.data.date|format_date("%B %e, %Y")}}</time></p>
+        <p class="post-description">{{post.data.description}}</p>
+      </li>
     {% endfor %}
   </ol>
 {% endblock %}

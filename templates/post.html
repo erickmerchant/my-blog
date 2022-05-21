@@ -1,22 +1,10 @@
 {% extends "layout.html" %}
 
-{% block heading %}
-  {% match post %}
-    {% when Some with (post) %}
-      <h1>{{post.data.title}}</h1>
-    {% when None %}
-  {% endmatch %}
-{% endblock %}
-
 {% block main %}
-  {% match post %}
-    {% when Some with (post) %}
-      <p class="post-date">
-        Published: <time>{{post.data.date|format_date("%B %e, %Y")}}</time>
-      </p>
+    <h1>{{post.data.title}}</h1>
+    <p class="post-date">
+      Published: <time>{{post.data.date|format_date("%B %e, %Y")}}</time>
+    </p>
 
-      {{post.content|safe}}
-    {% else %}
-      <p>Nothing has been written yet.</p>
-  {% endmatch %}
+    {{post.content|safe}}
 {% endblock %}

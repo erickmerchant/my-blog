@@ -23,21 +23,20 @@ pub fn configure(cfg: &mut web::ServiceConfig) {
 async fn home() -> Result<NamedFile> {
   cacheable_response(Path::new("index.html"), || {
     let site = models::Site::get();
-    let posts: Vec<Option<models::Post>> = site
-      .posts
-      .iter()
-      .map(|slug| models::Post::get_by_slug(slug.to_string()))
-      .collect();
+    let posts = models::Post::get_all();
 
     let title = "Home".to_string();
 
     match posts.len() > 1 {
       true => render_template(views::Home { site, title, posts }),
-      false => render_template(views::Post {
-        site,
-        title,
-        post: posts.get(0).and_then(|p| p.clone()),
-      }),
+      false => match posts.get(0) {
+        Some(post) => render_template(views::Post {
+          site,
+          title,
+          post: post.to_owned(),
+        }),
+        None => Err(CustomError::NotFound {}),
+      },
     }
   })
 }
@@ -45,11 +44,7 @@ async fn home() -> Result<NamedFile> {
 async fn posts_rss(req: HttpRequest) -> HttpResponse<BoxBody> {
   let result = cacheable_response(Path::new("posts.rss"), || {
     let site = models::Site::get();
-    let posts: Vec<Option<models::Post>> = site
-      .posts
-      .iter()
-      .map(|slug| models::Post::get_by_slug(slug.to_string()))
-      .collect();
+    let posts = models::Post::get_all();
 
     render_template(views::Feed { site, posts })
   })
@@ -89,7 +84,7 @@ async fn post(post: web::Path<String>) -> Result<NamedFile> {
       Some(post) => render_template(views::Post {
         site,
         title: post.data.title.clone(),
-        post: Some(post),
+        post,
       }),
       None => Err(CustomError::NotFound {}),
     }

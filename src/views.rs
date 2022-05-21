@@ -5,7 +5,7 @@ use askama::Template;
 #[template(path = "posts.rss", escape = "xml")]
 pub struct Feed {
   pub site: models::Site,
-  pub posts: Vec<Option<models::Post>>,
+  pub posts: Vec<models::Post>,
 }
 
 #[derive(Template)]
@@ -13,7 +13,7 @@ pub struct Feed {
 pub struct Home {
   pub site: models::Site,
   pub title: String,
-  pub posts: Vec<Option<models::Post>>,
+  pub posts: Vec<models::Post>,
 }
 
 #[derive(Template)]
@@ -21,7 +21,7 @@ pub struct Home {
 pub struct Post {
   pub site: models::Site,
   pub title: String,
-  pub post: Option<models::Post>,
+  pub post: models::Post,
 }
 
 #[derive(Template)]
