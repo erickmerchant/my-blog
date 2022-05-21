@@ -28,7 +28,11 @@ pub struct Link {
 
 #[derive(Deserialize, Debug, Clone)]
 pub struct Post {
-  pub data: PostData,
+  pub slug: String,
+  pub title: String,
+  pub date: String,
+  pub description: String,
+  #[serde(default)]
   pub content: String,
 }
 
@@ -40,11 +44,11 @@ impl Post {
       let parts: Vec<&str> = contents.splitn(3, "===").collect();
 
       if parts.len() == 3 {
-        if let (Some(data), Some(content)) = (parts.get(1), parts.get(2)) {
-          if let Ok(data) = serde_json::from_str::<PostData>(data) {
+        if let (Some(frontmatter), Some(content)) = (parts.get(1), parts.get(2)) {
+          if let Ok(data) = serde_json::from_str::<Self>(frontmatter) {
             result = Some(Self {
-              data,
               content: content.to_string(),
+              ..data
             });
           };
         };
@@ -67,16 +71,8 @@ impl Post {
       }
     }
 
-    posts.sort_by(|a, b| b.data.date.cmp(&a.data.date));
+    posts.sort_by(|a, b| b.date.cmp(&a.date));
 
     posts
   }
-}
-
-#[derive(Deserialize, Debug, Clone)]
-pub struct PostData {
-  pub slug: String,
-  pub title: String,
-  pub date: String,
-  pub description: String,
 }

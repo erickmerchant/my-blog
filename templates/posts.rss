@@ -8,10 +8,10 @@
     <copyright>{{site.copyright}}</copyright>
     {% for post in posts %}
       <item>
-        <title>{{post.data.title}}</title>
-        <link>{{site.base}}/posts/{{post.data.slug}}.html</link>
-        <pubDate>{{post.data.date|format_date("%a, %d %h %Y")}}</pubDate>
-        <description><![CDATA[{{post.data.description}}]]></description>
+        <title>{{post.title}}</title>
+        <link>{{site.base}}/posts/{{post.slug}}.html</link>
+        <pubDate>{{post.date|format_date("%a, %d %h %Y")}}</pubDate>
+        <description><![CDATA[{{post.description}}]]></description>
       </item>
     {% endfor %}
   </channel>

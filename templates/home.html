@@ -5,9 +5,9 @@
   <ol class="post-list">
     {% for post in posts %}
       <li>
-        <h2><a href="/posts/{{post.data.slug}}.html">{{post.data.title}}</a></h2>
-        <p class="post-date">Published: <time>{{post.data.date|format_date("%B %e, %Y")}}</time></p>
-        <p class="post-description">{{post.data.description}}</p>
+        <h2><a href="/posts/{{post.slug}}.html">{{post.title}}</a></h2>
+        <p class="post-date">Published: <time>{{post.date|format_date("%B %e, %Y")}}</time></p>
+        <p class="post-description">{{post.description}}</p>
       </li>
     {% endfor %}
   </ol>

@@ -80,7 +80,7 @@ async fn post(post: web::Path<String>) -> Result<NamedFile> {
     match post {
       Some(post) => render_template(views::Post {
         site,
-        title: post.data.title.clone(),
+        title: post.title.clone(),
         post,
       }),
       None => Err(CustomError::NotFound {}),

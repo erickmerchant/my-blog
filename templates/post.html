@@ -1,9 +1,9 @@
 {% extends "layout.html" %}
 
 {% block main %}
-    <h1>{{post.data.title}}</h1>
+    <h1>{{post.title}}</h1>
     <p class="post-date">
-      Published: <time>{{post.data.date|format_date("%B %e, %Y")}}</time>
+      Published: <time>{{post.date|format_date("%B %e, %Y")}}</time>
     </p>
 
     {{post.content|safe}}
