@@ -41,17 +41,14 @@ async fn home() -> Result<NamedFile> {
   })
 }
 
-async fn posts_rss(req: HttpRequest) -> HttpResponse<BoxBody> {
+async fn posts_rss(req: HttpRequest) -> Result<HttpResponse<BoxBody>, CustomError> {
   let result = cacheable_response(Path::new("posts.rss"), || {
     let site = models::Site::get();
     let posts = models::Post::get_all();
 
     render_template(views::Feed { site, posts })
   })
-  .unwrap();
-
-  // Content-Type:
-  // x-content-type-options: nosniff
+  .map_err(CustomError::new_internal)?;
 
   let mut res = result.into_response(&req);
 
@@ -67,7 +64,7 @@ async fn posts_rss(req: HttpRequest) -> HttpResponse<BoxBody> {
     HeaderValue::from_static("nosniff"),
   );
 
-  res
+  Ok(res)
 }
 
 async fn post(post: web::Path<String>) -> Result<NamedFile> {

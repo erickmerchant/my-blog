@@ -58,12 +58,10 @@ impl Post {
     let mut posts: Vec<Self> = vec![];
 
     if let Ok(entries) = glob("content/posts/*.html") {
-      for entry in entries {
-        if let Ok(entry) = entry {
-          if let Some(slug) = entry.file_stem().and_then(|slug| slug.to_str()) {
-            if let Some(post) = Self::get_by_slug(String::from(slug)) {
-              posts.push(post);
-            }
+      for entry in entries.into_iter().flatten() {
+        if let Some(slug) = entry.file_stem().and_then(|slug| slug.to_str()) {
+          if let Some(post) = Self::get_by_slug(String::from(slug)) {
+            posts.push(post);
           }
         }
       }
