@@ -20,7 +20,6 @@
 
 html {
   font: 300 125% / 1.5 system-ui, -apple-system;
-  min-height: 100%;
 
   --anchor-weight: 400;
   --space: 2rem;
@@ -38,10 +37,6 @@ html {
   }
 }
 
-body {
-  min-height: 100%;
-}
-
 a {
   color: hsl(var(--anchor-color));
   text-underline-offset: 0.2em;
@@ -52,7 +47,7 @@ a {
 page-app {
   position: relative;
   display: block;
-  height: 100%;
+  height: 100vh;
   overflow-x: hidden;
   background-color: hsl(var(--nav-background));
   background-image: radial-gradient(
@@ -134,14 +129,20 @@ page-app {
   width: var(--drawer-width);
   height: 100%;
   display: grid;
-  place-content: center;
+  overflow: auto;
+}
+
+.nav-content-inner {
+  margin: auto;
+  padding: 1em;
+  display: grid;
   gap: 2em;
   font-weight: 400;
 }
 
 .color-scheme-selector {
   display: grid;
-  gap: 0.5em;
+  gap: var(--space-half);
   color: hsl(var(--text-color));
 
   & :where(h6) {
@@ -182,7 +183,7 @@ page-app {
 .links {
   list-style: none;
   display: grid;
-  gap: var(--space-quarter);
+  gap: var(--space-half);
 
   --anchor-weight: 500;
 }

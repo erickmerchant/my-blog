@@ -86,37 +86,39 @@ class PageApp extends HTMLElement {
         aria-hidden=${this.open ? null : "true"}
         inert=${!this.open}
       >
-        <slot name="links" />
+        <div class="nav-content-inner">
+          <slot name="links" />
 
-        <form class="color-scheme-selector">
-          <h6>Color Scheme</h6>
-          <ul>
-            <li>
-              <input
-                type="radio"
-                id="light"
-                name="color-scheme"
-                value="light"
-                tabindex=${this.open ? "0" : "-1"}
-                :checked=${this.colorScheme === "light"}
-                @change=${this.changeColorScheme}
-              />
-              <label for="light">Light</label>
-            </li>
-            <li>
-              <input
-                type="radio"
-                id="dark"
-                name="color-scheme"
-                value="dark"
-                tabindex=${this.open ? "0" : "-1"}
-                :checked=${this.colorScheme === "dark"}
-                @change=${this.changeColorScheme}
-              />
-              <label for="dark">Dark</label>
-            </li>
-          </ul>
-        </form>
+          <form class="color-scheme-selector">
+            <h6>Color Scheme</h6>
+            <ul>
+              <li>
+                <input
+                  type="radio"
+                  id="light"
+                  name="color-scheme"
+                  value="light"
+                  tabindex=${this.open ? "0" : "-1"}
+                  :checked=${this.colorScheme === "light"}
+                  @change=${this.changeColorScheme}
+                />
+                <label for="light">Light</label>
+              </li>
+              <li>
+                <input
+                  type="radio"
+                  id="dark"
+                  name="color-scheme"
+                  value="dark"
+                  tabindex=${this.open ? "0" : "-1"}
+                  :checked=${this.colorScheme === "dark"}
+                  @change=${this.changeColorScheme}
+                />
+                <label for="dark">Dark</label>
+              </li>
+            </ul>
+          </form>
+        </div>
       </div>
     </nav>
 
