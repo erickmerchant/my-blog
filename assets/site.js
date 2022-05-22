@@ -47,40 +47,39 @@ class PageApp extends HTMLElement {
     </style>
 
     <nav class="nav">
-      <button
-        class="nav-toggle"
-        type="button"
-        aria-expanded=${this.open ? "true" : "false"}
-        aria-label="Toggle nav"
-        @click=${this.toggleOpen}
-      >
-        <svg class="icon" viewBox="0 0 100 100" aria-hidden="true">
-          ${this.open
-            ? html`
-                <rect
-                  height="20"
-                  width="120"
-                  transform="rotate(-45,50,50)"
-                  x="-10"
-                  y="40"
-                />
-                <rect
-                  height="20"
-                  width="120"
-                  transform="rotate(45,50,50)"
-                  x="-10"
-                  y="40"
-                />
-              `
-            : html`
-                <rect x="0" y="0" transform="" height="20" width="100" />
-                <rect x="0" y="40" transform="" height="20" width="100" />
-                <rect x="0" y="80" transform="" height="20" width="100" />
-              `}
-        </svg>
-      </button>
-
-      <div class="nav-triangle" />
+      <div class="nav-toggle">
+        <button
+          type="button"
+          aria-expanded=${this.open ? "true" : "false"}
+          aria-label="Toggle nav"
+          @click=${this.toggleOpen}
+        >
+          <svg class="icon" viewBox="0 0 100 100" aria-hidden="true">
+            ${this.open
+              ? html`
+                  <rect
+                    height="20"
+                    width="120"
+                    transform="rotate(-45,50,50)"
+                    x="-10"
+                    y="40"
+                  />
+                  <rect
+                    height="20"
+                    width="120"
+                    transform="rotate(45,50,50)"
+                    x="-10"
+                    y="40"
+                  />
+                `
+              : html`
+                  <rect x="0" y="0" transform="" height="20" width="100" />
+                  <rect x="0" y="40" transform="" height="20" width="100" />
+                  <rect x="0" y="80" transform="" height="20" width="100" />
+                `}
+          </svg>
+        </button>
+      </div>
 
       <div
         class="nav-content"

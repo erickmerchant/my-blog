@@ -147,7 +147,7 @@ fn css_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
 
     let mut code = css.code;
     if let Some(mut source_map) = source_map {
-      let mut vlq_output: Vec<u8> = Vec::new();
+      let mut vlq_output = Vec::<u8>::new();
       source_map.write_vlq(&mut vlq_output).ok();
 
       let sm = json!({

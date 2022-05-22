@@ -41,7 +41,7 @@ impl Post {
     let mut result = None;
     let path = Path::new("content/posts").join(slug).with_extension("html");
     if let Ok(contents) = fs::read_to_string(path) {
-      let parts: Vec<&str> = contents.splitn(3, "===").collect();
+      let parts = contents.splitn(3, "===").collect::<Vec<&str>>();
 
       if parts.len() == 3 {
         if let (Some(frontmatter), Some(content)) = (parts.get(1), parts.get(2)) {
@@ -59,7 +59,7 @@ impl Post {
   }
 
   pub fn get_all() -> Vec<Self> {
-    let mut posts: Vec<Self> = vec![];
+    let mut posts = Vec::<Self>::new();
 
     if let Ok(entries) = glob("content/posts/*.html") {
       for entry in entries.into_iter().flatten() {

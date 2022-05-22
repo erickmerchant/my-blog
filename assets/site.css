@@ -5,10 +5,15 @@
 * {
   font: inherit;
   color: inherit;
-  box-sizing: border-box;
   max-width: 100%;
   padding: 0;
   margin: 0;
+
+  &,
+  &::before,
+  &::after {
+    box-sizing: border-box;
+  }
 }
 
 /* 0 0 1 */
@@ -90,36 +95,41 @@ page-app {
 }
 
 .nav-toggle {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 3;
-  appearance: none;
-  cursor: pointer;
-  border: 0;
-  background: hsl(0 0% 0% / 0);
-  color: hsl(var(--anchor-color));
-  width: 2em;
-  aspect-ratio: 1 / 1;
-  display: grid;
-  place-content: center;
-}
-
-.nav-triangle {
-  position: absolute;
-  top: 0;
-  left: 0;
+  position: fixed;
+  top: 5px;
+  left: 5px;
   z-index: 2;
-  display: block;
-  width: 0;
-  aspect-ratio: 1 / 1;
-  border: 0;
-  border-top: 3.75em solid hsl(var(--background));
-  border-right: 3.75em solid hsl(0 0% 0% / 0);
+  filter: drop-shadow(0 0 3px hsl(var(--banner-background) / 0.25));
+
+  &::before {
+    content: "";
+    display: block;
+    width: 2.25em;
+    aspect-ratio: 1 / 1;
+    background: hsl(var(--background));
+    border: 1px solid hsl(var(--banner-background) / 0.5);
+    border-radius: 0.25em;
+  }
+
+  & :where(button) {
+    position: absolute;
+    top: 0.125em;
+    left: 0.125em;
+    appearance: none;
+    cursor: pointer;
+    border: 0;
+    background: hsl(0 0% 0% / 0);
+    color: hsl(var(--anchor-color));
+    width: 2em;
+    aspect-ratio: 1 / 1;
+    display: grid;
+    place-content: center;
+    filter: none;
+  }
 }
 
 .nav-content {
-  position: absolute;
+  position: fixed;
   inset: 0;
   z-index: 0;
   width: var(--drawer-width);
