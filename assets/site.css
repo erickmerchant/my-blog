@@ -20,7 +20,7 @@
 
 html {
   font: 300 125% / 1.5 system-ui, -apple-system;
-  height: 100%;
+  min-height: 100%;
 
   --anchor-weight: 400;
   --space: 2rem;
@@ -39,7 +39,7 @@ html {
 }
 
 body {
-  height: 100%;
+  min-height: 100%;
 }
 
 a {
@@ -53,7 +53,6 @@ page-app {
   position: relative;
   display: block;
   height: 100%;
-  overflow-y: scroll;
   overflow-x: hidden;
   background-color: hsl(var(--nav-background));
   background-image: radial-gradient(
@@ -198,7 +197,6 @@ page-app {
     linear-gradient(90deg, hsl(var(--background)) 1px, hsl(0 0% 0% / 0) 1px);
   background-size: 1em 1em;
   background-position: -1px -1px;
-  background-attachment: fixed;
   color: hsl(var(--text-color));
   display: grid;
   align-content: end;
