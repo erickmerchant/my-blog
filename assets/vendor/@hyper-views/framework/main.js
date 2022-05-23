@@ -6,6 +6,7 @@
 // 5 value
 // 6 node
 // 7 text
+// 8 root
 
 const weakMap = new WeakMap();
 
@@ -14,11 +15,10 @@ const TRUE = {
   value: true,
 };
 
-const END = Symbol('end');
-
 const createIsChar = (regex) => (char) => char && regex.test(char);
 
 const isNameChar = createIsChar(/[:@a-zA-Z0-9-]/);
+
 const isQuoteChar = createIsChar(/["']/);
 
 const concatArray = (entry) => {
@@ -32,14 +32,14 @@ const concatArray = (entry) => {
 const tokenizer = {
   *tokenize(strs, variables) {
     let str, i, char;
-    const acc = {name: false};
+    let opened = false;
 
     const nextChar = () => {
       char = str.charAt(i++);
     };
 
     const advance = (index) => {
-      str = strs[index].replaceAll(/\s+/g, ' ');
+      str = strs[index];
       i = 0;
     };
 
@@ -48,10 +48,8 @@ const tokenizer = {
 
       nextChar();
 
-      let name = acc.name;
-
       while (char) {
-        if (!name) {
+        if (!opened) {
           let value = '';
 
           if (char === '<') {
@@ -62,21 +60,27 @@ const tokenizer = {
             if (char === '/') {
               type = 3;
 
-              nextChar();
+              do {
+                nextChar();
+              } while (isNameChar(char));
+
+              yield {
+                type,
+              };
+            } else {
+              while (isNameChar(char)) {
+                value += char;
+
+                nextChar();
+              }
+
+              yield {
+                type,
+                value,
+              };
             }
 
-            while (isNameChar(char)) {
-              value += char;
-
-              nextChar();
-            }
-
-            yield {
-              type,
-              value,
-            };
-
-            name = value;
+            opened = true;
           } else {
             while (char && char !== '<') {
               value += char;
@@ -91,28 +95,22 @@ const tokenizer = {
               };
             }
           }
-        } else if (char === ' ') {
+        } else if (char.trim() === '') {
           nextChar();
         } else if (char === '/') {
           nextChar();
 
           if (char === '>') {
-            yield* [
-              END,
-              {
-                type: 3,
-                value: name,
-              },
-            ];
+            yield {
+              type: 3,
+            };
 
-            name = false;
+            opened = false;
 
             nextChar();
           }
         } else if (char === '>') {
-          yield END;
-
-          name = false;
+          opened = false;
 
           nextChar();
         } else if (isNameChar(char)) {
@@ -168,14 +166,9 @@ const tokenizer = {
             yield TRUE;
           }
         } else {
-          yield {
-            type: 2,
-            value: name,
-          };
+          throw new Error('end');
         }
       }
-
-      acc.name = name;
 
       if (index < variables.length) {
         yield {
@@ -199,39 +192,33 @@ const parse = (read, parent, name, variables) => {
   let token;
 
   while ((token = read())) {
-    if (token === END) break;
+    if (token.type !== 4) break;
 
-    if (token.type === 4) {
-      const key = token.value;
+    const key = token.value;
 
-      token = read();
+    token = read();
 
-      const value = token.value;
+    const value = token.value;
 
-      if (token.type === 5) {
-        child.attributes.push({
-          type: 0,
-          key,
-          value,
-        });
-      } else {
-        child.dynamic = true;
-
-        child.attributes.unshift({
-          type: 1,
-          key,
-          value,
-        });
-      }
+    if (token.type === 5) {
+      child.attributes.push({
+        type: 0,
+        key,
+        value,
+      });
     } else {
-      throw new Error('end');
+      child.dynamic = true;
+
+      child.attributes.unshift({
+        type: 1,
+        key,
+        value,
+      });
     }
   }
 
-  while ((token = read())) {
-    if (token.type === 3 && token.value === child.name) {
-      break;
-    }
+  do {
+    if (token.type === 3) break;
 
     if (token.type === 2) {
       const dynamic = parse(read, child, token.value, variables);
@@ -246,7 +233,7 @@ const parse = (read, parent, name, variables) => {
 
       child.children.push(token);
     }
-  }
+  } while ((token = read()));
 
   if (child.dynamic) {
     parent.offset ??= parent.children.length;
@@ -262,14 +249,14 @@ const parse = (read, parent, name, variables) => {
 let id = 1;
 
 export const html = (strs, ...variables) => {
-  let views = weakMap.get(strs);
+  let children = weakMap.get(strs);
 
-  if (!views) {
+  if (!children) {
+    children = [];
+
     const tokens = tokenizer.tokenize(strs, variables);
-
     const read = () => tokens.next().value;
 
-    const children = [];
     let token;
 
     while ((token = read())) {
@@ -284,22 +271,21 @@ export const html = (strs, ...variables) => {
       children[i].view = id++;
     }
 
-    views = children;
-
-    weakMap.set(strs, views);
+    weakMap.set(strs, children);
   }
 
   return {
+    type: 8,
     dynamic: true,
-    views,
+    children,
     variables,
   };
 };
 
 export const cache = (result) => {
-  if (result.views) {
-    for (let i = 0; i < result.views.length; i++) {
-      result.views[i].dynamic = false;
+  if (result.children) {
+    for (let i = 0; i < result.children.length; i++) {
+      result.children[i].dynamic = false;
     }
   }
 
@@ -336,7 +322,7 @@ const subRender = (view, variables, target, childNode, prevSvg) => {
   for (let i = 0; i < view.length; i++) {
     const current = view[i] ?? '';
 
-    if (current.views) {
+    if (current.type === 8) {
       result = render(current, target, childNode, false);
 
       continue;
@@ -498,8 +484,8 @@ export const render = (
   childNode = target.firstChild,
   cleanUp = true
 ) => {
-  for (let i = 0; i < next.views.length; i++) {
-    let view = next.views[i];
+  for (let i = 0; i < next.children.length; i++) {
+    let view = next.children[i];
 
     if (view.type === 1) {
       view = next.variables[view.value];
