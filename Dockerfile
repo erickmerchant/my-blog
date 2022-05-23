@@ -6,10 +6,13 @@ RUN echo "fn main() {}" > src/main.rs
 COPY Cargo.toml Cargo.lock .
 RUN cargo build --package=main --release
 RUN rm -rf ./target/release/main ./target/release/deps/main-* ./src
-COPY . .
+ADD src src/
+ADD templates templates/
 RUN cargo build --package=main --release
 RUN mv ./target/release/main ./main
-RUN rm -rf target src Cargo.lock Cargo.toml
+ADD content content/
+ADD assets assets/
+RUN rm -rf templates target src Cargo.lock Cargo.toml
 
 FROM alpine
 WORKDIR /app
