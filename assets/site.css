@@ -83,7 +83,6 @@ page-app {
   }
 
   &:where([open]) {
-    /* overflow-y: hidden; */
     --content-left: var(--drawer-width);
   }
 
