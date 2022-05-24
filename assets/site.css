@@ -1,4 +1,5 @@
-@custom-media --mobile (max-width: 415px);
+@custom-media --mobile (max-width: 670px);
+@custom-media --tablet (max-width: 1100px);
 
 /* 0 0 0 */
 
@@ -27,13 +28,17 @@ html {
   --space-quarter: 0.5rem;
   --max-width: 40rem;
 
+  &,
+  & body {
+    overflow: hidden;
+  }
+
   @media (--mobile) {
     font-size: 100%;
 
     --space: 1rem;
     --space-half: 0.5rem;
     --space-quarter: 0.25rem;
-    --max-width: 20rem;
   }
 }
 
@@ -46,7 +51,8 @@ a {
 
 page-app {
   position: relative;
-  display: block;
+  display: grid;
+  grid-template-rows: 0 1fr;
   height: 100vh;
   overflow-x: hidden;
   background-color: hsl(var(--nav-background));
@@ -57,7 +63,10 @@ page-app {
   background-size: 0.25em 0.25em;
 
   --content-left: 0;
-  --drawer-width: max(38.4em, 50vw);
+  --drawer-width: 50vw;
+  --nav-top: 0.5rem;
+  --nav-border-width: 0.125rem;
+  --nav-height: 2.25rem;
 
   --anchor-color: 100 60% 30%;
   --text-color: 100 5% 10%;
@@ -74,7 +83,12 @@ page-app {
   }
 
   &:where([open]) {
+    /* overflow-y: hidden; */
     --content-left: var(--drawer-width);
+  }
+
+  @media (--tablet) {
+    --drawer-width: calc(100% - 1rem);
   }
 }
 
@@ -90,36 +104,19 @@ page-app {
 
 .nav-toggle {
   position: fixed;
-  top: 5px;
-  left: 5px;
+  top: var(--nav-top);
+  left: var(--nav-top);
   z-index: 2;
-  filter: drop-shadow(0 0 3px hsl(var(--banner-background) / 0.25));
-
-  &::before {
-    content: "";
-    display: block;
-    width: 2.25em;
-    aspect-ratio: 1 / 1;
-    background: hsl(var(--background));
-    border: 1px solid hsl(var(--banner-background) / 0.5);
-    border-radius: 0.25em;
-  }
-
-  & :where(button) {
-    position: absolute;
-    top: 0.125em;
-    left: 0.125em;
-    appearance: none;
-    cursor: pointer;
-    border: 0;
-    background: hsl(0 0% 0% / 0);
-    color: hsl(var(--anchor-color));
-    width: 2em;
-    aspect-ratio: 1 / 1;
-    display: grid;
-    place-content: center;
-    filter: none;
-  }
+  background: hsl(var(--background));
+  border: var(--nav-border-width) solid hsl(var(--banner-background) / 0.5);
+  border-radius: 0.25em;
+  color: hsl(var(--anchor-color));
+  height: var(--nav-height);
+  aspect-ratio: 1 / 1;
+  display: grid;
+  place-content: center;
+  appearance: none;
+  cursor: pointer;
 }
 
 .nav-content {
@@ -173,11 +170,15 @@ page-app {
 .panel {
   position: relative;
   z-index: 1;
-  transform: translateX(var(--content-left));
-  transition: transform 0.25s ease;
   display: grid;
   grid-template-rows: min-content 1fr;
   height: 100%;
+  transform: translateX(var(--content-left));
+  transition: transform 0.25s ease;
+
+  @media (prefers-reduced-motion) {
+    transition: none;
+  }
 }
 
 .links {
@@ -189,7 +190,10 @@ page-app {
 }
 
 .banner {
-  position: relative;
+  position: sticky;
+  top: calc(
+    calc(var(--nav-top) + var(--nav-top) + var(--nav-height)) - var(--height)
+  );
   background-color: hsl(var(--banner-background));
   background-image: linear-gradient(
       hsl(var(--background)) 1px,
@@ -198,13 +202,16 @@ page-app {
     linear-gradient(90deg, hsl(var(--background)) 1px, hsl(0 0% 0% / 0) 1px);
   background-size: 1em 1em;
   background-position: -1px -1px;
+  box-shadow: 0 0 0.5em hsl(var(--banner-background));
   color: hsl(var(--text-color));
   display: grid;
   align-content: end;
   justify-items: center;
-  min-height: 12rem;
+  height: var(--height);
   width: 100%;
   padding-inline: var(--space-half);
+
+  --height: 12rem;
 
   & > * {
     font-size: 1.625em;
