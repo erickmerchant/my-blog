@@ -163,20 +163,24 @@ class PageApp extends HTMLElement {
     this.addEventListener(
       "touchmove",
       function (e) {
-        let touchMove = e.touches?.[0];
+        let selection = window.getSelection();
 
-        let touchState = this.touchState;
+        if (selection.isCollapsed) {
+          let touchMove = e.touches?.[0];
 
-        if (touchMove && touchState) {
-          if (
-            Math.abs(touchState.clientX - touchMove.clientX) >
-            Math.abs(touchState.clientY - touchMove.clientY)
-          ) {
+          let touchState = this.touchState;
+
+          if (touchMove && touchState) {
             if (
-              (touchState.clientX > touchMove.clientX && this.open) ||
-              (touchMove.clientX > touchState.clientX && !this.open)
+              Math.abs(touchState.clientX - touchMove.clientX) >
+              Math.abs(touchState.clientY - touchMove.clientY)
             ) {
-              this.touchState.isSwipe = true;
+              let leftward = touchState.clientX > touchMove.clientX;
+              let rightward = touchState.clientX < touchMove.clientX;
+
+              if ((leftward && this.open) || (rightward && !this.open)) {
+                this.touchState.isSwipe = true;
+              }
             }
           }
         }
