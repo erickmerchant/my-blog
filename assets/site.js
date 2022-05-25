@@ -25,8 +25,6 @@ class PageApp extends HTMLElement {
     this.update();
   };
 
-  touchState = null;
-
   update = () => {
     this.setAttribute("color-scheme", this.colorScheme);
 
@@ -143,60 +141,6 @@ class PageApp extends HTMLElement {
 
       this.update();
     });
-
-    this.addEventListener(
-      "touchstart",
-      function (e) {
-        let firstTouch = e.touches?.[0];
-
-        this.touchState = firstTouch
-          ? {
-              clientX: firstTouch.clientX,
-              clientY: firstTouch.clientY,
-              isSwipe: false,
-            }
-          : null;
-      },
-      { passive: true }
-    );
-
-    this.addEventListener(
-      "touchmove",
-      function (e) {
-        let selection = window.getSelection();
-
-        if (selection.isCollapsed) {
-          let touchMove = e.touches?.[0];
-
-          let touchState = this.touchState;
-
-          if (touchMove && touchState) {
-            if (
-              Math.abs(touchState.clientX - touchMove.clientX) >
-              Math.abs(touchState.clientY - touchMove.clientY)
-            ) {
-              let leftward = touchState.clientX > touchMove.clientX;
-              let rightward = touchState.clientX < touchMove.clientX;
-
-              if ((leftward && this.open) || (rightward && !this.open)) {
-                this.touchState.isSwipe = true;
-              }
-            }
-          }
-        }
-      },
-      { passive: true }
-    );
-
-    this.addEventListener(
-      "touchend",
-      function (e) {
-        if (this.touchState?.isSwipe) {
-          this.toggleOpen();
-        }
-      },
-      { passive: true }
-    );
   }
 }
 
