@@ -55,10 +55,10 @@ page-app {
   grid-template-rows: 0 1fr;
   height: 100vh;
   overflow-x: hidden;
-  background-color: hsl(var(--alternate-background));
+  background-color: hsl(var(--nav-background));
   background-image: radial-gradient(
     hsl(var(--background)) 15%,
-    hsl(var(--alternate-background)) 16%
+    hsl(var(--nav-background)) 16%
   );
   background-size: 0.25em 0.25em;
 
@@ -72,7 +72,8 @@ page-app {
   --code-color: 100 60% 25%;
   --text-color: 100 5% 10%;
   --background: 0 0% 100%;
-  --alternate-background: 100 5% 90%;
+  --nav-background: 100 5% 90%;
+  --code-background: 100 5% 95%;
   --banner-background: 100 20% 75%;
 
   &:where([color-scheme="dark"]) {
@@ -80,7 +81,8 @@ page-app {
     --code-color: 100 60% 80%;
     --text-color: 0 0% 100%;
     --background: 100 5% 10%;
-    --alternate-background: 100 5% 15%;
+    --nav-background: 100 5% 15%;
+    --code-background: 100 5% 12.5%;
     --banner-background: 100 20% 25%;
   }
 
@@ -250,6 +252,7 @@ page-app {
   background: hsl(var(--background));
   padding-block: 0 var(--space-half);
   width: 100%;
+  overflow-x: auto;
 
   & > * {
     max-width: var(--max-width);
@@ -257,6 +260,10 @@ page-app {
     padding-inline: var(--space-half);
     margin-block-start: var(--space-half);
     margin-inline: auto;
+  }
+
+  & :where(p) {
+    hyphens: auto;
   }
 
   & :where(h1) {
@@ -294,12 +301,14 @@ page-app {
   & :where(pre) {
     white-space: pre-wrap;
     max-width: calc(var(--max-width) + 4rem);
+    width: 100%;
 
     & :where(code) {
       display: block;
       overflow-x: auto;
+      font-size: 0.875rem;
       font-family: ui-monospace, Consolas, monaco, monospace;
-      background: hsl(var(--alternate-background));
+      background: hsl(var(--code-background));
       border-radius: 0.25em;
       color: hsl(var(--code-color));
       padding: var(--space-half) 2rem;
@@ -327,7 +336,7 @@ page-app {
 
 .post-list {
   display: grid;
-  gap: var(--space);
+  gap: var(--space-half);
   list-style: none;
 
   & :where(li) {
