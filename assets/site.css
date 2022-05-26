@@ -55,10 +55,10 @@ page-app {
   grid-template-rows: 0 1fr;
   height: 100vh;
   overflow-x: hidden;
-  background-color: hsl(var(--nav-background));
+  background-color: hsl(var(--alternate-background));
   background-image: radial-gradient(
     hsl(var(--background)) 15%,
-    hsl(var(--nav-background)) 16%
+    hsl(var(--alternate-background)) 16%
   );
   background-size: 0.25em 0.25em;
 
@@ -69,16 +69,18 @@ page-app {
   --nav-height: 2.25rem;
 
   --anchor-color: 100 60% 30%;
+  --code-color: 100 60% 25%;
   --text-color: 100 5% 10%;
   --background: 0 0% 100%;
-  --nav-background: 100 5% 90%;
+  --alternate-background: 100 5% 90%;
   --banner-background: 100 20% 75%;
 
   &:where([color-scheme="dark"]) {
     --anchor-color: 100 60% 70%;
+    --code-color: 100 60% 80%;
     --text-color: 0 0% 100%;
     --background: 100 5% 10%;
-    --nav-background: 100 5% 15%;
+    --alternate-background: 100 5% 15%;
     --banner-background: 100 20% 25%;
   }
 
@@ -246,13 +248,13 @@ page-app {
 .content {
   color: hsl(var(--text-color));
   background: hsl(var(--background));
-  padding: var(--space-half);
-  padding-block-start: 0;
+  padding-block: 0 var(--space-half);
   width: 100%;
 
   & > * {
     max-width: var(--max-width);
     width: 100%;
+    padding-inline: var(--space-half);
     margin-block-start: var(--space-half);
     margin-inline: auto;
   }
@@ -289,11 +291,37 @@ page-app {
     margin-block-start: var(--space-half);
   }
 
-  & :where(hr) {
-    height: 0.05em;
-    background-color: hsl(var(--text-color));
-    border: none;
-    width: calc(min(var(--max-width), 100%) / 2);
+  & :where(pre) {
+    white-space: pre-wrap;
+    max-width: calc(var(--max-width) + 4rem);
+
+    & :where(code) {
+      display: block;
+      overflow-x: auto;
+      font-family: ui-monospace, Consolas, monaco, monospace;
+      background: hsl(var(--alternate-background));
+      border-radius: 0.25em;
+      color: hsl(var(--code-color));
+      padding: var(--space-half) 2rem;
+
+      @media (--tablet) {
+        padding: var(--space-half);
+      }
+
+      @media (--mobile) {
+        padding: var(--space);
+        border-radius: 0;
+      }
+    }
+
+    @media (--tablet) {
+      max-width: var(--max-width);
+    }
+
+    @media (--mobile) {
+      max-width: 100%;
+      padding: 0;
+    }
   }
 }
 
@@ -316,8 +344,12 @@ page-app {
 .footer {
   color: hsl(var(--text-color));
   background: hsl(var(--background));
-  padding: var(--space-half);
   width: 100%;
+
+  & :where(p) {
+    max-width: var(--max-width);
+    padding: var(--space-half);
+  }
 }
 
 .copyright {

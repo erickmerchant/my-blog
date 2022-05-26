@@ -1,0 +1,30 @@
+===
+{
+  "slug": "rust-note-1",
+  "title": "Rust Note #1",
+  "date": "2022-05-25",
+  "description": "A little note about Rust"
+}
+===
+<p>In the future there should be more of these notes, but this is the first. It is just a little thing I have learned about Rust in the past 2 years of learning it.</p>
+
+<h2>Use Clippy</h2>
+
+<p>Run <a href="https://crates.io/crates/clippy">Clippy</a> against your Rust code to lint it for common mistakes and improve your code. It's a great way to learn new little things about the language too.</p>
+
+<p>I once wrote code like this...</p>
+
+<pre><code>let mut minifier_options = stylesheet::MinifyOptions::default();
+
+minifier_options.targets = targets;
+</code></pre>
+
+<p>Clippy emitted a warning, "field assignment outside of initializer for an instance created with Default::default()" and recommended I use <a href="https://doc.rust-lang.org/book/ch05-01-defining-structs.html#creating-instances-from-other-instances-with-struct-update-syntax">struct update syntax</a> instead. So I changed the code to...</p>
+
+<pre><code>let minifier_options = stylesheet::MinifyOptions {
+  targets,
+  ..stylesheet::MinifyOptions::default()
+};
+</code></pre>
+
+<p>The great thing is that I didn't even know about struct update syntax and now I do.</p>

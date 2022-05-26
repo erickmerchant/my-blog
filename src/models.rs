@@ -1,6 +1,10 @@
 use glob::glob;
 use serde::Deserialize;
-use std::{fs, path::Path, vec::Vec};
+use std::{
+  fs,
+  path::{Path, PathBuf},
+  vec::Vec,
+};
 
 #[derive(Deserialize, Debug, Clone)]
 pub struct Site {
@@ -37,9 +41,9 @@ pub struct Post {
 }
 
 impl Post {
-  pub fn get_by_slug(slug: String) -> Option<Self> {
+  pub fn get_by_path(path: PathBuf) -> Option<Self> {
     let mut result = None;
-    let path = Path::new("content/posts").join(slug).with_extension("html");
+
     if let Ok(contents) = fs::read_to_string(path) {
       let parts = contents.splitn(3, "===").collect::<Vec<&str>>();
 
@@ -56,6 +60,10 @@ impl Post {
     }
 
     result
+  }
+
+  pub fn get_by_slug(slug: String) -> Option<Self> {
+    Self::get_by_path(Path::new("content/posts").join(slug).with_extension("html"))
   }
 
   pub fn get_all() -> Vec<Self> {
