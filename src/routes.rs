@@ -80,7 +80,7 @@ fn get_post_path(post: web::Path<String>, directory: &str) -> PathBuf {
 fn get_post_html(path: PathBuf) -> Result<String, CustomError> {
   let site = models::Site::get();
 
-  let post = models::Post::get_by_path(path.to_owned());
+  let post = models::Post::get_by_path(path);
 
   match post {
     Some(post) => render_template(views::Post {
@@ -104,6 +104,6 @@ async fn draft(slug: web::Path<String>) -> Result<HttpResponse, CustomError> {
   Ok(
     HttpResponse::Ok()
       .content_type(ContentType::html())
-      .body(get_post_html(path.to_owned())?),
+      .body(get_post_html(path)?),
   )
 }
