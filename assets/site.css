@@ -236,15 +236,6 @@ page-app {
     height: 0.125em;
     background-color: hsl(var(--banner-background) / 0.5);
   }
-
-  & > * {
-    font-size: 1.625em;
-    font-weight: 900;
-    max-width: var(--max-width);
-    margin-block-end: var(--space-quarter);
-    width: 100%;
-    text-align: left;
-  }
 }
 
 .content {
