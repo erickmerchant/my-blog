@@ -4,45 +4,31 @@ class PageApp extends HTMLElement {
   toggleOpen = () => {
     this.open = !this.open;
 
-    this.update();
+    this.updateLayout();
   };
 
-  prefersColorSchemeDark = window.matchMedia("(prefers-color-scheme: dark)");
+  updateLayout = () => {
+    this.toggleAttribute("open", this.open);
 
-  initColorScheme = () =>
-    window.localStorage.getItem("color-scheme") ??
-    (this.prefersColorSchemeDark.matches ? "dark" : "light");
-
-  colorScheme = this.initColorScheme();
-
-  changeColorScheme = (e) => {
-    this.colorScheme = e.currentTarget.value;
-
-    window.localStorage.setItem("color-scheme", this.colorScheme);
-
-    this.update();
-  };
-
-  update = () => {
     const shadow = this.shadowRoot;
+
+    for (let anchor of this.querySelectorAll('[slot="nav"] a')) {
+      anchor.setAttribute("tabindex", !this.open ? "-1" : "0");
+    }
+
+    for (let input of shadow.querySelectorAll("[name='color-scheme']")) {
+      input.setAttribute("tabindex", !this.open ? "-1" : "0");
+    }
+
+    for (let anchor of this.querySelectorAll('[slot="panel"] a')) {
+      anchor.setAttribute("tabindex", this.open ? "-1" : "0");
+    }
 
     const toggle = shadow.getElementById("toggle");
 
     const nav = shadow.getElementById("nav");
 
     const panel = shadow.getElementById("panel");
-
-    this.setAttribute("color-scheme", this.colorScheme);
-
-    this.toggleAttribute("open", this.open);
-
-    for (let anchor of this.querySelectorAll('[slot="nav"] a')) {
-      anchor.setAttribute("tabIndex", !this.open ? "-1" : "0");
-    }
-
-    for (let anchor of this.querySelectorAll('[slot="panel"] a')) {
-      anchor.setAttribute("tabIndex", this.open ? "-1" : "0");
-    }
 
     toggle.setAttribute("aria-expanded", this.open ? "true" : "false");
 
@@ -60,13 +46,35 @@ class PageApp extends HTMLElement {
 
     panel.toggleAttribute("inert", this.open);
 
-    for (let input of shadow.querySelectorAll("[name='color-scheme']")) {
-      input.checked = this.colorScheme === input.value;
-    }
-
     shadow.getElementById("icon-close").toggleAttribute("hidden", !this.open);
 
     shadow.getElementById("icon-open").toggleAttribute("hidden", this.open);
+  };
+
+  prefersColorSchemeDark = window.matchMedia("(prefers-color-scheme: dark)");
+
+  initColorScheme = () =>
+    window.localStorage.getItem("color-scheme") ??
+    (this.prefersColorSchemeDark.matches ? "dark" : "light");
+
+  colorScheme = this.initColorScheme();
+
+  changeColorScheme = (e) => {
+    this.colorScheme = e.currentTarget.value;
+
+    window.localStorage.setItem("color-scheme", this.colorScheme);
+
+    this.updateColorScheme();
+  };
+
+  updateColorScheme = () => {
+    const shadow = this.shadowRoot;
+
+    this.setAttribute("color-scheme", this.colorScheme);
+
+    for (let input of shadow.querySelectorAll("[name='color-scheme']")) {
+      input.checked = this.colorScheme === input.value;
+    }
   };
 
   connectedCallback() {
@@ -74,7 +82,7 @@ class PageApp extends HTMLElement {
 
     const shadow = this.shadowRoot;
 
-    shadow.append(this.querySelector("template")?.content);
+    shadow.append(this.querySelector("template").content);
 
     shadow.getElementById("toggle").addEventListener("click", this.toggleOpen);
 
@@ -86,13 +94,15 @@ class PageApp extends HTMLElement {
       if (this.open) this.toggleOpen();
     });
 
-    this.update();
-
     this.prefersColorSchemeDark.addEventListener("change", () => {
       this.colorScheme = this.initColorScheme();
 
-      this.update();
+      this.updateColorScheme();
     });
+
+    this.updateLayout();
+
+    this.updateColorScheme();
   }
 }
 
