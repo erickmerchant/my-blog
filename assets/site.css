@@ -57,7 +57,7 @@ page-app {
   overflow-x: hidden;
   background-color: hsl(var(--nav-background));
   background-image: radial-gradient(
-    hsl(var(--background)) 15%,
+    hsl(var(--text-color) / 0.25) 12%,
     hsl(var(--nav-background)) 16%
   );
   background-size: 0.25em 0.25em;
