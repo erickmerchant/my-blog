@@ -12,43 +12,32 @@ class PageApp extends HTMLElement {
 
     const shadow = this.shadowRoot;
 
-    for (let anchor of this.querySelectorAll('[slot="nav"] a')) {
-      anchor.setAttribute("tabindex", !this.open ? "-1" : "0");
-    }
-
     for (let input of shadow.querySelectorAll("[name='color-scheme']")) {
       input.setAttribute("tabindex", !this.open ? "-1" : "0");
     }
 
-    for (let anchor of this.querySelectorAll('[slot="panel"] a')) {
-      anchor.setAttribute("tabindex", this.open ? "-1" : "0");
+    shadow
+      .getElementById("toggle")
+      .setAttribute("aria-expanded", this.open ? "true" : "false");
+
+    const tabs = [
+      ["nav", this.open],
+      ["panel", !this.open],
+    ];
+
+    for (const [tab, active] of tabs) {
+      const el = shadow.getElementById(tab);
+
+      if (active) {
+        el.removeAttribute("aria-hidden");
+      } else {
+        el.setAttribute("aria-hidden", "true");
+      }
+
+      for (let anchor of this.querySelectorAll(`[slot="${tab}"] a`)) {
+        anchor.setAttribute("tabindex", active ? "0" : "-1");
+      }
     }
-
-    const toggle = shadow.getElementById("toggle");
-
-    const nav = shadow.getElementById("nav");
-
-    const panel = shadow.getElementById("panel");
-
-    toggle.setAttribute("aria-expanded", this.open ? "true" : "false");
-
-    if (this.open) {
-      nav.removeAttribute("aria-hidden");
-
-      panel.setAttribute("aria-hidden", "true");
-    } else {
-      nav.setAttribute("aria-hidden", "true");
-
-      panel.removeAttribute("aria-hidden");
-    }
-
-    nav.toggleAttribute("inert", !this.open);
-
-    panel.toggleAttribute("inert", this.open);
-
-    shadow.getElementById("icon-close").toggleAttribute("hidden", !this.open);
-
-    shadow.getElementById("icon-open").toggleAttribute("hidden", this.open);
   };
 
   prefersColorSchemeDark = window.matchMedia("(prefers-color-scheme: dark)");

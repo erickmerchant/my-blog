@@ -57,8 +57,8 @@ page-app {
   overflow-x: hidden;
   background-color: hsl(var(--nav-background));
   background-image: radial-gradient(
-    hsl(var(--text-color) / 0.25) 12%,
-    hsl(var(--nav-background)) 16%
+    hsl(var(--text-color) / 0.125) 25%,
+    hsl(var(--nav-background)) 25%
   );
   background-size: 0.25em 0.25em;
 
@@ -82,7 +82,7 @@ page-app {
     --text-color: 0 0% 100%;
     --background: 100 5% 10%;
     --nav-background: 100 5% 15%;
-    --code-background: 100 5% 12.5%;
+    --code-background: 100 5% 20%;
     --banner-background: 100 20% 25%;
   }
 
@@ -98,11 +98,18 @@ page-app {
 /* 0 1 0 */
 
 .icon {
-  display: inline-grid;
   width: 1em;
   aspect-ratio: 1 / 1;
   pointer-events: none;
   fill: currentColor;
+
+  &:where(.open) {
+    display: var(--display-open, none);
+  }
+
+  &:where(.close) {
+    display: var(--display-close, none);
+  }
 }
 
 .nav-toggle {
@@ -120,6 +127,14 @@ page-app {
   place-content: center;
   appearance: none;
   cursor: pointer;
+
+  &:where([aria-expanded="true"]) {
+    --display-close: inline-grid;
+  }
+
+  &:where([aria-expanded="false"]) {
+    --display-open: inline-grid;
+  }
 }
 
 .nav-content {
@@ -238,7 +253,7 @@ page-app {
   }
 }
 
-.content {
+.main {
   color: hsl(var(--text-color));
   background: hsl(var(--background));
   padding-block: 0 var(--space-half);
@@ -360,10 +375,6 @@ page-app {
   font-size: 0.875em;
 }
 
-[hidden] {
-  display: none;
-}
-
 /* 0 1 1 */
 
 page-app:where(:not(:defined)) {
@@ -372,7 +383,7 @@ page-app:where(:not(:defined)) {
   gap: 0;
   height: 100%;
 
-  & .content {
+  & .main {
     flex: auto;
   }
 

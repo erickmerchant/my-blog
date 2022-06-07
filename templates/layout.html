@@ -14,7 +14,7 @@
       <div class="banner" slot="panel">
       </div>
 
-      <main class="content" slot="panel">
+      <main class="main" slot="panel">
         {% block main %}
         {% endblock %}
       </main>
@@ -42,7 +42,7 @@
             aria-expanded="false"
             aria-label="Toggle nav"
           >
-            <svg class="icon" viewBox="0 0 100 100" aria-hidden="true" id="icon-close">
+            <svg class="icon close" viewBox="0 0 100 100" aria-hidden="true">
               <rect
                 height="20"
                 width="120"
@@ -58,7 +58,7 @@
                 y="40"
               />
             </svg>
-            <svg class="icon" viewBox="0 0 100 100" aria-hidden="true" id="icon-open">
+            <svg class="icon open" viewBox="0 0 100 100" aria-hidden="true">
               <rect x="0" y="0" height="20" width="100" />
               <rect x="0" y="40" height="20" width="100" />
               <rect x="0" y="80" height="20" width="100" />
@@ -69,7 +69,6 @@
             id="nav"
             class="nav-content"
             aria-hidden="true"
-            inert
           >
             <div class="nav-content-inner">
               <slot name="nav"></slot>
