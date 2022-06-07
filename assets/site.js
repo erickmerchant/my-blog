@@ -79,6 +79,31 @@ class PageApp extends HTMLElement {
       input.addEventListener("change", this.changeColorScheme);
     }
 
+    for (let anchor of [
+      ...this.querySelectorAll("a"),
+      ...shadow.querySelectorAll("a"),
+    ]) {
+      anchor.addEventListener("click", (e) => {
+        const href = e.currentTarget.href;
+
+        if (new URL(href).hostname === window.location.hostname) {
+          if (this.open) {
+            e.preventDefault();
+
+            shadow.addEventListener(
+              "transitionend",
+              () => {
+                window.location.assign(href);
+              },
+              { once: true }
+            );
+
+            this.toggleOpen();
+          }
+        }
+      });
+    }
+
     shadow.getElementById("panel").addEventListener("click", () => {
       if (this.open) this.toggleOpen();
     });
