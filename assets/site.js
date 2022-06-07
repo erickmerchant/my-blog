@@ -79,10 +79,7 @@ class PageApp extends HTMLElement {
       input.addEventListener("change", this.changeColorScheme);
     }
 
-    for (let anchor of [
-      ...this.querySelectorAll("a"),
-      ...shadow.querySelectorAll("a"),
-    ]) {
+    for (let anchor of this.querySelectorAll("a")) {
       anchor.addEventListener("click", (e) => {
         const href = e.currentTarget.href;
 
