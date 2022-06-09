@@ -102,14 +102,7 @@ page-app {
   aspect-ratio: 1 / 1;
   pointer-events: none;
   fill: currentColor;
-
-  &:where(.open) {
-    display: var(--display-open, none);
-  }
-
-  &:where(.close) {
-    display: var(--display-close, none);
-  }
+  display: none;
 }
 
 .nav-toggle {
@@ -117,7 +110,7 @@ page-app {
   top: var(--nav-top);
   left: var(--nav-top);
   z-index: 2;
-  background: hsl(var(--background));
+  background-color: hsl(var(--background));
   border: var(--nav-border-width) solid hsl(var(--banner-background) / 0.5);
   border-radius: 0.25em;
   color: hsl(var(--anchor-color));
@@ -128,12 +121,12 @@ page-app {
   appearance: none;
   cursor: pointer;
 
-  &:where([aria-expanded="true"]) {
-    --display-close: inline-grid;
+  &:where([aria-expanded="true"]) :where(.close) {
+    display: inline-grid;
   }
 
-  &:where([aria-expanded="false"]) {
-    --display-open: inline-grid;
+  &:where([aria-expanded="false"]) :where(.open) {
+    display: inline-grid;
   }
 }
 
@@ -149,10 +142,12 @@ page-app {
 
 .nav-content-inner {
   margin: auto;
-  padding: 1em;
+  padding: 3em 4em;
   display: grid;
   gap: 2em;
   font-weight: 400;
+  background-color: hsl(var(--nav-background));
+  border-radius: 0.25em;
 }
 
 .color-scheme-selector {
@@ -255,7 +250,7 @@ page-app {
 
 .main {
   color: hsl(var(--text-color));
-  background: hsl(var(--background));
+  background-color: hsl(var(--background));
   padding-block: 0 var(--space-half);
   width: 100%;
   overflow-x: auto;
@@ -314,7 +309,7 @@ page-app {
       overflow-x: auto;
       font-size: 0.875rem;
       font-family: ui-monospace, Consolas, monaco, monospace;
-      background: hsl(var(--code-background));
+      background-color: hsl(var(--code-background));
       border-radius: 0.25em;
       color: hsl(var(--code-color));
       padding: var(--space-half) 2rem;
@@ -358,7 +353,7 @@ page-app {
 
 .footer {
   color: hsl(var(--text-color));
-  background: hsl(var(--background));
+  background-color: hsl(var(--background));
   width: 100%;
 
   & :where(p) {

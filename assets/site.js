@@ -12,12 +12,12 @@ class PageApp extends HTMLElement {
 
     const shadow = this.shadowRoot;
 
-    for (let input of shadow.querySelectorAll("[name='color-scheme']")) {
+    for (let input of shadow.querySelectorAll("[name='color-scheme-option']")) {
       input.setAttribute("tabindex", !this.open ? "-1" : "0");
     }
 
     shadow
-      .getElementById("toggle")
+      .querySelector("[name='toggle']")
       .setAttribute("aria-expanded", this.open ? "true" : "false");
 
     const tabs = [
@@ -48,8 +48,8 @@ class PageApp extends HTMLElement {
 
   colorScheme = this.initColorScheme();
 
-  changeColorScheme = (e) => {
-    this.colorScheme = e.currentTarget.value;
+  changeColorScheme = (value) => {
+    this.colorScheme = value;
 
     window.localStorage.setItem("color-scheme", this.colorScheme);
 
@@ -61,7 +61,7 @@ class PageApp extends HTMLElement {
 
     this.setAttribute("color-scheme", this.colorScheme);
 
-    for (let input of shadow.querySelectorAll("[name='color-scheme']")) {
+    for (let input of shadow.querySelectorAll("[name='color-scheme-option']")) {
       input.checked = this.colorScheme === input.value;
     }
   };
@@ -73,15 +73,21 @@ class PageApp extends HTMLElement {
 
     shadow.append(this.querySelector("template").content);
 
-    shadow.getElementById("toggle").addEventListener("click", this.toggleOpen);
+    shadow
+      .querySelector("[name='toggle']")
+      .addEventListener("click", this.toggleOpen);
 
-    for (let input of shadow.querySelectorAll("[name='color-scheme']")) {
-      input.addEventListener("change", this.changeColorScheme);
-    }
+    shadow
+      .querySelector("[name='color-scheme']")
+      .addEventListener("change", (e) => {
+        if (e.target.matches("[name='color-scheme-option']")) {
+          this.changeColorScheme(e.target.value);
+        }
+      });
 
-    for (let anchor of this.querySelectorAll("a")) {
-      anchor.addEventListener("click", (e) => {
-        const href = e.currentTarget.href;
+    this.addEventListener("click", (e) => {
+      if (e.target.matches("a")) {
+        const href = e.target.href;
 
         if (new URL(href).hostname === window.location.hostname) {
           if (this.open) {
@@ -98,8 +104,8 @@ class PageApp extends HTMLElement {
             this.toggleOpen();
           }
         }
-      });
-    }
+      }
+    });
 
     shadow.getElementById("panel").addEventListener("click", () => {
       if (this.open) this.toggleOpen();

@@ -34,9 +34,9 @@
           @import "/site.css";
         </style>
 
-        <nav class="nav">
+        <nav class="nav" id="nav">
           <button
-            id="toggle"
+            name="toggle"
             class="nav-toggle"
             type="button"
             aria-expanded="false"
@@ -66,21 +66,20 @@
           </button>
 
           <div
-            id="nav"
             class="nav-content"
             aria-hidden="true"
           >
             <div class="nav-content-inner">
               <slot name="nav"></slot>
 
-              <form class="color-scheme-selector">
+              <form class="color-scheme-selector" name="color-scheme">
                 <h6>Color Scheme</h6>
                 <ul>
                   <li>
                     <input
                       type="radio"
                       id="color-scheme-light"
-                      name="color-scheme"
+                      name="color-scheme-option"
                       value="light"
                       tabindex="-1"
                     />
@@ -90,7 +89,7 @@
                     <input
                       type="radio"
                       id="color-scheme-dark"
-                      name="color-scheme"
+                      name="color-scheme-option"
                       value="dark"
                       tabindex="-1"
                     />
