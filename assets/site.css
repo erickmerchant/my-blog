@@ -57,7 +57,7 @@ page-app {
   overflow-x: hidden;
   background-color: hsl(var(--nav-background));
   background-image: radial-gradient(
-    hsl(var(--text-color) / 0.125) 25%,
+    hsl(var(--text-color) / 0.0625) 25%,
     hsl(var(--nav-background)) 25%
   );
   background-size: 0.25em 0.25em;
@@ -82,8 +82,8 @@ page-app {
     --text-color: 0 0% 100%;
     --background: 100 5% 10%;
     --nav-background: 100 5% 15%;
-    --code-background: 100 5% 20%;
-    --banner-background: 100 20% 25%;
+    --code-background: 100 5% 17.5%;
+    --banner-background: 100 20% 27.5%;
   }
 
   &:where([open]) {
@@ -146,7 +146,6 @@ page-app {
   display: grid;
   gap: 2em;
   font-weight: 400;
-  background-color: hsl(var(--nav-background));
   border-radius: 0.25em;
 }
 
