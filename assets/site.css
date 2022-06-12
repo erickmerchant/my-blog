@@ -102,7 +102,7 @@ page-app {
   aspect-ratio: 1 / 1;
   pointer-events: none;
   fill: currentColor;
-  display: none;
+  display: inline-grid;
 }
 
 .nav-toggle {
@@ -120,14 +120,6 @@ page-app {
   place-content: center;
   appearance: none;
   cursor: pointer;
-
-  &:where([aria-expanded="true"]) :where(.close) {
-    display: inline-grid;
-  }
-
-  &:where([aria-expanded="false"]) :where(.open) {
-    display: inline-grid;
-  }
 }
 
 .nav-content {
@@ -186,7 +178,7 @@ page-app {
   grid-template-rows: min-content 1fr;
   height: 100%;
   transform: translateX(var(--content-left));
-  transition: transform 0.25s ease;
+  transition: transform 0.125s ease;
 
   &::before {
     content: "";
@@ -298,30 +290,10 @@ page-app {
     margin-block-start: var(--space-half);
   }
 
-  & :where(pre) {
-    white-space: pre-wrap;
-    max-width: calc(var(--max-width) + 4rem);
+  & :where(code-block) {
+    display: block;
+    max-width: calc(var(--max-width) + 6rem);
     width: 100%;
-
-    & :where(code) {
-      display: block;
-      overflow-x: auto;
-      font-size: 0.875rem;
-      font-family: ui-monospace, Consolas, monaco, monospace;
-      background-color: hsl(var(--code-background));
-      border-radius: 0.25em;
-      color: hsl(var(--code-color));
-      padding: var(--space-half) 2rem;
-
-      @media (--tablet) {
-        padding: var(--space-half);
-      }
-
-      @media (--mobile) {
-        padding: var(--space);
-        border-radius: 0;
-      }
-    }
 
     @media (--tablet) {
       max-width: var(--max-width);
@@ -330,6 +302,59 @@ page-app {
     @media (--mobile) {
       max-width: 100%;
       padding: 0;
+    }
+  }
+}
+
+.code-block {
+  white-space: pre-wrap;
+
+  & :where(code) {
+    display: grid;
+    grid-template-columns: min-content auto;
+    gap: 0 1em;
+    overflow-x: auto;
+    font-size: 0.875rem;
+    font-family: ui-monospace, Consolas, monaco, monospace;
+    background-color: hsl(var(--code-background));
+    border-radius: 0.25em;
+    color: hsl(var(--code-color));
+    counter-reset: lines;
+
+    @media (--mobile) {
+      border-radius: 0;
+    }
+  }
+
+  & :where(.line) {
+    padding-inline-end: 1em;
+
+    &:nth-child(2) {
+      padding-block-start: var(--space-half);
+    }
+
+    &:last-child {
+      padding-block-end: var(--space-half);
+    }
+  }
+
+  & :where(.number) {
+    text-align: right;
+    counter-increment: lines;
+    color: hsl(var(--code-color) / 0.75);
+    filter: grayscale(1);
+    padding-inline: 1em;
+
+    &:first-child {
+      padding-block-start: var(--space-half);
+    }
+
+    &:nth-last-child(2) {
+      padding-block-end: var(--space-half);
+    }
+
+    &:before {
+      content: counter(lines);
     }
   }
 }

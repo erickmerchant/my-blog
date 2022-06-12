@@ -20,6 +20,10 @@ class PageApp extends HTMLElement {
       .querySelector("[name='toggle']")
       .setAttribute("aria-expanded", this.open ? "true" : "false");
 
+    shadow
+      .querySelector("[name='toggle'] slot-match")
+      .setAttribute("name", this.open ? "close" : "open");
+
     const tabs = [
       ["nav", this.open],
       ["panel", !this.open],
@@ -123,4 +127,59 @@ class PageApp extends HTMLElement {
   }
 }
 
+class CodeBlock extends HTMLElement {
+  connectedCallback() {
+    this.attachShadow({ mode: "open" });
+
+    const shadow = this.shadowRoot;
+
+    shadow.innerHTML =
+      '<style>@import "/site.css";</style><pre class="code-block"><code></code></pre>';
+
+    const code = shadow.querySelector("code");
+
+    for (const ln of this.innerHTML.trim().split("\n")) {
+      const marker = document.createElement("span");
+
+      marker.setAttribute("class", "number");
+
+      code.append(marker);
+
+      const line = document.createElement("span");
+
+      line.setAttribute("class", "line");
+
+      line.innerHTML = ln ? ln : " ";
+
+      code.append(line);
+    }
+  }
+}
+
+class SlotMatch extends HTMLElement {
+  static get observedAttributes() {
+    return ["name"];
+  }
+
+  attributeChangedCallback(name, _, newValue) {
+    this.shadowRoot?.querySelector("slot")?.setAttribute(name, newValue);
+  }
+
+  connectedCallback() {
+    this.attachShadow({ mode: "open" });
+
+    const shadow = this.shadowRoot;
+
+    shadow.innerHTML = `<style>@import "/site.css";</style><slot></slot>`;
+
+    const slot = shadow.querySelector("slot");
+
+    slot.setAttribute("name", this.getAttribute("name"));
+  }
+}
+
 customElements.define("page-app", PageApp);
+
+customElements.define("code-block", CodeBlock);
+
+customElements.define("slot-match", SlotMatch);

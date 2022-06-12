@@ -15,17 +15,17 @@
 
 <p>I once wrote code like this...</p>
 
-<pre><code>let mut minifier_options = stylesheet::MinifyOptions::default();
+<code-block>let mut minifier_options = stylesheet::MinifyOptions::default();
 
 minifier_options.targets = targets;
-</code></pre>
+</code-block>
 
 <p>Clippy emitted a warning, "field assignment outside of initializer for an instance created with Default::default()" and recommended I use <a href="https://doc.rust-lang.org/book/ch05-01-defining-structs.html#creating-instances-from-other-instances-with-struct-update-syntax">struct update syntax</a> instead. So I changed the code to...</p>
 
-<pre><code>let minifier_options = stylesheet::MinifyOptions {
+<code-block>let minifier_options = stylesheet::MinifyOptions {
   targets,
   ..stylesheet::MinifyOptions::default()
 };
-</code></pre>
+</code-block>
 
 <p>The great thing is that I didn't even know about struct update syntax and now I do.</p>
