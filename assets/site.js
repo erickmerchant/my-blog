@@ -1,3 +1,15 @@
+const h = (tag, attrs, ...children) => {
+  const el = document.createElement(tag);
+
+  for (const [key, val] of Object.entries(attrs ?? {})) {
+    el.setAttribute(key, val);
+  }
+
+  el.append(...children);
+
+  return el;
+};
+
 customElements.define(
   "page-app",
   class extends HTMLElement {
@@ -28,12 +40,12 @@ customElements.define(
         .querySelector("[name='toggle'] slot-match")
         .setAttribute("name", this.open ? "close" : "open");
 
-      const tabs = [
-        ["nav", this.open],
-        ["panel", !this.open],
-      ];
+      const tabs = {
+        nav: this.open,
+        panel: !this.open,
+      };
 
-      for (const [tab, active] of tabs) {
+      for (const [tab, active] of Object.entries(tabs)) {
         const el = shadow.getElementById(tab);
 
         if (active) {
@@ -99,26 +111,29 @@ customElements.define(
         if (e.target.matches("a")) {
           const href = e.target.href;
 
-          if (new URL(href).hostname === window.location.hostname) {
-            if (this.open) {
-              e.preventDefault();
+          if (
+            new URL(href).hostname === window.location.hostname &&
+            this.open
+          ) {
+            e.preventDefault();
 
-              shadow.addEventListener(
-                "transitionend",
-                () => {
-                  window.location.assign(href);
-                },
-                { once: true }
-              );
+            shadow.addEventListener(
+              "transitionend",
+              () => {
+                window.location.assign(href);
+              },
+              { once: true }
+            );
 
-              this.toggleOpen();
-            }
+            this.toggleOpen();
           }
         }
       });
 
       shadow.getElementById("panel").addEventListener("click", () => {
-        if (this.open) this.toggleOpen();
+        if (this.open) {
+          this.toggleOpen();
+        }
       });
 
       this.prefersColorSchemeDark.addEventListener("change", () => {
@@ -138,29 +153,29 @@ customElements.define(
   "code-block",
   class extends HTMLElement {
     connectedCallback() {
+      const lines = this.textContent.trim().split("\n");
+
       this.attachShadow({ mode: "open" });
 
       const shadow = this.shadowRoot;
 
-      shadow.innerHTML = `<style>@import "/site.css";</style><pre class="code-block"><code></code></pre>`;
-
-      const code = shadow.querySelector("code");
-
-      for (const ln of this.innerHTML.trim().split("\n")) {
-        const marker = document.createElement("span");
-
-        marker.setAttribute("class", "number");
-
-        code.append(marker);
-
-        const line = document.createElement("span");
-
-        line.setAttribute("class", "line");
-
-        line.innerHTML = ln ? ln : " ";
-
-        code.append(line);
-      }
+      shadow.append(
+        h("style", {}, '@import "/site.css";'),
+        h(
+          "pre",
+          { class: "code-block" },
+          h(
+            "code",
+            {},
+            ...lines
+              .map((ln) => [
+                h("span", { class: "number" }),
+                h("span", { class: "line" }, ln || " "),
+              ])
+              .flat()
+          )
+        )
+      );
     }
   }
 );
@@ -181,11 +196,7 @@ customElements.define(
 
       const shadow = this.shadowRoot;
 
-      shadow.innerHTML = `<style>@import "/site.css";</style><slot></slot>`;
-
-      const slot = shadow.querySelector("slot");
-
-      slot.setAttribute("name", this.getAttribute("name"));
+      shadow.append(h("slot", { name: this.getAttribute("name") }));
     }
   }
 );

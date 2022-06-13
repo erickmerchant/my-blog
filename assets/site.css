@@ -42,6 +42,20 @@ html {
   }
 }
 
+::-webkit-scrollbar {
+  width: 0.5em;
+  height: 0.5em;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-foreground);
+  border-radius: 0.5em;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-background);
+}
+
 a {
   color: hsl(var(--anchor-color));
   text-underline-offset: 0.2em;
@@ -75,6 +89,10 @@ page-app {
   --nav-background: 100 5% 90%;
   --code-background: 100 5% 95%;
   --banner-background: 100 20% 75%;
+
+  --scrollbar-foreground: hsl(var(--anchor-color) / 0.5);
+  --scrollbar-background: hsl(var(--background));
+  scrollbar-color: var(--scrollbar-foreground) var(--scrollbar-background);
 
   &:where([color-scheme="dark"]) {
     --anchor-color: 100 60% 70%;
