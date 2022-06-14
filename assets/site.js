@@ -107,29 +107,6 @@ customElements.define(
           }
         });
 
-      this.addEventListener("click", (e) => {
-        if (e.target.matches("a")) {
-          const href = e.target.href;
-
-          if (
-            new URL(href).hostname === window.location.hostname &&
-            this.open
-          ) {
-            e.preventDefault();
-
-            shadow.addEventListener(
-              "transitionend",
-              () => {
-                window.location.assign(href);
-              },
-              { once: true }
-            );
-
-            this.toggleOpen();
-          }
-        }
-      });
-
       shadow.getElementById("panel").addEventListener("click", () => {
         if (this.open) {
           this.toggleOpen();
