@@ -1012,9 +1012,9 @@ dependencies = [
 
 [[package]]
 name = "is-macro"
-version = "0.2.0"
+version = "0.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "94b2c46692aee0d1b3aad44e781ac0f0e7db42ef27adaa0a877b627040019813"
+checksum = "1c068d4c6b922cd6284c609cfa6dec0e41615c9c5a1a4ba729a970d8daba05fb"
 dependencies = [
  "Inflector",
  "pmutil",
@@ -2536,9 +2536,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.89.2"
+version = "0.89.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "36f1488f49ea246029c850352742dba4e6013830372c83df499e93f9cf4fbc36"
+checksum = "6bad5847aa411dc90eff68b4cb65e5bdb652da78cf7de74b446a29934d5e332d"
 dependencies = [
  "better_scoped_tls",
  "num_cpus",
@@ -2612,9 +2612,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "0.118.0"
+version = "0.118.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "172037f798f58614fdc01e5df667ee37af66c1b7ae559a5c4c46745bb174b53a"
+checksum = "9df63009d3856a23933935f543401e4041e16ba3c2a58a02c9c6b0fe80f47f0e"
 dependencies = [
  "Inflector",
  "ahash",
