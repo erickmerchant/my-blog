@@ -118,7 +118,6 @@ page-app {
 .icon {
   width: 1em;
   aspect-ratio: 1 / 1;
-  pointer-events: none;
   fill: currentColor;
   display: inline-grid;
 }
@@ -224,9 +223,7 @@ page-app {
 
 .banner {
   position: sticky;
-  top: calc(
-    calc(var(--nav-top) + var(--nav-top) + var(--nav-height)) - var(--height)
-  );
+  top: calc(calc(var(--nav-top) * 2) + var(--nav-height) - var(--height));
   background-color: hsl(var(--banner-background));
   background-image: linear-gradient(
       hsl(var(--background)) 1px,
@@ -330,7 +327,7 @@ page-app {
   & :where(code) {
     display: grid;
     grid-template-columns: min-content auto;
-    gap: 0 1em;
+    gap: 0 var(--space-half);
     overflow-x: auto;
     font-size: 0.875rem;
     font-family: ui-monospace, Consolas, monaco, monospace;
@@ -361,7 +358,7 @@ page-app {
     counter-increment: lines;
     color: hsl(var(--code-color) / 0.75);
     filter: grayscale(1);
-    padding-inline: 1em;
+    padding-inline: var(--space-half);
 
     &:first-child {
       padding-block-start: var(--space-half);
