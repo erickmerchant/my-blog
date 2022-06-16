@@ -21,7 +21,10 @@
 /* 0 0 1 */
 
 html {
-  font: 300 125% / 1.5 system-ui, -apple-system;
+  font-size: 125%;
+  line-height: 1.5;
+  font-family: system-ui, -apple-system;
+  --font-weight: 300;
 
   --space: 2rem;
   --space-half: 1rem;
@@ -325,7 +328,7 @@ page-app {
   & :where(code) {
     display: grid;
     grid-template-columns: min-content auto;
-    gap: 0 var(--space-half);
+    gap: 0 var(--space-quarter);
     font-size: 0.875rem;
     font-family: ui-monospace, Consolas, monaco, monospace;
     background-color: hsl(var(--code-background));
@@ -368,6 +371,10 @@ page-app {
     &:before {
       content: counter(lines);
     }
+  }
+
+  @media (--mobile) {
+    white-space: pre;
   }
 }
 
