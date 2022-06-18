@@ -10,7 +10,7 @@ let attrs =
     }
   };
 
-let attr = (key, val) => attrs({ [key]: val });
+let attr = (key, val) => (el) => el.setAttribute(key, val);
 
 let on =
   (...args) =>
@@ -144,7 +144,11 @@ customElements.define(
             }),
             on("click", this.toggleOpen),
             (this.refs.toggleIcon = slotMatch(
-              attrs({ name: "open", class: "icon", "aria-hidden": "true" }),
+              attrs({
+                name: "open",
+                class: "icon",
+                "aria-hidden": "true",
+              }),
               slot(attrs({ name: "open", slot: "open" })),
               slot(attrs({ name: "close", slot: "close" }))
             ))
