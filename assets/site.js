@@ -1,6 +1,7 @@
-const attrs = (obj = {}) => {
-  return (el) => {
-    for (const [key, val] of Object.entries(obj)) {
+let attrs =
+  (obj = {}) =>
+  (el) => {
+    for (let [key, val] of Object.entries(obj)) {
       if (val === true) {
         val = "";
       }
@@ -8,28 +9,24 @@ const attrs = (obj = {}) => {
       el.setAttribute(key, val);
     }
   };
-};
 
-const attr = (key, val) => {
-  return attrs({ [key]: val });
-};
+let attr = (key, val) => attrs({ [key]: val });
 
-const on = (...args) => {
-  return (el) => {
+let on =
+  (...args) =>
+  (el) => {
     el.addEventListener(...args);
   };
-};
 
-const html = new Proxy(
+let html = new Proxy(
   {},
   {
     get(_, tag) {
       return (...args) => {
-        const el = document.createElement(tag);
+        let el = document.createElement(tag);
+        let children = [];
 
-        const children = [];
-
-        for (const arg of args) {
+        for (let arg of args) {
           if (typeof arg === "function") {
             arg(el);
           } else {
@@ -72,13 +69,13 @@ customElements.define(
 
       this.refs.toggleIcon.setAttribute("name", this.open ? "close" : "open");
 
-      const tabs = {
+      let tabs = {
         nav: this.open,
         panel: !this.open,
       };
 
-      for (const [tab, active] of Object.entries(tabs)) {
-        const el = this.refs[tab];
+      for (let [tab, active] of Object.entries(tabs)) {
+        let el = this.refs[tab];
 
         el.setAttribute("aria-hidden", active ? "false" : "true");
 
@@ -115,9 +112,9 @@ customElements.define(
     connectedCallback() {
       this.attachShadow({ mode: "open" });
 
-      const shadow = this.shadowRoot;
+      let shadow = this.shadowRoot;
 
-      const {
+      let {
         ["slot-match"]: slotMatch,
         button,
         div,
@@ -136,7 +133,6 @@ customElements.define(
 
       shadow.append(
         style('@import "/site.css"'),
-
         nav(
           attr("class", "nav"),
           (this.refs.toggle = button(
@@ -146,9 +142,7 @@ customElements.define(
               "aria-expanded": "false",
               "aria-label": "Toggle nav",
             }),
-
             on("click", this.toggleOpen),
-
             (this.refs.toggleIcon = slotMatch(
               attrs({ name: "open", class: "icon", "aria-hidden": "true" }),
               slot(attrs({ name: "open", slot: "open" })),
@@ -163,7 +157,6 @@ customElements.define(
             div(
               attr("class", "nav-content-inner"),
               slot(attr("name", "nav")),
-
               form(
                 attr("class", "color-scheme-selector"),
                 on("change", (e) => {
@@ -174,7 +167,7 @@ customElements.define(
                 h6("Color Scheme"),
                 ul(
                   ...["Light", "Dark"].map((scheme, i) => {
-                    const key = scheme.toLowerCase();
+                    let key = scheme.toLowerCase();
 
                     return li(
                       (this.refs.colorSchemeOptions[i] = input(
@@ -193,7 +186,6 @@ customElements.define(
             )
           ))
         ),
-
         (this.refs.panel = div(
           attr("class", "panel"),
           on("click", () => {
@@ -222,13 +214,13 @@ customElements.define(
   "code-block",
   class extends HTMLElement {
     connectedCallback() {
-      const lines = this.textContent.trim().split("\n");
+      let lines = this.textContent.trim().split("\n");
 
       this.attachShadow({ mode: "open" });
 
-      const shadow = this.shadowRoot;
+      let shadow = this.shadowRoot;
 
-      const { style, pre, code, span } = html;
+      let { style, pre, code, span } = html;
 
       shadow.append(
         style('@import "/site.css";'),
@@ -264,9 +256,9 @@ customElements.define(
     connectedCallback() {
       this.attachShadow({ mode: "open" });
 
-      const shadow = this.shadowRoot;
+      let shadow = this.shadowRoot;
 
-      const { slot } = html;
+      let { slot } = html;
 
       this.refs.slot = slot(attr("name", this.getAttribute("name")));
 

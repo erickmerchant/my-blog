@@ -19,5 +19,5 @@ parcel_css = { version = "1.0.0-alpha.16", features = ["grid"], default-features
 parcel_sourcemap = { version = "2.0.2", default-features = false }
 serde = { version = "1.0", default-features = false }
 serde_json = { version = "1.0", default-features = false }
-swc = { version = "0.188", default-features = false }
+swc = { version = "0.189", default-features = false }
 swc_common = { version = "0.18", features = ["tty-emitter"], default-features = false }
