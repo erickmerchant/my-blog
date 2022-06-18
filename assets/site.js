@@ -1,18 +1,55 @@
-const h = (tag, attrs, ...children) => {
-  const el = document.createElement(tag);
+const attrs = (obj = {}) => {
+  return (el) => {
+    for (const [key, val] of Object.entries(obj)) {
+      if (val === true) {
+        val = "";
+      }
 
-  for (const [key, val] of Object.entries(attrs ?? {})) {
-    el.setAttribute(key, val);
-  }
-
-  el.append(...children);
-
-  return el;
+      el.setAttribute(key, val);
+    }
+  };
 };
+
+const attr = (key, val) => {
+  return attrs({ [key]: val });
+};
+
+const on = (...args) => {
+  return (el) => {
+    el.addEventListener(...args);
+  };
+};
+
+const html = new Proxy(
+  {},
+  {
+    get(_, tag) {
+      return (...args) => {
+        const el = document.createElement(tag);
+
+        const children = [];
+
+        for (const arg of args) {
+          if (typeof arg === "function") {
+            arg(el);
+          } else {
+            children.push(arg);
+          }
+        }
+
+        el.append(...children);
+
+        return el;
+      };
+    },
+  }
+);
 
 customElements.define(
   "page-app",
   class extends HTMLElement {
+    refs = {};
+
     open = false;
 
     toggleOpen = () => {
@@ -24,21 +61,16 @@ customElements.define(
     updateLayout = () => {
       this.toggleAttribute("open", this.open);
 
-      const shadow = this.shadowRoot;
-
-      for (let input of shadow.querySelectorAll(
-        "[name='color-scheme-option']"
-      )) {
+      for (let input of this.refs.colorSchemeOptions) {
         input.setAttribute("tabindex", !this.open ? "-1" : "0");
       }
 
-      shadow
-        .querySelector("[name='toggle']")
-        .setAttribute("aria-expanded", this.open ? "true" : "false");
+      this.refs.toggle.setAttribute(
+        "aria-expanded",
+        this.open ? "true" : "false"
+      );
 
-      shadow
-        .querySelector("[name='toggle'] slot-match")
-        .setAttribute("name", this.open ? "close" : "open");
+      this.refs.toggleIcon.setAttribute("name", this.open ? "close" : "open");
 
       const tabs = {
         nav: this.open,
@@ -46,13 +78,9 @@ customElements.define(
       };
 
       for (const [tab, active] of Object.entries(tabs)) {
-        const el = shadow.getElementById(tab);
+        const el = this.refs[tab];
 
-        if (active) {
-          el.removeAttribute("aria-hidden");
-        } else {
-          el.setAttribute("aria-hidden", "true");
-        }
+        el.setAttribute("aria-hidden", active ? "false" : "true");
 
         for (let anchor of this.querySelectorAll(`[slot="${tab}"] a`)) {
           anchor.setAttribute("tabindex", active ? "0" : "-1");
@@ -77,13 +105,9 @@ customElements.define(
     };
 
     updateColorScheme = () => {
-      const shadow = this.shadowRoot;
-
       this.setAttribute("color-scheme", this.colorScheme);
 
-      for (let input of shadow.querySelectorAll(
-        "[name='color-scheme-option']"
-      )) {
+      for (let input of this.refs.colorSchemeOptions) {
         input.checked = this.colorScheme === input.value;
       }
     };
@@ -93,25 +117,93 @@ customElements.define(
 
       const shadow = this.shadowRoot;
 
-      shadow.append(this.querySelector("template").content);
+      const {
+        ["slot-match"]: slotMatch,
+        button,
+        div,
+        form,
+        h6,
+        input,
+        label,
+        li,
+        nav,
+        slot,
+        style,
+        ul,
+      } = html;
 
-      shadow
-        .querySelector("[name='toggle']")
-        .addEventListener("click", this.toggleOpen);
+      this.refs.colorSchemeOptions = [];
 
-      shadow
-        .querySelector("[name='color-scheme']")
-        .addEventListener("change", (e) => {
-          if (e.target.matches("[name='color-scheme-option']")) {
-            this.changeColorScheme(e.target.value);
-          }
-        });
+      shadow.append(
+        style('@import "/site.css"'),
 
-      shadow.getElementById("panel").addEventListener("click", () => {
-        if (this.open) {
-          this.toggleOpen();
-        }
-      });
+        nav(
+          attr("class", "nav"),
+          (this.refs.toggle = button(
+            attrs({
+              class: "nav-toggle",
+              type: "button",
+              "aria-expanded": "false",
+              "aria-label": "Toggle nav",
+            }),
+
+            on("click", this.toggleOpen),
+
+            (this.refs.toggleIcon = slotMatch(
+              attrs({ name: "open", class: "icon", "aria-hidden": "true" }),
+              slot(attrs({ name: "open", slot: "open" })),
+              slot(attrs({ name: "close", slot: "close" }))
+            ))
+          )),
+          (this.refs.nav = div(
+            attrs({
+              class: "nav-content",
+              "aria-hidden": "true",
+            }),
+            div(
+              attr("class", "nav-content-inner"),
+              slot(attr("name", "nav")),
+
+              form(
+                attr("class", "color-scheme-selector"),
+                on("change", (e) => {
+                  if (this.refs.colorSchemeOptions.includes(e.target)) {
+                    this.changeColorScheme(e.target.value);
+                  }
+                }),
+                h6("Color Scheme"),
+                ul(
+                  ...["Light", "Dark"].map((scheme, i) => {
+                    const key = scheme.toLowerCase();
+
+                    return li(
+                      (this.refs.colorSchemeOptions[i] = input(
+                        attrs({
+                          type: "radio",
+                          id: `color-scheme-option-${key}`,
+                          value: key,
+                          tabindex: "-1",
+                        })
+                      )),
+                      label(attr("for", `color-scheme-option-${key}`), scheme)
+                    );
+                  })
+                )
+              )
+            )
+          ))
+        ),
+
+        (this.refs.panel = div(
+          attr("class", "panel"),
+          on("click", () => {
+            if (this.open) {
+              this.toggleOpen();
+            }
+          }),
+          slot(attr("name", "panel"))
+        ))
+      );
 
       this.prefersColorSchemeDark.addEventListener("change", () => {
         this.colorScheme = this.initColorScheme();
@@ -136,18 +228,17 @@ customElements.define(
 
       const shadow = this.shadowRoot;
 
+      const { style, pre, code, span } = html;
+
       shadow.append(
-        h("style", {}, '@import "/site.css";'),
-        h(
-          "pre",
-          { class: "code-block" },
-          h(
-            "code",
-            {},
+        style('@import "/site.css";'),
+        pre(
+          attr("class", "code-block"),
+          code(
             ...lines
               .map((ln) => [
-                h("span", { class: "number" }),
-                h("span", { class: "line" }, ln || " "),
+                span(attr("class", "number")),
+                span(attr("class", "line"), ln || " "),
               ])
               .flat()
           )
@@ -160,12 +251,14 @@ customElements.define(
 customElements.define(
   "slot-match",
   class extends HTMLElement {
+    refs = {};
+
     static get observedAttributes() {
       return ["name"];
     }
 
     attributeChangedCallback(name, _, newValue) {
-      this.shadowRoot?.querySelector("slot")?.setAttribute(name, newValue);
+      this.refs.slot?.setAttribute(name, newValue);
     }
 
     connectedCallback() {
@@ -173,7 +266,11 @@ customElements.define(
 
       const shadow = this.shadowRoot;
 
-      shadow.append(h("slot", { name: this.getAttribute("name") }));
+      const { slot } = html;
+
+      this.refs.slot = slot(attr("name", this.getAttribute("name")));
+
+      shadow.append(this.refs.slot);
     }
   }
 );
