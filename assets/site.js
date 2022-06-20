@@ -134,10 +134,9 @@ customElements.define(
       shadow.append(
         style('@import "/site.css"'),
         nav(
-          attr("class", "nav"),
           (this.refs.toggle = button(
             attrs({
-              class: "nav-toggle",
+              class: "toggle",
               type: "button",
               "aria-expanded": "false",
               "aria-label": "Toggle nav",
@@ -155,11 +154,11 @@ customElements.define(
           )),
           (this.refs.nav = div(
             attrs({
-              class: "nav-content",
+              class: "nav",
               "aria-hidden": "true",
             }),
             div(
-              attr("class", "nav-content-inner"),
+              attr("class", "nav-inner"),
               slot(attr("name", "nav")),
               form(
                 attr("class", "color-scheme-selector"),
@@ -170,21 +169,21 @@ customElements.define(
                 }),
                 h6("Color Scheme"),
                 ul(
-                  ...["Light", "Dark"].map((scheme, i) => {
-                    let key = scheme.toLowerCase();
-
-                    return li(
-                      (this.refs.colorSchemeOptions[i] = input(
-                        attrs({
-                          type: "radio",
-                          id: `color-scheme-option-${key}`,
-                          value: key,
-                          tabindex: "-1",
-                        })
-                      )),
-                      label(attr("for", `color-scheme-option-${key}`), scheme)
-                    );
-                  })
+                  ...["Light", "Dark"]
+                    .map((scheme, i) => [
+                      li(
+                        (this.refs.colorSchemeOptions[i] = input(
+                          attrs({
+                            type: "radio",
+                            id: `color-scheme-option-${i}`,
+                            value: scheme.toLowerCase(),
+                            tabindex: "-1",
+                          })
+                        )),
+                        label(attr("for", `color-scheme-option-${i}`), scheme)
+                      ),
+                    ])
+                    .flat()
                 )
               )
             )
