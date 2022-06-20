@@ -420,6 +420,13 @@ page-app:where(:not(:defined)) {
   gap: 0;
   height: 100%;
 
+  & .banner,
+  & [slot="open"],
+  & [slot="close"] {
+    height: 0;
+    overflow: hidden;
+  }
+
   & .main {
     flex: auto;
   }
