@@ -32,7 +32,7 @@ html {
   --max-width: 40rem;
 
   &,
-  & body {
+  & :where(body) {
     overflow-x: hidden;
   }
 

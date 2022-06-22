@@ -2,15 +2,13 @@ let attrs =
   (obj = {}) =>
   (el) => {
     for (let [key, val] of Object.entries(obj)) {
-      if (val === true) {
-        val = "";
+      if (val === true || val === false) {
+        el.toggleAttribute(key, val);
+      } else if (val != null) {
+        el.setAttribute(key, val);
       }
-
-      el.setAttribute(key, val);
     }
   };
-
-let attr = (key, val) => (el) => el.setAttribute(key, val);
 
 let on =
   (...args) =>
@@ -59,7 +57,7 @@ customElements.define(
       this.toggleAttribute("open", this.open);
 
       for (let input of this.refs.colorSchemeOptions) {
-        input.setAttribute("tabindex", !this.open ? "-1" : "0");
+        input.setAttribute("tabindex", this.open ? "0" : "-1");
       }
 
       this.refs.toggle.setAttribute(
@@ -158,10 +156,10 @@ customElements.define(
               "aria-hidden": "true",
             }),
             div(
-              attr("class", "nav-inner"),
-              slot(attr("name", "nav")),
+              attrs({ class: "nav-inner" }),
+              slot(attrs({ name: "nav" })),
               form(
-                attr("class", "color-scheme-selector"),
+                attrs({ class: "color-scheme-selector" }),
                 on("change", (e) => {
                   if (this.refs.colorSchemeOptions.includes(e.target)) {
                     this.changeColorScheme(e.target.value);
@@ -180,7 +178,10 @@ customElements.define(
                             tabindex: "-1",
                           })
                         )),
-                        label(attr("for", `color-scheme-option-${i}`), scheme)
+                        label(
+                          attrs({ for: `color-scheme-option-${i}` }),
+                          scheme
+                        )
                       ),
                     ])
                     .flat()
@@ -190,13 +191,13 @@ customElements.define(
           ))
         ),
         (this.refs.panel = div(
-          attr("class", "panel"),
+          attrs({ class: "panel" }),
           on("click", () => {
             if (this.open) {
               this.toggleOpen();
             }
           }),
-          slot(attr("name", "panel"))
+          slot(attrs({ name: "panel" }))
         ))
       );
 
@@ -228,12 +229,12 @@ customElements.define(
       shadow.append(
         style('@import "/site.css";'),
         pre(
-          attr("class", "code-block"),
+          attrs({ class: "code-block" }),
           code(
             ...lines
               .map((ln) => [
-                span(attr("class", "number")),
-                span(attr("class", "line"), ln || " "),
+                span(attrs({ class: "number" })),
+                span(attrs({ class: "line" }), ln || " "),
               ])
               .flat()
           )
@@ -263,7 +264,7 @@ customElements.define(
 
       let { slot } = html;
 
-      this.refs.slot = slot(attr("name", this.getAttribute("name")));
+      this.refs.slot = slot(attrs({ name: this.getAttribute("name") }));
 
       shadow.append(this.refs.slot);
     }

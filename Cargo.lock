@@ -195,7 +195,7 @@ dependencies = [
  "serde_urlencoded",
  "smallvec",
  "socket2",
- "time 0.3.9",
+ "time 0.3.11",
  "url",
 ]
 
@@ -1001,9 +1001,9 @@ checksum = "cb56e1aa765b4b4f3aadfab769793b7087bb03a4ea4920644a6d238e2df5b9ed"
 
 [[package]]
 name = "indexmap"
-version = "1.9.0"
+version = "1.9.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6c6392766afd7964e2531940894cffe4bd8d7d17dbc3c1c4857040fd4b33bdb3"
+checksum = "10a35a97730320ffe8e2d410b5d3b69279b98d2c14bdb8b70ea89ecf7888d41e"
 dependencies = [
  "autocfg",
  "hashbrown 0.12.1",
@@ -1707,9 +1707,9 @@ dependencies = [
 
 [[package]]
 name = "quote"
-version = "1.0.19"
+version = "1.0.20"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f53dc8cf16a769a6f677e09e7ff2cd4be1ea0f48754aac39520536962011de0d"
+checksum = "3bcdf212e9776fbcb2d23ab029360416bb1706b1aea2d1a5ba002727cbcab804"
 dependencies = [
  "proc-macro2",
 ]
@@ -2395,9 +2395,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "0.44.1"
+version = "0.44.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f4e66d2f686d1561b88e4bca1d3ece8b90a48c9259b786e7d5dbc4095937e0a4"
+checksum = "d89199ed2d22a2670b3f8633a8df543e2ff0d65df90facd3f532753b1e4d6db6"
 dependencies = [
  "ahash",
  "auto_impl",
@@ -2536,9 +2536,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.89.5"
+version = "0.89.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a5b9d00145582f172117a56a184931288501f745bfb2fb3cbe21b5d768d2e8bc"
+checksum = "347cd727977929ef2c6a0e9461a9bcd8e86563a9eacffb15192771fcc7a88a12"
 dependencies = [
  "better_scoped_tls",
  "num_cpus",
@@ -2925,9 +2925,9 @@ dependencies = [
 
 [[package]]
 name = "time"
-version = "0.3.9"
+version = "0.3.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c2702e08a7a860f005826c6815dcac101b19b5eb330c27fe4a5928fec1d20ddd"
+checksum = "72c91f41dcb2f096c05f0873d667dceec1087ce5bcf984ec8ffb19acddbb3217"
 dependencies = [
  "itoa",
  "libc",
