@@ -1,38 +1,28 @@
-let attrs =
-  (obj = {}) =>
-  (el) => {
-    for (let [key, val] of Object.entries(obj)) {
-      if (val === true || val === false) {
-        el.toggleAttribute(key, val);
-      } else if (val != null) {
-        el.setAttribute(key, val);
-      }
-    }
-  };
-
-let on =
-  (...args) =>
-  (el) => {
-    el.addEventListener(...args);
-  };
-
 let html = new Proxy(
   {},
   {
     get(_, tag) {
       return (...args) => {
-        let el = document.createElement(tag);
-        let children = [];
+        args = args.flat(Infinity);
 
-        for (let arg of args) {
-          if (typeof arg === "function") {
-            arg(el);
-          } else {
-            children.push(arg);
+        let el = document.createElement(tag);
+
+        if (typeof args[0] === "object" && !(args[0] instanceof Element)) {
+          let obj = args.shift();
+
+          for (let [key, val] of Object.entries(obj)) {
+            if (key.startsWith("on")) {
+              el.addEventListener(
+                key.substring(2).toLowerCase(),
+                ...[].concat(val)
+              );
+            } else if (val != null) {
+              el[key] = val;
+            }
           }
         }
 
-        el.append(...children);
+        el.append(...args);
 
         return el;
       };
@@ -57,15 +47,12 @@ customElements.define(
       this.toggleAttribute("open", this.open);
 
       for (let input of this.refs.colorSchemeOptions) {
-        input.setAttribute("tabindex", this.open ? "0" : "-1");
+        input.tabIndex = this.open ? "0" : "-1";
       }
 
-      this.refs.toggle.setAttribute(
-        "aria-expanded",
-        this.open ? "true" : "false"
-      );
+      this.refs.toggle.ariaExpanded = this.open ? "true" : "false";
 
-      this.refs.toggleIcon.setAttribute("name", this.open ? "close" : "open");
+      this.refs.toggleIcon.name = this.open ? "close" : "open";
 
       let tabs = {
         nav: this.open,
@@ -75,10 +62,10 @@ customElements.define(
       for (let [tab, active] of Object.entries(tabs)) {
         let el = this.refs[tab];
 
-        el.setAttribute("aria-hidden", active ? "false" : "true");
+        el.ariaHidden = active ? "false" : "true";
 
         for (let anchor of this.querySelectorAll(`[slot="${tab}"] a`)) {
-          anchor.setAttribute("tabindex", active ? "0" : "-1");
+          anchor.tabIndex = active ? "0" : "-1";
         }
       }
     };
@@ -110,94 +97,71 @@ customElements.define(
     connectedCallback() {
       this.attachShadow({ mode: "open" });
 
-      let shadow = this.shadowRoot;
-
-      let {
-        ["slot-match"]: slotMatch,
-        button,
-        div,
-        form,
-        h6,
-        input,
-        label,
-        li,
-        nav,
-        slot,
-        style,
-        ul,
-      } = html;
+      let { button, div, form, h6, input, label, li, nav, slot, style, ul } =
+        html;
 
       this.refs.colorSchemeOptions = [];
 
-      shadow.append(
+      this.shadowRoot.append(
         style('@import "/site.css"'),
         nav(
           (this.refs.toggle = button(
-            attrs({
-              class: "toggle",
+            {
+              ariaExpanded: "false",
+              ariaLabel: "Toggle nav",
+              className: "toggle",
+              onClick: this.toggleOpen,
               type: "button",
-              "aria-expanded": "false",
-              "aria-label": "Toggle nav",
-            }),
-            on("click", this.toggleOpen),
-            (this.refs.toggleIcon = slotMatch(
-              attrs({
-                name: "open",
-                class: "icon",
-                "aria-hidden": "true",
-              }),
-              slot(attrs({ name: "open", slot: "open" })),
-              slot(attrs({ name: "close", slot: "close" }))
-            ))
+            },
+            (this.refs.toggleIcon = slot({
+              ariaHidden: "true",
+              className: "icon",
+              name: "open",
+            }))
           )),
           (this.refs.nav = div(
-            attrs({
-              class: "nav",
-              "aria-hidden": "true",
-            }),
+            {
+              ariaHidden: "true",
+              className: "nav",
+            },
             div(
-              attrs({ class: "nav-inner" }),
-              slot(attrs({ name: "nav" })),
+              { className: "nav-inner" },
+              slot({ name: "nav" }),
               form(
-                attrs({ class: "color-scheme-selector" }),
-                on("change", (e) => {
-                  if (this.refs.colorSchemeOptions.includes(e.target)) {
+                {
+                  className: "color-scheme-selector",
+                  onChange: (e) => {
                     this.changeColorScheme(e.target.value);
-                  }
-                }),
+                  },
+                },
                 h6("Color Scheme"),
                 ul(
-                  ...["Light", "Dark"]
-                    .map((scheme, i) => [
-                      li(
-                        (this.refs.colorSchemeOptions[i] = input(
-                          attrs({
-                            type: "radio",
-                            id: `color-scheme-option-${i}`,
-                            value: scheme.toLowerCase(),
-                            tabindex: "-1",
-                          })
-                        )),
-                        label(
-                          attrs({ for: `color-scheme-option-${i}` }),
-                          scheme
-                        )
-                      ),
-                    ])
-                    .flat()
+                  ["Light", "Dark"].map((scheme, i) => [
+                    li(
+                      (this.refs.colorSchemeOptions[i] = input({
+                        id: `color-scheme-option-${i}`,
+                        tabIndex: "-1",
+                        type: "radio",
+                        value: scheme.toLowerCase(),
+                      })),
+                      label({ htmlFor: `color-scheme-option-${i}` }, scheme)
+                    ),
+                  ])
                 )
               )
             )
           ))
         ),
         (this.refs.panel = div(
-          attrs({ class: "panel" }),
-          on("click", () => {
-            if (this.open) {
-              this.toggleOpen();
-            }
-          }),
-          slot(attrs({ name: "panel" }))
+          {
+            className: "panel",
+            onClick: () => {
+              if (this.open) {
+                this.toggleOpen();
+              }
+            },
+          },
+          slot({ name: "panel" })
         ))
       );
 
@@ -222,51 +186,20 @@ customElements.define(
 
       this.attachShadow({ mode: "open" });
 
-      let shadow = this.shadowRoot;
-
       let { style, pre, code, span } = html;
 
-      shadow.append(
+      this.shadowRoot.append(
         style('@import "/site.css";'),
         pre(
-          attrs({ class: "code-block" }),
+          { className: "code-block" },
           code(
-            ...lines
-              .map((ln) => [
-                span(attrs({ class: "number" })),
-                span(attrs({ class: "line" }), ln || " "),
-              ])
-              .flat()
+            lines.map((ln) => [
+              span({ className: "number" }),
+              span({ className: "line" }, ln || " "),
+            ])
           )
         )
       );
-    }
-  }
-);
-
-customElements.define(
-  "slot-match",
-  class extends HTMLElement {
-    refs = {};
-
-    static get observedAttributes() {
-      return ["name"];
-    }
-
-    attributeChangedCallback(name, _, newValue) {
-      this.refs.slot?.setAttribute(name, newValue);
-    }
-
-    connectedCallback() {
-      this.attachShadow({ mode: "open" });
-
-      let shadow = this.shadowRoot;
-
-      let { slot } = html;
-
-      this.refs.slot = slot(attrs({ name: this.getAttribute("name") }));
-
-      shadow.append(this.refs.slot);
     }
   }
 );

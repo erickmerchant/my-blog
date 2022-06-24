@@ -72,10 +72,10 @@ page-app {
   grid-template-rows: 0 1fr;
   height: 100vh;
   overflow-x: hidden;
-  background-color: hsl(var(--nav-background));
+  background-color: hsl(var(--background-2));
   background-image: radial-gradient(
     hsl(var(--text-color) / 0.0625) 25%,
-    hsl(var(--nav-background)) 25%
+    hsl(var(--background-2)) 25%
   );
   background-size: 0.25em 0.25em;
 
@@ -85,16 +85,16 @@ page-app {
   --toggle-border-width: 0.125rem;
   --nav-height: 2.25rem;
   --scrollbar-foreground: hsl(var(--anchor-color) / 0.5);
-  --scrollbar-background: hsl(var(--background) / 0.5);
+  --scrollbar-background: hsl(var(--background-1) / 0.5);
   scrollbar-color: var(--scrollbar-foreground) var(--scrollbar-background);
 
   &:where([color-scheme="light"]) {
     --anchor-color: 100 60% 30%;
     --code-color: 100 60% 25%;
     --text-color: 100 5% 10%;
-    --background: 0 0% 100%;
-    --nav-background: 100 5% 90%;
-    --code-background: 100 5% 95%;
+    --background-1: 0 0% 100%;
+    --background-2: 100 5% 90%;
+    --background-3: 100 5% 95%;
     --banner-background: 100 20% 75%;
   }
 
@@ -102,9 +102,9 @@ page-app {
     --anchor-color: 100 60% 70%;
     --code-color: 100 60% 80%;
     --text-color: 0 0% 100%;
-    --background: 100 5% 10%;
-    --nav-background: 100 5% 15%;
-    --code-background: 100 5% 17.5%;
+    --background-1: 100 5% 12.5%;
+    --background-2: 100 5% 17.5%;
+    --background-3: 100 5% 20%;
     --banner-background: 100 20% 27.5%;
   }
 
@@ -131,7 +131,7 @@ page-app {
   top: var(--toggle-top);
   left: var(--toggle-top);
   z-index: 2;
-  background-color: hsl(var(--background));
+  background-color: hsl(var(--background-1));
   border: var(--toggle-border-width) solid hsl(var(--banner-background) / 0.5);
   border-radius: 0.25em;
   color: hsl(var(--anchor-color));
@@ -210,7 +210,7 @@ page-app {
     top: 0;
     height: 100%;
     width: 0.125em;
-    background-color: hsl(var(--background) / 0.5);
+    background-color: hsl(var(--background-1) / 0.5);
   }
 
   @media (prefers-reduced-motion) {
@@ -229,10 +229,10 @@ page-app {
   top: calc(calc(var(--toggle-top) * 2) + var(--nav-height) - var(--height));
   background-color: hsl(var(--banner-background));
   background-image: linear-gradient(
-      hsl(var(--background)) 1px,
+      hsl(var(--background-1)) 1px,
       hsl(0 0% 0% / 0) 1px
     ),
-    linear-gradient(90deg, hsl(var(--background)) 1px, hsl(0 0% 0% / 0) 1px);
+    linear-gradient(90deg, hsl(var(--background-1)) 1px, hsl(0 0% 0% / 0) 1px);
   background-size: 1em 1em;
   background-position: -1px -1px;
   color: hsl(var(--text-color));
@@ -259,7 +259,7 @@ page-app {
 
 .main {
   color: hsl(var(--text-color));
-  background-color: hsl(var(--background));
+  background-color: hsl(var(--background-1));
   padding-block: 0 var(--space-half);
   width: 100%;
   overflow-x: auto;
@@ -330,24 +330,25 @@ page-app {
     gap: 0 var(--space-quarter);
     font-size: 0.875rem;
     font-family: ui-monospace, Consolas, monaco, monospace;
-    background-color: hsl(var(--code-background));
-    border-radius: 0.25em;
+    background-color: hsl(var(--background-3));
+    border-radius: var(--border-radius);
     color: hsl(var(--code-color));
     counter-reset: lines;
+    --border-radius: 0.25em;
 
     @media (--mobile) {
-      border-radius: 0;
+      --border-radius: 0;
     }
   }
 
   & :where(.line) {
-    padding-inline-end: 1em;
+    padding-inline: 0.5em;
 
-    &:nth-child(2) {
+    &:where(:nth-child(2)) {
       padding-block-start: var(--space-half);
     }
 
-    &:last-child {
+    &:where(:last-child) {
       padding-block-end: var(--space-half);
     }
   }
@@ -355,19 +356,21 @@ page-app {
   & :where(.number) {
     text-align: right;
     counter-increment: lines;
-    color: hsl(var(--code-color) / 0.75);
-    filter: grayscale(1);
+    color: hsl(var(--text-color) / 0.5);
     padding-inline: var(--space-half);
+    background: hsl(var(--background-2));
 
-    &:first-child {
+    &:where(:first-child) {
       padding-block-start: var(--space-half);
+      border-top-left-radius: var(--border-radius);
     }
 
-    &:nth-last-child(2) {
+    &:where(:nth-last-child(2)) {
       padding-block-end: var(--space-half);
+      border-bottom-left-radius: var(--border-radius);
     }
 
-    &:before {
+    &::before {
       content: counter(lines);
     }
   }
@@ -395,7 +398,7 @@ page-app {
 
 .footer {
   color: hsl(var(--text-color));
-  background-color: hsl(var(--background));
+  background-color: hsl(var(--background-1));
   width: 100%;
 
   & :where(p) {
