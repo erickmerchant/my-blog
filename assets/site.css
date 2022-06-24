@@ -373,6 +373,11 @@ page-app {
     &::before {
       content: counter(lines);
     }
+
+    @media (--mobile) {
+      left: 0;
+      position: sticky;
+    }
   }
 
   @media (--mobile) {
