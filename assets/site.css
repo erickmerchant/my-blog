@@ -152,16 +152,11 @@ page-app {
   z-index: 0;
   width: var(--drawer-width);
   height: 100%;
-  display: grid;
   overflow: auto;
   border-right: 0.125rem solid hsl(var(--background-3));
-  place-content: center;
-}
-
-.nav-inner {
   display: grid;
+  place-content: center;
   gap: var(--space);
-  border-radius: 0.25rem;
 
   --font-weight: 400;
 

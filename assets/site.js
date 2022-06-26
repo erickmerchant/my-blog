@@ -124,30 +124,27 @@ customElements.define(
               ariaHidden: "true",
               className: "nav",
             },
-            div(
-              { className: "nav-inner" },
-              slot({ name: "nav" }),
-              form(
-                {
-                  className: "color-scheme-selector",
-                  onChange: (e) => {
-                    this.changeColorScheme(e.target.value);
-                  },
+            slot({ name: "nav" }),
+            form(
+              {
+                className: "color-scheme-selector",
+                onChange: (e) => {
+                  this.changeColorScheme(e.target.value);
                 },
-                h6("Color Scheme"),
-                ul(
-                  ["Light", "Dark"].map((scheme, i) => [
-                    li(
-                      (this.refs.colorSchemeOptions[i] = input({
-                        id: `color-scheme-option-${i}`,
-                        tabIndex: "-1",
-                        type: "radio",
-                        value: scheme.toLowerCase(),
-                      })),
-                      label({ htmlFor: `color-scheme-option-${i}` }, scheme)
-                    ),
-                  ])
-                )
+              },
+              h6("Color Scheme"),
+              ul(
+                ["Light", "Dark"].map((scheme, i) => [
+                  li(
+                    (this.refs.colorSchemeOptions[i] = input({
+                      id: `color-scheme-option-${i}`,
+                      tabIndex: "-1",
+                      type: "radio",
+                      value: scheme.toLowerCase(),
+                    })),
+                    label({ htmlFor: `color-scheme-option-${i}` }, scheme)
+                  ),
+                ])
               )
             )
           ))
@@ -161,7 +158,7 @@ customElements.define(
               }
             },
           },
-          slot({ name: "panel" })
+          slot()
         ))
       );
 
