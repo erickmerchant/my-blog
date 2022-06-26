@@ -103,7 +103,7 @@ customElements.define(
       this.refs.colorSchemeOptions = [];
 
       this.shadowRoot.append(
-        style('@import "/site.css"'),
+        style('@import "/site.css";'),
         nav(
           (this.refs.toggle = button(
             {
