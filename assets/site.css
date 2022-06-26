@@ -9,6 +9,7 @@
   max-width: 100%;
   padding: 0;
   margin: 0;
+  gap: inherit;
   font-weight: var(--font-weight);
 
   &,
@@ -77,7 +78,7 @@ page-app {
     hsl(var(--text-color) / 0.0625) 25%,
     hsl(var(--background-2)) 25%
   );
-  background-size: 0.25em 0.25em;
+  background-size: 0.25rem 0.25rem;
 
   --content-left: 0;
   --drawer-width: 50vw;
@@ -85,7 +86,7 @@ page-app {
   --toggle-border-width: 0.125rem;
   --nav-height: 2.25rem;
   --scrollbar-foreground: hsl(var(--anchor-color) / 0.5);
-  --scrollbar-background: hsl(var(--background-1) / 0.5);
+  --scrollbar-background: hsl(var(--background-1));
   scrollbar-color: var(--scrollbar-foreground) var(--scrollbar-background);
 
   &:where([color-scheme="light"]) {
@@ -96,6 +97,7 @@ page-app {
     --background-2: 100 5% 90%;
     --background-3: 100 5% 95%;
     --banner-background: 100 20% 75%;
+    --banner-foreground: 0 0% 100%;
   }
 
   &:where([color-scheme="dark"]) {
@@ -106,6 +108,7 @@ page-app {
     --background-2: 100 5% 17.5%;
     --background-3: 100 5% 20%;
     --banner-background: 100 20% 27.5%;
+    --banner-foreground: 100 30% 40%;
   }
 
   &:where([open]) {
@@ -113,7 +116,7 @@ page-app {
   }
 
   @media (--tablet) {
-    --drawer-width: calc(100% - 1rem);
+    --drawer-width: calc(100vw - 1rem);
   }
 }
 
@@ -132,8 +135,8 @@ page-app {
   left: var(--toggle-top);
   z-index: 2;
   background-color: hsl(var(--background-1));
-  border: var(--toggle-border-width) solid hsl(var(--banner-background) / 0.5);
-  border-radius: 0.25em;
+  border: var(--toggle-border-width) solid hsl(var(--anchor-color) / 0.5);
+  border-radius: 0.25rem;
   color: hsl(var(--anchor-color));
   height: var(--nav-height);
   aspect-ratio: 1 / 1;
@@ -151,21 +154,24 @@ page-app {
   height: 100%;
   display: grid;
   overflow: auto;
+  border-right: 0.125rem solid hsl(var(--background-3));
+  place-content: center;
 }
 
 .nav-inner {
-  margin: auto;
-  padding: 3em 4em;
   display: grid;
-  gap: 2em;
-  border-radius: 0.25em;
+  gap: var(--space);
+  border-radius: 0.25rem;
 
   --font-weight: 400;
+
+  & * {
+    gap: var(--space-quarter);
+  }
 }
 
 .color-scheme-selector {
   display: grid;
-  gap: var(--space-quarter);
   color: hsl(var(--text-color));
 
   & :where(h6) {
@@ -175,12 +181,10 @@ page-app {
   & :where(ul) {
     list-style: none;
     display: grid;
-    gap: 0.5em;
   }
 
   & :where(li) {
     display: grid;
-    gap: 0.5em;
     grid-template-columns: max-content 1fr;
     align-items: center;
   }
@@ -202,17 +206,6 @@ page-app {
   transform: translateX(var(--content-left));
   transition: transform 0.125s ease;
 
-  &::before {
-    content: "";
-    display: grid;
-    position: absolute;
-    left: -0.125em;
-    top: 0;
-    height: 100%;
-    width: 0.125em;
-    background-color: hsl(var(--background-1) / 0.5);
-  }
-
   @media (prefers-reduced-motion) {
     transition: none;
   }
@@ -221,7 +214,6 @@ page-app {
 .links {
   list-style: none;
   display: grid;
-  gap: var(--space-quarter);
 }
 
 .banner {
@@ -229,11 +221,15 @@ page-app {
   top: calc(calc(var(--toggle-top) * 2) + var(--nav-height) - var(--height));
   background-color: hsl(var(--banner-background));
   background-image: linear-gradient(
-      hsl(var(--background-1)) 1px,
+      hsl(var(--banner-foreground)) 1px,
       hsl(0 0% 0% / 0) 1px
     ),
-    linear-gradient(90deg, hsl(var(--background-1)) 1px, hsl(0 0% 0% / 0) 1px);
-  background-size: 1em 1em;
+    linear-gradient(
+      90deg,
+      hsl(var(--banner-foreground)) 1px,
+      hsl(0 0% 0% / 0) 1px
+    );
+  background-size: 1rem 1rem;
   background-position: -1px -1px;
   color: hsl(var(--text-color));
   display: grid;
@@ -241,26 +237,14 @@ page-app {
   justify-items: center;
   height: var(--height);
   width: 100%;
-  padding-inline: var(--space-half);
+  border-bottom: 0.125rem solid hsl(var(--background-3));
 
   --height: 12rem;
-
-  &::after {
-    content: "";
-    display: grid;
-    position: absolute;
-    bottom: -0.125em;
-    left: 0;
-    width: 100%;
-    height: 0.125em;
-    background-color: hsl(var(--banner-background) / 0.5);
-  }
 }
 
 .main {
   color: hsl(var(--text-color));
   background-color: hsl(var(--background-1));
-  padding-block: 0 var(--space-half);
   width: 100%;
   overflow-x: auto;
 
@@ -268,7 +252,7 @@ page-app {
     max-width: var(--max-width);
     width: 100%;
     padding-inline: var(--space-half);
-    margin-block-start: var(--space-half);
+    margin-block: 0.5em;
     margin-inline: auto;
   }
 
@@ -277,31 +261,39 @@ page-app {
   }
 
   & :where(h1) {
-    font-size: 1.625em;
+    font-size: 1.625rem;
 
     --font-weight: 900;
   }
 
   & :where(h2) {
-    font-size: 1.375em;
+    font-size: 1.375rem;
 
     --font-weight: 800;
   }
 
   & :where(h3) {
-    font-size: 1.1875em;
+    font-size: 1.1875rem;
 
     --font-weight: 700;
   }
 
   & :where(h4, dt) {
-    font-size: 1.0625em;
+    font-size: 1.0625rem;
 
     --font-weight: 600;
   }
 
-  & :where(dt, dd):where(:not(:first-child)) {
-    margin-block-start: var(--space-half);
+  & :where(h1, h2, h3, h4):where(:not(:first-child)) {
+    margin-block-start: 1em;
+  }
+
+  & :where(dd, dt) {
+    margin-block: 0.5em;
+  }
+
+  & :where(dt) {
+    margin-block-start: 1em;
   }
 
   & :where(code-block) {
@@ -309,6 +301,7 @@ page-app {
     max-width: calc(var(--max-width) + 6rem);
     width: 100%;
     overflow-x: auto;
+    margin-block: 1em;
 
     @media (--tablet) {
       max-width: var(--max-width);
@@ -334,7 +327,7 @@ page-app {
     border-radius: var(--border-radius);
     color: hsl(var(--code-color));
     counter-reset: lines;
-    --border-radius: 0.25em;
+    --border-radius: 0.25rem;
 
     @media (--mobile) {
       --border-radius: 0;
@@ -342,14 +335,14 @@ page-app {
   }
 
   & :where(.line) {
-    padding-inline: 0.5em;
+    padding-inline: var(--space-quarter);
 
     &:where(:nth-child(2)) {
-      padding-block-start: var(--space-half);
+      padding-block-start: 1em;
     }
 
     &:where(:last-child) {
-      padding-block-end: var(--space-half);
+      padding-block-end: 1em;
     }
   }
 
@@ -361,12 +354,12 @@ page-app {
     background: hsl(var(--background-2));
 
     &:where(:first-child) {
-      padding-block-start: var(--space-half);
+      padding-block-start: 1em;
       border-top-left-radius: var(--border-radius);
     }
 
     &:where(:nth-last-child(2)) {
-      padding-block-end: var(--space-half);
+      padding-block-end: 1em;
       border-bottom-left-radius: var(--border-radius);
     }
 
@@ -387,18 +380,18 @@ page-app {
 
 .post-list {
   display: grid;
-  gap: var(--space-half);
+  gap: 1em;
   list-style: none;
 
   & :where(li) {
     display: grid;
-    gap: var(--space-quarter);
+    gap: 0.5em;
   }
 }
 
 .post-date {
   font-style: italic;
-  font-size: 0.875em;
+  font-size: 0.875rem;
 }
 
 .footer {
@@ -417,7 +410,7 @@ page-app {
   width: 100%;
   margin-block-start: var(--space-half);
   margin-inline: auto;
-  font-size: 0.875em;
+  font-size: 0.875rem;
 }
 
 /* 0 1 1 */
