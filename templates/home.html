@@ -7,7 +7,7 @@
       <li>
         <h2><a href="/posts/{{post.slug}}.html">{{post.title}}</a></h2>
         <p class="post-date">Published: <time>{{post.date|format_date("%B %e, %Y")}}</time></p>
-        <p class="post-description">{{post.description}}</p>
+        <p>{{post.description}}</p>
       </li>
     {% endfor %}
   </ol>

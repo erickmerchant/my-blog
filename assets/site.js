@@ -109,25 +109,25 @@ customElements.define(
             {
               ariaExpanded: "false",
               ariaLabel: "Toggle nav",
-              className: "toggle",
+              className: "page-app toggle",
               onClick: this.toggleOpen,
               type: "button",
             },
             (this.refs.toggleIcon = slot({
               ariaHidden: "true",
-              className: "icon",
+              className: "page-app icon",
               name: "open",
             }))
           )),
           (this.refs.nav = div(
             {
               ariaHidden: "true",
-              className: "nav",
+              className: "page-app nav",
             },
             slot({ name: "nav" }),
             form(
               {
-                className: "color-scheme-selector",
+                className: "page-app color-scheme-form",
                 onChange: (e) => {
                   this.changeColorScheme(e.target.value);
                 },
@@ -142,7 +142,12 @@ customElements.define(
                       type: "radio",
                       value: scheme.toLowerCase(),
                     })),
-                    label({ htmlFor: `color-scheme-option-${i}` }, scheme)
+                    label(
+                      {
+                        htmlFor: `color-scheme-option-${i}`,
+                      },
+                      scheme
+                    )
                   ),
                 ])
               )
@@ -151,7 +156,7 @@ customElements.define(
         ),
         (this.refs.panel = div(
           {
-            className: "panel",
+            className: "page-app panel",
             onClick: () => {
               if (this.open) {
                 this.toggleOpen();
@@ -188,11 +193,12 @@ customElements.define(
       this.shadowRoot.append(
         style('@import "/site.css";'),
         pre(
-          { className: "code-block" },
+          { className: "code-block root" },
           code(
+            { className: "code-block code" },
             lines.map((ln) => [
-              span({ className: "number" }),
-              span({ className: "line" }, ln || " "),
+              span({ className: "code-block number" }),
+              span({ className: "code-block line" }, ln || " "),
             ])
           )
         )
