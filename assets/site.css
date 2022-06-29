@@ -229,7 +229,7 @@ page-app {
     margin-inline-start: var(--space-half);
 
     @media (--mobile) {
-      margin-inline-start: var(--space));
+      margin-inline-start: var(--space);
     }
   }
 }
@@ -259,7 +259,6 @@ page-app {
     margin-inline-start: 0;
   }
 }
-
 
 .post-date {
   font-style: italic;
@@ -412,7 +411,6 @@ page-app:where(:not(:defined)) {
     }
   }
 
-
   &.number {
     text-align: right;
     counter-increment: lines;
@@ -439,7 +437,6 @@ page-app:where(:not(:defined)) {
       position: sticky;
     }
   }
-
 
   @media (--mobile) {
     white-space: pre;
