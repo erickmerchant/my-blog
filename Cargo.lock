@@ -1862,9 +1862,9 @@ checksum = "4389f1d5789befaf6029ebd9f7dac4af7f7e3d61b69d4f30e2ac02b57e7712b0"
 
 [[package]]
 name = "rkyv"
-version = "0.7.38"
+version = "0.7.39"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "517a3034eb2b1499714e9d1e49b2367ad567e07639b69776d35e259d9c27cca6"
+checksum = "cec2b3485b07d96ddfd3134767b8a447b45ea4eb91448d0a35180ec0ffd5ed15"
 dependencies = [
  "bytecheck",
  "hashbrown 0.12.1",
@@ -1876,9 +1876,9 @@ dependencies = [
 
 [[package]]
 name = "rkyv_derive"
-version = "0.7.38"
+version = "0.7.39"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "505c209ee04111a006431abf39696e640838364d67a107c559ababaf6fd8c9dd"
+checksum = "6eaedadc88b53e36dd32d940ed21ae4d850d5916f2581526921f553a72ac34c4"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -2438,9 +2438,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.123.0"
+version = "0.123.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "109e42cc8213daf66e758e70f57c61e37dacf4b385e87c212ba7a65851ebc9e8"
+checksum = "cf6433cb81892091382f8639fed5eed2423d698f5270ab2addc8d6d5931880ec"
 dependencies = [
  "ahash",
  "arrayvec",
