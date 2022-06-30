@@ -40,14 +40,34 @@ customElements.define(
     toggleOpen = () => {
       this.open = !this.open;
 
-      this.updateLayout();
+      this.update();
     };
 
-    updateLayout = () => {
+    prefersColorSchemeDark = window.matchMedia("(prefers-color-scheme: dark)");
+
+    initColorScheme = () =>
+      window.localStorage.getItem("color-scheme") ??
+      (this.prefersColorSchemeDark.matches ? "dark" : "light");
+
+    colorScheme = this.initColorScheme();
+
+    changeColorScheme = (value) => {
+      this.colorScheme = value;
+
+      window.localStorage.setItem("color-scheme", this.colorScheme);
+
+      this.update();
+    };
+
+    update = () => {
       this.toggleAttribute("open", this.open);
+
+      this.setAttribute("color-scheme", this.colorScheme);
 
       for (let input of this.refs.colorSchemeOptions) {
         input.tabIndex = this.open ? "0" : "-1";
+
+        input.checked = this.colorScheme === input.value;
       }
 
       this.refs.toggle.ariaExpanded = this.open ? "true" : "false";
@@ -67,30 +87,6 @@ customElements.define(
         for (let anchor of this.querySelectorAll(`[slot="${tab}"] a`)) {
           anchor.tabIndex = active ? "0" : "-1";
         }
-      }
-    };
-
-    prefersColorSchemeDark = window.matchMedia("(prefers-color-scheme: dark)");
-
-    initColorScheme = () =>
-      window.localStorage.getItem("color-scheme") ??
-      (this.prefersColorSchemeDark.matches ? "dark" : "light");
-
-    colorScheme = this.initColorScheme();
-
-    changeColorScheme = (value) => {
-      this.colorScheme = value;
-
-      window.localStorage.setItem("color-scheme", this.colorScheme);
-
-      this.updateColorScheme();
-    };
-
-    updateColorScheme = () => {
-      this.setAttribute("color-scheme", this.colorScheme);
-
-      for (let input of this.refs.colorSchemeOptions) {
-        input.checked = this.colorScheme === input.value;
       }
     };
 
@@ -134,22 +130,27 @@ customElements.define(
               },
               h6("Color Scheme"),
               ul(
-                ["Light", "Dark"].map((scheme, i) => [
-                  li(
-                    (this.refs.colorSchemeOptions[i] = input({
-                      id: `color-scheme-option-${i}`,
-                      tabIndex: "-1",
-                      type: "radio",
-                      value: scheme.toLowerCase(),
-                    })),
-                    label(
-                      {
-                        htmlFor: `color-scheme-option-${i}`,
-                      },
-                      scheme
-                    )
-                  ),
-                ])
+                ["Light", "Dark"].map((scheme, i) => {
+                  let value = scheme.toLowerCase();
+
+                  return [
+                    li(
+                      (this.refs.colorSchemeOptions[i] = input({
+                        id: `color-scheme-option-${i}`,
+                        tabIndex: "-1",
+                        type: "radio",
+                        checked: this.colorScheme === value,
+                        value,
+                      })),
+                      label(
+                        {
+                          htmlFor: `color-scheme-option-${i}`,
+                        },
+                        scheme
+                      )
+                    ),
+                  ];
+                })
               )
             )
           ))
@@ -157,25 +158,24 @@ customElements.define(
         (this.refs.panel = div(
           {
             className: "page-app panel",
+            ariaHidden: "false",
             onClick: () => {
               if (this.open) {
                 this.toggleOpen();
               }
             },
           },
-          slot()
+          slot({ name: "panel" })
         ))
       );
 
       this.prefersColorSchemeDark.addEventListener("change", () => {
         this.colorScheme = this.initColorScheme();
 
-        this.updateColorScheme();
+        this.update();
       });
 
-      this.updateLayout();
-
-      this.updateColorScheme();
+      this.update();
     }
   }
 );

@@ -11,15 +11,15 @@
   </head>
   <body>
     <page-app>
-      <div class="banner">
+      <div class="banner" slot="panel">
       </div>
 
-      <main class="main">
+      <main class="main" slot="panel">
         {% block main %}
         {% endblock %}
       </main>
 
-      <footer class="footer">
+      <footer class="footer" slot="panel">
         <p class="copyright">{{site.copyright}}</p>
       </footer>
 
