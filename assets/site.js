@@ -16,7 +16,7 @@ let html = new Proxy(
                 key.substring(2).toLowerCase(),
                 ...[].concat(val)
               );
-            } else if (val != null) {
+            } else {
               el[key] = val;
             }
           }
@@ -124,34 +124,24 @@ customElements.define(
             form(
               {
                 className: "page-app color-scheme-form",
-                onChange: (e) => {
-                  this.changeColorScheme(e.target.value);
-                },
               },
               h6("Color Scheme"),
-              ul(
-                ["Light", "Dark"].map((scheme, i) => {
-                  let value = scheme.toLowerCase();
+              ["Light", "Dark"].map((scheme, i) => {
+                let value = scheme.toLowerCase();
 
-                  return [
-                    li(
-                      (this.refs.colorSchemeOptions[i] = input({
-                        id: `color-scheme-option-${i}`,
-                        tabIndex: "-1",
-                        type: "radio",
-                        checked: this.colorScheme === value,
-                        value,
-                      })),
-                      label(
-                        {
-                          htmlFor: `color-scheme-option-${i}`,
-                        },
-                        scheme
-                      )
-                    ),
-                  ];
-                })
-              )
+                return label(
+                  (this.refs.colorSchemeOptions[i] = input({
+                    tabIndex: "-1",
+                    type: "radio",
+                    checked: this.colorScheme === value,
+                    value,
+                    onChange: () => {
+                      this.changeColorScheme(value);
+                    },
+                  })),
+                  scheme
+                );
+              })
             )
           ))
         ),

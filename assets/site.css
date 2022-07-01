@@ -348,7 +348,7 @@ page-app:where(:not(:defined)) {
     display: grid;
     color: hsl(var(--text-color));
 
-    & :where(li) {
+    & :where(label) {
       display: grid;
       grid-template-columns: max-content 1fr;
       align-items: center;
