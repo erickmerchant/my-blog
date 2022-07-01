@@ -132,7 +132,7 @@ page-app {
   --drawer-width: 50vw;
   --toggle-top: 0.5rem;
   --toggle-border-width: 0.125rem;
-  --nav-height: 2.25rem;
+  --toggle-height: 2.25rem;
   --scrollbar-foreground: hsl(var(--anchor-color) / 0.5);
   --scrollbar-background: hsl(var(--background-1));
   scrollbar-color: var(--scrollbar-foreground) var(--scrollbar-background);
@@ -172,7 +172,8 @@ page-app {
 
 .banner {
   position: sticky;
-  top: calc(calc(var(--toggle-top) * 2) + var(--nav-height) - var(--height));
+  top: calc((var(--toggle-top) * 2) + var(--toggle-height) - var(--height));
+  z-index: 2;
   background-color: hsl(var(--banner-background));
   background-image: linear-gradient(
       hsl(var(--banner-foreground)) 1px,
@@ -207,7 +208,7 @@ page-app {
   --has-extra-width: 0;
 
   & > * {
-    max-width: calc(var(--max-width) + calc(7rem * var(--has-extra-width)));
+    max-width: calc(var(--max-width) + (7rem * var(--has-extra-width)));
     width: 100%;
     margin-inline: auto;
     padding-inline: calc(var(--space-half) * var(--has-padding-inline));
@@ -308,13 +309,13 @@ page-app:where(:not(:defined)) {
     position: fixed;
     top: var(--toggle-top);
     left: var(--toggle-top);
-    z-index: 2;
+    z-index: 3;
     background-color: hsl(var(--background-1));
     border: var(--toggle-border-width) solid hsl(var(--anchor-color) / 0.5);
     border-radius: 0.25rem;
     color: hsl(var(--anchor-color));
-    height: var(--nav-height);
-    aspect-ratio: 1 / 1;
+    height: var(--toggle-height);
+    width: var(--toggle-height);
     display: grid;
     place-content: center;
     appearance: none;
@@ -435,6 +436,7 @@ page-app:where(:not(:defined)) {
     @media (--mobile) {
       left: 0;
       position: sticky;
+      z-index: 1;
     }
   }
 
