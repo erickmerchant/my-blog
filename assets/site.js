@@ -91,9 +91,9 @@ customElements.define(
     };
 
     connectedCallback() {
-      this.attachShadow({ mode: "open" });
+      this.attachShadow({mode: "open"});
 
-      let { button, div, form, h6, input, label, li, nav, slot, style, ul } =
+      let {button, div, form, h6, input, label, li, nav, slot, style, ul} =
         html;
 
       this.refs.colorSchemeOptions = [];
@@ -120,7 +120,7 @@ customElements.define(
               ariaHidden: "true",
               className: "page-app nav",
             },
-            slot({ name: "nav" }),
+            slot({name: "nav"}),
             form(
               {
                 className: "page-app color-scheme-form",
@@ -165,7 +165,7 @@ customElements.define(
               }
             },
           },
-          slot({ name: "panel" })
+          slot({name: "panel"})
         ))
       );
 
@@ -186,19 +186,19 @@ customElements.define(
     connectedCallback() {
       let lines = this.textContent.trim().split("\n");
 
-      this.attachShadow({ mode: "open" });
+      this.attachShadow({mode: "open"});
 
-      let { style, pre, code, span } = html;
+      let {style, pre, code, span} = html;
 
       this.shadowRoot.append(
         style('@import "/site.css";'),
         pre(
-          { className: "code-block root" },
+          {className: "code-block root"},
           code(
-            { className: "code-block code" },
+            {className: "code-block code"},
             lines.map((ln) => [
-              span({ className: "code-block number" }),
-              span({ className: "code-block line" }, ln || " "),
+              span({className: "code-block number"}),
+              span({className: "code-block line"}, ln || " "),
             ])
           )
         )
