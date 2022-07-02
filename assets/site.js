@@ -37,29 +37,27 @@ customElements.define(
 
     open = false;
 
-    toggleOpen = () => {
+    toggleOpen() {
       this.open = !this.open;
 
       this.update();
-    };
+    }
 
     prefersColorSchemeDark = window.matchMedia("(prefers-color-scheme: dark)");
 
-    initColorScheme = () =>
+    colorScheme =
       window.localStorage.getItem("color-scheme") ??
       (this.prefersColorSchemeDark.matches ? "dark" : "light");
 
-    colorScheme = this.initColorScheme();
-
-    changeColorScheme = (value) => {
+    changeColorScheme(value) {
       this.colorScheme = value;
 
-      window.localStorage.setItem("color-scheme", this.colorScheme);
+      window.localStorage.setItem("color-scheme", value);
 
       this.update();
-    };
+    }
 
-    update = () => {
+    update() {
       this.toggleAttribute("open", this.open);
 
       this.setAttribute("color-scheme", this.colorScheme);
@@ -88,13 +86,12 @@ customElements.define(
           anchor.tabIndex = active ? "0" : "-1";
         }
       }
-    };
+    }
 
     connectedCallback() {
       this.attachShadow({mode: "open"});
 
-      let {button, div, form, h6, input, label, li, nav, slot, style, ul} =
-        html;
+      let {button, div, form, h6, input, label, nav, slot, style} = html;
 
       this.refs.colorSchemeOptions = [];
 
@@ -106,7 +103,7 @@ customElements.define(
               ariaExpanded: "false",
               ariaLabel: "Toggle nav",
               className: "page-app toggle",
-              onClick: this.toggleOpen,
+              onClick: () => this.toggleOpen(),
               type: "button",
             },
             (this.refs.toggleIcon = slot({
@@ -159,10 +156,8 @@ customElements.define(
         ))
       );
 
-      this.prefersColorSchemeDark.addEventListener("change", () => {
-        this.colorScheme = this.initColorScheme();
-
-        this.update();
+      this.prefersColorSchemeDark.addEventListener("change", (e) => {
+        this.changeColorScheme(e.matches ? "dark" : "light");
       });
 
       this.update();

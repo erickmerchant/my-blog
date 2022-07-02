@@ -137,28 +137,6 @@ page-app {
   --scrollbar-background: hsl(var(--background-1));
   scrollbar-color: var(--scrollbar-foreground) var(--scrollbar-background);
 
-  &:where([color-scheme="light"]) {
-    --anchor-color: 100 60% 30%;
-    --code-color: 100 60% 25%;
-    --text-color: 100 5% 10%;
-    --background-1: 0 0% 100%;
-    --background-2: 100 5% 90%;
-    --background-3: 100 5% 95%;
-    --banner-background: 100 20% 75%;
-    --banner-foreground: 0 0% 100%;
-  }
-
-  &:where([color-scheme="dark"]) {
-    --anchor-color: 100 60% 70%;
-    --code-color: 100 60% 80%;
-    --text-color: 0 0% 100%;
-    --background-1: 100 5% 12.5%;
-    --background-2: 100 5% 17.5%;
-    --background-3: 100 5% 20%;
-    --banner-background: 100 20% 27.5%;
-    --banner-foreground: 100 30% 40%;
-  }
-
   &:where([open]) {
     --content-left: var(--drawer-width);
   }
@@ -169,6 +147,28 @@ page-app {
 }
 
 /* 0 1 0 */
+
+[color-scheme="light"] {
+  --anchor-color: 100 60% 30%;
+  --code-color: 100 60% 25%;
+  --text-color: 100 5% 10%;
+  --background-1: 0 0% 100%;
+  --background-2: 100 5% 90%;
+  --background-3: 100 5% 95%;
+  --banner-background: 100 20% 75%;
+  --banner-foreground: 0 0% 100%;
+}
+
+[color-scheme="dark"] {
+  --anchor-color: 100 60% 70%;
+  --code-color: 100 60% 80%;
+  --text-color: 0 0% 100%;
+  --background-1: 100 5% 12.5%;
+  --background-2: 100 5% 17.5%;
+  --background-3: 100 5% 20%;
+  --banner-background: 100 20% 27.5%;
+  --banner-foreground: 100 30% 40%;
+}
 
 .banner {
   position: sticky;
