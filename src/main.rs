@@ -13,12 +13,10 @@ use actix_web::{
     middleware::{Compress, ErrorHandlerResponse, ErrorHandlers, Logger},
     App, HttpServer, Result,
 };
-use std::{env, io};
+use std::{env, fs, io};
 
 #[actix_web::main]
 async fn main() -> io::Result<()> {
-    use std::fs;
-
     env_logger::init();
 
     fs::remove_dir_all("storage/cache").ok();

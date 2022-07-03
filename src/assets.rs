@@ -1,7 +1,8 @@
 use crate::common::{cacheable_response, static_response, CustomError};
 use actix_files::NamedFile;
 use actix_web::{web, Result};
-use std::{convert::AsRef, env, fs, path::Path};
+use serde_json::{from_value, json};
+use std::{convert::AsRef, env, fs, path::Path, sync::Arc};
 
 pub async fn file(file: web::Path<String>) -> Result<NamedFile> {
     let src = Path::new("assets").join(file.to_string());
@@ -20,8 +21,6 @@ pub async fn file(file: web::Path<String>) -> Result<NamedFile> {
 }
 
 fn js_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
-    use serde_json::{from_value, json};
-    use std::sync::Arc;
     use swc::{
         common::{
             errors::{ColorConfig, Handler},
@@ -79,7 +78,6 @@ fn js_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
 fn css_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
     use parcel_css::{stylesheet, targets};
     use parcel_sourcemap::SourceMap;
-    use serde_json::json;
 
     cacheable_response(&src, || -> Result<String, CustomError> {
         let file_contents = fs::read_to_string(&src).map_err(CustomError::new_not_found)?;

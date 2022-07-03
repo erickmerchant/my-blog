@@ -5,7 +5,6 @@ use crate::views;
 use actix_files::NamedFile;
 use actix_web::{
     body::BoxBody,
-    http::header::ContentType,
     http::header::{self, HeaderValue},
     web, HttpRequest, HttpResponse, Result,
 };
@@ -17,7 +16,6 @@ pub fn configure(cfg: &mut web::ServiceConfig) {
             .route("/", web::get().to(home))
             .route("/posts.rss", web::get().to(posts_rss))
             .route("/posts/{slug:.*.html}", web::get().to(post))
-            .route("/drafts/{slug:.*.html}", web::get().to(draft))
             .route("/{file:.*?}", web::get().to(assets::file)),
     );
 }
@@ -96,12 +94,4 @@ async fn post(slug: web::Path<String>) -> Result<NamedFile> {
     let path = get_post_path(slug, "content/posts");
 
     cacheable_response(&path, || get_post_html(path.to_owned()))
-}
-
-async fn draft(slug: web::Path<String>) -> Result<HttpResponse, CustomError> {
-    let path = get_post_path(slug, "content/drafts");
-
-    Ok(HttpResponse::Ok()
-        .content_type(ContentType::html())
-        .body(get_post_html(path)?))
 }
