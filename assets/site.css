@@ -115,7 +115,7 @@ code-block {
   }
 }
 
-page-app {
+page-layout {
   position: relative;
   display: grid;
   grid-template-rows: 0 1fr;
@@ -149,7 +149,7 @@ page-app {
 /* 0 1 0 */
 
 [inert] {
-  --inert-filter: blur(2px);
+  filter: blur(2px);
 }
 
 [color-scheme="light"] {
@@ -207,7 +207,6 @@ page-app {
   gap: 1em;
   padding-block-start: 1em;
   align-content: start;
-  filter: var(--inert-filter);
 
   --has-padding-inline: 1;
   --has-extra-width: 0;
@@ -273,7 +272,7 @@ page-app {
 
 /* 0 1 1 */
 
-page-app:where(:not(:defined)) {
+page-layout:where(:not(:defined)) {
   display: flex;
   flex-direction: column;
   gap: 0;
@@ -302,7 +301,7 @@ page-app:where(:not(:defined)) {
 
 /* 0 2 0 */
 
-.page-app {
+.page-layout {
   &.icon {
     width: 1em;
     aspect-ratio: 1 / 1;
@@ -344,15 +343,15 @@ page-app:where(:not(:defined)) {
     & * {
       gap: var(--space-quarter);
     }
-
-    & :where(h6) {
-      --font-weight: 600;
-    }
   }
 
   &.color-scheme-form {
     display: grid;
     color: hsl(var(--text-color));
+
+    & :where(h6) {
+      --font-weight: 600;
+    }
 
     & :where(label) {
       display: grid;

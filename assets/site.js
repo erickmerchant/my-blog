@@ -31,7 +31,7 @@ let html = new Proxy(
 );
 
 customElements.define(
-  "page-app",
+  "page-layout",
   class extends HTMLElement {
     refs = {};
 
@@ -42,6 +42,85 @@ customElements.define(
 
       this.update();
     }
+
+    update() {
+      this.toggleAttribute("open", this.open);
+
+      this.refs.toggle.ariaExpanded = this.open ? "true" : "false";
+
+      this.refs.toggleIcon.name = this.open ? "close" : "open";
+
+      let active = this.open;
+
+      for (let tab of ["nav", "panel"]) {
+        let el = this.refs[tab];
+
+        el.ariaHidden = active ? "false" : "true";
+
+        el.inert = !active;
+
+        active = !active;
+      }
+    }
+
+    connectedCallback() {
+      this.attachShadow({mode: "open"});
+
+      let {button, div, nav, slot, style} = html;
+
+      this.shadowRoot.append(
+        style('@import "/site.css";'),
+        nav(
+          (this.refs.toggle = button(
+            {
+              ariaExpanded: "false",
+              ariaLabel: "Toggle nav",
+              className: "page-layout toggle",
+              onClick: () => this.toggleOpen(),
+              type: "button",
+            },
+            (this.refs.toggleIcon = slot({
+              ariaHidden: "true",
+              className: "page-layout icon",
+              name: "open",
+            }))
+          )),
+          (this.refs.nav = div(
+            {
+              ariaHidden: "true",
+              className: "page-layout nav",
+              inert: true,
+            },
+            slot({name: "nav"})
+          ))
+        ),
+        div(
+          {
+            onClick: () => {
+              if (this.open) {
+                this.toggleOpen();
+              }
+            },
+          },
+          (this.refs.panel = div(
+            {
+              className: "page-layout panel",
+              ariaHidden: "false",
+            },
+            slot({name: "panel"})
+          ))
+        )
+      );
+
+      this.update();
+    }
+  }
+);
+
+customElements.define(
+  "color-scheme-form",
+  class extends HTMLElement {
+    refs = {};
 
     prefersColorSchemeDark = window.matchMedia("(prefers-color-scheme: dark)");
 
@@ -58,101 +137,42 @@ customElements.define(
     }
 
     update() {
-      this.toggleAttribute("open", this.open);
-
-      this.setAttribute("color-scheme", this.colorScheme);
+      this.closest("body").setAttribute("color-scheme", this.colorScheme);
 
       for (let input of this.refs.colorSchemeOptions) {
         input.checked = this.colorScheme === input.value;
-      }
-
-      this.refs.toggle.ariaExpanded = this.open ? "true" : "false";
-
-      this.refs.toggleIcon.name = this.open ? "close" : "open";
-
-      let tabs = {
-        nav: this.open,
-        panel: !this.open,
-      };
-
-      for (let [tab, active] of Object.entries(tabs)) {
-        let el = this.refs[tab];
-
-        el.ariaHidden = active ? "false" : "true";
-
-        el.inert = !active;
       }
     }
 
     connectedCallback() {
       this.attachShadow({mode: "open"});
 
-      let {button, div, form, h6, input, label, nav, slot, style} = html;
+      let {form, h6, input, label, style} = html;
 
       this.refs.colorSchemeOptions = [];
 
       this.shadowRoot.append(
         style('@import "/site.css";'),
-        nav(
-          (this.refs.toggle = button(
-            {
-              ariaExpanded: "false",
-              ariaLabel: "Toggle nav",
-              className: "page-app toggle",
-              onClick: () => this.toggleOpen(),
-              type: "button",
-            },
-            (this.refs.toggleIcon = slot({
-              ariaHidden: "true",
-              className: "page-app icon",
-              name: "open",
-            }))
-          )),
-          (this.refs.nav = div(
-            {
-              ariaHidden: "true",
-              className: "page-app nav",
-              inert: true,
-            },
-            slot({name: "nav"}),
-            form(
-              {
-                className: "page-app color-scheme-form",
-              },
-              h6("Color Scheme"),
-              ["Light", "Dark"].map((scheme, i) => {
-                let value = scheme.toLowerCase();
-
-                return label(
-                  (this.refs.colorSchemeOptions[i] = input({
-                    type: "radio",
-                    checked: this.colorScheme === value,
-                    value,
-                    onChange: () => {
-                      this.changeColorScheme(value);
-                    },
-                  })),
-                  scheme
-                );
-              })
-            )
-          ))
-        ),
-        div(
+        form(
           {
-            onClick: () => {
-              if (this.open) {
-                this.toggleOpen();
-              }
-            },
+            className: "page-layout color-scheme-form",
           },
-          (this.refs.panel = div(
-            {
-              className: "page-app panel",
-              ariaHidden: "false",
-            },
-            slot({name: "panel"})
-          ))
+          h6("Color Scheme"),
+          ["Light", "Dark"].map((scheme, i) => {
+            let value = scheme.toLowerCase();
+
+            return label(
+              (this.refs.colorSchemeOptions[i] = input({
+                type: "radio",
+                checked: this.colorScheme === value,
+                value,
+                onChange: () => {
+                  this.changeColorScheme(value);
+                },
+              })),
+              scheme
+            );
+          })
         )
       );
 
