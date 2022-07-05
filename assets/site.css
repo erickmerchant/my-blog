@@ -148,6 +148,10 @@ page-app {
 
 /* 0 1 0 */
 
+[inert] {
+  --inert-filter: blur(2px);
+}
+
 [color-scheme="light"] {
   --anchor-color: 100 60% 30%;
   --code-color: 100 60% 25%;
@@ -203,6 +207,7 @@ page-app {
   gap: 1em;
   padding-block-start: 1em;
   align-content: start;
+  filter: var(--inert-filter);
 
   --has-padding-inline: 1;
   --has-extra-width: 0;

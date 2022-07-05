@@ -63,8 +63,6 @@ customElements.define(
       this.setAttribute("color-scheme", this.colorScheme);
 
       for (let input of this.refs.colorSchemeOptions) {
-        input.tabIndex = this.open ? "0" : "-1";
-
         input.checked = this.colorScheme === input.value;
       }
 
@@ -82,9 +80,7 @@ customElements.define(
 
         el.ariaHidden = active ? "false" : "true";
 
-        for (let anchor of this.querySelectorAll(`[slot="${tab}"] a`)) {
-          anchor.tabIndex = active ? "0" : "-1";
-        }
+        el.inert = !active;
       }
     }
 
@@ -116,6 +112,7 @@ customElements.define(
             {
               ariaHidden: "true",
               className: "page-app nav",
+              inert: true,
             },
             slot({name: "nav"}),
             form(
@@ -128,7 +125,6 @@ customElements.define(
 
                 return label(
                   (this.refs.colorSchemeOptions[i] = input({
-                    tabIndex: "-1",
                     type: "radio",
                     checked: this.colorScheme === value,
                     value,
@@ -142,18 +138,22 @@ customElements.define(
             )
           ))
         ),
-        (this.refs.panel = div(
+        div(
           {
-            className: "page-app panel",
-            ariaHidden: "false",
             onClick: () => {
               if (this.open) {
                 this.toggleOpen();
               }
             },
           },
-          slot({name: "panel"})
-        ))
+          (this.refs.panel = div(
+            {
+              className: "page-app panel",
+              ariaHidden: "false",
+            },
+            slot({name: "panel"})
+          ))
+        )
       );
 
       this.prefersColorSchemeDark.addEventListener("change", (e) => {
