@@ -155,14 +155,16 @@ customElements.define(
         style('@import "/site.css";'),
         form(
           {
-            className: "page-layout color-scheme-form",
+            className: "color-scheme-form root",
           },
-          h6("Color Scheme"),
+          h6({className: "color-scheme-form heading"}, "Color Scheme"),
           ["Light", "Dark"].map((scheme, i) => {
             let value = scheme.toLowerCase();
 
             return label(
+              {className: "color-scheme-form label"},
               (this.refs.colorSchemeOptions[i] = input({
+                className: "color-scheme-form input",
                 type: "radio",
                 checked: this.colorScheme === value,
                 value,
