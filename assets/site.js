@@ -157,12 +157,19 @@ customElements.define(
           {
             className: "color-scheme-form root",
           },
-          h6({className: "color-scheme-form heading"}, "Color Scheme"),
+          h6(
+            {
+              className: "color-scheme-form heading",
+            },
+            "Color Scheme"
+          ),
           ["Light", "Dark"].map((scheme, i) => {
             let value = scheme.toLowerCase();
 
             return label(
-              {className: "color-scheme-form label"},
+              {
+                className: "color-scheme-form label",
+              },
               (this.refs.colorSchemeOptions[i] = input({
                 className: "color-scheme-form input",
                 type: "radio",
@@ -200,9 +207,13 @@ customElements.define(
       this.shadowRoot.append(
         style('@import "/site.css";'),
         pre(
-          {className: "code-block root"},
+          {
+            className: "code-block root",
+          },
           code(
-            {className: "code-block code"},
+            {
+              className: "code-block code",
+            },
             lines.map((ln) => [
               span({className: "code-block number"}),
               span({className: "code-block line"}, ln || " "),
