@@ -3,11 +3,8 @@ use crate::common::{cacheable_response, render_template, CustomError};
 use crate::models;
 use crate::views;
 use actix_files::NamedFile;
-use actix_web::{
-    body::BoxBody,
-    http::header::{self, HeaderValue},
-    web, HttpRequest, HttpResponse, Result,
-};
+use actix_web::{web, Result};
+use askama::Template;
 use std::path::{Path, PathBuf};
 
 pub fn configure(cfg: &mut web::ServiceConfig) {
@@ -41,30 +38,13 @@ async fn home() -> Result<NamedFile> {
     })
 }
 
-async fn posts_rss(req: HttpRequest) -> Result<HttpResponse<BoxBody>, CustomError> {
-    let result = cacheable_response(Path::new("posts.rss"), || {
+async fn posts_rss() -> Result<NamedFile> {
+    cacheable_response(Path::new("posts.rss"), || {
         let site = models::Site::get();
         let posts = models::Post::get_all();
 
-        render_template(views::Feed { site, posts })
+        Ok(views::Feed { site, posts }.render().unwrap_or_default())
     })
-    .map_err(CustomError::new_internal)?;
-
-    let mut res = result.into_response(&req);
-
-    let header_map = res.headers_mut();
-
-    header_map.insert(
-        header::CONTENT_TYPE,
-        HeaderValue::from_static("application/xml; charset=utf-8"),
-    );
-
-    header_map.insert(
-        header::X_CONTENT_TYPE_OPTIONS,
-        HeaderValue::from_static("nosniff"),
-    );
-
-    Ok(res)
 }
 
 fn get_post_path(post: web::Path<String>, directory: &str) -> PathBuf {

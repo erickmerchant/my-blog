@@ -32,7 +32,16 @@ pub fn static_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
 }
 
 pub fn render_template(html: impl Template) -> Result<String, CustomError> {
-    Ok(html.render().unwrap_or_default())
+    use minify_html::{minify, Cfg};
+
+    let code = html.render().unwrap_or_default();
+    let cfg = Cfg {
+        do_not_minify_doctype: true,
+        ..Cfg::default()
+    };
+    let minified = minify(code.as_bytes(), &cfg);
+
+    Ok(String::from_utf8(minified).unwrap_or_default())
 }
 
 #[derive(Debug, Display, Error)]
