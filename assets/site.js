@@ -137,7 +137,14 @@ customElements.define(
     }
 
     update() {
-      this.closest("body").setAttribute("color-scheme", this.colorScheme);
+      let body = this.closest("body");
+
+      for (let scheme of ["light", "dark"]) {
+        body.classList.toggle(
+          `color-scheme-${scheme}`,
+          scheme === this.colorScheme
+        );
+      }
 
       for (let input of this.refs.colorSchemeOptions) {
         input.checked = this.colorScheme === input.value;

@@ -58,6 +58,10 @@ html {
 
 body {
   overflow-x: hidden;
+
+  --background-1: 0 0% 100%;
+  --background-2: 100 5% 90%;
+  --background-3: 100 5% 95%;
 }
 
 a {
@@ -156,7 +160,7 @@ page-layout {
   filter: blur(2px);
 }
 
-[color-scheme="light"] {
+.color-scheme-light {
   --anchor-color: 100 60% 30%;
   --code-color: 100 60% 25%;
   --text-color: 100 5% 10%;
@@ -167,7 +171,7 @@ page-layout {
   --banner-foreground: 0 0% 100%;
 }
 
-[color-scheme="dark"] {
+.color-scheme-dark {
   --anchor-color: 100 60% 70%;
   --code-color: 100 60% 80%;
   --text-color: 0 0% 100%;
