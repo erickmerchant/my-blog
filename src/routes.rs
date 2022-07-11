@@ -1,7 +1,5 @@
-use crate::assets;
-use crate::common::{cacheable_response, render_template, CustomError};
-use crate::models;
-use crate::views;
+use crate::{models::*, responses::*, views::*, Config, CustomError};
+
 use actix_files::NamedFile;
 use actix_web::{web, Result};
 use askama::Template;
@@ -13,21 +11,20 @@ pub fn configure(cfg: &mut web::ServiceConfig) {
             .route("/", web::get().to(home))
             .route("/posts.rss", web::get().to(posts_rss))
             .route("/posts/{slug:.*.html}", web::get().to(post))
-            .route("/{file:.*?}", web::get().to(assets::file)),
+            .route("/{file:.*?}", web::get().to(file)),
     );
 }
 
-async fn home() -> Result<NamedFile> {
+async fn home(site: web::Data<Site>) -> Result<NamedFile> {
     cacheable_response(Path::new("index.html"), || {
-        let site = models::Site::get();
-        let posts = models::Post::get_all();
-
+        let site = site.as_ref().to_owned();
+        let posts = Post::get_all();
         let title = "Home".to_string();
 
         match posts.len() > 1 {
-            true => render_template(views::Home { site, title, posts }),
+            true => render_template(HomeView { site, title, posts }),
             false => match posts.get(0) {
-                Some(post) => render_template(views::Post {
+                Some(post) => render_template(PostView {
                     site,
                     title,
                     post: post.to_owned(),
@@ -38,30 +35,27 @@ async fn home() -> Result<NamedFile> {
     })
 }
 
-async fn posts_rss() -> Result<NamedFile> {
+async fn posts_rss(site: web::Data<Site>) -> Result<NamedFile> {
     cacheable_response(Path::new("posts.rss"), || {
-        let site = models::Site::get();
-        let posts = models::Post::get_all();
+        let site = site.as_ref().to_owned();
+        let posts = Post::get_all();
 
-        Ok(views::Feed { site, posts }.render().unwrap_or_default())
+        Ok(FeedView { site, posts }.render().unwrap_or_default())
     })
 }
 
 fn get_post_path(post: web::Path<String>, directory: &str) -> PathBuf {
     let slug = Path::new(post.as_ref().as_str()).with_extension("");
-
     let slug = slug.to_str().expect("invalid slug");
 
     Path::new(directory).join(slug).with_extension("html")
 }
 
-fn get_post_html(path: PathBuf) -> Result<String, CustomError> {
-    let site = models::Site::get();
-
-    let post = models::Post::get_by_path(path);
+fn get_post_html(path: PathBuf, site: Site) -> Result<String, CustomError> {
+    let post = Post::get_by_path(path);
 
     match post {
-        Some(post) => render_template(views::Post {
+        Some(post) => render_template(PostView {
             site,
             title: post.title.clone(),
             post,
@@ -70,8 +64,24 @@ fn get_post_html(path: PathBuf) -> Result<String, CustomError> {
     }
 }
 
-async fn post(slug: web::Path<String>) -> Result<NamedFile> {
+async fn post(slug: web::Path<String>, site: web::Data<Site>) -> Result<NamedFile> {
+    let site = site.as_ref();
     let path = get_post_path(slug, "content/posts");
 
-    cacheable_response(&path, || get_post_html(path.to_owned()))
+    cacheable_response(&path, || get_post_html(path.to_owned(), site.to_owned()))
+}
+
+async fn file(file: web::Path<String>, data: web::Data<Config>) -> Result<NamedFile> {
+    let src = Path::new("assets").join(file.to_string());
+    let ext_str = if let Some(ext) = src.extension().and_then(|ext| ext.to_str()) {
+        ext
+    } else {
+        ""
+    };
+
+    match ext_str {
+        "js" => js_response(src, data.source_maps),
+        "css" => css_response(src, data.source_maps),
+        _ => static_response(src),
+    }
 }

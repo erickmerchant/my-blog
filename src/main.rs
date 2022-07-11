@@ -1,19 +1,31 @@
-mod assets;
-mod common;
 mod models;
+mod responses;
 mod routes;
 mod views;
 
+use crate::{models::*, views::*};
+
 use actix_web::{
-    dev::ServiceResponse,
-    http::{
-        header::{HeaderName, HeaderValue},
-        StatusCode,
-    },
-    middleware::{Compress, ErrorHandlerResponse, ErrorHandlers, Logger},
-    App, HttpServer, Result,
+    dev::ServiceResponse, error, http::header::HeaderName, http::header::HeaderValue,
+    http::StatusCode, middleware::Compress, middleware::ErrorHandlerResponse,
+    middleware::ErrorHandlers, middleware::Logger, web, App, HttpServer, Result,
 };
-use std::{env, fs, io};
+use askama::Template;
+use derive_more::{Display, Error};
+use serde::Deserialize;
+use std::{fs, io};
+
+#[derive(Deserialize, Debug, Default, Clone, Copy)]
+pub struct Config {
+    #[serde(default)]
+    pub source_maps: bool,
+    #[serde(default = "default_port")]
+    pub port: u16,
+}
+
+fn default_port() -> u16 {
+    8080
+}
 
 #[actix_web::main]
 async fn main() -> io::Result<()> {
@@ -21,16 +33,15 @@ async fn main() -> io::Result<()> {
 
     fs::remove_dir_all("storage/cache").ok();
 
-    let mut port = 8080;
-
-    if let Ok(p) = env::var("PORT") {
-        if let Ok(p) = p.parse::<u16>() {
-            port = p
-        }
-    };
+    let config = envy::from_env::<Config>().unwrap_or_default();
+    let port = config.port;
 
     HttpServer::new(move || {
+        let site = Site::get();
+
         App::new()
+            .app_data(web::Data::new(config))
+            .app_data(web::Data::new(site))
             .wrap(Logger::new("%s %r"))
             .wrap(ErrorHandlers::new().handler(StatusCode::NOT_FOUND, not_found))
             .wrap(ErrorHandlers::new().handler(StatusCode::INTERNAL_SERVER_ERROR, internal_error))
@@ -44,29 +55,31 @@ async fn main() -> io::Result<()> {
 
 fn not_found<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerResponse<B>> {
     let title = "Page Not Found".to_string();
-    let site = models::Site::get();
+    let req = res.request();
+    let site = match req.app_data::<web::Data<Site>>() {
+        Some(s) => s.as_ref().to_owned(),
+        None => Site::default(),
+    };
 
-    error_response(
-        res,
-        common::render_template(views::NotFound { site, title }),
-    )
+    error_response(res, NotFoundView { site, title })
 }
 
 fn internal_error<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerResponse<B>> {
     let title = "Internal Error".to_string();
-    let site = models::Site::get();
+    let req = res.request();
+    let site = match req.app_data::<web::Data<Site>>() {
+        Some(s) => s.as_ref().to_owned(),
+        None => Site::default(),
+    };
 
-    error_response(
-        res,
-        common::render_template(views::InternalError { site, title }),
-    )
+    error_response(res, InternalErrorView { site, title })
 }
 
 fn error_response<B>(
     res: ServiceResponse<B>,
-    body: Result<String, common::CustomError>,
+    body: impl Template,
 ) -> Result<ErrorHandlerResponse<B>> {
-    let body = body.expect("failed to produce body");
+    let body = body.render().unwrap_or_default();
     let (req, res) = res.into_parts();
     let res = res.set_body(body);
     let mut res = ServiceResponse::new(req, res)
@@ -82,4 +95,33 @@ fn error_response<B>(
     let res = ErrorHandlerResponse::Response(res);
 
     Ok(res)
+}
+
+#[derive(Debug, Display, Error)]
+pub enum CustomError {
+    NotFound,
+    Internal {},
+}
+
+impl CustomError {
+    pub fn new_internal<E: std::fmt::Debug>(err: E) -> Self {
+        log::error!("{err:?}");
+
+        Self::Internal {}
+    }
+
+    pub fn new_not_found<E: std::fmt::Debug>(err: E) -> Self {
+        log::error!("{err:?}");
+
+        Self::NotFound
+    }
+}
+
+impl error::ResponseError for CustomError {
+    fn status_code(&self) -> StatusCode {
+        match self {
+            Self::NotFound => StatusCode::NOT_FOUND,
+            Self::Internal {} => StatusCode::INTERNAL_SERVER_ERROR,
+        }
+    }
 }

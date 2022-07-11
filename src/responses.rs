@@ -1,32 +1,42 @@
-use crate::common::{cacheable_response, static_response, CustomError};
+use crate::CustomError;
+
 use actix_files::NamedFile;
-use actix_web::{web, Result};
+use actix_web::Result;
 use serde_json::{from_value, json};
-use std::{convert::AsRef, env, fs, path::Path, sync::Arc};
+use std::{convert::AsRef, fs, path::Path, sync::Arc};
 
-pub async fn file(file: web::Path<String>) -> Result<NamedFile> {
-    let src = Path::new("assets").join(file.to_string());
+pub fn cacheable_response<F: Fn() -> Result<String, CustomError>, P: AsRef<Path>>(
+    src: P,
+    process: F,
+) -> Result<NamedFile> {
+    let cache = Path::new("storage/cache").join(src.as_ref());
 
-    let ext_str = if let Some(ext) = src.extension().and_then(|ext| ext.to_str()) {
-        ext
-    } else {
-        ""
-    };
+    if let Err(_meta) = fs::metadata(&cache) {
+        let body = process()?;
 
-    match ext_str {
-        "js" => js_response(src),
-        "css" => css_response(src),
-        _ => static_response(src),
+        fs::create_dir_all(&cache.with_file_name("")).map_err(CustomError::new_internal)?;
+
+        fs::write(&cache, body).map_err(CustomError::new_internal)?;
     }
+
+    static_response(cache)
 }
 
-fn js_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
+pub fn static_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
+    let file = NamedFile::open(src).map_err(|_| CustomError::NotFound)?;
+    let file = file
+        .prefer_utf8(true)
+        .use_etag(true)
+        .use_last_modified(true)
+        .disable_content_disposition();
+
+    Ok(file)
+}
+
+pub fn js_response<P: AsRef<Path>>(src: P, source_maps: bool) -> Result<NamedFile> {
     use swc::{
-        common::{
-            errors::{ColorConfig, Handler},
-            SourceMap,
-        },
-        config::{Options, SourceMapsConfig},
+        common::errors::ColorConfig, common::errors::Handler, common::SourceMap, config::Options,
+        config::SourceMapsConfig,
     };
 
     cacheable_response(&src, || {
@@ -41,7 +51,6 @@ fn js_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
         let fm = cm
             .load_file(src.as_ref())
             .map_err(CustomError::new_not_found)?;
-
         let options = json!({
           "minify": true,
           "env": {
@@ -58,15 +67,10 @@ fn js_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
             "type": "es6"
           }
         });
-
         let mut options = from_value::<Options>(options).map_err(CustomError::new_internal)?;
 
-        if let Ok(sm) = env::var("SOURCE_MAPS") {
-            let source_maps = sm.parse::<bool>().map_err(CustomError::new_internal)?;
-
-            if source_maps {
-                options.source_maps = Some(SourceMapsConfig::Str("inline".to_string()));
-            }
+        if source_maps {
+            options.source_maps = Some(SourceMapsConfig::Str("inline".to_string()));
         }
 
         c.process_js_file(fm, &handler, &options)
@@ -75,7 +79,7 @@ fn js_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
     })
 }
 
-fn css_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
+pub fn css_response<P: AsRef<Path>>(src: P, source_maps: bool) -> Result<NamedFile> {
     use parcel_css::{stylesheet, targets};
     use parcel_sourcemap::SourceMap;
 
@@ -97,25 +101,19 @@ fn css_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
             custom_media: true,
             ..stylesheet::ParserOptions::default()
         };
-
         let minifier_options = stylesheet::MinifyOptions {
             targets,
             ..stylesheet::MinifyOptions::default()
         };
-
         let mut source_map = None;
 
-        if let Ok(sm) = env::var("SOURCE_MAPS") {
-            let source_maps = sm.parse::<bool>().map_err(CustomError::new_internal)?;
+        if source_maps {
+            let mut sm = SourceMap::new("/");
 
-            if source_maps {
-                let mut sm = SourceMap::new("/");
+            sm.add_source(src.as_ref().to_str().unwrap_or_default());
 
-                sm.add_source(src.as_ref().to_str().unwrap_or_default());
-
-                if sm.set_source_content(0, &file_contents).is_ok() {
-                    source_map = Some(sm)
-                };
+            if sm.set_source_content(0, &file_contents).is_ok() {
+                source_map = Some(sm)
             };
         };
 
@@ -125,7 +123,6 @@ fn css_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
             source_map: source_map.as_mut(),
             ..stylesheet::PrinterOptions::default()
         };
-
         let mut stylesheet = stylesheet::StyleSheet::parse(
             src.as_ref().to_str().unwrap_or_default(),
             &file_contents,
@@ -140,10 +137,11 @@ fn css_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
         let css = stylesheet
             .to_css(printer_options)
             .map_err(CustomError::new_internal)?;
-
         let mut code = css.code;
+
         if let Some(mut source_map) = source_map {
             let mut vlq_output = Vec::<u8>::new();
+
             source_map.write_vlq(&mut vlq_output).ok();
 
             let sm = json!({
@@ -155,11 +153,13 @@ fn css_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
             });
 
             code.push_str("\n/*# sourceMappingURL=data:application/json;base64,");
+
             base64::encode_config_buf(
                 sm.to_string().as_bytes(),
                 base64::Config::new(base64::CharacterSet::Standard, true),
                 &mut code,
             );
+
             code.push_str(" */")
         };
 

@@ -1,17 +1,18 @@
 use glob::glob;
 use serde::Deserialize;
-use std::{
-    fs,
-    path::{Path, PathBuf},
-    vec::Vec,
-};
+use std::{fs, path::Path, path::PathBuf, vec::Vec};
 
-#[derive(Deserialize, Debug, Clone)]
+#[derive(Deserialize, Debug, Clone, Default)]
 pub struct Site {
+    #[serde(default)]
     pub title: String,
+    #[serde(default)]
     pub base: String,
+    #[serde(default)]
     pub description: String,
+    #[serde(default)]
     pub copyright: String,
+    #[serde(default)]
     pub links: Vec<Link>,
 }
 
