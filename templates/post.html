@@ -1,10 +1,12 @@
 {% extends "layout.html" %}
 
 {% block main %}
-  <h1>{{post.title}}</h1>
-  <p class="post-date">
-    Published: <time>{{post.date|format_date("%B %e, %Y")}}</time>
-  </p>
+  <div>
+    <h1>{{post.title}}</h1>
+    <p class="post-date">
+      Published: <time>{{post.date|format_date("%B %e, %Y")}}</time>
+    </p>
+  </div>
 
   {{post.content|safe}}
 {% endblock %}

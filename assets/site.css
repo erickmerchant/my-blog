@@ -93,7 +93,6 @@ h3 {
   --font-weight: 700;
 }
 
-h4,
 dt {
   font-size: 1.0625rem;
 
@@ -103,12 +102,13 @@ dt {
 dl,
 ul,
 ol {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   list-style: none;
 }
 
 code-block {
-  display: grid;
+  display: block;
   width: 100%;
   overflow-x: auto;
 
@@ -211,7 +211,8 @@ page-layout {
   background-color: hsl(var(--background-1));
   width: 100%;
   overflow-x: auto;
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 1em;
   padding-block-start: 1em;
   align-content: start;
@@ -267,7 +268,8 @@ page-layout {
   list-style: none;
 
   & > * {
-    display: grid;
+    display: flex;
+    flex-direction: column;
     gap: 0.5em;
     margin-inline-start: 0;
   }
