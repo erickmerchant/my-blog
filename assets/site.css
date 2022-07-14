@@ -409,6 +409,7 @@ page-layout:where(:not(:defined)) {
     border-radius: var(--border-radius);
     color: hsl(var(--code-color));
     counter-reset: lines;
+    min-width: min-content;
 
     --border-radius: 0.25rem;
 
@@ -418,42 +419,40 @@ page-layout:where(:not(:defined)) {
   }
 
   &.line {
-    padding-inline: var(--space-quarter);
+    display: contents;
 
-    &:where(:nth-child(2)) {
-      padding-block-start: 1em;
-    }
-
-    &:where(:last-child) {
-      padding-block-end: 1em;
-    }
-  }
-
-  &.number {
-    text-align: right;
-    counter-increment: lines;
-    color: hsl(var(--text-color) / 0.5);
-    padding-inline: var(--space-half);
-    background: hsl(var(--background-2));
-
-    &::before {
-      content: counter(lines);
+    & > * {
+      padding-block-start: calc(var(--first, 0) * 1em);
+      padding-block-end: calc(var(--last, 0) * 1em);
+      padding-inline: var(--space-quarter);
     }
 
     &:where(:first-child) {
-      padding-block-start: 1em;
-      border-top-left-radius: var(--border-radius);
+      --first: 1;
     }
 
-    &:where(:nth-last-child(2)) {
-      padding-block-end: 1em;
-      border-bottom-left-radius: var(--border-radius);
+    &:where(:last-child) {
+      --last: 1;
     }
 
-    @media (--mobile) {
-      left: 0;
-      position: sticky;
-      z-index: 1;
+    &::before {
+      display: block;
+      content: counter(lines);
+      counter-increment: lines;
+      text-align: right;
+      color: hsl(var(--text-color) / 0.5);
+      padding-inline: var(--space-half);
+      padding-block-start: calc(var(--first, 0) * 1em);
+      padding-block-end: calc(var(--last, 0) * 1em);
+      background: hsl(var(--background-2));
+      border-top-left-radius: calc(var(--first, 0) * var(--border-radius));
+      border-bottom-left-radius: calc(var(--last, 0) * var(--border-radius));
+
+      @media (--mobile) {
+        left: 0;
+        position: sticky;
+        z-index: 1;
+      }
     }
   }
 

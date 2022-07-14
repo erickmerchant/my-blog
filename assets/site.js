@@ -1,34 +1,35 @@
-let html = new Proxy(
-  {},
-  {
-    get(_, tag) {
-      return (...args) => {
-        args = args.flat(Infinity);
+let {button, code, div, form, h6, input, label, nav, pre, slot, span, style} =
+  new Proxy(
+    {},
+    {
+      get(_, tag) {
+        return (...args) => {
+          args = args.flat(Infinity);
 
-        let el = document.createElement(tag);
+          let el = document.createElement(tag);
 
-        if (typeof args[0] === "object" && !(args[0] instanceof Element)) {
-          let obj = args.shift();
+          if (typeof args[0] === "object" && !(args[0] instanceof Element)) {
+            let obj = args.shift();
 
-          for (let [key, val] of Object.entries(obj)) {
-            if (key.startsWith("on")) {
-              el.addEventListener(
-                key.substring(2).toLowerCase(),
-                ...[].concat(val)
-              );
-            } else {
-              el[key] = val;
+            for (let [key, val] of Object.entries(obj)) {
+              if (key.startsWith("on")) {
+                el.addEventListener(
+                  key.substring(2).toLowerCase(),
+                  ...[].concat(val)
+                );
+              } else {
+                el[key] = val;
+              }
             }
           }
-        }
 
-        el.append(...args);
+          el.append(...args);
 
-        return el;
-      };
-    },
-  }
-);
+          return el;
+        };
+      },
+    }
+  );
 
 customElements.define(
   "page-layout",
@@ -43,10 +44,12 @@ customElements.define(
       this.update();
     }
 
-    update() {
+    update(initial = false) {
       this.toggleAttribute("open", this.open);
 
-      this.refs.toggle.ariaExpanded = this.open ? "true" : "false";
+      if (initial) return;
+
+      this.refs.toggle.ariaExpanded = String(this.open);
 
       this.refs.toggleIcon.name = this.open ? "close" : "open";
 
@@ -55,7 +58,7 @@ customElements.define(
       for (let tab of ["nav", "panel"]) {
         let el = this.refs[tab];
 
-        el.ariaHidden = active ? "false" : "true";
+        el.ariaHidden = String(!active);
 
         el.inert = !active;
 
@@ -65,8 +68,6 @@ customElements.define(
 
     connectedCallback() {
       this.attachShadow({mode: "open"});
-
-      let {button, div, nav, slot, style} = html;
 
       this.shadowRoot.append(
         style('@import "/site.css";'),
@@ -112,7 +113,7 @@ customElements.define(
         )
       );
 
-      this.update();
+      this.update(true);
     }
   }
 );
@@ -136,7 +137,7 @@ customElements.define(
       this.update();
     }
 
-    update() {
+    update(initial = false) {
       let body = this.closest("body");
 
       for (let scheme of ["light", "dark"]) {
@@ -146,6 +147,8 @@ customElements.define(
         );
       }
 
+      if (initial) return;
+
       for (let input of this.refs.colorSchemeOptions) {
         input.checked = this.colorScheme === input.value;
       }
@@ -153,8 +156,6 @@ customElements.define(
 
     connectedCallback() {
       this.attachShadow({mode: "open"});
-
-      let {form, h6, input, label, style} = html;
 
       this.refs.colorSchemeOptions = [];
 
@@ -196,7 +197,7 @@ customElements.define(
         this.changeColorScheme(e.matches ? "dark" : "light");
       });
 
-      this.update();
+      this.update(true);
     }
   }
 );
@@ -209,8 +210,6 @@ customElements.define(
 
       this.attachShadow({mode: "open"});
 
-      let {style, pre, code, span} = html;
-
       this.shadowRoot.append(
         style('@import "/site.css";'),
         pre(
@@ -222,8 +221,7 @@ customElements.define(
               className: "code-block code",
             },
             lines.map((ln) => [
-              span({className: "code-block number"}),
-              span({className: "code-block line"}, ln || " "),
+              span({className: "code-block line"}, span(ln || " ")),
             ])
           )
         )

@@ -6,12 +6,10 @@ mod views;
 use crate::{models::*, views::*};
 
 use actix_web::{
-    dev::ServiceResponse, error, http::header::HeaderName, http::header::HeaderValue,
-    http::StatusCode, middleware::Compress, middleware::ErrorHandlerResponse,
-    middleware::ErrorHandlers, middleware::Logger, web, App, HttpServer, Result,
+    dev::ServiceResponse, http::header::HeaderName, http::header::HeaderValue, http::StatusCode,
+    middleware::Compress, middleware::ErrorHandlerResponse, middleware::ErrorHandlers,
+    middleware::Logger, web, App, HttpServer, Result,
 };
-use askama::Template;
-use derive_more::{Display, Error};
 use serde::Deserialize;
 use std::{fs, io};
 
@@ -77,9 +75,9 @@ fn internal_error<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerResponse<B>>
 
 fn error_response<B>(
     res: ServiceResponse<B>,
-    body: impl Template,
+    body: impl UnminifiedView,
 ) -> Result<ErrorHandlerResponse<B>> {
-    let body = body.render().unwrap_or_default();
+    let body = body.to_result()?;
     let (req, res) = res.into_parts();
     let res = res.set_body(body);
     let mut res = ServiceResponse::new(req, res)
@@ -95,33 +93,4 @@ fn error_response<B>(
     let res = ErrorHandlerResponse::Response(res);
 
     Ok(res)
-}
-
-#[derive(Debug, Display, Error)]
-pub enum CustomError {
-    NotFound,
-    Internal {},
-}
-
-impl CustomError {
-    pub fn new_internal<E: std::fmt::Debug>(err: E) -> Self {
-        log::error!("{err:?}");
-
-        Self::Internal {}
-    }
-
-    pub fn new_not_found<E: std::fmt::Debug>(err: E) -> Self {
-        log::error!("{err:?}");
-
-        Self::NotFound
-    }
-}
-
-impl error::ResponseError for CustomError {
-    fn status_code(&self) -> StatusCode {
-        match self {
-            Self::NotFound => StatusCode::NOT_FOUND,
-            Self::Internal {} => StatusCode::INTERNAL_SERVER_ERROR,
-        }
-    }
 }

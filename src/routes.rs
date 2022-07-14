@@ -1,8 +1,7 @@
-use crate::{models::*, responses::*, views::*, Config, CustomError};
+use crate::{models::*, responses::*, views::*, Config};
 
 use actix_files::NamedFile;
-use actix_web::{web, Result};
-use askama::Template;
+use actix_web::{error::Error, error::ErrorNotFound, web, Result};
 use std::path::{Path, PathBuf};
 
 pub fn configure(cfg: &mut web::ServiceConfig) {
@@ -22,14 +21,15 @@ async fn home(site: web::Data<Site>) -> Result<NamedFile> {
         let title = "Home".to_string();
 
         match posts.len() > 1 {
-            true => render_template(HomeView { site, title, posts }),
+            true => HomeView { site, title, posts }.to_result(),
             false => match posts.get(0) {
-                Some(post) => render_template(PostView {
+                Some(post) => PostView {
                     site,
                     title,
                     post: post.to_owned(),
-                }),
-                None => Err(CustomError::NotFound {}),
+                }
+                .to_result(),
+                None => Err(ErrorNotFound("not found")),
             },
         }
     })
@@ -40,7 +40,7 @@ async fn posts_rss(site: web::Data<Site>) -> Result<NamedFile> {
         let site = site.as_ref().to_owned();
         let posts = Post::get_all();
 
-        Ok(FeedView { site, posts }.render().unwrap_or_default())
+        FeedView { site, posts }.to_result()
     })
 }
 
@@ -51,16 +51,17 @@ fn get_post_path(post: web::Path<String>, directory: &str) -> PathBuf {
     Path::new(directory).join(slug).with_extension("html")
 }
 
-fn get_post_html(path: PathBuf, site: Site) -> Result<String, CustomError> {
+fn get_post_html(path: PathBuf, site: Site) -> Result<String, Error> {
     let post = Post::get_by_path(path);
 
     match post {
-        Some(post) => render_template(PostView {
+        Some(post) => PostView {
             site,
             title: post.title.clone(),
             post,
-        }),
-        None => Err(CustomError::NotFound {}),
+        }
+        .to_result(),
+        None => Err(ErrorNotFound("not found")),
     }
 }
 

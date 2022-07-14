@@ -1,5 +1,6 @@
-use crate::{models::*, CustomError};
+use crate::models::*;
 
+use actix_web::{error::Error, error::ErrorInternalServerError};
 use askama::Template;
 
 #[derive(Template)]
@@ -9,6 +10,8 @@ pub struct FeedView {
     pub posts: Vec<Post>,
 }
 
+impl UnminifiedView for FeedView {}
+
 #[derive(Template)]
 #[template(path = "home.html")]
 pub struct HomeView {
@@ -16,6 +19,8 @@ pub struct HomeView {
     pub title: String,
     pub posts: Vec<Post>,
 }
+
+impl MinifiedView for HomeView {}
 
 #[derive(Template)]
 #[template(path = "post.html")]
@@ -25,6 +30,8 @@ pub struct PostView {
     pub post: Post,
 }
 
+impl MinifiedView for PostView {}
+
 #[derive(Template)]
 #[template(path = "not_found.html")]
 pub struct NotFoundView {
@@ -32,12 +39,16 @@ pub struct NotFoundView {
     pub title: String,
 }
 
+impl UnminifiedView for NotFoundView {}
+
 #[derive(Template)]
 #[template(path = "internal_error.html")]
 pub struct InternalErrorView {
     pub site: Site,
     pub title: String,
 }
+
+impl UnminifiedView for InternalErrorView {}
 
 mod filters {
     pub fn format_date(d: &str, f: &str) -> askama::Result<String> {
@@ -48,12 +59,21 @@ mod filters {
     }
 }
 
-pub fn render_template(html: impl Template) -> Result<String, CustomError> {
-    use minify_html::{minify, Cfg};
+pub trait MinifiedView: Template {
+    fn to_result(&self) -> Result<String, Error> {
+        use minify_html::{minify, Cfg};
 
-    let code = html.render().unwrap_or_default();
-    let cfg = Cfg::spec_compliant();
-    let minified = minify(code.as_bytes(), &cfg);
+        let code = self.render().map_err(ErrorInternalServerError)?;
+        let cfg = Cfg::spec_compliant();
+        let minified = minify(code.as_bytes(), &cfg);
 
-    Ok(String::from_utf8(minified).unwrap_or_default())
+        String::from_utf8(minified).map_err(ErrorInternalServerError)
+    }
+}
+pub trait UnminifiedView: Template {
+    fn to_result(&self) -> Result<String, Error> {
+        let code = self.render().map_err(ErrorInternalServerError)?;
+
+        Ok(code)
+    }
 }
