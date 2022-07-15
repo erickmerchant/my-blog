@@ -1590,9 +1590,9 @@ checksum = "decf7381921fea4dcb2549c5667eda59b3ec297ab7e2b5fc33eac69d2e7da87b"
 
 [[package]]
 name = "parcel_css"
-version = "1.0.0-alpha.28"
+version = "1.0.0-alpha.29"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "adc3b965972d8fd8baf6876e9e27d507b0adc2cbe323097a6008ebc16af4ed71"
+checksum = "e0598e4c64b0b4e9ba69491852a455053750f6ed24f4b7bf55bcedea412460fa"
 dependencies = [
  "bitflags",
  "const-str",
@@ -2532,9 +2532,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.116.1"
+version = "0.116.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "66c12eb42097bec270eef631b2f437748f775ddac69d87b68142c102d50fe32f"
+checksum = "60a239854bc1cc16d70352ba5bea7e4869e0a2b3814db3fe75091a77861752c8"
 dependencies = [
  "memchr",
  "num-bigint",
@@ -2719,9 +2719,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.98.0"
+version = "0.98.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d8ad3e57adbc23fd8067e1a564428b8d4c5d6f8f2417d6a3bac78c41446f33ef"
+checksum = "9ab234ee608d50988f0756f4dcdb8159eb30ae18a4accd7f5ec60057f01d5f46"
 dependencies = [
  "better_scoped_tls",
  "bitflags",
@@ -2940,9 +2940,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.181.0"
+version = "0.181.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1b52298115d4a9867d44e6c0f1415904a394f5236c94f25d5b8fcd5090280c71"
+checksum = "9a9089e71b6302efdefe1f5f12ef196a4ae98acd51c4c6fe5ed280bc94c4f1d1"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_parser",

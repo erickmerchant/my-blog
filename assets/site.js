@@ -31,6 +31,8 @@ let {button, code, div, form, h6, input, label, nav, pre, slot, span, style} =
     }
   );
 
+let getClassName = (base) => (name) => ({className: `${base} ${name}`});
+
 customElements.define(
   "page-layout",
   class extends HTMLElement {
@@ -69,27 +71,29 @@ customElements.define(
     connectedCallback() {
       this.attachShadow({mode: "open"});
 
+      let className = getClassName("page-layout");
+
       this.shadowRoot.append(
         style('@import "/site.css";'),
         nav(
           (this.refs.toggle = button(
             {
+              ...className("toggle"),
               ariaExpanded: "false",
               ariaLabel: "Toggle nav",
-              className: "page-layout toggle",
               onClick: () => this.toggleOpen(),
               type: "button",
             },
             (this.refs.toggleIcon = slot({
+              ...className("icon"),
               ariaHidden: "true",
-              className: "page-layout icon",
               name: "open",
             }))
           )),
           (this.refs.nav = div(
             {
+              ...className("nav"),
               ariaHidden: "true",
-              className: "page-layout nav",
               inert: true,
             },
             slot({name: "nav"})
@@ -105,7 +109,7 @@ customElements.define(
           },
           (this.refs.panel = div(
             {
-              className: "page-layout panel",
+              ...className("panel"),
               ariaHidden: "false",
             },
             slot({name: "panel"})
@@ -159,27 +163,20 @@ customElements.define(
 
       this.refs.colorSchemeOptions = [];
 
+      let className = getClassName("color-scheme-form");
+
       this.shadowRoot.append(
         style('@import "/site.css";'),
         form(
-          {
-            className: "color-scheme-form root",
-          },
-          h6(
-            {
-              className: "color-scheme-form heading",
-            },
-            "Color Scheme"
-          ),
+          className("root"),
+          h6(className("heading"), "Color Scheme"),
           ["Light", "Dark"].map((scheme, i) => {
             let value = scheme.toLowerCase();
 
             return label(
-              {
-                className: "color-scheme-form label",
-              },
+              className("label"),
               (this.refs.colorSchemeOptions[i] = input({
-                className: "color-scheme-form input",
+                ...className("input"),
                 type: "radio",
                 checked: this.colorScheme === value,
                 value,
@@ -210,19 +207,15 @@ customElements.define(
 
       this.attachShadow({mode: "open"});
 
+      let className = getClassName("code-block");
+
       this.shadowRoot.append(
         style('@import "/site.css";'),
         pre(
-          {
-            className: "code-block root",
-          },
+          className("root"),
           code(
-            {
-              className: "code-block code",
-            },
-            lines.map((ln) => [
-              span({className: "code-block line"}, span(ln || " ")),
-            ])
+            className("code"),
+            lines.map((ln) => [span(className("line"), span(ln || " "))])
           )
         )
       );

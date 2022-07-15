@@ -79,8 +79,6 @@ pub fn css_response<P: AsRef<Path>>(src: P, source_maps: bool) -> Result<NamedFi
     use parcel_css::{stylesheet, targets};
     use parcel_sourcemap::SourceMap;
 
-    let src_str = src.as_ref().to_str().unwrap_or_default();
-
     cacheable_response(&src, || -> Result<String, Error> {
         let file_contents = fs::read_to_string(&src).map_err(ErrorNotFound)?;
         let targets = Some(targets::Browsers {
@@ -108,7 +106,9 @@ pub fn css_response<P: AsRef<Path>>(src: P, source_maps: bool) -> Result<NamedFi
         if source_maps {
             let mut sm = SourceMap::new("/");
 
-            sm.add_source(src_str);
+            if let Some(src_str) = src.as_ref().to_str() {
+                sm.add_source(src_str);
+            };
 
             if sm.set_source_content(0, &file_contents).is_ok() {
                 source_map = Some(sm)
@@ -121,7 +121,7 @@ pub fn css_response<P: AsRef<Path>>(src: P, source_maps: bool) -> Result<NamedFi
             source_map: source_map.as_mut(),
             ..stylesheet::PrinterOptions::default()
         };
-        let mut stylesheet = stylesheet::StyleSheet::parse(src_str, &file_contents, parser_options)
+        let mut stylesheet = stylesheet::StyleSheet::parse(&file_contents, parser_options)
             .map_err(|e| ErrorInternalServerError(e.to_string()))?;
 
         stylesheet

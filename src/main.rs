@@ -1,24 +1,25 @@
 mod models;
 mod responses;
-mod routes;
 mod views;
 
-use crate::{models::*, views::*};
+use crate::{models::*, responses::*, views::*};
 
+use actix_files::NamedFile;
 use actix_web::{
-    dev::ServiceResponse, http::header::HeaderName, http::header::HeaderValue, http::StatusCode,
-    middleware::Compress, middleware::ErrorHandlerResponse, middleware::ErrorHandlers,
-    middleware::Logger, web, App, HttpServer, Result,
+    dev::ServiceResponse, error::ErrorNotFound, http::header::HeaderName,
+    http::header::HeaderValue, http::StatusCode, middleware::Compress,
+    middleware::ErrorHandlerResponse, middleware::ErrorHandlers, middleware::Logger, web, App,
+    HttpServer, Result,
 };
 use serde::Deserialize;
-use std::{fs, io};
+use std::{fs, io, path::Path};
 
 #[derive(Deserialize, Debug, Default, Clone, Copy)]
-pub struct Config {
+struct Config {
     #[serde(default)]
-    pub source_maps: bool,
+    source_maps: bool,
     #[serde(default = "default_port")]
-    pub port: u16,
+    port: u16,
 }
 
 fn default_port() -> u16 {
@@ -44,7 +45,10 @@ async fn main() -> io::Result<()> {
             .wrap(ErrorHandlers::new().handler(StatusCode::NOT_FOUND, not_found))
             .wrap(ErrorHandlers::new().handler(StatusCode::INTERNAL_SERVER_ERROR, internal_error))
             .wrap(Compress::default())
-            .configure(routes::configure)
+            .route("/", web::get().to(home))
+            .route("/posts.rss", web::get().to(posts_rss))
+            .route("/posts/{slug:.*.html}", web::get().to(post))
+            .route("/{file:.*?}", web::get().to(file))
     })
     .bind(format!("0.0.0.0:{port}"))?
     .run()
@@ -93,4 +97,70 @@ fn error_response<B>(
     let res = ErrorHandlerResponse::Response(res);
 
     Ok(res)
+}
+
+async fn home(site: web::Data<Site>) -> Result<NamedFile> {
+    cacheable_response(Path::new("index.html"), || {
+        let site = site.as_ref().to_owned();
+        let posts = Post::get_all();
+        let title = "Home".to_string();
+
+        match posts.len() > 1 {
+            true => HomeView { site, title, posts }.to_result(),
+            false => match posts.get(0) {
+                Some(post) => PostView {
+                    site,
+                    title,
+                    post: post.to_owned(),
+                }
+                .to_result(),
+                None => Err(ErrorNotFound("not found")),
+            },
+        }
+    })
+}
+
+async fn posts_rss(site: web::Data<Site>) -> Result<NamedFile> {
+    cacheable_response(Path::new("posts.rss"), || {
+        let site = site.as_ref().to_owned();
+        let posts = Post::get_all();
+
+        FeedView { site, posts }.to_result()
+    })
+}
+
+async fn post(slug: web::Path<String>, site: web::Data<Site>) -> Result<NamedFile> {
+    let site = site.as_ref();
+    let slug = Path::new(slug.as_ref().as_str()).with_extension("");
+    let slug = slug.to_str().expect("invalid slug");
+    let path = Path::new("content/posts").join(slug).with_extension("html");
+
+    cacheable_response(&path, || {
+        let post = Post::get_by_path(path.to_owned());
+
+        match post {
+            Some(post) => PostView {
+                site: site.to_owned(),
+                title: post.title.clone(),
+                post,
+            }
+            .to_result(),
+            None => Err(ErrorNotFound("not found")),
+        }
+    })
+}
+
+async fn file(file: web::Path<String>, data: web::Data<Config>) -> Result<NamedFile> {
+    let src = Path::new("assets").join(file.to_string());
+    let ext_str = if let Some(ext) = src.extension().and_then(|ext| ext.to_str()) {
+        ext
+    } else {
+        ""
+    };
+
+    match ext_str {
+        "js" => js_response(src, data.source_maps),
+        "css" => css_response(src, data.source_maps),
+        _ => static_response(src),
+    }
 }
