@@ -3,10 +3,18 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="{{site.description}}">
+    <link href="/common.css" rel="stylesheet">
     <link href="/site.css" rel="stylesheet">
-    <script type="module" src="/site.js"></script>
+    <link rel="preload" href="/components/page-layout.css" as="style">
+    <link rel="preload" href="/components/color-scheme-form.css" as="style">
+    <script type="module">
+      import '/util.js'
+      import '/components/page-layout.js'
+      import '/components/color-scheme-form.js'
+      import '/components/code-block.js'
+    </script>
     <title>{{title}} | {{site.title}}</title>
+    <meta name="description" content="{{site.description}}">
     <link href="/favicon.svg" rel="icon" type="image/svg+xml">
   </head>
   <body>

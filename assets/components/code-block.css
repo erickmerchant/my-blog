@@ -1,0 +1,68 @@
+@import url("../common.css");
+
+@custom-media --mobile (max-width: 670px);
+
+.root {
+  white-space: pre-wrap;
+
+  @media (--mobile) {
+    white-space: pre;
+  }
+}
+
+.code {
+  display: grid;
+  grid-template-columns: min-content auto;
+  gap: 0 var(--space-quarter);
+  font-size: 0.875rem;
+  font-family: ui-monospace, Consolas, monaco, monospace;
+  background-color: hsl(var(--background-3));
+  border-radius: var(--border-radius);
+  color: hsl(var(--code-color));
+  counter-reset: lines;
+  min-width: min-content;
+
+  --border-radius: 0.25rem;
+
+  @media (--mobile) {
+    --border-radius: 0;
+  }
+}
+
+.line {
+  display: contents;
+
+  & > * {
+    padding-block-start: calc(var(--first, 0) * 1em);
+    padding-block-end: calc(var(--last, 0) * 1em);
+    padding-inline: var(--space-quarter);
+  }
+
+  &:where(:first-child) {
+    --first: 1;
+  }
+
+  &:where(:last-child) {
+    --last: 1;
+  }
+
+  &::before {
+    display: block;
+    content: counter(lines);
+    counter-increment: lines;
+    text-align: right;
+    color: hsl(var(--text-color) / 0.5);
+    padding-inline: var(--space-half);
+    padding-block-start: calc(var(--first, 0) * 1em);
+    padding-block-end: calc(var(--last, 0) * 1em);
+    background: hsl(var(--background-2));
+    border-top-left-radius: calc(var(--first, 0) * var(--border-radius));
+    border-bottom-left-radius: calc(var(--last, 0) * var(--border-radius));
+
+    @media (--mobile) {
+      left: 0;
+      position: sticky;
+      z-index: 1;
+    }
+  }
+}

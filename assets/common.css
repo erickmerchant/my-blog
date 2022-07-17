@@ -1,0 +1,33 @@
+/* 0 0 0 */
+
+* {
+  font: inherit;
+  font-weight: var(--font-weight);
+  color: inherit;
+  gap: inherit;
+  max-width: 100%;
+  padding: 0;
+  margin: 0;
+
+  &,
+  &::before,
+  &::after {
+    box-sizing: border-box;
+  }
+}
+
+/* 0 0 1 */
+
+::-webkit-scrollbar {
+  width: 0.5em;
+  height: 0.5em;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-foreground);
+  border-radius: 0.5em;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-background);
+}

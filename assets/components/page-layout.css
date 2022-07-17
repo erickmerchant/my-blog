@@ -1,0 +1,59 @@
+@import url("../common.css");
+
+.icon {
+  width: 1em;
+  aspect-ratio: 1 / 1;
+  fill: currentColor;
+  display: grid;
+}
+
+.toggle {
+  position: fixed;
+  top: var(--toggle-top);
+  left: var(--toggle-top);
+  z-index: 3;
+  background-color: hsl(var(--background-1));
+  border: var(--toggle-border-width) solid hsl(var(--anchor-color) / 0.5);
+  border-radius: 0.25rem;
+  color: hsl(var(--anchor-color));
+  height: var(--toggle-height);
+  width: var(--toggle-height);
+  display: grid;
+  place-content: center;
+  appearance: none;
+  cursor: pointer;
+  --svg-display: block;
+}
+
+.nav {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  width: var(--drawer-width);
+  height: 100%;
+  overflow: auto;
+  border-right: 0.125rem solid hsl(var(--background-3));
+  display: grid;
+  place-content: center;
+  gap: var(--space);
+
+  --font-weight: 400;
+
+  & * {
+    gap: var(--space-quarter);
+  }
+}
+
+.panel {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-rows: min-content 1fr;
+  height: 100%;
+  transform: translateX(var(--content-left));
+  transition: transform 0.125s ease;
+
+  @media (prefers-reduced-motion) {
+    transition: none;
+  }
+}

@@ -1,0 +1,23 @@
+@import url("../common.css");
+
+.root {
+  display: grid;
+  color: hsl(var(--text-color));
+}
+
+.heading {
+  --font-weight: 600;
+}
+
+.label {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  align-items: center;
+}
+
+.input {
+  display: block;
+  accent-color: hsl(var(--anchor-color));
+  height: 1em;
+  width: 1em;
+}

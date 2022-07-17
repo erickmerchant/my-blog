@@ -1,45 +1,14 @@
 @custom-media --mobile (max-width: 670px);
 @custom-media --tablet (max-width: 1100px);
 
-/* 0 0 0 */
-
-* {
-  font: inherit;
-  font-weight: var(--font-weight);
-  color: inherit;
-  gap: inherit;
-  max-width: 100%;
-  padding: 0;
-  margin: 0;
-
-  &,
-  &::before,
-  &::after {
-    box-sizing: border-box;
-  }
-}
-
 /* 0 0 1 */
-
-::-webkit-scrollbar {
-  width: 0.5em;
-  height: 0.5em;
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--scrollbar-foreground);
-  border-radius: 0.5em;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--scrollbar-background);
-}
 
 html {
   font-size: 125%;
   line-height: 1.5;
   font-family: system-ui, -apple-system;
   overflow-x: hidden;
+  height: 100%;
 
   --font-weight: 300;
   --space: 2rem;
@@ -57,6 +26,7 @@ html {
 }
 
 body {
+  height: 100%;
   overflow-x: hidden;
 
   --background-1: 0 0% 100%;
@@ -107,6 +77,10 @@ ol {
   list-style: none;
 }
 
+svg:where([slot]) {
+  display: var(--svg-display, none);
+}
+
 code-block {
   display: block;
   width: 100%;
@@ -142,7 +116,7 @@ page-layout {
   --toggle-border-width: 0.125rem;
   --toggle-height: 2.25rem;
   --scrollbar-foreground: hsl(var(--anchor-color) / 0.5);
-  --scrollbar-background: hsl(var(--background-1));
+  --scrollbar-background: hsl(var(--background-2));
   scrollbar-color: var(--scrollbar-foreground) var(--scrollbar-background);
 
   &:where([open]) {
@@ -306,157 +280,5 @@ page-layout:where(:not(:defined)) {
     gap: var(--space);
     padding: var(--space-half);
     margin-inline: auto;
-  }
-}
-
-/* 0 2 0 */
-
-.page-layout {
-  &.icon {
-    width: 1em;
-    aspect-ratio: 1 / 1;
-    fill: currentColor;
-    display: grid;
-  }
-
-  &.toggle {
-    position: fixed;
-    top: var(--toggle-top);
-    left: var(--toggle-top);
-    z-index: 3;
-    background-color: hsl(var(--background-1));
-    border: var(--toggle-border-width) solid hsl(var(--anchor-color) / 0.5);
-    border-radius: 0.25rem;
-    color: hsl(var(--anchor-color));
-    height: var(--toggle-height);
-    width: var(--toggle-height);
-    display: grid;
-    place-content: center;
-    appearance: none;
-    cursor: pointer;
-  }
-
-  &.nav {
-    position: fixed;
-    inset: 0;
-    z-index: 0;
-    width: var(--drawer-width);
-    height: 100%;
-    overflow: auto;
-    border-right: 0.125rem solid hsl(var(--background-3));
-    display: grid;
-    place-content: center;
-    gap: var(--space);
-
-    --font-weight: 400;
-
-    & * {
-      gap: var(--space-quarter);
-    }
-  }
-
-  &.panel {
-    position: relative;
-    z-index: 1;
-    display: grid;
-    grid-template-rows: min-content 1fr;
-    height: 100%;
-    transform: translateX(var(--content-left));
-    transition: transform 0.125s ease;
-
-    @media (prefers-reduced-motion) {
-      transition: none;
-    }
-  }
-}
-
-.color-scheme-form {
-  &.root {
-    display: grid;
-    color: hsl(var(--text-color));
-  }
-
-  &.heading {
-    --font-weight: 600;
-  }
-
-  &.label {
-    display: grid;
-    grid-template-columns: max-content 1fr;
-    align-items: center;
-  }
-
-  &.input {
-    display: block;
-    accent-color: hsl(var(--anchor-color));
-    height: 1em;
-    width: 1em;
-  }
-}
-
-.code-block {
-  &.root {
-    white-space: pre-wrap;
-  }
-
-  &.code {
-    display: grid;
-    grid-template-columns: min-content auto;
-    gap: 0 var(--space-quarter);
-    font-size: 0.875rem;
-    font-family: ui-monospace, Consolas, monaco, monospace;
-    background-color: hsl(var(--background-3));
-    border-radius: var(--border-radius);
-    color: hsl(var(--code-color));
-    counter-reset: lines;
-    min-width: min-content;
-
-    --border-radius: 0.25rem;
-
-    @media (--mobile) {
-      --border-radius: 0;
-    }
-  }
-
-  &.line {
-    display: contents;
-
-    & > * {
-      padding-block-start: calc(var(--first, 0) * 1em);
-      padding-block-end: calc(var(--last, 0) * 1em);
-      padding-inline: var(--space-quarter);
-    }
-
-    &:where(:first-child) {
-      --first: 1;
-    }
-
-    &:where(:last-child) {
-      --last: 1;
-    }
-
-    &::before {
-      display: block;
-      content: counter(lines);
-      counter-increment: lines;
-      text-align: right;
-      color: hsl(var(--text-color) / 0.5);
-      padding-inline: var(--space-half);
-      padding-block-start: calc(var(--first, 0) * 1em);
-      padding-block-end: calc(var(--last, 0) * 1em);
-      background: hsl(var(--background-2));
-      border-top-left-radius: calc(var(--first, 0) * var(--border-radius));
-      border-bottom-left-radius: calc(var(--last, 0) * var(--border-radius));
-
-      @media (--mobile) {
-        left: 0;
-        position: sticky;
-        z-index: 1;
-      }
-    }
-  }
-
-  @media (--mobile) {
-    white-space: pre;
   }
 }
