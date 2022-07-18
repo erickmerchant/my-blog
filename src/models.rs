@@ -38,6 +38,8 @@ pub struct Post {
     pub date: String,
     pub description: String,
     #[serde(default)]
+    pub has_examples: bool,
+    #[serde(default)]
     pub content: String,
 }
 
