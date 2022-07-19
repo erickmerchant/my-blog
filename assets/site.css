@@ -46,25 +46,26 @@ p {
 }
 
 h1 {
-  font-size: 1.625rem;
+  font-size: 2rem;
 
   --font-weight: 900;
 }
 
 h2 {
-  font-size: 1.375rem;
+  font-size: 1.5rem;
 
   --font-weight: 800;
 }
 
 h3 {
-  font-size: 1.1875rem;
+  font-size: 1.25rem;
 
   --font-weight: 700;
 }
 
+h4,
 dt {
-  font-size: 1.0625rem;
+  font-size: 1.125rem;
 
   --font-weight: 600;
 }
@@ -247,6 +248,10 @@ page-layout {
     gap: 0.5em;
     margin-inline-start: 0;
   }
+}
+
+.post-heading {
+  font-size: 1.125rem;
 }
 
 .post-date {

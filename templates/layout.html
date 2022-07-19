@@ -10,8 +10,6 @@
     <script type="module" src="/util.js"></script>
     <script type="module" src="/components/page-layout.js"></script>
     <script type="module" src="/components/color-scheme-form.js"></script>
-    {% block head %}
-    {% endblock %}
     <title>{{title}} | {{site.title}}</title>
     <meta name="description" content="{{site.description}}">
     <link href="/favicon.svg" rel="icon" type="image/svg+xml">
@@ -62,6 +60,20 @@
       </svg>
 
     </page-layout>
+    <script type="module">
+      let missing = new Set();
+
+      for (let el of document.querySelectorAll(':not(:defined)')) {
+        let name = el.nodeName.toLowerCase();
+
+        if (!missing.has(name)) {
+          missing.add(name);
+
+          import(`/components/${name}.js`);
+        }
+      }
+
+    </script>
   </body>
 </html>
 

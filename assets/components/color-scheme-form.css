@@ -1,6 +1,6 @@
 @import url("../common.css");
 
-.root {
+.form {
   display: grid;
   color: hsl(var(--text-color));
 }

@@ -2,7 +2,7 @@
 
 @custom-media --mobile (max-width: 670px);
 
-.root {
+.pre {
   white-space: pre-wrap;
 
   @media (--mobile) {

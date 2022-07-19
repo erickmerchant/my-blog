@@ -1,12 +1,5 @@
 {% extends "layout.html" %}
 
-{% block head %}
-  {% if post.has_examples %}
-    <link rel="preload" href="/components/code-block.css" as="style">
-    <script type="module" src="/components/code-block.js"></script>
-  {% endif %}
-{% endblock %}
-
 {% block main %}
   <div>
     <h1>{{post.title}}</h1>
