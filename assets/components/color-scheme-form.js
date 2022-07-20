@@ -17,36 +17,38 @@ class ColorSchemeForm extends HTMLElement {
     this.update();
   }
 
-  update(initial = false) {
+  effect() {
     let body = this.closest("body");
 
-    for (let scheme of ["light", "dark"]) {
-      body.classList.toggle(
-        `color-scheme-${scheme}`,
-        scheme === this.colorScheme
-      );
-    }
+    body.setAttribute("data-color-scheme", this.colorScheme);
+  }
 
-    if (initial) return;
+  update() {
+    this.effect();
 
     for (let input of this.refs.colorSchemeOptions) {
       input.checked = this.colorScheme === input.value;
     }
   }
 
-  connectedCallback() {
+  constructor() {
+    super();
+
     this.attachShadow({mode: "open"});
 
     this.refs.colorSchemeOptions = [];
 
-    const {style, form, h6, label, input} = html;
+    const {link, form, h6, label, input} = html;
 
     this.shadowRoot.append(
-      style(
-        `@import url(${
-          new URL("./color-scheme-form.css", import.meta.url).pathname
-        });`
-      ),
+      link({
+        rel: "stylesheet",
+        href: new URL("../common.css", import.meta.url).pathname,
+      }),
+      link({
+        rel: "stylesheet",
+        href: new URL("./color-scheme-form.css", import.meta.url).pathname,
+      }),
       form(
         {className: "form"},
         h6({className: "heading"}, "Color Scheme"),
@@ -74,7 +76,7 @@ class ColorSchemeForm extends HTMLElement {
       this.changeColorScheme(e.matches ? "dark" : "light");
     });
 
-    this.update(true);
+    this.effect();
   }
 }
 

@@ -1,5 +1,3 @@
-@import url("../common.css");
-
 @custom-media --mobile (max-width: 670px);
 
 .pre {

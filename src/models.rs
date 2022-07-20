@@ -39,6 +39,8 @@ pub struct Post {
     pub description: String,
     #[serde(default)]
     pub content: String,
+    #[serde(default)]
+    pub components: Vec<String>,
 }
 
 impl Post {

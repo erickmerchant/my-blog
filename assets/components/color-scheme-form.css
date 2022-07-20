@@ -1,5 +1,3 @@
-@import url("../common.css");
-
 .form {
   display: grid;
   color: hsl(var(--text-color));

@@ -11,10 +11,12 @@ class PageLayout extends HTMLElement {
     this.update();
   }
 
-  update(initial = false) {
+  effect() {
     this.toggleAttribute("open", this.open);
+  }
 
-    if (initial) return;
+  update() {
+    this.effect();
 
     this.refs.toggle.ariaExpanded = String(this.open);
 
@@ -33,17 +35,22 @@ class PageLayout extends HTMLElement {
     }
   }
 
-  connectedCallback() {
+  constructor() {
+    super();
+
     this.attachShadow({mode: "open"});
 
-    const {style, nav, button, slot, div} = html;
+    const {link, nav, button, slot, div} = html;
 
     this.shadowRoot.append(
-      style(
-        `@import url(${
-          new URL("./page-layout.css", import.meta.url).pathname
-        });`
-      ),
+      link({
+        rel: "stylesheet",
+        href: new URL("../common.css", import.meta.url).pathname,
+      }),
+      link({
+        rel: "stylesheet",
+        href: new URL("./page-layout.css", import.meta.url).pathname,
+      }),
       nav(
         (this.refs.toggle = button(
           {
@@ -86,7 +93,7 @@ class PageLayout extends HTMLElement {
       )
     );
 
-    this.update(true);
+    this.effect();
   }
 }
 
