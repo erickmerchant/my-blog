@@ -10,7 +10,7 @@ pub struct FeedView {
     pub posts: Vec<Post>,
 }
 
-impl UnminifiedView for FeedView {}
+impl View for FeedView {}
 
 #[derive(Template)]
 #[template(path = "home.html")]
@@ -20,7 +20,11 @@ pub struct HomeView {
     pub posts: Vec<Post>,
 }
 
-impl MinifiedView for HomeView {}
+impl View for HomeView {
+    fn to_result(&self) -> Result<String, Error> {
+        to_minified_result(self)
+    }
+}
 
 #[derive(Template)]
 #[template(path = "post.html")]
@@ -30,7 +34,11 @@ pub struct PostView {
     pub post: Post,
 }
 
-impl MinifiedView for PostView {}
+impl View for PostView {
+    fn to_result(&self) -> Result<String, Error> {
+        to_minified_result(self)
+    }
+}
 
 #[derive(Template)]
 #[template(path = "not_found.html")]
@@ -39,7 +47,7 @@ pub struct NotFoundView {
     pub title: String,
 }
 
-impl UnminifiedView for NotFoundView {}
+impl View for NotFoundView {}
 
 #[derive(Template)]
 #[template(path = "internal_error.html")]
@@ -48,7 +56,7 @@ pub struct InternalErrorView {
     pub title: String,
 }
 
-impl UnminifiedView for InternalErrorView {}
+impl View for InternalErrorView {}
 
 mod filters {
     pub fn format_date(d: &str, f: &str) -> askama::Result<String> {
@@ -59,18 +67,17 @@ mod filters {
     }
 }
 
-pub trait MinifiedView: Template {
-    fn to_result(&self) -> Result<String, Error> {
-        use minify_html::{minify, Cfg};
+fn to_minified_result(view: &impl Template) -> Result<String, Error> {
+    use minify_html::{minify, Cfg};
 
-        let code = self.render().map_err(ErrorInternalServerError)?;
-        let cfg = Cfg::spec_compliant();
-        let minified = minify(code.as_bytes(), &cfg);
+    let code = view.render().map_err(ErrorInternalServerError)?;
+    let cfg = Cfg::spec_compliant();
+    let minified = minify(code.as_bytes(), &cfg);
 
-        String::from_utf8(minified).map_err(ErrorInternalServerError)
-    }
+    String::from_utf8(minified).map_err(ErrorInternalServerError)
 }
-pub trait UnminifiedView: Template {
+
+pub trait View: Template {
     fn to_result(&self) -> Result<String, Error> {
         let code = self.render().map_err(ErrorInternalServerError)?;
 

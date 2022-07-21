@@ -77,10 +77,7 @@ fn internal_error<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerResponse<B>>
     error_response(res, InternalErrorView { site, title })
 }
 
-fn error_response<B>(
-    res: ServiceResponse<B>,
-    body: impl UnminifiedView,
-) -> Result<ErrorHandlerResponse<B>> {
+fn error_response<B>(res: ServiceResponse<B>, body: impl View) -> Result<ErrorHandlerResponse<B>> {
     let body = body.to_result()?;
     let (req, res) = res.into_parts();
     let res = res.set_body(body);
