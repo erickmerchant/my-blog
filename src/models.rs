@@ -1,6 +1,6 @@
 use glob::glob;
 use serde::Deserialize;
-use std::{fs, path::Path, path::PathBuf, vec::Vec};
+use std::{fs, path::Path, vec::Vec};
 
 #[derive(Deserialize, Debug, Clone, Default)]
 pub struct Site {
@@ -33,6 +33,7 @@ pub struct Link {
 
 #[derive(Deserialize, Debug, Clone)]
 pub struct Post {
+    #[serde(default)]
     pub slug: String,
     pub title: String,
     pub date: String,
@@ -44,7 +45,10 @@ pub struct Post {
 }
 
 impl Post {
-    pub fn get_by_path(path: PathBuf) -> Option<Self> {
+    pub fn get_by_slug(slug: String) -> Option<Self> {
+        let path = Path::new("content/posts")
+            .join(&slug)
+            .with_extension("html");
         let mut result = None;
 
         if let Ok(contents) = fs::read_to_string(path) {
@@ -54,6 +58,7 @@ impl Post {
                 if let (Some(frontmatter), Some(content)) = (parts.get(1), parts.get(2)) {
                     if let Ok(data) = serde_json::from_str::<Self>(frontmatter) {
                         result = Some(Self {
+                            slug,
                             content: content.to_string(),
                             ..data
                         });
@@ -63,10 +68,6 @@ impl Post {
         }
 
         result
-    }
-
-    pub fn get_by_slug(slug: String) -> Option<Self> {
-        Self::get_by_path(Path::new("content/posts").join(slug).with_extension("html"))
     }
 
     pub fn get_all() -> Vec<Self> {

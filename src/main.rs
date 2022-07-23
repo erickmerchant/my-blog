@@ -133,7 +133,7 @@ async fn post(slug: web::Path<String>, site: web::Data<Site>) -> Result<NamedFil
     let path = Path::new("content/posts").join(slug).with_extension("html");
 
     cacheable_response(&path, || {
-        let post = Post::get_by_path(path.to_owned());
+        let post = Post::get_by_slug(slug.to_string());
 
         match post {
             Some(post) => PostView {
