@@ -131,10 +131,6 @@ page-layout {
 
 /* 0 1 0 */
 
-[inert] {
-  filter: blur(2px);
-}
-
 [data-color-scheme="light"] {
   --anchor-color: 100 60% 30%;
   --code-color: 100 60% 25%;

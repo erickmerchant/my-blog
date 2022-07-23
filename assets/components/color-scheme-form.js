@@ -38,7 +38,7 @@ class ColorSchemeForm extends HTMLElement {
 
     this.refs.colorSchemeOptions = [];
 
-    const {link, form, h6, label, input} = html;
+    let {link, form, h6, label, input} = html;
 
     this.shadowRoot.append(
       link({

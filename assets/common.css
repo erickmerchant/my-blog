@@ -31,3 +31,9 @@
 ::-webkit-scrollbar-track {
   background: var(--scrollbar-background);
 }
+
+/* 0 1 0 */
+
+[inert] {
+  filter: grayscale(0.9);
+}

@@ -1,4 +1,4 @@
-export const html = new Proxy(
+export let html = new Proxy(
   {},
   {
     get(_, tag) {

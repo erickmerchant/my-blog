@@ -8,7 +8,7 @@ class CodeBlock extends HTMLElement {
 
     this.attachShadow({mode: "open"});
 
-    const {link, pre, code, span} = html;
+    let {link, pre, code, span} = html;
 
     this.shadowRoot.append(
       link({

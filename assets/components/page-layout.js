@@ -40,7 +40,7 @@ class PageLayout extends HTMLElement {
 
     this.attachShadow({mode: "open"});
 
-    const {link, nav, button, slot, div} = html;
+    let {link, nav, button, slot, div} = html;
 
     this.shadowRoot.append(
       link({
