@@ -63,7 +63,7 @@ fn not_found<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerResponse<B>> {
         None => Site::default(),
     };
 
-    error_response(res, NotFoundView { site, title })
+    error_response(res, NotFoundView { site, title }.to_string())
 }
 
 fn internal_error<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerResponse<B>> {
@@ -74,11 +74,10 @@ fn internal_error<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerResponse<B>>
         None => Site::default(),
     };
 
-    error_response(res, InternalErrorView { site, title })
+    error_response(res, InternalErrorView { site, title }.to_string())
 }
 
-fn error_response<B>(res: ServiceResponse<B>, body: impl View) -> Result<ErrorHandlerResponse<B>> {
-    let body = body.to_result()?;
+fn error_response<B>(res: ServiceResponse<B>, body: String) -> Result<ErrorHandlerResponse<B>> {
     let (req, res) = res.into_parts();
     let res = res.set_body(body);
     let mut res = ServiceResponse::new(req, res)
@@ -97,22 +96,14 @@ fn error_response<B>(res: ServiceResponse<B>, body: impl View) -> Result<ErrorHa
 }
 
 async fn home(site: web::Data<Site>) -> Result<NamedFile> {
-    cacheable_response(Path::new("index.html"), || {
+    html_response(Path::new("index.html"), || {
         let site = site.as_ref().to_owned();
         let posts = Post::get_all();
         let title = "Home".to_string();
 
-        match posts.len() > 1 {
-            true => HomeView { site, title, posts }.to_result(),
-            false => match posts.get(0) {
-                Some(post) => PostView {
-                    site,
-                    title,
-                    post: post.to_owned(),
-                }
-                .to_result(),
-                None => Err(ErrorNotFound("not found")),
-            },
+        match posts.len() > 0 {
+            true => Ok(HomeView { site, title, posts }.to_string()),
+            false => Err(ErrorNotFound("not found")),
         }
     })
 }
@@ -122,7 +113,7 @@ async fn posts_rss(site: web::Data<Site>) -> Result<NamedFile> {
         let site = site.as_ref().to_owned();
         let posts = Post::get_all();
 
-        FeedView { site, posts }.to_result()
+        Ok(FeedView { site, posts }.to_string())
     })
 }
 
@@ -132,16 +123,16 @@ async fn post(slug: web::Path<String>, site: web::Data<Site>) -> Result<NamedFil
     let slug = slug.to_str().expect("invalid slug");
     let path = Path::new("content/posts").join(slug).with_extension("html");
 
-    cacheable_response(&path, || {
+    html_response(&path, || {
         let post = Post::get_by_slug(slug.to_string());
 
         match post {
-            Some(post) => PostView {
+            Some(post) => Ok(PostView {
                 site: site.to_owned(),
                 title: post.title.clone(),
                 post,
             }
-            .to_result(),
+            .to_string()),
             None => Err(ErrorNotFound("not found")),
         }
     })
