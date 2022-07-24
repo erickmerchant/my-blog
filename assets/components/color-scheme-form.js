@@ -3,6 +3,8 @@ import {html} from "../util.js";
 class ColorSchemeForm extends HTMLElement {
   refs = {};
 
+  options = ["Light", "Dark"];
+
   prefersColorSchemeDark = window.matchMedia("(prefers-color-scheme: dark)");
 
   colorScheme =
@@ -52,7 +54,7 @@ class ColorSchemeForm extends HTMLElement {
       form(
         {className: "form"},
         h6({className: "heading"}, "Color Scheme"),
-        ["Light", "Dark"].map((scheme, i) => {
+        this.options.map((scheme, i) => {
           let value = scheme.toLowerCase();
 
           return label(

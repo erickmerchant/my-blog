@@ -4,24 +4,20 @@ use std::{fs, path::Path, vec::Vec};
 
 #[derive(Deserialize, Debug, Clone, Default)]
 pub struct Site {
-    #[serde(default)]
     pub title: String,
-    #[serde(default)]
     pub base: String,
-    #[serde(default)]
     pub description: String,
-    #[serde(default)]
     pub copyright: String,
-    #[serde(default)]
     pub links: Vec<Link>,
 }
 
 impl Site {
     pub fn get() -> Self {
-        let file_contents =
-            fs::read_to_string("content/Site.json").expect("failed to read content/Site.json");
-
-        serde_json::from_str::<Self>(&file_contents).expect("failed to parse content/Site.json")
+        match fs::read_to_string("content/Site.json") {
+            Ok(file_contents) => serde_json::from_str::<Self>(&file_contents)
+                .expect("failed to parse content/Site.json"),
+            _ => Self::default(),
+        }
     }
 }
 

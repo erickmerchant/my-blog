@@ -26,17 +26,11 @@ pub struct PostView {
 }
 
 #[derive(Template)]
-#[template(path = "not_found.html")]
-pub struct NotFoundView {
+#[template(path = "error.html")]
+pub struct ErrorView {
     pub site: Site,
     pub title: String,
-}
-
-#[derive(Template)]
-#[template(path = "internal_error.html")]
-pub struct InternalErrorView {
-    pub site: Site,
-    pub title: String,
+    pub message: String,
 }
 
 mod filters {

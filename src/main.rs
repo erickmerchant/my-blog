@@ -57,24 +57,42 @@ async fn main() -> io::Result<()> {
 
 fn not_found<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerResponse<B>> {
     let title = "Page Not Found".to_string();
+    let message = "That resource was moved, removed, or never existed.".to_string();
     let req = res.request();
     let site = match req.app_data::<web::Data<Site>>() {
         Some(s) => s.as_ref().to_owned(),
         None => Site::default(),
     };
 
-    error_response(res, NotFoundView { site, title }.to_string())
+    error_response(
+        res,
+        ErrorView {
+            site,
+            title,
+            message,
+        }
+        .to_string(),
+    )
 }
 
 fn internal_error<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerResponse<B>> {
     let title = "Internal Error".to_string();
+    let message = "An error occurred. Please try again later.".to_string();
     let req = res.request();
     let site = match req.app_data::<web::Data<Site>>() {
         Some(s) => s.as_ref().to_owned(),
         None => Site::default(),
     };
 
-    error_response(res, InternalErrorView { site, title }.to_string())
+    error_response(
+        res,
+        ErrorView {
+            site,
+            title,
+            message,
+        }
+        .to_string(),
+    )
 }
 
 fn error_response<B>(res: ServiceResponse<B>, body: String) -> Result<ErrorHandlerResponse<B>> {
@@ -101,7 +119,7 @@ async fn home(site: web::Data<Site>) -> Result<NamedFile> {
         let posts = Post::get_all();
         let title = "Home".to_string();
 
-        match posts.len() > 0 {
+        match !posts.is_empty() {
             true => Ok(HomeView { site, title, posts }.to_string()),
             false => Err(ErrorNotFound("not found")),
         }
@@ -125,14 +143,14 @@ async fn post(slug: web::Path<String>, site: web::Data<Site>) -> Result<NamedFil
 
     html_response(&path, || {
         let post = Post::get_by_slug(slug.to_string());
+        let site = site.to_owned();
 
         match post {
-            Some(post) => Ok(PostView {
-                site: site.to_owned(),
-                title: post.title.clone(),
-                post,
+            Some(post) => {
+                let title = post.title.clone();
+
+                Ok(PostView { site, title, post }.to_string())
             }
-            .to_string()),
             None => Err(ErrorNotFound("not found")),
         }
     })

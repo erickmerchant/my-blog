@@ -35,7 +35,7 @@
 /* 0 1 0 */
 
 [inert] {
-  filter: grayscale(0.9);
-
+  --anchor-color: var(--gray-color);
   --text-color: var(--gray-color);
+  --code-color: var(--gray-color);
 }
