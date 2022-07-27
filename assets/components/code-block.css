@@ -1,30 +1,18 @@
-@custom-media --mobile (max-width: 670px);
-
 .pre {
-  white-space: pre-wrap;
-
-  @media (--mobile) {
-    white-space: pre;
-  }
+  border-radius: var(--border-radius);
+  white-space: pre;
+  overflow-x: auto;
+  max-width: 100%;
 }
 
 .code {
   display: grid;
   grid-template-columns: min-content auto;
   gap: 0 var(--space-quarter);
-  font-size: 0.875rem;
-  font-family: ui-monospace, Consolas, monaco, monospace;
   background-color: hsl(var(--background-3));
-  border-radius: var(--border-radius);
   color: hsl(var(--code-color));
   counter-reset: lines;
   min-width: min-content;
-
-  --border-radius: 0.25rem;
-
-  @media (--mobile) {
-    --border-radius: 0;
-  }
 }
 
 .line {
@@ -56,11 +44,8 @@
     background: hsl(var(--background-2));
     border-top-left-radius: calc(var(--first, 0) * var(--border-radius));
     border-bottom-left-radius: calc(var(--last, 0) * var(--border-radius));
-
-    @media (--mobile) {
-      left: 0;
-      position: sticky;
-      z-index: 1;
-    }
+    left: 0;
+    position: sticky;
+    z-index: 1;
   }
 }

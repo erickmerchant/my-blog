@@ -70,10 +70,20 @@ pub fn js_response<P: AsRef<Path>>(src: P, source_maps: bool) -> Result<NamedFil
             "bugfixes": true
           },
           "jsc": {
+            "transform": {
+                "react": {
+                    "pragma": "Element.h",
+                    "pragmaFrag": "Element.fragment"
+                },
+            },
+            "parser": {
+                "syntax": "ecmascript",
+                "jsx": true,
+            },
             "minify": {
               "compress": true,
               "mangle": true
-            }
+            },
           },
           "module": {
             "type": "es6"

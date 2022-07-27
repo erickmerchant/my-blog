@@ -1,8 +1,6 @@
-import {html} from "../util.js";
+import {Element} from "../element.js";
 
-class PageLayout extends HTMLElement {
-  refs = {};
-
+class PageLayout extends Element {
   open = false;
 
   toggleOpen() {
@@ -35,65 +33,60 @@ class PageLayout extends HTMLElement {
     }
   }
 
-  constructor() {
-    super();
-
-    this.attachShadow({mode: "open"});
-
-    let {link, nav, button, slot, div} = html;
-
-    this.shadowRoot.append(
-      link({
-        rel: "stylesheet",
-        href: new URL("../common.css", import.meta.url).pathname,
-      }),
-      link({
-        rel: "stylesheet",
-        href: new URL("./page-layout.css", import.meta.url).pathname,
-      }),
-      nav(
-        (this.refs.toggle = button(
+  render() {
+    return (
+      <>
+        <link
+          rel="stylesheet"
+          href={new URL("../common.css", import.meta.url).pathname}
+        />
+        <link
+          rel="stylesheet"
+          href={new URL("./page-layout.css", import.meta.url).pathname}
+        />
+        <nav>
           {
-            className: "toggle",
-            ariaExpanded: "false",
-            ariaLabel: "Toggle nav",
-            onClick: () => this.toggleOpen(),
-            type: "button",
-          },
-          (this.refs.toggleIcon = slot({
-            className: "icon",
-            ariaHidden: "true",
-            name: "open",
-          }))
-        )),
-        (this.refs.nav = div(
+            (this.refs.toggle = (
+              <button
+                className="toggle"
+                ariaExpanded="false"
+                ariaLabel="Toggle nav"
+                onClick={() => this.toggleOpen()}
+                type="button"
+              >
+                {
+                  (this.refs.toggleIcon = (
+                    <slot className="icon" ariaHidden="true" name="open" />
+                  ))
+                }
+              </button>
+            ))
+          }
           {
-            className: "nav",
-            ariaHidden: "true",
-            inert: true,
-          },
-          slot({name: "nav"})
-        ))
-      ),
-      div(
-        {
-          onClick: () => {
+            (this.refs.nav = (
+              <div className="nav" ariaHidden="true" inert>
+                <slot name="nav" />
+              </div>
+            ))
+          }
+        </nav>
+        <div
+          onClick={() => {
             if (this.open) {
               this.toggleOpen();
             }
-          },
-        },
-        (this.refs.panel = div(
+          }}
+        >
           {
-            className: "panel",
-            ariaHidden: "false",
-          },
-          slot({name: "panel"})
-        ))
-      )
+            (this.refs.panel = (
+              <div className="panel" ariaHidden="false">
+                <slot name="panel" />
+              </div>
+            ))
+          }
+        </div>
+      </>
     );
-
-    this.effect();
   }
 }
 

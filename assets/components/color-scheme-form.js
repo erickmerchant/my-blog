@@ -1,8 +1,6 @@
-import {html} from "../util.js";
+import {Element} from "../element.js";
 
-class ColorSchemeForm extends HTMLElement {
-  refs = {};
-
+class ColorSchemeForm extends Element {
   options = ["Light", "Dark"];
 
   prefersColorSchemeDark = window.matchMedia("(prefers-color-scheme: dark)");
@@ -33,52 +31,50 @@ class ColorSchemeForm extends HTMLElement {
     }
   }
 
-  constructor() {
-    super();
-
-    this.attachShadow({mode: "open"});
-
+  render() {
     this.refs.colorSchemeOptions = [];
-
-    let {link, form, h6, label, input} = html;
-
-    this.shadowRoot.append(
-      link({
-        rel: "stylesheet",
-        href: new URL("../common.css", import.meta.url).pathname,
-      }),
-      link({
-        rel: "stylesheet",
-        href: new URL("./color-scheme-form.css", import.meta.url).pathname,
-      }),
-      form(
-        {className: "form"},
-        h6({className: "heading"}, "Color Scheme"),
-        this.options.map((scheme, i) => {
-          let value = scheme.toLowerCase();
-
-          return label(
-            {className: "label"},
-            (this.refs.colorSchemeOptions[i] = input({
-              className: "input",
-              type: "radio",
-              checked: this.colorScheme === value,
-              value,
-              onChange: () => {
-                this.changeColorScheme(value);
-              },
-            })),
-            scheme
-          );
-        })
-      )
-    );
 
     this.prefersColorSchemeDark.addEventListener("change", (e) => {
       this.changeColorScheme(e.matches ? "dark" : "light");
     });
 
-    this.effect();
+    return (
+      <>
+        <link
+          rel="stylesheet"
+          href={new URL("../common.css", import.meta.url).pathname}
+        />
+        <link
+          rel="stylesheet"
+          href={new URL("./color-scheme-form.css", import.meta.url).pathname}
+        />
+        <form className="form">
+          <h6 className="heading">Color Scheme</h6>
+          {this.options.map((scheme, i) => {
+            let value = scheme.toLowerCase();
+
+            return (
+              <label className="label">
+                {
+                  (this.refs.colorSchemeOptions[i] = (
+                    <input
+                      className="input"
+                      type="radio"
+                      checked={this.colorScheme === value}
+                      value={value}
+                      onChange={() => {
+                        this.changeColorScheme(value);
+                      }}
+                    />
+                  ))
+                }
+                {scheme}
+              </label>
+            );
+          })}
+        </form>
+      </>
+    );
   }
 }
 

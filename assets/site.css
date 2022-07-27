@@ -1,5 +1,5 @@
-@custom-media --mobile (max-width: 670px);
-@custom-media --tablet (max-width: 1100px);
+@custom-media --mobile (max-width: 600px);
+@custom-media --tablet (max-width: 900px);
 
 /* 0 0 1 */
 
@@ -85,11 +85,14 @@ svg:where([slot]) {
 code-block {
   display: block;
   width: 100%;
-  overflow-x: auto;
+  font-size: 0.875rem;
+  font-family: ui-monospace, Consolas, monaco, monospace;
 
   --has-extra-width: 1;
+  --border-radius: 0.25rem;
 
   @media (--mobile) {
+    --border-radius: 0;
     --has-padding-inline: 0;
   }
 }
@@ -145,7 +148,7 @@ page-layout {
 
 [data-color-scheme="dark"] {
   --anchor-color: 100 60% 70%;
-  --gray-color: 100 0% 60%;
+  --gray-color: 100 0% 40%;
   --code-color: 100 60% 80%;
   --text-color: 0 0% 100%;
   --background-1: 100 5% 12.5%;
@@ -263,7 +266,7 @@ page-layout:where(:not(:defined)) {
   display: flex;
   flex-direction: column;
   gap: 0;
-  height: 100%;
+  min-height: 100%;
 
   & .banner,
   & [slot="open"],
@@ -274,6 +277,7 @@ page-layout:where(:not(:defined)) {
 
   & .main {
     flex: auto;
+    overflow-x: initial;
   }
 
   & .links {
