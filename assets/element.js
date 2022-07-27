@@ -6,8 +6,6 @@ export class Element extends HTMLElement {
 
     if (tag === Element.fragment) return children;
 
-    if (typeof tag === "function") return tag({...props, children});
-
     let el = document.createElement(tag);
 
     for (let [key, val] of Object.entries(props ?? {})) {
