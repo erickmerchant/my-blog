@@ -1,16 +1,16 @@
 import {Element} from "../element.js";
 
 class ColorSchemeForm extends Element {
-  options = ["Light", "Dark"];
+  #options = ["Light", "Dark"];
 
-  prefersColorSchemeDark = window.matchMedia("(prefers-color-scheme: dark)");
+  #prefersColorSchemeDark = window.matchMedia("(prefers-color-scheme: dark)");
 
-  colorScheme =
+  #colorScheme =
     window.localStorage.getItem("color-scheme") ??
-    (this.prefersColorSchemeDark.matches ? "dark" : "light");
+    (this.#prefersColorSchemeDark.matches ? "dark" : "light");
 
-  changeColorScheme(value) {
-    this.colorScheme = value;
+  #changeColorScheme(value) {
+    this.#colorScheme = value;
 
     window.localStorage.setItem("color-scheme", value);
 
@@ -18,12 +18,12 @@ class ColorSchemeForm extends Element {
   }
 
   effect() {
-    this.closest("body").setAttribute("data-color-scheme", this.colorScheme);
+    this.closest("body").setAttribute("data-color-scheme", this.#colorScheme);
   }
 
   render() {
-    this.prefersColorSchemeDark.addEventListener("change", (e) => {
-      this.changeColorScheme(e.matches ? "dark" : "light");
+    this.#prefersColorSchemeDark.addEventListener("change", (e) => {
+      this.#changeColorScheme(e.matches ? "dark" : "light");
     });
 
     return (
@@ -35,7 +35,7 @@ class ColorSchemeForm extends Element {
         />
         <form className="form">
           <h6 className="heading">Color Scheme</h6>
-          {this.options.map((scheme) => {
+          {this.#options.map((scheme) => {
             let value = scheme.toLowerCase();
 
             return (
@@ -44,9 +44,9 @@ class ColorSchemeForm extends Element {
                   className="input"
                   type="radio"
                   value={value}
-                  checked={() => this.colorScheme === value}
+                  checked={() => this.#colorScheme === value}
                   onChange={() => {
-                    this.changeColorScheme(value);
+                    this.#changeColorScheme(value);
                   }}
                 />
                 {scheme}

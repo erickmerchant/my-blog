@@ -41,7 +41,7 @@ pub fn static_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
     let file = file
         .prefer_utf8(true)
         .use_etag(true)
-        .use_last_modified(true)
+        .use_last_modified(false)
         .disable_content_disposition();
 
     Ok(file)

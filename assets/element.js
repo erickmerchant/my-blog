@@ -1,3 +1,7 @@
+let getCallback = (node, key, val) => () => {
+  node[key] = val();
+};
+
 export class Element extends HTMLElement {
   static fragment = Symbol("fragment");
 
@@ -7,7 +11,7 @@ export class Element extends HTMLElement {
     if (tag === Element.fragment) return children;
 
     let node = document.createElement(tag);
-    let computed = [];
+    let callbacks = [];
 
     for (let [key, val] of Object.entries(props ?? {})) {
       if (key.startsWith("on")) {
@@ -16,11 +20,9 @@ export class Element extends HTMLElement {
           ...[].concat(val)
         );
       } else if (typeof val === "function") {
-        let cb = () => {
-          node[key] = val();
-        };
+        let cb = getCallback(node, key, val);
 
-        computed.push(cb);
+        callbacks.push(cb);
 
         cb();
       } else {
@@ -29,43 +31,39 @@ export class Element extends HTMLElement {
     }
 
     for (let child of children) {
-      if (child.computed) {
-        computed.push(...child.computed);
+      if (child.callbacks) {
+        callbacks.push(...child.callbacks);
       }
 
       node.append(child.node ?? child);
     }
 
-    return {computed, node};
+    return {callbacks, node};
   }
 
-  computed = [];
+  #callbacks = [];
 
   connectedCallback() {
+    this.effect?.();
+
     this.attachShadow({mode: "open"});
 
     let children = this.render();
 
     for (let child of children) {
-      if (child.computed) {
-        this.computed.push(...child.computed);
+      if (child.callbacks) {
+        this.#callbacks.push(...child.callbacks);
       }
 
       this.shadowRoot.append(child.node ?? child);
     }
-
-    if (this.effect) {
-      this.effect();
-    }
   }
 
   update() {
-    if (this.effect) {
-      this.effect();
-    }
+    this.effect?.();
 
-    for (let computed of this.computed) {
-      computed();
+    for (let callback of this.#callbacks) {
+      callback();
     }
   }
 

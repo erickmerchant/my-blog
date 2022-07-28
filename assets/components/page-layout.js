@@ -1,16 +1,16 @@
 import {Element} from "../element.js";
 
 class PageLayout extends Element {
-  open = false;
+  #open = false;
 
-  toggleOpen() {
-    this.open = !this.open;
+  #toggleOpen() {
+    this.#open = !this.#open;
 
     this.update();
   }
 
   effect() {
-    this.toggleAttribute("open", this.open);
+    this.toggleAttribute("open", this.#open);
   }
 
   render() {
@@ -26,35 +26,34 @@ class PageLayout extends Element {
             className="toggle"
             ariaLabel="Toggle nav"
             type="button"
-            ariaExpanded={() => String(this.open)}
-            onClick={() => this.toggleOpen()}
+            ariaExpanded={() => String(this.#open)}
+            onClick={() => this.#toggleOpen()}
           >
             <slot
               className="icon"
               ariaHidden="true"
-              name={() => (this.open ? "close" : "open")}
+              name={() => (this.#open ? "close" : "open")}
             />
           </button>
-
           <div
             className="nav"
-            ariaHidden={() => String(!this.open)}
-            inert={() => !this.open}
+            ariaHidden={() => String(!this.#open)}
+            inert={() => !this.#open}
           >
             <slot name="nav" />
           </div>
         </nav>
         <div
           onClick={() => {
-            if (this.open) {
-              this.toggleOpen();
+            if (this.#open) {
+              this.#toggleOpen();
             }
           }}
         >
           <div
             className="panel"
-            ariaHidden={() => String(this.open)}
-            inert={() => this.open}
+            ariaHidden={() => String(this.#open)}
+            inert={() => this.#open}
           >
             <slot name="panel" />
           </div>
