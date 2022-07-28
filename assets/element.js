@@ -6,30 +6,66 @@ export class Element extends HTMLElement {
 
     if (tag === Element.fragment) return children;
 
-    let el = document.createElement(tag);
+    let node = document.createElement(tag);
+    let computed = [];
 
     for (let [key, val] of Object.entries(props ?? {})) {
       if (key.startsWith("on")) {
-        el.addEventListener(key.substring(2).toLowerCase(), ...[].concat(val));
+        node.addEventListener(
+          key.substring(2).toLowerCase(),
+          ...[].concat(val)
+        );
+      } else if (typeof val === "function") {
+        let cb = () => {
+          node[key] = val();
+        };
+
+        computed.push(cb);
+
+        cb();
       } else {
-        el[key] = val;
+        node[key] = val;
       }
     }
 
-    el.append(...children);
+    for (let child of children) {
+      if (child.computed) {
+        computed.push(...child.computed);
+      }
 
-    return el;
+      node.append(child.node ?? child);
+    }
+
+    return {computed, node};
   }
 
-  refs = {};
+  computed = [];
 
   connectedCallback() {
     this.attachShadow({mode: "open"});
 
-    this.shadowRoot.append(...this.render());
+    let children = this.render();
+
+    for (let child of children) {
+      if (child.computed) {
+        this.computed.push(...child.computed);
+      }
+
+      this.shadowRoot.append(child.node ?? child);
+    }
 
     if (this.effect) {
       this.effect();
+    }
+  }
+
+  update() {
+    if (this.effect) {
+      this.effect();
+    }
+
+    for (let computed of this.computed) {
+      computed();
     }
   }
 

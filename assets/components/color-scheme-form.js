@@ -18,22 +18,10 @@ class ColorSchemeForm extends Element {
   }
 
   effect() {
-    let body = this.closest("body");
-
-    body.setAttribute("data-color-scheme", this.colorScheme);
-  }
-
-  update() {
-    this.effect();
-
-    for (let input of this.refs.colorSchemeOptions) {
-      input.checked = this.colorScheme === input.value;
-    }
+    this.closest("body").setAttribute("data-color-scheme", this.colorScheme);
   }
 
   render() {
-    this.refs.colorSchemeOptions = [];
-
     this.prefersColorSchemeDark.addEventListener("change", (e) => {
       this.changeColorScheme(e.matches ? "dark" : "light");
     });
@@ -47,24 +35,20 @@ class ColorSchemeForm extends Element {
         />
         <form className="form">
           <h6 className="heading">Color Scheme</h6>
-          {this.options.map((scheme, i) => {
+          {this.options.map((scheme) => {
             let value = scheme.toLowerCase();
 
             return (
               <label className="label">
-                {
-                  (this.refs.colorSchemeOptions[i] = (
-                    <input
-                      className="input"
-                      type="radio"
-                      checked={this.colorScheme === value}
-                      value={value}
-                      onChange={() => {
-                        this.changeColorScheme(value);
-                      }}
-                    />
-                  ))
-                }
+                <input
+                  className="input"
+                  type="radio"
+                  value={value}
+                  checked={() => this.colorScheme === value}
+                  onChange={() => {
+                    this.changeColorScheme(value);
+                  }}
+                />
                 {scheme}
               </label>
             );

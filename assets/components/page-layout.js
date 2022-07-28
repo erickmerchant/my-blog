@@ -13,26 +13,6 @@ class PageLayout extends Element {
     this.toggleAttribute("open", this.open);
   }
 
-  update() {
-    this.effect();
-
-    this.refs.toggle.ariaExpanded = String(this.open);
-
-    this.refs.toggleIcon.name = this.open ? "close" : "open";
-
-    let active = this.open;
-
-    for (let tab of ["nav", "panel"]) {
-      let el = this.refs[tab];
-
-      el.ariaHidden = String(!active);
-
-      el.inert = !active;
-
-      active = !active;
-    }
-  }
-
   render() {
     return (
       <>
@@ -42,30 +22,27 @@ class PageLayout extends Element {
           href={new URL("./page-layout.css", import.meta.url).pathname}
         />
         <nav>
-          {
-            (this.refs.toggle = (
-              <button
-                className="toggle"
-                ariaExpanded="false"
-                ariaLabel="Toggle nav"
-                onClick={() => this.toggleOpen()}
-                type="button"
-              >
-                {
-                  (this.refs.toggleIcon = (
-                    <slot className="icon" ariaHidden="true" name="open" />
-                  ))
-                }
-              </button>
-            ))
-          }
-          {
-            (this.refs.nav = (
-              <div className="nav" ariaHidden="true" inert>
-                <slot name="nav" />
-              </div>
-            ))
-          }
+          <button
+            className="toggle"
+            ariaLabel="Toggle nav"
+            type="button"
+            ariaExpanded={() => String(this.open)}
+            onClick={() => this.toggleOpen()}
+          >
+            <slot
+              className="icon"
+              ariaHidden="true"
+              name={() => (this.open ? "close" : "open")}
+            />
+          </button>
+
+          <div
+            className="nav"
+            ariaHidden={() => String(!this.open)}
+            inert={() => !this.open}
+          >
+            <slot name="nav" />
+          </div>
         </nav>
         <div
           onClick={() => {
@@ -74,13 +51,13 @@ class PageLayout extends Element {
             }
           }}
         >
-          {
-            (this.refs.panel = (
-              <div className="panel" ariaHidden="false">
-                <slot name="panel" />
-              </div>
-            ))
-          }
+          <div
+            className="panel"
+            ariaHidden={() => String(this.open)}
+            inert={() => this.open}
+          >
+            <slot name="panel" />
+          </div>
         </div>
       </>
     );
