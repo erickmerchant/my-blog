@@ -26,7 +26,7 @@ export class Element extends HTMLElement {
   connectedCallback() {
     this.attachShadow({mode: "open"});
 
-    this.shadowRoot.append(...[this.render()].flat(Infinity));
+    this.shadowRoot.append(...this.render());
 
     if (this.effect) {
       this.effect();
@@ -34,6 +34,11 @@ export class Element extends HTMLElement {
   }
 
   render() {
-    return "";
+    return (
+      <link
+        rel="stylesheet"
+        href={new URL("./common.css", import.meta.url).pathname}
+      />
+    );
   }
 }

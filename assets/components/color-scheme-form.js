@@ -40,10 +40,7 @@ class ColorSchemeForm extends Element {
 
     return (
       <>
-        <link
-          rel="stylesheet"
-          href={new URL("../common.css", import.meta.url).pathname}
-        />
+        {super.render()}
         <link
           rel="stylesheet"
           href={new URL("./color-scheme-form.css", import.meta.url).pathname}

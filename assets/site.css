@@ -113,6 +113,7 @@ page-layout {
     hsl(var(--background-2)) 25%
   );
   background-size: 0.25rem 0.25rem;
+  color: hsl(var(--text-color));
 
   --content-left: 0;
   --drawer-width: 50vw;
@@ -174,7 +175,6 @@ page-layout {
     );
   background-size: 1rem 1rem;
   background-position: -1px -1px;
-  color: hsl(var(--text-color));
   height: var(--height);
   width: 100%;
   border-bottom: 0.125rem solid hsl(var(--background-3));
@@ -183,7 +183,6 @@ page-layout {
 }
 
 .main {
-  color: hsl(var(--text-color));
   background-color: hsl(var(--background-1));
   width: 100%;
   overflow-x: auto;
@@ -225,7 +224,6 @@ page-layout {
 }
 
 .footer {
-  color: hsl(var(--text-color));
   background-color: hsl(var(--background-1));
   width: 100%;
 }

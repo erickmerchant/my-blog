@@ -6,10 +6,7 @@ class CodeBlock extends Element {
 
     return (
       <>
-        <link
-          rel="stylesheet"
-          href={new URL("../common.css", import.meta.url).pathname}
-        />
+        {super.render()}
         <link
           rel="stylesheet"
           href={new URL("./code-block.css", import.meta.url).pathname}
