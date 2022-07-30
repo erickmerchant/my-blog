@@ -1,6 +1,14 @@
-let getCallback = (node, key, val) => () => {
-  node[key] = val();
+let getCallback = (node, pairs) => () => {
+  let n = node.deref();
+
+  if (!n) return;
+
+  for (let [key, val] of pairs) {
+    n[key] = val();
+  }
 };
+
+let callbacks = [];
 
 export class Element extends HTMLElement {
   static fragment = Symbol("fragment");
@@ -11,7 +19,7 @@ export class Element extends HTMLElement {
     if (tag === Element.fragment) return children;
 
     let node = document.createElement(tag);
-    let callbacks = [];
+    let pairs = [];
 
     for (let [key, val] of Object.entries(props ?? {})) {
       if (key.startsWith("on")) {
@@ -19,26 +27,26 @@ export class Element extends HTMLElement {
           key.substring(2).toLowerCase(),
           ...[].concat(val)
         );
-      } else if (typeof val === "function") {
-        let cb = getCallback(node, key, val);
-
-        callbacks.push(cb);
-
-        cb();
       } else {
+        if (typeof val === "function") {
+          pairs.push([key, val]);
+
+          val = val();
+        }
+
         node[key] = val;
       }
     }
 
-    for (let child of children) {
-      if (child.callbacks) {
-        callbacks.push(...child.callbacks);
-      }
-
-      node.append(child.node ?? child);
+    if (pairs.length) {
+      callbacks.push(getCallback(new WeakRef(node), pairs));
     }
 
-    return {callbacks, node};
+    for (let child of children) {
+      node.append(child);
+    }
+
+    return node;
   }
 
   #callbacks = [];
@@ -48,15 +56,11 @@ export class Element extends HTMLElement {
 
     this.attachShadow({mode: "open"});
 
-    let children = this.render();
+    let count = callbacks.length;
 
-    for (let child of children) {
-      if (child.callbacks) {
-        this.#callbacks.push(...child.callbacks);
-      }
+    this.shadowRoot.append(...this.render());
 
-      this.shadowRoot.append(child.node ?? child);
-    }
+    this.#callbacks = callbacks.splice(count, callbacks.length - count);
   }
 
   update() {
