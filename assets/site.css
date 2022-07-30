@@ -149,7 +149,7 @@ page-layout {
 
 [data-color-scheme="dark"] {
   --anchor-color: 100 60% 70%;
-  --gray-color: 100 0% 40%;
+  --gray-color: 100 0% 80%;
   --code-color: 100 60% 80%;
   --text-color: 0 0% 100%;
   --background-1: 100 5% 12.5%;
