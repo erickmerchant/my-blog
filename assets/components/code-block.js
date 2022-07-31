@@ -6,15 +6,13 @@ class CodeBlock extends Element {
 
     return (
       <>
-        {super.render()}
-        <link
-          rel="stylesheet"
+        <Element.Stylesheet
           href={new URL("./code-block.css", import.meta.url).pathname}
         />
-        <pre className="pre">
-          <code className="code">
+        <pre class="pre">
+          <code class="code">
             {lines.map((ln) => (
-              <span className="line">
+              <span class="line">
                 <span>{`${ln || " "}\n`}</span>
               </span>
             ))}

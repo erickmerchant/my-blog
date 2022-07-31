@@ -14,47 +14,40 @@ class PageLayout extends Element {
   }
 
   render() {
+    let isOpen = () => this.#open;
+    let isNotOpen = () => !this.#open;
+
     return (
       <>
-        {super.render()}
-        <link
-          rel="stylesheet"
+        <Element.Stylesheet
           href={new URL("./page-layout.css", import.meta.url).pathname}
         />
         <nav>
           <button
-            className="toggle"
-            ariaLabel="Toggle nav"
+            class="toggle"
+            aria-label="Toggle nav"
             type="button"
-            ariaExpanded={() => String(this.#open)}
-            onClick={() => this.#toggleOpen()}
+            aria-expanded={isOpen}
+            onclick={() => this.#toggleOpen()}
           >
             <slot
-              className="icon"
-              ariaHidden="true"
+              class="icon"
+              aria-hidden="true"
               name={() => (this.#open ? "close" : "open")}
             />
           </button>
-          <div
-            className="nav"
-            ariaHidden={() => String(!this.#open)}
-            inert={() => !this.#open}
-          >
+          <div class="nav" aria-hidden={isNotOpen} inert={isNotOpen}>
             <slot name="nav" />
           </div>
         </nav>
         <div
-          onClick={() => {
+          onclick={() => {
             if (this.#open) {
               this.#toggleOpen();
             }
           }}
         >
-          <div
-            className="panel"
-            ariaHidden={() => String(this.#open)}
-            inert={() => this.#open}
-          >
+          <div class="panel" aria-hidden={isOpen} inert={isOpen}>
             <slot name="panel" />
           </div>
         </div>

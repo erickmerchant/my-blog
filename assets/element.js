@@ -1,32 +1,47 @@
-let getCallback = (node, pairs) => () => {
+let setAttribute = (node, key, val) => {
+  if (val === true || val === false) {
+    node.toggleAttribute(key, val);
+  } else if (val != null) {
+    node.setAttribute(key, val);
+  } else {
+    node.removeAttribute(key);
+  }
+};
+
+let getOnUpdateAttributes = (node, pairs) => () => {
   let n = node.deref();
 
   if (!n) return;
 
+  let results = new Map();
+
   for (let [key, val] of pairs) {
-    n[key] = val();
+    let result = results.get(val);
+
+    if (!result) {
+      result = val();
+
+      results.set(val, result);
+    }
+
+    setAttribute(n, key, result);
   }
 };
 
 let callbacks = [];
 
 export class Element extends HTMLElement {
-  static fragment = Symbol("fragment");
-
   static h(tag, props, ...children) {
     children = children.flat(Infinity);
 
-    if (tag === Element.fragment) return children;
+    if (typeof tag === "function") return tag({...props, children});
 
     let node = document.createElement(tag);
     let pairs = [];
 
     for (let [key, val] of Object.entries(props ?? {})) {
       if (key.startsWith("on")) {
-        node.addEventListener(
-          key.substring(2).toLowerCase(),
-          ...[].concat(val)
-        );
+        node.addEventListener(key.substring(2), ...[].concat(val));
       } else {
         if (typeof val === "function") {
           pairs.push([key, val]);
@@ -34,19 +49,25 @@ export class Element extends HTMLElement {
           val = val();
         }
 
-        node[key] = val;
+        setAttribute(node, key, val);
       }
     }
 
     if (pairs.length) {
-      callbacks.push(getCallback(new WeakRef(node), pairs));
+      callbacks.push(getOnUpdateAttributes(new WeakRef(node), pairs));
     }
 
-    for (let child of children) {
-      node.append(child);
-    }
+    node.append(...children);
 
     return node;
+  }
+
+  static Fragment({children}) {
+    return children;
+  }
+
+  static Stylesheet({href}) {
+    return <link rel="stylesheet" href={href} />;
   }
 
   #callbacks = [];
@@ -58,7 +79,12 @@ export class Element extends HTMLElement {
 
     let count = callbacks.length;
 
-    this.shadowRoot.append(...this.render());
+    this.shadowRoot.append(
+      <Element.Stylesheet
+        href={new URL("./common.css", import.meta.url).pathname}
+      />,
+      ...this.render()
+    );
 
     this.#callbacks = callbacks.splice(count, callbacks.length - count);
   }
@@ -72,11 +98,6 @@ export class Element extends HTMLElement {
   }
 
   render() {
-    return (
-      <link
-        rel="stylesheet"
-        href={new URL("./common.css", import.meta.url).pathname}
-      />
-    );
+    return "";
   }
 }

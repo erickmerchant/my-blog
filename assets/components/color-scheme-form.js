@@ -28,24 +28,23 @@ class ColorSchemeForm extends Element {
 
     return (
       <>
-        {super.render()}
-        <link
-          rel="stylesheet"
+        <Element.Stylesheet
           href={new URL("./color-scheme-form.css", import.meta.url).pathname}
         />
-        <form className="form">
-          <h6 className="heading">Color Scheme</h6>
+        <form class="form">
+          <h6 class="heading">Color Scheme</h6>
           {this.#options.map((scheme) => {
             let value = scheme.toLowerCase();
 
             return (
-              <label className="label">
+              <label class="label">
                 <input
-                  className="input"
+                  class="input"
                   type="radio"
+                  name="colorScheme"
                   value={value}
-                  checked={() => this.#colorScheme === value}
-                  onChange={() => {
+                  checked={this.#colorScheme === value}
+                  onchange={() => {
                     this.#changeColorScheme(value);
                   }}
                 />

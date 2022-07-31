@@ -73,7 +73,7 @@ pub fn js_response<P: AsRef<Path>>(src: P, source_maps: bool) -> Result<NamedFil
             "transform": {
                 "react": {
                     "pragma": "Element.h",
-                    "pragmaFrag": "Element.fragment"
+                    "pragmaFrag": "Element.Fragment"
                 },
             },
             "parser": {
