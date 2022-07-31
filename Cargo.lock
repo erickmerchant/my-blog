@@ -1581,9 +1581,9 @@ checksum = "decf7381921fea4dcb2549c5667eda59b3ec297ab7e2b5fc33eac69d2e7da87b"
 
 [[package]]
 name = "parcel_css"
-version = "1.0.0-alpha.29"
+version = "1.0.0-alpha.30"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e0598e4c64b0b4e9ba69491852a455053750f6ed24f4b7bf55bcedea412460fa"
+checksum = "b601fff36c1b344730026ec8ebd3e0a12746196143e04a4e01dbac783344e7f1"
 dependencies = [
  "bitflags",
  "const-str",
@@ -2509,9 +2509,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "0.89.0"
+version = "0.89.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "dce996d6d808785508fd33c252de3fa403cb1c7dd8716898d65eabeb7bfe341f"
+checksum = "8e5cfd9a8757b634f899c5585e9059cf368ec3708b57294d6b3ea0167dc6ebee"
 dependencies = [
  "bitflags",
  "is-macro",
