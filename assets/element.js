@@ -38,10 +38,6 @@ export class Element extends HTMLElement {
     return children;
   }
 
-  static Stylesheet({href}) {
-    return <link rel="stylesheet" href={href} />;
-  }
-
   static record(cb) {
     let count = this.#_callbacks.length;
 
@@ -91,7 +87,8 @@ export class Element extends HTMLElement {
 
     this.#callbacks = Element.record(() => {
       this.shadowRoot.append(
-        <Element.Stylesheet
+        <link
+          rel="stylesheet"
           href={new URL("./common.css", import.meta.url).pathname}
         />,
         ...this.render()

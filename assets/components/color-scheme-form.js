@@ -28,7 +28,8 @@ class ColorSchemeForm extends Element {
 
     return (
       <>
-        <Element.Stylesheet
+        <link
+          rel="stylesheet"
           href={new URL("./color-scheme-form.css", import.meta.url).pathname}
         />
         <form class="form">

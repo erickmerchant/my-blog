@@ -19,7 +19,8 @@ class PageLayout extends Element {
 
     return (
       <>
-        <Element.Stylesheet
+        <link
+          rel="stylesheet"
           href={new URL("./page-layout.css", import.meta.url).pathname}
         />
         <nav>

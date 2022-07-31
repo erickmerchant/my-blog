@@ -6,7 +6,8 @@ class CodeBlock extends Element {
 
     return (
       <>
-        <Element.Stylesheet
+        <link
+          rel="stylesheet"
           href={new URL("./code-block.css", import.meta.url).pathname}
         />
         <pre class="pre">
