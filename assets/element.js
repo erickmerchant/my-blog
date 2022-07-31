@@ -1,36 +1,6 @@
-let setAttribute = (node, key, val) => {
-  if (val === true || val === false) {
-    node.toggleAttribute(key, val);
-  } else if (val != null) {
-    node.setAttribute(key, val);
-  } else {
-    node.removeAttribute(key);
-  }
-};
-
-let getOnUpdateAttributes = (node, pairs) => () => {
-  let n = node.deref();
-
-  if (!n) return;
-
-  let results = new Map();
-
-  for (let [key, val] of pairs) {
-    let result = results.get(val);
-
-    if (!result) {
-      result = val();
-
-      results.set(val, result);
-    }
-
-    setAttribute(n, key, result);
-  }
-};
-
-let callbacks = [];
-
 export class Element extends HTMLElement {
+  static #_callbacks = [];
+
   static h(tag, props, ...children) {
     children = children.flat(Infinity);
 
@@ -49,12 +19,14 @@ export class Element extends HTMLElement {
           val = val();
         }
 
-        setAttribute(node, key, val);
+        this.#setAttribute(node, key, val);
       }
     }
 
     if (pairs.length) {
-      callbacks.push(getOnUpdateAttributes(new WeakRef(node), pairs));
+      this.#_callbacks.push(
+        this.#getUpdateForAttributes(new WeakRef(node), pairs)
+      );
     }
 
     node.append(...children);
@@ -70,6 +42,46 @@ export class Element extends HTMLElement {
     return <link rel="stylesheet" href={href} />;
   }
 
+  static record(cb) {
+    let count = this.#_callbacks.length;
+
+    cb();
+
+    return this.#_callbacks.splice(count, this.#_callbacks.length - count);
+  }
+
+  static #setAttribute(node, key, val) {
+    if (val === true || val === false) {
+      node.toggleAttribute(key, val);
+    } else if (val != null) {
+      node.setAttribute(key, val);
+    } else {
+      node.removeAttribute(key);
+    }
+  }
+
+  static #getUpdateForAttributes(node, pairs) {
+    return () => {
+      let n = node.deref();
+
+      if (!n) return;
+
+      let results = new Map();
+
+      for (let [key, val] of pairs) {
+        let result = results.get(val);
+
+        if (!result) {
+          result = val();
+
+          results.set(val, result);
+        }
+
+        this.#setAttribute(n, key, result);
+      }
+    };
+  }
+
   #callbacks = [];
 
   connectedCallback() {
@@ -77,16 +89,14 @@ export class Element extends HTMLElement {
 
     this.attachShadow({mode: "open"});
 
-    let count = callbacks.length;
-
-    this.shadowRoot.append(
-      <Element.Stylesheet
-        href={new URL("./common.css", import.meta.url).pathname}
-      />,
-      ...this.render()
-    );
-
-    this.#callbacks = callbacks.splice(count, callbacks.length - count);
+    this.#callbacks = Element.record(() => {
+      this.shadowRoot.append(
+        <Element.Stylesheet
+          href={new URL("./common.css", import.meta.url).pathname}
+        />,
+        ...this.render()
+      );
+    });
   }
 
   update() {
