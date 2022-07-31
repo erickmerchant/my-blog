@@ -3,7 +3,7 @@
 {% block components %}
   {% for component in post.components %}
     <link rel="preload" href="/components/{{component}}.css" as="style">
-    <script type="module" src="/components/{{component}}.js"></script>
+    <script async type="module" src="/components/{{component}}.js"></script>
   {% endfor %}
 {% endblock %}
 
