@@ -60,7 +60,7 @@ h2 {
 }
 
 dt {
-  font-size: 1.25rem;
+  font-size: 1rem;
 
   --font-weight: 700;
 }
@@ -81,6 +81,7 @@ code-block {
   display: block;
   width: 100%;
   font-family: "JetBrains Mono", monospace;
+  font-size: 0.8rem;
 
   --has-extra-width: 1;
   --border-radius: 0.25rem;
@@ -224,6 +225,7 @@ page-layout {
 }
 
 .copyright {
+  font-size: 0.8rem;
   max-width: var(--max-width);
   padding: var(--space-half);
   width: 100%;
@@ -244,6 +246,7 @@ page-layout {
 }
 
 .post-date {
+  font-size: 0.8rem;
   font-style: italic;
 }
 
