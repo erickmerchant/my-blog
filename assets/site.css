@@ -1,3 +1,5 @@
+@import url(https://fonts.bunny.net/css?family=jetbrains-mono:400);
+
 @custom-media --mobile (max-width: 600px);
 @custom-media --tablet (max-width: 900px);
 
@@ -52,22 +54,15 @@ h1 {
 }
 
 h2 {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
 
   --font-weight: 800;
 }
 
-h3 {
+dt {
   font-size: 1.25rem;
 
   --font-weight: 700;
-}
-
-h4,
-dt {
-  font-size: 1.125rem;
-
-  --font-weight: 600;
 }
 
 dl,
@@ -85,8 +80,7 @@ svg:where([slot]) {
 code-block {
   display: block;
   width: 100%;
-  font-size: 0.875rem;
-  font-family: ui-monospace, Consolas, monaco, monospace;
+  font-family: "JetBrains Mono", monospace;
 
   --has-extra-width: 1;
   --border-radius: 0.25rem;
@@ -212,13 +206,14 @@ page-layout {
 
   & :where(ul, ol) {
     list-style: revert;
+    gap: 0.25em;
   }
 
   & :where(li) {
-    margin-inline-start: var(--space-half);
+    margin-inline-start: var(--space);
 
     @media (--mobile) {
-      margin-inline-start: var(--space);
+      margin-inline-start: calc(var(--space) * 2);
     }
   }
 }
@@ -234,7 +229,6 @@ page-layout {
   width: 100%;
   margin-block-start: var(--space-half);
   margin-inline: auto;
-  font-size: 0.875rem;
 }
 
 .post-list {
@@ -249,13 +243,8 @@ page-layout {
   }
 }
 
-.post-heading {
-  font-size: 1.125rem;
-}
-
 .post-date {
   font-style: italic;
-  font-size: 0.875rem;
 }
 
 /* 0 1 1 */

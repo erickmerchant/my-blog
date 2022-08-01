@@ -38,7 +38,7 @@ export class Element extends HTMLElement {
     return children;
   }
 
-  static record(cb) {
+  static #record(cb) {
     let count = this.#_callbacks.length;
 
     cb();
@@ -85,7 +85,7 @@ export class Element extends HTMLElement {
 
     this.attachShadow({mode: "open"});
 
-    this.#callbacks = Element.record(() => {
+    this.#callbacks = Element.#record(() => {
       this.shadowRoot.append(
         <link
           rel="stylesheet"

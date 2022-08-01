@@ -29,6 +29,7 @@ class PageLayout extends Element {
             aria-label="Toggle nav"
             type="button"
             aria-expanded={isOpen}
+            aria-controls="nav"
             onclick={() => this.#toggleOpen()}
           >
             <slot
@@ -37,7 +38,7 @@ class PageLayout extends Element {
               name={() => (this.#open ? "close" : "open")}
             />
           </button>
-          <div class="nav" aria-hidden={isNotOpen} inert={isNotOpen}>
+          <div id="nav" class="nav" aria-hidden={isNotOpen} inert={isNotOpen}>
             <slot name="nav" />
           </div>
         </nav>

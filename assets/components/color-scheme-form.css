@@ -2,10 +2,6 @@
   display: grid;
 }
 
-.heading {
-  --font-weight: 600;
-}
-
 .label {
   display: grid;
   grid-template-columns: max-content 1fr;
