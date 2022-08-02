@@ -1,4 +1,4 @@
-@import url(https://fonts.bunny.net/css?family=jetbrains-mono:400);
+@import url(https://fonts.bunny.net/css?family=ibm-plex-mono:400);
 
 @custom-media --mobile (max-width: 600px);
 @custom-media --tablet (max-width: 900px);
@@ -80,7 +80,7 @@ svg:where([slot]) {
 code-block {
   display: block;
   width: 100%;
-  font-family: "JetBrains Mono", monospace;
+  font-family: "IBM Plex Mono", monospace;
   font-size: 0.8rem;
 
   --has-extra-width: 1;
