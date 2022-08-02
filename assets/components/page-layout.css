@@ -34,8 +34,7 @@
   display: grid;
   place-content: center;
   gap: var(--space);
-
-  --font-weight: 500;
+  font-weight: 500;
 
   & * {
     gap: var(--space-quarter);

@@ -1,4 +1,8 @@
+@import url(https://fonts.bunny.net/css?family=ibm-plex-mono:400);
+
 .pre {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.8rem;
   border-radius: var(--border-radius);
   white-space: pre;
   overflow-x: auto;
