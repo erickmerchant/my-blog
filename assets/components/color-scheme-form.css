@@ -1,9 +1,13 @@
-.form {
+:host {
+  display: block;
+}
+
+.form,
+.label {
   display: grid;
 }
 
 .label {
-  display: grid;
   grid-template-columns: max-content 1fr;
   align-items: center;
 }

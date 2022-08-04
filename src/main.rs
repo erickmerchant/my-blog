@@ -7,7 +7,7 @@ use crate::{models::*, responses::*, views::*};
 use actix_files::NamedFile;
 use actix_web::{
     dev::ServiceResponse, error::ErrorNotFound, http::header::HeaderName,
-    http::header::HeaderValue, http::StatusCode, middleware::Compress,
+    http::header::HeaderValue, http::StatusCode, middleware::Compress, middleware::DefaultHeaders,
     middleware::ErrorHandlerResponse, middleware::ErrorHandlers, middleware::Logger, web, App,
     HttpServer, Result,
 };
@@ -42,6 +42,7 @@ async fn main() -> io::Result<()> {
             .app_data(web::Data::new(config))
             .app_data(web::Data::new(site))
             .wrap(Logger::new("%s %r"))
+            .wrap(DefaultHeaders::new().add(("Content-Security-Policy", "default-src 'self'")))
             .wrap(ErrorHandlers::new().handler(StatusCode::NOT_FOUND, not_found))
             .wrap(ErrorHandlers::new().handler(StatusCode::INTERNAL_SERVER_ERROR, internal_error))
             .wrap(Compress::default())

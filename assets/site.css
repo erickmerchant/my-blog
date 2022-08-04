@@ -1,13 +1,24 @@
 @custom-media --mobile (max-width: 600px);
 @custom-media --tablet (max-width: 900px);
 
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 400;
+  src: local("IBM Plex Mono"), local("IBMPlexMono"),
+    url("./fonts/IBMPlexMono-Regular-Latin1.woff2") format("woff2");
+  unicode-range: U+0000, U+000D, U+0020-007E, U+00A0-00FF, U+0131, U+0152-0153,
+    U+02C6, U+02DA, U+02DC, U+2013-2014, U+2018-201A, U+201C-201E, U+2020-2022,
+    U+2026, U+2030, U+2039-203A, U+2044, U+20AC, U+2122, U+2212, U+FB01-FB02;
+}
+
 /* 0 0 1 */
 
 html {
   font-size: 125%;
   font-weight: 300;
-  line-height: 1.5;
   font-family: system-ui, -apple-system;
+  line-height: 1.5;
   overflow-x: hidden;
   height: 100%;
 
@@ -44,6 +55,12 @@ p {
   hyphens: auto;
 }
 
+h1,
+h2,
+h3 {
+  line-height: 1.125;
+}
+
 h1 {
   font-size: 2rem;
   font-weight: 900;
@@ -54,6 +71,7 @@ h2 {
   font-weight: 800;
 }
 
+h3,
 dt {
   font-size: 1rem;
   font-weight: 700;
@@ -72,7 +90,9 @@ svg:where([slot]) {
 }
 
 code-block {
-  display: block;
+  font-family: "IBM Plex Mono", monospace;
+  font-weight: 400;
+  font-size: 0.8rem;
   width: 100%;
 
   --has-extra-width: 1;
@@ -82,10 +102,6 @@ code-block {
     --border-radius: 0;
     --has-padding-inline: 0;
   }
-}
-
-color-scheme-form {
-  display: block;
 }
 
 page-layout {
@@ -124,7 +140,7 @@ page-layout {
 
 [data-color-scheme="light"] {
   --anchor-color: 100 60% 30%;
-  --gray-color: 100 0% 40%;
+  --gray-color: 100 0% 25%;
   --code-color: 100 60% 25%;
   --text-color: 100 5% 10%;
   --background-1: 0 0% 100%;

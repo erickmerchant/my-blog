@@ -1,8 +1,8 @@
-@import url(https://fonts.bunny.net/css?family=ibm-plex-mono:400);
+:host {
+  display: block;
+}
 
 .pre {
-  font-family: "IBM Plex Mono", monospace;
-  font-size: 0.8rem;
   border-radius: var(--border-radius);
   white-space: pre;
   overflow-x: auto;
@@ -41,11 +41,11 @@
     content: counter(lines);
     counter-increment: lines;
     text-align: right;
-    color: hsl(var(--text-color) / 0.5);
     padding-inline: var(--space-half);
     padding-block-start: calc(var(--first, 0) * 1em);
     padding-block-end: calc(var(--last, 0) * 1em);
     background: hsl(var(--background-2));
+    filter: saturate(0);
     border-top-left-radius: calc(var(--first, 0) * var(--border-radius));
     border-bottom-left-radius: calc(var(--last, 0) * var(--border-radius));
     left: 0;
