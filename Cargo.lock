@@ -2614,9 +2614,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.142.8"
+version = "0.142.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e83c2b3059cbea481b125faf2b1aa8e8dc64d158a921126a37da96dd623dcf67"
+checksum = "adfc88a6bc8599c8410f248b6982419348adf85640c15df0cc51688087f0c47b"
 dependencies = [
  "ahash",
  "arrayvec 0.7.2",
@@ -2789,9 +2789,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "0.137.0"
+version = "0.137.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ad4178bac22920d57cd5734171ab50f30a609731f9a53b6e8c16730e7ff19c7d"
+checksum = "45eb9899a78e72d6291318c904a51b1ae218c27a2614397084efc651bf12a1e6"
 dependencies = [
  "Inflector",
  "ahash",
@@ -2901,9 +2901,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.98.1"
+version = "0.98.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "46386bb4a6b5f2eb1bd70e55228ba6939f1a9909ed7052bb94a5b153326f9744"
+checksum = "5a6a15305b730501572251d2228d5a4824b768eddb760bf6e5743618d300eb0c"
 dependencies = [
  "indexmap",
  "once_cell",

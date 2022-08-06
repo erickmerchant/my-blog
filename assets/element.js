@@ -24,9 +24,7 @@ export class Element extends HTMLElement {
     }
 
     if (pairs.length) {
-      this.#_callbacks.push(
-        this.#getUpdateForAttributes(new WeakRef(node), pairs)
-      );
+      this.#_callbacks.push(this.#getUpdateForAttributes(node, pairs));
     }
 
     node.append(...children);
@@ -58,10 +56,6 @@ export class Element extends HTMLElement {
 
   static #getUpdateForAttributes(node, pairs) {
     return () => {
-      let n = node.deref();
-
-      if (!n) return;
-
       let results = new Map();
 
       for (let [key, val] of pairs) {
@@ -73,7 +67,7 @@ export class Element extends HTMLElement {
           results.set(val, result);
         }
 
-        this.#setAttribute(n, key, result);
+        this.#setAttribute(node, key, result);
       }
     };
   }
@@ -81,17 +75,22 @@ export class Element extends HTMLElement {
   #callbacks = [];
 
   connectedCallback() {
-    this.effect?.();
-
     this.attachShadow({mode: "open"});
 
+    this.setup();
+  }
+
+  setup() {
+    this.effect?.();
+
     this.#callbacks = Element.#record(() => {
-      this.shadowRoot.append(
-        <link
-          rel="stylesheet"
-          href={new URL("./common.css", import.meta.url).pathname}
-        />,
-        ...this.render()
+      this.shadowRoot.replaceChildren(
+        ...[
+          <link
+            rel="stylesheet"
+            href={new URL("./common.css", import.meta.url).pathname}
+          />,
+        ].concat(this.render())
       );
     });
   }
