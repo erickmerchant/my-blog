@@ -48,10 +48,8 @@ pub fn static_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
 }
 
 pub fn js_response<P: AsRef<Path>>(src: P, source_maps: bool) -> Result<NamedFile> {
-    use swc::{
-        common::errors::ColorConfig, common::errors::Handler, common::SourceMap, config::Options,
-        config::SourceMapsConfig,
-    };
+    use swc::{config::Options, config::SourceMapsConfig};
+    use swc_common::{errors::ColorConfig, errors::Handler, SourceMap};
 
     cacheable_response(&src, || {
         let cm = Arc::<SourceMap>::default();
@@ -73,7 +71,7 @@ pub fn js_response<P: AsRef<Path>>(src: P, source_maps: bool) -> Result<NamedFil
             "transform": {
                 "react": {
                     "pragma": "Element.h",
-                    "pragmaFrag": "Element.Fragment"
+                    "pragmaFrag": "Element.fragment"
                 },
             },
             "parser": {

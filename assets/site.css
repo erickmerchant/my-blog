@@ -28,8 +28,6 @@ html {
   --max-width: 40rem;
 
   @media (--mobile) {
-    font-size: 100%;
-
     --space: 1rem;
     --space-half: 0.5rem;
     --space-quarter: 0.25rem;
@@ -45,46 +43,6 @@ body {
   --background-3: 100 5% 95%;
 }
 
-a {
-  color: hsl(var(--anchor-color));
-  text-underline-offset: 0.2em;
-  text-decoration-thickness: 0.1em;
-}
-
-p {
-  hyphens: auto;
-}
-
-h1,
-h2,
-h3 {
-  line-height: 1.125;
-}
-
-h1 {
-  font-size: 2rem;
-  font-weight: 900;
-}
-
-h2 {
-  font-size: 1.25rem;
-  font-weight: 800;
-}
-
-h3,
-dt {
-  font-size: 1rem;
-  font-weight: 700;
-}
-
-dl,
-ul,
-ol {
-  display: flex;
-  flex-direction: column;
-  list-style: none;
-}
-
 svg:where([slot]) {
   display: var(--svg-display, none);
 }
@@ -92,7 +50,7 @@ svg:where([slot]) {
 code-block {
   font-family: "IBM Plex Mono", monospace;
   font-weight: 400;
-  font-size: 0.8rem;
+  font-size: 0.8em;
   width: 100%;
 
   --has-extra-width: 1;
@@ -225,6 +183,17 @@ page-layout {
       margin-inline-start: calc(var(--space) * 2);
     }
   }
+
+  & :where(code) {
+    color: hsl(var(--anchor-color));
+    background-color: hsl(var(--background-3));
+    border-radius: 0.25rem;
+    padding: 0.125em;
+  }
+
+  @media (--mobile) {
+    font-size: 80%;
+  }
 }
 
 .footer {
@@ -233,7 +202,7 @@ page-layout {
 }
 
 .copyright {
-  font-size: 0.8rem;
+  font-size: 0.8em;
   max-width: var(--max-width);
   padding: var(--space-half);
   width: 100%;
@@ -254,7 +223,7 @@ page-layout {
 }
 
 .post-date {
-  font-size: 0.8rem;
+  font-size: 0.8em;
   font-style: italic;
 }
 

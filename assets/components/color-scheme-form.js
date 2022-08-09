@@ -33,7 +33,7 @@ class ColorSchemeForm extends Element {
           href={new URL("./color-scheme-form.css", import.meta.url).pathname}
         />
         <form class="form">
-          <h2>Color Scheme</h2>
+          <h3>Color Scheme</h3>
           {this.#options.map((scheme) => {
             let value = scheme.toLowerCase();
 

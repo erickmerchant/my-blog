@@ -37,11 +37,11 @@
   overflow: auto;
   display: grid;
   place-content: center;
-  gap: var(--space);
+  gap: 2rem;
   font-weight: 500;
 
   & * {
-    gap: var(--space-quarter);
+    gap: 0.5rem;
   }
 }
 

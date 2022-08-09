@@ -4,11 +4,11 @@ WORKDIR /build
 RUN mkdir src
 RUN echo "fn main() {}" > src/main.rs
 COPY Cargo.toml Cargo.lock .
-RUN cargo build --package=main --release
+RUN cargo build --package=main --release --no-default-features
 RUN rm -rf ./target/release/main ./target/release/deps/main-* ./src
 ADD src src/
 ADD templates templates/
-RUN cargo build --package=main --release
+RUN cargo build --package=main --release --no-default-features
 RUN mv ./target/release/main ./main
 ADD content content/
 ADD assets assets/

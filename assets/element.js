@@ -1,10 +1,12 @@
 export class Element extends HTMLElement {
+  static fragment = Symbol("fragment");
+
   static #_callbacks = [];
 
   static h(tag, props, ...children) {
     children = children.flat(Infinity);
 
-    if (typeof tag === "function") return tag({...props, children});
+    if (tag === this.fragment) return children;
 
     let node = document.createElement(tag);
     let pairs = [];
@@ -30,10 +32,6 @@ export class Element extends HTMLElement {
     node.append(...children);
 
     return node;
-  }
-
-  static Fragment({children}) {
-    return children;
   }
 
   static #record(cb) {

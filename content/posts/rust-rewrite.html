@@ -6,25 +6,27 @@
 }
 ===
 
-<p>Recently I rebuilt this site to use <a href="https://www.rust-lang.org/">Rust</a> on the server side. There are a lot of great things about Rust — safety, expressiveness, versatility, etc. — that others can explain better than me, but I started learning it in 2020, because I initially wanted to use WebAssembly, so Rust was a natural choice. By 2021 I started to feel comfortable doing certain things, and I was having a lot of fun with Rust. I loved programming in it.</p>
+<h2>Why Rust</h2>
+
+<p>Recently I rebuilt this site to use <a href="https://www.rust-lang.org/">Rust</a> on the server side, because I'm really into Rust now. There are a lot of great things about Rust — safety, expressiveness, versatility, etc. — that others can explain better than me, but I started learning it in 2020, because I initially wanted to use WebAssembly, so Rust was a natural choice. I ended up not doing too much with Web Assembly, but by 2021 I was having a lot of fun with Rust. I loved programming in it.</p>
 
 <h2>Actix</h2>
 
-<p>To build this current iteration of the site, I compared as many frameworks as I could find, and ultimately chose <a href="https://actix.rs/">Actix</a>. Apart from its middleware which is a little beyond my current understanding, Actix's API is discoverable and easy to learn. The best place to look for help has been their examples repo. They also have a Discord.</p>
+<p>To build this current iteration of the site, I compared as many web frameworks as I could find, and ultimately chose <a href="https://actix.rs/">Actix</a>. Apart from its middleware which is a little beyond my current understanding, Actix's API is discoverable and easy to learn. The best place to look for help has been their examples repo. They also have a Discord.</p>
 
 <h2>Cargo dependencies</h2>
 
-<p>Some of the more important Cargo dependencies that I am using, besides Actix:</p>
+<p>Some of the more important Cargo dependencies that I'm using, besides Actix:</p>
 
 <dl>
   <dt><a href="https://github.com/djc/askama">Askama</a></dt>
-  <dd>For Jinja-like templates. The only downside to Askama for me is that changing a template means recompiling the project, but it is a tradeoff.</dd>
+  <dd>For Jinja-like templates. The only downside to Askama for me is that changing a template means recompiling the project, but it's a tradeoff. The advantage is that I never wonder whether I'm using something undefined in my templates.</dd>
 
   <dt><a href="https://swc.rs/">SWC</a></dt>
-  <dd>For compiling JavaScript. It is basically a Rust Babel. It does aim to be many other things as well, but I am just using it to compile some JavaScript.</dd>
+  <dd>For compiling JavaScript. It's basically a Rust Babel. It does aim to be many other things as well, but I'm just using it to compile some JavaScript. It's great.</dd>
 
   <dt><a href="https://parceljs.org/blog/parcel-css/">Parcel CSS</a></dt>
-  <dd>For compiling CSS. It is basically like Postcss in Rust. It was actually released when I had most of the server written already. Originally I was using a Sass implementation in Rust, but I had forgotten how sometimes Sass syntax conflicts with vanilla CSS, so I welcomed Parcel's arrival. It allows me to do nesting and forget about prefixes. The only downside here is its alpha, so it sometimes breaks. Committing my lock file has been a life saver.</dd>
+  <dd>For compiling CSS. It's basically like Postcss in Rust. It was actually released when I had most of the server written already. Originally I was using a Sass implementation in Rust, but I had forgotten how sometimes Sass syntax conflicts with vanilla CSS, so I welcomed Parcel's arrival. It allows me to do nesting and forget about prefixes. The only downside here is its alpha, so it sometimes breaks. Committing my lock file has been a life saver.</dd>
 </dl>
 
 <h2>More to come</h2>
