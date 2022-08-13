@@ -1,13 +1,13 @@
 import {Element} from "../element.js";
 
 class ColorSchemeForm extends Element {
-  #options = ["Light", "Dark"];
+  #options = ["Light", "Dark", "Auto"];
 
   #prefersColorSchemeDark = window.matchMedia("(prefers-color-scheme: dark)");
 
-  #colorScheme =
-    window.localStorage.getItem("color-scheme") ??
-    (this.#prefersColorSchemeDark.matches ? "dark" : "light");
+  #autoColorScheme = this.#prefersColorSchemeDark.matches ? "dark" : "light";
+
+  #colorScheme = window.localStorage.getItem("color-scheme") ?? "auto";
 
   #changeColorScheme(value) {
     this.#colorScheme = value;
@@ -18,12 +18,22 @@ class ColorSchemeForm extends Element {
   }
 
   effect() {
-    this.closest("body").setAttribute("data-color-scheme", this.#colorScheme);
+    let colorScheme;
+
+    if (this.#colorScheme === "auto") {
+      colorScheme = this.#autoColorScheme;
+    } else {
+      colorScheme = this.#colorScheme;
+    }
+
+    this.closest("body").setAttribute("data-color-scheme", colorScheme);
   }
 
   render() {
     this.#prefersColorSchemeDark.addEventListener("change", (e) => {
-      this.#changeColorScheme(e.matches ? "dark" : "light");
+      this.#autoColorScheme = e.matches ? "dark" : "light";
+
+      this.update();
     });
 
     return (
@@ -33,24 +43,37 @@ class ColorSchemeForm extends Element {
           href={new URL("./color-scheme-form.css", import.meta.url).pathname}
         />
         <form class="form">
-          <h3>Color Scheme</h3>
+          <h3>Theme</h3>
           {this.#options.map((scheme) => {
             let value = scheme.toLowerCase();
 
             return (
-              <label class="label">
-                <input
-                  class="input"
-                  type="radio"
-                  name="colorScheme"
-                  value={value}
-                  checked={this.#colorScheme === value}
-                  onchange={() => {
-                    this.#changeColorScheme(value);
-                  }}
-                />
-                {scheme}
-              </label>
+              <button
+                type="button"
+                class="button"
+                aria-pressed={() => String(this.#colorScheme === value)}
+                onclick={() => {
+                  this.#changeColorScheme(value);
+                }}
+              >
+                <span
+                  class="button-inner"
+                  data-color-scheme={
+                    value === "auto" ? () => this.#autoColorScheme : value
+                  }
+                >
+                  <span class="circle">
+                    {() =>
+                      value === this.#colorScheme ? (
+                        <slot class="check" name="check" />
+                      ) : (
+                        ""
+                      )
+                    }
+                  </span>
+                  <span class="name">{scheme}</span>
+                </span>
+              </button>
             );
           })}
         </form>

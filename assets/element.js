@@ -9,14 +9,15 @@ export class Element extends HTMLElement {
     if (tag === this.fragment) return children;
 
     let node = document.createElement(tag);
-    let pairs = [];
+
+    let attributeOps = [];
 
     for (let [key, val] of Object.entries(props ?? {})) {
       if (key.startsWith("on")) {
-        node.addEventListener(key.substring(2), ...[].concat(val));
+        node.addEventListener(key.substring(2), ...this.#concat(val));
       } else {
         if (typeof val === "function") {
-          pairs.push([key, val]);
+          attributeOps.push([key, val]);
 
           val = val();
         }
@@ -25,13 +26,43 @@ export class Element extends HTMLElement {
       }
     }
 
-    if (pairs.length) {
-      this.#_callbacks.push(this.#getUpdateForAttributes(node, pairs));
+    if (attributeOps.length) {
+      this.#_callbacks.push(
+        this.#getUpdateForAttributes(new WeakRef(node), attributeOps)
+      );
     }
 
-    node.append(...children);
+    let childOps = [];
+
+    for (let child of children) {
+      if (typeof child === "function") {
+        let beginning = this.#comment();
+
+        let ending = this.#comment();
+
+        childOps.push([new WeakRef(beginning), new WeakRef(ending), child]);
+
+        child = child() ?? "";
+
+        node.append(beginning, ...this.#concat(child), ending);
+      } else {
+        node.append(child ?? "");
+      }
+    }
+
+    if (childOps.length) {
+      this.#_callbacks.push(this.#getUpdateForChildren(childOps));
+    }
 
     return node;
+  }
+
+  static #comment() {
+    return document.createComment("");
+  }
+
+  static #concat(arr) {
+    return [].concat(arr);
   }
 
   static #record(cb) {
@@ -52,20 +83,32 @@ export class Element extends HTMLElement {
     }
   }
 
-  static #getUpdateForAttributes(node, pairs) {
+  static #getUpdateForAttributes(node, operations) {
     return () => {
-      let results = new Map();
+      let ref = node.deref();
 
-      for (let [key, val] of pairs) {
-        let result = results.get(val);
+      if (!ref) return;
 
-        if (!result) {
-          result = val();
+      for (let [key, val] of operations) {
+        this.#setAttribute(ref, key, val());
+      }
+    };
+  }
 
-          results.set(val, result);
+  static #getUpdateForChildren(operations) {
+    return () => {
+      for (let [beginning, ending, child] of operations) {
+        beginning = beginning.deref();
+
+        ending = ending.deref();
+
+        if (!beginning || !ending) return;
+
+        while (beginning.nextSibling !== ending) {
+          beginning.nextSibling.remove();
         }
 
-        this.#setAttribute(node, key, result);
+        beginning.after(...this.#concat(child()));
       }
     };
   }
@@ -83,12 +126,11 @@ export class Element extends HTMLElement {
 
     this.#callbacks = Element.#record(() => {
       this.shadowRoot.replaceChildren(
-        ...[
-          <link
-            rel="stylesheet"
-            href={new URL("./common.css", import.meta.url).pathname}
-          />,
-        ].concat(this.render())
+        <link
+          rel="stylesheet"
+          href={new URL("./common.css", import.meta.url).pathname}
+        />,
+        ...Element.#concat(this.render())
       );
     });
   }

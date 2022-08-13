@@ -14,9 +14,6 @@ class PageLayout extends Element {
   }
 
   render() {
-    let isOpen = () => this.#open;
-    let isNotOpen = () => !this.#open;
-
     return (
       <>
         <link
@@ -28,8 +25,8 @@ class PageLayout extends Element {
             class="toggle"
             aria-label="Toggle nav"
             type="button"
-            aria-expanded={isOpen}
             aria-controls="nav"
+            aria-expanded={() => String(this.#open)}
             onclick={() => this.#toggleOpen()}
           >
             <slot
@@ -38,7 +35,12 @@ class PageLayout extends Element {
               name={() => (this.#open ? "close" : "open")}
             />
           </button>
-          <div id="nav" class="nav" aria-hidden={isNotOpen} inert={isNotOpen}>
+          <div
+            id="nav"
+            class="nav"
+            aria-hidden={() => String(!this.#open)}
+            inert={() => !this.#open}
+          >
             <slot name="nav" />
           </div>
         </nav>
@@ -49,7 +51,11 @@ class PageLayout extends Element {
             }
           }}
         >
-          <div class="panel" aria-hidden={isOpen} inert={isOpen}>
+          <div
+            class="panel"
+            aria-hidden={() => String(this.#open)}
+            inert={() => this.#open}
+          >
             <slot name="panel" />
           </div>
         </div>
