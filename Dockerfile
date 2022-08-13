@@ -1,4 +1,4 @@
-FROM rust:1.62.0-alpine as build
+FROM rust:1.62-alpine as build
 RUN apk add build-base
 WORKDIR /build
 RUN mkdir src
