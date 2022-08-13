@@ -10,48 +10,45 @@ export class Element extends HTMLElement {
 
     let node = document.createElement(tag);
 
-    let attributeOps = [];
+    let operations = [];
 
-    for (let [key, val] of Object.entries(props ?? {})) {
+    for (let [key, value] of Object.entries(props ?? {})) {
       if (key.startsWith("on")) {
-        node.addEventListener(key.substring(2), ...this.#concat(val));
+        node.addEventListener(key.substring(2), ...this.#concat(value));
       } else {
-        if (typeof val === "function") {
-          attributeOps.push([key, val]);
+        if (typeof value === "function") {
+          operations.push([1, key, value]);
 
-          val = val();
+          value = value();
         }
 
-        this.#setAttribute(node, key, val);
+        this.#setAttribute(node, key, value);
       }
     }
 
-    if (attributeOps.length) {
-      this.#_callbacks.push(
-        this.#getUpdateForAttributes(new WeakRef(node), attributeOps)
-      );
-    }
-
-    let childOps = [];
-
-    for (let child of children) {
-      if (typeof child === "function") {
+    for (let value of children) {
+      if (typeof value === "function") {
         let beginning = this.#comment();
 
         let ending = this.#comment();
 
-        childOps.push([new WeakRef(beginning), new WeakRef(ending), child]);
+        operations.push([
+          2,
+          new WeakRef(beginning),
+          new WeakRef(ending),
+          value,
+        ]);
 
-        child = child() ?? "";
+        value = value() ?? "";
 
-        node.append(beginning, ...this.#concat(child), ending);
+        node.append(beginning, ...this.#concat(value), ending);
       } else {
-        node.append(child ?? "");
+        node.append(value ?? "");
       }
     }
 
-    if (childOps.length) {
-      this.#_callbacks.push(this.#getUpdateForChildren(childOps));
+    if (operations.length) {
+      this.#_callbacks.push(this.#getUpdate(new WeakRef(node), operations));
     }
 
     return node;
@@ -83,32 +80,34 @@ export class Element extends HTMLElement {
     }
   }
 
-  static #getUpdateForAttributes(node, operations) {
+  static #getUpdate(node, operations) {
     return () => {
       let ref = node.deref();
 
       if (!ref) return;
 
-      for (let [key, val] of operations) {
-        this.#setAttribute(ref, key, val());
-      }
-    };
-  }
+      for (let [type, ...operation] of operations) {
+        if (type === 1) {
+          let [key, value] = operation;
 
-  static #getUpdateForChildren(operations) {
-    return () => {
-      for (let [beginning, ending, child] of operations) {
-        beginning = beginning.deref();
-
-        ending = ending.deref();
-
-        if (!beginning || !ending) return;
-
-        while (beginning.nextSibling !== ending) {
-          beginning.nextSibling.remove();
+          this.#setAttribute(ref, key, value());
         }
 
-        beginning.after(...this.#concat(child()));
+        if (type === 2) {
+          let [beginning, ending, value] = operation;
+
+          beginning = beginning.deref();
+
+          ending = ending.deref();
+
+          if (!beginning || !ending) return;
+
+          while (beginning.nextSibling !== ending) {
+            beginning.nextSibling.remove();
+          }
+
+          beginning.after(...this.#concat(value()));
+        }
       }
     };
   }
