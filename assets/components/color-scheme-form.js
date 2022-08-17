@@ -1,13 +1,13 @@
 import {Element} from "../element.js";
 
 class ColorSchemeForm extends Element {
-  #options = ["Light", "Dark", "Auto"];
+  #options = ["Light", "Dark", "System"];
 
   #prefersColorSchemeDark = window.matchMedia("(prefers-color-scheme: dark)");
 
-  #autoColorScheme = this.#prefersColorSchemeDark.matches ? "dark" : "light";
+  #systemColorScheme = this.#prefersColorSchemeDark.matches ? "dark" : "light";
 
-  #colorScheme = window.localStorage.getItem("color-scheme") ?? "auto";
+  #colorScheme = window.localStorage.getItem("color-scheme") ?? "system";
 
   #changeColorScheme(value) {
     this.#colorScheme = value;
@@ -20,8 +20,8 @@ class ColorSchemeForm extends Element {
   effect() {
     let colorScheme;
 
-    if (this.#colorScheme === "auto") {
-      colorScheme = this.#autoColorScheme;
+    if (this.#colorScheme === "system") {
+      colorScheme = this.#systemColorScheme;
     } else {
       colorScheme = this.#colorScheme;
     }
@@ -31,13 +31,17 @@ class ColorSchemeForm extends Element {
 
   render() {
     this.#prefersColorSchemeDark.addEventListener("change", (e) => {
-      this.#autoColorScheme = e.matches ? "dark" : "light";
+      this.#systemColorScheme = e.matches ? "dark" : "light";
 
       this.update();
     });
 
     return (
       <>
+        <link
+          rel="stylesheet"
+          href={new URL("../common.css", import.meta.url).pathname}
+        />
         <link
           rel="stylesheet"
           href={new URL("./color-scheme-form.css", import.meta.url).pathname}
@@ -59,7 +63,7 @@ class ColorSchemeForm extends Element {
                 <span
                   class="button-inner"
                   data-color-scheme={
-                    value === "auto" ? () => this.#autoColorScheme : value
+                    value === "system" ? () => this.#systemColorScheme : value
                   }
                 >
                   <span class="circle">

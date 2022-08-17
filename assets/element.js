@@ -1,7 +1,9 @@
 export class Element extends HTMLElement {
   static fragment = Symbol("fragment");
 
-  static #_callbacks = [];
+  static #_nodes = [];
+
+  static #updates = new WeakMap();
 
   static h(tag, props, ...children) {
     children = children.flat(Infinity);
@@ -9,12 +11,11 @@ export class Element extends HTMLElement {
     if (tag === this.fragment) return children;
 
     let node = document.createElement(tag);
-
     let operations = [];
 
     for (let [key, value] of Object.entries(props ?? {})) {
       if (key.startsWith("on")) {
-        node.addEventListener(key.substring(2), ...this.#concat(value));
+        node.addEventListener(key.substring(2), ...[].concat(value));
       } else {
         if (typeof value === "function") {
           operations.push([1, key, value]);
@@ -26,29 +27,25 @@ export class Element extends HTMLElement {
       }
     }
 
-    for (let value of children) {
-      if (typeof value === "function") {
-        let beginning = this.#comment();
+    for (let child of children) {
+      if (typeof child === "function") {
+        let start = this.#comment();
+        let end = this.#comment();
 
-        let ending = this.#comment();
+        operations.push([2, start, end, child]);
 
-        operations.push([
-          2,
-          new WeakRef(beginning),
-          new WeakRef(ending),
-          value,
-        ]);
+        child = child();
 
-        value = value() ?? "";
-
-        node.append(beginning, ...this.#concat(value), ending);
+        node.append(start, ...[].concat(child), end);
       } else {
-        node.append(value ?? "");
+        node.append(child ?? "");
       }
     }
 
     if (operations.length) {
-      this.#_callbacks.push(this.#getUpdate(new WeakRef(node), operations));
+      this.#_nodes.push(node);
+
+      this.#updates.set(node, operations);
     }
 
     return node;
@@ -58,16 +55,12 @@ export class Element extends HTMLElement {
     return document.createComment("");
   }
 
-  static #concat(arr) {
-    return [].concat(arr);
-  }
-
   static #record(cb) {
-    let count = this.#_callbacks.length;
+    let count = this.#_nodes.length;
 
     cb();
 
-    return this.#_callbacks.splice(count, this.#_callbacks.length - count);
+    return this.#_nodes.splice(count, this.#_nodes.length - count);
   }
 
   static #setAttribute(node, key, val) {
@@ -80,39 +73,7 @@ export class Element extends HTMLElement {
     }
   }
 
-  static #getUpdate(node, operations) {
-    return () => {
-      let ref = node.deref();
-
-      if (!ref) return;
-
-      for (let [type, ...operation] of operations) {
-        if (type === 1) {
-          let [key, value] = operation;
-
-          this.#setAttribute(ref, key, value());
-        }
-
-        if (type === 2) {
-          let [beginning, ending, value] = operation;
-
-          beginning = beginning.deref();
-
-          ending = ending.deref();
-
-          if (!beginning || !ending) return;
-
-          while (beginning.nextSibling !== ending) {
-            beginning.nextSibling.remove();
-          }
-
-          beginning.after(...this.#concat(value()));
-        }
-      }
-    };
-  }
-
-  #callbacks = [];
+  #nodes = [];
 
   connectedCallback() {
     this.attachShadow({mode: "open"});
@@ -123,22 +84,38 @@ export class Element extends HTMLElement {
   setup() {
     this.effect?.();
 
-    this.#callbacks = Element.#record(() => {
-      this.shadowRoot.replaceChildren(
-        <link
-          rel="stylesheet"
-          href={new URL("./common.css", import.meta.url).pathname}
-        />,
-        ...Element.#concat(this.render())
-      );
+    this.#nodes = Element.#record(() => {
+      this.shadowRoot.replaceChildren(...[].concat(this.render()));
     });
   }
 
   update() {
     this.effect?.();
 
-    for (let callback of this.#callbacks) {
-      callback();
+    for (let node of this.#nodes) {
+      let operations = Element.#updates.get(node);
+
+      if (!operations) return;
+
+      for (let [type, ...operation] of operations) {
+        if (type === 1) {
+          let [key, value] = operation;
+
+          Element.#setAttribute(node, key, value());
+        }
+
+        if (type === 2) {
+          let [start, end, child] = operation;
+
+          if (!start || !end) return;
+
+          while (start.nextSibling !== end) {
+            start.nextSibling.remove();
+          }
+
+          start.after(...[].concat(child()));
+        }
+      }
     }
   }
 

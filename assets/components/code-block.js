@@ -8,6 +8,10 @@ class CodeBlock extends Element {
       <>
         <link
           rel="stylesheet"
+          href={new URL("../common.css", import.meta.url).pathname}
+        />
+        <link
+          rel="stylesheet"
           href={new URL("./code-block.css", import.meta.url).pathname}
         />
         <pre class="pre">
