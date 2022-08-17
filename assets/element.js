@@ -18,7 +18,7 @@ export class Element extends HTMLElement {
         node.addEventListener(key.substring(2), ...[].concat(value));
       } else {
         if (typeof value === "function") {
-          operations.push([1, key, value]);
+          operations.push({attribute: true, key, value});
 
           value = value();
         }
@@ -32,11 +32,9 @@ export class Element extends HTMLElement {
         let start = this.#comment();
         let end = this.#comment();
 
-        operations.push([2, start, end, child]);
+        operations.push({attribute: false, start, end, child});
 
-        child = child();
-
-        node.append(start, ...[].concat(child), end);
+        node.append(start, ...[].concat(child()), end);
       } else {
         node.append(child ?? "");
       }
@@ -97,16 +95,10 @@ export class Element extends HTMLElement {
 
       if (!operations) return;
 
-      for (let [type, ...operation] of operations) {
-        if (type === 1) {
-          let [key, value] = operation;
-
+      for (let {attribute, key, value, start, end, child} of operations) {
+        if (attribute) {
           Element.#setAttribute(node, key, value());
-        }
-
-        if (type === 2) {
-          let [start, end, child] = operation;
-
+        } else {
           if (!start || !end) return;
 
           while (start.nextSibling !== end) {
