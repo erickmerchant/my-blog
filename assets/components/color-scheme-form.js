@@ -1,13 +1,13 @@
 import {Element} from "../element.js";
 
 class ColorSchemeForm extends Element {
-  #options = ["Light", "Dark", "System"];
+  #options = ["Light", "Dark", "Auto"];
 
   #prefersColorSchemeDark = window.matchMedia("(prefers-color-scheme: dark)");
 
-  #systemColorScheme = this.#prefersColorSchemeDark.matches ? "dark" : "light";
+  #autoColorScheme = this.#prefersColorSchemeDark.matches ? "dark" : "light";
 
-  #colorScheme = window.localStorage.getItem("color-scheme") ?? "system";
+  #colorScheme = window.localStorage.getItem("color-scheme") ?? "auto";
 
   #changeColorScheme(value) {
     this.#colorScheme = value;
@@ -20,8 +20,8 @@ class ColorSchemeForm extends Element {
   effect() {
     let colorScheme;
 
-    if (this.#colorScheme === "system") {
-      colorScheme = this.#systemColorScheme;
+    if (this.#colorScheme === "auto") {
+      colorScheme = this.#autoColorScheme;
     } else {
       colorScheme = this.#colorScheme;
     }
@@ -31,7 +31,7 @@ class ColorSchemeForm extends Element {
 
   render() {
     this.#prefersColorSchemeDark.addEventListener("change", (e) => {
-      this.#systemColorScheme = e.matches ? "dark" : "light";
+      this.#autoColorScheme = e.matches ? "dark" : "light";
 
       this.update();
     });
@@ -63,7 +63,7 @@ class ColorSchemeForm extends Element {
                 <span
                   class="button-inner"
                   data-color-scheme={
-                    value === "system" ? () => this.#systemColorScheme : value
+                    value === "auto" ? () => this.#autoColorScheme : value
                   }
                 >
                   <span class="circle">
