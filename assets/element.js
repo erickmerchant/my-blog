@@ -19,8 +19,6 @@ export class Element extends HTMLElement {
       } else {
         if (typeof value === "function") {
           operations.push({attribute: true, key, value});
-
-          value = value();
         }
 
         this.#setAttribute(node, key, value);
@@ -34,7 +32,7 @@ export class Element extends HTMLElement {
 
         operations.push({attribute: false, start, end, child});
 
-        node.append(start, ...[].concat(child()), end);
+        node.append(start, end);
       } else {
         node.append(child ?? "");
       }
@@ -54,11 +52,9 @@ export class Element extends HTMLElement {
   }
 
   static #record(cb) {
-    let count = this.#_nodes.length;
-
     cb();
 
-    return this.#_nodes.splice(count, this.#_nodes.length - count);
+    return this.#_nodes.splice(0, this.#_nodes.length);
   }
 
   static #setAttribute(node, key, val) {
@@ -83,8 +79,10 @@ export class Element extends HTMLElement {
     this.effect?.();
 
     this.#nodes = Element.#record(() => {
-      this.shadowRoot.replaceChildren(...[].concat(this.render()));
+      this.shadowRoot.replaceChildren(...[].concat(this.render?.() ?? ""));
     });
+
+    this.update();
   }
 
   update() {
@@ -109,9 +107,5 @@ export class Element extends HTMLElement {
         }
       }
     }
-  }
-
-  render() {
-    return "";
   }
 }
