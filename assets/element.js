@@ -76,8 +76,6 @@ export class Element extends HTMLElement {
   }
 
   setup() {
-    this.effect?.();
-
     this.#nodes = Element.#record(() => {
       this.shadowRoot.replaceChildren(...[].concat(this.render?.() ?? ""));
     });
