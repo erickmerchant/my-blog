@@ -608,9 +608,9 @@ checksum = "5827cebf4670468b8772dd191856768aedcb1b0278a04f989f7766351917b9dc"
 
 [[package]]
 name = "cpufeatures"
-version = "0.2.2"
+version = "0.2.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "59a6001667ab124aebae2a495118e11d30984c3a653e99d86d58971708cf5e4b"
+checksum = "1079fb8528d9f9c888b1e8aa651e6e079ade467323d58f75faf1d30b1808f540"
 dependencies = [
  "libc",
 ]
@@ -1088,9 +1088,9 @@ checksum = "9a3a5bfb195931eeb336b2a7b4d761daec841b97f947d34394601737a7bba5e4"
 
 [[package]]
 name = "iana-time-zone"
-version = "0.1.45"
+version = "0.1.46"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ef5528d9c2817db4e10cc78f8d4c8228906e5854f389ff6b076cee3572a09d35"
+checksum = "ad2bfd338099682614d3ee3fe0cd72e0b6a41ca6a87f6a74a3bd593c91650501"
 dependencies = [
  "android_system_properties",
  "core-foundation-sys",
@@ -1818,9 +1818,9 @@ checksum = "925383efa346730478fb4838dbe9137d2a47675ad789c546d150a6e1dd4ab31c"
 
 [[package]]
 name = "preset_env_base"
-version = "0.2.4"
+version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5f68dc2366d2258e280ad44221403aa0af50868b3e6dc1cb9fb14a302cc01948"
+checksum = "ec3fc6fae03023ee1badb75ccbefc36379c419754b30e3848b77a4327f4ec1e2"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2398,9 +2398,9 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.214.10"
+version = "0.215.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "cd3516cbe6f8d2081b881379f97f8598db8d4f6be20c4d28ef7f9a4743c97b64"
+checksum = "7a47f3713437e73349b7a971bd003df790ca800632aefdacd90c5d7065d9494c"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2636,9 +2636,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.144.9"
+version = "0.144.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4e42e5d30a3985cfa037d44be3f4240f8d9ba1a6b9ead77bf1f70ceb79491425"
+checksum = "8e1dd6851117c7d80c066ca095fb856e9541105de6d4566cda0cdcf57cb834b2"
 dependencies = [
  "ahash",
  "arrayvec 0.7.2",
@@ -2665,7 +2665,6 @@ dependencies = [
  "swc_ecma_visit",
  "swc_timer",
  "tracing",
- "unicode-id",
 ]
 
 [[package]]
@@ -2689,9 +2688,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_preset_env"
-version = "0.158.4"
+version = "0.159.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ef62b25660684da925c7b53b1a4724bdaf1a8520a419ad736263b101ca4c9e1d"
+checksum = "80bff7f470d097842c2052a5e29dbe0a0f0768b8a39f0fd39935107682ef7060"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2734,9 +2733,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.103.10"
+version = "0.103.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "217415787a810b2cdbf23018a3841b3dd4c9d801667c7d2a2bd14f60e5107ad7"
+checksum = "a4aad7af4a1ae307e547a0f5ab6b081ffa6a22af89abe2f8a953a735a398ba9d"
 dependencies = [
  "better_scoped_tls",
  "bitflags",
