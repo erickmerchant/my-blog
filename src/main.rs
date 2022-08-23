@@ -159,11 +159,7 @@ async fn post(slug: web::Path<String>, site: web::Data<Site>) -> Result<NamedFil
 
 async fn file(file: web::Path<String>, data: web::Data<Config>) -> Result<NamedFile> {
     let src = Path::new("assets").join(file.to_string());
-    let ext_str = if let Some(ext) = src.extension().and_then(|ext| ext.to_str()) {
-        ext
-    } else {
-        ""
-    };
+    let ext_str = src.extension().and_then(|ext| ext.to_str()).unwrap_or("");
 
     match ext_str {
         "js" => js_response(src, data.source_maps),

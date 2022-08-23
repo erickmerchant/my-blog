@@ -1,16 +1,14 @@
 import {Element} from "../element.js";
 
 class PageLayout extends Element {
-  #open = false;
+  #state = this.watch({open: false});
 
   #toggleOpen() {
-    this.#open = !this.#open;
-
-    this.update();
+    this.#state.open = !this.#state.open;
   }
 
   effect() {
-    this.toggleAttribute("open", this.#open);
+    this.toggleAttribute("open", this.#state.open);
   }
 
   render() {
@@ -30,35 +28,35 @@ class PageLayout extends Element {
             aria-label="Toggle nav"
             type="button"
             aria-controls="nav"
-            aria-expanded={() => String(this.#open)}
+            aria-expanded={() => String(this.#state.open)}
             onclick={() => this.#toggleOpen()}
           >
             <slot
               class="icon"
               aria-hidden="true"
-              name={() => (this.#open ? "close" : "open")}
+              name={() => (this.#state.open ? "close" : "open")}
             />
           </button>
           <div
             id="nav"
             class="nav"
-            aria-hidden={() => String(!this.#open)}
-            inert={() => !this.#open}
+            aria-hidden={() => String(!this.#state.open)}
+            inert={() => !this.#state.open}
           >
             <slot name="nav" />
           </div>
         </nav>
         <div
           onclick={() => {
-            if (this.#open) {
+            if (this.#state.open) {
               this.#toggleOpen();
             }
           }}
         >
           <div
             class="panel"
-            aria-hidden={() => String(this.#open)}
-            inert={() => this.#open}
+            aria-hidden={() => String(this.#state.open)}
+            inert={() => this.#state.open}
           >
             <slot name="panel" />
           </div>

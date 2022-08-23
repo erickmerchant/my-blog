@@ -5,25 +5,24 @@ class ColorSchemeForm extends Element {
 
   #prefersColorSchemeDark = window.matchMedia("(prefers-color-scheme: dark)");
 
-  #autoColorScheme = this.#prefersColorSchemeDark.matches ? "dark" : "light";
-
-  #colorScheme = window.localStorage.getItem("color-scheme") ?? "auto";
+  #state = this.watch({
+    autoColorScheme: this.#prefersColorSchemeDark.matches ? "dark" : "light",
+    colorScheme: window.localStorage.getItem("color-scheme") ?? "auto",
+  });
 
   #changeColorScheme(value) {
-    this.#colorScheme = value;
+    this.#state.colorScheme = value;
 
     window.localStorage.setItem("color-scheme", value);
-
-    this.update();
   }
 
   effect() {
     let colorScheme;
 
-    if (this.#colorScheme === "auto") {
-      colorScheme = this.#autoColorScheme;
+    if (this.#state.colorScheme === "auto") {
+      colorScheme = this.#state.autoColorScheme;
     } else {
-      colorScheme = this.#colorScheme;
+      colorScheme = this.#state.colorScheme;
     }
 
     this.closest("body").setAttribute("data-color-scheme", colorScheme);
@@ -31,9 +30,7 @@ class ColorSchemeForm extends Element {
 
   render() {
     this.#prefersColorSchemeDark.addEventListener("change", (e) => {
-      this.#autoColorScheme = e.matches ? "dark" : "light";
-
-      this.update();
+      this.#state.autoColorScheme = e.matches ? "dark" : "light";
     });
 
     return (
@@ -55,7 +52,7 @@ class ColorSchemeForm extends Element {
               <button
                 type="button"
                 class="button"
-                aria-pressed={() => String(this.#colorScheme === value)}
+                aria-pressed={() => String(this.#state.colorScheme === value)}
                 onclick={() => {
                   this.#changeColorScheme(value);
                 }}
@@ -63,12 +60,12 @@ class ColorSchemeForm extends Element {
                 <span
                   class="button-inner"
                   data-color-scheme={
-                    value === "auto" ? () => this.#autoColorScheme : value
+                    value === "auto" ? () => this.#state.autoColorScheme : value
                   }
                 >
                   <span class="circle">
                     {() =>
-                      value === this.#colorScheme ? (
+                      value === this.#state.colorScheme ? (
                         <slot class="check" name="check" />
                       ) : (
                         ""

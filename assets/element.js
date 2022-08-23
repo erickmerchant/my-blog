@@ -72,18 +72,30 @@ export class Element extends HTMLElement {
   connectedCallback() {
     this.attachShadow({mode: "open"});
 
-    this.setup();
+    this.#setup();
   }
 
-  setup() {
+  watch(state) {
+    return new Proxy(state, {
+      set: (state, key, value) => {
+        state[key] = value;
+
+        this.#update();
+
+        return true;
+      },
+    });
+  }
+
+  #setup() {
     this.#nodes = Element.#record(() => {
       this.shadowRoot.replaceChildren(...[].concat(this.render?.() ?? ""));
     });
 
-    this.update();
+    this.#update();
   }
 
-  update() {
+  #update() {
     this.effect?.();
 
     for (let node of this.#nodes) {
