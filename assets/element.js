@@ -19,9 +19,9 @@ export class Element extends HTMLElement {
       } else {
         if (typeof value === "function") {
           operations.push({attribute: true, key, value});
+        } else {
+          this.#setAttribute(node, key, value);
         }
-
-        this.#setAttribute(node, key, value);
       }
     }
 
@@ -58,10 +58,8 @@ export class Element extends HTMLElement {
   }
 
   static #setAttribute(node, key, val) {
-    if (val === true || val === false) {
-      node.toggleAttribute(key, val);
-    } else if (val != null) {
-      node.setAttribute(key, val);
+    if (val != null && val !== false) {
+      node.setAttribute(key, val === true ? "" : val);
     } else {
       node.removeAttribute(key);
     }
@@ -89,7 +87,7 @@ export class Element extends HTMLElement {
 
   #setup() {
     this.#nodes = Element.#record(() => {
-      this.shadowRoot.replaceChildren(...[].concat(this.render?.() ?? ""));
+      this.shadowRoot.replaceChildren(...[this.render?.() ?? ""].flat());
     });
 
     this.#update();
@@ -113,7 +111,7 @@ export class Element extends HTMLElement {
             start.nextSibling.remove();
           }
 
-          start.after(...[].concat(child()));
+          start.after(...[child()].flat());
         }
       }
     }
