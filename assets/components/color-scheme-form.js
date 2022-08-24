@@ -35,14 +35,12 @@ class ColorSchemeForm extends Element {
 
     return (
       <>
-        <link
-          rel="stylesheet"
-          href={new URL("../common.css", import.meta.url).pathname}
-        />
-        <link
-          rel="stylesheet"
-          href={new URL("./color-scheme-form.css", import.meta.url).pathname}
-        />
+        {["../common.css", "./color-scheme-form.css"].map((url) => (
+          <link
+            rel="stylesheet"
+            href={new URL(url, import.meta.url).pathname}
+          />
+        ))}
         <form class="form">
           <h3>Theme</h3>
           {this.#options.map((scheme) => {

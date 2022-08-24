@@ -6,14 +6,12 @@ class CodeBlock extends Element {
 
     return (
       <>
-        <link
-          rel="stylesheet"
-          href={new URL("../common.css", import.meta.url).pathname}
-        />
-        <link
-          rel="stylesheet"
-          href={new URL("./code-block.css", import.meta.url).pathname}
-        />
+        {["../common.css", "./code-block.css"].map((url) => (
+          <link
+            rel="stylesheet"
+            href={new URL(url, import.meta.url).pathname}
+          />
+        ))}
         <pre class="pre">
           <code class="code">
             {lines.map((ln) => (

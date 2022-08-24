@@ -14,14 +14,12 @@ class PageLayout extends Element {
   render() {
     return (
       <>
-        <link
-          rel="stylesheet"
-          href={new URL("../common.css", import.meta.url).pathname}
-        />
-        <link
-          rel="stylesheet"
-          href={new URL("./page-layout.css", import.meta.url).pathname}
-        />
+        {["../common.css", "./page-layout.css"].map((url) => (
+          <link
+            rel="stylesheet"
+            href={new URL(url, import.meta.url).pathname}
+          />
+        ))}
         <nav>
           <button
             class="toggle"
