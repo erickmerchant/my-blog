@@ -51,12 +51,6 @@ export class Element extends HTMLElement {
     return document.createComment("");
   }
 
-  static #record(cb) {
-    cb();
-
-    return this.#_nodes.splice(0, this.#_nodes.length);
-  }
-
   static #setAttribute(node, key, val) {
     if (val != null && val !== false) {
       node.setAttribute(key, val === true ? "" : val);
@@ -70,7 +64,13 @@ export class Element extends HTMLElement {
   connectedCallback() {
     this.attachShadow({mode: "open"});
 
-    this.#setup();
+    this.shadowRoot.replaceChildren(...[this.render?.() ?? ""].flat());
+
+    this.#nodes = Element.#_nodes;
+
+    Element.#_nodes = [];
+
+    this.#update();
   }
 
   watch(state) {
@@ -83,14 +83,6 @@ export class Element extends HTMLElement {
         return true;
       },
     });
-  }
-
-  #setup() {
-    this.#nodes = Element.#record(() => {
-      this.shadowRoot.replaceChildren(...[this.render?.() ?? ""].flat());
-    });
-
-    this.#update();
   }
 
   #update() {
