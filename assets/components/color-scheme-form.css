@@ -1,52 +1,54 @@
-:host {
-  display: block;
-}
+@layer component {
+  :host {
+    display: block;
+  }
 
-.form {
-  display: grid;
-  gap: var(--space-half);
+  .form {
+    display: grid;
+    gap: var(--space-half);
 
-  --parent-text-color: var(--text-color);
-}
+    --parent-text-color: var(--text-color);
+  }
 
-.button {
-  appearance: none;
-  border: none;
-  background: none;
-  gap: 0.5em;
-  font-size: 0.8em;
+  .button {
+    appearance: none;
+    border: none;
+    background: none;
+    gap: 0.5em;
+    font-size: 0.8em;
 
-  --svg-display: grid;
-  --border-width: 0;
+    --svg-display: grid;
+    --border-width: 0;
+  }
 
-  &:where([aria-pressed="true"]) {
+  .button:where([aria-pressed="true"]) {
     --border-width: 3px;
   }
-}
 
-.button-inner {
-  display: grid;
-  grid-template-columns: repeat(2, min-content);
-  align-items: center;
-}
+  .button-inner {
+    display: grid;
+    grid-template-columns: repeat(2, min-content);
+    align-items: center;
+  }
 
-.circle {
-  display: grid;
-  place-content: center;
-  height: 1.62em;
-  aspect-ratio: 1 / 1;
-  border-radius: 100%;
-  background: hsl(var(--banner-background));
-  border: var(--border-width) solid hsl(var(--anchor-color) / 0.5);
-}
+  .circle {
+    display: grid;
+    place-content: center;
+    height: 1.62em;
+    aspect-ratio: 1 / 1;
+    border-radius: 100%;
+    background: hsl(var(--banner-background));
+    border: var(--border-width) solid hsl(var(--anchor-color) / 0.5);
+  }
 
-.check {
-  width: 1em;
-  aspect-ratio: 1 / 1;
-  fill: hsl(var(--anchor-color));
-  display: grid;
-}
+  .check {
+    width: 1em;
+    aspect-ratio: 1 / 1;
+    fill: hsl(var(--anchor-color));
+    display: grid;
+  }
 
-.name {
-  color: hsl(var(--parent-text-color));
+  .name {
+    color: hsl(var(--parent-text-color));
+  }
 }

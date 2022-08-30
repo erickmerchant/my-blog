@@ -1,116 +1,126 @@
-/* 0 0 0 */
+@layer common {
+  /* 0 0 0 */
 
-* {
-  font: inherit;
-  color: inherit;
-  gap: inherit;
-  max-width: 100%;
-  padding: 0;
-  margin: 0;
+  * {
+    font: inherit;
+    color: inherit;
+    gap: inherit;
+    max-width: 100%;
+    padding: 0;
+    margin: 0;
+  }
 
-  &,
-  &::before,
-  &::after {
+  *,
+  ::before,
+  ::after {
     box-sizing: border-box;
   }
-}
 
-/* 0 0 1 */
+  /* 0 0 1 */
 
-::-webkit-scrollbar {
-  width: 0.5em;
-  height: 0.5em;
-}
+  ::-webkit-scrollbar {
+    width: 0.5em;
+    height: 0.5em;
+  }
 
-::-webkit-scrollbar-thumb {
-  background: var(--scrollbar-foreground);
-  border-radius: var(--border-radius);
-}
+  ::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-foreground);
+    border-radius: var(--border-radius);
+  }
 
-::-webkit-scrollbar-track {
-  background: var(--scrollbar-background);
-}
+  ::-webkit-scrollbar-track {
+    background: var(--scrollbar-background);
+  }
 
-a {
-  color: hsl(var(--anchor-color));
-  text-underline-offset: 0.2em;
-  text-decoration-thickness: 0.1em;
-}
+  a {
+    color: hsl(var(--anchor-color));
+    text-underline-offset: 0.2em;
+    text-decoration-thickness: 0.1em;
+  }
 
-p {
-  hyphens: auto;
-}
+  p {
+    hyphens: auto;
+  }
 
-h1,
-h2,
-h3 {
-  line-height: 1.125;
-}
+  h1,
+  h2,
+  h3 {
+    line-height: 1.125;
+  }
 
-h1 {
-  font-size: 2em;
-  font-weight: 900;
-}
+  h1 {
+    font-size: 2em;
+    font-weight: 900;
+  }
 
-h2 {
-  font-size: 1.25em;
-  font-weight: 800;
-}
+  h2 {
+    font-size: 1.25em;
+    font-weight: 800;
+  }
 
-h3,
-dt {
-  font-size: 1em;
-  font-weight: 700;
-}
+  h3,
+  dt {
+    font-size: 1em;
+    font-weight: 700;
+  }
 
-dl,
-ul,
-ol {
-  display: flex;
-  flex-direction: column;
-  list-style: none;
-}
+  dl,
+  ul,
+  ol {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+  }
 
-/* 0 1 0 */
+  /* 0 1 0 */
 
-[inert] {
-  --anchor-color: var(--gray-color);
-  --text-color: var(--gray-color);
-  --code-color: var(--gray-color);
-}
+  [inert] {
+    --anchor-color: var(--gray-color);
+    --text-color: var(--gray-color);
+    --code-color: var(--gray-color);
+  }
 
-[data-color-scheme="light"] {
-  --anchor-color: 100 60% 30%;
-  --gray-color: 100 0% 25%;
-  --code-color: 100 60% 25%;
-  --text-color: 100 5% 10%;
-  --background-1: 0 0% 100%;
-  --background-2: 100 5% 90%;
-  --background-3: 100 5% 95%;
-  --banner-background: 100 20% 75%;
-  --banner-foreground: 0 0% 100%;
-}
+  body {
+    --gray-color: 100 0% 25%;
+    --background-1: 0 0% 100%;
+    --background-2: 100 0% 90%;
+    --background-3: 100 0% 95%;
+    --banner-background: 100 0% 75%;
+  }
 
-[data-color-scheme="dark"] {
-  --anchor-color: 100 60% 70%;
-  --gray-color: 100 0% 80%;
-  --code-color: 100 60% 80%;
-  --text-color: 0 0% 100%;
-  --background-1: 100 5% 12.5%;
-  --background-2: 100 5% 17.5%;
-  --background-3: 100 5% 20%;
-  --banner-background: 100 20% 27.5%;
-  --banner-foreground: 100 30% 40%;
-}
+  [data-color-scheme="light"] {
+    --anchor-color: 100 60% 30%;
+    --gray-color: 100 0% 25%;
+    --code-color: 100 60% 25%;
+    --text-color: 100 5% 10%;
+    --background-1: 0 0% 100%;
+    --background-2: 100 5% 90%;
+    --background-3: 100 5% 95%;
+    --banner-background: 100 20% 75%;
+    --banner-foreground: 0 0% 100%;
+  }
 
-@supports selector(:focus-visible) {
-  :where(button, a, input):focus {
-    outline: none;
+  [data-color-scheme="dark"] {
+    --anchor-color: 100 60% 70%;
+    --gray-color: 100 0% 80%;
+    --code-color: 100 60% 80%;
+    --text-color: 0 0% 100%;
+    --background-1: 100 5% 12.5%;
+    --background-2: 100 5% 17.5%;
+    --background-3: 100 5% 20%;
+    --banner-background: 100 20% 27.5%;
+    --banner-foreground: 100 30% 40%;
+  }
+
+  @supports selector(:focus-visible) {
+    :focus {
+      outline: none;
+      background: hsl(0 0% 0% / 0);
+    }
+  }
+
+  :focus-visible {
+    outline: 2px solid hsl(var(--anchor-color));
     background: hsl(0 0% 0% / 0);
   }
-}
-
-:where(button, a, input):focus-visible {
-  outline: 2px solid hsl(var(--anchor-color));
-  background: hsl(0 0% 0% / 0);
 }

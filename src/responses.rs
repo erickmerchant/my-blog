@@ -116,11 +116,7 @@ pub fn css_response<P: AsRef<Path>>(src: P, source_maps: bool) -> Result<NamedFi
             samsung: Some(983040),
             ie: None,
         });
-        let parser_options = stylesheet::ParserOptions {
-            nesting: true,
-            custom_media: true,
-            ..stylesheet::ParserOptions::default()
-        };
+        let parser_options = stylesheet::ParserOptions::default();
         let minifier_options = stylesheet::MinifyOptions {
             targets,
             ..stylesheet::MinifyOptions::default()

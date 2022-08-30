@@ -1,62 +1,66 @@
-:host {
-  display: block;
-}
+@layer component {
+  :host {
+    display: block;
+  }
 
-.icon {
-  width: 1.25em;
-  aspect-ratio: 1 / 1;
-  fill: currentColor;
-  display: grid;
-}
+  .icon {
+    width: 1.25em;
+    aspect-ratio: 1 / 1;
+    fill: currentColor;
+    display: grid;
+  }
 
-.toggle {
-  position: fixed;
-  top: var(--toggle-top);
-  left: var(--toggle-top);
-  z-index: 3;
-  background-color: hsl(var(--background-1));
-  border: var(--toggle-border-width) solid hsl(var(--anchor-color) / 0.5);
-  border-radius: 0.25rem;
-  color: hsl(var(--anchor-color));
-  height: var(--toggle-height);
-  width: var(--toggle-height);
-  display: grid;
-  place-content: center;
-  appearance: none;
-  cursor: pointer;
+  .toggle {
+    position: fixed;
+    top: var(--toggle-top);
+    left: var(--toggle-top);
+    z-index: 3;
+    background-color: hsl(var(--background-1));
+    border: var(--toggle-border-width) solid hsl(var(--anchor-color) / 0.5);
+    border-radius: 0.25rem;
+    color: hsl(var(--anchor-color));
+    height: var(--toggle-height);
+    width: var(--toggle-height);
+    display: grid;
+    place-content: center;
+    appearance: none;
+    cursor: pointer;
 
-  --svg-display: block;
-}
+    --svg-display: block;
+  }
 
-.nav {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  width: var(--drawer-width);
-  height: 100%;
-  overflow: auto;
-  display: grid;
-  place-content: center;
-  gap: 2rem;
-  font-weight: 500;
+  .nav {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    width: var(--drawer-width);
+    height: 100%;
+    overflow: auto;
+    display: grid;
+    place-content: center;
+    gap: 2rem;
+    font-weight: 500;
+  }
 
-  & * {
+  .nav * {
     gap: 0.5rem;
   }
-}
 
-.panel {
-  position: relative;
-  z-index: 1;
-  display: grid;
-  grid-template-rows: min-content 1fr;
-  height: 100%;
-  transform: translateX(var(--content-left));
-  transition: transform 0.125s ease;
-  box-shadow: -0.125rem 0 hsl(var(--background-3));
-  color: hsl(var(--text-color));
+  .panel {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-rows: min-content 1fr;
+    height: 100%;
+    transform: translateX(var(--content-left));
+    transition: transform 0.125s ease;
+    box-shadow: -0.125rem 0 hsl(var(--background-3));
+    color: hsl(var(--text-color));
+  }
 
   @media (prefers-reduced-motion) {
-    transition: none;
+    .panel {
+      transition: none;
+    }
   }
 }

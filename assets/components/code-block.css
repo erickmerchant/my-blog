@@ -1,53 +1,58 @@
-:host {
-  display: block;
-}
+@layer component {
+  :host {
+    display: block;
+  }
 
-.pre {
-  border-radius: var(--border-radius);
-  white-space: pre;
-  overflow-x: auto;
-  max-width: 100%;
-}
+  .pre {
+    border-radius: var(--border-radius);
+    white-space: pre;
+    overflow-x: auto;
+    max-width: 100%;
+  }
 
-.code {
-  display: grid;
-  grid-template-columns: min-content auto;
-  gap: 0 var(--space-quarter);
-  background-color: hsl(var(--background-3));
-  color: hsl(var(--code-color));
-  counter-reset: lines;
-  min-width: min-content;
-}
+  .code {
+    display: grid;
+    grid-template-columns: min-content auto;
+    gap: 0 var(--space-quarter);
+    background-color: hsl(var(--background-3));
+    color: hsl(var(--code-color));
+    counter-reset: lines;
+    min-width: min-content;
+  }
 
-.line {
-  display: contents;
+  .line {
+    display: contents;
 
-  & > * {
-    padding-block-start: calc(var(--first, 0) * 1em);
-    padding-block-end: calc(var(--last, 0) * 1em);
+    --first: 0;
+    --last: 0;
+  }
+
+  .line > * {
+    padding-block-start: calc(var(--first) * 1em);
+    padding-block-end: calc(var(--last) * 1em);
     padding-inline: var(--space-quarter);
   }
 
-  &:where(:first-child) {
+  .line:where(:first-child) {
     --first: 1;
   }
 
-  &:where(:last-child) {
+  .line:where(:last-child) {
     --last: 1;
   }
 
-  &::before {
+  .line::before {
     display: block;
     content: counter(lines);
     counter-increment: lines;
     text-align: right;
     padding-inline: var(--space-half);
-    padding-block-start: calc(var(--first, 0) * 1em);
-    padding-block-end: calc(var(--last, 0) * 1em);
+    padding-block-start: calc(var(--first) * 1em);
+    padding-block-end: calc(var(--last) * 1em);
     background: hsl(var(--background-2));
     filter: saturate(0);
-    border-top-left-radius: calc(var(--first, 0) * var(--border-radius));
-    border-bottom-left-radius: calc(var(--last, 0) * var(--border-radius));
+    border-top-left-radius: calc(var(--first) * var(--border-radius));
+    border-bottom-left-radius: calc(var(--last) * var(--border-radius));
     left: 0;
     position: sticky;
     z-index: 1;
