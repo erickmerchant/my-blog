@@ -25,7 +25,7 @@
     --border-width: 3px;
   }
 
-  .button-inner {
+  .button > :where(span) {
     display: grid;
     grid-template-columns: repeat(2, min-content);
     align-items: center;
@@ -49,6 +49,7 @@
   }
 
   .name {
+    text-transform: capitalize;
     color: hsl(var(--parent-text-color));
   }
 }

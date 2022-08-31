@@ -1,7 +1,7 @@
 import {Element} from "../element.js";
 
 class ColorSchemeForm extends Element {
-  #options = ["Light", "Dark", "Auto"];
+  static #options = ["light", "dark", "auto"];
 
   #prefersColorSchemeDark = window.matchMedia("(prefers-color-scheme: dark)");
 
@@ -25,7 +25,9 @@ class ColorSchemeForm extends Element {
       colorScheme = this.#state.colorScheme;
     }
 
-    this.closest("body").setAttribute("data-color-scheme", colorScheme);
+    for (let option of ColorSchemeForm.#options) {
+      this.closest("body").classList.toggle(option, colorScheme === option);
+    }
   }
 
   render() {
@@ -43,27 +45,26 @@ class ColorSchemeForm extends Element {
         ))}
         <form class="form">
           <h3>Theme</h3>
-          {this.#options.map((scheme) => {
-            let value = scheme.toLowerCase();
-
+          {ColorSchemeForm.#options.map((scheme) => {
             return (
               <button
                 type="button"
                 class="button"
-                aria-pressed={() => String(this.#state.colorScheme === value)}
+                aria-pressed={() => String(this.#state.colorScheme === scheme)}
                 onclick={() => {
-                  this.#changeColorScheme(value);
+                  this.#changeColorScheme(scheme);
                 }}
               >
                 <span
-                  class="button-inner"
-                  data-color-scheme={
-                    value === "auto" ? () => this.#state.autoColorScheme : value
+                  class={
+                    scheme === "auto"
+                      ? () => this.#state.autoColorScheme
+                      : scheme
                   }
                 >
                   <span class="circle">
                     {() =>
-                      value === this.#state.colorScheme ? (
+                      scheme === this.#state.colorScheme ? (
                         <slot class="check" name="check" />
                       ) : (
                         ""

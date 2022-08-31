@@ -88,7 +88,7 @@
     --banner-background: 100 0% 75%;
   }
 
-  [data-color-scheme="light"] {
+  .light {
     --anchor-color: 100 60% 30%;
     --gray-color: 100 0% 25%;
     --code-color: 100 60% 25%;
@@ -100,7 +100,7 @@
     --banner-foreground: 0 0% 100%;
   }
 
-  [data-color-scheme="dark"] {
+  .dark {
     --anchor-color: 100 60% 70%;
     --gray-color: 100 0% 80%;
     --code-color: 100 60% 80%;
