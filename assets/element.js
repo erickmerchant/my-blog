@@ -13,36 +13,28 @@ export class Element extends HTMLElement {
     let node = document.createElement(tag);
     let operations = [];
 
-    {
-      let attribute = true;
-
-      for (let [key, value] of Object.entries(props ?? {})) {
-        if (key.startsWith("on")) {
-          node.addEventListener(key.substring(2), ...[].concat(value));
+    for (let [key, value] of Object.entries(props ?? {})) {
+      if (key.startsWith("on")) {
+        node.addEventListener(key.substring(2), ...[].concat(value));
+      } else {
+        if (typeof value === "function") {
+          operations.push({key, value});
         } else {
-          if (typeof value === "function") {
-            operations.push({attribute, key, value});
-          } else {
-            this.#setAttribute(node, key, value);
-          }
+          this.#setAttribute(node, key, value);
         }
       }
     }
 
-    {
-      let attribute = false;
+    for (let value of children) {
+      if (typeof value === "function") {
+        let start = this.#comment();
+        let end = this.#comment();
 
-      for (let value of children) {
-        if (typeof value === "function") {
-          let start = this.#comment();
-          let end = this.#comment();
+        operations.push({start, end, value});
 
-          operations.push({attribute, start, end, value});
-
-          node.append(start, end);
-        } else {
-          node.append(value ?? "");
-        }
+        node.append(start, end);
+      } else {
+        node.append(value ?? "");
       }
     }
 
@@ -101,8 +93,8 @@ export class Element extends HTMLElement {
 
       if (!operations) return;
 
-      for (let {attribute, key, value, start, end} of operations) {
-        if (attribute) {
+      for (let {key, value, start, end} of operations) {
+        if (key) {
           Element.#setAttribute(node, key, value());
         } else {
           while (start.nextSibling !== end) {
