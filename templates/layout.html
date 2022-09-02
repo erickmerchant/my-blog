@@ -6,10 +6,10 @@
     <link href="/common.css" rel="stylesheet">
     <link href="/site.css" rel="stylesheet">
     <link rel="preload" href="/components/page-layout.css" as="style">
-    <link rel="preload" href="/components/color-scheme-form.css" as="style">
+    <link rel="preload" href="/components/theme-selector.css" as="style">
     <script type="module" src="/element.js"></script>
     <script type="module" src="/components/page-layout.js"></script>
-    <script type="module" src="/components/color-scheme-form.js"></script>
+    <script type="module" src="/components/theme-selector.js"></script>
     {% block components %}
     {% endblock %}
     <title>{{title}} | {{site.title}}</title>
@@ -36,7 +36,7 @@
         {% endfor %}
       </ul>
 
-      <color-scheme-form slot="nav">
+      <theme-selector slot="nav">
         <svg slot="check" viewBox="0 0 16 16" aria-hidden="true">
           <path d="M1 10
                    L3 6.5
@@ -46,7 +46,7 @@
                    L8 14.5
                    z" />
         </svg>
-      </color-scheme-form>
+      </theme-selector>
 
       <svg slot="close" viewBox="0 0 16 16" aria-hidden="true">
         <path d="M1 4

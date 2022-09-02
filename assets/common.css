@@ -72,6 +72,10 @@
     list-style: none;
   }
 
+  sup {
+    vertical-align: top;
+  }
+
   /* 0 1 0 */
 
   [inert] {
@@ -102,7 +106,7 @@
 
   .dark {
     --anchor-color: 100 60% 70%;
-    --gray-color: 100 0% 80%;
+    --gray-color: 100 0% 95%;
     --code-color: 100 60% 80%;
     --text-color: 0 0% 100%;
     --background-1: 100 5% 12.5%;

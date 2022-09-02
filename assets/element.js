@@ -14,7 +14,7 @@ export class Element extends HTMLElement {
     let operations = [];
 
     for (let [key, value] of Object.entries(props ?? {})) {
-      if (key.startsWith("on")) {
+      if (key.substring(0, 2) === "on") {
         node.addEventListener(key.substring(2), ...[].concat(value));
       } else {
         if (typeof value === "function") {
