@@ -27,8 +27,7 @@ export class Element extends HTMLElement {
 
     for (let value of children) {
       if (typeof value === "function") {
-        let start = this.#comment();
-        let end = this.#comment();
+        let [start, end] = ["", ""].map((v) => document.createComment(v));
 
         operations.push({start, end, value});
 
@@ -45,10 +44,6 @@ export class Element extends HTMLElement {
     }
 
     return node;
-  }
-
-  static #comment() {
-    return document.createComment("");
   }
 
   static #setAttribute(node, key, val) {
