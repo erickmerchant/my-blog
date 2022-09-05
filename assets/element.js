@@ -1,9 +1,7 @@
 export class Element extends HTMLElement {
   static fragment = Symbol("fragment");
 
-  static #_nodes = [];
-
-  static #updates = new WeakMap();
+  static #_updates = new Map();
 
   static h(tag, props, ...children) {
     children = children.flat(Infinity);
@@ -38,9 +36,7 @@ export class Element extends HTMLElement {
     }
 
     if (operations.length) {
-      this.#_nodes.push(node);
-
-      this.#updates.set(node, operations);
+      this.#_updates.set(node, operations);
     }
 
     return node;
@@ -54,16 +50,16 @@ export class Element extends HTMLElement {
     }
   }
 
-  #nodes = [];
+  #updates = null;
 
   connectedCallback() {
     this.attachShadow({mode: "open"});
 
-    this.shadowRoot.replaceChildren(...[this.render?.() ?? ""].flat());
+    this.shadowRoot.append(...[this.render?.() ?? ""].flat());
 
-    this.#nodes = Element.#_nodes;
+    this.#updates = Element.#_updates;
 
-    Element.#_nodes = [];
+    Element.#_updates = new Map();
 
     this.#update();
   }
@@ -83,11 +79,7 @@ export class Element extends HTMLElement {
   #update() {
     this.effect?.();
 
-    for (let node of this.#nodes) {
-      let operations = Element.#updates.get(node);
-
-      if (!operations) return;
-
+    for (let [node, operations] of this.#updates.entries()) {
       for (let {key, value, start, end} of operations) {
         if (key) {
           Element.#setAttribute(node, key, value());
