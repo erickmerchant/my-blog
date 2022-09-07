@@ -49,7 +49,7 @@
     color: hsl(var(--text-color));
 
     --content-left: 0;
-    --drawer-width: 50vw;
+    --drawer-width: 70vw;
     --toggle-top: 0.5rem;
     --toggle-border-width: 0.125rem;
     --toggle-height: 2.25rem;
@@ -116,19 +116,6 @@
     margin-inline: auto;
   }
 
-  .index {
-    gap: 1em;
-    list-style: none;
-
-    --list-indent: 0;
-  }
-
-  .index > * {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5em;
-  }
-
   .published {
     font-size: 0.8em;
     font-style: italic;
@@ -142,6 +129,21 @@
     flex-direction: row;
     flex-wrap: wrap;
     gap: var(--space);
+  }
+}
+
+@layer index {
+  .index {
+    gap: 1em;
+    list-style: none;
+
+    --list-indent: 0;
+  }
+
+  .index > * {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
   }
 }
 
