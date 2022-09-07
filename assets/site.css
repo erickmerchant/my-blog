@@ -9,8 +9,6 @@
 }
 
 @layer site {
-  /* 0 0 1 */
-
   html {
     font-size: 125%;
     font-weight: 300;
@@ -73,8 +71,6 @@
   page-layout:where([open]) {
     --content-left: var(--drawer-width);
   }
-
-  /* 0 1 0 */
 
   .banner {
     position: sticky;
@@ -148,6 +144,7 @@
   }
 
   .footer {
+    display: flex;
     background-color: hsl(var(--background-1));
     width: 100%;
   }
@@ -161,20 +158,20 @@
     margin-inline: auto;
   }
 
-  .post-list {
+  .index {
     gap: 1em;
     list-style: none;
 
     --list-indent: 0;
   }
 
-  .post-list > * {
+  .index > * {
     display: flex;
     flex-direction: column;
     gap: 0.5em;
   }
 
-  .post-date {
+  .published {
     font-size: 0.8em;
     font-style: italic;
   }

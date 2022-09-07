@@ -1,6 +1,4 @@
 @layer common {
-  /* 0 0 0 */
-
   * {
     font: inherit;
     color: inherit;
@@ -15,8 +13,6 @@
   ::after {
     box-sizing: border-box;
   }
-
-  /* 0 0 1 */
 
   ::-webkit-scrollbar {
     width: 0.5em;
@@ -72,16 +68,8 @@
     list-style: none;
   }
 
-  sup {
-    vertical-align: top;
-  }
-
-  /* 0 1 0 */
-
   [inert] {
-    --anchor-color: var(--gray-color);
-    --text-color: var(--gray-color);
-    --code-color: var(--gray-color);
+    filter: opacity(0.7);
   }
 
   body {
@@ -89,6 +77,8 @@
     --background-1: 0 0% 100%;
     --background-2: 100 0% 90%;
     --background-3: 100 0% 95%;
+    --anchor-color: var(--gray-color);
+    --banner-foreground: var(--gray-color);
     --banner-background: 100 0% 75%;
   }
 

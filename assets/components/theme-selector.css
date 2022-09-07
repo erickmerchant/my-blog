@@ -5,7 +5,7 @@
 
   .root {
     display: grid;
-    gap: var(--space-half);
+    gap: var(--space-quarter);
   }
 
   .button {
@@ -17,7 +17,7 @@
     --svg-display: block;
   }
 
-  .button > :where(span) {
+  .button > * {
     display: grid;
     grid-template-columns: repeat(2, min-content);
     align-items: center;
@@ -45,7 +45,13 @@
     white-space: nowrap;
   }
 
-  .helper {
+  .asterisk {
+    vertical-align: top;
+    margin-inline-start: 0.25em;
+  }
+
+  .helper,
+  .asterisk {
     font-size: 0.8em;
   }
 }

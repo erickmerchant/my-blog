@@ -54,7 +54,6 @@
     height: 100%;
     transform: translateX(var(--content-left));
     transition: transform 0.125s ease;
-    box-shadow: -0.125rem 0 hsl(var(--background-3));
     color: hsl(var(--text-color));
   }
 
