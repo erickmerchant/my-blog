@@ -68,22 +68,15 @@ class ThemeSelector extends Element {
                     {() =>
                       scheme === this.#state.theme ? (
                         <slot class="check" name="check" />
-                      ) : (
-                        ""
-                      )
+                      ) : null
                     }
                   </span>
                   <span class="name">
                     {scheme}
                     {() =>
                       scheme === this.#state.autoTheme ? (
-                        <>
-                          {" "}
-                          <sup class="helper">✱</sup>
-                        </>
-                      ) : (
-                        ""
-                      )
+                        <span class="asterisk">✱</span>
+                      ) : null
                     }
                   </span>
                 </span>

@@ -5,7 +5,7 @@
 
   .root {
     display: grid;
-    gap: var(--space-quarter);
+    gap: var(--space-half);
   }
 
   .button {

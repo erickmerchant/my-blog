@@ -4,7 +4,7 @@ export class Element extends HTMLElement {
   static #_updates = new Map();
 
   static h(tag, props, ...children) {
-    children = children.flat(Infinity);
+    children = children.flat(Infinity).map((v) => v ?? "");
 
     if (tag === this.fragment) return children;
 
@@ -31,7 +31,7 @@ export class Element extends HTMLElement {
 
         node.append(start, end);
       } else {
-        node.append(value ?? "");
+        node.append(value);
       }
     }
 
@@ -88,7 +88,7 @@ export class Element extends HTMLElement {
             start.nextSibling.remove();
           }
 
-          start.after(...[value()].flat());
+          start.after(...[value() ?? ""].flat());
         }
       }
     }
