@@ -5,14 +5,13 @@
 
   .root {
     display: grid;
-    gap: var(--space-half);
+    gap: 0.5em;
   }
 
   .button {
     appearance: none;
     border: none;
     background: none;
-    gap: 0.5em;
 
     --svg-display: block;
   }

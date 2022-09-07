@@ -33,14 +33,6 @@
     padding-inline: var(--space-quarter);
   }
 
-  .line:where(:first-child) {
-    --first: 1;
-  }
-
-  .line:where(:last-child) {
-    --last: 1;
-  }
-
   .line::before {
     display: block;
     content: counter(lines);
@@ -56,5 +48,13 @@
     left: 0;
     position: sticky;
     z-index: 1;
+  }
+
+  .line:first-child {
+    --first: 1;
+  }
+
+  .line:last-child {
+    --last: 1;
   }
 }

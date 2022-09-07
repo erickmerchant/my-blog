@@ -8,7 +8,7 @@
     U+2026, U+2030, U+2039-203A, U+2044, U+20AC, U+2122, U+2212, U+FB01-FB02;
 }
 
-@layer site {
+@layer base {
   html {
     font-size: 125%;
     font-weight: 300;
@@ -30,21 +30,11 @@
     --svg-display: none;
   }
 
-  svg:where([slot]) {
+  svg[slot] {
     display: var(--svg-display);
   }
 
-  code-block {
-    font-family: "IBM Plex Mono", monospace;
-    font-weight: 400;
-    font-size: 0.8em;
-    width: 100%;
-
-    --has-extra-width: 1;
-    --border-radius: 0.25rem;
-  }
-
-  page-layout:where(:defined) {
+  page-layout:defined {
     position: relative;
     display: grid;
     grid-template-rows: 0 1fr;
@@ -68,10 +58,26 @@
     scrollbar-color: var(--scrollbar-foreground) var(--scrollbar-background);
   }
 
-  page-layout:where([open]) {
+  page-layout[open] {
     --content-left: var(--drawer-width);
   }
 
+  @media (max-width: 600px) {
+    html {
+      --space: 1rem;
+      --space-half: 0.5rem;
+      --space-quarter: 0.25rem;
+    }
+  }
+
+  @media (max-width: 900px) {
+    page-layout:defined {
+      --drawer-width: calc(100vw - 1rem);
+    }
+  }
+}
+
+@layer page {
   .banner {
     position: sticky;
     top: calc((var(--toggle-top) * 2) + var(--toggle-height) - var(--height));
@@ -93,54 +99,6 @@
     border-bottom: 0.125rem solid hsl(var(--background-3));
 
     --height: 12rem;
-  }
-
-  .main {
-    background-color: hsl(var(--background-1));
-    width: 100%;
-    overflow-x: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 1em;
-    padding-block-start: 1em;
-    align-content: start;
-
-    --has-padding-inline: 1;
-    --has-extra-width: 0;
-    --list-indent: var(--space);
-  }
-
-  .main > * {
-    max-width: calc(var(--max-width) + (7rem * var(--has-extra-width)));
-    width: 100%;
-    margin-inline: auto;
-    padding-inline: calc(var(--space-half) * var(--has-padding-inline));
-  }
-
-  .main :where(ul, ol) {
-    list-style: revert;
-    gap: 0.25em;
-  }
-
-  .main :where(li) {
-    margin-inline-start: var(--list-indent);
-  }
-
-  .main :where(code) {
-    color: hsl(var(--anchor-color));
-    background-color: hsl(var(--background-3));
-    border-radius: 0.25rem;
-    padding: 0.125em;
-  }
-
-  :where(:not(:defined)) .links {
-    width: max-content;
-    margin-inline: auto;
-    margin-block: var(--space);
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: var(--space);
   }
 
   .footer {
@@ -176,18 +134,68 @@
     font-style: italic;
   }
 
+  :not(:defined) .links {
+    width: max-content;
+    margin-inline: auto;
+    margin-block: var(--space);
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--space);
+  }
+}
+
+@layer main {
+  .main {
+    background-color: hsl(var(--background-1));
+    width: 100%;
+    overflow-x: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    padding-block-start: 1em;
+    align-content: start;
+
+    --has-padding-inline: 1;
+    --has-extra-width: 0;
+    --list-indent: var(--space);
+  }
+
+  .main > * {
+    max-width: calc(var(--max-width) + (7rem * var(--has-extra-width)));
+    width: 100%;
+    margin-inline: auto;
+    padding-inline: calc(var(--space-half) * var(--has-padding-inline));
+  }
+
+  .main ul,
+  .main ol {
+    list-style: revert;
+    gap: 0.25em;
+  }
+
+  .main li {
+    margin-inline-start: var(--list-indent);
+  }
+
+  .main code {
+    color: hsl(var(--anchor-color));
+    background-color: hsl(var(--background-3));
+    border-radius: 0.25rem;
+    padding: 0.125em;
+  }
+
+  .main code-block {
+    font-family: "IBM Plex Mono", monospace;
+    font-weight: 400;
+    font-size: 0.8em;
+    width: 100%;
+
+    --has-extra-width: 1;
+    --border-radius: 0.25rem;
+  }
+
   @media (max-width: 600px) {
-    html {
-      --space: 1rem;
-      --space-half: 0.5rem;
-      --space-quarter: 0.25rem;
-    }
-
-    code-block {
-      --border-radius: 0;
-      --has-padding-inline: 0;
-    }
-
     .main {
       font-size: 80%;
 
@@ -197,13 +205,14 @@
     .main > * {
       max-width: 100%;
     }
+
+    .main code-block {
+      --border-radius: 0;
+      --has-padding-inline: 0;
+    }
   }
 
   @media (max-width: 900px) {
-    page-layout:where(:defined) {
-      --drawer-width: calc(100vw - 1rem);
-    }
-
     .main > * {
       max-width: var(--max-width);
     }

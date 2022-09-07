@@ -1,4 +1,4 @@
-@layer common {
+@layer base {
   * {
     font: inherit;
     color: inherit;
@@ -69,17 +69,31 @@
   }
 
   [inert] {
-    filter: opacity(0.5);
+    filter: opacity(0.7) blur(1px);
   }
 
+  @supports selector(:focus-visible) {
+    :focus {
+      outline: none;
+      background: hsl(0 0% 0% / 0);
+    }
+  }
+
+  :focus-visible {
+    outline: 2px solid hsl(var(--anchor-color));
+    background: hsl(0 0% 0% / 0);
+  }
+}
+
+@layer theme {
   body {
+    --anchor-color: var(--gray-color);
     --gray-color: 100 0% 25%;
     --background-1: 0 0% 100%;
     --background-2: 100 0% 90%;
     --background-3: 100 0% 95%;
-    --anchor-color: var(--gray-color);
-    --banner-foreground: var(--gray-color);
     --banner-background: 100 0% 75%;
+    --banner-foreground: var(--gray-color);
   }
 
   .light {
@@ -104,17 +118,5 @@
     --background-3: 100 5% 20%;
     --banner-background: 100 20% 27.5%;
     --banner-foreground: 100 30% 40%;
-  }
-
-  @supports selector(:focus-visible) {
-    :focus {
-      outline: none;
-      background: hsl(0 0% 0% / 0);
-    }
-  }
-
-  :focus-visible {
-    outline: 2px solid hsl(var(--anchor-color));
-    background: hsl(0 0% 0% / 0);
   }
 }
