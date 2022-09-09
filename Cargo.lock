@@ -463,6 +463,30 @@ dependencies = [
 
 [[package]]
 name = "browserslist-rs"
+version = "0.7.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "38854056e7d44ad7af1214b7de30ceb71fff036ed67f3d1b48cc1200bb722cba"
+dependencies = [
+ "ahash",
+ "anyhow",
+ "chrono",
+ "either",
+ "itertools",
+ "js-sys",
+ "nom 7.1.1",
+ "once_cell",
+ "quote",
+ "serde",
+ "serde-wasm-bindgen 0.3.1",
+ "serde_json",
+ "string_cache",
+ "string_cache_codegen",
+ "thiserror",
+ "wasm-bindgen",
+]
+
+[[package]]
+name = "browserslist-rs"
 version = "0.11.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7c689fb4e42bd511c1927856b078d8a582690f5be196199d1c9005b9d4feae8c"
@@ -477,7 +501,7 @@ dependencies = [
  "once_cell",
  "quote",
  "serde",
- "serde-wasm-bindgen",
+ "serde-wasm-bindgen 0.4.3",
  "serde_json",
  "string_cache",
  "string_cache_codegen",
@@ -906,11 +930,10 @@ checksum = "3f9eec918d3f24069decb9af1554cad7c880e2da24a9afd88aca000531ab82c1"
 
 [[package]]
 name = "form_urlencoded"
-version = "1.0.1"
+version = "1.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5fc25a87fa4fd2094bffb06925852034d90a17f0d1e05197d4956d3555752191"
+checksum = "a9c384f161156f5260c24a097c56119f9be8c798586aecc13afbcbe7b7e26bf8"
 dependencies = [
- "matches",
  "percent-encoding",
 ]
 
@@ -1115,11 +1138,10 @@ checksum = "b9e0384b61958566e926dc50660321d12159025e767c18e043daf26b70104c39"
 
 [[package]]
 name = "idna"
-version = "0.2.3"
+version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "418a0a6fab821475f634efe3ccc45c013f742efe03d853e8d3355d5cb850ecf8"
+checksum = "e14ddfc70884202db2244c223200c204c2bda1bc6e0998d11b5e024d657209e6"
 dependencies = [
- "matches",
  "unicode-bidi",
  "unicode-normalization",
 ]
@@ -1304,6 +1326,27 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8371e4e5341c3a96db127eb2465ac681ced4c433e01dd0e938adbef26ba93ba5"
 
 [[package]]
+name = "lightningcss"
+version = "1.0.0-alpha.33"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c7d67dd7600fdae8fa6a5e4b2d587202a10e4754a9c9c3c388d91f4c7d014e65"
+dependencies = [
+ "bitflags",
+ "browserslist-rs 0.7.0",
+ "const-str",
+ "cssparser",
+ "dashmap",
+ "data-encoding",
+ "itertools",
+ "lazy_static",
+ "parcel_selectors",
+ "parcel_sourcemap",
+ "rayon",
+ "serde",
+ "smallvec",
+]
+
+[[package]]
 name = "local-channel"
 version = "0.1.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1362,9 +1405,9 @@ dependencies = [
  "env_logger",
  "envy",
  "glob",
+ "lightningcss",
  "log",
  "minify-html",
- "parcel_css",
  "parcel_sourcemap",
  "serde",
  "serde_json",
@@ -1610,26 +1653,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c1b04fb49957986fdce4d6ee7a65027d55d4b6d2265e5848bbb507b58ccfdb6f"
 
 [[package]]
-name = "parcel_css"
-version = "1.0.0-alpha.32"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "227ba7ffdb83296ac3b215075650a0836ddf954abc9f8d4265745004556303f5"
-dependencies = [
- "bitflags",
- "const-str",
- "cssparser",
- "dashmap",
- "data-encoding",
- "itertools",
- "lazy_static",
- "parcel_selectors",
- "parcel_sourcemap",
- "rayon",
- "serde",
- "smallvec",
-]
-
-[[package]]
 name = "parcel_selectors"
 version = "0.24.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1703,9 +1726,9 @@ checksum = "8835116a5c179084a830efb3adc117ab007512b535bc1a21c991d3b32a6b44dd"
 
 [[package]]
 name = "percent-encoding"
-version = "2.1.0"
+version = "2.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d4fd5641d01c8f18a23da7b6fe29298ff4b55afcccdf78973b24cf3175fee32e"
+checksum = "478c572c3d73181ff3c2539045f6eb99e5491218eae919370993b890cdbdd98e"
 
 [[package]]
 name = "petgraph"
@@ -1842,7 +1865,7 @@ checksum = "79525f471165bbd66b40e93c54a2c98bb51ebb27497d6c97c5cc3441aaec5508"
 dependencies = [
  "ahash",
  "anyhow",
- "browserslist-rs",
+ "browserslist-rs 0.11.0",
  "dashmap",
  "from_variant",
  "once_cell",
@@ -2186,6 +2209,18 @@ dependencies = [
 
 [[package]]
 name = "serde-wasm-bindgen"
+version = "0.3.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "618365e8e586c22123d692b72a7d791d5ee697817b65a218cdf12a98870af0f7"
+dependencies = [
+ "fnv",
+ "js-sys",
+ "serde",
+ "wasm-bindgen",
+]
+
+[[package]]
+name = "serde-wasm-bindgen"
 version = "0.4.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1cfc62771e7b829b517cb213419236475f434fb480eddd76112ae182d274434a"
@@ -2416,9 +2451,9 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.224.13"
+version = "0.224.14"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f3600d8df8890cce631f0faf429b3bfc92c0c4533f77db3c3b42d433b5404360"
+checksum = "b7040ea910234b6444da83f5bdafbdef5a7e482e61aac2c915c57436781c2ebe"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2654,9 +2689,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.152.18"
+version = "0.152.19"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "51dccc3e826cf138a964564b8cc03bce5231e691545fe8c0fd4d2caf752af7eb"
+checksum = "22562c8bcffc59ca5ba9fe6e6723db3a205c22ccaa6dd84189cc06d7dfee1196"
 dependencies = [
  "ahash",
  "arrayvec 0.7.2",
@@ -3207,9 +3242,9 @@ dependencies = [
 
 [[package]]
 name = "tokio-util"
-version = "0.7.3"
+version = "0.7.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "cc463cd8deddc3770d20f9852143d50bf6094e640b485cb2e189a2099085ff45"
+checksum = "0bb2e075f03b3d66d8d8785356224ba688d2906a371015e225beeb65ca92c740"
 dependencies = [
  "bytes",
  "futures-core",
@@ -3335,9 +3370,9 @@ dependencies = [
 
 [[package]]
 name = "url"
-version = "2.3.0"
+version = "2.3.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "22fe195a4f217c25b25cb5058ced57059824a678474874038dc88d211bf508d3"
+checksum = "0d68c799ae75762b8c3fe375feb6600ef5602c883c5d21eb51c09f22b83c4643"
 dependencies = [
  "form_urlencoded",
  "idna",

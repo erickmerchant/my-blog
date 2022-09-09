@@ -100,7 +100,7 @@ pub fn js_response<P: AsRef<Path>>(src: P, source_maps: bool) -> Result<NamedFil
 }
 
 pub fn css_response<P: AsRef<Path>>(src: P, source_maps: bool) -> Result<NamedFile> {
-    use parcel_css::{stylesheet, targets};
+    use lightningcss::{stylesheet, targets};
     use parcel_sourcemap::SourceMap;
 
     cacheable_response(&src, || -> Result<String, Error> {
