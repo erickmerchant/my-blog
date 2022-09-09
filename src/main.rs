@@ -14,16 +14,22 @@ use actix_web::{
 use serde::Deserialize;
 use std::{fs, io, path::Path};
 
-#[derive(Deserialize, Debug, Default, Clone, Copy)]
-struct Config {
+#[derive(Deserialize, Debug, Default, Clone)]
+pub struct Config {
     #[serde(default)]
-    source_maps: bool,
+    pub source_maps: bool,
     #[serde(default = "default_port")]
-    port: u16,
+    pub port: u16,
+    #[serde(default = "default_targets")]
+    pub targets: String,
 }
 
 fn default_port() -> u16 {
     8080
+}
+
+fn default_targets() -> String {
+    String::from("supports es6-module and last 2 versions")
 }
 
 #[actix_web::main]
@@ -39,7 +45,7 @@ async fn main() -> io::Result<()> {
         let site = Site::get();
 
         App::new()
-            .app_data(web::Data::new(config))
+            .app_data(web::Data::new(config.to_owned()))
             .app_data(web::Data::new(site))
             .wrap(Logger::new("%s %r"))
             .wrap(DefaultHeaders::new().add(("Content-Security-Policy", "default-src 'self'")))
@@ -157,13 +163,13 @@ async fn post(slug: web::Path<String>, site: web::Data<Site>) -> Result<NamedFil
     })
 }
 
-async fn file(file: web::Path<String>, data: web::Data<Config>) -> Result<NamedFile> {
+async fn file(file: web::Path<String>, config: web::Data<Config>) -> Result<NamedFile> {
     let src = Path::new("assets").join(file.to_string());
     let ext_str = src.extension().and_then(|ext| ext.to_str()).unwrap_or("");
 
     match ext_str {
-        "js" => js_response(src, data.source_maps),
-        "css" => css_response(src, data.source_maps),
+        "js" => js_response(src, config),
+        "css" => css_response(src, config),
         _ => static_response(src),
     }
 }

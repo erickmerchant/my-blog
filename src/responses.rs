@@ -1,5 +1,6 @@
+use crate::Config;
 use actix_files::NamedFile;
-use actix_web::{error::Error, error::ErrorInternalServerError, error::ErrorNotFound, Result};
+use actix_web::{error::Error, error::ErrorInternalServerError, error::ErrorNotFound, web, Result};
 use serde_json::{from_value, json};
 use std::{convert::AsRef, fs, path::Path, sync::Arc};
 
@@ -47,7 +48,7 @@ pub fn static_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
     Ok(file)
 }
 
-pub fn js_response<P: AsRef<Path>>(src: P, source_maps: bool) -> Result<NamedFile> {
+pub fn js_response<P: AsRef<Path>>(src: P, config: web::Data<Config>) -> Result<NamedFile> {
     use swc::{config::Options, config::SourceMapsConfig};
     use swc_common::{errors::ColorConfig, errors::Handler, SourceMap};
 
@@ -64,7 +65,7 @@ pub fn js_response<P: AsRef<Path>>(src: P, source_maps: bool) -> Result<NamedFil
         let options = json!({
           "minify": true,
           "env": {
-            "targets": "supports es6-module and last 2 versions",
+            "targets": config.targets,
             "bugfixes": true
           },
           "jsc": {
@@ -89,7 +90,7 @@ pub fn js_response<P: AsRef<Path>>(src: P, source_maps: bool) -> Result<NamedFil
         });
         let mut options = from_value::<Options>(options).map_err(ErrorInternalServerError)?;
 
-        if source_maps {
+        if config.source_maps {
             options.source_maps = Some(SourceMapsConfig::Str("inline".to_string()));
         }
 
@@ -99,23 +100,15 @@ pub fn js_response<P: AsRef<Path>>(src: P, source_maps: bool) -> Result<NamedFil
     })
 }
 
-pub fn css_response<P: AsRef<Path>>(src: P, source_maps: bool) -> Result<NamedFile> {
+pub fn css_response<P: AsRef<Path>>(src: P, config: web::Data<Config>) -> Result<NamedFile> {
     use lightningcss::{stylesheet, targets};
     use parcel_sourcemap::SourceMap;
 
     cacheable_response(&src, || -> Result<String, Error> {
         let file_contents = fs::read_to_string(&src).map_err(ErrorNotFound)?;
-        let targets = Some(targets::Browsers {
-            android: Some(6619136),
-            chrome: Some(6553600),
-            edge: Some(6553600),
-            firefox: Some(6488064),
-            ios_saf: Some(983552),
-            opera: Some(5570560),
-            safari: Some(983552),
-            samsung: Some(983040),
-            ie: None,
-        });
+        let targets =
+            targets::Browsers::from_browserslist([config.targets.as_str()]).unwrap_or_default();
+
         let parser_options = stylesheet::ParserOptions::default();
         let minifier_options = stylesheet::MinifyOptions {
             targets,
@@ -123,7 +116,7 @@ pub fn css_response<P: AsRef<Path>>(src: P, source_maps: bool) -> Result<NamedFi
         };
         let mut source_map = None;
 
-        if source_maps {
+        if config.source_maps {
             let mut sm = SourceMap::new("/");
 
             if let Some(src_str) = src.as_ref().to_str() {
