@@ -18,13 +18,13 @@ class ThemeSelector extends Element {
     theme: ThemeSelector.#storage()?.getItem("theme") ?? "auto",
   });
 
-  #toggleTheme(value) {
+  #setTheme(value) {
     this.#state.theme = this.#state.theme === value ? "auto" : value;
 
     ThemeSelector.#storage()?.setItem("theme", this.#state.theme);
   }
 
-  effect() {
+  effect = () => {
     let theme;
 
     if (this.#state.theme === "auto") {
@@ -36,7 +36,7 @@ class ThemeSelector extends Element {
     for (let option of ThemeSelector.#options) {
       this.closest("body").classList.toggle(option, theme === option);
     }
-  }
+  };
 
   render() {
     this.#prefersThemeDark.addEventListener("change", (e) => {
@@ -60,7 +60,7 @@ class ThemeSelector extends Element {
                 class="button"
                 aria-pressed={() => String(this.#state.theme === scheme)}
                 onclick={() => {
-                  this.#toggleTheme(scheme);
+                  this.#setTheme(scheme);
                 }}
               >
                 <span class={scheme}>

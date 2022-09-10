@@ -3,13 +3,13 @@ import {Element} from "../element.js";
 class PageLayout extends Element {
   #state = this.watch({open: false});
 
-  #toggleOpen() {
+  toggleOpen = () => {
     this.#state.open = !this.#state.open;
-  }
+  };
 
-  effect() {
+  effect = () => {
     this.toggleAttribute("open", this.#state.open);
-  }
+  };
 
   render() {
     return (
@@ -27,7 +27,7 @@ class PageLayout extends Element {
             type="button"
             aria-controls="nav"
             aria-expanded={() => String(this.#state.open)}
-            onclick={() => this.#toggleOpen()}
+            onclick={this.toggleOpen}
           >
             <slot
               class="icon"
@@ -47,7 +47,7 @@ class PageLayout extends Element {
         <div
           onclick={() => {
             if (this.#state.open) {
-              this.#toggleOpen();
+              this.toggleOpen();
             }
           }}
         >

@@ -1,7 +1,7 @@
 export class Element extends HTMLElement {
   static fragment = Symbol("fragment");
 
-  static #_updates = new Map();
+  static #_computeds = [];
 
   static h(tag, props, ...children) {
     children = children.flat(Infinity).map((v) => v ?? "");
@@ -9,14 +9,13 @@ export class Element extends HTMLElement {
     if (tag === this.fragment) return children;
 
     let node = document.createElement(tag);
-    let operations = [];
 
     for (let [key, value] of Object.entries(props ?? {})) {
       if (key.substring(0, 2) === "on") {
         node.addEventListener(key.substring(2), ...[].concat(value));
       } else {
         if (typeof value === "function") {
-          operations.push({key, value});
+          this.#_computeds.push({node, key, value});
         } else {
           this.#setAttribute(node, key, value);
         }
@@ -27,16 +26,14 @@ export class Element extends HTMLElement {
       if (typeof value === "function") {
         let [start, end] = ["", ""].map((v) => document.createComment(v));
 
-        operations.push({start, end, value});
+        this.#_computeds.push({start, end, value});
 
-        node.append(start, end);
+        value = [start, end];
       } else {
-        node.append(value);
+        value = [value];
       }
-    }
 
-    if (operations.length) {
-      this.#_updates.set(node, operations);
+      node.append(...value);
     }
 
     return node;
@@ -50,18 +47,32 @@ export class Element extends HTMLElement {
     }
   }
 
-  #updates = null;
+  #computeds = null;
+
+  #scheduled = false;
+
+  #inited = false;
+
+  #reads = [];
+
+  #writes = [];
 
   connectedCallback() {
     this.attachShadow({mode: "open"});
 
     this.shadowRoot.append(...[this.render?.() ?? ""].flat());
 
-    this.#updates = Element.#_updates;
+    this.#computeds = Element.#_computeds;
 
-    Element.#_updates = new Map();
+    if (this.effect) {
+      this.#computeds.unshift({value: this.effect});
+    }
+
+    Element.#_computeds = [];
 
     this.#update();
+
+    this.#inited = true;
   }
 
   watch(state) {
@@ -69,27 +80,54 @@ export class Element extends HTMLElement {
       set: (state, key, value) => {
         state[key] = value;
 
-        this.#update();
+        this.#writes.push(key);
+
+        if (this.#scheduled === false) {
+          this.#scheduled = true;
+
+          setTimeout(() => {
+            this.#scheduled = false;
+
+            this.#update();
+
+            this.#writes = [];
+          }, 0);
+        }
 
         return true;
+      },
+      get: (state, key) => {
+        this.#reads.push(key);
+
+        return state[key];
       },
     });
   }
 
   #update() {
-    this.effect?.();
-
-    for (let [node, operations] of this.#updates.entries()) {
-      for (let {key, value, start, end} of operations) {
-        if (key) {
-          Element.#setAttribute(node, key, value());
-        } else {
-          while (start.nextSibling !== end) {
-            start.nextSibling.remove();
-          }
-
-          start.after(...[value() ?? ""].flat());
+    for (let computed of this.#computeds) {
+      if (this.#inited) {
+        if (!this.#writes.some((g) => computed.reads.includes(g))) {
+          continue;
         }
+      }
+
+      this.#reads = [];
+
+      let result = computed.value();
+
+      computed.reads = this.#reads;
+
+      if (computed.node && computed.key) {
+        Element.#setAttribute(computed.node, computed.key, result);
+      }
+
+      if (computed.start && computed.end) {
+        while (computed.start.nextSibling !== computed.end) {
+          computed.start.nextSibling.remove();
+        }
+
+        computed.start.after(...[result ?? ""].flat());
       }
     }
   }
