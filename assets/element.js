@@ -13,12 +13,10 @@ export class Element extends HTMLElement {
     for (let [key, value] of Object.entries(props ?? {})) {
       if (key.substring(0, 2) === "on") {
         node.addEventListener(key.substring(2), ...[].concat(value));
+      } else if (typeof value === "function") {
+        this.#_computeds.push({node, key, value});
       } else {
-        if (typeof value === "function") {
-          this.#_computeds.push({node, key, value});
-        } else {
-          this.#setAttribute(node, key, value);
-        }
+        this.#setAttribute(node, key, value);
       }
     }
 
@@ -80,7 +78,9 @@ export class Element extends HTMLElement {
       set: (state, key, value) => {
         state[key] = value;
 
-        this.#writes.push(key);
+        if (!~this.#writes.indexOf(key)) {
+          this.#writes.push(key);
+        }
 
         if (this.#scheduled === false) {
           this.#scheduled = true;
@@ -97,7 +97,9 @@ export class Element extends HTMLElement {
         return true;
       },
       get: (state, key) => {
-        this.#reads.push(key);
+        if (!~this.#reads.indexOf(key)) {
+          this.#reads.push(key);
+        }
 
         return state[key];
       },
