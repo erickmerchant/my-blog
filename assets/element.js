@@ -49,8 +49,6 @@ export class Element extends HTMLElement {
 
   #scheduled = false;
 
-  #inited = false;
-
   #reads = [];
 
   #writes = [];
@@ -68,9 +66,7 @@ export class Element extends HTMLElement {
 
     Element.#_computeds = [];
 
-    this.#update();
-
-    this.#inited = true;
+    this.#update(true);
   }
 
   watch(state) {
@@ -82,15 +78,13 @@ export class Element extends HTMLElement {
           this.#writes.push(key);
         }
 
-        if (this.#scheduled === false) {
+        if (!this.#scheduled) {
           this.#scheduled = true;
 
           setTimeout(() => {
             this.#scheduled = false;
 
             this.#update();
-
-            this.#writes = [];
           }, 0);
         }
 
@@ -106,9 +100,9 @@ export class Element extends HTMLElement {
     });
   }
 
-  #update() {
+  #update(init = false) {
     for (let computed of this.#computeds) {
-      if (this.#inited) {
+      if (!init) {
         if (!this.#writes.some((g) => computed.reads.includes(g))) {
           continue;
         }
@@ -132,5 +126,7 @@ export class Element extends HTMLElement {
         computed.start.after(...[result ?? ""].flat());
       }
     }
+
+    this.#writes = [];
   }
 }
