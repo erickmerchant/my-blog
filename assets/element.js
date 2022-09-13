@@ -1,40 +1,52 @@
 export class Element extends HTMLElement {
-  static fragment = Symbol("fragment");
+  static #html = this.#createElementProxy("1999/xhtml");
+
+  static #svg = this.#createElementProxy("2000/svg");
 
   static #_computeds = [];
 
-  static h(tag, props, ...children) {
-    children = children.flat(Infinity).map((v) => v ?? "");
+  static #createElementProxy(namespace) {
+    return new Proxy(
+      {},
+      {
+        get: (_, tag) => {
+          return (props, ...children) => {
+            let node = document.createElementNS(
+              `http://www.w3.org/${namespace}`,
+              tag
+            );
 
-    if (tag === this.fragment) return children;
+            for (let [key, value] of Object.entries(props)) {
+              if (key.substring(0, 2) === "on") {
+                node.addEventListener(key.substring(2), ...[].concat(value));
+              } else if (typeof value === "function") {
+                this.#_computeds.push({node, key, value});
+              } else {
+                this.#setAttribute(node, key, value);
+              }
+            }
 
-    let node = document.createElement(tag);
+            for (let value of children) {
+              if (typeof value === "function") {
+                let [start, end] = ["", ""].map((v) =>
+                  document.createComment(v)
+                );
 
-    for (let [key, value] of Object.entries(props ?? {})) {
-      if (key.substring(0, 2) === "on") {
-        node.addEventListener(key.substring(2), ...[].concat(value));
-      } else if (typeof value === "function") {
-        this.#_computeds.push({node, key, value});
-      } else {
-        this.#setAttribute(node, key, value);
+                this.#_computeds.push({start, end, value});
+
+                value = [start, end];
+              } else {
+                value = [value];
+              }
+
+              node.append(...value);
+            }
+
+            return node;
+          };
+        },
       }
-    }
-
-    for (let value of children) {
-      if (typeof value === "function") {
-        let [start, end] = ["", ""].map((v) => document.createComment(v));
-
-        this.#_computeds.push({start, end, value});
-
-        value = [start, end];
-      } else {
-        value = [value];
-      }
-
-      node.append(...value);
-    }
-
-    return node;
+    );
   }
 
   static #setAttribute(node, key, val) {
@@ -56,7 +68,9 @@ export class Element extends HTMLElement {
   connectedCallback() {
     this.attachShadow({mode: "open"});
 
-    this.shadowRoot.append(...[this.render?.() ?? ""].flat());
+    this.shadowRoot.append(
+      ...(this.render?.(Element.#html, Element.#svg) ?? [""])
+    );
 
     this.#computeds = Element.#_computeds;
 
@@ -123,7 +137,7 @@ export class Element extends HTMLElement {
           computed.start.nextSibling.remove();
         }
 
-        computed.start.after(...[result ?? ""].flat());
+        computed.start.after(...(result ?? [""]));
       }
     }
 

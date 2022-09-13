@@ -33,7 +33,7 @@
   }
 
   .check {
-    width: 0.75em;
+    width: 0.8em;
     aspect-ratio: 1 / 1;
     fill: hsl(var(--anchor-color));
     display: block;

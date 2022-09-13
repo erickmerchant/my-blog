@@ -69,16 +69,6 @@ pub fn js_response<P: AsRef<Path>>(src: P, config: web::Data<Config>) -> Result<
             "bugfixes": true
           },
           "jsc": {
-            "transform": {
-                "react": {
-                    "pragma": "Element.h",
-                    "pragmaFrag": "Element.fragment"
-                },
-            },
-            "parser": {
-                "syntax": "ecmascript",
-                "jsx": true,
-            },
             "minify": {
               "compress": true,
               "mangle": true

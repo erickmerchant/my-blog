@@ -38,55 +38,53 @@ class ThemeSelector extends Element {
     }
   };
 
-  render() {
+  render({link, div, h3, button, span, p}, {svg, use}) {
     this.#prefersThemeDark.addEventListener("change", (e) => {
       this.#state.autoTheme = e.matches ? "dark" : "light";
     });
 
-    return (
-      <>
-        {["../common.css", "./theme-selector.css"].map((url) => (
-          <link
-            rel="stylesheet"
-            href={new URL(url, import.meta.url).pathname}
-          />
-        ))}
-        <div class="root">
-          <h3>Theme</h3>
-          {ThemeSelector.#options.map((scheme) => {
-            return (
-              <button
-                type="button"
-                class="button"
-                aria-pressed={() => String(this.#state.theme === scheme)}
-                onclick={() => {
-                  this.#setTheme(scheme);
-                }}
-              >
-                <span class={scheme}>
-                  <span class="option">
-                    {() =>
-                      scheme === this.#state.theme ? (
-                        <slot class="check" name="check" />
-                      ) : null
-                    }
-                  </span>
-                  <span class="name">
-                    {scheme}
-                    {() =>
-                      scheme === this.#state.autoTheme ? (
-                        <span class="asterisk">✱</span>
-                      ) : null
-                    }
-                  </span>
-                </span>
-              </button>
-            );
-          })}
-          <p class="helper">✱ system default</p>
-        </div>
-      </>
-    );
+    return [
+      ...["../common.css", "./theme-selector.css"].map((url) =>
+        link({
+          rel: "stylesheet",
+          href: new URL(url, import.meta.url).pathname,
+        })
+      ),
+      div(
+        {class: "root"},
+        h3({}, "Theme"),
+        ...ThemeSelector.#options.map((scheme) => {
+          return button(
+            {
+              "type": "button",
+              "class": "button",
+              "aria-pressed": () => String(this.#state.theme === scheme),
+              "onclick": () => {
+                this.#setTheme(scheme);
+              },
+            },
+
+            span(
+              {class: scheme},
+              span({class: "option"}, () => [
+                scheme === this.#state.theme
+                  ? svg(
+                      {"class": "check", "aria-hidden": "true"},
+                      use({href: "/icons.svg#check"})
+                    )
+                  : "",
+              ]),
+              span({class: "name"}, scheme, () => [
+                scheme === this.#state.autoTheme
+                  ? span({class: "asterisk"}, "✱")
+                  : "",
+              ])
+            )
+          );
+        }),
+        p({class: "helper"}, "✱ system default")
+      ),
+    ];
   }
 }
 
