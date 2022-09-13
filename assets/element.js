@@ -1,11 +1,5 @@
 export class Element extends HTMLElement {
-  static #html = this.#createElementProxy("1999/xhtml");
-
-  static #svg = this.#createElementProxy("2000/svg");
-
-  static #_computeds = [];
-
-  static #createElementProxy(namespace) {
+  static #elementProxies = ["1999/xhtml", "2000/svg"].map((namespace) => {
     return new Proxy(
       {},
       {
@@ -47,7 +41,9 @@ export class Element extends HTMLElement {
         },
       }
     );
-  }
+  });
+
+  static #_computeds = [];
 
   static #setAttribute(node, key, val) {
     if (val != null && val !== false) {
@@ -69,7 +65,7 @@ export class Element extends HTMLElement {
     this.attachShadow({mode: "open"});
 
     this.shadowRoot.append(
-      ...(this.render?.(Element.#html, Element.#svg) ?? [""])
+      ...(this.render?.(...Element.#elementProxies) ?? [""])
     );
 
     this.#computeds = Element.#_computeds;
