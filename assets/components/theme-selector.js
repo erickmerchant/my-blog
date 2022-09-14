@@ -69,20 +69,33 @@ class ThemeSelector extends Element {
               span({class: "option"}, () => [
                 scheme === this.#state.theme
                   ? svg(
-                      {"class": "check", "aria-hidden": "true"},
+                      {"class": "icon", "aria-hidden": "true"},
                       use({href: "/icons.svg#check"})
                     )
                   : "",
               ]),
               span({class: "name"}, scheme, () => [
                 scheme === this.#state.autoTheme
-                  ? span({class: "asterisk"}, "✱")
+                  ? span(
+                      {class: "helper"},
+                      svg(
+                        {"class": "icon", "aria-hidden": "true"},
+                        use({href: "/icons.svg#asterisk"})
+                      )
+                    )
                   : "",
               ])
             )
           );
         }),
-        p({class: "helper"}, "✱ system default")
+        p(
+          {class: "helper"},
+          svg(
+            {"class": "icon", "aria-hidden": "true"},
+            use({href: "/icons.svg#asterisk"})
+          ),
+          " system default"
+        )
       ),
     ];
   }

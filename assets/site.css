@@ -26,8 +26,6 @@
   body {
     height: 100%;
     overflow-x: hidden;
-
-    --svg-display: none;
   }
 
   page-layout:defined {

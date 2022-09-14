@@ -6,20 +6,21 @@
   .root {
     display: grid;
     gap: 0.5em;
+
+    --parent-text-color: var(--text-color);
   }
 
   .button {
     appearance: none;
     border: none;
     background: none;
-
-    --svg-display: block;
   }
 
   .button > * {
-    display: grid;
-    grid-template-columns: repeat(2, min-content);
+    display: flex;
     align-items: center;
+
+    --svg-color: var(--anchor-color);
   }
 
   .option {
@@ -29,28 +30,28 @@
     aspect-ratio: 1 / 1;
     border-radius: 0.25rem;
     background: hsl(var(--banner-background));
-    box-shadow: inset 0 0 0.125rem hsl(var(--anchor-color));
+    box-shadow: inset 0 0 0.125rem hsl(var(--svg-color));
   }
 
-  .check {
+  .icon {
     width: 0.8em;
     aspect-ratio: 1 / 1;
-    fill: hsl(var(--anchor-color));
-    display: block;
+    fill: hsl(var(--svg-color));
+    display: inline-block;
+  }
+
+  .helper {
+    font-size: 0.8em;
+    display: flex;
+    gap: 0.25em;
+
+    --svg-color: var(--parent-text-color);
   }
 
   .name {
     text-transform: capitalize;
     white-space: nowrap;
-  }
-
-  .asterisk {
-    vertical-align: top;
-    margin-inline-start: 0.25em;
-  }
-
-  .helper,
-  .asterisk {
-    font-size: 0.8em;
+    display: flex;
+    gap: 0.25em;
   }
 }
