@@ -16,7 +16,6 @@ env_logger = "0.9"
 envy = "0.4.2"
 glob = "0.3.0"
 log = "0.4.16"
-minify-html = "0.10"
 lightningcss = { version = "1.0.0-alpha.16", features = ["grid", "browserslist"] }
 parcel_sourcemap = "2.0.2"
 serde = "1.0"

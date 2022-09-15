@@ -8,16 +8,7 @@ pub fn html_response<F: Fn() -> Result<String, Error>, P: AsRef<Path>>(
     src: P,
     process: F,
 ) -> Result<NamedFile> {
-    cacheable_response(src, || {
-        use minify_html::{minify, Cfg};
-
-        let body = process()?;
-
-        let cfg = Cfg::spec_compliant();
-        let minified = minify(body.as_bytes(), &cfg);
-
-        String::from_utf8(minified).map_err(ErrorInternalServerError)
-    })
+    cacheable_response(src, process)
 }
 
 pub fn cacheable_response<F: Fn() -> Result<String, Error>, P: AsRef<Path>>(
