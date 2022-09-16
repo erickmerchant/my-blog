@@ -121,7 +121,7 @@ fn error_response<B>(res: ServiceResponse<B>, body: String) -> Result<ErrorHandl
 }
 
 async fn home(site: web::Data<Site>) -> Result<NamedFile> {
-    html_response(Path::new("index.html"), || {
+    cacheable_response(Path::new("index.html"), || {
         let site = site.as_ref().to_owned();
         let posts = Post::get_all();
         let title = "Home".to_string();
@@ -148,7 +148,7 @@ async fn post(slug: web::Path<String>, site: web::Data<Site>) -> Result<NamedFil
     let slug = slug.to_str().expect("invalid slug");
     let path = Path::new("content/posts").join(slug).with_extension("html");
 
-    html_response(&path, || {
+    cacheable_response(&path, || {
         let post = Post::get_by_slug(slug.to_string());
         let site = site.to_owned();
 
@@ -170,6 +170,6 @@ async fn file(file: web::Path<String>, config: web::Data<Config>) -> Result<Name
     match ext_str {
         "js" => js_response(src, config),
         "css" => css_response(src, config),
-        _ => static_response(src),
+        _ => file_response(src),
     }
 }

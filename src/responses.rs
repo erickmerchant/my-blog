@@ -2,14 +2,7 @@ use crate::Config;
 use actix_files::NamedFile;
 use actix_web::{error::Error, error::ErrorInternalServerError, error::ErrorNotFound, web, Result};
 use serde_json::{from_value, json};
-use std::{convert::AsRef, fs, path::Path, sync::Arc};
-
-pub fn html_response<F: Fn() -> Result<String, Error>, P: AsRef<Path>>(
-    src: P,
-    process: F,
-) -> Result<NamedFile> {
-    cacheable_response(src, process)
-}
+use std::{convert::AsRef, fs, fs::File, io::Write, path::Path, sync::Arc};
 
 pub fn cacheable_response<F: Fn() -> Result<String, Error>, P: AsRef<Path>>(
     src: P,
@@ -17,19 +10,32 @@ pub fn cacheable_response<F: Fn() -> Result<String, Error>, P: AsRef<Path>>(
 ) -> Result<NamedFile> {
     let cache = Path::new("storage/cache").join(src.as_ref());
 
-    if let Err(_meta) = fs::metadata(&cache) {
-        let body = process()?;
+    let file = match &cache.exists() {
+        false => {
+            let body = process()?;
 
-        fs::create_dir_all(&cache.with_file_name("")).map_err(ErrorInternalServerError)?;
+            fs::create_dir_all(&cache.with_file_name("")).map_err(ErrorInternalServerError)?;
 
-        fs::write(&cache, body).map_err(ErrorInternalServerError)?;
-    }
+            let mut file = File::options()
+                .read(true)
+                .append(true)
+                .create(true)
+                .open(&cache)
+                .map_err(ErrorInternalServerError)?;
 
-    static_response(cache)
+            file.write_all(body.as_bytes())
+                .map_err(ErrorInternalServerError)?;
+
+            file
+        }
+        true => File::open(&cache).map_err(ErrorInternalServerError)?,
+    };
+
+    static_response(file, cache)
 }
 
-pub fn static_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
-    let file = NamedFile::open(src).map_err(ErrorNotFound)?;
+pub fn static_response<P: AsRef<Path>>(file: File, src: P) -> Result<NamedFile> {
+    let file = NamedFile::from_file(file, src).map_err(ErrorNotFound)?;
     let file = file
         .prefer_utf8(true)
         .use_etag(true)
@@ -37,6 +43,14 @@ pub fn static_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
         .disable_content_disposition();
 
     Ok(file)
+}
+
+pub fn file_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
+    cacheable_response(&src, || -> Result<String, Error> {
+        let file_contents = fs::read_to_string(&src).map_err(ErrorNotFound)?;
+
+        Ok(file_contents)
+    })
 }
 
 pub fn js_response<P: AsRef<Path>>(src: P, config: web::Data<Config>) -> Result<NamedFile> {
