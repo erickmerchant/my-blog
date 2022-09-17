@@ -18,6 +18,9 @@
     background-color: hsl(var(--background-1));
     border: var(--toggle-border-width) solid hsl(var(--anchor-color) / 0.5);
     border-radius: 0.25rem;
+    box-shadow: var(--toggle-shadow-size) var(--toggle-shadow-size) 0
+      hsl(var(--banner-background) / 0.5);
+    transition: box-shadow 0.125s ease-in;
     color: hsl(var(--anchor-color));
     height: var(--toggle-height);
     width: var(--toggle-height);
@@ -36,12 +39,12 @@
     overflow: auto;
     display: grid;
     place-content: center;
-    gap: 2rem;
+    gap: 2em;
     font-weight: 500;
   }
 
   .nav * {
-    gap: 0.5rem;
+    gap: 0.5em;
   }
 
   .panel {
@@ -52,7 +55,6 @@
     height: 100%;
     transform: translateX(var(--content-left));
     transition: transform 0.125s ease;
-    box-shadow: -0.25rem 0 hsl(var(--background-3));
     color: hsl(var(--text-color));
   }
 

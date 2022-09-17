@@ -65,7 +65,7 @@ class ThemeSelector extends Element {
             },
 
             span(
-              {class: scheme},
+              {},
               span({class: "option"}, () => [
                 scheme === this.#state.theme
                   ? svg(

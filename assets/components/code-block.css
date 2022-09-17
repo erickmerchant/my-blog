@@ -13,7 +13,7 @@
   .code {
     display: grid;
     grid-template-columns: min-content auto;
-    gap: 0 var(--space-quarter);
+    gap: 0 0.5rem;
     background-color: hsl(var(--background-3));
     color: hsl(var(--code-color));
     counter-reset: lines;
@@ -30,7 +30,7 @@
   .line > * {
     padding-block-start: calc(var(--first) * 1em);
     padding-block-end: calc(var(--last) * 1em);
-    padding-inline: var(--space-quarter);
+    padding-inline: 0.5rem;
   }
 
   .line::before {
@@ -38,7 +38,7 @@
     content: counter(lines);
     counter-increment: lines;
     text-align: right;
-    padding-inline: var(--space-half);
+    padding-inline: var(--space);
     padding-block-start: calc(var(--first) * 1em);
     padding-block-end: calc(var(--last) * 1em);
     background: hsl(var(--background-2));
