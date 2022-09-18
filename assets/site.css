@@ -44,7 +44,6 @@
     --content-left: 0;
     --drawer-width: 70vw;
     --toggle-top: 0.5rem;
-    --toggle-border-width: 0.125rem;
     --toggle-height: 2.25rem;
     --scrollbar-foreground: hsl(var(--anchor-color) / 0.5);
     --scrollbar-background: hsl(var(--background-2));
@@ -141,7 +140,7 @@
   }
 
   .main > * {
-    max-width: calc(var(--max-width) + (7rem * var(--has-extra-width)));
+    max-width: calc(var(--max-width) + (8rem * var(--has-extra-width)));
     width: 100%;
     margin-inline: auto;
     padding-inline: calc(1rem * var(--has-padding-inline));

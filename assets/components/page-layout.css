@@ -16,7 +16,7 @@
     left: var(--toggle-top);
     z-index: 3;
     background-color: hsl(var(--background-1));
-    border: var(--toggle-border-width) solid hsl(var(--anchor-color) / 0.5);
+    border: 0.125rem solid hsl(var(--anchor-color) / 0.5);
     border-radius: 0.25rem;
     box-shadow: var(--toggle-shadow-size) var(--toggle-shadow-size) 0
       hsl(var(--banner-background) / 0.5);
