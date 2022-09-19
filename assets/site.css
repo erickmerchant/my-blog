@@ -43,7 +43,7 @@
     --toggle-shadow-size: 0;
     --content-left: 0;
     --drawer-width: 70vw;
-    --toggle-top: 0.5rem;
+    --toggle-top: 0.875rem;
     --toggle-height: 2.25rem;
     --scrollbar-foreground: hsl(var(--anchor-color) / 0.5);
     --scrollbar-background: hsl(var(--background-2));
@@ -51,6 +51,7 @@
   }
 
   page-layout[open] {
+    --toggle-top: 0.625rem;
     --toggle-shadow-size: 0.25rem;
     --content-left: var(--drawer-width);
   }

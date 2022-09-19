@@ -68,10 +68,6 @@
     list-style: none;
   }
 
-  [inert] {
-    filter: opacity(0.7) blur(1px);
-  }
-
   @supports selector(:focus-visible) {
     :focus {
       outline: none;
