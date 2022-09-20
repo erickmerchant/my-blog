@@ -34,7 +34,7 @@
     overflow-x: hidden;
     background-color: hsl(var(--background-2));
     background-image: radial-gradient(
-      hsl(var(--text-color) / 0.0625) 25%,
+      hsl(var(--banner-foreground) / 0.25) 25%,
       hsl(var(--background-2)) 25%
     );
     background-size: 0.25rem 0.25rem;
@@ -159,7 +159,7 @@
 
   .main code {
     color: hsl(var(--anchor-color));
-    background-color: hsl(var(--background-3));
+    background-color: hsl(var(--background-2) / 0.5);
     border-radius: 0.25em;
     padding-block: 0.125em;
     padding-inline: 0.125rem;

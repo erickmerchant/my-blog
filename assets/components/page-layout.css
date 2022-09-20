@@ -19,7 +19,7 @@
     border: 0.125rem solid hsl(var(--anchor-color) / 0.5);
     border-radius: 0.25rem;
     box-shadow: var(--toggle-shadow-size) var(--toggle-shadow-size) 0
-      hsl(var(--banner-background) / 0.5);
+      hsl(var(--banner-foreground) / 0.5);
     transition: box-shadow 0.25s cubic-bezier(0.3, 0, 0.3, 0.7),
       top 0.25s cubic-bezier(0.3, 0, 0.3, 0.7),
       left 0.25s cubic-bezier(0.3, 0, 0.3, 0.7);

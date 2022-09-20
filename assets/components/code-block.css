@@ -20,7 +20,7 @@
     display: grid;
     grid-template-columns: min-content auto;
     gap: 0 0.5rem;
-    background-color: hsl(var(--background-3));
+    background-color: hsl(var(--code-background));
     color: hsl(var(--code-color));
     counter-reset: lines;
     min-width: min-content;
@@ -48,10 +48,11 @@
     padding-inline: var(--space);
     padding-block-start: calc(var(--first) * 1em);
     padding-block-end: calc(var(--last) * 1em);
-    background: hsl(var(--background-2));
-    filter: saturate(0);
+    background-color: hsl(var(--code-background));
     border-top-left-radius: calc(var(--first) * var(--border-radius));
     border-bottom-left-radius: calc(var(--last) * var(--border-radius));
+    border-right: 1px solid hsl(var(--code-color) / 0.25);
+    color: hsl(var(--text-color));
     left: 0;
     position: sticky;
     z-index: 1;
