@@ -101,16 +101,15 @@ dependencies = [
 
 [[package]]
 name = "actix-router"
-version = "0.5.0"
+version = "0.5.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "eb60846b52c118f2f04a56cc90880a274271c489b2498623d58176f8ca21fa80"
+checksum = "d66ff4d247d2b160861fa2866457e85706833527840e4133f8f49aa423a38799"
 dependencies = [
  "bytestring",
- "firestorm",
  "http",
- "log",
  "regex",
  "serde",
+ "tracing",
 ]
 
 [[package]]
@@ -882,12 +881,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "firestorm"
-version = "0.5.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2c5f6c2c942da57e2aaaa84b8a521489486f14e75e7fa91dab70aba913975f98"
-
-[[package]]
 name = "fixedbitset"
 version = "0.4.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1283,15 +1276,15 @@ dependencies = [
 
 [[package]]
 name = "libc"
-version = "0.2.132"
+version = "0.2.133"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8371e4e5341c3a96db127eb2465ac681ced4c433e01dd0e938adbef26ba93ba5"
+checksum = "c0f80d65747a3e43d1596c7c5492d95d5edddaabd45a7fcdb02b95f644164966"
 
 [[package]]
 name = "lightningcss"
-version = "1.0.0-alpha.34"
+version = "1.0.0-alpha.35"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "cf702081df01efdd1ce2db82a15efb6b3ec51bd792aac3362d3be15a0aa256b3"
+checksum = "20d7e904e2c2fe78c3aab9d927a5de9dcf12180e20a3f18df7c64ad9cf6f4d2e"
 dependencies = [
  "bitflags",
  "browserslist-rs 0.7.0",
@@ -1584,9 +1577,9 @@ checksum = "c1b04fb49957986fdce4d6ee7a65027d55d4b6d2265e5848bbb507b58ccfdb6f"
 
 [[package]]
 name = "parcel_selectors"
-version = "0.24.6"
+version = "0.24.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "29b2813ca2b2b995fd0b2394e390340d096cd77f4fb282d59ad83f3aaffce111"
+checksum = "5f25f4bac7855f8a34833b5499ad655768ea6697cbe28facdf78a09dc7f2a2d0"
 dependencies = [
  "bitflags",
  "cssparser",
@@ -2390,9 +2383,9 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.226.31"
+version = "0.226.34"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "69b9d072ebf2c3e22a00c9e29851e388a43dcfa68558b256cb4fce66f6107975"
+checksum = "2c3530bd683f2331cf9b869ef26fafec4999a11c5fa50d2b74604b2a03a3dde1"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2629,9 +2622,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.154.27"
+version = "0.154.30"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "288d311dfcc8175e922bd8bed81158a297a94ae5d9762a75f5428036b9dbcc53"
+checksum = "16e262ebdec1787c4b28b0c38fc9ef330ee0c6ba41548f64d9a1b96df4c2f899"
 dependencies = [
  "ahash",
  "arrayvec",
