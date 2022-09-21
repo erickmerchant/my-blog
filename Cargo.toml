@@ -20,5 +20,5 @@ lightningcss = { version = "1.0.0-alpha.16", features = ["grid", "browserslist"]
 parcel_sourcemap = "2.0.2"
 serde = "1.0"
 serde_json = "1.0"
-swc = "0.226"
+swc = "0.227"
 swc_common = { version = "0.28", features = ["tty-emitter"] }

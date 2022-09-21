@@ -49,9 +49,10 @@
     padding-block-start: calc(var(--first) * 1em);
     padding-block-end: calc(var(--last) * 1em);
     background-color: hsl(var(--code-background));
+    filter: brightness(0.975);
     border-top-left-radius: calc(var(--first) * var(--border-radius));
     border-bottom-left-radius: calc(var(--last) * var(--border-radius));
-    border-right: 1px solid hsl(var(--code-color) / 0.25);
+    border-right: 1px solid hsl(var(--code-color) / 0.025);
     color: hsl(var(--text-color));
     left: 0;
     position: sticky;

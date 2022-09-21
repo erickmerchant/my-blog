@@ -46,11 +46,9 @@ pub fn static_response<P: AsRef<Path>>(file: File, src: P) -> Result<NamedFile> 
 }
 
 pub fn file_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
-    cacheable_response(&src, || -> Result<String, Error> {
-        let file_contents = fs::read_to_string(&src).map_err(ErrorNotFound)?;
+    let file = File::open(&src).map_err(ErrorInternalServerError)?;
 
-        Ok(file_contents)
-    })
+    static_response(file, src)
 }
 
 pub fn js_response<P: AsRef<Path>>(src: P, config: web::Data<Config>) -> Result<NamedFile> {
