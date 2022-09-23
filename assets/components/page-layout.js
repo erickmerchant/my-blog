@@ -55,10 +55,10 @@ class PageLayout extends Element {
               this.toggleOpen();
             }
           },
+          class: "panel",
         },
         div(
           {
-            "class": "panel",
             "aria-hidden": () => String(this.#state.open),
             "inert": () => this.#state.open,
           },
