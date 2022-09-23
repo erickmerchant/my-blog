@@ -166,10 +166,8 @@
   }
 
   .main code-block {
-    font-family: "IBM Plex Mono", monospace;
-    font-weight: 400;
-    font-size: 0.8em;
     width: 100%;
+    font-size: 0.8em;
 
     --has-extra-width: 1;
     --border-radius: 0.25em;

@@ -79,6 +79,12 @@
     outline: 2px solid hsl(var(--anchor-color));
     background: hsl(0 0% 0% / 0);
   }
+
+  .icon {
+    aspect-ratio: 1 / 1;
+    fill: currentColor;
+    display: block;
+  }
 }
 
 @layer theme {

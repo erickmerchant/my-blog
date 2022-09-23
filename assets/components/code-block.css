@@ -1,19 +1,31 @@
 @layer component {
   :host {
     display: block;
-
-    --white-space: pre;
   }
 
-  :host([wrap]) {
-    --white-space: pre-wrap;
+  .wrap {
+    position: relative;
+
+    --has-scrollbars: 0;
+    --has-no-scrollbars: 1;
+  }
+
+  .scrolling {
+    --has-scrollbars: 1;
+    --has-no-scrollbars: 0;
   }
 
   .pre {
+    font-family: "IBM Plex Mono", monospace;
+    font-weight: 400;
     border-radius: var(--border-radius);
-    white-space: var(--white-space);
+    white-space: pre;
     overflow-x: auto;
     max-width: 100%;
+  }
+
+  .pre:where(.wrap) {
+    white-space: pre-wrap;
   }
 
   .code {
@@ -34,10 +46,14 @@
   }
 
   .line > * {
-    padding-block-start: calc(var(--first) * 1em);
-    padding-block-end: calc(var(--last) * 1em);
     padding-inline: 0.5rem;
     word-break: break-all;
+  }
+
+  .line > *,
+  .line::before {
+    padding-block-start: calc(var(--first) * 2em);
+    padding-block-end: calc(var(--last) * 2em);
   }
 
   .line::before {
@@ -46,13 +62,11 @@
     counter-increment: lines;
     text-align: right;
     padding-inline: var(--space);
-    padding-block-start: calc(var(--first) * 1em);
-    padding-block-end: calc(var(--last) * 1em);
     background-color: hsl(var(--code-background));
     filter: brightness(0.975);
     border-top-left-radius: calc(var(--first) * var(--border-radius));
     border-bottom-left-radius: calc(var(--last) * var(--border-radius));
-    border-right: 1px solid hsl(var(--code-color) / 0.025);
+    border-right: 1px solid hsl(var(--code-color) / 0.125);
     color: hsl(var(--text-color));
     left: 0;
     position: sticky;
@@ -65,5 +79,25 @@
 
   .line:last-child {
     --last: 1;
+  }
+
+  .toggle {
+    gap: 0.25rem;
+    position: absolute;
+    right: 0;
+    bottom: calc(var(--has-scrollbars) * 0.5em);
+    padding: 0.25em;
+    font-weight: 500;
+    background-color: hsl(var(--code-background));
+    filter: brightness(0.975);
+    border: 1px solid hsl(var(--code-color) / 0.125);
+    border-top-left-radius: var(--border-radius);
+    border-bottom-right-radius: calc(
+      var(--has-no-scrollbars) * var(--border-radius)
+    );
+  }
+
+  .hidden {
+    visibility: hidden;
   }
 }

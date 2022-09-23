@@ -20,21 +20,7 @@ export class Element extends HTMLElement {
               }
             }
 
-            for (let value of children) {
-              if (typeof value === "function") {
-                let [start, end] = ["", ""].map((v) =>
-                  document.createComment(v)
-                );
-
-                this.#_computeds.push({start, end, value});
-
-                value = [start, end];
-              } else {
-                value = [value];
-              }
-
-              node.append(...value);
-            }
+            this.#appendChildren(node, children);
 
             return node;
           };
@@ -53,6 +39,22 @@ export class Element extends HTMLElement {
     }
   }
 
+  static #appendChildren(node, children) {
+    for (let value of children) {
+      if (typeof value === "function") {
+        let [start, end] = ["", ""].map((v) => document.createComment(v));
+
+        this.#_computeds.push({start, end, value});
+
+        value = [start, end];
+      } else {
+        value = [value];
+      }
+
+      node.append(...value);
+    }
+  }
+
   #computeds = null;
 
   #scheduled = false;
@@ -64,8 +66,14 @@ export class Element extends HTMLElement {
   connectedCallback() {
     this.attachShadow({mode: "open"});
 
-    this.shadowRoot.append(
-      ...(this.render?.(...Element.#elementProxies) ?? [""])
+    let cachedComputed = Element.#_computeds.splice(
+      0,
+      Element.#_computeds.length
+    );
+
+    Element.#appendChildren(
+      this.shadowRoot,
+      this.render?.(...Element.#elementProxies) ?? [""]
     );
 
     this.#computeds = Element.#_computeds;
@@ -74,7 +82,7 @@ export class Element extends HTMLElement {
       this.#computeds.unshift({value: this.effect});
     }
 
-    Element.#_computeds = [];
+    Element.#_computeds = cachedComputed;
 
     this.#update(true);
   }

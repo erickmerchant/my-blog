@@ -25,20 +25,15 @@ class ThemeSelector extends Element {
   }
 
   effect = () => {
-    let theme;
-
-    if (this.#state.theme === "auto") {
-      theme = this.#state.autoTheme;
-    } else {
-      theme = this.#state.theme;
-    }
+    let theme =
+      this.#state.theme === "auto" ? this.#state.autoTheme : this.#state.theme;
 
     for (let option of ThemeSelector.#options) {
       this.closest("body").classList.toggle(option, theme === option);
     }
   };
 
-  render({link, div, h3, button, span, p}, {svg, use}) {
+  render({link, div, h3, "toggle-button": toggleButton, span, p}, {svg, use}) {
     this.#prefersThemeDark.addEventListener("change", (e) => {
       this.#state.autoTheme = e.matches ? "dark" : "light";
     });
@@ -54,38 +49,24 @@ class ThemeSelector extends Element {
         {class: "root"},
         h3({}, "Theme"),
         ...ThemeSelector.#options.map((scheme) => {
-          return button(
+          return toggleButton(
             {
-              "type": "button",
-              "class": "button",
-              "aria-pressed": () => String(this.#state.theme === scheme),
-              "onclick": () => {
+              pressed: () => this.#state.theme === scheme,
+              onclick: () => {
                 this.#setTheme(scheme);
               },
             },
-
-            span(
-              {},
-              span({class: "option"}, () => [
-                scheme === this.#state.theme
-                  ? svg(
+            span({class: "name"}, scheme, () => [
+              scheme === this.#state.autoTheme
+                ? span(
+                    {class: "helper"},
+                    svg(
                       {"class": "icon", "aria-hidden": "true"},
-                      use({href: "/icons.svg#check"})
+                      use({href: "/icons.svg#asterisk"})
                     )
-                  : "",
-              ]),
-              span({class: "name"}, scheme, () => [
-                scheme === this.#state.autoTheme
-                  ? span(
-                      {class: "helper"},
-                      svg(
-                        {"class": "icon", "aria-hidden": "true"},
-                        use({href: "/icons.svg#asterisk"})
-                      )
-                    )
-                  : "",
-              ])
-            )
+                  )
+                : "",
+            ])
           );
         }),
         p(
