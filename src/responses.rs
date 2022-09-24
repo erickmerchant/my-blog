@@ -8,19 +8,19 @@ pub fn cacheable_response<F: Fn() -> Result<String, Error>, P: AsRef<Path>>(
     src: P,
     process: F,
 ) -> Result<NamedFile> {
-    let cache = Path::new("storage/cache").join(src.as_ref());
+    let src = Path::new("storage/cache").join(src.as_ref());
 
-    let file = match &cache.exists() {
+    let file = match &src.exists() {
         false => {
             let body = process()?;
 
-            fs::create_dir_all(&cache.with_file_name("")).map_err(ErrorInternalServerError)?;
+            fs::create_dir_all(&src.with_file_name("")).map_err(ErrorInternalServerError)?;
 
             let mut file = File::options()
                 .read(true)
                 .append(true)
                 .create(true)
-                .open(&cache)
+                .open(&src)
                 .map_err(ErrorInternalServerError)?;
 
             file.write_all(body.as_bytes())
@@ -28,13 +28,13 @@ pub fn cacheable_response<F: Fn() -> Result<String, Error>, P: AsRef<Path>>(
 
             file
         }
-        true => File::open(&cache).map_err(ErrorInternalServerError)?,
+        true => File::open(&src).map_err(ErrorInternalServerError)?,
     };
 
-    static_response(file, cache)
+    file_response(file, src)
 }
 
-pub fn static_response<P: AsRef<Path>>(file: File, src: P) -> Result<NamedFile> {
+pub fn file_response<P: AsRef<Path>>(file: File, src: P) -> Result<NamedFile> {
     let file = NamedFile::from_file(file, src).map_err(ErrorNotFound)?;
     let file = file
         .prefer_utf8(true)
@@ -45,10 +45,10 @@ pub fn static_response<P: AsRef<Path>>(file: File, src: P) -> Result<NamedFile> 
     Ok(file)
 }
 
-pub fn file_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
+pub fn asset_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
     let file = File::open(&src).map_err(ErrorInternalServerError)?;
 
-    static_response(file, src)
+    file_response(file, src)
 }
 
 pub fn js_response<P: AsRef<Path>>(src: P, config: web::Data<Config>) -> Result<NamedFile> {

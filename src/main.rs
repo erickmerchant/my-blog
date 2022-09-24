@@ -54,8 +54,8 @@ async fn main() -> io::Result<()> {
             .wrap(Compress::default())
             .route("/", web::get().to(home))
             .route("/posts.rss", web::get().to(posts_rss))
-            .route("/posts/{slug:.*.html}", web::get().to(post))
-            .route("/{file:.*?}", web::get().to(file))
+            .route("/posts/{slug:.*?}.html", web::get().to(post))
+            .route("/{file:.*?}", web::get().to(asset))
     })
     .bind(format!("0.0.0.0:{port}"))?
     .run()
@@ -144,9 +144,8 @@ async fn posts_rss(site: web::Data<Site>) -> Result<NamedFile> {
 
 async fn post(slug: web::Path<String>, site: web::Data<Site>) -> Result<NamedFile> {
     let site = site.as_ref();
-    let slug = Path::new(slug.as_ref().as_str()).with_extension("");
-    let slug = slug.to_str().expect("invalid slug");
-    let path = Path::new("content/posts").join(slug).with_extension("html");
+    let slug = slug.as_ref();
+    let path = Path::new("posts").join(slug).with_extension("html");
 
     cacheable_response(&path, || {
         let post = Post::get_by_slug(slug.to_string());
@@ -163,13 +162,13 @@ async fn post(slug: web::Path<String>, site: web::Data<Site>) -> Result<NamedFil
     })
 }
 
-async fn file(file: web::Path<String>, config: web::Data<Config>) -> Result<NamedFile> {
+async fn asset(file: web::Path<String>, config: web::Data<Config>) -> Result<NamedFile> {
     let src = Path::new("assets").join(file.to_string());
     let ext_str = src.extension().and_then(|ext| ext.to_str()).unwrap_or("");
 
     match ext_str {
         "js" => js_response(src, config),
         "css" => css_response(src, config),
-        _ => file_response(src),
+        _ => asset_response(src),
     }
 }
