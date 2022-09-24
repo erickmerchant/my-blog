@@ -7,12 +7,10 @@
     position: relative;
 
     --has-scrollbars: 0;
-    --has-no-scrollbars: 1;
   }
 
   .scrolling {
     --has-scrollbars: 1;
-    --has-no-scrollbars: 0;
   }
 
   .pre {
@@ -93,7 +91,7 @@
     border: 1px solid hsl(var(--code-color) / 0.125);
     border-top-left-radius: var(--border-radius);
     border-bottom-right-radius: calc(
-      var(--has-no-scrollbars) * var(--border-radius)
+      ((var(--has-scrollbars) * -1) + 1) * var(--border-radius)
     );
   }
 
