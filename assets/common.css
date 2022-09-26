@@ -72,6 +72,16 @@
     font-family: "IBM Plex Mono", monospace;
   }
 
+  .icon {
+    aspect-ratio: 1 / 1;
+    fill: currentColor;
+    display: block;
+  }
+
+  :host {
+    display: block;
+  }
+
   @supports selector(:focus-visible) {
     :focus {
       outline: none;
@@ -83,12 +93,6 @@
     outline: 2px solid hsl(var(--anchor-color));
     background: hsl(0 0% 0% / 0);
   }
-
-  .icon {
-    aspect-ratio: 1 / 1;
-    fill: currentColor;
-    display: block;
-  }
 }
 
 @layer theme {
@@ -99,6 +103,7 @@
     --code-background: 100 0% 95%;
     --banner-background: 100 0% 75%;
     --banner-foreground: 100 0% 25%;
+    --easing: cubic-bezier(0.3, 0, 0.3, 0.7);
   }
 
   .light {

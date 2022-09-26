@@ -1,8 +1,4 @@
 @layer component {
-  :host {
-    display: block;
-  }
-
   pre {
     white-space: var(--white-space);
   }
@@ -59,7 +55,6 @@
   }
 
   .line::before {
-    display: block;
     content: counter(lines);
     counter-increment: lines;
     text-align: right;

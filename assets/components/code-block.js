@@ -25,7 +25,7 @@ class CodeBlock extends Element {
     resizeObserver.observe(this.#preRef);
   }
 
-  render({link, pre, div, span, "toggle-button": toggleButton}) {
+  render({link, pre, div, "toggle-button": toggleButton}) {
     let lines = [...this.querySelectorAll("code")];
 
     return [
@@ -53,7 +53,7 @@ class CodeBlock extends Element {
             {},
             div(
               {class: "lines"},
-              ...lines.map((ln) => span({class: "line"}, ln.cloneNode(true)))
+              ...lines.map((ln) => div({class: "line"}, ln.cloneNode(true)))
             )
           )),
           toggleButton(
