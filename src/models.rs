@@ -1,4 +1,5 @@
 use glob::glob;
+use nipper::Document;
 use serde::Deserialize;
 use std::{fs, path::Path, vec::Vec};
 
@@ -27,7 +28,7 @@ pub struct Link {
     pub title: String,
 }
 
-#[derive(Deserialize, Debug, Clone)]
+#[derive(Deserialize, Debug, Clone, Default)]
 pub struct Post {
     #[serde(default)]
     pub slug: String,
@@ -48,19 +49,44 @@ impl Post {
         let mut result = None;
 
         if let Ok(contents) = fs::read_to_string(path) {
-            let parts = contents.splitn(3, "===").collect::<Vec<&str>>();
+            let document = Document::from(contents.as_str());
 
-            if parts.len() == 3 {
-                if let (Some(frontmatter), Some(content)) = (parts.get(1), parts.get(2)) {
-                    if let Ok(data) = serde_json::from_str::<Self>(frontmatter) {
-                        result = Some(Self {
-                            slug,
-                            content: content.to_string(),
-                            ..data
-                        });
-                    };
-                };
+            let mut frontmatter_node = document.select("json-frontmatter").first();
+
+            let mut data = Self::default();
+
+            if frontmatter_node.exists() {
+                let json = frontmatter_node.text();
+
+                frontmatter_node.remove();
+
+                if let Ok(parsed) = serde_json::from_str::<Self>(&json) {
+                    data = parsed;
+                }
+            };
+
+            let code_blocks = document.select("code-block");
+
+            for mut code_block in code_blocks.iter() {
+                let text = code_block.text();
+                let text = text.trim();
+
+                code_block.set_html("<pre></pre>");
+
+                let mut pre = code_block.select("pre").first();
+
+                for ln in text.split('\n') {
+                    pre.append_html(format!("<code>{ln}\n</code>"))
+                }
             }
+
+            let content = document.html();
+
+            result = Some(Self {
+                slug,
+                content: content.to_string(),
+                ..data
+            });
         }
 
         result

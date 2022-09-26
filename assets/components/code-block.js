@@ -25,8 +25,8 @@ class CodeBlock extends Element {
     resizeObserver.observe(this.#preRef);
   }
 
-  render({link, pre, code, div, span, "toggle-button": toggleButton}) {
-    let lines = this.textContent.split("\n");
+  render({link, pre, div, span, "toggle-button": toggleButton}) {
+    let lines = [...this.querySelectorAll("code")];
 
     return [
       ...["../common.css", "./code-block.css"].map((url) =>
@@ -36,33 +36,38 @@ class CodeBlock extends Element {
         })
       ),
       div(
-        {
-          class: () => (this.#state.hasScrollbars ? "wrap scrolling" : "wrap"),
-        },
-        (this.#preRef = pre(
+        {class: "root"},
+        div(
           {
             class: () => {
-              return this.#state.wrapWhiteSpace ? "pre wrap" : "pre";
+              let classes = ["inner"];
+
+              if (this.#state.hasScrollbars) classes.push("scrolling");
+
+              if (this.#state.wrapWhiteSpace) classes.push("wrap");
+
+              return classes.join(" ");
             },
           },
-          code(
-            {class: "code"},
-            ...lines.map((ln) =>
-              span({class: "line"}, span({}, ln || " ", "\n"))
+          (this.#preRef = pre(
+            {},
+            div(
+              {class: "lines"},
+              ...lines.map((ln) => span({class: "line"}, ln.cloneNode(true)))
             )
-          )
-        )),
-        toggleButton(
-          {
-            class: () => {
-              return this.#state.hasScrollbars || this.#state.wrapWhiteSpace
-                ? "toggle"
-                : "toggle hidden";
+          )),
+          toggleButton(
+            {
+              class: () => {
+                return this.#state.hasScrollbars || this.#state.wrapWhiteSpace
+                  ? "toggle"
+                  : "toggle hidden";
+              },
+              pressed: () => this.#state.wrapWhiteSpace,
+              onclick: this.#toggleWrapWhiteSpace,
             },
-            pressed: () => this.#state.wrapWhiteSpace,
-            onclick: this.#toggleWrapWhiteSpace,
-          },
-          "Wrap"
+            "Wrap"
+          )
         )
       ),
     ];

@@ -3,9 +3,22 @@
     display: block;
   }
 
-  .wrap {
-    position: relative;
+  pre {
+    white-space: var(--white-space);
+  }
 
+  .root {
+    position: relative;
+  }
+
+  .inner {
+    font-family: "IBM Plex Mono", monospace;
+    font-weight: 400;
+    border-radius: var(--border-radius);
+    overflow-x: auto;
+    max-width: 100%;
+
+    --white-space: pre;
     --has-scrollbars: 0;
   }
 
@@ -13,20 +26,11 @@
     --has-scrollbars: 1;
   }
 
-  .pre {
-    font-family: "IBM Plex Mono", monospace;
-    font-weight: 400;
-    border-radius: var(--border-radius);
-    white-space: pre;
-    overflow-x: auto;
-    max-width: 100%;
+  .wrap {
+    --white-space: pre-wrap;
   }
 
-  .pre:where(.wrap) {
-    white-space: pre-wrap;
-  }
-
-  .code {
+  .lines {
     display: grid;
     grid-template-columns: min-content auto;
     gap: 0 0.5rem;
@@ -50,8 +54,8 @@
 
   .line > *,
   .line::before {
-    padding-block-start: calc(var(--first) * 2em);
-    padding-block-end: calc(var(--last) * 2em);
+    padding-block-start: calc(var(--first) * 1em);
+    padding-block-end: calc(var(--last) * 1em);
   }
 
   .line::before {

@@ -1,11 +1,11 @@
-===
+<json-frontmatter>
 {
   "title": "JSX In Web Components",
   "date": "2022-08-06",
   "description": "How to use JSX in Web Components",
   "components": ["code-block"]
 }
-===
+</json-frontmatter>
 
 <h2>How'd I Get There</h2>
 
@@ -33,7 +33,8 @@
 
 <p>And here is an example of <code>h</code> and <code>Fragment</code>. You just need to be sure to import them or make sure they are defined wherever you use JSX.</p>
 
-<code-block><pre>function h(tag, props, ...children) {
+<code-block language="js">
+function h(tag, props, ...children) {
   children = children.flat(Infinity);
 
   if (typeof tag === "function") return tag({...props, children});
@@ -55,6 +56,7 @@
 
 function Fragment({children}) {
   return children;
-}</pre></code-block>
+}
+</code-block>
 
 <p>My dream is the have a html tagged template function built into browsers, but in the meantime as long as I'm using Babel, or similar, JSX is a pretty good substitute</p>

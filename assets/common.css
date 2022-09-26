@@ -68,6 +68,10 @@
     list-style: none;
   }
 
+  code {
+    font-family: "IBM Plex Mono", monospace;
+  }
+
   @supports selector(:focus-visible) {
     :focus {
       outline: none;
