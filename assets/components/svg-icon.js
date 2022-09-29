@@ -27,7 +27,7 @@ class SvgIcon extends Element {
 
         <svg class="icon" aria-hidden="true" xmlns={svgns}>
           <use
-            href={
+            href={() =>
               new URL("./svg-icon.svg", import.meta.url).pathname +
               "#" +
               this.#state.name
