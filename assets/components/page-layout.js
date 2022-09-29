@@ -1,4 +1,4 @@
-import {Element, svg} from "../element.js";
+import {Element} from "../element.js";
 
 class PageLayout extends Element {
   #state = this.watch({open: false});
@@ -29,14 +29,7 @@ class PageLayout extends Element {
             aria-expanded={() => String(this.#state.open)}
             onclick={this.toggleOpen}
           >
-            <svg class="icon" aria-hidden="true" xmlns={svg}>
-              <use
-                href={() =>
-                  this.#state.open ? "/icons.svg#close" : "/icons.svg#open"
-                }
-                xmlns={svg}
-              />
-            </svg>
+            <svg-icon name={() => (this.#state.open ? "close" : "open")} />
           </button>
           <div
             id="nav"

@@ -141,5 +141,3 @@ export class Element extends HTMLElement {
     this.#writes = [];
   }
 }
-
-export let svg = "http://www.w3.org/2000/svg";

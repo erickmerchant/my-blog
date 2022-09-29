@@ -1,6 +1,6 @@
 @layer component {
-  .icon {
-    width: 1.25em;
+  svg-icon {
+    font-size: 1.25em;
   }
 
   .toggle {

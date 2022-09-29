@@ -1,0 +1,12 @@
+@layer component {
+  :host {
+    display: contents;
+  }
+
+  .icon {
+    aspect-ratio: 1 / 1;
+    width: 1em;
+    fill: currentColor;
+    display: block;
+  }
+}

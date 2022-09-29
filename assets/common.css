@@ -72,12 +72,6 @@
     font-family: "IBM Plex Mono", monospace;
   }
 
-  .icon {
-    aspect-ratio: 1 / 1;
-    fill: currentColor;
-    display: block;
-  }
-
   :host {
     display: block;
   }

@@ -1,4 +1,4 @@
-import {Element, svg} from "../element.js";
+import {Element} from "../element.js";
 
 class ThemeSelector extends Element {
   static #options = ["light", "dark"];
@@ -59,11 +59,7 @@ class ThemeSelector extends Element {
                 {scheme}
                 {() =>
                   scheme === this.#state.autoTheme ? (
-                    <span class="helper">
-                      <svg class="icon" aria-hidden="true" xmlns={svg}>
-                        <use href="/icons.svg#asterisk" xmlns={svg} />
-                      </svg>
-                    </span>
+                    <svg-icon class="helper" name="asterisk" />
                   ) : (
                     ""
                   )
@@ -72,9 +68,7 @@ class ThemeSelector extends Element {
             </toggle-button>
           ))}
           <p class="helper">
-            <svg class="icon" aria-hidden="true" xmlns={svg}>
-              <use href="/icons.svg#asterisk" xmlns={svg} />
-            </svg>
+            <svg-icon name="asterisk" />
             system default
           </p>
         </div>

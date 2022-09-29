@@ -1,4 +1,4 @@
-import {Element, svg} from "../element.js";
+import {Element} from "../element.js";
 
 class ToggleButton extends Element {
   #state = this.watch({pressed: this.getAttribute("pressed") === ""});
@@ -29,15 +29,7 @@ class ToggleButton extends Element {
         >
           <span>
             <span class="option">
-              {() =>
-                this.#state.pressed ? (
-                  <svg class="icon" aria-hidden="true" xmlns={svg}>
-                    <use href="/icons.svg#check" xmlns={svg} />
-                  </svg>
-                ) : (
-                  ""
-                )
-              }
+              {() => (this.#state.pressed ? <svg-icon name="check" /> : "")}
             </span>
             <slot />
           </span>

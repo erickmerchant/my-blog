@@ -1,11 +1,11 @@
 @layer component {
+  svg-icon {
+    font-size: 0.8em;
+  }
+
   .root {
     display: grid;
     gap: 0.5em;
-  }
-
-  .icon {
-    width: 0.8em;
   }
 
   .helper {

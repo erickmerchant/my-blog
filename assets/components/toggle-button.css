@@ -1,4 +1,8 @@
 @layer component {
+  svg-icon {
+    font-size: 0.8em;
+  }
+
   :host {
     display: inline-grid;
   }
@@ -24,9 +28,5 @@
     border: 0.125rem solid hsl(var(--anchor-color) / 0.5);
     border-radius: 0.25em;
     color: hsl(var(--anchor-color));
-  }
-
-  .icon {
-    width: 0.8em;
   }
 }
