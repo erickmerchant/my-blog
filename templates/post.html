@@ -1,8 +1,14 @@
 {% extends "_layout.html" %}
 
-{% block components %}
+{% block modules %}
   {% for component in post.components %}
     <script async type="module" src="/components/{{component}}.js"></script>
+  {% endfor %}
+{% endblock %}
+
+{% block preloads %}
+  {% for component in post.components %}
+    <link rel="preload" href="/components/{{component}}.css" as="style">
   {% endfor %}
 {% endblock %}
 

@@ -8,13 +8,17 @@
     <script type="module" src="/components/page-layout.js"></script>
     <script type="module" src="/components/theme-selector.js"></script>
     <script type="module" src="/components/toggle-button.js"></script>
-    {% block components %}
+    <script type="module" src="/components/svg-icon.js"></script>
+    {% block modules %}
     {% endblock %}
     <link href="/common.css" rel="stylesheet">
     <link href="/site.css" rel="stylesheet">
     <link rel="preload" href="/components/page-layout.css" as="style">
     <link rel="preload" href="/components/theme-selector.css" as="style">
     <link rel="preload" href="/components/toggle-button.css" as="style">
+    <link rel="preload" href="/components/svg-icon.css" as="style">
+    {% block preloads %}
+    {% endblock %}
     <meta name="description" content="{{site.description}}">
     <link href="/favicon.svg" rel="icon" type="image/svg+xml">
   </head>
