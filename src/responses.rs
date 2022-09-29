@@ -66,20 +66,30 @@ pub fn js_response<P: AsRef<Path>>(src: P, config: web::Data<Config>) -> Result<
         let c = swc::Compiler::new(cm.clone());
         let fm = cm.load_file(src.as_ref()).map_err(ErrorNotFound)?;
         let options = json!({
-          "minify": true,
-          "env": {
-            "targets": config.targets,
-            "bugfixes": true
-          },
-          "jsc": {
-            "minify": {
-              "compress": true,
-              "mangle": true
+            "minify": true,
+            "env": {
+                "targets": config.targets,
+                "bugfixes": true
             },
-          },
-          "module": {
-            "type": "es6"
-          }
+            "jsc": {
+                "transform": {
+                    "react": {
+                        "pragma": "Element.h",
+                        "pragmaFrag": "Element.fragment"
+                    },
+                },
+                "parser": {
+                    "syntax": "ecmascript",
+                    "jsx": true,
+                },
+                "minify": {
+                    "compress": true,
+                    "mangle": true
+                },
+            },
+            "module": {
+                "type": "es6"
+            }
         });
         let mut options = from_value::<Options>(options).map_err(ErrorInternalServerError)?;
 

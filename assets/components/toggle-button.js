@@ -1,4 +1,4 @@
-import {Element} from "../element.js";
+import {Element, svg} from "../element.js";
 
 class ToggleButton extends Element {
   #state = this.watch({pressed: this.getAttribute("pressed") === ""});
@@ -7,40 +7,43 @@ class ToggleButton extends Element {
     return ["pressed"];
   }
 
-  attributeChangedCallback(_name, old, current) {
-    if (current !== old) {
+  attributeChangedCallback(name, old, current) {
+    if (name === "pressed" && current !== old) {
       this.#state.pressed = current === "";
     }
   }
 
-  render({button, span, link, slot}, {svg, use}) {
-    return [
-      ...["../common.css", "./toggle-button.css"].map((url) =>
-        link({
-          rel: "stylesheet",
-          href: new URL(url, import.meta.url).pathname,
-        })
-      ),
-      button(
-        {
-          "type": "button",
-          "class": "button",
-          "aria-pressed": () => String(this.#state.pressed),
-        },
-        span(
-          {},
-          span({class: "option"}, () => [
-            this.#state.pressed
-              ? svg(
-                  {"class": "icon", "aria-hidden": "true"},
-                  use({href: "/icons.svg#check"})
+  render() {
+    return (
+      <>
+        {["../common.css", "./toggle-button.css"].map((url) => (
+          <link
+            rel="stylesheet"
+            href={new URL(url, import.meta.url).pathname}
+          />
+        ))}
+        <button
+          type="button"
+          class="button"
+          aria-pressed={() => String(this.#state.pressed)}
+        >
+          <span>
+            <span class="option">
+              {() =>
+                this.#state.pressed ? (
+                  <svg class="icon" aria-hidden="true" xmlns={svg}>
+                    <use href="/icons.svg#check" xmlns={svg} />
+                  </svg>
+                ) : (
+                  ""
                 )
-              : "",
-          ]),
-          slot({})
-        )
-      ),
-    ];
+              }
+            </span>
+            <slot />
+          </span>
+        </button>
+      </>
+    );
   }
 }
 

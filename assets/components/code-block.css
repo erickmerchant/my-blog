@@ -85,13 +85,6 @@
     bottom: calc(var(--has-scrollbars) * 0.5em);
     padding: 0.25em;
     font-weight: 500;
-    background-color: hsl(var(--code-background));
-    filter: brightness(0.975);
-    border: 1px solid hsl(var(--code-color) / 0.125);
-    border-top-left-radius: var(--border-radius);
-    border-bottom-right-radius: calc(
-      ((var(--has-scrollbars) * -1) + 1) * var(--border-radius)
-    );
   }
 
   .hidden {

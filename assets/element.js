@@ -1,33 +1,29 @@
 export class Element extends HTMLElement {
-  static #elementProxies = ["1999/xhtml", "2000/svg"].map((namespace) => {
-    return new Proxy(
-      {},
-      {
-        get: (_, tag) => {
-          return (props, ...children) => {
-            let node = document.createElementNS(
-              `http://www.w3.org/${namespace}`,
-              tag
-            );
+  static fragment = Symbol("fragment");
 
-            for (let [key, value] of Object.entries(props)) {
-              if (key.substring(0, 2) === "on") {
-                node.addEventListener(key.substring(2), ...[].concat(value));
-              } else if (typeof value === "function") {
-                this.#_computeds.push({node, key, value});
-              } else {
-                this.#setAttribute(node, key, value);
-              }
-            }
+  static h(tag, props, ...children) {
+    children = children.flat(Infinity);
 
-            this.#appendChildren(node, children);
+    if (tag === this.fragment) return children;
 
-            return node;
-          };
-        },
+    let node = props?.xmlns
+      ? document.createElementNS(props.xmlns, tag)
+      : document.createElement(tag);
+
+    for (let [key, value] of Object.entries(props ?? {})) {
+      if (key.substring(0, 2) === "on") {
+        node.addEventListener(key.substring(2), ...[].concat(value));
+      } else if (typeof value === "function") {
+        this.#_computeds.push({node, key, value});
+      } else {
+        this.#setAttribute(node, key, value);
       }
-    );
-  });
+    }
+
+    this.#appendChildren(node, children);
+
+    return node;
+  }
 
   static #_computeds = [];
 
@@ -71,10 +67,7 @@ export class Element extends HTMLElement {
       Element.#_computeds.length
     );
 
-    Element.#appendChildren(
-      this.shadowRoot,
-      this.render?.(...Element.#elementProxies) ?? [""]
-    );
+    Element.#appendChildren(this.shadowRoot, this.render?.() ?? [""]);
 
     this.#computeds = Element.#_computeds;
 
@@ -141,10 +134,12 @@ export class Element extends HTMLElement {
           computed.start.nextSibling.remove();
         }
 
-        computed.start.after(...(result ?? [""]));
+        computed.start.after(...[].concat(result ?? "").flat());
       }
     }
 
     this.#writes = [];
   }
 }
+
+export let svg = "http://www.w3.org/2000/svg";

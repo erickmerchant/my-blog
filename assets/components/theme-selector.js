@@ -1,4 +1,4 @@
-import {Element} from "../element.js";
+import {Element, svg} from "../element.js";
 
 class ThemeSelector extends Element {
   static #options = ["light", "dark"];
@@ -33,52 +33,53 @@ class ThemeSelector extends Element {
     }
   };
 
-  render({link, div, h3, "toggle-button": toggleButton, span, p}, {svg, use}) {
+  render() {
     this.#prefersThemeDark.addEventListener("change", (e) => {
       this.#state.autoTheme = e.matches ? "dark" : "light";
     });
 
-    return [
-      ...["../common.css", "./theme-selector.css"].map((url) =>
-        link({
-          rel: "stylesheet",
-          href: new URL(url, import.meta.url).pathname,
-        })
-      ),
-      div(
-        {class: "root"},
-        h3({}, "Theme"),
-        ...ThemeSelector.#options.map((scheme) => {
-          return toggleButton(
-            {
-              pressed: () => this.#state.theme === scheme,
-              onclick: () => {
+    return (
+      <>
+        {["../common.css", "./theme-selector.css"].map((url) => (
+          <link
+            rel="stylesheet"
+            href={new URL(url, import.meta.url).pathname}
+          />
+        ))}
+        <div class="root">
+          <h3>Theme</h3>
+          {ThemeSelector.#options.map((scheme) => (
+            <toggle-button
+              pressed={() => this.#state.theme === scheme}
+              onclick={() => {
                 this.#setTheme(scheme);
-              },
-            },
-            span({class: "name"}, scheme, () => [
-              scheme === this.#state.autoTheme
-                ? span(
-                    {class: "helper"},
-                    svg(
-                      {"class": "icon", "aria-hidden": "true"},
-                      use({href: "/icons.svg#asterisk"})
-                    )
+              }}
+            >
+              <span class="name">
+                {scheme}
+                {() =>
+                  scheme === this.#state.autoTheme ? (
+                    <span class="helper">
+                      <svg class="icon" aria-hidden="true" xmlns={svg}>
+                        <use href="/icons.svg#asterisk" xmlns={svg} />
+                      </svg>
+                    </span>
+                  ) : (
+                    ""
                   )
-                : "",
-            ])
-          );
-        }),
-        p(
-          {class: "helper"},
-          svg(
-            {"class": "icon", "aria-hidden": "true"},
-            use({href: "/icons.svg#asterisk"})
-          ),
-          " system default"
-        )
-      ),
-    ];
+                }
+              </span>
+            </toggle-button>
+          ))}
+          <p class="helper">
+            <svg class="icon" aria-hidden="true" xmlns={svg}>
+              <use href="/icons.svg#asterisk" xmlns={svg} />
+            </svg>
+            system default
+          </p>
+        </div>
+      </>
+    );
   }
 }
 
