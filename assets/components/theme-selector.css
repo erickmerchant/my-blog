@@ -1,6 +1,6 @@
 @layer component {
   svg-icon {
-    font-size: 0.8em;
+    width: 0.8em;
   }
 
   .root {
@@ -12,6 +12,7 @@
     font-size: 0.8em;
     display: flex;
     gap: 0.25em;
+    align-items: center;
   }
 
   .name {

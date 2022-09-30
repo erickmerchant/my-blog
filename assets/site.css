@@ -51,7 +51,6 @@
   }
 
   page-layout[open] {
-    --toggle-top: 0.625rem;
     --toggle-shadow-size: 0.25rem;
     --content-left: var(--drawer-width);
   }
