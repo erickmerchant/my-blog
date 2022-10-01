@@ -11,7 +11,7 @@ class CodeBlock extends Element {
   #toggleWrapWhiteSpace = () => {
     this.#state.wrapWhiteSpace = !this.#state.wrapWhiteSpace;
 
-    this.#state.Scrollbars = false;
+    this.#state.hasScrollbars = false;
   };
 
   connectedCallback() {
