@@ -17,10 +17,7 @@ class ToggleButton extends Element {
     return (
       <>
         {["../common.css", "./toggle-button.css"].map((url) => (
-          <link
-            rel="stylesheet"
-            href={new URL(url, import.meta.url).pathname}
-          />
+          <link rel="stylesheet" href={new URL(url, import.meta.url).href} />
         ))}
         <button
           type="button"
@@ -29,7 +26,7 @@ class ToggleButton extends Element {
         >
           <span>
             <span class="option">
-              {() => (this.#state.pressed ? <svg-icon name="check" /> : "")}
+              <svg-icon name={() => (this.#state.pressed ? "check" : "")} />
             </span>
             <slot />
           </span>

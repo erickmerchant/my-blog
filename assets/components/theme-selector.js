@@ -41,10 +41,7 @@ class ThemeSelector extends Element {
     return (
       <>
         {["../common.css", "./theme-selector.css"].map((url) => (
-          <link
-            rel="stylesheet"
-            href={new URL(url, import.meta.url).pathname}
-          />
+          <link rel="stylesheet" href={new URL(url, import.meta.url).href} />
         ))}
         <div class="root">
           <h3>Theme</h3>
@@ -57,13 +54,12 @@ class ThemeSelector extends Element {
             >
               <span class="name">
                 {scheme}
-                {() =>
-                  scheme === this.#state.autoTheme ? (
-                    <svg-icon class="helper" name="asterisk" />
-                  ) : (
-                    ""
-                  )
-                }
+                <svg-icon
+                  class="helper"
+                  name={() =>
+                    scheme === this.#state.autoTheme ? "asterisk" : ""
+                  }
+                />
               </span>
             </toggle-button>
           ))}

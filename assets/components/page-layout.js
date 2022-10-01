@@ -15,10 +15,7 @@ class PageLayout extends Element {
     return (
       <>
         {["../common.css", "./page-layout.css"].map((url) => (
-          <link
-            rel="stylesheet"
-            href={new URL(url, import.meta.url).pathname}
-          />
+          <link rel="stylesheet" href={new URL(url, import.meta.url).href} />
         ))}
         <nav>
           <button

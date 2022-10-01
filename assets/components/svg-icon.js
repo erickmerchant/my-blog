@@ -19,21 +19,23 @@ class SvgIcon extends Element {
     return (
       <>
         {["../common.css", "./svg-icon.css"].map((url) => (
-          <link
-            rel="stylesheet"
-            href={new URL(url, import.meta.url).pathname}
-          />
+          <link rel="stylesheet" href={new URL(url, import.meta.url).href} />
         ))}
 
         <svg class="icon" aria-hidden="true" xmlns={svgns}>
-          <use
-            href={() =>
-              new URL("./svg-icon.svg", import.meta.url).pathname +
-              "#" +
-              this.#state.name
-            }
-            xmlns={svgns}
-          />
+          {() =>
+            this.#state.name ? (
+              <use
+                href={
+                  new URL(`./svg-icon.svg#${this.#state.name}`, import.meta.url)
+                    .href
+                }
+                xmlns={svgns}
+              />
+            ) : (
+              ""
+            )
+          }
         </svg>
       </>
     );
