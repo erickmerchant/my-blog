@@ -9,7 +9,6 @@ pub fn cacheable_response<F: Fn() -> Result<String, Error>, P: AsRef<Path>>(
     process: F,
 ) -> Result<NamedFile> {
     let src = Path::new("storage/cache").join(src.as_ref());
-
     let file = match &src.exists() {
         false => {
             let body = process()?;
@@ -111,7 +110,6 @@ pub fn css_response<P: AsRef<Path>>(src: P, config: web::Data<Config>) -> Result
         let file_contents = fs::read_to_string(&src).map_err(ErrorNotFound)?;
         let targets =
             targets::Browsers::from_browserslist([config.targets.as_str()]).unwrap_or_default();
-
         let parser_options = stylesheet::ParserOptions::default();
         let minifier_options = stylesheet::MinifyOptions {
             targets,
@@ -163,13 +161,11 @@ pub fn css_response<P: AsRef<Path>>(src: P, config: web::Data<Config>) -> Result
             });
 
             code.push_str("\n/*# sourceMappingURL=data:application/json;base64,");
-
             base64::encode_config_buf(
                 sm.to_string().as_bytes(),
                 base64::Config::new(base64::CharacterSet::Standard, true),
                 &mut code,
             );
-
             code.push_str(" */")
         };
 

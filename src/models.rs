@@ -1,9 +1,9 @@
 use glob::glob;
 use nipper::Document;
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 use std::{fs, path::Path, vec::Vec};
 
-#[derive(Deserialize, Debug, Clone, Default)]
+#[derive(Deserialize, Debug, Clone, Default, Serialize)]
 pub struct Site {
     pub title: String,
     pub base: String,
@@ -22,13 +22,13 @@ impl Site {
     }
 }
 
-#[derive(Deserialize, Debug, Clone)]
+#[derive(Deserialize, Debug, Clone, Serialize)]
 pub struct Link {
     pub href: String,
     pub title: String,
 }
 
-#[derive(Deserialize, Debug, Clone, Default)]
+#[derive(Deserialize, Debug, Clone, Default, Serialize)]
 pub struct Post {
     #[serde(default)]
     pub slug: String,
@@ -50,9 +50,7 @@ impl Post {
 
         if let Ok(contents) = fs::read_to_string(path) {
             let document = Document::from(contents.as_str());
-
             let mut frontmatter_node = document.select("json-frontmatter").first();
-
             let mut data = Self::default();
 
             if frontmatter_node.exists() {

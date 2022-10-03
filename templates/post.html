@@ -16,7 +16,7 @@
   <div>
     <h1>{{post.title}}</h1>
     <p class="published">
-      Published: <time>{{post.date|format_date("%B %e, %Y")}}</time>
+      Published: <time>{{post.date | date(format="%B %e, %Y")}}</time>
     </p>
   </div>
 

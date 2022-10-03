@@ -1,18 +1,18 @@
 mod models;
 mod responses;
-mod views;
 
-use crate::{models::*, responses::*, views::*};
+use crate::{models::*, responses::*};
 
 use actix_files::NamedFile;
 use actix_web::{
-    dev::ServiceResponse, error::ErrorNotFound, http::header::HeaderName,
-    http::header::HeaderValue, http::StatusCode, middleware::Compress, middleware::DefaultHeaders,
-    middleware::ErrorHandlerResponse, middleware::ErrorHandlers, middleware::Logger, web, App,
-    HttpServer, Result,
+    dev::ServiceResponse, error::ErrorInternalServerError, error::ErrorNotFound,
+    http::header::HeaderName, http::header::HeaderValue, http::StatusCode, middleware::Compress,
+    middleware::DefaultHeaders, middleware::ErrorHandlerResponse, middleware::ErrorHandlers,
+    middleware::Logger, web, App, HttpServer, Result,
 };
 use serde::Deserialize;
 use std::{fs, io, path::Path};
+use tera::{Context, Tera};
 
 #[derive(Deserialize, Debug, Default, Clone)]
 pub struct Config {
@@ -35,7 +35,6 @@ fn default_targets() -> String {
 #[actix_web::main]
 async fn main() -> io::Result<()> {
     env_logger::init();
-
     fs::remove_dir_all("storage/cache").ok();
 
     let config = envy::from_env::<Config>().unwrap_or_default();
@@ -43,10 +42,12 @@ async fn main() -> io::Result<()> {
 
     HttpServer::new(move || {
         let site = Site::get();
+        let tera = Tera::new("templates/**/*").expect("templates parsing failed");
 
         App::new()
             .app_data(web::Data::new(config.to_owned()))
             .app_data(web::Data::new(site))
+            .app_data(web::Data::new(tera))
             .wrap(Logger::new("%s %r"))
             .wrap(DefaultHeaders::new().add(("Content-Security-Policy", "default-src 'self'")))
             .wrap(ErrorHandlers::new().handler(StatusCode::NOT_FOUND, not_found))
@@ -70,16 +71,22 @@ fn not_found<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerResponse<B>> {
         Some(s) => s.as_ref().to_owned(),
         None => Site::default(),
     };
+    let tmpl = req.app_data::<web::Data<Tera>>();
 
-    error_response(
-        res,
-        ErrorView {
-            site,
-            title,
-            message,
+    let mut body = "".to_string();
+
+    if let Some(t) = tmpl {
+        let mut ctx = Context::new();
+        ctx.insert("site", &site);
+        ctx.insert("title", &title);
+        ctx.insert("message", &message);
+
+        if let Ok(b) = t.render("error.html", &ctx) {
+            body = b
         }
-        .to_string(),
-    )
+    }
+
+    error_response(res, body)
 }
 
 fn internal_error<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerResponse<B>> {
@@ -90,16 +97,22 @@ fn internal_error<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerResponse<B>>
         Some(s) => s.as_ref().to_owned(),
         None => Site::default(),
     };
+    let tmpl = req.app_data::<web::Data<Tera>>();
 
-    error_response(
-        res,
-        ErrorView {
-            site,
-            title,
-            message,
+    let mut body = "".to_string();
+
+    if let Some(t) = tmpl {
+        let mut ctx = Context::new();
+        ctx.insert("site", &site);
+        ctx.insert("title", &title);
+        ctx.insert("message", &message);
+
+        if let Ok(b) = t.render("error.html", &ctx) {
+            body = b
         }
-        .to_string(),
-    )
+    }
+
+    error_response(res, body)
 }
 
 fn error_response<B>(res: ServiceResponse<B>, body: String) -> Result<ErrorHandlerResponse<B>> {
@@ -120,42 +133,53 @@ fn error_response<B>(res: ServiceResponse<B>, body: String) -> Result<ErrorHandl
     Ok(res)
 }
 
-async fn home(site: web::Data<Site>) -> Result<NamedFile> {
+async fn home(site: web::Data<Site>, tmpl: web::Data<tera::Tera>) -> Result<NamedFile> {
     cacheable_response(Path::new("index.html"), || {
-        let site = site.as_ref().to_owned();
         let posts = Post::get_all();
-        let title = "Home".to_string();
 
         match !posts.is_empty() {
-            true => Ok(HomeView { site, title, posts }.to_string()),
+            true => {
+                let mut ctx = Context::new();
+                ctx.insert("site", &site.as_ref());
+                ctx.insert("title", &"Home".to_string());
+                ctx.insert("posts", &Post::get_all());
+                tmpl.render("home.html", &ctx)
+                    .map_err(ErrorInternalServerError)
+            }
             false => Err(ErrorNotFound("not found")),
         }
     })
 }
 
-async fn posts_rss(site: web::Data<Site>) -> Result<NamedFile> {
+async fn posts_rss(site: web::Data<Site>, tmpl: web::Data<tera::Tera>) -> Result<NamedFile> {
     cacheable_response(Path::new("posts.rss"), || {
-        let site = site.as_ref().to_owned();
-        let posts = Post::get_all();
-
-        Ok(FeedView { site, posts }.to_string())
+        let mut ctx = Context::new();
+        ctx.insert("site", &site.as_ref());
+        ctx.insert("posts", &Post::get_all());
+        tmpl.render("posts.rss", &ctx)
+            .map_err(ErrorInternalServerError)
     })
 }
 
-async fn post(slug: web::Path<String>, site: web::Data<Site>) -> Result<NamedFile> {
-    let site = site.as_ref();
+async fn post(
+    slug: web::Path<String>,
+    site: web::Data<Site>,
+    tmpl: web::Data<tera::Tera>,
+) -> Result<NamedFile> {
     let slug = slug.as_ref();
     let path = Path::new("posts").join(slug).with_extension("html");
 
     cacheable_response(&path, || {
         let post = Post::get_by_slug(slug.to_string());
-        let site = site.to_owned();
 
         match post {
             Some(post) => {
-                let title = post.title.clone();
-
-                Ok(PostView { site, title, post }.to_string())
+                let mut ctx = Context::new();
+                ctx.insert("site", &site.as_ref());
+                ctx.insert("title", &post.title.clone());
+                ctx.insert("post", &post);
+                tmpl.render("post.html", &ctx)
+                    .map_err(ErrorInternalServerError)
             }
             None => Err(ErrorNotFound("not found")),
         }
