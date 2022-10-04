@@ -1,12 +1,14 @@
 {% extends "_layout.html" %}
 
 {% block modules %}
+  {{ super() }}
   {% for component in post.components %}
     <script async type="module" src="/components/{{component}}.js"></script>
   {% endfor %}
 {% endblock %}
 
 {% block preloads %}
+  {{ super() }}
   {% for component in post.components %}
     <link rel="preload" href="/components/{{component}}.css" as="style">
   {% endfor %}
