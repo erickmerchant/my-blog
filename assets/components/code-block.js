@@ -26,7 +26,7 @@ class CodeBlock extends Element {
   }
 
   render() {
-    let lines = this.textContent.split("\n");
+    let lines = this.textContent.trim().split("\n");
 
     return (
       <>
