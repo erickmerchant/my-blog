@@ -15,14 +15,9 @@
     max-width: 100%;
 
     --white-space: pre;
-    --has-scrollbars: 0;
   }
 
-  .scrolling {
-    --has-scrollbars: 1;
-  }
-
-  .wrap {
+  .pre-wrap {
     --white-space: pre-wrap;
   }
 
@@ -81,8 +76,8 @@
   .toggle {
     gap: 0.25rem;
     position: absolute;
-    right: 0;
-    bottom: calc(var(--has-scrollbars) * 0.5em);
+    right: 0.5em;
+    bottom: 0.5em;
     padding: 0.25em;
     font-weight: 500;
   }

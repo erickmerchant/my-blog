@@ -35,15 +35,9 @@ class CodeBlock extends Element {
         ))}
         <div class="root">
           <div
-            class={() => {
-              let classes = ["inner"];
-
-              if (this.#state.hasScrollbars) classes.push("scrolling");
-
-              if (this.#state.wrapWhiteSpace) classes.push("wrap");
-
-              return classes.join(" ");
-            }}
+            class={() =>
+              this.#state.wrapWhiteSpace ? "inner pre-wrap" : "inner"
+            }
           >
             {
               (this.#preRef = (
