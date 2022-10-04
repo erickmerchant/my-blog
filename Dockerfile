@@ -11,7 +11,7 @@ RUN cargo build --release --no-default-features
 RUN mv ./target/release/main ./main
 ADD content content/
 ADD assets assets/
-RUN rm -rf templates target src Cargo.lock Cargo.toml
+RUN rm -rf target src Cargo.lock Cargo.toml
 
 FROM alpine
 WORKDIR /app
