@@ -1,5 +1,4 @@
 use glob::glob;
-use nipper::Document;
 use serde::{Deserialize, Serialize};
 use std::{fs, path::Path, vec::Vec};
 
@@ -51,25 +50,21 @@ impl Post {
         let mut result = None;
 
         if let Ok(contents) = fs::read_to_string(path) {
-            let document = Document::from(contents.as_str());
-            let mut frontmatter_node = document.select("json-frontmatter").first();
             let mut data = Self::default();
+            let mut content = contents.to_owned();
+            let parts = contents.splitn(3, "===\n").collect::<Vec<&str>>();
 
-            if frontmatter_node.exists() {
-                let json = frontmatter_node.text();
-
-                frontmatter_node.remove();
-
-                if let Ok(parsed) = serde_json::from_str::<Self>(&json) {
+            if parts.len() == 3 {
+                if let Ok(parsed) = serde_json::from_str::<Self>(parts[1]) {
                     data = parsed;
-                }
-            };
 
-            let content = document.html();
+                    content = parts[2].to_string();
+                }
+            }
 
             result = Some(Self {
                 slug,
-                content: content.to_string(),
+                content,
                 ..data
             });
         }
