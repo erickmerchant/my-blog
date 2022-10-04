@@ -10,6 +10,8 @@ pub struct Site {
     pub description: String,
     pub copyright: String,
     pub links: Vec<Link>,
+    #[serde(default)]
+    pub components: Vec<String>,
 }
 
 impl Site {
