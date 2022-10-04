@@ -65,21 +65,6 @@ impl Post {
                 }
             };
 
-            let code_blocks = document.select("code-block");
-
-            for mut code_block in code_blocks.iter() {
-                let text = code_block.text();
-                let text = text.trim();
-
-                code_block.set_html("<pre></pre>");
-
-                let mut pre = code_block.select("pre").first();
-
-                for ln in text.split('\n') {
-                    pre.append_html(format!("<code>{ln}\n</code>"))
-                }
-            }
-
             let content = document.html();
 
             result = Some(Self {

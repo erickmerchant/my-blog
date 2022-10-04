@@ -26,7 +26,7 @@ class CodeBlock extends Element {
   }
 
   render() {
-    let lines = Array.from(this.querySelectorAll("code"));
+    let lines = this.textContent.split("\n");
 
     return (
       <>
@@ -44,7 +44,9 @@ class CodeBlock extends Element {
                 <pre>
                   <div class="lines">
                     {lines.map((ln) => (
-                      <div class="line">{ln.cloneNode(true)}</div>
+                      <div class="line">
+                        <code>{ln}</code>
+                      </div>
                     ))}
                   </div>
                 </pre>
