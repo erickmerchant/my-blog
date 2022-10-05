@@ -1388,12 +1388,10 @@ dependencies = [
  "actix-files",
  "actix-web",
  "base64",
- "chrono",
  "env_logger",
  "envy",
  "glob",
  "lightningcss",
- "log",
  "parcel_sourcemap",
  "serde",
  "serde_json",
@@ -2862,9 +2860,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.111.11"
+version = "0.111.12"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "bea8e599cb306e131a0136476113d96178c121be5b716bb9aa0e319b92bca408"
+checksum = "5e8771e64d9c19b9ac78c38b6fccc1ec1f2e964e4e928e291cb95540636b8cb1"
 dependencies = [
  "better_scoped_tls",
  "bitflags",
