@@ -4,7 +4,7 @@ WORKDIR /app
 RUN cargo init .
 COPY Cargo.toml Cargo.lock .
 RUN cargo build --release --no-default-features
-RUN rm -rf src
+RUN rm -rf ./target/release/main ./target/release/deps/main-* ./src
 ADD src src/
 ADD templates templates/
 RUN cargo build --release --no-default-features
