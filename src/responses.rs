@@ -52,7 +52,7 @@ pub fn asset_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
 
 pub fn js_response<P: AsRef<Path>>(src: P, config: web::Data<Config>) -> Result<NamedFile> {
     use swc::{config::Options, config::SourceMapsConfig};
-    use swc_common::{errors::ColorConfig, errors::Handler, SourceMap};
+    use swc_common::{errors::ColorConfig, errors::Handler, SourceMap, GLOBALS};
 
     cacheable_response(&src, || {
         let cm = Arc::<SourceMap>::default();
@@ -96,9 +96,11 @@ pub fn js_response<P: AsRef<Path>>(src: P, config: web::Data<Config>) -> Result<
             options.source_maps = Some(SourceMapsConfig::Str("inline".to_string()));
         }
 
-        c.process_js_file(fm, &handler, &options)
-            .map(|transformed| transformed.code)
-            .map_err(ErrorInternalServerError)
+        GLOBALS.set(&Default::default(), || {
+            c.process_js_file(fm, &handler, &options)
+                .map(|transformed| transformed.code)
+                .map_err(ErrorInternalServerError)
+        })
     })
 }
 
