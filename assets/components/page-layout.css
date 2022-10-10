@@ -13,7 +13,8 @@
     border-radius: 0.25rem;
     box-shadow: var(--toggle-shadow-size) var(--toggle-shadow-size) 0
       hsl(var(--banner-foreground) / 0.5);
-    transition: box-shadow 0.25s var(--easing);
+    transition: box-shadow 0.25s var(--easing), top 0.25s var(--easing),
+      left 0.25s var(--easing);
     color: hsl(var(--anchor-color));
     height: var(--toggle-height);
     width: var(--toggle-height);

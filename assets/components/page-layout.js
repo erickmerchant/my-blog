@@ -3,12 +3,12 @@ import {Element} from "../element.js";
 class PageLayout extends Element {
   #state = this.watch({open: false});
 
-  toggleOpen = () => {
-    this.#state.open = !this.#state.open;
-  };
-
   effect = () => {
     this.toggleAttribute("open", this.#state.open);
+  };
+
+  toggleOpen = () => {
+    this.#state.open = !this.#state.open;
   };
 
   render() {

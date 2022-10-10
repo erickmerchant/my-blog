@@ -1,11 +1,11 @@
 import {Element} from "../element.js";
 
 class ToggleButton extends Element {
-  #state = this.watch({pressed: this.getAttribute("pressed") === ""});
-
   static get observedAttributes() {
     return ["pressed"];
   }
+
+  #state = this.watch({pressed: this.getAttribute("pressed") === ""});
 
   attributeChangedCallback(name, old, current) {
     if (name === "pressed" && current !== old) {

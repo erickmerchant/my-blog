@@ -1,5 +1,31 @@
 export class Element extends HTMLElement {
+  static #_computeds = [];
+
   static fragment = Symbol("fragment");
+
+  static #appendChildren(node, children) {
+    for (let value of children) {
+      if (typeof value === "function") {
+        let [start, end] = ["", ""].map((v) => document.createComment(v));
+
+        this.#_computeds.push({start, end, value});
+
+        value = [start, end];
+      } else {
+        value = [value];
+      }
+
+      node.append(...value);
+    }
+  }
+
+  static #setAttribute(node, key, val) {
+    if (val != null && val !== false) {
+      node.setAttribute(key, val === true ? "" : val);
+    } else {
+      node.removeAttribute(key);
+    }
+  }
 
   static h(tag, props, ...children) {
     children = children.flat(Infinity);
@@ -25,39 +51,43 @@ export class Element extends HTMLElement {
     return node;
   }
 
-  static #_computeds = [];
-
-  static #setAttribute(node, key, val) {
-    if (val != null && val !== false) {
-      node.setAttribute(key, val === true ? "" : val);
-    } else {
-      node.removeAttribute(key);
-    }
-  }
-
-  static #appendChildren(node, children) {
-    for (let value of children) {
-      if (typeof value === "function") {
-        let [start, end] = ["", ""].map((v) => document.createComment(v));
-
-        this.#_computeds.push({start, end, value});
-
-        value = [start, end];
-      } else {
-        value = [value];
-      }
-
-      node.append(...value);
-    }
-  }
-
   #computeds = null;
-
-  #scheduled = false;
 
   #reads = [];
 
+  #scheduled = false;
+
   #writes = [];
+
+  #update(init = false) {
+    for (let computed of this.#computeds) {
+      if (!init) {
+        if (!this.#writes.some((g) => computed.reads.includes(g))) {
+          continue;
+        }
+      }
+
+      this.#reads = [];
+
+      let result = computed.value();
+
+      computed.reads = this.#reads;
+
+      if (computed.node && computed.key) {
+        Element.#setAttribute(computed.node, computed.key, result);
+      }
+
+      if (computed.start && computed.end) {
+        while (computed.start.nextSibling !== computed.end) {
+          computed.start.nextSibling.remove();
+        }
+
+        computed.start.after(...[].concat(result ?? "").flat());
+      }
+    }
+
+    this.#writes = [];
+  }
 
   connectedCallback() {
     this.attachShadow({mode: "open"});
@@ -109,35 +139,5 @@ export class Element extends HTMLElement {
         return state[key];
       },
     });
-  }
-
-  #update(init = false) {
-    for (let computed of this.#computeds) {
-      if (!init) {
-        if (!this.#writes.some((g) => computed.reads.includes(g))) {
-          continue;
-        }
-      }
-
-      this.#reads = [];
-
-      let result = computed.value();
-
-      computed.reads = this.#reads;
-
-      if (computed.node && computed.key) {
-        Element.#setAttribute(computed.node, computed.key, result);
-      }
-
-      if (computed.start && computed.end) {
-        while (computed.start.nextSibling !== computed.end) {
-          computed.start.nextSibling.remove();
-        }
-
-        computed.start.after(...[].concat(result ?? "").flat());
-      }
-    }
-
-    this.#writes = [];
   }
 }

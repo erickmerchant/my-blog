@@ -1,12 +1,12 @@
 import {Element} from "../element.js";
 
 class CodeBlock extends Element {
+  #preRef = null;
+
   #state = this.watch({
     hasScrollbars: false,
     wrapWhiteSpace: false,
   });
-
-  #preRef = null;
 
   #toggleWrapWhiteSpace = () => {
     this.#state.wrapWhiteSpace = !this.#state.wrapWhiteSpace;
