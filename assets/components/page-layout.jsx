@@ -19,7 +19,7 @@ class PageLayout extends Element {
         ))}
         <nav>
           <button
-            class="toggle"
+            class="button"
             aria-label="Toggle nav"
             type="button"
             aria-controls="nav"

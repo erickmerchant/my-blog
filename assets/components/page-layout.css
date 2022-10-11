@@ -3,21 +3,21 @@
     width: 1.25em;
   }
 
-  .toggle {
+  .button {
     position: fixed;
-    top: var(--toggle-top);
-    left: var(--toggle-top);
+    top: var(--button-top);
+    left: var(--button-top);
+    transform: var(--button-transform);
     z-index: 3;
     background-color: hsl(var(--background-1));
     border: 0.125rem solid hsl(var(--anchor-color) / 0.5);
     border-radius: 0.25rem;
-    box-shadow: var(--toggle-shadow-size) var(--toggle-shadow-size) 0
+    box-shadow: var(--button-shadow-size) var(--button-shadow-size) 0
       hsl(var(--banner-foreground) / 0.5);
-    transition: box-shadow 0.25s var(--easing), top 0.25s var(--easing),
-      left 0.25s var(--easing);
+    transition: box-shadow 0.25s var(--easing), transform 0.25s var(--easing);
     color: hsl(var(--anchor-color));
-    height: var(--toggle-height);
-    width: var(--toggle-height);
+    height: var(--button-height);
+    width: var(--button-height);
     display: grid;
     place-content: center;
     appearance: none;

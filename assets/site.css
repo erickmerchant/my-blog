@@ -30,19 +30,20 @@
     background-size: 0.25rem 0.25rem;
     color: hsl(var(--text-color));
 
-    --toggle-shadow-size: 0;
     --content-left: 0;
     --drawer-width: 70vw;
-    --toggle-top: 0.875rem;
-    --toggle-height: 2.25rem;
+    --button-shadow-size: 0;
+    --button-top: 0.875rem;
+    --button-height: 2.25rem;
+    --button-transform: translate(0, 0);
     --scrollbar-foreground: hsl(var(--anchor-color) / 0.5);
     --scrollbar-background: hsl(var(--background-2));
     scrollbar-color: var(--scrollbar-foreground) var(--scrollbar-background);
   }
 
   page-layout[open] {
-    --toggle-top: 0.8rem;
-    --toggle-shadow-size: 0.25rem;
+    --button-transform: translate(-0.075rem, -0.075rem);
+    --button-shadow-size: 0.25rem;
     --content-left: var(--drawer-width);
   }
 
@@ -62,7 +63,7 @@
 @layer page {
   .banner {
     position: sticky;
-    top: calc((var(--toggle-top) * 2) + var(--toggle-height) - var(--height));
+    top: calc((var(--button-top) * 2) + var(--button-height) - var(--height));
     z-index: 2;
     background-color: hsl(var(--banner-background));
     background-image: linear-gradient(
