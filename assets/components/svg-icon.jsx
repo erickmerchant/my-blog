@@ -71,7 +71,6 @@ class SvgIcon extends Element {
         {["../common.css", "./svg-icon.css"].map((url) => (
           <link rel="stylesheet" href={new URL(url, import.meta.url).href} />
         ))}
-
         <svg
           class="icon"
           aria-hidden="true"
@@ -81,7 +80,7 @@ class SvgIcon extends Element {
           {() =>
             this.#state.name ? (
               <path
-                d={SvgIcon.#paths[this.#state.name].join(" ")}
+                d={SvgIcon.#paths[this.#state.name]?.join(" ")}
                 xmlns={SvgIcon.#svgns}
               />
             ) : (

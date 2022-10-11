@@ -8,7 +8,7 @@
   }
 
   .inner {
-    font-family: "IBM Plex Mono", monospace;
+    font-family: Consolas, monaco, monospace;
     font-weight: 400;
     border-radius: var(--border-radius);
     overflow-x: auto;

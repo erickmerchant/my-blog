@@ -53,8 +53,14 @@ pub fn asset_response<P: AsRef<Path>>(src: P) -> Result<NamedFile> {
 pub fn js_response<P: AsRef<Path>>(src: P, config: web::Data<Config>) -> Result<NamedFile> {
     use swc::{config::Options, config::SourceMapsConfig};
     use swc_common::{errors::ColorConfig, errors::Handler, SourceMap, GLOBALS};
-
     cacheable_response(&src, || {
+        let mut src = src.as_ref();
+        let jsx_src = src.with_extension("jsx");
+
+        if jsx_src.exists() {
+            src = &jsx_src;
+        }
+
         let cm = Arc::<SourceMap>::default();
         let handler = Arc::new(Handler::with_tty_emitter(
             ColorConfig::Auto,
@@ -63,7 +69,7 @@ pub fn js_response<P: AsRef<Path>>(src: P, config: web::Data<Config>) -> Result<
             Some(cm.clone()),
         ));
         let c = swc::Compiler::new(cm.clone());
-        let fm = cm.load_file(src.as_ref()).map_err(ErrorNotFound)?;
+        let fm = cm.load_file(src).map_err(ErrorNotFound)?;
         let options = json!({
             "minify": true,
             "env": {

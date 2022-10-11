@@ -1,14 +1,10 @@
 export class Element extends HTMLElement {
-  static #_computeds = [];
-
-  static fragment = Symbol("fragment");
-
   static #appendChildren(node, children) {
     for (let value of children) {
       if (typeof value === "function") {
         let [start, end] = ["", ""].map((v) => document.createComment(v));
 
-        this.#_computeds.push({start, end, value});
+        this.#computeds.push({start, end, value});
 
         value = [start, end];
       } else {
@@ -19,6 +15,8 @@ export class Element extends HTMLElement {
     }
   }
 
+  static #computeds = [];
+
   static #setAttribute(node, key, val) {
     if (val != null && val !== false) {
       node.setAttribute(key, val === true ? "" : val);
@@ -26,6 +24,8 @@ export class Element extends HTMLElement {
       node.removeAttribute(key);
     }
   }
+
+  static fragment = Symbol("fragment");
 
   static h(tag, props, ...children) {
     children = children.flat(Infinity);
@@ -40,7 +40,7 @@ export class Element extends HTMLElement {
       if (key.substring(0, 2) === "on") {
         node.addEventListener(key.substring(2), ...[].concat(value));
       } else if (typeof value === "function") {
-        this.#_computeds.push({node, key, value});
+        this.#computeds.push({node, key, value});
       } else {
         this.#setAttribute(node, key, value);
       }
@@ -51,16 +51,14 @@ export class Element extends HTMLElement {
     return node;
   }
 
-  #computeds = null;
+  #instanceComputeds = null;
 
   #reads = [];
 
   #scheduled = false;
 
-  #writes = [];
-
   #update(init = false) {
-    for (let computed of this.#computeds) {
+    for (let computed of this.#instanceComputeds) {
       if (!init) {
         if (!this.#writes.some((g) => computed.reads.includes(g))) {
           continue;
@@ -89,23 +87,25 @@ export class Element extends HTMLElement {
     this.#writes = [];
   }
 
+  #writes = [];
+
   connectedCallback() {
     this.attachShadow({mode: "open"});
 
-    let cachedComputed = Element.#_computeds.splice(
+    let cachedComputed = Element.#computeds.splice(
       0,
-      Element.#_computeds.length
+      Element.#computeds.length
     );
 
     Element.#appendChildren(this.shadowRoot, this.render?.() ?? [""]);
 
-    this.#computeds = Element.#_computeds;
+    this.#instanceComputeds = Element.#computeds;
 
     if (this.effect) {
-      this.#computeds.unshift({value: this.effect});
+      this.#instanceComputeds.unshift({value: this.effect});
     }
 
-    Element.#_computeds = cachedComputed;
+    Element.#computeds = cachedComputed;
 
     this.#update(true);
   }

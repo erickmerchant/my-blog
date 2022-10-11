@@ -26,7 +26,7 @@ class ToggleButton extends Element {
         >
           <span>
             <span class="option">
-              <svg-icon name={() => (this.#state.pressed ? "check" : "")} />
+              {() => (this.#state.pressed ? <svg-icon name="check" /> : "")}
             </span>
             <slot />
           </span>

@@ -13,16 +13,16 @@ class ThemeSelector extends Element {
 
   #prefersThemeDark = window.matchMedia("(prefers-color-scheme: dark)");
 
-  #state = this.watch({
-    autoTheme: this.#prefersThemeDark.matches ? "dark" : "light",
-    theme: ThemeSelector.#storage()?.getItem("theme") ?? "auto",
-  });
-
   #setTheme(value) {
     this.#state.theme = this.#state.theme === value ? "auto" : value;
 
     ThemeSelector.#storage()?.setItem("theme", this.#state.theme);
   }
+
+  #state = this.watch({
+    autoTheme: this.#prefersThemeDark.matches ? "dark" : "light",
+    theme: ThemeSelector.#storage()?.getItem("theme") ?? "auto",
+  });
 
   effect = () => {
     let theme =

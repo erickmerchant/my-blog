@@ -69,7 +69,7 @@
   }
 
   code {
-    font-family: "IBM Plex Mono", monospace;
+    font-family: Consolas, monaco, monospace;
   }
 
   :host {
