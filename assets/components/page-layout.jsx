@@ -22,19 +22,19 @@ class PageLayout extends Element {
             class="button"
             aria-label="Toggle nav"
             type="button"
-            aria-controls="nav"
+            aria-controls="nav-content"
             aria-expanded={() => String(this.#state.open)}
             onclick={this.toggleOpen}
           >
             <svg-icon name={() => (this.#state.open ? "close" : "open")} />
           </button>
           <div
-            id="nav"
-            class="nav"
+            id="nav-content"
+            class="nav-content"
             aria-hidden={() => String(!this.#state.open)}
             inert={() => !this.#state.open}
           >
-            <slot name="nav" />
+            <slot name="links" />
           </div>
         </nav>
         <div
@@ -49,7 +49,7 @@ class PageLayout extends Element {
             aria-hidden={() => String(this.#state.open)}
             inert={() => this.#state.open}
           >
-            <slot name="panel" />
+            <slot name="content" />
           </div>
         </div>
       </>

@@ -36,7 +36,7 @@ class CodeBlock extends Element {
         <div class="root">
           <div
             class={() =>
-              this.#state.wrapWhiteSpace ? "inner pre-wrap" : "inner"
+              this.#state.wrapWhiteSpace ? "pre-wrap" : "pre"
             }
           >
             {
@@ -56,7 +56,7 @@ class CodeBlock extends Element {
               class={() => {
                 return this.#state.hasScrollbars || this.#state.wrapWhiteSpace
                   ? "toggle"
-                  : "toggle hidden";
+                  : "hidden";
               }}
               pressed={() => this.#state.wrapWhiteSpace}
               onclick={this.#toggleWrapWhiteSpace}

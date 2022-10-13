@@ -1,12 +1,12 @@
 {% extends "_layout.html" %}
 
 {% block main %}
-  <div>
+  <header>
     <h1>{{post.title}}</h1>
     <p class="published">
       Published: <time>{{post.date | date(format="%B %e, %Y")}}</time>
     </p>
-  </div>
+  </header>
 
   {{post.content|safe}}
 {% endblock %}

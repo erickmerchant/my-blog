@@ -7,13 +7,16 @@
     position: relative;
   }
 
-  .inner {
+  .pre,
+  .pre-wrap {
     font-family: Consolas, monaco, monospace;
     font-weight: 400;
     border-radius: var(--border-radius);
     overflow-x: auto;
     max-width: 100%;
+  }
 
+  .pre {
     --white-space: pre;
   }
 

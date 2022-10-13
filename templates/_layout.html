@@ -18,25 +18,25 @@
   </head>
   <body>
     <page-layout>
-      <div class="banner" slot="panel">
+      <div class="banner" slot="content">
       </div>
 
-      <main class="main" slot="panel">
+      <main class="main" slot="content">
         {% block main %}
         {% endblock %}
       </main>
 
-      <footer class="footer" slot="panel">
+      <footer class="footer" slot="content">
         <p class="copyright">{{site.copyright}}</p>
       </footer>
 
-      <ul class="links" slot="nav">
+      <ul class="links" slot="links">
         {% for link in site.links %}
           <li><a href="{{link.href}}">{{link.title}}</a></li>
         {% endfor %}
       </ul>
 
-      <theme-selector slot="nav"></theme-selector>
+      <theme-selector slot="links"></theme-selector>
     </page-layout>
   </body>
 </html>
