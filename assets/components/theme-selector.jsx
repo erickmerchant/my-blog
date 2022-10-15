@@ -1,4 +1,4 @@
-import {Element} from "../element.js";
+import {Element, Computed} from "../element.js";
 
 class ThemeSelector extends Element {
   static #options = ["light", "dark"];
@@ -13,11 +13,11 @@ class ThemeSelector extends Element {
 
   #prefersThemeDark = window.matchMedia("(prefers-color-scheme: dark)");
 
-  #setTheme(value) {
+  #setTheme = (value) => {
     this.#state.theme = this.#state.theme === value ? "auto" : value;
 
     ThemeSelector.#storage()?.setItem("theme", this.#state.theme);
-  }
+  };
 
   #state = this.watch({
     autoTheme: this.#prefersThemeDark.matches ? "dark" : "light",
@@ -47,7 +47,7 @@ class ThemeSelector extends Element {
           <h3>Theme</h3>
           {ThemeSelector.#options.map((scheme) => (
             <toggle-button
-              pressed={() => this.#state.theme === scheme}
+              pressed={new Computed(() => this.#state.theme === scheme)}
               onclick={() => {
                 this.#setTheme(scheme);
               }}
@@ -56,8 +56,10 @@ class ThemeSelector extends Element {
                 {scheme}
                 <svg-icon
                   class="helper"
-                  name={() =>
-                    scheme === this.#state.autoTheme ? "asterisk" : ""
+                  name={
+                    new Computed(() =>
+                      scheme === this.#state.autoTheme ? "asterisk" : ""
+                    )
                   }
                 />
               </span>

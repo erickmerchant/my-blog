@@ -1,4 +1,4 @@
-import {Element} from "../element.js";
+import {Computed, Element} from "../element.js";
 
 class ToggleButton extends Element {
   static get observedAttributes() {
@@ -22,11 +22,15 @@ class ToggleButton extends Element {
         <button
           type="button"
           class="button"
-          aria-pressed={() => String(this.#state.pressed)}
+          aria-pressed={new Computed(() => String(this.#state.pressed))}
         >
           <span>
             <span class="option">
-              {() => (this.#state.pressed ? <svg-icon name="check" /> : "")}
+              {
+                new Computed(() =>
+                  this.#state.pressed ? <svg-icon name="check" /> : ""
+                )
+              }
             </span>
             <slot />
           </span>
