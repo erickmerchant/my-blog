@@ -1,4 +1,4 @@
-import {Computed, Element} from "../element.js";
+import {Element, Computed} from "../element.js";
 
 class ToggleButton extends Element {
   static get observedAttributes() {
