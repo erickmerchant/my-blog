@@ -15,6 +15,10 @@ export class Element extends HTMLElement {
 
   static fragment = Symbol("fragment");
 
+  static #addEventListener(node, key, args) {
+    node.addEventListener(key, ...[].concat(args));
+  }
+
   static #appendChildren(node, children) {
     for (let value of children) {
       if (typeof value === "object" && value instanceof Computed) {
@@ -52,7 +56,7 @@ export class Element extends HTMLElement {
       if (typeof value === "object" && value instanceof Computed) {
         this.#computeds.push({node, key, value});
       } else if (key.substring(0, 2) === "on") {
-        node.addEventListener(key.substring(2), ...[].concat(value));
+        this.#addEventListener(node, key.substring(2), value);
       } else {
         this.#setAttribute(node, key, value);
       }
@@ -89,14 +93,15 @@ export class Element extends HTMLElement {
         if (computed.key.substring(0, 2) === "on") {
           let key = computed.key.substring(2);
 
-          result = result != null ? [].concat(result) : result;
-
           if (computed.previous != null) {
-            computed.node.removeEventListener(key, ...computed.previous);
+            computed.node.removeEventListener(
+              key,
+              ...[].concat(computed.previous)
+            );
           }
 
           if (result != null) {
-            computed.node.addEventListener(key, ...result);
+            Element.#addEventListener(computed.node, key, result);
           }
 
           computed.previous = result;
@@ -139,12 +144,16 @@ export class Element extends HTMLElement {
   }
 
   watch(state) {
+    let symbols = {};
+
     return new Proxy(state, {
       set: (state, key, value) => {
         state[key] = value;
 
-        if (!~this.#writes.indexOf(key)) {
-          this.#writes.push(key);
+        symbols[key] ??= Symbol(key);
+
+        if (!~this.#writes.indexOf(symbols[key])) {
+          this.#writes.push(symbols[key]);
         }
 
         if (!this.#scheduled) {
@@ -160,8 +169,10 @@ export class Element extends HTMLElement {
         return true;
       },
       get: (state, key) => {
-        if (!~this.#reads.indexOf(key)) {
-          this.#reads.push(key);
+        symbols[key] ??= Symbol(key);
+
+        if (!~this.#reads.indexOf(symbols[key])) {
+          this.#reads.push(symbols[key]);
         }
 
         return state[key];
