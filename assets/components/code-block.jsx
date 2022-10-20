@@ -1,4 +1,4 @@
-import {Element, Computed} from "../element.js";
+import {Element, Formula} from "../element.js";
 
 class CodeBlock extends Element {
   #preRef = null;
@@ -36,7 +36,7 @@ class CodeBlock extends Element {
         <div class="root">
           <div
             class={
-              new Computed(() =>
+              new Formula(() =>
                 this.#state.wrapWhiteSpace ? "pre-wrap" : "pre"
               )
             }
@@ -56,13 +56,13 @@ class CodeBlock extends Element {
             }
             <toggle-button
               class={
-                new Computed(() => {
+                new Formula(() => {
                   return this.#state.hasScrollbars || this.#state.wrapWhiteSpace
                     ? "toggle"
                     : "hidden";
                 })
               }
-              pressed={new Computed(() => this.#state.wrapWhiteSpace)}
+              pressed={new Formula(() => this.#state.wrapWhiteSpace)}
               onclick={this.#toggleWrapWhiteSpace}
             >
               Wrap

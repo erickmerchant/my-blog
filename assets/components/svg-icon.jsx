@@ -1,4 +1,4 @@
-import {Element, Computed} from "../element.js";
+import {Element, Formula} from "../element.js";
 
 class SvgIcon extends Element {
   static #paths = {
@@ -57,7 +57,7 @@ class SvgIcon extends Element {
     return ["name"];
   }
 
-  #state = this.watch({name: this.getAttribute("name")});
+  #state = this.watch({name: null});
 
   attributeChangedCallback(name, old, current) {
     if (name === "name" && current !== old) {
@@ -78,7 +78,7 @@ class SvgIcon extends Element {
           xmlns={SvgIcon.#svgns}
         >
           {
-            new Computed(() =>
+            new Formula(() =>
               this.#state.name ? (
                 <path
                   d={SvgIcon.#paths[this.#state.name]?.join(" ")}

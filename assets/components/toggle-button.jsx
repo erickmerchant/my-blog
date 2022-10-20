@@ -1,11 +1,11 @@
-import {Element, Computed} from "../element.js";
+import {Element, Formula} from "../element.js";
 
 class ToggleButton extends Element {
   static get observedAttributes() {
     return ["pressed"];
   }
 
-  #state = this.watch({pressed: this.getAttribute("pressed") === ""});
+  #state = this.watch({pressed: null});
 
   attributeChangedCallback(name, old, current) {
     if (name === "pressed" && current !== old) {
@@ -22,12 +22,12 @@ class ToggleButton extends Element {
         <button
           type="button"
           class="button"
-          aria-pressed={new Computed(() => String(this.#state.pressed))}
+          aria-pressed={new Formula(() => String(this.#state.pressed))}
         >
           <span>
             <span class="option">
               {
-                new Computed(() =>
+                new Formula(() =>
                   this.#state.pressed ? <svg-icon name="check" /> : ""
                 )
               }

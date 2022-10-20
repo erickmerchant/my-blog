@@ -1,4 +1,4 @@
-export class Computed {
+export class Formula {
   #callback = null;
 
   constructor(callback) {
@@ -11,7 +11,7 @@ export class Computed {
 }
 
 export class Element extends HTMLElement {
-  static #computeds = [];
+  static #formulas = [];
 
   static fragment = Symbol("fragment");
 
@@ -21,10 +21,10 @@ export class Element extends HTMLElement {
 
   static #appendChildren(node, children) {
     for (let value of children) {
-      if (typeof value === "object" && value instanceof Computed) {
+      if (typeof value === "object" && value instanceof Formula) {
         let [start, end] = ["", ""].map((v) => document.createComment(v));
 
-        this.#computeds.push({start, end, value});
+        this.#formulas.push({start, end, value});
 
         value = [start, end];
       } else {
@@ -53,8 +53,8 @@ export class Element extends HTMLElement {
       : document.createElement(tag);
 
     for (let [key, value] of Object.entries(props ?? {})) {
-      if (typeof value === "object" && value instanceof Computed) {
-        this.#computeds.push({node, key, value});
+      if (typeof value === "object" && value instanceof Formula) {
+        this.#formulas.push({node, key, value});
       } else if (key.substring(0, 2) === "on") {
         this.#addEventListener(node, key.substring(2), value);
       } else {
@@ -67,80 +67,69 @@ export class Element extends HTMLElement {
     return node;
   }
 
-  #instanceComputeds = null;
+  #cleanFormulas = [];
+
+  #dirtyFormulas = [];
 
   #reads = [];
 
   #scheduled = false;
 
-  #writes = [];
-
-  #update(init = false) {
-    for (let computed of this.#instanceComputeds) {
-      if (!init) {
-        if (!this.#writes.some((g) => computed.reads.includes(g))) {
-          continue;
-        }
-      }
-
+  #update() {
+    for (let formula of this.#dirtyFormulas) {
       this.#reads = [];
 
-      let result = computed.value.call();
+      let result = formula.value.call();
 
-      computed.reads = this.#reads;
+      formula.reads = this.#reads;
 
-      if (computed.node && computed.key) {
-        if (computed.key.substring(0, 2) === "on") {
-          let key = computed.key.substring(2);
+      if (formula.node && formula.key) {
+        if (formula.key.substring(0, 2) === "on") {
+          let key = formula.key.substring(2);
 
-          if (computed.previous != null) {
-            computed.node.removeEventListener(
+          if (formula.previous != null) {
+            formula.node.removeEventListener(
               key,
-              ...[].concat(computed.previous)
+              ...[].concat(formula.previous)
             );
           }
 
           if (result != null) {
-            Element.#addEventListener(computed.node, key, result);
+            Element.#addEventListener(formula.node, key, result);
           }
 
-          computed.previous = result;
+          formula.previous = result;
         } else {
-          Element.#setAttribute(computed.node, computed.key, result);
+          Element.#setAttribute(formula.node, formula.key, result);
         }
       }
 
-      if (computed.start && computed.end) {
-        while (computed.start.nextSibling !== computed.end) {
-          computed.start.nextSibling.remove();
+      if (formula.start && formula.end) {
+        while (formula.start.nextSibling !== formula.end) {
+          formula.start.nextSibling.remove();
         }
 
-        computed.start.after(...[].concat(result ?? "").flat());
+        formula.start.after(...[].concat(result ?? "").flat());
       }
     }
 
-    this.#writes = [];
+    this.#cleanFormulas.push(...this.#dirtyFormulas.splice(0, Infinity));
   }
 
   connectedCallback() {
     this.attachShadow({mode: "open"});
 
-    let cachedComputed = Element.#computeds.splice(
-      0,
-      Element.#computeds.length
-    );
+    let cachedLength = Element.#formulas.length;
 
     Element.#appendChildren(this.shadowRoot, this.render?.() ?? [""]);
 
-    this.#instanceComputeds = Element.#computeds;
+    this.#dirtyFormulas = Element.#formulas.splice(cachedLength, Infinity);
 
     if (this.effect) {
-      this.#instanceComputeds.unshift({value: new Computed(this.effect)});
+      this.#dirtyFormulas.unshift({value: new Formula(this.effect)});
     }
 
-    Element.#computeds = cachedComputed;
-
-    this.#update(true);
+    this.#update();
   }
 
   watch(state) {
@@ -152,8 +141,10 @@ export class Element extends HTMLElement {
 
         symbols[key] ??= Symbol(key);
 
-        if (!~this.#writes.indexOf(symbols[key])) {
-          this.#writes.push(symbols[key]);
+        for (let i = this.#cleanFormulas.length - 1; i >= 0; i--) {
+          if (this.#cleanFormulas[i].reads.includes(symbols[key])) {
+            this.#dirtyFormulas.push(...this.#cleanFormulas.splice(i, 1));
+          }
         }
 
         if (!this.#scheduled) {
