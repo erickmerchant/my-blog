@@ -69,14 +69,16 @@ export class Element extends HTMLElement {
 
   #cleanFormulas = [];
 
-  #dirtyFormulas = [];
+  #dirtyFormulaIndexes = [];
 
   #reads = [];
 
   #scheduled = false;
 
   #update() {
-    for (let formula of this.#dirtyFormulas) {
+    for (let index of this.#dirtyFormulaIndexes) {
+      let formula = this.#cleanFormulas[index];
+
       this.#reads = [];
 
       let result = formula.value.call();
@@ -113,7 +115,7 @@ export class Element extends HTMLElement {
       }
     }
 
-    this.#cleanFormulas.push(...this.#dirtyFormulas.splice(0, Infinity));
+    this.#dirtyFormulaIndexes = [];
   }
 
   connectedCallback() {
@@ -123,11 +125,13 @@ export class Element extends HTMLElement {
 
     Element.#appendChildren(this.shadowRoot, this.render?.() ?? [""]);
 
-    this.#dirtyFormulas = Element.#formulas.splice(cachedLength, Infinity);
+    this.#cleanFormulas = Element.#formulas.splice(cachedLength, Infinity);
 
     if (this.effect) {
-      this.#dirtyFormulas.unshift({value: new Formula(this.effect)});
+      this.#cleanFormulas.unshift({value: new Formula(this.effect)});
     }
+
+    this.#dirtyFormulaIndexes = this.#cleanFormulas.keys();
 
     this.#update();
   }
@@ -141,9 +145,9 @@ export class Element extends HTMLElement {
 
         symbols[key] ??= Symbol(key);
 
-        for (let i = this.#cleanFormulas.length - 1; i >= 0; i--) {
+        for (let i = 0; i < this.#cleanFormulas.length; i++) {
           if (this.#cleanFormulas[i].reads.includes(symbols[key])) {
-            this.#dirtyFormulas.push(...this.#cleanFormulas.splice(i, 1));
+            this.#dirtyFormulaIndexes.push(i);
           }
         }
 
