@@ -1,10 +1,29 @@
 @layer component {
+  :host {
+    width: 100%;
+
+    --has-extra-width: 1;
+    --border-radius: 0.25em;
+  }
+
+  @media (max-width: 600px) {
+    :host {
+      --border-radius: 0;
+      --has-padding-inline: 0;
+    }
+  }
+
   pre {
     white-space: var(--white-space);
   }
 
+  code {
+    background: none;
+  }
+
   .root {
     position: relative;
+    font-size: 0.8em;
   }
 
   .pre,
@@ -28,8 +47,8 @@
     display: grid;
     grid-template-columns: min-content auto;
     gap: 0 0.5rem;
-    background-color: hsl(var(--code-background));
     color: hsl(var(--code-color));
+    background-color: hsl(var(--code-background));
     counter-reset: lines;
     min-width: min-content;
   }
@@ -76,7 +95,8 @@
     --last: 1;
   }
 
-  .toggle {
+  .toggle,
+  .toggle--hidden {
     gap: 0.25rem;
     position: absolute;
     right: 0.5em;
@@ -85,7 +105,7 @@
     font-weight: 500;
   }
 
-  .hidden {
+  .toggle--hidden {
     visibility: hidden;
   }
 }

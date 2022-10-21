@@ -59,7 +59,7 @@ class CodeBlock extends Element {
                 new Formula(() => {
                   return this.#state.hasScrollbars || this.#state.wrapWhiteSpace
                     ? "toggle"
-                    : "hidden";
+                    : "toggle--hidden";
                 })
               }
               pressed={new Formula(() => this.#state.wrapWhiteSpace)}

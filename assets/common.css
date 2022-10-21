@@ -65,11 +65,20 @@
   ol {
     display: flex;
     flex-direction: column;
-    list-style: none;
+    gap: 0.25em;
+  }
+
+  li {
+    margin-inline-start: var(--list-indent);
   }
 
   code {
     font-family: Consolas, monaco, monospace;
+    color: hsl(var(--anchor-color));
+    background-color: hsl(var(--background-2) / 0.5);
+    border-radius: 0.25em;
+    padding-block: 0.125em;
+    padding-inline: 0.125rem;
   }
 
   :host {
