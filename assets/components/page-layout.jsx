@@ -1,4 +1,4 @@
-import {Element, Formula} from "../element.js";
+import {Element} from "../element.js";
 
 class PageLayout extends Element {
   #state = this.watch({open: false});
@@ -23,35 +23,33 @@ class PageLayout extends Element {
             aria-label="Toggle nav"
             type="button"
             aria-controls="nav-content"
-            aria-expanded={new Formula(() => String(this.#state.open))}
+            aria-expanded={this.formula(() => String(this.#state.open))}
             onclick={this.#toggleOpen}
           >
             <svg-icon
-              name={new Formula(() => (this.#state.open ? "close" : "open"))}
+              name={this.formula(() => (this.#state.open ? "close" : "open"))}
             />
           </button>
           <div
             id="nav-content"
             class="nav-content"
-            aria-hidden={new Formula(() => String(!this.#state.open))}
-            inert={new Formula(() => !this.#state.open)}
+            aria-hidden={this.formula(() => String(!this.#state.open))}
+            inert={this.formula(() => !this.#state.open)}
           >
             <slot name="links" />
           </div>
         </nav>
         <div
-          onclick={
-            new Formula(() => {
-              if (this.#state.open) {
-                return this.#toggleOpen;
-              }
-            })
-          }
+          onclick={this.formula(() => {
+            if (this.#state.open) {
+              return this.#toggleOpen;
+            }
+          })}
           class="panel"
         >
           <div
-            aria-hidden={new Formula(() => String(this.#state.open))}
-            inert={new Formula(() => this.#state.open)}
+            aria-hidden={this.formula(() => String(this.#state.open))}
+            inert={this.formula(() => this.#state.open)}
           >
             <slot name="content" />
           </div>

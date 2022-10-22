@@ -1,4 +1,4 @@
-import {Element, Formula} from "../element.js";
+import {Element} from "../element.js";
 
 class ToggleButton extends Element {
   static get observedAttributes() {
@@ -22,15 +22,13 @@ class ToggleButton extends Element {
         <button
           type="button"
           class="button"
-          aria-pressed={new Formula(() => String(this.#state.pressed))}
+          aria-pressed={this.formula(() => String(this.#state.pressed))}
         >
           <span>
             <span class="option">
-              {
-                new Formula(() =>
-                  this.#state.pressed ? <svg-icon name="check" /> : ""
-                )
-              }
+              {this.formula(() =>
+                this.#state.pressed ? <svg-icon name="check" /> : ""
+              )}
             </span>
             <slot />
           </span>

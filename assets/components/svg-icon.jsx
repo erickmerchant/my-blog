@@ -1,4 +1,4 @@
-import {Element, Formula} from "../element.js";
+import {Element} from "../element.js";
 
 class SvgIcon extends Element {
   static #paths = {
@@ -77,18 +77,16 @@ class SvgIcon extends Element {
           viewBox="0 0 16 16"
           xmlns={SvgIcon.#svgns}
         >
-          {
-            new Formula(() =>
-              this.#state.name ? (
-                <path
-                  d={SvgIcon.#paths[this.#state.name]?.join(" ")}
-                  xmlns={SvgIcon.#svgns}
-                />
-              ) : (
-                ""
-              )
+          {this.formula(() =>
+            this.#state.name ? (
+              <path
+                d={SvgIcon.#paths[this.#state.name]?.join(" ")}
+                xmlns={SvgIcon.#svgns}
+              />
+            ) : (
+              ""
             )
-          }
+          )}
         </svg>
       </>
     );

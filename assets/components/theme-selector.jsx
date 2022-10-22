@@ -1,4 +1,4 @@
-import {Element, Formula} from "../element.js";
+import {Element} from "../element.js";
 
 class ThemeSelector extends Element {
   static #options = ["light", "dark"];
@@ -47,22 +47,20 @@ class ThemeSelector extends Element {
           <h3>Theme</h3>
           {ThemeSelector.#options.map((scheme) => (
             <toggle-button
-              pressed={new Formula(() => this.#state.theme === scheme)}
+              pressed={this.formula(() => this.#state.theme === scheme)}
               onclick={() => {
                 this.#setTheme(scheme);
               }}
             >
               <span class="name">
                 {scheme}
-                {
-                  new Formula(() =>
-                    scheme === this.#state.autoTheme ? (
-                      <svg-icon class="helper" name="asterisk" />
-                    ) : (
-                      ""
-                    )
+                {this.formula(() =>
+                  scheme === this.#state.autoTheme ? (
+                    <svg-icon class="helper" name="asterisk" />
+                  ) : (
+                    ""
                   )
-                }
+                )}
               </span>
             </toggle-button>
           ))}

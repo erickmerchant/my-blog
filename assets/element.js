@@ -1,17 +1,5 @@
-export class Formula {
-  #callback = null;
-
-  constructor(callback) {
-    this.#callback = callback;
-  }
-
-  call() {
-    return this.#callback();
-  }
-}
-
 export class Element extends HTMLElement {
-  static #formulas = [];
+  static #stack = [];
 
   static fragment = Symbol("fragment");
 
@@ -21,10 +9,10 @@ export class Element extends HTMLElement {
 
   static #appendChildren(node, children) {
     for (let value of children) {
-      if (typeof value === "object" && value instanceof Formula) {
+      if (typeof value === "symbol") {
         let [start, end] = ["", ""].map((v) => document.createComment(v));
 
-        this.#formulas.push({start, end, value});
+        this.#stack[0].#addFormula({start, end, value});
 
         value = [start, end];
       } else {
@@ -53,8 +41,8 @@ export class Element extends HTMLElement {
       : document.createElement(tag);
 
     for (let [key, value] of Object.entries(props ?? {})) {
-      if (typeof value === "object" && value instanceof Formula) {
-        this.#formulas.push({node, key, value});
+      if (typeof value === "symbol") {
+        this.#stack[0].#addFormula({node, key, value});
       } else if (key.substring(0, 2) === "on") {
         this.#addEventListener(node, key.substring(2), value);
       } else {
@@ -69,19 +57,23 @@ export class Element extends HTMLElement {
 
   #cleanFormulas = [];
 
-  #dirtyFormulaIndexes = [];
+  #dirtyFormulas = [];
+
+  #formulaCallbackMap = new Map();
 
   #reads = [];
 
   #scheduled = false;
 
-  #update() {
-    for (let index of this.#dirtyFormulaIndexes) {
-      let formula = this.#cleanFormulas[index];
+  #addFormula(formula) {
+    this.#dirtyFormulas.push(formula);
+  }
 
+  #update() {
+    for (let formula of this.#dirtyFormulas) {
       this.#reads = [];
 
-      let result = formula.value.call();
+      let result = this.#formulaCallbackMap.get(formula.value)();
 
       formula.reads = this.#reads;
 
@@ -115,25 +107,33 @@ export class Element extends HTMLElement {
       }
     }
 
-    this.#dirtyFormulaIndexes = [];
+    this.#cleanFormulas = this.#cleanFormulas.concat(
+      this.#dirtyFormulas.splice(0, Infinity)
+    );
   }
 
   connectedCallback() {
     this.attachShadow({mode: "open"});
 
-    let cachedLength = Element.#formulas.length;
+    Element.#stack.unshift(this);
 
     Element.#appendChildren(this.shadowRoot, this.render?.() ?? [""]);
 
-    this.#cleanFormulas = Element.#formulas.splice(cachedLength, Infinity);
-
     if (this.effect) {
-      this.#cleanFormulas.unshift({value: new Formula(this.effect)});
+      this.#dirtyFormulas.unshift({value: this.formula(this.effect)});
     }
 
-    this.#dirtyFormulaIndexes = this.#cleanFormulas.keys();
-
     this.#update();
+
+    Element.#stack.shift();
+  }
+
+  formula(callback) {
+    let symbol = Symbol("formula");
+
+    this.#formulaCallbackMap.set(symbol, callback);
+
+    return symbol;
   }
 
   watch(state) {
@@ -145,9 +145,9 @@ export class Element extends HTMLElement {
 
         symbols[key] ??= Symbol(key);
 
-        for (let i = 0; i < this.#cleanFormulas.length; i++) {
+        for (let i = this.#cleanFormulas.length - 1; i >= 0; i--) {
           if (this.#cleanFormulas[i].reads.includes(symbols[key])) {
-            this.#dirtyFormulaIndexes.push(i);
+            this.#dirtyFormulas.push(...this.#cleanFormulas.splice(i, 1));
           }
         }
 
@@ -157,7 +157,11 @@ export class Element extends HTMLElement {
           setTimeout(() => {
             this.#scheduled = false;
 
+            Element.#stack.unshift(this);
+
             this.#update();
+
+            Element.#stack.shift();
           }, 0);
         }
 

@@ -1,4 +1,4 @@
-import {Element, Formula} from "../element.js";
+import {Element} from "../element.js";
 
 class CodeBlock extends Element {
   #preRef = null;
@@ -35,11 +35,9 @@ class CodeBlock extends Element {
         ))}
         <div class="root">
           <div
-            class={
-              new Formula(() =>
-                this.#state.wrapWhiteSpace ? "pre-wrap" : "pre"
-              )
-            }
+            class={this.formula(() =>
+              this.#state.wrapWhiteSpace ? "pre-wrap" : "pre"
+            )}
           >
             {
               (this.#preRef = (
@@ -55,14 +53,12 @@ class CodeBlock extends Element {
               ))
             }
             <toggle-button
-              class={
-                new Formula(() => {
-                  return this.#state.hasScrollbars || this.#state.wrapWhiteSpace
-                    ? "toggle"
-                    : "toggle--hidden";
-                })
-              }
-              pressed={new Formula(() => this.#state.wrapWhiteSpace)}
+              class={this.formula(() => {
+                return this.#state.hasScrollbars || this.#state.wrapWhiteSpace
+                  ? "toggle"
+                  : "toggle--hidden";
+              })}
+              pressed={this.formula(() => this.#state.wrapWhiteSpace)}
               onclick={this.#toggleWrapWhiteSpace}
             >
               Wrap
