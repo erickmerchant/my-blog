@@ -66,6 +66,8 @@ export class Element extends HTMLElement {
 
   #reads = [];
 
+  #formulaRunning = false;
+
   #scheduled = false;
 
   #addFormula(formula) {
@@ -76,7 +78,11 @@ export class Element extends HTMLElement {
     for (let formula of this.#dirtyFormulas) {
       this.#reads = [];
 
+      this.#formulaRunning = true;
+
       let result = this.#formulaCallbackMap.get(formula.value)();
+
+      this.#formulaRunning = false;
 
       formula.reads = this.#reads;
 
@@ -132,6 +138,10 @@ export class Element extends HTMLElement {
   }
 
   formula(callback) {
+    if (this.#formulaRunning) {
+      return callback();
+    }
+
     let symbol = Symbol("formula");
 
     this.#formulaCallbackMap.set(symbol, callback);
