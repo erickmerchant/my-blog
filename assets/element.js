@@ -1,4 +1,7 @@
 export class Element extends HTMLElement {
+  /**
+   * @type {Array<Element>}
+   */
   static #stack = [];
 
   static fragment = Symbol("fragment");
