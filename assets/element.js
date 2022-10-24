@@ -80,11 +80,7 @@ export class Element extends HTMLElement {
     for (let formula of this.#dirtyFormulas) {
       this.#reads = [];
 
-      this.#updating = true;
-
       let callback = this.#callbacks.get(formula.value);
-
-      this.#updating = false;
 
       let result = callback();
 
