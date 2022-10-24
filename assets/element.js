@@ -1,6 +1,4 @@
 export class Element extends HTMLElement {
-  static #callbacks = new Map();
-
   /**
    * @type {Array<Element>}
    */
@@ -16,8 +14,6 @@ export class Element extends HTMLElement {
     for (let value of children) {
       if (typeof value === "symbol") {
         let [start, end] = ["", ""].map((v) => document.createComment(v));
-
-        value = this.#callbacks.get(value);
 
         this.#stack[0].#addFormula({start, end, value});
 
@@ -49,8 +45,6 @@ export class Element extends HTMLElement {
 
     for (let [key, value] of Object.entries(props ?? {})) {
       if (typeof value === "symbol") {
-        value = this.#callbacks.get(value);
-
         this.#stack[0].#addFormula({node, key, value});
       } else if (key.substring(0, 2) === "on") {
         this.#addEventListener(node, key.substring(2), value);
@@ -64,9 +58,11 @@ export class Element extends HTMLElement {
     return node;
   }
 
-  #cleanFormulas = [];
+  #callbacks = new Map();
 
   #dirtyFormulas = [];
+
+  #cleanFormulas = [];
 
   #reads = [];
 
@@ -84,7 +80,13 @@ export class Element extends HTMLElement {
     for (let formula of this.#dirtyFormulas) {
       this.#reads = [];
 
-      let result = formula.value();
+      this.#updating = true;
+
+      let callback = this.#callbacks.get(formula.value);
+
+      this.#updating = false;
+
+      let result = callback();
 
       formula.reads = this.#reads;
 
@@ -133,7 +135,7 @@ export class Element extends HTMLElement {
     Element.#appendChildren(this.shadowRoot, this.render?.() ?? [""]);
 
     if (this.effect) {
-      this.#dirtyFormulas.unshift({value: this.effect});
+      this.#dirtyFormulas.unshift({value: this.formula(this.effect)});
     }
 
     this.#update();
@@ -148,7 +150,7 @@ export class Element extends HTMLElement {
 
     let symbol = Symbol("formula");
 
-    Element.#callbacks.set(symbol, callback);
+    this.#callbacks.set(symbol, callback);
 
     return symbol;
   }
