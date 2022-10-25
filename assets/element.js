@@ -6,10 +6,6 @@ export class Element extends HTMLElement {
 
   static fragment = Symbol("fragment");
 
-  static #addEventListener(node, key, args) {
-    node.addEventListener(key, ...[].concat(args));
-  }
-
   static #appendChildren(node, children) {
     for (let value of children) {
       if (typeof value === "symbol") {
@@ -47,7 +43,7 @@ export class Element extends HTMLElement {
       if (typeof value === "symbol") {
         this.#stack[0].#addFormula({node, key, value});
       } else if (key.substring(0, 2) === "on") {
-        this.#addEventListener(node, key.substring(2), value);
+        node.addEventListener(key.substring(2), ...[].concat(value));
       } else {
         this.#setAttribute(node, key, value);
       }
@@ -90,18 +86,23 @@ export class Element extends HTMLElement {
         if (formula.key.substring(0, 2) === "on") {
           let key = formula.key.substring(2);
 
-          if (formula.previous != null) {
-            formula.node.removeEventListener(
-              key,
-              ...[].concat(formula.previous)
-            );
+          if (formula.conroller != null) {
+            formula.conroller.abort();
           }
 
           if (result != null) {
-            Element.#addEventListener(formula.node, key, result);
-          }
+            let [handler = () => {}, options = {}] = [].concat(result);
 
-          formula.previous = result;
+            if (options === true || options === false) {
+              options = {useCapture: options};
+            }
+
+            formula.conroller = new AbortController();
+
+            options.signal = formula.conroller.signal;
+
+            formula.node.addEventListener(key, handler, options);
+          }
         } else {
           Element.#setAttribute(formula.node, formula.key, result);
         }
