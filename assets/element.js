@@ -56,15 +56,15 @@ export class Element extends HTMLElement {
 
   #callbacks = new Map();
 
-  #dirtyFormulas = [];
-
   #cleanFormulas = [];
+
+  #dirtyFormulas = [];
 
   #reads = [];
 
-  #updating = false;
-
   #scheduled = false;
+
+  #updating = false;
 
   #addFormula(formula) {
     this.#dirtyFormulas.push(formula);
