@@ -1375,9 +1375,9 @@ dependencies = [
 
 [[package]]
 name = "libc"
-version = "0.2.136"
+version = "0.2.137"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "55edcf6c0bb319052dea84732cf99db461780fd5e8d3eb46ab6ff312ab31f197"
+checksum = "fc7fcc620a3bff7cdd7a365be3376c97191aeaccc2a603e600951e452615bf89"
 
 [[package]]
 name = "lightningcss"
@@ -2595,9 +2595,9 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.232.54"
+version = "0.232.55"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8b61c369a84bd65e39a29a19035bacc30f7a59120b1efd31d999ca084fc46aa8"
+checksum = "ff668509b3cd48c776826a9f6e5cad6fefec593da02ecfeb6ca0c71faff63682"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2832,9 +2832,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.159.48"
+version = "0.159.49"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3e6efd8322316a267f25fb3a1592fac161927d2ae9536f5ae6dffe2360a4a5fd"
+checksum = "148e19c16058ee24273eeffd4745088ba551afeb20d283a683ab8884c84a99ed"
 dependencies = [
  "ahash",
  "arrayvec",
