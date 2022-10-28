@@ -1148,9 +1148,9 @@ checksum = "9a3a5bfb195931eeb336b2a7b4d761daec841b97f947d34394601737a7bba5e4"
 
 [[package]]
 name = "iana-time-zone"
-version = "0.1.51"
+version = "0.1.52"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f5a6ef98976b22b3b7f2f3a806f858cb862044cfa66805aa3ad84cb3d3b785ed"
+checksum = "c422fb4f6e80490d0afcacf5c3de2c22ab8e631e0cd7cb2d4a3baf844720a52a"
 dependencies = [
  "android_system_properties",
  "core-foundation-sys",
@@ -2586,9 +2586,9 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.232.63"
+version = "0.232.64"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "329de1443117f9b1a9bd8e7bc55f45d554848532ad32afc980931493d7f77a88"
+checksum = "4714f09dde2bc3ce44e28c06cc1df42ca2cbcfb5f8cd076b732d8b8127dbf45c"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2823,9 +2823,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.159.57"
+version = "0.159.58"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c15c32674afbfcfc2317ba330d843a6413bd3115b982d2d74c3915e4ad209043"
+checksum = "a4ad4f653ebf76fba13431ffe0f8882b2dc47cf3ed445be95dc9eb478b8afee8"
 dependencies = [
  "ahash",
  "arrayvec",
