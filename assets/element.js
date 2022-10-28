@@ -5,7 +5,7 @@ export class Element extends HTMLElement {
 
   #dirtyFormulas = [];
 
-  #reads = [];
+  #reads = null;
 
   #scheduled = false;
 
@@ -72,7 +72,7 @@ export class Element extends HTMLElement {
     this.#updating = true;
 
     for (let formula of this.#dirtyFormulas) {
-      this.#reads = [];
+      this.#reads = new Set();
 
       let callback = this.#callbacks.get(formula.value);
 
@@ -117,9 +117,7 @@ export class Element extends HTMLElement {
 
     this.#updating = false;
 
-    this.#cleanFormulas = this.#cleanFormulas.concat(
-      this.#dirtyFormulas.splice(0, Infinity)
-    );
+    this.#cleanFormulas.push(...this.#dirtyFormulas.splice(0, Infinity));
   }
 
   connectedCallback() {
@@ -159,7 +157,7 @@ export class Element extends HTMLElement {
         symbols[key] ??= Symbol(key);
 
         for (let i = this.#cleanFormulas.length - 1; i >= 0; i--) {
-          if (this.#cleanFormulas[i].reads.includes(symbols[key])) {
+          if (this.#cleanFormulas[i].reads.has(symbols[key])) {
             this.#dirtyFormulas.push(...this.#cleanFormulas.splice(i, 1));
           }
         }
@@ -179,9 +177,7 @@ export class Element extends HTMLElement {
       get: (state, key) => {
         symbols[key] ??= Symbol(key);
 
-        if (!~this.#reads.indexOf(symbols[key])) {
-          this.#reads.push(symbols[key]);
-        }
+        this.#reads.add(symbols[key]);
 
         return state[key];
       },

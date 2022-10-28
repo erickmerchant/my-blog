@@ -17,7 +17,7 @@ class CodeBlock extends Element {
   connectedCallback() {
     super.connectedCallback();
 
-    const resizeObserver = new ResizeObserver(() => {
+    let resizeObserver = new ResizeObserver(() => {
       this.#state.hasScrollbars =
         this.#preRef.scrollWidth > this.#preRef.clientWidth;
     });
