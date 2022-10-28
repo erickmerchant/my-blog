@@ -33,44 +33,48 @@ class ThemeSelector extends Element {
     }
   };
 
-  render() {
+  render({
+    "svg-icon": svgIcon,
+    "toggle-button": toggleButton,
+    div,
+    h3,
+    link,
+    p,
+    span,
+  }) {
     this.#prefersThemeDark.addEventListener("change", (e) => {
       this.#state.autoTheme = e.matches ? "dark" : "light";
     });
 
-    return (
-      <>
-        {["../common.css", "./theme-selector.css"].map((url) => (
-          <link rel="stylesheet" href={new URL(url, import.meta.url).href} />
-        ))}
-        <div class="root">
-          <h3>Theme</h3>
-          {ThemeSelector.#options.map((scheme) => (
-            <toggle-button
-              pressed={this.formula(() => this.#state.theme === scheme)}
-              onclick={() => {
+    return [
+      ...["../common.css", "./theme-selector.css"].map((url) =>
+        link({rel: "stylesheet", href: new URL(url, import.meta.url).href})
+      ),
+      div(
+        {class: "root"},
+        h3({}, "Theme"),
+        ...ThemeSelector.#options.map((scheme) =>
+          toggleButton(
+            {
+              pressed: this.formula(() => this.#state.theme === scheme),
+              onclick: () => {
                 this.#setTheme(scheme);
-              }}
-            >
-              <span class="name">
-                {scheme}
-                {this.formula(() =>
-                  scheme === this.#state.autoTheme ? (
-                    <svg-icon class="helper" name="asterisk" />
-                  ) : (
-                    ""
-                  )
-                )}
-              </span>
-            </toggle-button>
-          ))}
-          <p class="helper">
-            <svg-icon name="asterisk" />
-            system default
-          </p>
-        </div>
-      </>
-    );
+              },
+            },
+            span(
+              {class: "name"},
+              scheme,
+              this.formula(() =>
+                scheme === this.#state.autoTheme
+                  ? svgIcon({class: "helper", name: "asterisk"})
+                  : ""
+              )
+            )
+          )
+        ),
+        p({class: "helper"}, svgIcon({name: "asterisk"}), "system default")
+      ),
+    ];
   }
 }
 

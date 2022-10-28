@@ -54,12 +54,7 @@ pub fn js_response<P: AsRef<Path>>(src: P, config: web::Data<Config>) -> Result<
     use swc::{config::Options, config::SourceMapsConfig};
     use swc_common::{errors::ColorConfig, errors::Handler, SourceMap, GLOBALS};
     cacheable_response(&src, || {
-        let mut src = src.as_ref();
-        let jsx_src = src.with_extension("jsx");
-
-        if jsx_src.exists() {
-            src = &jsx_src;
-        }
+        let src = src.as_ref();
 
         let cm = Arc::<SourceMap>::default();
         let handler = Arc::new(Handler::with_tty_emitter(
@@ -77,15 +72,8 @@ pub fn js_response<P: AsRef<Path>>(src: P, config: web::Data<Config>) -> Result<
                 "bugfixes": true
             },
             "jsc": {
-                "transform": {
-                    "react": {
-                        "pragma": "Element.h",
-                        "pragmaFrag": "Element.fragment"
-                    },
-                },
                 "parser": {
-                    "syntax": "ecmascript",
-                    "jsx": true,
+                    "syntax": "ecmascript"
                 },
                 "minify": {
                     "compress": true,

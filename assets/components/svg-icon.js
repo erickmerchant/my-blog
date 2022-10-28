@@ -65,31 +65,28 @@ class SvgIcon extends Element {
     }
   }
 
-  render() {
-    return (
-      <>
-        {["../common.css", "./svg-icon.css"].map((url) => (
-          <link rel="stylesheet" href={new URL(url, import.meta.url).href} />
-        ))}
-        <svg
-          class="icon"
-          aria-hidden="true"
-          viewBox="0 0 16 16"
-          xmlns={SvgIcon.#svgns}
-        >
-          {this.formula(() =>
-            this.#state.name ? (
-              <path
-                d={SvgIcon.#paths[this.#state.name]?.join(" ")}
-                xmlns={SvgIcon.#svgns}
-              />
-            ) : (
-              ""
-            )
-          )}
-        </svg>
-      </>
-    );
+  render({link, path, svg}) {
+    return [
+      ...["../common.css", "./svg-icon.css"].map((url) =>
+        link({rel: "stylesheet", href: new URL(url, import.meta.url).href})
+      ),
+      svg(
+        {
+          "class": "icon",
+          "aria-hidden": "true",
+          "viewBox": "0 0 16 16",
+          "xmlns": SvgIcon.#svgns,
+        },
+        this.formula(() =>
+          this.#state.name
+            ? path({
+                d: SvgIcon.#paths[this.#state.name]?.join(" "),
+                xmlns: SvgIcon.#svgns,
+              })
+            : ""
+        )
+      ),
+    ];
   }
 }
 

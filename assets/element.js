@@ -1,59 +1,4 @@
 export class Element extends HTMLElement {
-  /**
-   * @type {Array<Element>}
-   */
-  static #stack = [];
-
-  static fragment = Symbol("fragment");
-
-  static #appendChildren(node, children) {
-    for (let value of children) {
-      if (typeof value === "symbol") {
-        let [start, end] = ["", ""].map((v) => document.createComment(v));
-
-        this.#stack[0].#addFormula({start, end, value});
-
-        value = [start, end];
-      } else {
-        value = [value];
-      }
-
-      node.append(...value);
-    }
-  }
-
-  static #setAttribute(node, key, val) {
-    if (val != null && val !== false) {
-      node.setAttribute(key, val === true ? "" : val);
-    } else {
-      node.removeAttribute(key);
-    }
-  }
-
-  static h(tag, props, ...children) {
-    children = children.flat(Infinity);
-
-    if (tag === this.fragment) return children;
-
-    let node = props?.xmlns
-      ? document.createElementNS(props.xmlns, tag)
-      : document.createElement(tag);
-
-    for (let [key, value] of Object.entries(props ?? {})) {
-      if (typeof value === "symbol") {
-        this.#stack[0].#addFormula({node, key, value});
-      } else if (key.substring(0, 2) === "on") {
-        node.addEventListener(key.substring(2), ...[].concat(value));
-      } else {
-        this.#setAttribute(node, key, value);
-      }
-    }
-
-    this.#appendChildren(node, children);
-
-    return node;
-  }
-
   #callbacks = new Map();
 
   #cleanFormulas = [];
@@ -68,6 +13,61 @@ export class Element extends HTMLElement {
 
   #addFormula(formula) {
     this.#dirtyFormulas.push(formula);
+  }
+
+  #appendChildren(node, children) {
+    for (let value of children) {
+      if (typeof value === "symbol") {
+        let [start, end] = ["", ""].map((v) => document.createComment(v));
+
+        this.#addFormula({start, end, value});
+
+        value = [start, end];
+      } else {
+        value = [value];
+      }
+
+      node.append(...value);
+    }
+  }
+
+  #getCreateElementProxy() {
+    return new Proxy(
+      {},
+      {
+        get:
+          (_, tag) =>
+          (attrs = {}, ...children) => {
+            if (tag === this.fragment) return children;
+
+            let node = attrs?.xmlns
+              ? document.createElementNS(attrs.xmlns, tag)
+              : document.createElement(tag);
+
+            for (let [key, value] of Object.entries(attrs ?? {})) {
+              if (typeof value === "symbol") {
+                this.#addFormula({node, key, value});
+              } else if (key.substring(0, 2) === "on") {
+                node.addEventListener(key.substring(2), ...[].concat(value));
+              } else {
+                this.#setAttribute(node, key, value);
+              }
+            }
+
+            this.#appendChildren(node, children);
+
+            return node;
+          },
+      }
+    );
+  }
+
+  #setAttribute(node, key, val) {
+    if (val != null && val !== false) {
+      node.setAttribute(key, val === true ? "" : val);
+    } else {
+      node.removeAttribute(key);
+    }
   }
 
   #update() {
@@ -104,7 +104,7 @@ export class Element extends HTMLElement {
             formula.node.addEventListener(key, handler, options);
           }
         } else {
-          Element.#setAttribute(formula.node, formula.key, result);
+          this.#setAttribute(formula.node, formula.key, result);
         }
       }
 
@@ -113,7 +113,7 @@ export class Element extends HTMLElement {
           formula.start.nextSibling.remove();
         }
 
-        formula.start.after(...[].concat(result ?? "").flat());
+        formula.start.after(...[].concat(result ?? ""));
       }
     }
 
@@ -127,17 +127,16 @@ export class Element extends HTMLElement {
   connectedCallback() {
     this.attachShadow({mode: "open"});
 
-    Element.#stack.unshift(this);
-
-    Element.#appendChildren(this.shadowRoot, this.render?.() ?? [""]);
+    this.#appendChildren(
+      this.shadowRoot,
+      this.render?.(this.#getCreateElementProxy()) ?? [""]
+    );
 
     if (this.effect) {
       this.#dirtyFormulas.unshift({value: this.formula(this.effect)});
     }
 
     this.#update();
-
-    Element.#stack.shift();
   }
 
   formula(callback) {
@@ -173,11 +172,7 @@ export class Element extends HTMLElement {
           setTimeout(() => {
             this.#scheduled = false;
 
-            Element.#stack.unshift(this);
-
             this.#update();
-
-            Element.#stack.shift();
           }, 0);
         }
 
