@@ -38,8 +38,6 @@ export class Element extends HTMLElement {
         get:
           (_, tag) =>
           (attrs = {}, ...children) => {
-            if (tag === this.fragment) return children;
-
             let node = attrs?.xmlns
               ? document.createElementNS(attrs.xmlns, tag)
               : document.createElement(tag);
