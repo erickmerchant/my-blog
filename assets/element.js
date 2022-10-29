@@ -11,16 +11,12 @@ export class Element extends HTMLElement {
 
   #updating = false;
 
-  #addFormula(formula) {
-    this.#dirtyFormulas.push(formula);
-  }
-
   #appendChildren(node, children) {
     for (let value of children) {
       if (typeof value === "symbol") {
         let [start, end] = ["", ""].map((v) => document.createComment(v));
 
-        this.#addFormula({start, end, value});
+        this.#dirtyFormulas.push({start, end, value});
 
         value = [start, end];
       } else {
@@ -44,7 +40,7 @@ export class Element extends HTMLElement {
 
             for (let [key, value] of Object.entries(attrs ?? {})) {
               if (typeof value === "symbol") {
-                this.#addFormula({node, key, value});
+                this.#dirtyFormulas.push({node, key, value});
               } else if (key.substring(0, 2) === "on") {
                 node.addEventListener(key.substring(2), ...[].concat(value));
               } else {
