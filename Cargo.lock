@@ -1148,9 +1148,9 @@ checksum = "9a3a5bfb195931eeb336b2a7b4d761daec841b97f947d34394601737a7bba5e4"
 
 [[package]]
 name = "iana-time-zone"
-version = "0.1.52"
+version = "0.1.53"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c422fb4f6e80490d0afcacf5c3de2c22ab8e631e0cd7cb2d4a3baf844720a52a"
+checksum = "64c122667b287044802d6ce17ee2ddf13207ed924c712de9a66a5814d5b64765"
 dependencies = [
  "android_system_properties",
  "core-foundation-sys",
@@ -1274,10 +1274,13 @@ dependencies = [
 ]
 
 [[package]]
-name = "json_comments"
-version = "0.2.1"
+name = "jsonc-parser"
+version = "0.21.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "41ee439ee368ba4a77ac70d04f14015415af8600d6c894dc1f11bd79758c57d5"
+checksum = "3a1853e40333206f9a685358046d13ab200169e3ee573019bddf0ede0dc29307"
+dependencies = [
+ "serde_json",
+]
 
 [[package]]
 name = "language-tags"
@@ -2586,9 +2589,9 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.232.64"
+version = "0.232.66"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4714f09dde2bc3ce44e28c06cc1df42ca2cbcfb5f8cd076b732d8b8127dbf45c"
+checksum = "05a29efbc6288da29d8c9cf9897e1fb44842f76b79f7c3f26002d2c7a739386d"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2596,7 +2599,7 @@ dependencies = [
  "dashmap",
  "either",
  "indexmap",
- "json_comments",
+ "jsonc-parser",
  "lru",
  "once_cell",
  "parking_lot",
@@ -2823,9 +2826,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.159.58"
+version = "0.159.59"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a4ad4f653ebf76fba13431ffe0f8882b2dc47cf3ed445be95dc9eb478b8afee8"
+checksum = "f21ec9f9499d2e5b8c6b6f5617294f71493d48fc490bb413e0f8044bb3059dbb"
 dependencies = [
  "ahash",
  "arrayvec",
