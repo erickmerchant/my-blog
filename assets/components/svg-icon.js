@@ -68,7 +68,10 @@ class SvgIcon extends Element {
   render({link, path, svg}) {
     return [
       ...["../common.css", "./svg-icon.css"].map((url) =>
-        link({rel: "stylesheet", href: new URL(url, import.meta.url).href})
+        link({
+          rel: "stylesheet",
+          href: new URL(url, import.meta.url).href,
+        })
       ),
       svg(
         {

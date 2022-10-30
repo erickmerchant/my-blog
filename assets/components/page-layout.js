@@ -14,7 +14,10 @@ class PageLayout extends Element {
   render({"svg-icon": svgIcon, button, div, link, nav, slot}) {
     return [
       ...["../common.css", "./page-layout.css"].map((url) =>
-        link({rel: "stylesheet", href: new URL(url, import.meta.url).href})
+        link({
+          rel: "stylesheet",
+          href: new URL(url, import.meta.url).href,
+        })
       ),
       nav(
         {},

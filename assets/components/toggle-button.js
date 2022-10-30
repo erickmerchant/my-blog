@@ -16,7 +16,10 @@ class ToggleButton extends Element {
   render({"svg-icon": svgIcon, button, link, slot, span}) {
     return [
       ...["../common.css", "./toggle-button.css"].map((url) =>
-        link({rel: "stylesheet", href: new URL(url, import.meta.url).href})
+        link({
+          rel: "stylesheet",
+          href: new URL(url, import.meta.url).href,
+        })
       ),
       button(
         {

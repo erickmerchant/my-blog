@@ -48,7 +48,10 @@ class ThemeSelector extends Element {
 
     return [
       ...["../common.css", "./theme-selector.css"].map((url) =>
-        link({rel: "stylesheet", href: new URL(url, import.meta.url).href})
+        link({
+          rel: "stylesheet",
+          href: new URL(url, import.meta.url).href,
+        })
       ),
       div(
         {class: "root"},

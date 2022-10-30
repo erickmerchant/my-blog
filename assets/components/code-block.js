@@ -30,7 +30,10 @@ class CodeBlock extends Element {
 
     return [
       ...["../common.css", "./code-block.css"].map((url) =>
-        link({rel: "stylesheet", href: new URL(url, import.meta.url).href})
+        link({
+          rel: "stylesheet",
+          href: new URL(url, import.meta.url).href,
+        })
       ),
       div(
         {class: "root"},

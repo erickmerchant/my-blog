@@ -125,7 +125,9 @@ export class Element extends HTMLElement {
     );
 
     if (this.effect) {
-      this.#dirtyFormulas.unshift({value: this.formula(this.effect)});
+      this.#dirtyFormulas.unshift({
+        value: this.formula(this.effect),
+      });
     }
 
     this.#update();
