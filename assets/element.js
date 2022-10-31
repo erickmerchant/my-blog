@@ -1,9 +1,36 @@
 export class Element extends HTMLElement {
+  #active = new Set();
+
   #callbacks = new Map();
 
-  #cleanFormulas = [];
+  #createElementProxy = new Proxy(
+    {},
+    {
+      get:
+        (_, tag) =>
+        (attrs = {}, ...children) => {
+          let node = attrs?.xmlns
+            ? document.createElementNS(attrs.xmlns, tag)
+            : document.createElement(tag);
 
-  #dirtyFormulas = [];
+          for (let [key, value] of Object.entries(attrs ?? {})) {
+            if (typeof value === "symbol") {
+              this.#active.add({type: "attribute", node, key, value});
+            } else if (key.substring(0, 2) === "on") {
+              node.addEventListener(key.substring(2), ...[].concat(value));
+            } else {
+              this.#setAttribute(node, key, value);
+            }
+          }
+
+          this.#appendChildren(node, children);
+
+          return node;
+        },
+    }
+  );
+
+  #inactive = new Set();
 
   #reads = null;
 
@@ -16,7 +43,7 @@ export class Element extends HTMLElement {
       if (typeof value === "symbol") {
         let [start, end] = ["", ""].map((v) => document.createComment(v));
 
-        this.#dirtyFormulas.push({start, end, value});
+        this.#active.add({type: "fragment", start, end, value});
 
         value = [start, end];
       } else {
@@ -25,35 +52,6 @@ export class Element extends HTMLElement {
 
       node.append(...value);
     }
-  }
-
-  #getCreateElementProxy() {
-    return new Proxy(
-      {},
-      {
-        get:
-          (_, tag) =>
-          (attrs = {}, ...children) => {
-            let node = attrs?.xmlns
-              ? document.createElementNS(attrs.xmlns, tag)
-              : document.createElement(tag);
-
-            for (let [key, value] of Object.entries(attrs ?? {})) {
-              if (typeof value === "symbol") {
-                this.#dirtyFormulas.push({node, key, value});
-              } else if (key.substring(0, 2) === "on") {
-                node.addEventListener(key.substring(2), ...[].concat(value));
-              } else {
-                this.#setAttribute(node, key, value);
-              }
-            }
-
-            this.#appendChildren(node, children);
-
-            return node;
-          },
-      }
-    );
   }
 
   #setAttribute(node, key, val) {
@@ -67,7 +65,7 @@ export class Element extends HTMLElement {
   #update() {
     this.#updating = true;
 
-    for (let formula of this.#dirtyFormulas) {
+    for (let formula of this.#active) {
       this.#reads = new Set();
 
       let callback = this.#callbacks.get(formula.value);
@@ -76,7 +74,7 @@ export class Element extends HTMLElement {
 
       formula.reads = this.#reads;
 
-      if (formula.node && formula.key) {
+      if (formula.type === "attribute") {
         if (formula.key.substring(0, 2) === "on") {
           let key = formula.key.substring(2);
 
@@ -102,33 +100,36 @@ export class Element extends HTMLElement {
         }
       }
 
-      if (formula.start && formula.end) {
+      if (formula.type === "fragment") {
         while (formula.start.nextSibling !== formula.end) {
           formula.start.nextSibling.remove();
         }
 
         formula.start.after(...[].concat(result ?? ""));
       }
+
+      this.#active.delete(formula);
+
+      this.#inactive.add(formula);
     }
 
     this.#updating = false;
-
-    this.#cleanFormulas.push(...this.#dirtyFormulas.splice(0, Infinity));
   }
 
   connectedCallback() {
     this.attachShadow({mode: "open"});
 
-    this.#appendChildren(
-      this.shadowRoot,
-      this.render?.(this.#getCreateElementProxy()) ?? [""]
-    );
-
     if (this.effect) {
-      this.#dirtyFormulas.unshift({
+      this.#active.add({
+        type: "effect",
         value: this.formula(this.effect),
       });
     }
+
+    this.#appendChildren(
+      this.shadowRoot,
+      this.render?.(this.#createElementProxy) ?? [""]
+    );
 
     this.#update();
   }
@@ -154,9 +155,11 @@ export class Element extends HTMLElement {
 
         symbols[key] ??= Symbol(key);
 
-        for (let i = this.#cleanFormulas.length - 1; i >= 0; i--) {
-          if (this.#cleanFormulas[i].reads.has(symbols[key])) {
-            this.#dirtyFormulas.push(...this.#cleanFormulas.splice(i, 1));
+        for (let formula of this.#inactive) {
+          if (formula.reads.has(symbols[key])) {
+            this.#inactive.delete(formula);
+
+            this.#active.add(formula);
           }
         }
 
