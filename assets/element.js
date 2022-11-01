@@ -9,15 +9,28 @@ export class Element extends HTMLElement {
       get:
         (_, tag) =>
         (attrs = {}, ...children) => {
+          if (attrs.constructor !== Object) {
+            children.unshift(attrs);
+            attrs = {};
+          }
+
           let node = attrs?.xmlns
             ? document.createElementNS(attrs.xmlns, tag)
             : document.createElement(tag);
 
           for (let [key, value] of Object.entries(attrs ?? {})) {
+            let isEvent = key.substring(0, 2) === "on";
+            key = isEvent ? key.substring(2) : key;
+
             if (typeof value === "symbol") {
-              this.#active.add({type: "attribute", node, key, value});
-            } else if (key.substring(0, 2) === "on") {
-              node.addEventListener(key.substring(2), ...[].concat(value));
+              this.#active.add({
+                type: isEvent ? "listener" : "attribute",
+                node,
+                key,
+                value,
+              });
+            } else if (isEvent) {
+              node.addEventListener(key, ...[].concat(value));
             } else {
               this.#setAttribute(node, key, value);
             }
@@ -74,30 +87,28 @@ export class Element extends HTMLElement {
 
       formula.reads = this.#reads;
 
-      if (formula.type === "attribute") {
-        if (formula.key.substring(0, 2) === "on") {
-          let key = formula.key.substring(2);
-
-          if (formula.conroller != null) {
-            formula.conroller.abort();
-          }
-
-          if (result != null) {
-            let [handler = () => {}, options = {}] = [].concat(result);
-
-            if (options === true || options === false) {
-              options = {useCapture: options};
-            }
-
-            formula.conroller = new AbortController();
-
-            options.signal = formula.conroller.signal;
-
-            formula.node.addEventListener(key, handler, options);
-          }
-        } else {
-          this.#setAttribute(formula.node, formula.key, result);
+      if (formula.type === "listener") {
+        if (formula.conroller != null) {
+          formula.conroller.abort();
         }
+
+        if (result != null) {
+          let [handler = () => {}, options = {}] = [].concat(result);
+
+          if (options === true || options === false) {
+            options = {useCapture: options};
+          }
+
+          formula.conroller = new AbortController();
+
+          options.signal = formula.conroller.signal;
+
+          formula.node.addEventListener(formula.key, handler, options);
+        }
+      }
+
+      if (formula.type === "attribute") {
+        this.#setAttribute(formula.node, formula.key, result);
       }
 
       if (formula.type === "fragment") {
@@ -128,7 +139,7 @@ export class Element extends HTMLElement {
 
     this.#appendChildren(
       this.shadowRoot,
-      this.render?.(this.#createElementProxy) ?? [""]
+      [].concat(this.render?.(this.#createElementProxy) ?? "")
     );
 
     this.#update();

@@ -28,7 +28,6 @@ class ToggleButton extends Element {
           "aria-pressed": this.formula(() => String(this.#state.pressed)),
         },
         span(
-          {},
           span(
             {class: "option"},
             this.formula(() =>

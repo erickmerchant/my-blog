@@ -55,7 +55,7 @@ class ThemeSelector extends Element {
       ),
       div(
         {class: "root"},
-        h3({}, "Theme"),
+        h3("Theme"),
         ...ThemeSelector.#options.map((scheme) =>
           toggleButton(
             {

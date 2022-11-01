@@ -20,7 +20,6 @@ class PageLayout extends Element {
         })
       ),
       nav(
-        {},
         button(
           {
             "class": "button",

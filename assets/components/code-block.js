@@ -44,10 +44,9 @@ class CodeBlock extends Element {
             ),
           },
           (this.#preRef = pre(
-            {},
             div(
               {class: "lines"},
-              ...lines.map((ln) => div({class: "line"}, code({}, ln)))
+              ...lines.map((ln) => div({class: "line"}, code(ln)))
             )
           )),
           toggleButton(
