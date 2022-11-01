@@ -6,6 +6,10 @@
   .root {
     display: grid;
     gap: 0.5em;
+    background-color: hsl(var(--anchor-color) / 0.0625);
+    border: 0.0625rem solid hsl(var(--anchor-color) / 0.125);
+    border-radius: 0.25em;
+    padding: 1em;
   }
 
   .helper {

@@ -1,7 +1,7 @@
-@layer base {
+@layer page {
   html {
     font-size: 125%;
-    font-weight: 300;
+    font-weight: 400;
     font-family: system-ui;
     line-height: 1.5;
     overflow-x: hidden;
@@ -58,9 +58,7 @@
       --drawer-width: calc(100vw - 1rem);
     }
   }
-}
 
-@layer page {
   .banner {
     position: sticky;
     top: calc((var(--button-top) * 2) + var(--button-height) - var(--height));
@@ -157,6 +155,7 @@
 
   .links {
     list-style: none;
+    padding-inline: 1em;
   }
 
   :not(:defined) .links {

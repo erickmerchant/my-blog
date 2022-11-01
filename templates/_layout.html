@@ -9,7 +9,7 @@
       <script async type="module" src="/components/{{component}}.js"></script>
     {% endfor %}
     <link href="/common.css" rel="stylesheet">
-    <link href="/site.css" rel="stylesheet">
+    <link href="/page.css" rel="stylesheet">
     {% for component in site.components | concat(with=components | default(value=[])) %}
       <link rel="preload" href="/components/{{component}}.css" as="style">
     {% endfor %}
