@@ -26,26 +26,26 @@ class PageLayout extends Element {
             "aria-label": "Toggle nav",
             "type": "button",
             "aria-controls": "nav-content",
-            "aria-expanded": this.formula(() => String(this.#state.open)),
+            "aria-expanded": this.compute(() => String(this.#state.open)),
             "onclick": this.#toggleOpen,
           },
           svgIcon({
-            name: this.formula(() => (this.#state.open ? "close" : "open")),
+            name: this.compute(() => (this.#state.open ? "close" : "open")),
           })
         ),
         div(
           {
             "id": "nav-content",
             "class": "nav-content",
-            "aria-hidden": this.formula(() => String(!this.#state.open)),
-            "inert": this.formula(() => !this.#state.open),
+            "aria-hidden": this.compute(() => String(!this.#state.open)),
+            "inert": this.compute(() => !this.#state.open),
           },
           slot({name: "links"})
         )
       ),
       div(
         {
-          onclick: this.formula(() => {
+          onclick: this.compute(() => {
             if (this.#state.open) {
               return this.#toggleOpen;
             }
@@ -54,8 +54,8 @@ class PageLayout extends Element {
         },
         div(
           {
-            "aria-hidden": this.formula(() => String(this.#state.open)),
-            "inert": this.formula(() => this.#state.open),
+            "aria-hidden": this.compute(() => String(this.#state.open)),
+            "inert": this.compute(() => this.#state.open),
           },
           slot({name: "content"})
         )

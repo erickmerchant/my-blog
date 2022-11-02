@@ -25,12 +25,12 @@ class ToggleButton extends Element {
         {
           "type": "button",
           "class": "button",
-          "aria-pressed": this.formula(() => String(this.#state.pressed)),
+          "aria-pressed": this.compute(() => String(this.#state.pressed)),
         },
         span(
           span(
             {class: "option"},
-            this.formula(() =>
+            this.compute(() =>
               this.#state.pressed ? svgIcon({name: "check"}) : ""
             )
           ),

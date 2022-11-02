@@ -59,7 +59,7 @@ class ThemeSelector extends Element {
         ...ThemeSelector.#options.map((scheme) =>
           toggleButton(
             {
-              pressed: this.formula(() => this.#state.theme === scheme),
+              pressed: this.compute(() => this.#state.theme === scheme),
               onclick: () => {
                 this.#setTheme(scheme);
               },
@@ -67,7 +67,7 @@ class ThemeSelector extends Element {
             span(
               {class: "name"},
               scheme,
-              this.formula(() =>
+              this.compute(() =>
                 scheme === this.#state.autoTheme
                   ? svgIcon({class: "helper", name: "asterisk"})
                   : ""

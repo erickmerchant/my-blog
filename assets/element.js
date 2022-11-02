@@ -1,4 +1,26 @@
 export class Element extends HTMLElement {
+  static #scheduled = false;
+
+  static #queue = new Set();
+
+  static #schedule(update) {
+    this.#queue.add(update);
+
+    if (!this.#scheduled) {
+      this.#scheduled = true;
+
+      window.requestAnimationFrame(() => {
+        this.#scheduled = false;
+
+        for (let update of this.#queue) {
+          update();
+
+          this.#queue.delete(update);
+        }
+      });
+    }
+  }
+
   #active = new Set();
 
   #callbacks = new Map();
@@ -8,46 +30,14 @@ export class Element extends HTMLElement {
     {
       get:
         (_, tag) =>
-        (attrs = {}, ...children) => {
-          if (attrs.constructor !== Object) {
-            children.unshift(attrs);
-            attrs = {};
-          }
-
-          let node = attrs?.xmlns
-            ? document.createElementNS(attrs.xmlns, tag)
-            : document.createElement(tag);
-
-          for (let [key, value] of Object.entries(attrs ?? {})) {
-            let isEvent = key.substring(0, 2) === "on";
-            key = isEvent ? key.substring(2) : key;
-
-            if (typeof value === "symbol") {
-              this.#active.add({
-                type: isEvent ? "listener" : "attribute",
-                node,
-                key,
-                value,
-              });
-            } else if (isEvent) {
-              node.addEventListener(key, ...[].concat(value));
-            } else {
-              this.#setAttribute(node, key, value);
-            }
-          }
-
-          this.#appendChildren(node, children);
-
-          return node;
-        },
+        (...args) =>
+          this.#h(tag, ...args),
     }
   );
 
   #inactive = new Set();
 
   #reads = null;
-
-  #scheduled = false;
 
   #updating = false;
 
@@ -67,6 +57,40 @@ export class Element extends HTMLElement {
     }
   }
 
+  #h(tag, attrs = {}, ...children) {
+    if (attrs.constructor !== Object) {
+      children.unshift(attrs);
+      attrs = {};
+    }
+
+    let node = attrs?.xmlns
+      ? document.createElementNS(attrs.xmlns, tag)
+      : document.createElement(tag);
+
+    for (let [key, value] of Object.entries(attrs ?? {})) {
+      let isListener = key.substring(0, 2) === "on";
+
+      key = isListener ? key.substring(2) : key;
+
+      if (typeof value === "symbol") {
+        this.#active.add({
+          type: isListener ? "listener" : "attribute",
+          node,
+          key,
+          value,
+        });
+      } else if (isListener) {
+        node.addEventListener(key, ...[].concat(value));
+      } else {
+        this.#setAttribute(node, key, value);
+      }
+    }
+
+    this.#appendChildren(node, children);
+
+    return node;
+  }
+
   #setAttribute(node, key, val) {
     if (val != null && val !== false) {
       node.setAttribute(key, val === true ? "" : val);
@@ -75,7 +99,7 @@ export class Element extends HTMLElement {
     }
   }
 
-  #update() {
+  #update = () => {
     this.#updating = true;
 
     for (let formula of this.#active) {
@@ -125,7 +149,7 @@ export class Element extends HTMLElement {
     }
 
     this.#updating = false;
-  }
+  };
 
   connectedCallback() {
     this.attachShadow({mode: "open"});
@@ -133,7 +157,7 @@ export class Element extends HTMLElement {
     if (this.effect) {
       this.#active.add({
         type: "effect",
-        value: this.formula(this.effect),
+        value: this.compute(this.effect),
       });
     }
 
@@ -145,7 +169,7 @@ export class Element extends HTMLElement {
     this.#update();
   }
 
-  formula(callback) {
+  compute(callback) {
     if (this.#updating) {
       return callback();
     }
@@ -174,15 +198,7 @@ export class Element extends HTMLElement {
           }
         }
 
-        if (!this.#scheduled) {
-          this.#scheduled = true;
-
-          setTimeout(() => {
-            this.#scheduled = false;
-
-            this.#update();
-          }, 0);
-        }
+        Element.#schedule(this.#update);
 
         return true;
       },

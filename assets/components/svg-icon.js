@@ -80,7 +80,7 @@ class SvgIcon extends Element {
           "viewBox": "0 0 16 16",
           "xmlns": SvgIcon.#svgns,
         },
-        this.formula(() =>
+        this.compute(() =>
           this.#state.name
             ? path({
                 d: SvgIcon.#paths[this.#state.name]?.join(" "),

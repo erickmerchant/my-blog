@@ -39,7 +39,7 @@ class CodeBlock extends Element {
         {class: "root"},
         div(
           {
-            class: this.formula(() =>
+            class: this.compute(() =>
               this.#state.wrapWhiteSpace ? "pre-wrap" : "pre"
             ),
           },
@@ -51,12 +51,12 @@ class CodeBlock extends Element {
           )),
           toggleButton(
             {
-              class: this.formula(() => {
+              class: this.compute(() => {
                 return this.#state.hasScrollbars || this.#state.wrapWhiteSpace
                   ? "toggle"
                   : "toggle--hidden";
               }),
-              pressed: this.formula(() => this.#state.wrapWhiteSpace),
+              pressed: this.compute(() => this.#state.wrapWhiteSpace),
               onclick: this.#toggleWrapWhiteSpace,
             },
             "Wrap"
