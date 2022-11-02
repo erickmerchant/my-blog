@@ -3,12 +3,12 @@ import {Element} from "../element.js";
 class PageLayout extends Element {
   #state = this.watch({open: false});
 
-  effect = () => {
-    this.toggleAttribute("open", this.#state.open);
-  };
-
   #toggleOpen = () => {
     this.#state.open = !this.#state.open;
+  };
+
+  effect = () => {
+    this.toggleAttribute("open", this.#state.open);
   };
 
   render({"svg-icon": svgIcon, button, div, link, nav, slot}) {

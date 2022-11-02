@@ -1,7 +1,7 @@
 export class Element extends HTMLElement {
-  static #scheduled = false;
-
   static #queue = new Set();
+
+  static #scheduled = false;
 
   static #schedule(update) {
     this.#queue.add(update);
@@ -43,7 +43,7 @@ export class Element extends HTMLElement {
 
   #appendChildren(node, children) {
     for (let value of children) {
-      if (typeof value === "symbol") {
+      if (typeof value === "symbol" && this.#callbacks.has(value)) {
         let [start, end] = ["", ""].map((v) => document.createComment(v));
 
         this.#active.add({type: "fragment", start, end, value});
@@ -72,7 +72,7 @@ export class Element extends HTMLElement {
 
       key = isListener ? key.substring(2) : key;
 
-      if (typeof value === "symbol") {
+      if (typeof value === "symbol" && this.#callbacks.has(value)) {
         this.#active.add({
           type: isListener ? "listener" : "attribute",
           node,
