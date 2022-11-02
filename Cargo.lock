@@ -2049,6 +2049,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "radix_fmt"
+version = "1.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ce082a9940a7ace2ad4a8b7d0b1eac6aa378895f18be598230c5f2284ac05426"
+
+[[package]]
 name = "rand"
 version = "0.7.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2589,9 +2595,9 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.232.69"
+version = "0.232.72"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e5560b09a2b91284bab2e8d4e72ee10e21f0f18297ec30c0dbed74a327c569dd"
+checksum = "3f35e7c201d3dba297a10fa006dfe051eb8836aa53faddb950253999799293af"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2826,9 +2832,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.159.60"
+version = "0.159.63"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c3c43dc17147ae66b33a940d65fd18c89d3d3091f47d87a741d3592e2a020404"
+checksum = "deb2fecd28585723799105514dc3838eb42c7665a239dff84b9a721788a853f0"
 dependencies = [
  "ahash",
  "arrayvec",
@@ -2837,6 +2843,7 @@ dependencies = [
  "num_cpus",
  "once_cell",
  "parking_lot",
+ "radix_fmt",
  "regex",
  "retain_mut",
  "rustc-hash",
