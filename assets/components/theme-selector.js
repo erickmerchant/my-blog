@@ -27,7 +27,7 @@ class ThemeSelector extends Element {
 
   render({
     "svg-icon": svgIcon,
-    "toggle-button": toggleButton,
+    "check-button": checkButton,
     div,
     h3,
     link,
@@ -49,7 +49,7 @@ class ThemeSelector extends Element {
         {class: "root"},
         h3("Theme"),
         ...ThemeSelector.#options.map((scheme) =>
-          toggleButton(
+          checkButton(
             {
               pressed: this.compute(() => this.#state.theme === scheme),
               onclick: () => {

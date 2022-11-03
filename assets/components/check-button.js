@@ -1,6 +1,6 @@
 import {Element} from "../element.js";
 
-class ToggleButton extends Element {
+class CheckButton extends Element {
   static get observedAttributes() {
     return ["pressed"];
   }
@@ -15,7 +15,7 @@ class ToggleButton extends Element {
 
   render({"svg-icon": svgIcon, button, link, slot, span}) {
     return [
-      ...["../common.css", "./toggle-button.css"].map((url) =>
+      ...["../common.css", "./check-button.css"].map((url) =>
         link({
           rel: "stylesheet",
           href: new URL(url, import.meta.url).href,
@@ -41,4 +41,4 @@ class ToggleButton extends Element {
   }
 }
 
-customElements.define("toggle-button", ToggleButton);
+customElements.define("check-button", CheckButton);
