@@ -99,10 +99,14 @@
   .toggle--hidden {
     gap: 0.25rem;
     position: absolute;
-    right: 0.5em;
-    bottom: 0.5em;
+    right: 0.6em;
+    bottom: 0.6em;
     padding: 0.25em;
     font-weight: 500;
+    background-color: hsl(var(--banner-foreground) / 0.125);
+    border: 0.0625rem solid hsl(var(--banner-foreground) / 0.5);
+    border-radius: 0.25em;
+    padding: 0.25em;
   }
 
   .toggle--hidden {

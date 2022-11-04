@@ -6,8 +6,8 @@
   .root {
     display: grid;
     gap: 0.5em;
-    background-color: hsl(var(--anchor-color) / 0.0625);
-    border: 0.0625rem solid hsl(var(--anchor-color) / 0.125);
+    background-color: hsl(var(--banner-foreground) / 0.125);
+    border: 0.0625rem solid hsl(var(--banner-foreground) / 0.5);
     border-radius: 0.25em;
     padding: 1em;
   }
