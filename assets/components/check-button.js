@@ -5,7 +5,7 @@ class CheckButton extends Element {
     return ["pressed"];
   }
 
-  #state = this.watch({pressed: null});
+  #state = this.watch({pressed: false});
 
   attributeChangedCallback(name, old, current) {
     if (name === "pressed" && current !== old) {

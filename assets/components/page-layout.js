@@ -3,6 +3,34 @@ import {Element} from "../element.js";
 class PageLayout extends Element {
   #state = this.watch({open: false});
 
+  #touchStartTouch = null;
+
+  #touchStart = (event) => {
+    let {clientX, clientY} = event.touches[0];
+
+    this.#touchStartTouch = {clientX, clientY};
+  };
+
+  #touchEnd = (event) => {
+    let {clientX, clientY} = event.changedTouches[0];
+    let yDiff = clientY - this.#touchStartTouch.clientY;
+    let xDiff = clientX - this.#touchStartTouch.clientX;
+
+    if (Math.abs(xDiff) < 50) return;
+
+    let angle = Math.abs((Math.atan2(yDiff, xDiff) * 180) / Math.PI);
+
+    if (angle >= 170 && angle <= 180) {
+      this.#state.open = false;
+    }
+
+    if (angle >= 0 && angle <= 10) {
+      this.#state.open = true;
+    }
+
+    this.#touchStartTouch = null;
+  };
+
   #toggleOpen = () => {
     this.#state.open = !this.#state.open;
   };
@@ -20,6 +48,10 @@ class PageLayout extends Element {
         })
       ),
       nav(
+        {
+          ontouchstart: [this.#touchStart, {passive: true}],
+          ontouchend: [this.#touchEnd, {passive: true}],
+        },
         button(
           {
             "class": "button",
@@ -45,6 +77,8 @@ class PageLayout extends Element {
       ),
       div(
         {
+          ontouchstart: [this.#touchStart, {passive: true}],
+          ontouchend: [this.#touchEnd, {passive: true}],
           onclick: this.compute(() => {
             if (this.#state.open) {
               return this.#toggleOpen;
