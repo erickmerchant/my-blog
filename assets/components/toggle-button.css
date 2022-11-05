@@ -20,12 +20,31 @@
 
   .option {
     display: grid;
-    place-content: center;
+    position: relative;
     height: 1.25em;
-    aspect-ratio: 1 / 1;
+    aspect-ratio: 1 / 0.625;
     background-color: hsl(var(--background-1));
-    border: 0.125rem solid hsl(var(--anchor-color) / 0.5);
+    border: 0.0625rem solid hsl(var(--anchor-color) / 0.5);
     border-radius: 0.25em;
     color: hsl(var(--anchor-color));
+  }
+
+  .option::after {
+    content: "";
+    display: grid;
+    position: absolute;
+    top: 0.1875em;
+    left: 0.25em;
+    height: 0.75em;
+    aspect-ratio: 1 / 1;
+    background-color: hsl(var(--anchor-color) / 0.5);
+    border: 0.0625rem solid hsl(var(--anchor-color) / 0.25);
+    border-radius: 0;
+    transition: left 0.25s var(--easing);
+  }
+
+  [aria-pressed="true"] .option::after {
+    left: calc(100% - 1em);
+    background-color: hsl(var(--anchor-color) / 0.75);
   }
 }

@@ -27,15 +27,7 @@ class ToggleButton extends Element {
           "class": "button",
           "aria-pressed": this.compute(() => String(this.#state.pressed)),
         },
-        span(
-          span(
-            {class: "option"},
-            this.compute(() =>
-              this.#state.pressed ? svgIcon({name: "check"}) : ""
-            )
-          ),
-          slot()
-        )
+        span(span({class: "option"}), slot())
       ),
     ];
   }

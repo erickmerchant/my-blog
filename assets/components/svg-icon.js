@@ -19,7 +19,7 @@ class SvgIcon extends Element {
       "L6.25 15",
       "z",
     ],
-    check: ["M1 10", "L3 6.5", "L7 9", "L12 1", "L15 3", "L8 14.5", "z"],
+    // check: ["M1 10", "L3 6.5", "L7 9", "L12 1", "L15 3", "L8 14.5", "z"],
     close: [
       "M1 4",
       "L4 1",
