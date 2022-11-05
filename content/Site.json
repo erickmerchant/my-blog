@@ -2,8 +2,8 @@
   "title": "ErickMerchant.com",
   "base": "https://erickmerchant.com",
   "description": "The personal site of Erick Merchant.",
-  "copyright": "© 2022 Erick Merchant",
-  "components": ["page-layout", "theme-selector", "check-button", "svg-icon"],
+  "copyright": "2022 Erick Merchant",
+  "components": ["page-layout", "theme-selector", "toggle-button", "svg-icon"],
   "links": [
     {
       "href": "/",

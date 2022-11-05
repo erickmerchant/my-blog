@@ -12,6 +12,9 @@ class PageLayout extends Element {
   };
 
   #touchEnd = (event) => {
+    if (!this.#touchStartTouch || window.getSelection()?.type === "Range")
+      return;
+
     let {clientX, clientY} = event.changedTouches[0];
     let yDiff = clientY - this.#touchStartTouch.clientY;
     let xDiff = clientX - this.#touchStartTouch.clientX;

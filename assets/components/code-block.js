@@ -25,7 +25,7 @@ class CodeBlock extends Element {
     resizeObserver.observe(this.#preRef);
   }
 
-  render({"check-button": checkButton, code, div, link, pre}) {
+  render({"toggle-button": toggleButton, code, div, link, pre}) {
     let lines = this.textContent.trim().split("\n");
 
     return [
@@ -49,7 +49,7 @@ class CodeBlock extends Element {
               ...lines.map((ln) => div({class: "line"}, code(ln)))
             )
           )),
-          checkButton(
+          toggleButton(
             {
               class: this.compute(() => {
                 return this.#state.hasScrollbars || this.#state.wrapWhiteSpace

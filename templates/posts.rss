@@ -4,7 +4,7 @@
     <title>{{site.title}}</title>
     <link>{{site.base}}</link>
     <description>{{site.description}}</description>
-    <copyright>{{site.copyright}}</copyright>
+    <copyright>© {{site.copyright}}</copyright>
     {% for post in posts %}
       <item>
         <title>{{post.title}}</title>

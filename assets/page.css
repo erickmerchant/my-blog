@@ -148,6 +148,10 @@
     margin-inline: auto;
   }
 
+  .copyright span {
+    font-style: italic;
+  }
+
   .published {
     font-size: 0.8em;
     font-style: italic;
