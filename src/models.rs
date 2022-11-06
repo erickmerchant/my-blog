@@ -1,4 +1,3 @@
-use glob::glob;
 use serde::{Deserialize, Serialize};
 use std::{fs, path::Path, vec::Vec};
 
@@ -75,11 +74,17 @@ impl Post {
     pub fn get_all() -> Vec<Self> {
         let mut posts = Vec::<Self>::new();
 
-        if let Ok(entries) = glob("content/posts/*.html") {
-            for entry in entries.into_iter().flatten() {
-                if let Some(slug) = entry.file_stem().and_then(|slug| slug.to_str()) {
-                    if let Some(post) = Self::get_by_slug(String::from(slug)) {
-                        posts.push(post);
+        if let Ok(entries) = fs::read_dir("content/posts") {
+            for entry in entries.flatten() {
+                let path = entry.path();
+
+                if let Some(ext) = path.extension() {
+                    if ext == "html" {
+                        if let Some(slug) = path.file_stem().and_then(|slug| slug.to_str()) {
+                            if let Some(post) = Self::get_by_slug(String::from(slug)) {
+                                posts.push(post);
+                            }
+                        }
                     }
                 }
             }

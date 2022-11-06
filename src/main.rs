@@ -142,7 +142,7 @@ async fn home(site: web::Data<Site>, tmpl: web::Data<tera::Tera>) -> Result<Name
                 let mut ctx = Context::new();
                 ctx.insert("site", &site.as_ref());
                 ctx.insert("title", &"Home".to_string());
-                ctx.insert("posts", &Post::get_all());
+                ctx.insert("posts", &posts);
                 tmpl.render("home.html", &ctx)
                     .map_err(ErrorInternalServerError)
             }
