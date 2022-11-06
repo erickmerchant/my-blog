@@ -11,11 +11,11 @@
     appearance: none;
     border: none;
     background: none;
-    --background-color: hsl(var(--anchor-color) / 0.25);
+    --background-opacity: 0.25;
   }
 
   [aria-pressed="true"] {
-    --background-color: hsl(var(--anchor-color) / 0.75);
+    --background-opacity: 0.5;
   }
 
   .button > * {
@@ -28,7 +28,7 @@
     position: relative;
     height: 1.25em;
     aspect-ratio: 1 / 0.625;
-    background-color: var(--background-color);
+    background-color: hsl(var(--anchor-color) / var(--background-opacity));
     border: 0.0625rem solid hsl(var(--anchor-color) / 0.5);
     border-radius: 0.25em;
     color: hsl(var(--anchor-color));
