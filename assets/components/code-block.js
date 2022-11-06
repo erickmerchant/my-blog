@@ -48,19 +48,19 @@ class CodeBlock extends Element {
               {class: "lines"},
               ...lines.map((ln) => div({class: "line"}, code(ln)))
             )
-          )),
-          toggleButton(
-            {
-              class: this.compute(() => {
-                return this.#state.hasScrollbars || this.#state.wrapWhiteSpace
-                  ? "toggle"
-                  : "toggle--hidden";
-              }),
-              pressed: this.compute(() => this.#state.wrapWhiteSpace),
-              onclick: this.#toggleWrapWhiteSpace,
-            },
-            "Wrap"
-          )
+          ))
+        ),
+        toggleButton(
+          {
+            class: this.compute(() => {
+              return this.#state.hasScrollbars || this.#state.wrapWhiteSpace
+                ? "toggle"
+                : "toggle--hidden";
+            }),
+            pressed: this.compute(() => this.#state.wrapWhiteSpace),
+            onclick: this.#toggleWrapWhiteSpace,
+          },
+          "Wrap"
         )
       ),
     ];

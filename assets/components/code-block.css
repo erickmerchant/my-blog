@@ -68,8 +68,8 @@
 
   .line > *,
   .line::before {
-    padding-block-start: calc(var(--first) * 2em);
-    padding-block-end: calc(var(--last) * 2em);
+    padding-block-start: calc(var(--first) * 2.5em);
+    padding-block-end: calc(var(--last) * 2.5em);
   }
 
   .line::before {
@@ -100,8 +100,8 @@
   .toggle--hidden {
     gap: 0.5rem;
     position: absolute;
-    right: 0.6em;
-    bottom: 0.6em;
+    right: 0.5em;
+    bottom: 0.5em;
     padding: 0;
     font-weight: 500;
   }
