@@ -109,25 +109,29 @@
     --easing: cubic-bezier(0.3, 0, 0.3, 0.7);
   }
 
-  .light {
-    --anchor-color: 100 60% 30%;
-    --code-color: 100 60% 25%;
-    --text-color: 100 5% 10%;
-    --background-1: 0 0% 100%;
-    --background-2: 100 5% 90%;
-    --code-background: 100 5% 95%;
-    --banner-background: 100 20% 85%;
-    --banner-foreground: 100 30% 65%;
+  @media (prefers-color-scheme: light) {
+    body {
+      --anchor-color: 100 60% 30%;
+      --code-color: 100 60% 25%;
+      --text-color: 100 5% 10%;
+      --background-1: 0 0% 100%;
+      --background-2: 100 5% 90%;
+      --code-background: 100 5% 95%;
+      --banner-background: 100 20% 85%;
+      --banner-foreground: 100 30% 65%;
+    }
   }
 
-  .dark {
-    --anchor-color: 100 60% 70%;
-    --code-color: 100 60% 80%;
-    --text-color: 0 0% 100%;
-    --background-1: 100 5% 12.5%;
-    --background-2: 100 5% 17.5%;
-    --code-background: 100 5% 20%;
-    --banner-background: 100 20% 27.5%;
-    --banner-foreground: 100 30% 40%;
+  @media (prefers-color-scheme: dark) {
+    body {
+      --anchor-color: 100 60% 70%;
+      --code-color: 100 60% 80%;
+      --text-color: 0 0% 100%;
+      --background-1: 100 5% 12.5%;
+      --background-2: 100 5% 17.5%;
+      --code-background: 100 5% 20%;
+      --banner-background: 100 20% 27.5%;
+      --banner-foreground: 100 30% 40%;
+    }
   }
 }

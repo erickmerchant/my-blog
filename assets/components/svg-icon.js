@@ -18,8 +18,8 @@ class SvgIcon extends Element {
       "L9.75 15",
       "L6.25 15",
       "z",
-    ],
-    // check: ["M1 10", "L3 6.5", "L7 9", "L12 1", "L15 3", "L8 14.5", "z"],
+    ].join(" "),
+    // check: ["M1 10", "L3 6.5", "L7 9", "L12 1", "L15 3", "L8 14.5", "z"].join(" "),
     close: [
       "M1 4",
       "L4 1",
@@ -31,7 +31,7 @@ class SvgIcon extends Element {
       "L4 15",
       "L1 12",
       "z",
-    ],
+    ].join(" "),
     open: [
       "M1 1",
       "L15 1",
@@ -48,7 +48,7 @@ class SvgIcon extends Element {
       "L15 15",
       "L1 15",
       "z",
-    ],
+    ].join(" "),
   };
 
   static #svgns = "http://www.w3.org/2000/svg";
@@ -75,7 +75,6 @@ class SvgIcon extends Element {
       ),
       svg(
         {
-          "class": "icon",
           "aria-hidden": "true",
           "viewBox": "0 0 16 16",
           "xmlns": SvgIcon.#svgns,
@@ -83,7 +82,7 @@ class SvgIcon extends Element {
         this.compute(() =>
           this.#state.name
             ? path({
-                d: SvgIcon.#paths[this.#state.name]?.join(" "),
+                d: SvgIcon.#paths[this.#state.name],
                 xmlns: SvgIcon.#svgns,
               })
             : ""

@@ -36,9 +36,9 @@
     background-size: 0.25rem 0.25rem;
     color: hsl(var(--text-color));
 
-    --content-left: 0;
+    --drawer-open: 0px;
     --drawer-width: 70vw;
-    --button-shadow-size: 0;
+    --button-shadow-size: 0.175rem;
     --button-top: 0.875rem;
     --button-height: 2.25rem;
     --button-transform: translate(0, 0);
@@ -50,7 +50,7 @@
   page-layout[open] {
     --button-transform: translate(-0.075rem, -0.075rem);
     --button-shadow-size: 0.25rem;
-    --content-left: var(--drawer-width);
+    --drawer-open: var(--drawer-width);
   }
 
   @media (max-width: 900px) {
@@ -160,6 +160,7 @@
   .links {
     list-style: none;
     padding-inline: 1em;
+    gap: 0.5em;
   }
 
   :not(:defined) .links {

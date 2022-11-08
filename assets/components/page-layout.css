@@ -3,7 +3,7 @@
     width: 1.25em;
   }
 
-  .button {
+  button {
     position: fixed;
     top: var(--button-top);
     left: var(--button-top);
@@ -46,8 +46,8 @@
     z-index: 1;
     display: grid;
     height: 100%;
-    transform: translateX(var(--content-left));
-    transition: transform 0.25s var(--easing);
+    transform: translateX(var(--drawer-open));
+    transition: var(--drawer-transition, transform 0.25s var(--easing));
     color: hsl(var(--text-color));
     background-color: hsl(var(--background-1));
   }

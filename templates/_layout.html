@@ -31,12 +31,11 @@
       </footer>
 
       <ul class="links" slot="links">
-        {% for link in site.links %}
-          <li><a href="{{link.href}}">{{link.title}}</a></li>
-        {% endfor %}
+        <li><a href="/">Home</a></li>
+        <li><a href="/posts.rss">RSS Feed</a></li>
+        <li><a href="https://github.com/erickmerchant/my-blog">View Source</a></li>
       </ul>
-
-      <theme-selector slot="links"></theme-selector>
+      <a rel="me" href="https://mastodon.online/@erickjm"></a>
     </page-layout>
   </body>
 </html>

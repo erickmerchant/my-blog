@@ -7,7 +7,6 @@ pub struct Site {
     pub base: String,
     pub description: String,
     pub copyright: String,
-    pub links: Vec<Link>,
     #[serde(default)]
     pub components: Vec<String>,
 }
@@ -20,12 +19,6 @@ impl Site {
             _ => Self::default(),
         }
     }
-}
-
-#[derive(Deserialize, Debug, Clone, Serialize)]
-pub struct Link {
-    pub href: String,
-    pub title: String,
 }
 
 #[derive(Deserialize, Debug, Clone, Default, Serialize)]
