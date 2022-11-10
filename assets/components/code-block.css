@@ -16,7 +16,6 @@
   pre {
     font-size: 0.8em;
     font-family: Consolas, monaco, monospace;
-    font-weight: 400;
     white-space: pre;
     border-radius: var(--border-radius);
     overflow-x: auto;
