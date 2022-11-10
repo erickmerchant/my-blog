@@ -54,6 +54,11 @@
     font-weight: 800;
   }
 
+  strong {
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+
   h3,
   dt {
     font-size: 1em;
