@@ -4,7 +4,7 @@ use actix_web::{error::Error, error::ErrorInternalServerError, error::ErrorNotFo
 use serde_json::json;
 use std::{convert::AsRef, fs, path::Path};
 
-pub fn handler<P: AsRef<Path>>(src: P, config: web::Data<config::Config>) -> Result<NamedFile> {
+pub fn css_asset<P: AsRef<Path>>(src: P, config: web::Data<config::Config>) -> Result<NamedFile> {
     use lightningcss::{stylesheet, targets};
     use parcel_sourcemap::SourceMap;
 

@@ -4,7 +4,7 @@ use actix_web::{error::ErrorInternalServerError, error::ErrorNotFound, web, Resu
 use serde_json::{from_value, json};
 use std::{convert::AsRef, path::Path, sync::Arc};
 
-pub fn handler<P: AsRef<Path>>(src: P, config: web::Data<config::Config>) -> Result<NamedFile> {
+pub fn js_asset<P: AsRef<Path>>(src: P, config: web::Data<config::Config>) -> Result<NamedFile> {
     use swc::{config::Options, config::SourceMapsConfig};
     use swc_common::{errors::ColorConfig, errors::Handler, SourceMap, GLOBALS};
     cacheable::response(&src, || {

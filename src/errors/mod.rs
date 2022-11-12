@@ -1,3 +1,6 @@
 mod error;
-pub mod internal_error;
-pub mod not_found;
+mod internal_error;
+mod not_found;
+
+pub use internal_error::*;
+pub use not_found::*;

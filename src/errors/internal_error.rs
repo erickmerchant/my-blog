@@ -3,13 +3,13 @@ use crate::models;
 use actix_web::{dev::ServiceResponse, middleware::ErrorHandlerResponse, web, Result};
 use tera::{Context, Tera};
 
-pub fn handler<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerResponse<B>> {
+pub fn internal_error<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerResponse<B>> {
     let title = "Internal Error".to_string();
     let message = "An error occurred. Please try again later.".to_string();
     let req = res.request();
-    let site = match req.app_data::<web::Data<models::site::Model>>() {
+    let site = match req.app_data::<web::Data<models::Site>>() {
         Some(s) => s.as_ref().to_owned(),
-        None => models::site::Model::default(),
+        None => models::Site::default(),
     };
     let tmpl = req.app_data::<web::Data<Tera>>();
 

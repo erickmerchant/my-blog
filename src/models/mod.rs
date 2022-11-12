@@ -1,2 +1,5 @@
-pub mod post;
-pub mod site;
+mod post;
+mod site;
+
+pub use post::*;
+pub use site::*;

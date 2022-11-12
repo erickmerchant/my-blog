@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 use std::{fs, path::Path, vec::Vec};
 
 #[derive(Deserialize, Debug, Clone, Default, Serialize)]
-pub struct Model {
+pub struct Post {
     #[serde(default)]
     pub slug: String,
     pub title: String,
@@ -14,7 +14,7 @@ pub struct Model {
     pub components: Vec<String>,
 }
 
-impl Model {
+impl Post {
     pub fn get_by_slug(slug: String) -> Option<Self> {
         let path = Path::new("content/posts")
             .join(&slug)

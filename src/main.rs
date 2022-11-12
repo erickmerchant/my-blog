@@ -22,7 +22,7 @@ async fn main() -> io::Result<()> {
     let port = config.port;
 
     HttpServer::new(move || {
-        let site = models::site::Model::get();
+        let site = models::Site::get();
         let tera = Tera::new("templates/**/*").expect("templates parsing failed");
 
         App::new()
@@ -31,19 +31,16 @@ async fn main() -> io::Result<()> {
             .app_data(web::Data::new(tera))
             .wrap(Logger::new("%s %r"))
             .wrap(DefaultHeaders::new().add(("Content-Security-Policy", "default-src 'self'")))
-            .wrap(ErrorHandlers::new().handler(StatusCode::NOT_FOUND, errors::not_found::handler))
-            .wrap(ErrorHandlers::new().handler(
-                StatusCode::INTERNAL_SERVER_ERROR,
-                errors::internal_error::handler,
-            ))
-            .wrap(Compress::default())
-            .route("/", web::get().to(pages::home::handler))
-            .route("/posts.rss", web::get().to(pages::posts_rss::handler))
-            .route(
-                "/posts/{slug:.*?}.html",
-                web::get().to(pages::post::handler),
+            .wrap(ErrorHandlers::new().handler(StatusCode::NOT_FOUND, errors::not_found))
+            .wrap(
+                ErrorHandlers::new()
+                    .handler(StatusCode::INTERNAL_SERVER_ERROR, errors::internal_error),
             )
-            .route("/{file:.*?}", web::get().to(assets::handler))
+            .wrap(Compress::default())
+            .route("/", web::get().to(pages::home))
+            .route("/posts.rss", web::get().to(pages::posts_rss))
+            .route("/posts/{slug:.*?}.html", web::get().to(pages::post))
+            .route("/{file:.*?}", web::get().to(assets::asset))
     })
     .bind(format!("0.0.0.0:{port}"))?
     .run()

@@ -1,3 +1,7 @@
-pub mod home;
-pub mod post;
-pub mod posts_rss;
+mod home;
+mod post;
+mod posts_rss;
+
+pub use home::*;
+pub use post::*;
+pub use posts_rss::*;

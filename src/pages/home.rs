@@ -4,12 +4,9 @@ use actix_web::{error::ErrorInternalServerError, error::ErrorNotFound, web, Resu
 use std::path::Path;
 use tera::Context;
 
-pub async fn handler(
-    site: web::Data<models::site::Model>,
-    tmpl: web::Data<tera::Tera>,
-) -> Result<NamedFile> {
+pub async fn home(site: web::Data<models::Site>, tmpl: web::Data<tera::Tera>) -> Result<NamedFile> {
     cacheable::response(Path::new("index.html"), || {
-        let posts = models::post::Model::get_all();
+        let posts = models::Post::get_all();
 
         match !posts.is_empty() {
             true => {

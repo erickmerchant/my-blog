@@ -4,16 +4,16 @@ use actix_web::{error::ErrorInternalServerError, error::ErrorNotFound, web, Resu
 use std::path::Path;
 use tera::Context;
 
-pub async fn handler(
+pub async fn post(
     slug: web::Path<String>,
-    site: web::Data<models::site::Model>,
+    site: web::Data<models::Site>,
     tmpl: web::Data<tera::Tera>,
 ) -> Result<NamedFile> {
     let slug = slug.as_ref();
     let path = Path::new("posts").join(slug).with_extension("html");
 
     cacheable::response(&path, || {
-        let post = models::post::Model::get_by_slug(slug.to_string());
+        let post = models::Post::get_by_slug(slug.to_string());
 
         match post {
             Some(post) => {
