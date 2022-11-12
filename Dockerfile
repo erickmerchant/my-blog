@@ -3,8 +3,6 @@ RUN apk add build-base
 WORKDIR /app
 RUN cargo init . --bin
 COPY Cargo.toml Cargo.lock .
-RUN cargo build --release --no-default-features
-RUN rm -rf ./target/release/main ./target/release/deps/main-* ./src
 ADD src src/
 RUN cargo build --release --no-default-features
 RUN mv ./target/release/main ./main
