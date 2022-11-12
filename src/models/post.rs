@@ -2,27 +2,7 @@ use serde::{Deserialize, Serialize};
 use std::{fs, path::Path, vec::Vec};
 
 #[derive(Deserialize, Debug, Clone, Default, Serialize)]
-pub struct Site {
-    pub title: String,
-    pub base: String,
-    pub description: String,
-    pub copyright: String,
-    #[serde(default)]
-    pub components: Vec<String>,
-}
-
-impl Site {
-    pub fn get() -> Self {
-        match fs::read_to_string("content/Site.json") {
-            Ok(file_contents) => serde_json::from_str::<Self>(&file_contents)
-                .expect("failed to parse content/Site.json"),
-            _ => Self::default(),
-        }
-    }
-}
-
-#[derive(Deserialize, Debug, Clone, Default, Serialize)]
-pub struct Post {
+pub struct Model {
     #[serde(default)]
     pub slug: String,
     pub title: String,
@@ -34,7 +14,7 @@ pub struct Post {
     pub components: Vec<String>,
 }
 
-impl Post {
+impl Model {
     pub fn get_by_slug(slug: String) -> Option<Self> {
         let path = Path::new("content/posts")
             .join(&slug)

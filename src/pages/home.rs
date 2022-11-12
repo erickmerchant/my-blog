@@ -1,0 +1,26 @@
+use crate::{cacheable, models};
+use actix_files::NamedFile;
+use actix_web::{error::ErrorInternalServerError, error::ErrorNotFound, web, Result};
+use std::path::Path;
+use tera::Context;
+
+pub async fn handler(
+    site: web::Data<models::site::Model>,
+    tmpl: web::Data<tera::Tera>,
+) -> Result<NamedFile> {
+    cacheable::response(Path::new("index.html"), || {
+        let posts = models::post::Model::get_all();
+
+        match !posts.is_empty() {
+            true => {
+                let mut ctx = Context::new();
+                ctx.insert("site", &site.as_ref());
+                ctx.insert("title", &"Home".to_string());
+                ctx.insert("posts", &posts);
+                tmpl.render("home.html", &ctx)
+                    .map_err(ErrorInternalServerError)
+            }
+            false => Err(ErrorNotFound("not found")),
+        }
+    })
+}
