@@ -1,10 +1,9 @@
 mod assets;
-mod cacheable;
 mod config;
 mod errors;
 mod models;
-mod named_file;
 mod pages;
+mod responses;
 
 use actix_web::{
     http::StatusCode, middleware::Compress, middleware::DefaultHeaders, middleware::ErrorHandlers,
@@ -41,6 +40,8 @@ async fn main() -> io::Result<()> {
             .route("/posts.rss", web::get().to(pages::posts_rss))
             .route("/posts/{slug:.*?}.html", web::get().to(pages::post))
             .route("/{file:.*?}", web::get().to(assets::asset))
+            .route("/{file:.*?}.js", web::get().to(assets::js))
+            .route("/{file:.*?}.css", web::get().to(assets::css))
     })
     .bind(format!("0.0.0.0:{port}"))?
     .run()

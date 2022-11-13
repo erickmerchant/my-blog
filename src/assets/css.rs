@@ -1,14 +1,15 @@
-use crate::{cacheable, config};
+use crate::{config, responses};
 use actix_files::NamedFile;
 use actix_web::{error::Error, error::ErrorInternalServerError, error::ErrorNotFound, web, Result};
 use serde_json::json;
-use std::{convert::AsRef, fs, path::Path};
+use std::{fs, path::Path};
 
-pub fn css_asset<P: AsRef<Path>>(src: P, config: web::Data<config::Config>) -> Result<NamedFile> {
+pub async fn css(file: web::Path<String>, config: web::Data<config::Config>) -> Result<NamedFile> {
+    let src = Path::new("assets").join(file.to_string());
     use lightningcss::{stylesheet, targets};
     use parcel_sourcemap::SourceMap;
 
-    cacheable::response(&src, || -> Result<String, Error> {
+    responses::cacheable(&src, || -> Result<String, Error> {
         let file_contents = fs::read_to_string(&src).map_err(ErrorNotFound)?;
         let targets =
             targets::Browsers::from_browserslist([config.targets.as_str()]).unwrap_or_default();
@@ -22,7 +23,7 @@ pub fn css_asset<P: AsRef<Path>>(src: P, config: web::Data<config::Config>) -> R
         if config.source_maps {
             let mut sm = SourceMap::new("/");
 
-            if let Some(src_str) = src.as_ref().to_str() {
+            if let Some(src_str) = src.to_str() {
                 sm.add_source(src_str);
             };
 

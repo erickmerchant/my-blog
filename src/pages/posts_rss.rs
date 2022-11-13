@@ -1,4 +1,4 @@
-use crate::{cacheable, models};
+use crate::{models, responses};
 use actix_files::NamedFile;
 use actix_web::{error::ErrorInternalServerError, web, Result};
 use std::path::Path;
@@ -8,7 +8,7 @@ pub async fn posts_rss(
     site: web::Data<models::Site>,
     tmpl: web::Data<tera::Tera>,
 ) -> Result<NamedFile> {
-    cacheable::response(Path::new("posts.rss"), || {
+    responses::cacheable(Path::new("posts.rss"), || {
         let mut ctx = Context::new();
         ctx.insert("site", &site.as_ref());
         ctx.insert("posts", &models::Post::get_all());

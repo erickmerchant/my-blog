@@ -1,4 +1,4 @@
-use crate::{cacheable, models};
+use crate::{models, responses};
 use actix_files::NamedFile;
 use actix_web::{error::ErrorInternalServerError, error::ErrorNotFound, web, Result};
 use std::path::Path;
@@ -12,7 +12,7 @@ pub async fn post(
     let slug = slug.as_ref();
     let path = Path::new("posts").join(slug).with_extension("html");
 
-    cacheable::response(&path, || {
+    responses::cacheable(&path, || {
         let post = models::Post::get_by_slug(slug.to_string());
 
         match post {

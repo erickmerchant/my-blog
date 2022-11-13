@@ -1,11 +1,11 @@
-use crate::{cacheable, models};
+use crate::{models, responses};
 use actix_files::NamedFile;
 use actix_web::{error::ErrorInternalServerError, error::ErrorNotFound, web, Result};
 use std::path::Path;
 use tera::Context;
 
 pub async fn home(site: web::Data<models::Site>, tmpl: web::Data<tera::Tera>) -> Result<NamedFile> {
-    cacheable::response(Path::new("index.html"), || {
+    responses::cacheable(Path::new("index.html"), || {
         let posts = models::Post::get_all();
 
         match !posts.is_empty() {
