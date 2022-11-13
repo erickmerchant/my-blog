@@ -7,12 +7,11 @@ class PageLayout extends Element {
     this.#state.open = !this.#state.open;
   };
 
-  effect = () => {
-    this.toggleAttribute("open", this.#state.open);
-  };
-
   render({"svg-icon": svgIcon, button, div, link, nav, slot}) {
     return [
+      {
+        open: this.compute(() => this.#state.open),
+      },
       ...["../common.css", "./page-layout.css"].map((url) =>
         link({
           rel: "stylesheet",

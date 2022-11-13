@@ -58,7 +58,7 @@ export class Element extends HTMLElement {
   }
 
   #h(tag, attrs = {}, ...children) {
-    if (attrs.constructor !== Object) {
+    if (typeof attrs !== "object" || attrs.constructor !== Object) {
       children.unshift(attrs);
       attrs = {};
     }
@@ -67,7 +67,23 @@ export class Element extends HTMLElement {
       ? document.createElementNS(attrs.xmlns, tag)
       : document.createElement(tag);
 
-    for (let [key, value] of Object.entries(attrs ?? {})) {
+    this.#setAttributes(node, attrs ?? {});
+
+    this.#appendChildren(node, children);
+
+    return node;
+  }
+
+  #setAttribute(node, key, val) {
+    if (val != null && val !== false) {
+      node.setAttribute(key, val === true ? "" : val);
+    } else {
+      node.removeAttribute(key);
+    }
+  }
+
+  #setAttributes(node, attrs) {
+    for (let [key, value] of Object.entries(attrs)) {
       let isListener = key.substring(0, 2) === "on";
 
       key = isListener ? key.substring(2) : key;
@@ -84,18 +100,6 @@ export class Element extends HTMLElement {
       } else {
         this.#setAttribute(node, key, value);
       }
-    }
-
-    this.#appendChildren(node, children);
-
-    return node;
-  }
-
-  #setAttribute(node, key, val) {
-    if (val != null && val !== false) {
-      node.setAttribute(key, val === true ? "" : val);
-    } else {
-      node.removeAttribute(key);
     }
   }
 
@@ -154,17 +158,13 @@ export class Element extends HTMLElement {
   connectedCallback() {
     this.attachShadow({mode: "open"});
 
-    if (this.effect) {
-      this.#active.add({
-        type: "effect",
-        value: this.compute(this.effect),
-      });
+    let children = [].concat(this.render?.(this.#createElementProxy) ?? "");
+
+    if (typeof children[0] === "object" && children[0].constructor === Object) {
+      this.#setAttributes(this, children.shift());
     }
 
-    this.#appendChildren(
-      this.shadowRoot,
-      [].concat(this.render?.(this.#createElementProxy) ?? "")
-    );
+    this.#appendChildren(this.shadowRoot, children);
 
     this.#update();
   }

@@ -39,9 +39,9 @@ async fn main() -> io::Result<()> {
             .route("/", web::get().to(pages::home))
             .route("/posts.rss", web::get().to(pages::posts_rss))
             .route("/posts/{slug:.*?}.html", web::get().to(pages::post))
-            .route("/{file:.*?}", web::get().to(assets::asset))
-            .route("/{file:.*?}.js", web::get().to(assets::js))
-            .route("/{file:.*?}.css", web::get().to(assets::css))
+            .route("{file:.*?}.js", web::get().to(assets::js))
+            .route("{file:.*?}.css", web::get().to(assets::css))
+            .route("{file:.*?}", web::get().to(assets::asset))
     })
     .bind(format!("0.0.0.0:{port}"))?
     .run()

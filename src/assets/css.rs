@@ -5,7 +5,9 @@ use serde_json::json;
 use std::{fs, path::Path};
 
 pub async fn css(file: web::Path<String>, config: web::Data<config::Config>) -> Result<NamedFile> {
-    let src = Path::new("assets").join(file.to_string());
+    let src = Path::new("assets")
+        .join(file.to_string())
+        .with_extension("css");
     use lightningcss::{stylesheet, targets};
     use parcel_sourcemap::SourceMap;
 
