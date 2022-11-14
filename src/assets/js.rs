@@ -3,13 +3,14 @@ use actix_files::NamedFile;
 use actix_web::{error::ErrorInternalServerError, error::ErrorNotFound, web, Result};
 use serde_json::{from_value, json};
 use std::{convert::AsRef, path::Path, sync::Arc};
+use swc::{config::Options, config::SourceMapsConfig};
+use swc_common::{errors::ColorConfig, errors::Handler, SourceMap, GLOBALS};
 
 pub async fn js(file: web::Path<String>, config: web::Data<config::Config>) -> Result<NamedFile> {
     let src = Path::new("assets")
         .join(file.to_string())
         .with_extension("js");
-    use swc::{config::Options, config::SourceMapsConfig};
-    use swc_common::{errors::ColorConfig, errors::Handler, SourceMap, GLOBALS};
+
     responses::cacheable(&src, || {
         let src = src.as_ref();
 

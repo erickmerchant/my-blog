@@ -1,6 +1,5 @@
 use actix_files::NamedFile;
-use actix_web::error::ErrorNotFound;
-use actix_web::{error::Error, error::ErrorInternalServerError, Result};
+use actix_web::{error::Error, error::ErrorInternalServerError, error::ErrorNotFound, Result};
 use std::{convert::AsRef, fs, fs::File, io::Write, path::Path};
 
 pub fn cacheable<F: Fn() -> Result<String, Error>, P: AsRef<Path>>(

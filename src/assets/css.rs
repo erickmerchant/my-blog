@@ -1,6 +1,8 @@
 use crate::{config, responses};
 use actix_files::NamedFile;
 use actix_web::{error::Error, error::ErrorInternalServerError, error::ErrorNotFound, web, Result};
+use lightningcss::{stylesheet, targets};
+use parcel_sourcemap::SourceMap;
 use serde_json::json;
 use std::{fs, path::Path};
 
@@ -8,8 +10,6 @@ pub async fn css(file: web::Path<String>, config: web::Data<config::Config>) -> 
     let src = Path::new("assets")
         .join(file.to_string())
         .with_extension("css");
-    use lightningcss::{stylesheet, targets};
-    use parcel_sourcemap::SourceMap;
 
     responses::cacheable(&src, || -> Result<String, Error> {
         let file_contents = fs::read_to_string(&src).map_err(ErrorNotFound)?;
