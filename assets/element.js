@@ -23,6 +23,8 @@ export class Element extends HTMLElement {
 
   #active = new Set();
 
+  #boundAttributes = new Map();
+
   #callbacks = new Map();
 
   #createElementProxy = new Proxy(
@@ -37,18 +39,22 @@ export class Element extends HTMLElement {
 
   #inactive = new Set();
 
+  #mutationObserver = null;
+
   #reads = null;
 
   #updating = false;
 
   #appendChildren(node, children) {
     for (let value of children) {
-      if (typeof value === "symbol" && this.#callbacks.has(value)) {
-        let [start, end] = ["", ""].map((v) => document.createComment(v));
+      if (typeof value === "symbol") {
+        if (this.#callbacks.get(value)?.type === "compute") {
+          let [start, end] = ["", ""].map((v) => document.createComment(v));
 
-        this.#active.add({type: "fragment", start, end, value});
+          this.#active.add({type: "fragment", start, end, value});
 
-        value = [start, end];
+          value = [start, end];
+        }
       } else {
         value = [value];
       }
@@ -74,6 +80,18 @@ export class Element extends HTMLElement {
     return node;
   }
 
+  #handleMutations = (mutations) => {
+    for (let mutation of mutations) {
+      let callback = this.#boundAttributes.get(mutation.attributeName);
+
+      if (callback) {
+        this.#callbacks
+          .get(callback)
+          ?.value?.(this.getAttribute(mutation.attributeName));
+      }
+    }
+  };
+
   #setAttribute(node, key, val) {
     if (val != null && val !== false) {
       node.setAttribute(key, val === true ? "" : val);
@@ -88,13 +106,27 @@ export class Element extends HTMLElement {
 
       key = isListener ? key.substring(2) : key;
 
-      if (typeof value === "symbol" && this.#callbacks.has(value)) {
-        this.#active.add({
-          type: isListener ? "listener" : "attribute",
-          node,
-          key,
-          value,
-        });
+      if (typeof value === "symbol") {
+        let callback = this.#callbacks.get(value);
+
+        if (callback?.type === "compute") {
+          this.#active.add({
+            type: isListener ? "listener" : "attribute",
+            node,
+            key,
+            value,
+          });
+        } else if (callback?.type === "bind") {
+          this.#boundAttributes.set(key, value);
+
+          this.#mutationObserver ??= new MutationObserver(
+            this.#handleMutations
+          );
+
+          this.#mutationObserver.observe(node, {attributeFilter: [key]});
+
+          this.#callbacks.get(value)?.value?.(this.getAttribute(key));
+        }
       } else if (isListener) {
         node.addEventListener(key, ...[].concat(value));
       } else {
@@ -109,7 +141,7 @@ export class Element extends HTMLElement {
     for (let formula of this.#active) {
       this.#reads = new Set();
 
-      let callback = this.#callbacks.get(formula.value);
+      let callback = this.#callbacks.get(formula.value).value;
 
       let result = callback();
 
@@ -155,6 +187,18 @@ export class Element extends HTMLElement {
     this.#updating = false;
   };
 
+  bind(value) {
+    if (this.#updating) {
+      return;
+    }
+
+    let symbol = Symbol("bind");
+
+    this.#callbacks.set(symbol, {type: "bind", value});
+
+    return symbol;
+  }
+
   connectedCallback() {
     this.attachShadow({mode: "open"});
 
@@ -169,14 +213,14 @@ export class Element extends HTMLElement {
     this.#update();
   }
 
-  compute(callback) {
+  compute(value) {
     if (this.#updating) {
-      return callback();
+      return value();
     }
 
-    let symbol = Symbol("formula");
+    let symbol = Symbol("compute");
 
-    this.#callbacks.set(symbol, callback);
+    this.#callbacks.set(symbol, {type: "compute", value});
 
     return symbol;
   }

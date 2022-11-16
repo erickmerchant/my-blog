@@ -30,7 +30,7 @@
     overflow-x: hidden;
     background-color: hsl(var(--background-2));
     background-image: radial-gradient(
-      hsl(var(--banner-foreground) / 0.25) 25%,
+      hsl(var(--background-3) / 0.25) 25%,
       hsl(var(--background-2)) 25%
     );
     background-size: 0.25rem 0.25rem;
@@ -38,7 +38,7 @@
 
     --drawer-open: 0px;
     --drawer-width: 70vw;
-    --button-shadow-size: 0.175rem;
+    --button-shadow-size: 0rem;
     --button-top: 0.875rem;
     --button-height: 2.25rem;
     --button-transform: translate(0, 0);
@@ -63,22 +63,16 @@
     position: sticky;
     top: calc((var(--button-top) * 2) + var(--button-height) - var(--height));
     z-index: 2;
-    background-color: hsl(var(--banner-background));
-    background-image: linear-gradient(
-        hsl(var(--banner-foreground)) 1px,
-        hsl(0 0% 0% / 0) 1px
-      ),
-      linear-gradient(
-        90deg,
-        hsl(var(--banner-foreground)) 1px,
-        hsl(0 0% 0% / 0) 1px
-      );
-    background-size: 1rem 1rem;
-    background-position: -1px -1px;
+    background-color: hsl(var(--background-3));
+    background-image: repeating-linear-gradient(
+      -45deg,
+      hsl(0 0% 0% / 0) 0 0.125rem,
+      hsl(var(--background-2)) 0.125rem 0.25rem
+    );
     height: var(--height);
     width: 100%;
 
-    --height: 12rem;
+    --height: 4rem;
   }
 
   .main {
@@ -91,16 +85,29 @@
     padding-block-start: 1em;
     align-content: start;
 
-    --has-padding-inline: 1;
-    --has-extra-width: 0;
     --list-indent: calc(var(--space) * 2);
   }
 
   .main > * {
-    max-width: calc(var(--max-width) + (8rem * var(--has-extra-width)));
+    max-width: calc(var(--max-width));
     width: 100%;
     margin-inline: auto;
-    padding-inline: calc(1rem * var(--has-padding-inline));
+    padding-inline: 1rem;
+  }
+
+  pre {
+    display: block;
+    font-family: Consolas, monaco, monospace;
+    color: hsl(var(--code-color));
+    background-color: hsl(var(--code-background) / 0.5);
+    border-radius: 0.25em;
+    font-size: 0.8em;
+    font-family: Consolas, monaco, monospace;
+    white-space: pre;
+    border-radius: var(--border-radius);
+    overflow-x: auto;
+
+    --border-radius: 0.25em;
   }
 
   @media (max-width: 600px) {
@@ -110,6 +117,10 @@
 
     .main > * {
       max-width: 100%;
+    }
+
+    pre {
+      --border-radius: 0;
     }
   }
 

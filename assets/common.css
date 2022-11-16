@@ -73,15 +73,6 @@
     margin-inline-start: var(--list-indent);
   }
 
-  code {
-    font-family: Consolas, monaco, monospace;
-    color: hsl(var(--anchor-color));
-    background-color: hsl(var(--background-2) / 0.5);
-    border-radius: 0.25em;
-    padding-block: 0.125em;
-    padding-inline: 0.125rem;
-  }
-
   :host {
     display: block;
   }
@@ -106,7 +97,7 @@
     --background-2: 0 0% 90%;
     --code-background: 0 0% 95%;
     --banner-background: 0 0% 75%;
-    --banner-foreground: 0 0% 25%;
+    --background-3: 0 0% 25%;
     --easing: cubic-bezier(0.3, 0, 0.3, 0.7);
   }
 
@@ -117,9 +108,8 @@
       --text-color: 100 5% 10%;
       --background-1: 0 0% 100%;
       --background-2: 100 5% 90%;
+      --background-3: 100 30% 65%;
       --code-background: 100 5% 95%;
-      --banner-background: 100 20% 85%;
-      --banner-foreground: 100 30% 65%;
     }
   }
 
@@ -130,9 +120,8 @@
       --text-color: 0 0% 100%;
       --background-1: 100 5% 12.5%;
       --background-2: 100 5% 17.5%;
+      --background-3: 100 30% 40%;
       --code-background: 100 5% 20%;
-      --banner-background: 100 20% 27.5%;
-      --banner-foreground: 100 30% 40%;
     }
   }
 }

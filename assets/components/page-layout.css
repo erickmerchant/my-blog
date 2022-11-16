@@ -13,7 +13,7 @@
     border: 0.125rem solid hsl(var(--anchor-color) / 0.5);
     border-radius: 0.25rem;
     box-shadow: var(--button-shadow-size) var(--button-shadow-size) 0
-      hsl(var(--banner-foreground) / 0.5);
+      hsl(var(--background-3) / 0.5);
     transition: box-shadow 0.25s var(--easing), transform 0.25s var(--easing);
     color: hsl(var(--anchor-color));
     height: var(--button-height);
@@ -50,6 +50,7 @@
     transition: var(--drawer-transition, transform 0.25s var(--easing));
     color: hsl(var(--text-color));
     background-color: hsl(var(--background-1));
+    box-shadow: -0.25rem 0 0 hsl(var(--background-3) / 0.5);
   }
 
   .panel > * {
