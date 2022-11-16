@@ -92,36 +92,30 @@
 
 @layer theme {
   body {
-    --anchor-color: 0 0% 25%;
-    --background-1: 0 0% 100%;
-    --background-2: 0 0% 90%;
-    --code-background: 0 0% 95%;
-    --banner-background: 0 0% 75%;
-    --background-3: 0 0% 25%;
     --easing: cubic-bezier(0.3, 0, 0.3, 0.7);
   }
 
   @media (prefers-color-scheme: light) {
     body {
-      --anchor-color: 100 60% 30%;
-      --code-color: 100 60% 25%;
-      --text-color: 100 5% 10%;
-      --background-1: 0 0% 100%;
-      --background-2: 100 5% 90%;
-      --background-3: 100 30% 65%;
-      --code-background: 100 5% 95%;
+      --anchor-color: 120 60% 30%;
+      --code-color: 120 60% 25%;
+      --text-color: 120 0% 10%;
+      --background-1: 0 5% 100%;
+      --background-2: 120 5% 90%;
+      --background-3: 120 15% 65%;
+      --code-background: 120 5% 95%;
     }
   }
 
   @media (prefers-color-scheme: dark) {
     body {
-      --anchor-color: 100 60% 70%;
-      --code-color: 100 60% 80%;
+      --anchor-color: 120 60% 70%;
+      --code-color: 120 60% 80%;
       --text-color: 0 0% 100%;
-      --background-1: 100 5% 12.5%;
-      --background-2: 100 5% 17.5%;
-      --background-3: 100 30% 40%;
-      --code-background: 100 5% 20%;
+      --background-1: 120 5% 12.5%;
+      --background-2: 120 5% 17.5%;
+      --background-3: 120 15% 40%;
+      --code-background: 120 5% 20%;
     }
   }
 }
