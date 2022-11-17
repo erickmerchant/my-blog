@@ -23,7 +23,7 @@ export class Element extends HTMLElement {
 
   #active = new Set();
 
-  #boundAttributes = new Map();
+  #observed = new Map();
 
   #callbacks = new Map();
 
@@ -82,7 +82,7 @@ export class Element extends HTMLElement {
 
   #handleMutations = (mutations) => {
     for (let mutation of mutations) {
-      let callback = this.#boundAttributes.get(mutation.attributeName);
+      let callback = this.#observed.get(mutation.attributeName);
 
       if (callback) {
         this.#callbacks
@@ -116,8 +116,8 @@ export class Element extends HTMLElement {
             key,
             value,
           });
-        } else if (callback?.type === "bind") {
-          this.#boundAttributes.set(key, value);
+        } else if (callback?.type === "observe") {
+          this.#observed.set(key, value);
 
           this.#mutationObserver ??= new MutationObserver(
             this.#handleMutations
@@ -187,14 +187,14 @@ export class Element extends HTMLElement {
     this.#updating = false;
   };
 
-  bind(value) {
+  observe(value) {
     if (this.#updating) {
       return;
     }
 
-    let symbol = Symbol("bind");
+    let symbol = Symbol("observe");
 
-    this.#callbacks.set(symbol, {type: "bind", value});
+    this.#callbacks.set(symbol, {type: "observe", value});
 
     return symbol;
   }

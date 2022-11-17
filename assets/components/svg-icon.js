@@ -40,7 +40,7 @@ class SvgIcon extends Element {
   render({link, path, svg}) {
     return [
       {
-        name: this.bind((name) => (this.#state.name = name)),
+        name: this.observe((name) => (this.#state.name = name)),
       },
       ...["../common.css", "./svg-icon.css"].map((url) =>
         link({
