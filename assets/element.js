@@ -93,9 +93,9 @@ export class Element extends HTMLElement {
       let callback = this.#observed.get(mutation.attributeName);
 
       if (callback) {
-        this.#callbacks
-          .get(callback)
-          ?.value?.(this.getAttribute(mutation.attributeName));
+        this.#callbacks.get(callback)?.(
+          this.getAttribute(mutation.attributeName)
+        );
       }
     }
   };
