@@ -7,8 +7,6 @@ pub struct Site {
     pub base: String,
     pub description: String,
     pub copyright: String,
-    #[serde(default)]
-    pub components: Vec<String>,
 }
 
 impl Site {

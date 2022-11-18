@@ -20,7 +20,6 @@ pub async fn post(
                 let mut ctx = Context::new();
                 ctx.insert("site", &site.as_ref());
                 ctx.insert("title", &post.title.clone());
-                ctx.insert("components", &post.components.clone());
                 ctx.insert("post", &post);
                 tmpl.render("post.html", &ctx)
                     .map_err(ErrorInternalServerError)
