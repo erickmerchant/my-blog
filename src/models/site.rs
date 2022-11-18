@@ -1,5 +1,5 @@
 use serde::{Deserialize, Serialize};
-use std::{fs, vec::Vec};
+use std::fs;
 
 #[derive(Deserialize, Debug, Clone, Default, Serialize)]
 pub struct Site {
