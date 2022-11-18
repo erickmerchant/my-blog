@@ -1,4 +1,10 @@
 export class Element extends HTMLElement {
+  static #Fragment = class {};
+
+  static #Listener = class {};
+
+  static #Attribute = class {};
+
   static #queue = new Set();
 
   static #scheduled = false;
@@ -48,10 +54,12 @@ export class Element extends HTMLElement {
   #appendChildren(node, children) {
     for (let value of children) {
       if (typeof value === "symbol") {
-        if (this.#callbacks.get(value)?.type === "compute") {
+        if (value.description === "compute") {
           let [start, end] = ["", ""].map((v) => document.createComment(v));
 
-          this.#active.add({type: "fragment", start, end, value});
+          this.#active.add(
+            Object.assign(new Element.#Fragment(), {start, end, value})
+          );
 
           value = [start, end];
         }
@@ -107,16 +115,18 @@ export class Element extends HTMLElement {
       key = isListener ? key.substring(2) : key;
 
       if (typeof value === "symbol") {
-        let callback = this.#callbacks.get(value);
-
-        if (callback?.type === "compute") {
-          this.#active.add({
-            type: isListener ? "listener" : "attribute",
-            node,
-            key,
-            value,
-          });
-        } else if (callback?.type === "observe") {
+        if (value.description === "compute") {
+          this.#active.add(
+            Object.assign(
+              isListener ? new Element.#Listener() : new Element.#Attribute(),
+              {
+                node,
+                key,
+                value,
+              }
+            )
+          );
+        } else if (value.description === "observe") {
           this.#observed.set(key, value);
 
           this.#mutationObserver ??= new MutationObserver(
@@ -125,7 +135,7 @@ export class Element extends HTMLElement {
 
           this.#mutationObserver.observe(node, {attributeFilter: [key]});
 
-          this.#callbacks.get(value)?.value?.(this.getAttribute(key));
+          this.#callbacks.get(value)?.(this.getAttribute(key));
         }
       } else if (isListener) {
         node.addEventListener(key, ...[].concat(value));
@@ -141,13 +151,13 @@ export class Element extends HTMLElement {
     for (let formula of this.#active) {
       this.#reads = new Set();
 
-      let callback = this.#callbacks.get(formula.value).value;
+      let callback = this.#callbacks.get(formula.value);
 
       let result = callback();
 
       formula.reads = this.#reads;
 
-      if (formula.type === "listener") {
+      if (formula instanceof Element.#Listener) {
         if (formula.conroller != null) {
           formula.conroller.abort();
         }
@@ -167,11 +177,11 @@ export class Element extends HTMLElement {
         }
       }
 
-      if (formula.type === "attribute") {
+      if (formula instanceof Element.#Attribute) {
         this.#setAttribute(formula.node, formula.key, result);
       }
 
-      if (formula.type === "fragment") {
+      if (formula instanceof Element.#Fragment) {
         while (formula.start.nextSibling !== formula.end) {
           formula.start.nextSibling.remove();
         }
@@ -194,7 +204,7 @@ export class Element extends HTMLElement {
 
     let symbol = Symbol("observe");
 
-    this.#callbacks.set(symbol, {type: "observe", value});
+    this.#callbacks.set(symbol, value);
 
     return symbol;
   }
@@ -220,7 +230,7 @@ export class Element extends HTMLElement {
 
     let symbol = Symbol("compute");
 
-    this.#callbacks.set(symbol, {type: "compute", value});
+    this.#callbacks.set(symbol, value);
 
     return symbol;
   }
