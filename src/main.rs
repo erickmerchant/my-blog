@@ -19,7 +19,7 @@ async fn main() -> io::Result<()> {
         .init();
     fs::remove_dir_all("storage/cache").ok();
 
-    let config = envy::from_env::<config::Config>().unwrap_or_default();
+    let config = config::Config::new();
     let port = config.port;
 
     HttpServer::new(move || {
