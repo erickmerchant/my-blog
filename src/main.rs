@@ -9,12 +9,14 @@ use actix_web::{
     http::StatusCode, middleware::Compress, middleware::DefaultHeaders, middleware::ErrorHandlers,
     middleware::Logger, web, App, HttpServer,
 };
-use std::{fs, io};
+use std::{fs, io, io::Write};
 use tera::Tera;
 
 #[actix_web::main]
 async fn main() -> io::Result<()> {
-    env_logger::init();
+    env_logger::builder()
+        .format(|buf, record| writeln!(buf, "[{}] {}", record.level(), record.args()))
+        .init();
     fs::remove_dir_all("storage/cache").ok();
 
     let config = envy::from_env::<config::Config>().unwrap_or_default();
