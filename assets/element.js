@@ -29,7 +29,7 @@ export class Element extends HTMLElement {
 
   #active = new Set();
 
-  #observed = new Map();
+  #observed = new WeakMap();
 
   #callbacks = new Map();
 
@@ -58,7 +58,11 @@ export class Element extends HTMLElement {
           let [start, end] = ["", ""].map((v) => document.createComment(v));
 
           this.#active.add(
-            Object.assign(new Element.#Fragment(), {start, end, value})
+            Object.assign(new Element.#Fragment(), {
+              start: new WeakRef(start),
+              end: new WeakRef(end),
+              value,
+            })
           );
 
           value = [start, end];
@@ -90,7 +94,9 @@ export class Element extends HTMLElement {
 
   #handleMutations = (mutations) => {
     for (let mutation of mutations) {
-      let callback = this.#observed.get(mutation.attributeName);
+      let callback = this.#observed.get(mutation.target)?.[
+        mutation.attributeName
+      ];
 
       if (callback) {
         this.#callbacks.get(callback)?.(
@@ -120,14 +126,22 @@ export class Element extends HTMLElement {
             Object.assign(
               isListener ? new Element.#Listener() : new Element.#Attribute(),
               {
-                node,
+                node: new WeakRef(node),
                 key,
                 value,
               }
             )
           );
         } else if (value.description === "observe") {
-          this.#observed.set(key, value);
+          let observed = this.#observed.get(node);
+
+          if (!observed) {
+            observed = {};
+
+            this.#observed.set(node, observed);
+          }
+
+          observed[key] = value;
 
           this.#mutationObserver ??= new MutationObserver(
             this.#handleMutations
@@ -173,20 +187,27 @@ export class Element extends HTMLElement {
 
           options.signal = formula.conroller.signal;
 
-          formula.node.addEventListener(formula.key, handler, options);
+          formula.node.deref()?.addEventListener(formula.key, handler, options);
         }
       }
 
       if (formula instanceof Element.#Attribute) {
-        this.#setAttribute(formula.node, formula.key, result);
+        let node = formula.node.deref();
+
+        if (node) {
+          this.#setAttribute(node, formula.key, result);
+        }
       }
 
       if (formula instanceof Element.#Fragment) {
-        while (formula.start.nextSibling !== formula.end) {
-          formula.start.nextSibling.remove();
+        let start = formula.start.deref();
+        let end = formula.end.deref();
+
+        while (start && end && start.nextSibling !== end) {
+          start.nextSibling.remove();
         }
 
-        formula.start.after(...[].concat(result ?? ""));
+        start.after(...[].concat(result ?? ""));
       }
 
       this.#active.delete(formula);
