@@ -55,17 +55,16 @@ export class Element extends HTMLElement {
     for (let value of children) {
       if (typeof value === "symbol") {
         if (value.description === "compute") {
-          let [start, end] = ["", ""].map((v) => document.createComment(v));
+          let bounds = ["", ""].map((v) => document.createComment(v));
 
           this.#active.add(
             Object.assign(new Element.#Fragment(), {
-              start: new WeakRef(start),
-              end: new WeakRef(end),
+              bounds: bounds.map((b) => new WeakRef(b)),
               value,
             })
           );
 
-          value = [start, end];
+          value = bounds;
         }
       } else {
         value = [value];
@@ -200,8 +199,7 @@ export class Element extends HTMLElement {
       }
 
       if (formula instanceof Element.#Fragment) {
-        let start = formula.start.deref();
-        let end = formula.end.deref();
+        let [start, end] = formula.bounds.map((b) => b.deref());
 
         while (start && end && start.nextSibling !== end) {
           start.nextSibling.remove();
