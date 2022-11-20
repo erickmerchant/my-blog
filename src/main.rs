@@ -9,8 +9,8 @@ use actix_web::{
     http::StatusCode, middleware::Compress, middleware::DefaultHeaders, middleware::ErrorHandlers,
     middleware::Logger, web, App, HttpServer,
 };
+use minijinja::{Environment, Source};
 use std::{fs, io, io::Write};
-use tera::Tera;
 
 #[actix_web::main]
 async fn main() -> io::Result<()> {
@@ -22,14 +22,28 @@ async fn main() -> io::Result<()> {
     let config = config::Config::new();
     let port = config.port;
 
+    let mut template_env = Environment::new();
+    template_env.set_source(Source::from_path("templates"));
+
+    fn date(value: String, fmt: String) -> String {
+        let mut ret = value.clone();
+
+        if let Ok(parsed) = chrono::NaiveDate::parse_from_str(&value, "%Y-%m-%d") {
+            ret = parsed.format(&fmt).to_string();
+        }
+
+        ret
+    }
+
+    template_env.add_filter("date", date);
+
     HttpServer::new(move || {
         let site = models::Site::get();
-        let tera = Tera::new("templates/**/*").expect("templates parsing failed");
 
         App::new()
             .app_data(web::Data::new(config.to_owned()))
             .app_data(web::Data::new(site))
-            .app_data(web::Data::new(tera))
+            .app_data(web::Data::new(template_env.to_owned()))
             .wrap(Logger::new("%s %r"))
             .wrap(DefaultHeaders::new().add(("Content-Security-Policy", "default-src 'self'")))
             .wrap(ErrorHandlers::new().handler(StatusCode::NOT_FOUND, errors::not_found))

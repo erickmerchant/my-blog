@@ -6,7 +6,7 @@
     {% for post in posts %}
       <li>
         <h2><a href="/posts/{{post.slug}}.html">{{post.title}}</a></h2>
-        <p class="published"><time>{{post.date | date(format="%B %e, %Y")}}</time></p>
+        <p class="published"><time>{{post.date | date("%B %e, %Y")}}</time></p>
         <p>{{post.description}}</p>
       </li>
     {% endfor %}

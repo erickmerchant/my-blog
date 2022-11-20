@@ -1,13 +1,13 @@
 use crate::{models, responses};
 use actix_files::NamedFile;
 use actix_web::{error::ErrorInternalServerError, error::ErrorNotFound, web, Result};
+use minijinja::{context, Environment};
 use std::path::Path;
-use tera::Context;
 
 pub async fn post(
     slug: web::Path<String>,
     site: web::Data<models::Site>,
-    tmpl: web::Data<tera::Tera>,
+    template_env: web::Data<Environment<'_>>,
 ) -> Result<NamedFile> {
     let slug = slug.as_ref();
     let path = Path::new("posts").join(slug).with_extension("html");
@@ -17,11 +17,14 @@ pub async fn post(
 
         match post {
             Some(post) => {
-                let mut ctx = Context::new();
-                ctx.insert("site", &site.as_ref());
-                ctx.insert("title", &post.title.clone());
-                ctx.insert("post", &post);
-                tmpl.render("post.html", &ctx)
+                let ctx = context! {
+                    site => &site.as_ref(),
+                    title => &post.title,
+                    post => &post,
+                };
+                template_env
+                    .get_template("post.html")
+                    .and_then(|template| template.render(ctx))
                     .map_err(ErrorInternalServerError)
             }
             None => Err(ErrorNotFound("not found")),

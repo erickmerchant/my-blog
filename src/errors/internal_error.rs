@@ -1,7 +1,7 @@
 use super::error;
 use crate::models;
 use actix_web::{dev::ServiceResponse, middleware::ErrorHandlerResponse, web, Result};
-use tera::{Context, Tera};
+use minijinja::{context, Environment};
 
 pub fn internal_error<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerResponse<B>> {
     let title = "Internal Error".to_string();
@@ -11,18 +11,21 @@ pub fn internal_error<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerResponse
         Some(s) => s.as_ref().to_owned(),
         None => models::Site::default(),
     };
-    let tmpl = req.app_data::<web::Data<Tera>>();
+    let template_env = req.app_data::<web::Data<Environment>>();
 
     let mut body = "".to_string();
 
-    if let Some(t) = tmpl {
-        let mut ctx = Context::new();
-        ctx.insert("site", &site);
-        ctx.insert("title", &title);
-        ctx.insert("message", &message);
+    if let Some(t) = template_env {
+        let ctx = context! {
+            site => &site,
+            title => &title,
+            message => &message
+        };
 
-        if let Ok(b) = t.render("error.html", &ctx) {
-            body = b
+        if let Ok(template) = t.get_template("error.html") {
+            if let Ok(b) = template.render(ctx) {
+                body = b
+            }
         }
     }
 
