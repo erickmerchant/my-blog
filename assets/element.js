@@ -1,13 +1,37 @@
 export class Element extends HTMLElement {
-  static #Fragment = class {};
+  static #Base = class {
+    constructor(args) {
+      Object.assign(this, args);
+    }
+  };
 
-  static #Listener = class {};
+  static #Fragment = class extends Element.#Base {};
 
-  static #Attribute = class {};
+  static #Attribute = class extends Element.#Base {};
+
+  static #Compute = class extends Element.#Base {};
+
+  static #Observe = class extends Element.#Base {};
+
+  static #observed = new WeakMap();
 
   static #queue = new Set();
 
   static #scheduled = false;
+
+  static #handleMutations = (mutations) => {
+    for (let mutation of mutations) {
+      let observed = this.#observed.get(mutation.target)?.[
+        mutation.attributeName
+      ];
+
+      if (observed) {
+        observed.callback(mutation.target.getAttribute(mutation.attributeName));
+      }
+    }
+  };
+
+  static #mutationObserver = new MutationObserver(Element.#handleMutations);
 
   static #schedule(update) {
     this.#queue.add(update);
@@ -29,9 +53,11 @@ export class Element extends HTMLElement {
 
   #active = new Set();
 
-  #observed = new WeakMap();
+  #inactive = new Set();
 
-  #callbacks = new Map();
+  #reads = null;
+
+  #updating = false;
 
   #createElementProxy = new Proxy(
     {},
@@ -43,29 +69,19 @@ export class Element extends HTMLElement {
     }
   );
 
-  #inactive = new Set();
-
-  #mutationObserver = null;
-
-  #reads = null;
-
-  #updating = false;
-
   #appendChildren(node, children) {
     for (let value of children) {
-      if (typeof value === "symbol") {
-        if (value.description === "compute") {
-          let bounds = ["", ""].map((v) => document.createComment(v));
+      if (typeof value === "object" && value instanceof Element.#Compute) {
+        let bounds = ["", ""].map((v) => document.createComment(v));
 
-          this.#active.add(
-            Object.assign(new Element.#Fragment(), {
-              bounds: bounds.map((b) => new WeakRef(b)),
-              value,
-            })
-          );
+        this.#active.add(
+          new Element.#Fragment({
+            bounds: bounds.map((b) => new WeakRef(b)),
+            ...value,
+          })
+        );
 
-          value = bounds;
-        }
+        value = bounds;
       } else {
         value = [value];
       }
@@ -91,20 +107,6 @@ export class Element extends HTMLElement {
     return node;
   }
 
-  #handleMutations = (mutations) => {
-    for (let mutation of mutations) {
-      let callback = this.#observed.get(mutation.target)?.[
-        mutation.attributeName
-      ];
-
-      if (callback) {
-        this.#callbacks.get(callback)?.(
-          this.getAttribute(mutation.attributeName)
-        );
-      }
-    }
-  };
-
   #setAttribute(node, key, val) {
     if (val != null && val !== false) {
       node.setAttribute(key, val === true ? "" : val);
@@ -115,43 +117,32 @@ export class Element extends HTMLElement {
 
   #setAttributes(node, attrs) {
     for (let [key, value] of Object.entries(attrs)) {
-      let isListener = key.substring(0, 2) === "on";
+      let isObject = typeof value === "object";
 
-      key = isListener ? key.substring(2) : key;
+      if (isObject && value instanceof Element.#Compute) {
+        this.#active.add(
+          new Element.#Attribute({
+            node: new WeakRef(node),
+            key,
+            ...value,
+          })
+        );
+      } else if (isObject && value instanceof Element.#Observe) {
+        let observed = Element.#observed.get(node);
 
-      if (typeof value === "symbol") {
-        if (value.description === "compute") {
-          this.#active.add(
-            Object.assign(
-              isListener ? new Element.#Listener() : new Element.#Attribute(),
-              {
-                node: new WeakRef(node),
-                key,
-                value,
-              }
-            )
-          );
-        } else if (value.description === "observe") {
-          let observed = this.#observed.get(node);
+        if (!observed) {
+          observed = {};
 
-          if (!observed) {
-            observed = {};
-
-            this.#observed.set(node, observed);
-          }
-
-          observed[key] = value;
-
-          this.#mutationObserver ??= new MutationObserver(
-            this.#handleMutations
-          );
-
-          this.#mutationObserver.observe(node, {attributeFilter: [key]});
-
-          this.#callbacks.get(value)?.(this.getAttribute(key));
+          Element.#observed.set(node, observed);
         }
-      } else if (isListener) {
-        node.addEventListener(key, ...[].concat(value));
+
+        observed[key] = value;
+
+        Element.#mutationObserver.observe(node, {attributeFilter: [key]});
+
+        value.callback(this.getAttribute(key));
+      } else if (key.substring(0, 2) === "on") {
+        node.addEventListener(key.substring(2), ...[].concat(value));
       } else {
         this.#setAttribute(node, key, value);
       }
@@ -164,31 +155,9 @@ export class Element extends HTMLElement {
     for (let formula of this.#active) {
       this.#reads = new Set();
 
-      let callback = this.#callbacks.get(formula.value);
-
-      let result = callback();
+      let result = formula.callback();
 
       formula.reads = this.#reads;
-
-      if (formula instanceof Element.#Listener) {
-        if (formula.conroller != null) {
-          formula.conroller.abort();
-        }
-
-        if (result != null) {
-          let [handler = () => {}, options = {}] = [].concat(result);
-
-          if (options === true || options === false) {
-            options = {useCapture: options};
-          }
-
-          formula.conroller = new AbortController();
-
-          options.signal = formula.conroller.signal;
-
-          formula.node.deref()?.addEventListener(formula.key, handler, options);
-        }
-      }
 
       if (formula instanceof Element.#Attribute) {
         let node = formula.node.deref();
@@ -216,16 +185,12 @@ export class Element extends HTMLElement {
     this.#updating = false;
   };
 
-  observe(value) {
+  observe(callback) {
     if (this.#updating) {
       return;
     }
 
-    let symbol = Symbol("observe");
-
-    this.#callbacks.set(symbol, value);
-
-    return symbol;
+    return new Element.#Observe({callback});
   }
 
   connectedCallback() {
@@ -242,16 +207,12 @@ export class Element extends HTMLElement {
     this.#update();
   }
 
-  compute(value) {
+  compute(callback) {
     if (this.#updating) {
-      return value();
+      return callback();
     }
 
-    let symbol = Symbol("compute");
-
-    this.#callbacks.set(symbol, value);
-
-    return symbol;
+    return new Element.#Compute({callback});
   }
 
   watch(state) {
