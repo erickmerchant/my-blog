@@ -19,7 +19,7 @@ export class Element extends HTMLElement {
 
   static #scheduled = false;
 
-  static #handleMutations = (mutations) => {
+  static #mutationObserver = new MutationObserver((mutations) => {
     for (let mutation of mutations) {
       let observed = this.#observed.get(mutation.target)?.[
         mutation.attributeName
@@ -29,9 +29,7 @@ export class Element extends HTMLElement {
         observed.callback(mutation.target.getAttribute(mutation.attributeName));
       }
     }
-  };
-
-  static #mutationObserver = new MutationObserver(Element.#handleMutations);
+  });
 
   static #schedule(update) {
     this.#queue.add(update);
