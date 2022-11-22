@@ -1,37 +1,55 @@
-export class Element extends HTMLElement {
-  static #Base = class {
-    constructor(args) {
-      Object.assign(this, args);
-    }
-  };
+class Base {
+  constructor(args) {
+    Object.assign(this, args);
+  }
+}
 
-  static #Fragment = class extends Element.#Base {};
+class Fragment extends Base {}
 
-  static #Attribute = class extends Element.#Base {};
+class Attribute extends Base {}
 
-  static #Compute = class extends Element.#Base {};
+class Listener extends Base {}
 
-  static #Observe = class extends Element.#Base {};
+class Compute extends Base {}
 
-  static #observed = new WeakMap();
+class Observe extends Base {}
 
-  static #queue = new Set();
+class MutationObserver {
+  #observed = new WeakMap();
 
-  static #scheduled = false;
-
-  static #mutationObserver = new MutationObserver((mutations) => {
+  mutationObserver = new window.MutationObserver((mutations) => {
     for (let mutation of mutations) {
-      let observed = this.#observed.get(mutation.target)?.[
-        mutation.attributeName
-      ];
+      let o = this.#observed.get(mutation.target)?.[mutation.attributeName];
 
-      if (observed) {
-        observed.callback(mutation.target.getAttribute(mutation.attributeName));
+      if (o) {
+        o.callback(mutation.target.getAttribute(mutation.attributeName));
       }
     }
   });
 
-  static #schedule(update) {
+  add(node, key, value) {
+    let o = this.#observed.get(node);
+
+    if (!o) {
+      o = {};
+
+      this.#observed.set(node, o);
+    }
+
+    o[key] = value;
+
+    this.mutationObserver.observe(node, {attributeFilter: [key]});
+
+    value.callback(node.getAttribute(key));
+  }
+}
+
+class Scheduler {
+  #queue = new Set();
+
+  #scheduled = false;
+
+  schedule(update) {
     this.#queue.add(update);
 
     if (!this.#scheduled) {
@@ -48,12 +66,64 @@ export class Element extends HTMLElement {
       });
     }
   }
+}
 
+class Formulae {
   #active = new Set();
 
   #inactive = new Set();
 
   #reads = null;
+
+  #writes = new Set();
+
+  add(formula) {
+    this.#active.add(formula);
+  }
+
+  resolve(callback) {
+    this.#writes = new Set();
+
+    for (let formula of this.#active) {
+      this.#reads = new Set();
+
+      let result = formula.callback();
+
+      formula.reads = this.#reads;
+
+      callback(result, formula);
+
+      this.#active.delete(formula);
+
+      this.#inactive.add(formula);
+    }
+  }
+
+  filter(symbol) {
+    if (!this.#writes.has(symbol)) {
+      for (let formula of this.#inactive) {
+        if (formula.reads.has(symbol)) {
+          this.#inactive.delete(formula);
+
+          this.#active.add(formula);
+        }
+      }
+
+      this.#writes.add(symbol);
+    }
+  }
+
+  mark(symbol) {
+    this.#reads.add(symbol);
+  }
+}
+
+export class Element extends HTMLElement {
+  static scheduler = new Scheduler();
+
+  static mutationObserver = new MutationObserver();
+
+  #formulae = new Formulae();
 
   #updating = false;
 
@@ -69,11 +139,11 @@ export class Element extends HTMLElement {
 
   #appendChildren(node, children) {
     for (let value of children) {
-      if (typeof value === "object" && value instanceof Element.#Compute) {
+      if (typeof value === "object" && value instanceof Compute) {
         let bounds = ["", ""].map((v) => document.createComment(v));
 
-        this.#active.add(
-          new Element.#Fragment({
+        this.#formulae.add(
+          new Fragment({
             bounds: bounds.map((b) => new WeakRef(b)),
             ...value,
           })
@@ -116,31 +186,24 @@ export class Element extends HTMLElement {
   #setAttributes(node, attrs) {
     for (let [key, value] of Object.entries(attrs)) {
       let isObject = typeof value === "object";
+      let isListener = key.substring(0, 2) === "on";
 
-      if (isObject && value instanceof Element.#Compute) {
-        this.#active.add(
-          new Element.#Attribute({
+      if (isListener) {
+        key = key.substring(2);
+      }
+
+      if (isObject && value instanceof Compute) {
+        this.#formulae.add(
+          new (isListener ? Listener : Attribute)({
             node: new WeakRef(node),
             key,
             ...value,
           })
         );
-      } else if (isObject && value instanceof Element.#Observe) {
-        let observed = Element.#observed.get(node);
-
-        if (!observed) {
-          observed = {};
-
-          Element.#observed.set(node, observed);
-        }
-
-        observed[key] = value;
-
-        Element.#mutationObserver.observe(node, {attributeFilter: [key]});
-
-        value.callback(this.getAttribute(key));
-      } else if (key.substring(0, 2) === "on") {
-        node.addEventListener(key.substring(2), ...[].concat(value));
+      } else if (isObject && value instanceof Observe) {
+        Element.mutationObserver.add(node, key, value);
+      } else if (isListener) {
+        node.addEventListener(key, ...[].concat(value));
       } else {
         this.#setAttribute(node, key, value);
       }
@@ -150,14 +213,8 @@ export class Element extends HTMLElement {
   #update = () => {
     this.#updating = true;
 
-    for (let formula of this.#active) {
-      this.#reads = new Set();
-
-      let result = formula.callback();
-
-      formula.reads = this.#reads;
-
-      if (formula instanceof Element.#Attribute) {
+    this.#formulae.resolve((result, formula) => {
+      if (formula instanceof Attribute) {
         let node = formula.node.deref();
 
         if (node) {
@@ -165,7 +222,31 @@ export class Element extends HTMLElement {
         }
       }
 
-      if (formula instanceof Element.#Fragment) {
+      if (formula instanceof Listener) {
+        let node = formula.node.deref();
+
+        if (formula.conroller != null) {
+          formula.conroller.abort();
+        }
+
+        if (result != null) {
+          let [handler = () => {}, options = {}] = [].concat(result);
+
+          if (options === true || options === false) {
+            options = {useCapture: options};
+          }
+
+          formula.conroller = new AbortController();
+
+          options.signal = formula.conroller.signal;
+
+          if (node) {
+            node.addEventListener(formula.key, handler, options);
+          }
+        }
+      }
+
+      if (formula instanceof Fragment) {
         let [start, end] = formula.bounds.map((b) => b.deref());
 
         while (start && end && start.nextSibling !== end) {
@@ -174,11 +255,7 @@ export class Element extends HTMLElement {
 
         start.after(...[].concat(result ?? ""));
       }
-
-      this.#active.delete(formula);
-
-      this.#inactive.add(formula);
-    }
+    });
 
     this.#updating = false;
   };
@@ -188,7 +265,7 @@ export class Element extends HTMLElement {
       return;
     }
 
-    return new Element.#Observe({callback});
+    return new Observe({callback});
   }
 
   connectedCallback() {
@@ -210,7 +287,7 @@ export class Element extends HTMLElement {
       return callback();
     }
 
-    return new Element.#Compute({callback});
+    return new Compute({callback});
   }
 
   watch(state) {
@@ -222,22 +299,16 @@ export class Element extends HTMLElement {
 
         symbols[key] ??= Symbol(key);
 
-        for (let formula of this.#inactive) {
-          if (formula.reads.has(symbols[key])) {
-            this.#inactive.delete(formula);
+        this.#formulae.filter(symbols[key]);
 
-            this.#active.add(formula);
-          }
-        }
-
-        Element.#schedule(this.#update);
+        Element.scheduler.schedule(this.#update);
 
         return true;
       },
       get: (state, key) => {
         symbols[key] ??= Symbol(key);
 
-        this.#reads.add(symbols[key]);
+        this.#formulae.mark(symbols[key]);
 
         return state[key];
       },

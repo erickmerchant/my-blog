@@ -43,11 +43,11 @@ class PageLayout extends Element {
       ),
       div(
         {
-          onclick: () => {
+          onclick: this.compute(() => {
             if (this.#state.open) {
-              this.#toggleOpen(false);
+              return () => this.#toggleOpen(false);
             }
-          },
+          }),
           class: "panel",
         },
         div(
