@@ -3,16 +3,17 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="{{site.description}}">
     <title>{{title}} | {{site.title}}</title>
     <script type="module" src="/element.js"></script>
     <script async type="module" src="/components/page-layout.js"></script>
     <script async type="module" src="/components/svg-icon.js"></script>
-    <link href="/common.css" rel="stylesheet">
-    <link href="/page.css" rel="stylesheet">
+    <link rel="stylesheet" href="/common.css">
+    <link rel="stylesheet" href="/page.css">
     <link rel="preload" href="/components/page-layout.css" as="style">
     <link rel="preload" href="/components/svg-icon.css" as="style">
-    <meta name="description" content="{{site.description}}">
-    <link href="/favicon.svg" rel="icon" type="image/svg+xml">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="me" href="https://mastodon.online/@erickjm">
   </head>
   <body>
     <page-layout>
@@ -33,7 +34,6 @@
         <li><a href="/posts.rss">RSS Feed</a></li>
         <li><a href="https://github.com/erickmerchant/my-blog">View Source</a></li>
       </ul>
-      <a rel="me" href="https://mastodon.online/@erickjm"></a>
     </page-layout>
   </body>
 </html>
