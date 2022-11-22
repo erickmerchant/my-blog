@@ -45,7 +45,7 @@ class PageLayout extends Element {
         {
           onclick: this.compute(() => {
             if (this.#state.open) {
-              return () => this.#toggleOpen(false);
+              return this.#toggleOpen;
             }
           }),
           class: "panel",
