@@ -28,13 +28,14 @@
     grid-template-rows: 0 1fr;
     height: 100vh;
     overflow-x: hidden;
-    background-color: hsl(var(--background-2));
+    background-color: hsl(var(--secondary-background));
     background-image: radial-gradient(
-      hsl(var(--background-3) / 0.25) 25%,
-      hsl(var(--background-2)) 25%
+      hsl(var(--tertiary-background) / 0.25) 25%,
+      hsl(var(--secondary-background)) 25%
     );
     background-size: 0.25rem 0.25rem;
     color: hsl(var(--text-color));
+    scrollbar-color: var(--scrollbar-foreground) var(--scrollbar-background);
 
     --drawer-open: 0px;
     --drawer-width: 70vw;
@@ -43,8 +44,7 @@
     --button-height: 2.25rem;
     --button-transform: translate(0, 0);
     --scrollbar-foreground: hsl(var(--anchor-color) / 0.5);
-    --scrollbar-background: hsl(var(--background-2));
-    scrollbar-color: var(--scrollbar-foreground) var(--scrollbar-background);
+    --scrollbar-background: hsl(var(--secondary-background));
   }
 
   page-layout[open] {
@@ -63,11 +63,11 @@
     position: sticky;
     top: calc((var(--button-top) * 2) + var(--button-height) - var(--height));
     z-index: 2;
-    background-color: hsl(var(--background-3));
+    background-color: hsl(var(--secondary-background));
     background-image: repeating-linear-gradient(
       -45deg,
       hsl(0 0% 0% / 0) 0 0.125rem,
-      hsl(var(--background-2)) 0.125rem 0.25rem
+      hsl(var(--tertiary-background)) 0.125rem 0.25rem
     );
     height: var(--height);
     width: 100%;
@@ -76,7 +76,7 @@
   }
 
   .main {
-    background-color: hsl(var(--background-1));
+    background-color: hsl(var(--primary-background));
     width: 100%;
     overflow-x: auto;
     display: flex;
@@ -145,7 +145,7 @@
 
   .footer {
     display: flex;
-    background-color: hsl(var(--background-1));
+    background-color: hsl(var(--primary-background));
     width: 100%;
   }
 

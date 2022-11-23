@@ -9,11 +9,11 @@
     left: var(--button-top);
     transform: var(--button-transform);
     z-index: 3;
-    background-color: hsl(var(--background-1));
+    background-color: hsl(var(--primary-background));
     border: 0.125rem solid hsl(var(--anchor-color) / 0.75);
     border-radius: 0.25rem;
     box-shadow: var(--button-shadow-size) var(--button-shadow-size) 0
-      hsl(var(--background-3) / 0.75);
+      hsl(var(--tertiary-background) / 0.75);
     transition: box-shadow 0.25s var(--easing), transform 0.25s var(--easing);
     color: hsl(var(--anchor-color));
     height: var(--button-height);
@@ -49,8 +49,8 @@
     transform: translateX(var(--drawer-open));
     transition: var(--drawer-transition, transform 0.25s var(--easing));
     color: hsl(var(--text-color));
-    background-color: hsl(var(--background-1));
-    box-shadow: -0.25rem 0 0 hsl(var(--background-3) / 0.5);
+    background-color: hsl(var(--primary-background));
+    box-shadow: -0.25rem 0 0 hsl(var(--tertiary-background) / 0.5);
   }
 
   .panel > * {
