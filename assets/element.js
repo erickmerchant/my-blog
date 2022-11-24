@@ -68,7 +68,7 @@ class Scheduler {
   }
 }
 
-class Formulae {
+class FormulaRegistery {
   #active = new Set();
 
   #inactive = new Set();
@@ -123,7 +123,7 @@ export class Element extends HTMLElement {
 
   static mutationObserver = new MutationObserver();
 
-  #formulae = new Formulae();
+  #formulaRegistery = new FormulaRegistery();
 
   #updating = false;
 
@@ -142,7 +142,7 @@ export class Element extends HTMLElement {
       if (typeof value === "object" && value instanceof Compute) {
         let bounds = ["", ""].map((v) => document.createComment(v));
 
-        this.#formulae.add(
+        this.#formulaRegistery.add(
           new Fragment({
             bounds: bounds.map((b) => new WeakRef(b)),
             ...value,
@@ -193,7 +193,7 @@ export class Element extends HTMLElement {
       }
 
       if (isObject && value instanceof Compute) {
-        this.#formulae.add(
+        this.#formulaRegistery.add(
           new (isListener ? Listener : Attribute)({
             node: new WeakRef(node),
             key,
@@ -213,7 +213,7 @@ export class Element extends HTMLElement {
   #update = () => {
     this.#updating = true;
 
-    this.#formulae.resolve((result, formula) => {
+    this.#formulaRegistery.resolve((result, formula) => {
       if (formula instanceof Attribute) {
         let node = formula.node.deref();
 
@@ -261,10 +261,6 @@ export class Element extends HTMLElement {
   };
 
   observe(callback) {
-    if (this.#updating) {
-      return;
-    }
-
     return new Observe({callback});
   }
 
@@ -299,7 +295,7 @@ export class Element extends HTMLElement {
 
         symbols[key] ??= Symbol(key);
 
-        this.#formulae.filter(symbols[key]);
+        this.#formulaRegistery.filter(symbols[key]);
 
         Element.scheduler.schedule(this.#update);
 
@@ -308,7 +304,7 @@ export class Element extends HTMLElement {
       get: (state, key) => {
         symbols[key] ??= Symbol(key);
 
-        this.#formulae.mark(symbols[key]);
+        this.#formulaRegistery.mark(symbols[key]);
 
         return state[key];
       },
