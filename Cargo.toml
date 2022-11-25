@@ -10,7 +10,7 @@ actix-files = "0.6.0"
 actix-web = { version = "4.0.0", features = ["macros", "compress-brotli"] }
 base64 = "0.13.0"
 chrono = "0.4.23"
-env_logger = "0.9"
+env_logger = "0.10"
 lightningcss = { version = "1.0.0-alpha.16", features = ["grid", "browserslist"] }
 minijinja = { version = "0.26.0", features = ["builtins", "debug", "key_interning", "deserialization", "macros", "multi-template", "source"] }
 parcel_sourcemap = "2.0.2"
