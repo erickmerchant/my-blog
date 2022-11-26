@@ -21,9 +21,10 @@ class PageLayout extends Element {
       nav(
         button(
           {
-            "aria-label": "Toggle nav",
+            "class": "toggle",
+            "aria-label": "Toggle tray",
             "type": "button",
-            "aria-controls": "nav-content",
+            "aria-controls": "tray",
             "aria-expanded": this.compute(() => String(this.#state.open)),
             "onclick": this.#toggleOpen,
           },
@@ -33,8 +34,8 @@ class PageLayout extends Element {
         ),
         div(
           {
-            "id": "nav-content",
-            "class": "nav-content",
+            "id": "tray",
+            "class": "tray",
             "aria-hidden": this.compute(() => String(!this.#state.open)),
             "inert": this.compute(() => !this.#state.open),
           },
@@ -55,6 +56,7 @@ class PageLayout extends Element {
             "aria-hidden": this.compute(() => String(this.#state.open)),
             "inert": this.compute(() => this.#state.open),
           },
+          div({class: "banner"}, slot({name: "banner"})),
           slot({name: "content"})
         )
       ),

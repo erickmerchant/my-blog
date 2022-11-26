@@ -37,42 +37,8 @@
     color: hsl(var(--text-color));
     scrollbar-color: var(--scrollbar-foreground) var(--scrollbar-background);
 
-    --drawer-open: 0px;
-    --drawer-width: 70vw;
-    --button-shadow-size: 0rem;
-    --button-top: 0.875rem;
-    --button-height: 2.25rem;
-    --button-transform: translate(0, 0);
     --scrollbar-foreground: hsl(var(--anchor-color) / 0.5);
     --scrollbar-background: hsl(var(--secondary-background));
-  }
-
-  page-layout[open] {
-    --button-transform: translate(-0.075rem, -0.075rem);
-    --button-shadow-size: 0.25rem;
-    --drawer-open: var(--drawer-width);
-  }
-
-  @media (max-width: 900px) {
-    page-layout:defined {
-      --drawer-width: calc(100vw - 1rem);
-    }
-  }
-
-  .banner {
-    position: sticky;
-    top: calc((var(--button-top) * 2) + var(--button-height) - var(--height));
-    z-index: 2;
-    background-color: hsl(var(--secondary-background));
-    background-image: repeating-linear-gradient(
-      -45deg,
-      hsl(0 0% 0% / 0) 0 0.125rem,
-      hsl(var(--tertiary-background)) 0.125rem 0.25rem
-    );
-    height: var(--height);
-    width: 100%;
-
-    --height: 4rem;
   }
 
   .main {

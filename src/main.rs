@@ -4,12 +4,12 @@ mod errors;
 mod models;
 mod pages;
 mod responses;
+mod templates;
 
 use actix_web::{
     http::StatusCode, middleware::Compress, middleware::DefaultHeaders, middleware::ErrorHandlers,
     middleware::Logger, web, App, HttpServer,
 };
-use minijinja::{Environment, Source};
 use std::{fs, io, io::Write};
 
 #[actix_web::main]
@@ -22,20 +22,7 @@ async fn main() -> io::Result<()> {
     let config = config::Config::new();
     let port = config.port;
 
-    let mut template_env = Environment::new();
-    template_env.set_source(Source::from_path("templates"));
-
-    fn date(value: String, fmt: String) -> String {
-        let mut ret = value.clone();
-
-        if let Ok(parsed) = chrono::NaiveDate::parse_from_str(&value, "%Y-%m-%d") {
-            ret = parsed.format(&fmt).to_string();
-        }
-
-        ret
-    }
-
-    template_env.add_filter("date", date);
+    let template_env = templates::get_env();
 
     HttpServer::new(move || {
         let site = models::Site::get();
@@ -55,6 +42,7 @@ async fn main() -> io::Result<()> {
             .route("/", web::get().to(pages::home))
             .route("/posts.rss", web::get().to(pages::posts_rss))
             .route("/posts/{slug:.*?}.html", web::get().to(pages::post))
+            .route("/{slug:.*?}.html", web::get().to(pages::page))
             .route("{file:.*?}.js", web::get().to(assets::js))
             .route("{file:.*?}.css", web::get().to(assets::css))
             .route("{file:.*?}", web::get().to(assets::asset))

@@ -1,34 +1,55 @@
 @layer component {
+  :host {
+    --tray-open: 0px;
+    --tray-width: 70vw;
+    --toggle-shadow-size: 0rem;
+    --toggle-top: 0.875rem;
+    --toggle-height: 2.25rem;
+    --toggle-transform: translate(0, 0);
+  }
+
+  :host([open]) {
+    --toggle-transform: translate(-0.075rem, -0.075rem);
+    --toggle-shadow-size: 0.25rem;
+    --tray-open: var(--tray-width);
+  }
+
+  @media (max-width: 900px) {
+    :host {
+      --tray-width: calc(100vw - 1rem);
+    }
+  }
+
   svg-icon {
     width: 1.25em;
   }
 
-  button {
+  .toggle {
     position: fixed;
-    top: var(--button-top);
-    left: var(--button-top);
-    transform: var(--button-transform);
+    top: var(--toggle-top);
+    left: var(--toggle-top);
+    transform: var(--toggle-transform);
     z-index: 3;
     background-color: hsl(var(--primary-background));
     border: 0.125rem solid hsl(var(--anchor-color) / 0.75);
     border-radius: 0.25rem;
-    box-shadow: var(--button-shadow-size) var(--button-shadow-size) 0
+    box-shadow: var(--toggle-shadow-size) var(--toggle-shadow-size) 0
       hsl(var(--tertiary-background) / 0.75);
     transition: box-shadow 0.25s var(--easing), transform 0.25s var(--easing);
     color: hsl(var(--anchor-color));
-    height: var(--button-height);
-    width: var(--button-height);
+    height: var(--toggle-height);
+    width: var(--toggle-height);
     display: grid;
     place-content: center;
     appearance: none;
     cursor: pointer;
   }
 
-  .nav-content {
+  .tray {
     position: fixed;
     inset: 0;
     z-index: 0;
-    width: var(--drawer-width);
+    width: var(--tray-width);
     height: 100%;
     overflow: auto;
     display: grid;
@@ -37,7 +58,7 @@
     font-weight: 600;
   }
 
-  .nav-content * {
+  .tray * {
     gap: 0.5em;
   }
 
@@ -46,23 +67,38 @@
     z-index: 1;
     display: grid;
     height: 100%;
-    transform: translateX(var(--drawer-open));
-    transition: var(--drawer-transition, transform 0.25s var(--easing));
+    transform: translateX(var(--tray-open));
+    transition: var(--tray-transition, transform 0.125s var(--easing));
     color: hsl(var(--text-color));
     background-color: hsl(var(--primary-background));
-    box-shadow: -0.25rem 0 0 hsl(var(--tertiary-background) / 0.5);
   }
 
   .panel > * {
     display: grid;
     grid-template-rows: min-content 1fr;
     height: 100%;
-    transition: opacity 0.25s var(--easing);
+    transition: opacity 0.125s var(--easing);
   }
 
   .panel > [inert] {
     opacity: 0.7;
     filter: blur(1px);
+  }
+
+  .banner {
+    position: sticky;
+    top: calc((var(--toggle-top) * 2) + var(--toggle-height) - var(--height));
+    z-index: 2;
+    background-color: hsl(var(--secondary-background));
+    background-image: repeating-linear-gradient(
+      -45deg,
+      hsl(0 0% 0% / 0) 0 0.125rem,
+      hsl(var(--tertiary-background)) 0.125rem 0.25rem
+    );
+    height: var(--height);
+    width: 100%;
+
+    --height: 4rem;
   }
 
   @media (prefers-reduced-motion) {
