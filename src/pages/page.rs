@@ -15,19 +15,19 @@ pub async fn page(
     responses::cacheable(&path, || {
         let page = models::Page::get_by_slug(slug.to_string());
 
-        match page {
-            Some(page) => {
-                let ctx = context! {
-                    site => &site.as_ref(),
-                    title => &page.title,
-                    page => &page,
-                };
-                template_env
-                    .get_template(&page.template)
-                    .and_then(|template| template.render(ctx))
-                    .map_err(ErrorInternalServerError)
-            }
-            None => Err(ErrorNotFound("not found")),
+        if let Some(page) = page {
+            let ctx = context! {
+                site => &site.as_ref(),
+                title => &page.title,
+                page => &page,
+            };
+
+            template_env
+                .get_template(&page.template)
+                .and_then(|template| template.render(ctx))
+                .map_err(ErrorInternalServerError)
+        } else {
+            Err(ErrorNotFound("not found"))
         }
     })
 }
