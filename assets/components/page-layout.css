@@ -30,13 +30,13 @@
     left: var(--toggle-top);
     transform: var(--toggle-transform);
     z-index: 3;
-    background-color: hsl(var(--primary-background));
-    border: 0.125rem solid hsl(var(--anchor-color) / 0.75);
+    background-color: var(--primary-background);
+    border: 0.125rem solid var(--anchor-color-transparent);
     border-radius: 0.25rem;
     box-shadow: var(--toggle-shadow-size) var(--toggle-shadow-size) 0
-      hsl(var(--tertiary-background) / 0.75);
+      var(--tertiary-background);
     transition: box-shadow 0.25s var(--easing), transform 0.25s var(--easing);
-    color: hsl(var(--anchor-color));
+    color: var(--anchor-color);
     height: var(--toggle-height);
     width: var(--toggle-height);
     display: grid;
@@ -68,16 +68,16 @@
     display: grid;
     height: 100%;
     transform: translateX(var(--tray-open));
-    transition: var(--tray-transition, transform 0.125s var(--easing));
-    color: hsl(var(--text-color));
-    background-color: hsl(var(--primary-background));
+    transition: var(--tray-transition, transform 0.25s var(--easing));
+    color: var(--text-color);
+    background-color: var(--primary-background);
   }
 
   .panel > * {
     display: grid;
     grid-template-rows: min-content 1fr;
     height: 100%;
-    transition: opacity 0.125s var(--easing);
+    transition: opacity 0.25s var(--easing);
   }
 
   .panel > [inert] {
@@ -89,11 +89,11 @@
     position: sticky;
     top: calc((var(--toggle-top) * 2) + var(--toggle-height) - var(--height));
     z-index: 2;
-    background-color: hsl(var(--secondary-background));
+    background-color: var(--secondary-background);
     background-image: repeating-linear-gradient(
       -45deg,
       hsl(0 0% 0% / 0) 0 0.125rem,
-      hsl(var(--tertiary-background)) 0.125rem 0.25rem
+      var(--tertiary-background) 0.125rem 0.25rem
     );
     height: var(--height);
     width: 100%;

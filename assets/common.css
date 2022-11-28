@@ -29,7 +29,7 @@
   }
 
   a {
-    color: hsl(var(--anchor-color));
+    color: var(--anchor-color);
     text-underline-offset: 0.2em;
     text-decoration-thickness: 0.1em;
   }
@@ -85,7 +85,7 @@
   }
 
   :focus-visible {
-    outline: 2px solid hsl(var(--anchor-color));
+    outline: 2px solid var(--anchor-color-transparent);
     background: hsl(0 0% 0% / 0);
   }
 }
@@ -97,21 +97,23 @@
 
   @media (prefers-color-scheme: light) {
     body {
-      --anchor-color: 120 70% 30%;
-      --text-color: 120 70% 10%;
-      --primary-background: 0 10% 100%;
-      --secondary-background: 120 10% 90%;
-      --tertiary-background: 120 10% 65%;
+      --anchor-color: hsl(120 70% 30%);
+      --anchor-color-transparent: hsl(120 70% 30% / 0.75);
+      --text-color: hsl(0 0% 10%);
+      --primary-background: hsl(0 0% 100%);
+      --secondary-background: hsl(120 10% 95%);
+      --tertiary-background: hsl(120 10% 60%);
     }
   }
 
   @media (prefers-color-scheme: dark) {
     body {
-      --anchor-color: 120 70% 70%;
-      --text-color: 0 70% 100%;
-      --primary-background: 120 10% 12.5%;
-      --secondary-background: 120 10% 17.5%;
-      --tertiary-background: 120 10% 40%;
+      --anchor-color: hsl(120 70% 70%);
+      --anchor-color-transparent: hsl(120 70% 70% / 0.75);
+      --text-color: hsl(0 0% 100%);
+      --primary-background: hsl(0 0% 10%);
+      --secondary-background: hsl(120 10% 15%);
+      --tertiary-background: hsl(120 10% 40%);
     }
   }
 }

@@ -28,21 +28,21 @@
     grid-template-rows: 0 1fr;
     height: 100vh;
     overflow-x: hidden;
-    background-color: hsl(var(--secondary-background));
+    background-color: var(--secondary-background);
     background-image: radial-gradient(
-      hsl(var(--tertiary-background) / 0.25) 25%,
-      hsl(var(--secondary-background)) 25%
+      var(--tertiary-background) 25%,
+      var(--secondary-background) 25%
     );
-    background-size: 0.25rem 0.25rem;
-    color: hsl(var(--text-color));
+    background-size: 0.125rem 0.125rem;
+    color: var(--text-color);
     scrollbar-color: var(--scrollbar-foreground) var(--scrollbar-background);
 
-    --scrollbar-foreground: hsl(var(--anchor-color) / 0.5);
-    --scrollbar-background: hsl(var(--secondary-background));
+    --scrollbar-foreground: var(--anchor-color-transparent);
+    --scrollbar-background: var(--secondary-background);
   }
 
   .main {
-    background-color: hsl(var(--primary-background));
+    background-color: var(--primary-background);
     width: 100%;
     overflow-x: auto;
     display: flex;
@@ -64,8 +64,8 @@
   pre {
     display: block;
     font-family: Consolas, monaco, monospace;
-    color: hsl(var(--anchor-color));
-    background-color: hsl(var(--secondary-background));
+    color: var(--anchor-color);
+    background-color: var(--secondary-background);
     border-radius: 0.25em;
     font-size: 0.8em;
     font-family: Consolas, monaco, monospace;
@@ -111,7 +111,7 @@
 
   .footer {
     display: flex;
-    background-color: hsl(var(--primary-background));
+    background-color: var(--primary-background);
     width: 100%;
   }
 
