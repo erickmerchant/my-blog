@@ -31,7 +31,7 @@
     transform: var(--toggle-transform);
     z-index: 3;
     background-color: var(--primary-background);
-    border: 0.125rem solid var(--anchor-color-transparent);
+    border: 0.125rem solid var(--anchor-color);
     border-radius: 0.25rem;
     box-shadow: var(--toggle-shadow-size) var(--toggle-shadow-size) 0
       var(--tertiary-background);

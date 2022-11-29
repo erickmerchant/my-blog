@@ -37,7 +37,7 @@
     color: var(--text-color);
     scrollbar-color: var(--scrollbar-foreground) var(--scrollbar-background);
 
-    --scrollbar-foreground: var(--anchor-color-transparent);
+    --scrollbar-foreground: var(--anchor-color);
     --scrollbar-background: var(--secondary-background);
   }
 
