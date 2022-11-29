@@ -42,7 +42,6 @@
     display: grid;
     place-content: center;
     appearance: none;
-    cursor: pointer;
   }
 
   .tray {
