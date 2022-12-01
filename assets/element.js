@@ -14,15 +14,15 @@ export class Element extends HTMLElement {
   });
 
   static #addObserved(node, key, value) {
-    let o = this.#observed.get(node);
+    let observed = this.#observed.get(node);
 
-    if (!o) {
-      o = {};
+    if (!observed) {
+      observed = {};
 
-      this.#observed.set(node, o);
+      this.#observed.set(node, observed);
     }
 
-    o[key] = value;
+    observed[key] = value;
 
     this.#mutationObserver.observe(node, {attributeFilter: [key]});
 
@@ -239,7 +239,9 @@ export class Element extends HTMLElement {
 
     return new Proxy(state, {
       set: (state, key, value) => {
-        if (this.#updating) return false;
+        if (this.#updating) {
+          return false;
+        }
 
         state[key] = value;
 
