@@ -5,10 +5,10 @@ export class Element extends HTMLElement {
 
   static #mutationObserver = new window.MutationObserver((mutations) => {
     for (let {target, attributeName} of mutations) {
-      let o = this.#observed.get(target)?.[attributeName];
+      let observed = this.#observed.get(target)?.[attributeName];
 
-      if (o) {
-        o.callback(target.getAttribute(attributeName));
+      if (observed) {
+        observed.callback(target.getAttribute(attributeName));
       }
     }
   });
@@ -59,13 +59,11 @@ export class Element extends HTMLElement {
 
   /* formula registry */
 
-  #active = new Set();
-
-  #inactive = new Set();
-
-  #reads = null;
-
   #writes = new Set();
+
+  #reads = new Map();
+
+  #current = null;
 
   /* */
 
@@ -86,7 +84,7 @@ export class Element extends HTMLElement {
       if (typeof value === "object" && value?.type === "computed") {
         let bounds = ["", ""].map((v) => document.createComment(v));
 
-        this.#active.add({
+        this.#writes.add({
           ...value,
           type: "fragment",
           bounds: bounds.map((b) => new WeakRef(b)),
@@ -136,7 +134,7 @@ export class Element extends HTMLElement {
       }
 
       if (isObject && value?.type === "computed") {
-        this.#active.add({
+        this.#writes.add({
           ...value,
           type: isListener ? "listener" : "attribute",
           node: new WeakRef(node),
@@ -155,14 +153,12 @@ export class Element extends HTMLElement {
   #update = () => {
     this.#updating = true;
 
-    this.#writes = new Set();
-
-    for (let formula of this.#active) {
-      this.#reads = new Set();
+    for (let formula of this.#writes) {
+      this.#current = formula;
 
       let result = formula.callback();
 
-      formula.reads = this.#reads;
+      this.#current = null;
 
       if (formula.type === "attribute") {
         let node = formula.node.deref();
@@ -206,9 +202,7 @@ export class Element extends HTMLElement {
         start.after(...[].concat(result ?? ""));
       }
 
-      this.#active.delete(formula);
-
-      this.#inactive.add(formula);
+      this.#writes.delete(formula);
     }
 
     this.#updating = false;
@@ -245,21 +239,21 @@ export class Element extends HTMLElement {
 
     return new Proxy(state, {
       set: (state, key, value) => {
+        if (this.#updating) return false;
+
         state[key] = value;
 
         symbols[key] ??= Symbol(key);
 
-        if (!this.#writes.has(symbols[key])) {
-          for (let formula of this.#inactive) {
-            if (formula.reads.has(symbols[key])) {
-              this.#inactive.delete(formula);
+        let reads = this.#reads.get(symbols[key]);
 
-              this.#active.add(formula);
-            }
+        if (reads) {
+          for (let formula of reads) {
+            this.#writes.add(formula);
           }
-
-          this.#writes.add(symbols[key]);
         }
+
+        this.#reads.set(symbols[key], new Set());
 
         Element.#schedule(this.#update);
 
@@ -268,7 +262,17 @@ export class Element extends HTMLElement {
       get: (state, key) => {
         symbols[key] ??= Symbol(key);
 
-        this.#reads.add(symbols[key]);
+        if (this.#current) {
+          let reads = this.#reads.get(symbols[key]);
+
+          if (!reads) {
+            reads = new Set();
+
+            this.#reads.set(symbols[key], reads);
+          }
+
+          reads.add(this.#current);
+        }
 
         return state[key];
       },
