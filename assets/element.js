@@ -81,7 +81,9 @@ export class Element extends HTMLElement {
 
   #appendChildren(node, children) {
     for (let value of children) {
-      if (typeof value === "object" && value?.type === "computed") {
+      let type = typeof value === "object" && value?.type;
+
+      if (type === "computed") {
         let bounds = ["", ""].map((v) => document.createComment(v));
 
         this.#writes.add({
@@ -117,30 +119,32 @@ export class Element extends HTMLElement {
   }
 
   #setAttribute(node, key, val) {
-    if (val != null && val !== false) {
-      node.setAttribute(key, val === true ? "" : val);
-    } else {
-      node.removeAttribute(key);
+    if (node) {
+      if (val != null && val !== false) {
+        node.setAttribute(key, val === true ? "" : val);
+      } else {
+        node.removeAttribute(key);
+      }
     }
   }
 
   #setAttributes(node, attrs) {
     for (let [key, value] of Object.entries(attrs)) {
-      let isObject = typeof value === "object";
+      let type = typeof value === "object" && value?.type;
       let isListener = key.substring(0, 2) === "on";
 
       if (isListener) {
         key = key.substring(2);
       }
 
-      if (isObject && value?.type === "computed") {
+      if (type === "computed") {
         this.#writes.add({
           ...value,
           type: isListener ? "listener" : "attribute",
           node: new WeakRef(node),
           key,
         });
-      } else if (isObject && value?.type === "observed") {
+      } else if (type === "observed") {
         Element.#addObserved(node, key, value);
       } else if (isListener) {
         node.addEventListener(key, ...[].concat(value));
@@ -157,23 +161,16 @@ export class Element extends HTMLElement {
       this.#current = formula;
 
       let result = formula.callback();
+      let node = formula.node?.deref();
 
       this.#current = null;
 
       if (formula.type === "attribute") {
-        let node = formula.node.deref();
-
-        if (node) {
-          this.#setAttribute(node, formula.key, result);
-        }
+        this.#setAttribute(node, formula.key, result);
       }
 
       if (formula.type === "listener") {
-        let node = formula.node.deref();
-
-        if (formula.conroller != null) {
-          formula.conroller.abort();
-        }
+        formula.conroller?.abort();
 
         if (result != null) {
           let [handler = () => {}, options = {}] = [].concat(result);
