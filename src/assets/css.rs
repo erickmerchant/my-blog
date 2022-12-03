@@ -6,7 +6,10 @@ use parcel_sourcemap::SourceMap;
 use serde_json::json;
 use std::{fs, path::Path};
 
-pub async fn css(file: web::Path<String>, config: web::Data<config::Config>) -> Result<NamedFile> {
+pub async fn handler(
+    file: web::Path<String>,
+    config: web::Data<config::Config>,
+) -> Result<NamedFile> {
     let src = Path::new("assets")
         .join(file.to_string())
         .with_extension("css");

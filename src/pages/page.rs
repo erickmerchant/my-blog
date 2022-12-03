@@ -1,19 +1,19 @@
-use crate::{models, responses};
+use crate::{models::page, models::site, responses};
 use actix_files::NamedFile;
 use actix_web::{error::ErrorInternalServerError, error::ErrorNotFound, web, Result};
 use minijinja::{context, Environment};
 use std::path::Path;
 
-pub async fn page(
+pub async fn handler(
     slug: web::Path<String>,
-    site: web::Data<models::Site>,
+    site: web::Data<site::Site>,
     template_env: web::Data<Environment<'_>>,
 ) -> Result<NamedFile> {
     let slug = slug.as_ref();
     let path = Path::new("pages").join(slug).with_extension("html");
 
     responses::cacheable(&path, || {
-        let page = models::Page::get_by_slug(slug.to_string());
+        let page = page::Page::get_by_slug(slug.to_string());
 
         if let Some(page) = page {
             let ctx = context! {

@@ -1,15 +1,15 @@
 use super::error;
-use crate::models;
+use crate::models::site;
 use actix_web::{dev::ServiceResponse, middleware::ErrorHandlerResponse, web, Result};
 use minijinja::{context, Environment};
 
-pub fn internal_error<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerResponse<B>> {
+pub fn handler<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerResponse<B>> {
     let title = "Internal Error".to_string();
     let message = "An error occurred. Please try again later.".to_string();
     let req = res.request();
-    let site = match req.app_data::<web::Data<models::Site>>() {
+    let site = match req.app_data::<web::Data<site::Site>>() {
         Some(s) => s.as_ref().to_owned(),
-        None => models::Site::default(),
+        None => site::Site::default(),
     };
     let template_env = req.app_data::<web::Data<Environment>>();
 
