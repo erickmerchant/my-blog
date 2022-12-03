@@ -20,6 +20,8 @@
   body {
     height: 100%;
     overflow-x: hidden;
+    color: var(--text-color);
+    background: var(--primary-background);
   }
 
   page-layout:defined {
@@ -34,7 +36,6 @@
       var(--secondary-background) 25%
     );
     background-size: 0.125rem 0.125rem;
-    color: var(--text-color);
     scrollbar-color: var(--scrollbar-foreground) var(--scrollbar-background);
 
     --scrollbar-foreground: var(--anchor-color);
