@@ -24,7 +24,7 @@ mod models {
 mod responses;
 mod templates;
 
-use crate::{handlers::*, models::site};
+use crate::{handlers::*, models::site::*};
 use actix_web::{
     http::StatusCode, middleware::Compress, middleware::DefaultHeaders, middleware::ErrorHandlers,
     middleware::Logger, web, App, HttpServer,
@@ -44,7 +44,7 @@ async fn main() -> io::Result<()> {
     let template_env = templates::get_env();
 
     HttpServer::new(move || {
-        let site = site::Site::get();
+        let site = Site::get();
 
         App::new()
             .app_data(web::Data::new(config.to_owned()))
@@ -52,22 +52,19 @@ async fn main() -> io::Result<()> {
             .app_data(web::Data::new(template_env.to_owned()))
             .wrap(Logger::new("%s %r"))
             .wrap(DefaultHeaders::new().add(("Content-Security-Policy", "default-src 'self'")))
-            .wrap(ErrorHandlers::new().handler(StatusCode::NOT_FOUND, errors::not_found::handler))
+            .wrap(ErrorHandlers::new().handler(StatusCode::NOT_FOUND, errors::not_found::handle))
             .wrap(ErrorHandlers::new().handler(
                 StatusCode::INTERNAL_SERVER_ERROR,
-                errors::internal_error::handler,
+                errors::internal_error::handle,
             ))
             .wrap(Compress::default())
-            .route("/", web::get().to(pages::home::handler))
-            .route("/posts.rss", web::get().to(pages::posts_rss::handler))
-            .route(
-                "/posts/{slug:.*?}.html",
-                web::get().to(pages::post::handler),
-            )
-            .route("/{slug:.*?}.html", web::get().to(pages::page::handler))
-            .route("{file:.*?}.js", web::get().to(assets::js::handler))
-            .route("{file:.*?}.css", web::get().to(assets::css::handler))
-            .route("{file:.*?}", web::get().to(assets::asset::handler))
+            .route("/", web::get().to(pages::home::handle))
+            .route("/posts.rss", web::get().to(pages::posts_rss::handle))
+            .route("/posts/{slug:.*?}.html", web::get().to(pages::post::handle))
+            .route("/{slug:.*?}.html", web::get().to(pages::page::handle))
+            .route("{file:.*?}.js", web::get().to(assets::js::handle))
+            .route("{file:.*?}.css", web::get().to(assets::css::handle))
+            .route("{file:.*?}", web::get().to(assets::asset::handle))
     })
     .bind(format!("0.0.0.0:{port}"))?
     .run()

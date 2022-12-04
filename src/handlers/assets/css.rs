@@ -6,7 +6,7 @@ use parcel_sourcemap::SourceMap;
 use serde_json::json;
 use std::{fs, path::Path};
 
-pub async fn handler(
+pub async fn handle(
     file: web::Path<String>,
     config: web::Data<config::Config>,
 ) -> Result<NamedFile> {

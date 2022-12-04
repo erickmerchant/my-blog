@@ -1,4 +1,4 @@
-use crate::models::site;
+use crate::models::site::*;
 use actix_files::NamedFile;
 use actix_web::{
     dev::ServiceResponse, error::Error, error::ErrorInternalServerError, error::ErrorNotFound,
@@ -56,9 +56,9 @@ pub fn error<B>(
     message: String,
 ) -> Result<ErrorHandlerResponse<B>> {
     let req = res.request();
-    let site = match req.app_data::<web::Data<site::Site>>() {
+    let site = match req.app_data::<web::Data<Site>>() {
         Some(s) => s.as_ref().to_owned(),
-        None => site::Site::default(),
+        None => Site::default(),
     };
     let template_env = req.app_data::<web::Data<Environment>>();
 
