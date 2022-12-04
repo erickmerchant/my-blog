@@ -1,33 +1,9 @@
-use super::error;
-use crate::models::site;
-use actix_web::{dev::ServiceResponse, middleware::ErrorHandlerResponse, web, Result};
-use minijinja::{context, Environment};
+use crate::responses;
+use actix_web::{dev::ServiceResponse, middleware::ErrorHandlerResponse, Result};
 
 pub fn handler<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerResponse<B>> {
     let title = "Page Not Found".to_string();
     let message = "That resource was moved, removed, or never existed.".to_string();
-    let req = res.request();
-    let site = match req.app_data::<web::Data<site::Site>>() {
-        Some(s) => s.as_ref().to_owned(),
-        None => site::Site::default(),
-    };
-    let template_env = req.app_data::<web::Data<Environment>>();
 
-    let mut body = "".to_string();
-
-    if let Some(t) = template_env {
-        let ctx = context! {
-            site => &site,
-            title => &title,
-            message => &message
-        };
-
-        if let Ok(template) = t.get_template("error.html") {
-            if let Ok(b) = template.render(ctx) {
-                body = b
-            }
-        }
-    }
-
-    error::response(res, body)
+    responses::error(res, title, message)
 }

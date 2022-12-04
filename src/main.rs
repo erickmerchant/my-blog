@@ -5,7 +5,6 @@ mod assets {
 }
 mod config;
 mod errors {
-    mod error;
     pub mod internal_error;
     pub mod not_found;
 }
