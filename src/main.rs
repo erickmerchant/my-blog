@@ -1,28 +1,30 @@
-mod assets {
-    pub mod asset;
-    pub mod css;
-    pub mod js;
-}
 mod config;
-mod errors {
-    pub mod internal_error;
-    pub mod not_found;
+mod handlers {
+    pub mod assets {
+        pub mod asset;
+        pub mod css;
+        pub mod js;
+    }
+    pub mod errors {
+        pub mod internal_error;
+        pub mod not_found;
+    }
+    pub mod pages {
+        pub mod home;
+        pub mod page;
+        pub mod post;
+        pub mod posts_rss;
+    }
 }
 mod models {
     pub mod page;
     pub mod post;
     pub mod site;
 }
-mod pages {
-    pub mod home;
-    pub mod page;
-    pub mod post;
-    pub mod posts_rss;
-}
 mod responses;
 mod templates;
 
-use crate::models::site;
+use crate::{handlers::*, models::site};
 use actix_web::{
     http::StatusCode, middleware::Compress, middleware::DefaultHeaders, middleware::ErrorHandlers,
     middleware::Logger, web, App, HttpServer,
