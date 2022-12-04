@@ -1,73 +1,19 @@
 export class Element extends HTMLElement {
-  /* mutation observation */
+  connectedCallback() {
+    this.attachShadow({mode: "open"});
 
-  static #observed = new WeakMap();
+    let children = [].concat(this.render?.(this.#createElementProxy) ?? "");
 
-  static #mutationObserver = new window.MutationObserver((mutations) => {
-    for (let {target, attributeName} of mutations) {
-      let observed = this.#observed.get(target)?.[attributeName];
-
-      if (observed) {
-        observed.callback(target.getAttribute(attributeName));
-      }
-    }
-  });
-
-  static #addObserved(node, key, value) {
-    let observed = this.#observed.get(node);
-
-    if (!observed) {
-      observed = {};
-
-      this.#observed.set(node, observed);
+    if (typeof children[0] === "object" && children[0].constructor === Object) {
+      this.#setAttributes(this, children.shift());
     }
 
-    observed[key] = value;
+    this.#appendChildren(this.shadowRoot, children);
 
-    this.#mutationObserver.observe(node, {attributeFilter: [key]});
-
-    value.callback(node.getAttribute(key));
+    this.#update();
   }
 
-  /* */
-
-  /* scheduling */
-
-  static #queue = new Set();
-
-  static #scheduled = false;
-
-  static #schedule(update) {
-    this.#queue.add(update);
-
-    if (!this.#scheduled) {
-      this.#scheduled = true;
-
-      window.requestAnimationFrame(() => {
-        this.#scheduled = false;
-
-        for (let update of this.#queue) {
-          update();
-
-          this.#queue.delete(update);
-        }
-      });
-    }
-  }
-
-  /* */
-
-  /* formula registry */
-
-  #writes = new Set();
-
-  #reads = new Map();
-
-  #current = null;
-
-  /* */
-
-  #updating = false;
+  /* dom */
 
   #createElementProxy = new Proxy(
     {},
@@ -154,6 +100,40 @@ export class Element extends HTMLElement {
     }
   }
 
+  /* */
+
+  /* reactivity */
+
+  static #queue = new Set();
+
+  static #scheduled = false;
+
+  static #schedule(update) {
+    this.#queue.add(update);
+
+    if (!this.#scheduled) {
+      this.#scheduled = true;
+
+      window.requestAnimationFrame(() => {
+        this.#scheduled = false;
+
+        for (let update of this.#queue) {
+          update();
+
+          this.#queue.delete(update);
+        }
+      });
+    }
+  }
+
+  #writes = new Set();
+
+  #reads = new Map();
+
+  #current = null;
+
+  #updating = false;
+
   #update = () => {
     this.#updating = true;
 
@@ -204,24 +184,6 @@ export class Element extends HTMLElement {
 
     this.#updating = false;
   };
-
-  observe(callback) {
-    return {type: "observed", callback};
-  }
-
-  connectedCallback() {
-    this.attachShadow({mode: "open"});
-
-    let children = [].concat(this.render?.(this.#createElementProxy) ?? "");
-
-    if (typeof children[0] === "object" && children[0].constructor === Object) {
-      this.#setAttributes(this, children.shift());
-    }
-
-    this.#appendChildren(this.shadowRoot, children);
-
-    this.#update();
-  }
 
   compute(callback) {
     if (this.#updating) {
@@ -277,4 +239,42 @@ export class Element extends HTMLElement {
       },
     });
   }
+
+  /* */
+
+  /* mutation observation */
+
+  static #observed = new WeakMap();
+
+  static #mutationObserver = new window.MutationObserver((mutations) => {
+    for (let {target, attributeName} of mutations) {
+      let observed = this.#observed.get(target)?.[attributeName];
+
+      if (observed) {
+        observed.callback(target.getAttribute(attributeName));
+      }
+    }
+  });
+
+  static #addObserved(node, key, value) {
+    let observed = this.#observed.get(node);
+
+    if (!observed) {
+      observed = {};
+
+      this.#observed.set(node, observed);
+    }
+
+    observed[key] = value;
+
+    this.#mutationObserver.observe(node, {attributeFilter: [key]});
+
+    value.callback(node.getAttribute(key));
+  }
+
+  observe(callback) {
+    return {type: "observed", callback};
+  }
+
+  /* */
 }
