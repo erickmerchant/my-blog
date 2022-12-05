@@ -18,7 +18,6 @@ pub async fn handle(
         if let Some(post) = post {
             let ctx = context! {
                 site => &site.as_ref(),
-                title => &post.title,
                 post => &post,
             };
 

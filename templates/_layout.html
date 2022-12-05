@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="{{site.description}}">
-    <title>{{title}} | {{site.title}}</title>
+    <title>{% block title %}{{title}}{% endblock %} | {{site.title}}</title>
     <script type="module" src="/element.js"></script>
     <script async type="module" src="/components/page-layout.js"></script>
     <script async type="module" src="/components/svg-icon.js"></script>
@@ -27,7 +27,7 @@
       </footer>
 
       <ul class="links" slot="links">
-        <li><a href="/">Home</a></li>
+        <li><a href="/">Posts</a></li>
         <li><a href="/posts.rss">RSS Feed</a></li>
         <li><a href="https://github.com/erickmerchant/my-blog">View Source</a></li>
       </ul>

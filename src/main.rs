@@ -10,9 +10,9 @@ mod handlers {
         pub mod not_found;
     }
     pub mod pages {
-        pub mod home;
         pub mod page;
         pub mod post;
+        pub mod posts_index;
         pub mod posts_rss;
     }
 }
@@ -58,7 +58,7 @@ async fn main() -> io::Result<()> {
                 errors::internal_error::handle,
             ))
             .wrap(Compress::default())
-            .route("/", web::get().to(pages::home::handle))
+            .route("/", web::get().to(pages::posts_index::handle))
             .route("/posts.rss", web::get().to(pages::posts_rss::handle))
             .route("/posts/{slug:.*?}.html", web::get().to(pages::post::handle))
             .route("/{slug:.*?}.html", web::get().to(pages::page::handle))
