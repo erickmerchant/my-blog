@@ -1425,7 +1425,6 @@ version = "0.1.0"
 dependencies = [
  "actix-files",
  "actix-web",
- "base64",
  "chrono",
  "env_logger",
  "lightningcss",
@@ -2490,9 +2489,9 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.233.6"
+version = "0.233.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9f59695ca6fdb6e747e0ac18876022b9159710c9bd7e221186975943c3e28d1f"
+checksum = "a0f7ba05960e627b2a34fdc339e543b4c3f72d5a45d525451cb4c394f7586c32"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2728,9 +2727,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.160.4"
+version = "0.160.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d5aefb1b4dbf3ac5b818858dd3979052f537c53d27ddf4ac97b97fe30cab5560"
+checksum = "a17b8378f6a5097d6f9d36a097972e3c14c6ded548f916858c47a35b87b24936"
 dependencies = [
  "ahash",
  "arrayvec",

@@ -3,7 +3,6 @@ use actix_files::NamedFile;
 use actix_web::{error::Error, error::ErrorInternalServerError, error::ErrorNotFound, web, Result};
 use lightningcss::{stylesheet, targets};
 use parcel_sourcemap::SourceMap;
-use serde_json::json;
 use std::{fs, path::Path};
 
 pub async fn handle(
@@ -60,21 +59,11 @@ pub async fn handle(
 
             source_map.write_vlq(&mut vlq_output).ok();
 
-            let sm = json!({
-              "version": 3,
-              "mappings": String::from_utf8(vlq_output).map_err(ErrorInternalServerError)?,
-              "sources": source_map.get_sources(),
-              "sourcesContent": source_map.get_sources_content(),
-              "names": source_map.get_names(),
-            });
-
-            code.push_str("\n/*# sourceMappingURL=data:application/json;base64,");
-            base64::encode_config_buf(
-                sm.to_string().as_bytes(),
-                base64::Config::new(base64::CharacterSet::Standard, true),
-                &mut code,
-            );
-            code.push_str(" */")
+            if let Ok(source_map_data_url) = source_map.to_data_url(None) {
+                code.push_str(
+                    format!("\n/*# sourceMappingURL={} */", &source_map_data_url).as_str(),
+                );
+            }
         };
 
         Ok(code)
