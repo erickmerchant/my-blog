@@ -1,4 +1,4 @@
-use crate::{models::page::*, models::post::*, models::site::*, responses};
+use crate::{models::post::*, models::site::*, responses};
 use actix_files::NamedFile;
 use actix_web::{error::ErrorInternalServerError, error::ErrorNotFound, web, Result};
 use minijinja::{context, Environment};
@@ -10,7 +10,9 @@ pub async fn handle(
 ) -> Result<NamedFile> {
     responses::cacheable(Path::new("index.html"), || {
         let posts = Post::get_all();
-        let posts_index_page = Page::get_by_slug("posts".to_string()).unwrap_or_default();
+        let posts_index_page =
+            Post::get_by_slug_and_directory("posts".to_string(), "content/pages".to_string())
+                .unwrap_or_default();
 
         match !posts.is_empty() {
             true => {

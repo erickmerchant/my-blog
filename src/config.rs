@@ -17,7 +17,7 @@ impl Config {
             .map(|val| val.parse::<u16>().unwrap_or(8080))
             .unwrap_or(8080);
         let targets = env::var("TARGETS")
-            .unwrap_or_else(|_| String::from("supports es6-module and last 2 versions"));
+            .unwrap_or_else(|_| "supports es6-module and last 2 versions".to_string());
 
         Self {
             source_maps,
