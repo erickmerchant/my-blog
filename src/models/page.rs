@@ -1,5 +1,5 @@
 use serde::{Deserialize, Serialize};
-use std::{fs, path::Path, vec::Vec};
+use std::{fs, path::Path};
 
 #[derive(Deserialize, Debug, Clone, Default, Serialize)]
 pub struct Page {
@@ -26,13 +26,12 @@ impl Page {
         if let Ok(contents) = fs::read_to_string(path) {
             let mut data = Self::default();
             let mut content = contents.to_owned();
-            let parts = contents.splitn(3, "===\n").collect::<Vec<&str>>();
 
-            if parts.len() == 3 {
-                if let Ok(parsed) = serde_json::from_str::<Self>(parts[1]) {
-                    data = parsed;
+            if let Some((above, below)) = contents.split_once("---") {
+                if let Ok(frontmatter) = serde_json::from_str::<Self>(above) {
+                    data = frontmatter;
 
-                    content = parts[2].to_string();
+                    content = below.to_string();
                 }
             }
 
