@@ -1,6 +1,6 @@
 use glob::glob;
 use serde::{Deserialize, Serialize};
-use std::{fs, path::Path, vec::Vec};
+use std::{convert::AsRef, fs, path::Path, vec::Vec};
 
 #[derive(Deserialize, Debug, Clone, Default, Serialize)]
 pub struct Entry {
@@ -26,9 +26,9 @@ impl Entry {
         "post.html".to_string()
     }
 
-    pub fn get_one(path: String) -> Option<Self> {
+    pub fn get_one<S: AsRef<str>>(path: S) -> Option<Self> {
         let mut result = None;
-        let path = Path::new(&path);
+        let path = Path::new(path.as_ref());
 
         if let (Some(slug), Ok(contents)) = (path.file_stem()?.to_str(), fs::read_to_string(path)) {
             let mut data = Self::default();
@@ -52,10 +52,10 @@ impl Entry {
         result
     }
 
-    pub fn get_all(pattern: String) -> Vec<Self> {
+    pub fn get_all<S: AsRef<str>>(pattern: S) -> Vec<Self> {
         let mut entries = Vec::<Self>::new();
 
-        if let Ok(results) = glob(&pattern) {
+        if let Ok(results) = glob(pattern.as_ref()) {
             for entry in results.flatten() {
                 if let Some(entry) = Self::get_one(entry.display().to_string()) {
                     entries.push(entry);
