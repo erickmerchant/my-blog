@@ -17,7 +17,7 @@ mod handlers {
     }
 }
 mod models {
-    pub mod post;
+    pub mod entry;
     pub mod site;
 }
 mod responses;

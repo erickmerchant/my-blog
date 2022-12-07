@@ -1,4 +1,4 @@
-use crate::{models::post::*, models::site::*, responses};
+use crate::{models::entry::*, models::site::*, responses};
 use actix_files::NamedFile;
 use actix_web::{error::ErrorInternalServerError, error::ErrorNotFound, web, Result};
 use minijinja::{context, Environment};
@@ -13,7 +13,7 @@ pub async fn handle(
     let path = Path::new("pages").join(slug).with_extension("html");
 
     responses::cacheable(&path, || {
-        let page = Post::get_by_slug_and_directory(slug.to_string(), "content/pages".to_string());
+        let page = Entry::get_by_slug_and_directory(slug.to_string(), "content/pages".to_string());
 
         if let Some(page) = page {
             let ctx = context! {

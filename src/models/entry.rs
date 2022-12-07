@@ -2,21 +2,21 @@ use serde::{Deserialize, Serialize};
 use std::{fs, path::Path, vec::Vec};
 
 #[derive(Deserialize, Debug, Clone, Default, Serialize)]
-pub struct Post {
+pub struct Entry {
     #[serde(default)]
     pub slug: String,
     pub title: String,
-    #[serde(default = "Post::default_date")]
+    #[serde(default = "Entry::default_date")]
     pub date: String,
     #[serde(default)]
     pub description: String,
     #[serde(default)]
     pub content: String,
-    #[serde(default = "Post::default_template")]
+    #[serde(default = "Entry::default_template")]
     pub template: String,
 }
 
-impl Post {
+impl Entry {
     fn default_date() -> String {
         "0000-00-00".to_string()
     }
