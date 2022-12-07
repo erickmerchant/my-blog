@@ -1,3 +1,4 @@
+use glob::glob;
 use serde::{Deserialize, Serialize};
 use std::{fs, path::Path, vec::Vec};
 
@@ -25,19 +26,11 @@ impl Entry {
         "post.html".to_string()
     }
 
-    fn default_directory() -> String {
-        "content/posts".to_string()
-    }
-
-    pub fn get_by_slug(slug: String) -> Option<Self> {
-        Self::get_by_slug_and_directory(slug, Self::default_directory())
-    }
-
-    pub fn get_by_slug_and_directory(slug: String, directory: String) -> Option<Self> {
-        let path = Path::new(&directory).join(&slug).with_extension("html");
+    pub fn get_one(path: String) -> Option<Self> {
         let mut result = None;
+        let path = Path::new(&path);
 
-        if let Ok(contents) = fs::read_to_string(path) {
+        if let (Some(slug), Ok(contents)) = (path.file_stem()?.to_str(), fs::read_to_string(path)) {
             let mut data = Self::default();
             let mut content = contents.to_owned();
 
@@ -50,7 +43,7 @@ impl Entry {
             }
 
             result = Some(Self {
-                slug,
+                slug: slug.to_string(),
                 content,
                 ..data
             });
@@ -59,27 +52,19 @@ impl Entry {
         result
     }
 
-    pub fn get_all() -> Vec<Self> {
-        let mut posts = Vec::<Self>::new();
+    pub fn get_all(pattern: String) -> Vec<Self> {
+        let mut entries = Vec::<Self>::new();
 
-        if let Ok(entries) = fs::read_dir(Self::default_directory()) {
-            for entry in entries.flatten() {
-                let path = entry.path();
-
-                if let Some(ext) = path.extension() {
-                    if ext == "html" {
-                        if let Some(slug) = path.file_stem().and_then(|slug| slug.to_str()) {
-                            if let Some(post) = Self::get_by_slug(slug.to_string()) {
-                                posts.push(post);
-                            }
-                        }
-                    }
+        if let Ok(results) = glob(&pattern) {
+            for entry in results.flatten() {
+                if let Some(entry) = Self::get_one(entry.display().to_string()) {
+                    entries.push(entry);
                 }
             }
         }
 
-        posts.sort_by(|a, b| b.date.cmp(&a.date));
+        entries.sort_by(|a, b| b.date.cmp(&a.date));
 
-        posts
+        entries
     }
 }

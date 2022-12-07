@@ -11,7 +11,7 @@ pub async fn handle(
     responses::cacheable(Path::new("posts.rss"), || {
         let ctx = context! {
             site => &site.as_ref(),
-            posts => &Entry::get_all(),
+            posts => &Entry::get_all("content/posts/*.html".to_string()),
         };
         template_env
             .get_template("posts.rss")

@@ -13,7 +13,7 @@ pub async fn handle(
     let path = Path::new("pages").join(slug).with_extension("html");
 
     responses::cacheable(&path, || {
-        let page = Entry::get_by_slug_and_directory(slug.to_string(), "content/pages".to_string());
+        let page = Entry::get_one(format!("content/pages/{slug}.html"));
 
         if let Some(page) = page {
             let ctx = context! {
