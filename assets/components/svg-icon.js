@@ -51,17 +51,16 @@ class SvgIcon extends Element {
       svg(
         {
           "aria-hidden": "true",
-          "viewBox": "0 0 16 16",
-          "xmlns": SvgIcon.#svgns,
+          viewBox: "0 0 16 16",
+          xmlns: SvgIcon.#svgns,
         },
-        this.compute(() =>
+        () =>
           this.#state.name
             ? path({
                 d: SvgIcon.#paths[this.#state.name],
                 xmlns: SvgIcon.#svgns,
               })
             : ""
-        )
       ),
     ];
   }

@@ -4,7 +4,7 @@
   "htmlWhitespaceSensitivity": "ignore",
   "printWidth": 80,
   "proseWrap": "preserve",
-  "quoteProps": "consistent",
+  "quoteProps": "as-needed",
   "semi": true,
   "singleQuote": false,
   "tabWidth": 2,

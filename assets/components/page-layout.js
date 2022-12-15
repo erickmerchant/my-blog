@@ -10,7 +10,7 @@ class PageLayout extends Element {
   render({"svg-icon": svgIcon, button, div, link, nav, slot}) {
     return [
       {
-        open: this.compute(() => this.#state.open),
+        open: () => this.#state.open,
       },
       ...["../common.css", "./page-layout.css"].map((url) =>
         link({
@@ -21,40 +21,40 @@ class PageLayout extends Element {
       nav(
         button(
           {
-            "class": "toggle",
+            class: "toggle",
             "aria-label": "Toggle tray",
-            "type": "button",
+            type: "button",
             "aria-controls": "tray",
-            "aria-expanded": this.compute(() => String(this.#state.open)),
-            "onclick": this.#toggleOpen,
+            "aria-expanded": () => String(this.#state.open),
+            onclick: this.#toggleOpen,
           },
           svgIcon({
-            name: this.compute(() => (this.#state.open ? "close" : "open")),
+            name: () => (this.#state.open ? "close" : "open"),
           })
         ),
         div(
           {
-            "id": "tray",
-            "class": "tray",
-            "aria-hidden": this.compute(() => String(!this.#state.open)),
-            "inert": this.compute(() => !this.#state.open),
+            id: "tray",
+            class: "tray",
+            "aria-hidden": () => String(!this.#state.open),
+            inert: () => !this.#state.open,
           },
           slot({name: "links"})
         )
       ),
       div(
         {
-          onclick: this.compute(() => {
+          onclick: () => {
             if (this.#state.open) {
-              return this.#toggleOpen;
+              this.#toggleOpen();
             }
-          }),
+          },
           class: "panel",
         },
         div(
           {
-            "aria-hidden": this.compute(() => String(this.#state.open)),
-            "inert": this.compute(() => this.#state.open),
+            "aria-hidden": () => String(this.#state.open),
+            inert: () => this.#state.open,
           },
           div({class: "banner"}, slot({name: "banner"})),
           slot({name: "content"})

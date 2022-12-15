@@ -27,13 +27,11 @@ export class Element extends HTMLElement {
 
   #appendChildren(node, children) {
     for (let value of children) {
-      let type = typeof value === "object" && value?.type;
-
-      if (type === "computed") {
+      if (typeof value === "function") {
         let bounds = ["", ""].map((v) => document.createComment(v));
 
         this.#writes.add({
-          ...value,
+          callback: value,
           type: "fragment",
           bounds: bounds.map((b) => new WeakRef(b)),
         });
@@ -76,24 +74,17 @@ export class Element extends HTMLElement {
 
   #setAttributes(node, attrs) {
     for (let [key, value] of Object.entries(attrs)) {
-      let type = typeof value === "object" && value?.type;
-      let isListener = key.substring(0, 2) === "on";
-
-      if (isListener) {
-        key = key.substring(2);
-      }
-
-      if (type === "computed") {
+      if (typeof value === "symbol" && this.#observers.has(value)) {
+        Element.#addObserved(node, key, this.#observers.get(value));
+      } else if (key.substring(0, 2) === "on") {
+        node.addEventListener(key.substring(2), ...[].concat(value));
+      } else if (typeof value === "function") {
         this.#writes.add({
-          ...value,
-          type: isListener ? "listener" : "attribute",
+          callback: value,
+          type: "attribute",
           node: new WeakRef(node),
           key,
         });
-      } else if (type === "observed") {
-        Element.#addObserved(node, key, value);
-      } else if (isListener) {
-        node.addEventListener(key, ...[].concat(value));
       } else {
         this.#setAttribute(node, key, value);
       }
@@ -149,26 +140,6 @@ export class Element extends HTMLElement {
         this.#setAttribute(node, formula.key, result);
       }
 
-      if (formula.type === "listener") {
-        formula.conroller?.abort();
-
-        if (result != null) {
-          let [handler = () => {}, options = {}] = [].concat(result);
-
-          if (options === true || options === false) {
-            options = {useCapture: options};
-          }
-
-          formula.conroller = new AbortController();
-
-          options.signal = formula.conroller.signal;
-
-          if (node) {
-            node.addEventListener(formula.key, handler, options);
-          }
-        }
-      }
-
       if (formula.type === "fragment") {
         let [start, end] = formula.bounds.map((b) => b.deref());
 
@@ -184,14 +155,6 @@ export class Element extends HTMLElement {
 
     this.#updating = false;
   };
-
-  compute(callback) {
-    if (this.#updating) {
-      return callback();
-    }
-
-    return {type: "computed", callback};
-  }
 
   watch(state) {
     let symbols = {};
@@ -246,12 +209,14 @@ export class Element extends HTMLElement {
 
   static #observed = new WeakMap();
 
+  #observers = new Map();
+
   static #mutationObserver = new window.MutationObserver((mutations) => {
     for (let {target, attributeName} of mutations) {
       let observed = this.#observed.get(target)?.[attributeName];
 
       if (observed) {
-        observed.callback(target.getAttribute(attributeName));
+        observed(target.getAttribute(attributeName));
       }
     }
   });
@@ -269,11 +234,15 @@ export class Element extends HTMLElement {
 
     this.#mutationObserver.observe(node, {attributeFilter: [key]});
 
-    value.callback(node.getAttribute(key));
+    value(node.getAttribute(key));
   }
 
   observe(callback) {
-    return {type: "observed", callback};
+    let symbol = Symbol("observe");
+
+    this.#observers.set(symbol, callback);
+
+    return symbol;
   }
 
   /* */
