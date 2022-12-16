@@ -36,7 +36,6 @@ class PageLayout extends Element {
           {
             id: "tray",
             class: "tray",
-            "aria-hidden": () => String(!this.#state.open),
             inert: () => !this.#state.open,
           },
           slot({name: "links"})
@@ -53,7 +52,6 @@ class PageLayout extends Element {
         },
         div(
           {
-            "aria-hidden": () => String(this.#state.open),
             inert: () => this.#state.open,
           },
           div({class: "banner"}, slot({name: "banner"})),

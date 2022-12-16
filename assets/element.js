@@ -28,15 +28,15 @@ export class Element extends HTMLElement {
   #appendChildren(node, children) {
     for (let value of children) {
       if (typeof value === "function") {
-        let bounds = ["", ""].map((v) => document.createComment(v));
+        let args = ["", ""].map((v) => document.createComment(v));
 
         this.#writes.add({
           callback: value,
           type: "fragment",
-          bounds: bounds.map((b) => new WeakRef(b)),
+          args: args.map((b) => new WeakRef(b)),
         });
 
-        value = bounds;
+        value = args;
       } else {
         value = [value];
       }
@@ -82,8 +82,7 @@ export class Element extends HTMLElement {
         this.#writes.add({
           callback: value,
           type: "attribute",
-          node: new WeakRef(node),
-          key,
+          args: [new WeakRef(node), key],
         });
       } else {
         this.#setAttribute(node, key, value);
@@ -132,16 +131,17 @@ export class Element extends HTMLElement {
       this.#current = formula;
 
       let result = formula.callback();
-      let node = formula.node?.deref();
 
       this.#current = null;
 
       if (formula.type === "attribute") {
-        this.#setAttribute(node, formula.key, result);
+        let [node, key] = formula.args;
+
+        this.#setAttribute(node.deref(), key, result);
       }
 
       if (formula.type === "fragment") {
-        let [start, end] = formula.bounds.map((b) => b.deref());
+        let [start, end] = formula.args.map((b) => b.deref());
 
         while (start && end && start.nextSibling !== end) {
           start.nextSibling.remove();
@@ -149,9 +149,9 @@ export class Element extends HTMLElement {
 
         start.after(...[].concat(result ?? ""));
       }
-
-      this.#writes.delete(formula);
     }
+
+    this.#writes.clear();
 
     this.#updating = false;
   };

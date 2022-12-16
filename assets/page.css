@@ -35,7 +35,7 @@
       var(--tertiary-background) 25%,
       var(--secondary-background) 25%
     );
-    background-size: 0.125rem 0.125rem;
+    background-size: 0.1875rem 0.1875rem;
     scrollbar-color: var(--scrollbar-foreground) var(--scrollbar-background);
 
     --scrollbar-foreground: var(--anchor-color);
