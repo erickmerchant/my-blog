@@ -167,7 +167,7 @@ export class Element extends HTMLElement {
 
         state[key] = value;
 
-        symbols[key] ??= Symbol(key);
+        symbols[key] ??= Symbol('');
 
         let reads = this.#reads.get(symbols[key]);
 
@@ -184,7 +184,7 @@ export class Element extends HTMLElement {
         return true;
       },
       get: (state, key) => {
-        symbols[key] ??= Symbol(key);
+        symbols[key] ??= Symbol('');
 
         if (this.#current) {
           let reads = this.#reads.get(symbols[key]);
