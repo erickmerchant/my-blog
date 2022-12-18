@@ -1,4 +1,4 @@
-FROM rust:1.65-alpine as app
+FROM rust:1.66-alpine as app
 RUN apk add build-base
 WORKDIR /app
 RUN cargo init . --bin
