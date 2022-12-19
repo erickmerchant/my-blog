@@ -2,11 +2,23 @@ export class Element extends HTMLElement {
   connectedCallback() {
     this.attachShadow({mode: "open"});
 
-    let children = [].concat(this.render?.(this.#createElementProxy) ?? "");
+    let props = {};
 
-    if (typeof children[0] === "object" && children[0].constructor === Object) {
-      this.#setAttributes(this, children.shift());
+    for (let {name, value} of this.attributes) {
+      props[name] = value;
     }
+
+    this.props = this.watch(props);
+
+    let mutationObserver = new window.MutationObserver((mutations) => {
+      for (let {target, attributeName} of mutations) {
+        this.props[attributeName] = target.getAttribute(attributeName);
+      }
+    });
+
+    mutationObserver.observe(this, {attributes: true});
+
+    let children = [].concat(this.render?.(this.#createElementProxy) ?? "");
 
     this.#appendChildren(this.shadowRoot, children);
 
@@ -74,9 +86,7 @@ export class Element extends HTMLElement {
 
   #setAttributes(node, attrs) {
     for (let [key, value] of Object.entries(attrs)) {
-      if (typeof value === "symbol" && this.#observers.has(value)) {
-        Element.#addObserved(node, key, this.#observers.get(value));
-      } else if (key.substring(0, 2) === "on") {
+      if (key.substring(0, 2) === "on") {
         node.addEventListener(key.substring(2), ...[].concat(value));
       } else if (typeof value === "function") {
         this.#writes.add({
@@ -94,24 +104,16 @@ export class Element extends HTMLElement {
 
   /* reactivity */
 
-  static #queue = new Set();
+  #scheduled = false;
 
-  static #scheduled = false;
-
-  static #schedule(update) {
-    this.#queue.add(update);
-
+  #schedule() {
     if (!this.#scheduled) {
       this.#scheduled = true;
 
       window.requestAnimationFrame(() => {
         this.#scheduled = false;
 
-        for (let update of this.#queue) {
-          update();
-
-          this.#queue.delete(update);
-        }
+        this.#update();
       });
     }
   }
@@ -167,7 +169,7 @@ export class Element extends HTMLElement {
 
         state[key] = value;
 
-        symbols[key] ??= Symbol('');
+        symbols[key] ??= Symbol("");
 
         let reads = this.#reads.get(symbols[key]);
 
@@ -179,12 +181,12 @@ export class Element extends HTMLElement {
 
         this.#reads.set(symbols[key], new Set());
 
-        Element.#schedule(this.#update);
+        this.#schedule();
 
         return true;
       },
       get: (state, key) => {
-        symbols[key] ??= Symbol('');
+        symbols[key] ??= Symbol("");
 
         if (this.#current) {
           let reads = this.#reads.get(symbols[key]);
@@ -201,48 +203,6 @@ export class Element extends HTMLElement {
         return state[key];
       },
     });
-  }
-
-  /* */
-
-  /* mutation observation */
-
-  static #observed = new WeakMap();
-
-  #observers = new Map();
-
-  static #mutationObserver = new window.MutationObserver((mutations) => {
-    for (let {target, attributeName} of mutations) {
-      let observed = this.#observed.get(target)?.[attributeName];
-
-      if (observed) {
-        observed(target.getAttribute(attributeName));
-      }
-    }
-  });
-
-  static #addObserved(node, key, value) {
-    let observed = this.#observed.get(node);
-
-    if (!observed) {
-      observed = {};
-
-      this.#observed.set(node, observed);
-    }
-
-    observed[key] = value;
-
-    this.#mutationObserver.observe(node, {attributeFilter: [key]});
-
-    value(node.getAttribute(key));
-  }
-
-  observe(callback) {
-    let symbol = Symbol("observe");
-
-    this.#observers.set(symbol, callback);
-
-    return symbol;
   }
 
   /* */
