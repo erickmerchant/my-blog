@@ -46,8 +46,8 @@
     background-color: var(--primary-background);
     width: 100%;
     overflow-x: auto;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-auto-columns: 100%;
     gap: 1em;
     padding-block-start: 1em;
     align-content: start;
@@ -103,13 +103,13 @@
   }
 
   .index > * {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-auto-columns: 100%;
     gap: 0.5em;
   }
 
   .footer {
-    display: flex;
+    display: grid;
     background-color: var(--primary-background);
     width: 100%;
   }
@@ -137,15 +137,5 @@
     list-style: none;
     padding-inline: 1em;
     gap: 0.5em;
-  }
-
-  :not(:defined) .links {
-    width: max-content;
-    margin-inline: auto;
-    margin-block: 2em;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 2rem;
   }
 }

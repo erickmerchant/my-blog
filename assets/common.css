@@ -64,8 +64,8 @@
   dl,
   ul,
   ol {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-auto-columns: 100%;
     gap: 0.25em;
   }
 
