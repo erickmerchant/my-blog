@@ -21,7 +21,7 @@ pub async fn handle(
                 };
 
                 template_env
-                    .get_template("posts.html")
+                    .get_template("posts.jinja")
                     .and_then(|template| template.render(ctx))
                     .map_err(ErrorInternalServerError)
             }

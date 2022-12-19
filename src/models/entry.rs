@@ -23,7 +23,7 @@ impl Entry {
     }
 
     fn default_template() -> String {
-        "post.html".to_string()
+        "post.jinja".to_string()
     }
 
     pub fn get_one<S: AsRef<str>>(path: S) -> Option<Self> {

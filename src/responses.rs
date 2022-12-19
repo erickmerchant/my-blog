@@ -71,7 +71,7 @@ pub fn error<B>(
             message => message
         };
 
-        if let Ok(template) = t.get_template("error.html") {
+        if let Ok(template) = t.get_template("error.jinja") {
             if let Ok(b) = template.render(ctx) {
                 body = b
             }

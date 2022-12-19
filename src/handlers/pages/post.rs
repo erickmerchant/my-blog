@@ -22,7 +22,7 @@ pub async fn handle(
             };
 
             template_env
-                .get_template("post.html")
+                .get_template("post.jinja")
                 .and_then(|template| template.render(ctx))
                 .map_err(ErrorInternalServerError)
         } else {

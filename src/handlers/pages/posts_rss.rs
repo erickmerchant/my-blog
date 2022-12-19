@@ -14,7 +14,7 @@ pub async fn handle(
             posts => &Entry::get_all("content/posts/*.html"),
         };
         template_env
-            .get_template("posts.rss")
+            .get_template("posts.rss.jinja")
             .and_then(|template| template.render(ctx))
             .map_err(ErrorInternalServerError)
     })
