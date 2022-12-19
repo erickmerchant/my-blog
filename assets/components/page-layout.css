@@ -1,17 +1,8 @@
 @layer component {
   :host {
-    --tray-open: 0px;
     --tray-width: 70vw;
-    --toggle-shadow-size: 0rem;
     --toggle-top: 0.875rem;
     --toggle-height: 2.25rem;
-    --toggle-transform: translate(0, 0);
-  }
-
-  :host([open]) {
-    --toggle-transform: translate(-0.075rem, -0.075rem);
-    --toggle-shadow-size: 0.25rem;
-    --tray-open: var(--tray-width);
   }
 
   @media (max-width: 900px) {
@@ -42,6 +33,18 @@
     display: grid;
     place-content: center;
     appearance: none;
+  }
+
+  .closed {
+    --tray-open: 0px;
+    --toggle-transform: translate(0, 0);
+    --toggle-shadow-size: 0rem;
+  }
+
+  .open {
+    --tray-open: var(--tray-width);
+    --toggle-transform: translate(-0.075rem, -0.075rem);
+    --toggle-shadow-size: 0.25rem;
   }
 
   .tray {

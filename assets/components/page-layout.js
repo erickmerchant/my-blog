@@ -9,9 +9,6 @@ class PageLayout extends Element {
 
   render({"svg-icon": svgIcon, button, div, link, nav, slot}) {
     return [
-      {
-        open: () => this.#state.open,
-      },
       ...["../common.css", "./page-layout.css"].map((url) =>
         link({
           rel: "stylesheet",
@@ -21,7 +18,7 @@ class PageLayout extends Element {
       nav(
         button(
           {
-            class: "toggle",
+            class: () => "toggle " + (this.#state.open ? "open" : "closed"),
             "aria-label": "Toggle tray",
             type: "button",
             "aria-controls": "tray",
@@ -48,7 +45,7 @@ class PageLayout extends Element {
               this.#toggleOpen();
             }
           },
-          class: "panel",
+          class: () => "panel " + (this.#state.open ? "open" : "closed"),
         },
         div(
           {

@@ -35,13 +35,8 @@ class SvgIcon extends Element {
 
   static #svgns = "http://www.w3.org/2000/svg";
 
-  #state = this.watch({name: null});
-
   render({link, path, svg}) {
     return [
-      {
-        name: this.observe((name) => (this.#state.name = name)),
-      },
       ...["../common.css", "./svg-icon.css"].map((url) =>
         link({
           rel: "stylesheet",
@@ -55,9 +50,9 @@ class SvgIcon extends Element {
           xmlns: SvgIcon.#svgns,
         },
         () =>
-          this.#state.name
+          this.props.name
             ? path({
-                d: SvgIcon.#paths[this.#state.name],
+                d: SvgIcon.#paths[this.props.name],
                 xmlns: SvgIcon.#svgns,
               })
             : ""
