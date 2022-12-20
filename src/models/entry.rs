@@ -34,11 +34,15 @@ impl Entry {
             let mut data = Self::default();
             let mut content = contents.to_owned();
 
-            if let Some((above, below)) = contents.split_once("---") {
-                if let Ok(frontmatter) = serde_json::from_str::<Self>(above) {
-                    data = frontmatter;
+            if contents.starts_with("{\n") {
+                if let Some((above, below)) = contents.split_once("}\n") {
+                    if let Ok(frontmatter) =
+                        serde_json::from_str::<Self>(format!("{above}}}").as_str())
+                    {
+                        data = frontmatter;
 
-                    content = below.to_string();
+                        content = below.to_string();
+                    }
                 }
             }
 
