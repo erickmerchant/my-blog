@@ -12,7 +12,7 @@ pub async fn handle(
     let slug = slug.as_ref();
     let path = Path::new("pages").join(slug).with_extension("html");
 
-    responses::cacheable(&path, || {
+    responses::cacheable(path, || {
         let page = Entry::get_one(format!("content/pages/{slug}.html"));
 
         if let Some(page) = page {

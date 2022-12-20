@@ -19,7 +19,7 @@ pub fn cacheable<F: Fn() -> Result<String, Error>, P: AsRef<Path>>(
             false => {
                 let body = process()?;
 
-                fs::create_dir_all(&src.with_file_name("")).map_err(ErrorInternalServerError)?;
+                fs::create_dir_all(src.with_file_name("")).map_err(ErrorInternalServerError)?;
 
                 let mut file = File::options()
                     .read(true)
