@@ -1897,9 +1897,9 @@ dependencies = [
 
 [[package]]
 name = "proc-macro-hack"
-version = "0.5.19"
+version = "0.5.20+deprecated"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "dbf0c48bc1d91375ae5c3cd81e3722dff1abcf81a30960240640d223f59fe0e5"
+checksum = "dc375e1527247fe1a97d8b7156678dfe7c1af2fc075c9a4db3690ecd2a148068"
 
 [[package]]
 name = "proc-macro2"
@@ -2486,9 +2486,9 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.236.14"
+version = "0.236.17"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7eb701599ba24d752baa8292082b3b1b1243043c3acc89ff11ec5bc5665fe01d"
+checksum = "29c8c5dcbf2cffc085e4599affd792fb6fa555281b32659d218f636a87f504e3"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2778,9 +2778,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_preset_env"
-version = "0.175.17"
+version = "0.175.18"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6bb75c62a6c6dabc5a7fd3dee32a4a66953b2b8209d2ed3891d30424b2e97129"
+checksum = "1e0a6e6e8d7c44eb588fe4450545b38824e615c232df3de129c7d8b9d60eaa0d"
 dependencies = [
  "ahash",
  "anyhow",
