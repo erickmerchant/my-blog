@@ -13,7 +13,7 @@ pub async fn handle(
     let path = Path::new("posts").join(slug).with_extension("html");
 
     responses::cacheable(path, || {
-        let post = Entry::get_one(format!("content/posts/{slug}.html"));
+        let post = Entry::get_one(format!("content/posts/{slug}.json.html"));
 
         if let Some(post) = post {
             let ctx = context! {
@@ -22,7 +22,7 @@ pub async fn handle(
             };
 
             template_env
-                .get_template("post.jinja")
+                .get_template("post.html.jinja")
                 .and_then(|template| template.render(ctx))
                 .map_err(ErrorInternalServerError)
         } else {

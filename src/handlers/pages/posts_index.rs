@@ -9,8 +9,8 @@ pub async fn handle(
     template_env: web::Data<Environment<'_>>,
 ) -> Result<NamedFile> {
     responses::cacheable(Path::new("index.html"), || {
-        let posts = Entry::get_all("content/posts/*.html");
-        let posts_index_page = Entry::get_one("content/pages/posts.html").unwrap_or_default();
+        let posts = Entry::get_all("content/posts/*.json.html");
+        let posts_index_page = Entry::get_one("content/pages/posts.json.html").unwrap_or_default();
 
         match !posts.is_empty() {
             true => {
@@ -21,7 +21,7 @@ pub async fn handle(
                 };
 
                 template_env
-                    .get_template("posts.jinja")
+                    .get_template("posts.html.jinja")
                     .and_then(|template| template.render(ctx))
                     .map_err(ErrorInternalServerError)
             }
