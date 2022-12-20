@@ -28,16 +28,18 @@ use actix_web::{
     http::StatusCode, middleware::Compress, middleware::DefaultHeaders, middleware::ErrorHandlers,
     middleware::Logger, web, App, HttpServer,
 };
+use clap::Parser;
 use std::{fs, io, io::Write};
 
 #[actix_web::main]
 async fn main() -> io::Result<()> {
+    let config = config::Config::parse();
+
     env_logger::builder()
         .format(|buf, record| writeln!(buf, "[{}] {}", record.level(), record.args()))
         .init();
     fs::remove_dir_all("storage/cache").ok();
 
-    let config = config::Config::new();
     let port = config.port;
 
     let template_env = templates::get_env();

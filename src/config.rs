@@ -1,28 +1,20 @@
-use serde::Deserialize;
-use std::env;
+use clap::Parser;
 
-#[derive(Deserialize, Debug, Clone)]
+#[derive(Parser, Debug, Clone)]
+#[command(version, long_about = None)]
 pub struct Config {
+    #[arg(long, default_value_t = false)]
     pub source_maps: bool,
+
+    #[arg(long, default_value_t = 8080)]
     pub port: u16,
+
+    #[arg(long, default_value_t = Config::get_default_targets())]
     pub targets: String,
 }
 
 impl Config {
-    pub fn new() -> Self {
-        let source_maps = env::var("SOURCE_MAPS")
-            .map(|val| val == *"true")
-            .unwrap_or(false);
-        let port = env::var("PORT")
-            .map(|val| val.parse::<u16>().unwrap_or(8080))
-            .unwrap_or(8080);
-        let targets = env::var("TARGETS")
-            .unwrap_or_else(|_| "supports es6-module and last 2 versions".to_string());
-
-        Self {
-            source_maps,
-            port,
-            targets,
-        }
+    pub fn get_default_targets() -> String {
+        "supports es6-module and last 2 versions".to_string()
     }
 }
