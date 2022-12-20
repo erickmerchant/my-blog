@@ -1,4 +1,4 @@
-use crate::{models::entry::*, models::site::*, responses};
+use crate::{models::page::*, models::site::*, responses};
 use actix_files::NamedFile;
 use actix_web::{error::ErrorInternalServerError, web, Result};
 use minijinja::{context, Environment};
@@ -11,7 +11,7 @@ pub async fn handle(
     responses::cacheable(Path::new("posts.rss"), || {
         let ctx = context! {
             site => &site.as_ref(),
-            posts => &Entry::get_all("content/posts/*.json.html"),
+            posts => &Page::get_all("content/posts/*.json+html"),
         };
         template_env
             .get_template("posts.rss.jinja")

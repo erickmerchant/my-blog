@@ -5,12 +5,12 @@
     <link>{{site.base}}</link>
     <description>{{site.description}}</description>
     <copyright>© {{site.copyright}}</copyright>
-    {% for post in posts %}
+    {% for page in posts %}
       <item>
-        <title>{{post.title}}</title>
-        <link>{{site.base}}/posts/{{post.slug}}.html</link>
-        <pubDate>{{post.date | date("%a, %d %h %Y")}} 00:00:00 +0000</pubDate>
-        <description><![CDATA[{{post.description}}]]></description>
+        <title>{{page.title}}</title>
+        <link>{{site.base}}/posts/{{page.slug}}.html</link>
+        <pubDate>{{page.date | date("%a, %d %h %Y")}} 00:00:00 +0000</pubDate>
+        <description><![CDATA[{{page.description}}]]></description>
       </item>
     {% endfor %}
   </channel>

@@ -11,13 +11,12 @@ mod handlers {
     }
     pub mod pages {
         pub mod page;
-        pub mod post;
         pub mod posts_index;
         pub mod posts_rss;
     }
 }
 mod models {
-    pub mod entry;
+    pub mod page;
     pub mod site;
 }
 mod responses;
@@ -61,8 +60,7 @@ async fn main() -> io::Result<()> {
             .wrap(Compress::default())
             .route("/", web::get().to(pages::posts_index::handle))
             .route("/posts.rss", web::get().to(pages::posts_rss::handle))
-            .route("/posts/{slug:.*?}.html", web::get().to(pages::post::handle))
-            .route("/{slug:.*?}.html", web::get().to(pages::page::handle))
+            .route("/{path:.*?}.html", web::get().to(pages::page::handle))
             .route("{file:.*?}.js", web::get().to(assets::js::handle))
             .route("{file:.*?}.css", web::get().to(assets::css::handle))
             .route("{file:.*?}", web::get().to(assets::asset::handle))

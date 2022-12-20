@@ -3,21 +3,21 @@ use serde::{Deserialize, Serialize};
 use std::{convert::AsRef, fs, path::Path, vec::Vec};
 
 #[derive(Deserialize, Debug, Clone, Default, Serialize)]
-pub struct Entry {
+pub struct Page {
     #[serde(default)]
     pub slug: String,
     pub title: String,
-    #[serde(default = "Entry::default_date")]
+    #[serde(default = "Page::default_date")]
     pub date: String,
     #[serde(default)]
     pub description: String,
     #[serde(default)]
     pub content: String,
-    #[serde(default = "Entry::default_template")]
+    #[serde(default = "Page::default_template")]
     pub template: String,
 }
 
-impl Entry {
+impl Page {
     fn default_date() -> String {
         "0000-00-00".to_string()
     }
@@ -60,9 +60,9 @@ impl Entry {
         let mut entries = Vec::<Self>::new();
 
         if let Ok(results) = glob(pattern.as_ref()) {
-            for entry in results.flatten() {
-                if let Some(entry) = Self::get_one(entry.display().to_string()) {
-                    entries.push(entry);
+            for page in results.flatten() {
+                if let Some(page) = Self::get_one(page.display().to_string()) {
+                    entries.push(page);
                 }
             }
         }
