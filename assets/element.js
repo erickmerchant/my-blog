@@ -67,7 +67,19 @@ export class Element extends HTMLElement {
       ? document.createElementNS(attrs.xmlns, tag)
       : document.createElement(tag);
 
-    this.#setAttributes(node, attrs ?? {});
+    for (let [key, value] of Object.entries(attrs ?? {})) {
+      if (key.substring(0, 2) === "on") {
+        node.addEventListener(key.substring(2), ...[].concat(value));
+      } else if (typeof value === "function") {
+        this.#writes.add({
+          callback: value,
+          type: "attribute",
+          args: [new WeakRef(node), key],
+        });
+      } else {
+        this.#setAttribute(node, key, value);
+      }
+    }
 
     this.#appendChildren(node, children);
 
@@ -80,22 +92,6 @@ export class Element extends HTMLElement {
         node.setAttribute(key, val === true ? "" : val);
       } else {
         node.removeAttribute(key);
-      }
-    }
-  }
-
-  #setAttributes(node, attrs) {
-    for (let [key, value] of Object.entries(attrs)) {
-      if (key.substring(0, 2) === "on") {
-        node.addEventListener(key.substring(2), ...[].concat(value));
-      } else if (typeof value === "function") {
-        this.#writes.add({
-          callback: value,
-          type: "attribute",
-          args: [new WeakRef(node), key],
-        });
-      } else {
-        this.#setAttribute(node, key, value);
       }
     }
   }

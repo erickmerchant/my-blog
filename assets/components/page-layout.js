@@ -18,11 +18,11 @@ class PageLayout extends Element {
       nav(
         button(
           {
-            class: () => "toggle " + (this.#state.open ? "open" : "closed"),
             "aria-label": "Toggle tray",
-            type: "button",
             "aria-controls": "tray",
             "aria-expanded": () => String(this.#state.open),
+            class: () => "toggle " + (this.#state.open ? "open" : "closed"),
+            type: "button",
             onclick: this.#toggleOpen,
           },
           svgIcon({
