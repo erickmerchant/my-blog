@@ -12,7 +12,7 @@ pub async fn handle(
     let path = path.as_ref();
 
     responses::cacheable(Path::new(path).with_extension("html"), || {
-        let page = Page::get_one(format!("content/{path}.json+html"));
+        let page = Page::get_one(format!("content/{path}.html"));
 
         if let Some(page) = page {
             let ctx = context! {

@@ -11,10 +11,10 @@ pub async fn handle(
     responses::cacheable(Path::new("posts.rss"), || {
         let ctx = context! {
             site => &site.as_ref(),
-            posts => &Page::get_all("content/posts/*.json+html"),
+            posts => &Page::get_all("content/posts/*.html"),
         };
         template_env
-            .get_template("posts.rss.jinja")
+            .get_template("posts_rss.jinja")
             .and_then(|template| template.render(ctx))
             .map_err(ErrorInternalServerError)
     })
