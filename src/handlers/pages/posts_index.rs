@@ -9,8 +9,8 @@ pub async fn handle(
     template_env: web::Data<Environment<'_>>,
 ) -> Result<NamedFile> {
     responses::cacheable(Path::new("index.html"), || {
-        let posts = Page::get_all("content/posts/*.html");
-        let posts_index_page = Page::get_one("content/posts.html").unwrap_or_default();
+        let posts = Page::get_all("posts/*.html");
+        let posts_index_page = Page::get_one("posts.html").unwrap_or_default();
 
         match !posts.is_empty() {
             true => {

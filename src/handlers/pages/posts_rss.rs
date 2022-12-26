@@ -11,7 +11,7 @@ pub async fn handle(
     responses::cacheable(Path::new("posts.rss"), || {
         let ctx = context! {
             site => &site.as_ref(),
-            posts => &Page::get_all("content/posts/*.html"),
+            posts => &Page::get_all("posts/*.html"),
         };
         template_env
             .get_template("posts_rss.jinja")

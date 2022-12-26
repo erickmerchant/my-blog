@@ -1481,6 +1481,7 @@ dependencies = [
  "lightningcss",
  "minijinja",
  "parcel_sourcemap",
+ "pathdiff",
  "serde",
  "serde_json",
  "swc",

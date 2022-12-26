@@ -1,11 +1,12 @@
 use glob::glob;
+use pathdiff::diff_paths;
 use serde::{Deserialize, Serialize};
 use std::{convert::AsRef, fs, path::Path, vec::Vec};
 
 #[derive(Deserialize, Debug, Clone, Default, Serialize)]
 pub struct Page {
     #[serde(default)]
-    pub slug: String,
+    pub path: String,
     pub title: String,
     #[serde(default = "Page::default_date")]
     pub date: String,
@@ -27,10 +28,14 @@ impl Page {
     }
 
     pub fn get_one<S: AsRef<str>>(path: S) -> Option<Self> {
-        let mut result = None;
-        let path = Path::new(path.as_ref());
+        println!("{}", path.as_ref());
 
-        if let (Some(slug), Ok(contents)) = (path.file_stem()?.to_str(), fs::read_to_string(path)) {
+        let mut result = None;
+        let content = Path::new("content");
+        let pattern = content.join(path.as_ref());
+        let pattern = pattern.as_path();
+
+        if let Ok(contents) = fs::read_to_string(pattern) {
             let mut data = Self::default();
             let mut content = contents.to_owned();
 
@@ -47,7 +52,7 @@ impl Page {
             }
 
             result = Some(Self {
-                slug: slug.to_string(),
+                path: path.as_ref().to_string(),
                 content,
                 ..data
             });
@@ -58,11 +63,16 @@ impl Page {
 
     pub fn get_all<S: AsRef<str>>(pattern: S) -> Vec<Self> {
         let mut entries = Vec::<Self>::new();
+        let content = Path::new("content");
+        let pattern = content.join(pattern.as_ref());
+        let pattern = pattern.as_path();
 
-        if let Ok(results) = glob(pattern.as_ref()) {
+        if let Some(results) = pattern.to_str().and_then(|s| glob(s).ok()) {
             for page in results.flatten() {
-                if let Some(page) = Self::get_one(page.display().to_string()) {
-                    entries.push(page);
+                if let Some(path) = diff_paths(page, "content") {
+                    if let Some(page) = path.as_path().to_str().and_then(|s| Self::get_one(s)) {
+                        entries.push(page);
+                    }
                 }
             }
         }
