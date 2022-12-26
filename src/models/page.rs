@@ -28,8 +28,6 @@ impl Page {
     }
 
     pub fn get_one<S: AsRef<str>>(path: S) -> Option<Self> {
-        println!("{}", path.as_ref());
-
         let mut result = None;
         let content = Path::new("content");
         let pattern = content.join(path.as_ref());
@@ -67,8 +65,8 @@ impl Page {
         let pattern = content.join(pattern.as_ref());
         let pattern = pattern.as_path();
 
-        if let Some(results) = pattern.to_str().and_then(|s| glob(s).ok()) {
-            for page in results.flatten() {
+        if let Some(pages) = pattern.to_str().and_then(|s| glob(s).ok()) {
+            for page in pages.flatten() {
                 if let Some(path) = diff_paths(page, "content") {
                     if let Some(page) = path.as_path().to_str().and_then(Self::get_one) {
                         entries.push(page);
