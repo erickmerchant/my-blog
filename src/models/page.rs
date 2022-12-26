@@ -70,7 +70,7 @@ impl Page {
         if let Some(results) = pattern.to_str().and_then(|s| glob(s).ok()) {
             for page in results.flatten() {
                 if let Some(path) = diff_paths(page, "content") {
-                    if let Some(page) = path.as_path().to_str().and_then(|s| Self::get_one(s)) {
+                    if let Some(page) = path.as_path().to_str().and_then(Self::get_one) {
                         entries.push(page);
                     }
                 }
