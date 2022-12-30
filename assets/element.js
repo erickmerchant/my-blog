@@ -167,12 +167,8 @@ export class Element extends HTMLElement {
 
         symbols[key] ??= Symbol("");
 
-        let reads = this.#reads.get(symbols[key]);
-
-        if (reads) {
-          for (let formula of reads) {
-            this.#writes.add(formula);
-          }
+        for (let formula of this.#reads.get(symbols[key]) ?? []) {
+          this.#writes.add(formula);
         }
 
         this.#reads.set(symbols[key], new Set());
@@ -185,13 +181,9 @@ export class Element extends HTMLElement {
         symbols[key] ??= Symbol("");
 
         if (this.#current) {
-          let reads = this.#reads.get(symbols[key]);
+          let reads = this.#reads.get(symbols[key]) ?? new Set();
 
-          if (!reads) {
-            reads = new Set();
-
-            this.#reads.set(symbols[key], reads);
-          }
+          this.#reads.set(symbols[key], reads);
 
           reads.add(this.#current);
         }
