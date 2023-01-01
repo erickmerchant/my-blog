@@ -67,10 +67,11 @@ class FancyNav extends Element {
         let currentY = body.scrollTop;
 
         // Scrolling down/up
-        if (currentY < this.#previousY) {
-          this.style.setProperty("--scrolling-down", 0);
-        } else if (currentY > this.#previousY) {
-          this.style.setProperty("--scrolling-down", 1);
+        if (currentY !== this.#previousY) {
+          this.style.setProperty(
+            "--scrolling-down",
+            currentY < this.#previousY ? 0 : 1
+          );
         }
 
         this.#previousY = currentY;
