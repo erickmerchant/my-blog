@@ -6,32 +6,31 @@
     <meta name="description" content="{{site.description}}">
     <title>{% block title %}{{title}}{% endblock %} | {{site.title}}</title>
     <script type="module" src="/element.js"></script>
-    <script async type="module" src="/components/page-layout.js"></script>
-    <script async type="module" src="/components/svg-icon.js"></script>
-    <link rel="stylesheet" href="/common.css">
+    <script type="module" src="/components/fancy-nav.js"></script>
+    <script type="module" src="/components/svg-icon.js"></script>
     <link rel="stylesheet" href="/page.css">
-    <link rel="preload" href="/components/page-layout.css" as="style">
+    <link rel="preload" href="/components/fancy-nav.css" as="style">
     <link rel="preload" href="/components/svg-icon.css" as="style">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <link rel="me" href="https://mastodon.online/@erickjm">
   </head>
   <body>
-    <page-layout>
-      <main class="main" slot="content">
-        {% block main %}
-        {% endblock %}
-      </main>
-
-      <footer class="footer" slot="content">
-        <p class="copyright">© <span>{{site.copyright}}</span></p>
-      </footer>
-
-      <ul class="links" slot="links">
+    <fancy-nav class="nav">
+      <ul>
         <li><a href="/">Posts</a></li>
         <li><a href="/posts.rss">RSS Feed</a></li>
         <li><a href="https://github.com/erickmerchant/my-blog">View Source</a></li>
       </ul>
-    </page-layout>
+    </fancy-nav>
+
+    <main class="main">
+      {% block main %}
+      {% endblock %}
+    </main>
+
+    <footer class="footer">
+      <p class="copyright">© <span>{{site.copyright}}</span></p>
+    </footer>
   </body>
 </html>
 

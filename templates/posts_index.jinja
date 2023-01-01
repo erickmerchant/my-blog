@@ -3,8 +3,10 @@
 {% block title %}{{page.title}}{% endblock %}
 
 {% block main %}
-  <h1>{{page.title}}</h1>
-  {{page.content|safe}}
+  <div>
+    <h1>{{page.title}}</h1>
+    {{page.content|safe}}
+  </div>
   <ol class="index">
     {% for page in posts %}
       <li>

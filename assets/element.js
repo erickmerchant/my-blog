@@ -126,11 +126,13 @@ export class Element extends HTMLElement {
     this.#updating = true;
 
     for (let formula of this.#writes) {
+      let prev = this.#current;
+
       this.#current = formula;
 
       let result = formula.callback();
 
-      this.#current = null;
+      this.#current = prev;
 
       if (formula.type === "attribute") {
         let [node, key] = formula.args;

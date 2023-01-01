@@ -1,0 +1,53 @@
+* {
+  font: inherit;
+  color: inherit;
+  gap: inherit;
+  max-width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+:host {
+  position: sticky;
+  top: calc(var(--scrolling-override, var(--scrolling-down, 0)) * -2.5em);
+  transition: top 0.25s var(--easing);
+}
+
+.toggle {
+  appearance: none;
+  display: grid;
+  aspect-ratio: 1 / 1;
+  height: 1.5em;
+  border: 0;
+  background-color: hsl(0 0% 0% / 0);
+  color: var(--anchor-color);
+}
+
+.toggle > * {
+  display: grid;
+  aspect-ratio: 1 / 1;
+  height: 1.5em;
+}
+
+.menu {
+  display: grid;
+  transition: 0.25s;
+  overflow: hidden;
+
+  --menu-direction: column;
+}
+
+.visible {
+  grid-template-rows: 1fr;
+  padding-block: 1em;
+
+  --scrolling-down: 1;
+}
+
+.hidden {
+  grid-template-rows: 0fr;
+}
+
+.menu > * {
+  min-height: 0;
+}
