@@ -1,13 +1,20 @@
-@layer component {
-  :host {
-    display: grid;
-    aspect-ratio: 1 / 1;
-  }
+* {
+  font: inherit;
+  color: inherit;
+  gap: inherit;
+  max-width: 100%;
+  padding: 0;
+  margin: 0;
+}
 
-  svg {
-    aspect-ratio: 1 / 1;
-    width: 100%;
-    fill: currentColor;
-    display: grid;
-  }
+:host {
+  display: grid;
+  aspect-ratio: 1 / 1;
+}
+
+svg {
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  fill: currentColor;
+  display: grid;
 }
