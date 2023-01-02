@@ -2,22 +2,6 @@ export class Element extends HTMLElement {
   connectedCallback() {
     this.attachShadow({mode: "open"});
 
-    let props = {};
-
-    for (let {name, value} of this.attributes) {
-      props[name] = value;
-    }
-
-    this.props = this.watch(props);
-
-    let mutationObserver = new window.MutationObserver((mutations) => {
-      for (let {target, attributeName} of mutations) {
-        this.props[attributeName] = target.getAttribute(attributeName);
-      }
-    });
-
-    mutationObserver.observe(this, {attributes: true});
-
     let children = [].concat(this.render?.(this.#createElementProxy) ?? "");
 
     this.#appendChildren(this.shadowRoot, children);

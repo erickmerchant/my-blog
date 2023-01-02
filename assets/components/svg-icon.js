@@ -35,6 +35,16 @@ class SvgIcon extends Element {
 
   static #svgns = "http://www.w3.org/2000/svg";
 
+  static get observedAttributes() {
+    return ["name"];
+  }
+
+  attributeChangedCallback(name, _, newValue) {
+    this.#state[name] = newValue;
+  }
+
+  #state = this.watch({name: this.getAttribute("name")});
+
   render({link, path, svg}) {
     return [
       link({
@@ -48,9 +58,9 @@ class SvgIcon extends Element {
           xmlns: SvgIcon.#svgns,
         },
         () =>
-          this.props.name
+          this.#state.name
             ? path({
-                d: SvgIcon.#paths[this.props.name],
+                d: SvgIcon.#paths[this.#state.name],
                 xmlns: SvgIcon.#svgns,
               })
             : ""

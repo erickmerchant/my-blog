@@ -6,7 +6,7 @@ class FancyNav extends Element {
   #toggleOpen = () => {
     this.#state.open = !this.#state.open;
 
-    this.style.setProperty("--scrolling-override", this.#state.open ? 0 : "");
+    this.style.setProperty("--scrolling-down", this.#state.open ? 0 : "");
   };
 
   render({link, nav, slot, button, div, "svg-icon": svgIcon}) {
@@ -41,10 +41,6 @@ class FancyNav extends Element {
     ];
   }
 
-  #previousY = 0;
-
-  #scrollCalcFired = false;
-
   #resizeObserver = new ResizeObserver(() => {
     let collapsed = this.offsetWidth < this.scrollWidth;
 
@@ -55,42 +51,44 @@ class FancyNav extends Element {
     }
   });
 
-  #handleBodyScroll = () => {
-    if (!this.#scrollCalcFired) {
-      this.#scrollCalcFired = true;
-
-      window.requestAnimationFrame(() => {
-        this.#scrollCalcFired = false;
-
-        let body = document.body;
-
-        let currentY = body.scrollTop;
-
-        // Scrolling down/up
-        if (currentY !== this.#previousY) {
-          this.style.setProperty(
-            "--scrolling-down",
-            currentY < this.#previousY ? 0 : 1
-          );
-        }
-
-        this.#previousY = currentY;
-      });
-    }
-  };
-
   connectedCallback() {
     super.connectedCallback();
 
     this.#resizeObserver.observe(this);
-
-    document.body.addEventListener("scroll", this.#handleBodyScroll);
   }
 
   disconnectedCallback() {
     this.#resizeObserver.unobserve(this);
+  }
 
-    document.body.removeEventListener("scroll", this.#handleBodyScroll);
+  static {
+    let previousY = 0;
+
+    let scrollCalcFired = false;
+
+    document.body.addEventListener("scroll", () => {
+      if (!scrollCalcFired) {
+        scrollCalcFired = true;
+
+        window.requestAnimationFrame(() => {
+          scrollCalcFired = false;
+
+          let body = document.body;
+
+          let currentY = body.scrollTop;
+
+          // Scrolling down/up
+          if (currentY !== previousY) {
+            body.style.setProperty(
+              "--scrolling-down",
+              currentY < previousY ? 0 : 1
+            );
+          }
+
+          previousY = currentY;
+        });
+      }
+    });
   }
 }
 

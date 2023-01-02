@@ -9,7 +9,7 @@
 
 :host {
   position: sticky;
-  top: calc(var(--scrolling-override, var(--scrolling-down, 0)) * -2.5em);
+  top: calc(var(--scrolling-down, 0) * -2.5em);
   transition: top 0.25s var(--easing);
 }
 
