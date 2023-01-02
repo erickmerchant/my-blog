@@ -23,7 +23,7 @@
   color: var(--anchor-color);
 }
 
-.toggle > * {
+.toggle-icon {
   height: 1.5em;
 }
 
@@ -38,14 +38,12 @@
 .visible {
   grid-template-rows: 1fr;
   padding-block: 1em;
-
-  --scrolling-down: 1;
 }
 
 .hidden {
   grid-template-rows: 0fr;
 }
 
-.menu > * {
+.menu-content {
   min-height: 0;
 }

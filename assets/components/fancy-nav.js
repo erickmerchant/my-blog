@@ -24,14 +24,17 @@ class FancyNav extends Element {
                 class: "toggle",
                 "aria-lable": "Menu",
               },
-              svgIcon({name: () => (this.#state.open ? "close" : "open")})
+              svgIcon({
+                class: "toggle-icon",
+                name: () => (this.#state.open ? "close" : "open"),
+              })
             ),
             div(
               {
                 class: () =>
                   this.#state.open ? "menu visible" : "menu hidden",
               },
-              div(slot())
+              div({class: "menu-content"}, slot())
             ),
           ];
         }
