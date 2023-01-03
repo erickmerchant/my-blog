@@ -11,16 +11,23 @@
   position: sticky;
   top: calc(var(--scrolling-down, 0) * -2.5em);
   transition: top 0.25s var(--easing);
+  overflow-x: hidden;
 }
 
 .toggle {
   appearance: none;
-  display: grid;
+  display: none;
   aspect-ratio: 1 / 1;
   height: 1.5em;
   border: 0;
   background-color: hsl(0 0% 0% / 0);
   color: var(--anchor-color);
+}
+
+@media (max-width: 400px) {
+  .toggle {
+    display: grid;
+  }
 }
 
 .toggle-icon {
@@ -31,17 +38,17 @@
   display: grid;
   transition: 0.25s;
   overflow: hidden;
-
-  --menu-direction: column;
 }
 
-.visible {
+.open {
   grid-template-rows: 1fr;
   padding-block: 1em;
 }
 
-.hidden {
-  grid-template-rows: 0fr;
+@media (max-width: 400px) {
+  .not-open {
+    grid-template-rows: 0fr;
+  }
 }
 
 .menu-content {

@@ -149,17 +149,19 @@ export class Element extends HTMLElement {
           return false;
         }
 
-        state[key] = value;
+        if (state[key] !== value) {
+          state[key] = value;
 
-        symbols[key] ??= Symbol("");
+          symbols[key] ??= Symbol("");
 
-        for (let formula of this.#reads.get(symbols[key]) ?? []) {
-          this.#writes.add(formula);
+          for (let formula of this.#reads.get(symbols[key]) ?? []) {
+            this.#writes.add(formula);
+          }
+
+          this.#reads.set(symbols[key], new Set());
+
+          this.#schedule();
         }
-
-        this.#reads.set(symbols[key], new Set());
-
-        this.#schedule();
 
         return true;
       },

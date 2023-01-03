@@ -214,6 +214,12 @@ pre {
   gap: 1em;
 }
 
+@media (max-width: 400px) {
+  .nav ul {
+    --menu-direction: column;
+  }
+}
+
 .main {
   background-color: var(--primary-background);
   width: 100%;
