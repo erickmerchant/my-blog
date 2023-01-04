@@ -39,11 +39,11 @@ class FancyNav extends Element {
     this.style.setProperty("--scrolling-down", this.#state.open ? 0 : "");
   };
 
-  render({link, nav, slot, button, div, "svg-icon": svgIcon}) {
+  render({link, nav, slot, button, div, "page-icon": pageIcon}) {
     return [
       link({
         rel: "stylesheet",
-        href: new URL("./fancy-nav.css", import.meta.url).href,
+        href: new URL("./page-nav.css", import.meta.url).href,
       }),
       nav({class: "nav"}, () => {
         return [
@@ -51,18 +51,18 @@ class FancyNav extends Element {
             {
               onclick: this.#toggleOpen,
               class: "toggle",
-              "aria-label": "Menu",
+              "aria-label": "Toggle Nav List",
             },
-            svgIcon({
+            pageIcon({
               class: "toggle-icon",
               name: () => (this.#state.open ? "close" : "open"),
             })
           ),
           div(
             {
-              class: () => (this.#state.open ? "menu open" : "menu not-open"),
+              class: () => (this.#state.open ? "list open" : "list not-open"),
             },
-            div({class: "menu-content"}, slot())
+            div({class: "list-content"}, slot())
           ),
         ];
       }),
@@ -70,4 +70,4 @@ class FancyNav extends Element {
   }
 }
 
-customElements.define("fancy-nav", FancyNav);
+customElements.define("page-nav", FancyNav);

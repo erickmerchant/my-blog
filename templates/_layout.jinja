@@ -6,21 +6,21 @@
     <meta name="description" content="{{site.description}}">
     <title>{% block title %}{{title}}{% endblock %} | {{site.title}}</title>
     <script type="module" src="/element.js"></script>
-    <script type="module" src="/components/fancy-nav.js"></script>
-    <script type="module" src="/components/svg-icon.js"></script>
+    <script type="module" src="/components/page-nav.js"></script>
+    <script type="module" src="/components/page-icon.js"></script>
     <link rel="stylesheet" href="/page.css">
-    <link rel="preload" href="/components/fancy-nav.css" as="style">
+    <link rel="preload" href="/components/page-nav.css" as="style">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <link rel="me" href="https://mastodon.online/@erickjm">
   </head>
   <body>
-    <fancy-nav class="nav">
-      <ul>
+    <page-nav class="nav">
+      <ul class="nav-list">
         <li><a href="/">Posts</a></li>
         <li><a href="/posts.rss">RSS Feed</a></li>
         <li><a href="https://github.com/erickmerchant/my-blog">View Source</a></li>
       </ul>
-    </fancy-nav>
+    </page-nav>
 
     <main class="main">
       {% block main %}
@@ -28,7 +28,7 @@
     </main>
 
     <footer class="footer">
-      <p class="copyright">© <span>{{site.copyright}}</span></p>
+      <p class="copyright">© <em>{{site.copyright}}</em></p>
     </footer>
   </body>
 </html>

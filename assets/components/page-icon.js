@@ -49,7 +49,7 @@ class SvgIcon extends Element {
     return [
       link({
         rel: "stylesheet",
-        href: new URL("./svg-icon.css", import.meta.url).href,
+        href: new URL("./page-icon.css", import.meta.url).href,
       }),
       svg(
         {
@@ -69,4 +69,4 @@ class SvgIcon extends Element {
   }
 }
 
-customElements.define("svg-icon", SvgIcon);
+customElements.define("page-icon", SvgIcon);

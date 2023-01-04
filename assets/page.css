@@ -69,13 +69,6 @@ html {
   scrollbar-color: var(--scrollbar-background) var(--scrollbar-track-background);
 
   --max-width: 40rem;
-  --space: 1rem;
-}
-
-@media (max-width: 600px) {
-  html {
-    --space: 0.5rem;
-  }
 }
 
 body {
@@ -117,6 +110,10 @@ a {
   color: var(--anchor-color);
   text-underline-offset: 0.2em;
   text-decoration-thickness: 0.1em;
+}
+
+em {
+  font-style: italic;
 }
 
 p {
@@ -206,17 +203,17 @@ pre {
   display: grid;
 }
 
-.nav ul {
+.nav-list {
   display: flex;
-  flex-direction: var(--menu-direction, row);
+  flex-direction: row;
   list-style: none;
   white-space: nowrap;
   gap: 1em;
 }
 
 @media (max-width: 400px) {
-  .nav ul {
-    --menu-direction: column;
+  .nav-list {
+    flex-direction: column;
   }
 }
 
@@ -230,7 +227,13 @@ pre {
   padding-block-start: 1em;
   align-content: start;
 
-  --list-indent: calc(var(--space) * 2);
+  --list-indent: 2rem;
+}
+
+@media (max-width: 600px) {
+  .main {
+    --list-indent: 1rem;
+  }
 }
 
 .main > * {
@@ -269,10 +272,6 @@ pre {
   width: 100%;
   margin-block-start: 1em;
   margin-inline: auto;
-}
-
-.copyright span {
-  font-style: italic;
 }
 
 .index {

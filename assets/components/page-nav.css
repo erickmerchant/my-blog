@@ -34,7 +34,7 @@
   height: 1.5em;
 }
 
-.menu {
+.list {
   display: grid;
   transition: 0.25s;
   overflow: hidden;
@@ -42,16 +42,19 @@
 
 .open {
   grid-template-rows: 1fr;
-  padding-block: 1em;
 }
 
 @media (max-width: 400px) {
+  .open {
+    padding-block-start: 1em;
+  }
+
   .not-open {
     grid-template-rows: 0fr;
   }
 }
 
-.menu-content {
+.list-content {
   min-height: 0;
   overflow: hidden;
 }
