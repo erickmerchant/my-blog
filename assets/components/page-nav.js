@@ -1,6 +1,6 @@
 import {Element} from "../element.js";
 
-class FancyNav extends Element {
+class PageNav extends Element {
   static {
     let previousY = 0;
 
@@ -70,4 +70,4 @@ class FancyNav extends Element {
   }
 }
 
-customElements.define("page-nav", FancyNav);
+customElements.define("page-nav", PageNav);

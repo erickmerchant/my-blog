@@ -1,6 +1,6 @@
 import {Element} from "../element.js";
 
-class SvgIcon extends Element {
+class PageIcon extends Element {
   static #paths = {
     close: [
       "M1 4",
@@ -55,13 +55,13 @@ class SvgIcon extends Element {
         {
           "aria-hidden": "true",
           viewBox: "0 0 16 16",
-          xmlns: SvgIcon.#svgns,
+          xmlns: PageIcon.#svgns,
         },
         () =>
           this.#state.name
             ? path({
-                d: SvgIcon.#paths[this.#state.name],
-                xmlns: SvgIcon.#svgns,
+                d: PageIcon.#paths[this.#state.name],
+                xmlns: PageIcon.#svgns,
               })
             : ""
       ),
@@ -69,4 +69,4 @@ class SvgIcon extends Element {
   }
 }
 
-customElements.define("page-icon", SvgIcon);
+customElements.define("page-icon", PageIcon);
