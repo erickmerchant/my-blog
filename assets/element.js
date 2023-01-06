@@ -2,26 +2,28 @@ export class Element extends HTMLElement {
   connectedCallback() {
     this.attachShadow({mode: "open"});
 
-    let children = [].concat(this.render?.(this.#createElementProxy) ?? "");
+    let elementProxy = Element.createElementProxy();
 
-    this.#appendChildren(this.shadowRoot, children);
+    let children = [].concat(this.render?.(elementProxy) ?? "");
 
-    this.#update();
+    Element.appendChildren(this.shadowRoot, children);
   }
 
   /* dom */
 
-  #createElementProxy = new Proxy(
-    {},
-    {
-      get:
-        (_, tag) =>
-        (...args) =>
-          this.#h(tag, ...args),
-    }
-  );
+  static createElementProxy() {
+    return new Proxy(
+      {},
+      {
+        get:
+          (_, tag) =>
+          (...args) =>
+            this.#h(tag, ...args),
+      }
+    );
+  }
 
-  #appendChildren(node, children) {
+  static appendChildren(node, children, initalize = true) {
     for (let value of children) {
       if (typeof value === "function") {
         let args = ["", ""].map((v) => document.createComment(v));
@@ -39,9 +41,11 @@ export class Element extends HTMLElement {
 
       node.append(...value);
     }
+
+    if (initalize) this.#update();
   }
 
-  #h(tag, attrs = {}, ...children) {
+  static #h(tag, attrs = {}, ...children) {
     if (typeof attrs !== "object" || attrs.constructor !== Object) {
       children.unshift(attrs);
       attrs = {};
@@ -65,12 +69,12 @@ export class Element extends HTMLElement {
       }
     }
 
-    this.#appendChildren(node, children);
+    this.appendChildren(node, children, false);
 
     return node;
   }
 
-  #setAttribute(node, key, val) {
+  static #setAttribute(node, key, val) {
     if (node) {
       if (val != null && val !== false) {
         node.setAttribute(key, val === true ? "" : val);
@@ -84,9 +88,9 @@ export class Element extends HTMLElement {
 
   /* reactivity */
 
-  #scheduled = false;
+  static #scheduled = false;
 
-  #schedule() {
+  static #schedule() {
     if (!this.#scheduled) {
       this.#scheduled = true;
 
@@ -98,17 +102,13 @@ export class Element extends HTMLElement {
     }
   }
 
-  #writes = new Set();
+  static #writes = new Set();
 
-  #reads = new Map();
+  static #reads = new Map();
 
-  #current = null;
+  static #current = null;
 
-  #updating = false;
-
-  #update = () => {
-    this.#updating = true;
-
+  static #update = () => {
     for (let formula of this.#writes) {
       let prev = this.#current;
 
@@ -136,8 +136,6 @@ export class Element extends HTMLElement {
     }
 
     this.#writes.clear();
-
-    this.#updating = false;
   };
 
   watch(state) {
@@ -145,22 +143,18 @@ export class Element extends HTMLElement {
 
     return new Proxy(state, {
       set: (state, key, value) => {
-        if (this.#updating) {
-          return false;
-        }
-
         if (state[key] !== value) {
           state[key] = value;
 
           symbols[key] ??= Symbol("");
 
-          for (let formula of this.#reads.get(symbols[key]) ?? []) {
-            this.#writes.add(formula);
+          for (let formula of Element.#reads.get(symbols[key]) ?? []) {
+            Element.#writes.add(formula);
           }
 
-          this.#reads.set(symbols[key], new Set());
+          Element.#reads.set(symbols[key], new Set());
 
-          this.#schedule();
+          Element.#schedule();
         }
 
         return true;
@@ -168,18 +162,16 @@ export class Element extends HTMLElement {
       get: (state, key) => {
         symbols[key] ??= Symbol("");
 
-        if (this.#current) {
-          let reads = this.#reads.get(symbols[key]) ?? new Set();
+        if (Element.#current) {
+          let reads = Element.#reads.get(symbols[key]) ?? new Set();
 
-          this.#reads.set(symbols[key], reads);
+          Element.#reads.set(symbols[key], reads);
 
-          reads.add(this.#current);
+          reads.add(Element.#current);
         }
 
         return state[key];
       },
     });
   }
-
-  /* */
 }
