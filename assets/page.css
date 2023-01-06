@@ -62,7 +62,7 @@
 html {
   font-size: 120%;
   font-weight: 400;
-  font-family: "Chivo";
+  font-family: "Chivo", system-ui, sans-serif;
   line-height: 1.5;
   overflow-x: hidden;
   height: 100%;
@@ -159,7 +159,7 @@ pre {
   display: block;
   color: var(--code-color);
   background-color: var(--code-background);
-  font-family: "Chivo Mono";
+  font-family: "Chivo Mono", monospace;
   white-space: pre;
   border-radius: var(--border-radius);
   overflow-x: auto;
