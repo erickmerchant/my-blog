@@ -36,7 +36,10 @@ class PageNav extends Element {
   #toggleOpen = () => {
     this.#state.open = !this.#state.open;
 
-    this.style.setProperty("--scrolling-down", this.#state.open ? 0 : "");
+    this.style.setProperty(
+      "--scrolling-down-override",
+      this.#state.open ? 0 : ""
+    );
   };
 
   render({link, nav, slot, button, div, "page-icon": pageIcon}) {
