@@ -43,7 +43,7 @@ class PageIcon extends Element {
     this.#state[name] = newValue;
   }
 
-  #state = this.watch({name: this.getAttribute("name")});
+  #state = Element.watch({name: this.getAttribute("name")});
 
   render({link, path, svg}) {
     return [

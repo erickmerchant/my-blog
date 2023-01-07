@@ -31,7 +31,7 @@ class PageNav extends Element {
     });
   }
 
-  #state = this.watch({open: false});
+  #state = Element.watch({open: false});
 
   #toggleOpen = () => {
     this.#state.open = !this.#state.open;
