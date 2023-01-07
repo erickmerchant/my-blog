@@ -40,23 +40,24 @@
   height: 1.5em;
 }
 
-.list {
+.list,
+.list--open {
   display: grid;
   transition: 0.25s;
   overflow: hidden;
 }
 
-.open {
+.list--open {
   grid-template-rows: 1fr;
 }
 
 @media (max-width: 400px) {
-  .open {
-    padding-block-start: 1em;
+  .list {
+    grid-template-rows: 0fr;
   }
 
-  .not-open {
-    grid-template-rows: 0fr;
+  .list--open {
+    padding-block-start: 1em;
   }
 }
 

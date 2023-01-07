@@ -38,7 +38,7 @@ class PageNav extends Element {
 
     this.style.setProperty(
       "--scrolling-down-override",
-      this.#state.open ? 0 : ""
+      this.#state.open ? "0" : null
     );
   };
 
@@ -63,7 +63,7 @@ class PageNav extends Element {
           ),
           div(
             {
-              class: () => (this.#state.open ? "list open" : "list not-open"),
+              class: () => (this.#state.open ? "list--open" : "list"),
             },
             div({class: "list-content"}, slot())
           ),
