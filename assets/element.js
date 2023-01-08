@@ -20,11 +20,6 @@ export class Element extends HTMLElement {
   );
 
   static h(tag, attrs = {}, ...children) {
-    if (typeof attrs !== "object" || attrs.constructor !== Object) {
-      children.unshift(attrs);
-      attrs = {};
-    }
-
     let node = attrs?.xmlns
       ? document.createElementNS(attrs.xmlns, tag)
       : document.createElement(tag);
