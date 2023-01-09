@@ -48,27 +48,26 @@ class PageNav extends Element {
         rel: "stylesheet",
         href: new URL("./page-nav.css", import.meta.url).href,
       }),
-      nav({class: "nav"}, () => {
-        return [
-          button(
-            {
-              onclick: this.#toggleOpen,
-              class: "toggle",
-              "aria-label": "Toggle Nav List",
-            },
-            pageIcon({
-              class: "toggle-icon",
-              name: () => (this.#state.open ? "close" : "open"),
-            })
-          ),
-          div(
-            {
-              class: () => (this.#state.open ? "list--open" : "list"),
-            },
-            div({class: "list-content"}, slot())
-          ),
-        ];
-      }),
+      nav(
+        {class: "nav"},
+        button(
+          {
+            onclick: this.#toggleOpen,
+            class: "toggle",
+            "aria-label": "Toggle Nav List",
+          },
+          pageIcon({
+            class: "toggle-icon",
+            name: () => (this.#state.open ? "close" : "open"),
+          })
+        ),
+        div(
+          {
+            class: () => (this.#state.open ? "list--open" : "list"),
+          },
+          div({class: "list-content"}, slot())
+        )
+      ),
     ];
   }
 }
