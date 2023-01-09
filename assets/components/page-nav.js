@@ -1,5 +1,7 @@
 import {Element} from "../element.js";
 
+let svgns = "http://www.w3.org/2000/svg";
+
 class PageNav extends Element {
   static {
     let previousY = 0;
@@ -42,7 +44,7 @@ class PageNav extends Element {
     );
   };
 
-  render({link, nav, slot, button, div, "page-icon": pageIcon}) {
+  render({link, nav, slot, button, div, svg, path}) {
     return [
       link({
         rel: "stylesheet",
@@ -55,11 +57,20 @@ class PageNav extends Element {
             onclick: this.#toggleOpen,
             class: "toggle",
             "aria-label": "Toggle Nav List",
+            "aria-pressed": () => String(this.#state.open),
           },
-          pageIcon({
-            class: "toggle-icon",
-            name: () => (this.#state.open ? "close" : "open"),
-          })
+          svg(
+            {
+              class: "toggle-icon",
+              "aria-hidden": "true",
+              viewBox: "0 0 16 16",
+              xmlns: svgns,
+            },
+            path({
+              class: () => (this.#state.open ? "icon-close" : "icon-open"),
+              xmlns: svgns,
+            })
+          )
         ),
         div(
           {
