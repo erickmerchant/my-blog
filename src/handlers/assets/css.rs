@@ -9,7 +9,7 @@ pub async fn handle(
     file: web::Path<String>,
     config: web::Data<config::Config>,
 ) -> Result<NamedFile> {
-    let src = Path::new("assets")
+    let src = Path::new("theme")
         .join(file.to_string())
         .with_extension("css");
 

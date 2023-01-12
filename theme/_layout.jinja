@@ -1,3 +1,13 @@
+{% from "components/page-nav.jinja" import page_nav %}
+
+{%- macro nav_list(class) -%}
+  <ul class="{{class}}">
+    <li><a href="/">Posts</a></li>
+    <li><a href="/posts.rss">RSS Feed</a></li>
+    <li><a href="https://github.com/erickmerchant/my-blog">View Source</a></li>
+  </ul>
+{%- endmacro -%}
+
 <!DOCTYPE html>
 <html lang="en-US">
   <head>
@@ -5,7 +15,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="{{site.description}}">
     <title>{% block title %}{{title}}{% endblock %} | {{site.title}}</title>
-    <script type="module" src="/element.js"></script>
     <script type="module" src="/components/page-nav.js"></script>
     <link rel="stylesheet" href="/page.css">
     <link rel="preload" href="/components/page-nav.css" as="style">
@@ -13,21 +22,16 @@
     <link rel="me" href="https://mastodon.online/@erickjm">
   </head>
   <body>
-    <page-nav class="nav">
-      <ul class="nav-list">
-        <li><a href="/">Posts</a></li>
-        <li><a href="/posts.rss">RSS Feed</a></li>
-        <li><a href="https://github.com/erickmerchant/my-blog">View Source</a></li>
-      </ul>
-    </page-nav>
-
+    {% call page_nav("nav") %}
+      {{ nav_list("nav-list") }}
+    {% endcall %}
     <main class="main">
       {% block main %}
       {% endblock %}
     </main>
-
     <footer class="footer">
-      <p class="copyright">© <em>{{site.copyright}}</em></p>
+      <p class="copyright">© {{site.copyright}}</p>
+      {{ nav_list("footer-nav-list") }}
     </footer>
   </body>
 </html>

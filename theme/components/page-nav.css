@@ -21,6 +21,17 @@ svg {
   overflow-x: hidden;
 }
 
+@media (max-width: 400px) {
+  :host {
+    --list-rows: 0fr;
+  }
+
+  :host([open]) {
+    --list-rows: 1fr;
+    --list-start: 1em;
+  }
+}
+
 @media (min-width: 401px) {
   :host {
     --scrolling-down-override: unset !important;
@@ -47,35 +58,12 @@ svg {
   height: 1.5em;
 }
 
-.icon-close {
-  d: path("M1 4 L4 1 L15 12 L12 15 z M12 1 L15 4 L4 15 L1 12 z");
-}
-
-.icon-open {
-  d: path(
-    "M1 1 L15 1 L15 4.5 L1 4.5 z M1 6.25 L15 6.25 L15 9.75 L1 9.75 z M1 11.5 L15 11.5 L15 15 L1 15 z"
-  );
-}
-
-.list,
-.list--open {
+.list {
   display: grid;
   transition: 0.25s;
   overflow: hidden;
-}
-
-.list--open {
-  grid-template-rows: 1fr;
-}
-
-@media (max-width: 400px) {
-  .list {
-    grid-template-rows: 0fr;
-  }
-
-  .list--open {
-    padding-block-start: 1em;
-  }
+  grid-template-rows: var(--list-rows, 1fr);
+  padding-block-start: var(--list-start, 0);
 }
 
 .list-content {

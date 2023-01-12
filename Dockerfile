@@ -6,9 +6,8 @@ COPY Cargo.toml Cargo.lock .
 ADD src src/
 RUN cargo build --release --no-default-features
 RUN mv ./target/release/main ./main
-ADD assets assets/
 ADD content content/
-ADD templates templates/
+ADD theme theme/
 RUN rm -rf target src Cargo.lock Cargo.toml
 
 FROM alpine

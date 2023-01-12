@@ -61,9 +61,9 @@ async fn main() -> io::Result<()> {
             .route("/", web::get().to(pages::posts_index::handle))
             .route("/posts.rss", web::get().to(pages::posts_rss::handle))
             .route("/{path:.*?}.html", web::get().to(pages::page::handle))
-            .route("{file:.*?}.js", web::get().to(assets::js::handle))
-            .route("{file:.*?}.css", web::get().to(assets::css::handle))
-            .route("{file:.*?}", web::get().to(assets::asset::handle))
+            .route("/{file:.*?}.js", web::get().to(assets::js::handle))
+            .route("/{file:.*?}.css", web::get().to(assets::css::handle))
+            .route("/{file:.*?}", web::get().to(assets::asset::handle))
     })
     .bind(format!("0.0.0.0:{port}"))?
     .run()
