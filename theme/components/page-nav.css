@@ -27,6 +27,29 @@ svg {
   }
 }
 
+.nav {
+  display: grid;
+  transition: none;
+  overflow: hidden;
+  grid-template-rows: auto 0fr;
+  align-content: start;
+  gap: 0em;
+}
+
+:host([open]) .nav {
+  grid-template-rows: auto 1fr;
+}
+
+@media (max-width: 400px) {
+  .nav {
+    transition: 0.25s;
+  }
+
+  :host([open]) .nav {
+    gap: 1em;
+  }
+}
+
 .toggle {
   appearance: none;
   display: none;
@@ -48,35 +71,5 @@ svg {
 }
 
 .list {
-  display: grid;
-  transition: none;
-  overflow: hidden;
-  grid-template-rows: auto 0fr;
-  padding-block-start: 0em;
-  align-content: start;
-}
-
-:host([open]) .list {
-  grid-template-rows: auto 1fr;
-}
-
-@media (max-width: 400px) {
-  :host([open]) .list {
-    padding-block-start: 1em;
-  }
-}
-
-.list-content {
   min-height: 0;
-  grid-row: 1;
-}
-
-@media (max-width: 400px) {
-  .list {
-    transition: 0.25s;
-  }
-
-  .list-content {
-    grid-row: 2;
-  }
 }
