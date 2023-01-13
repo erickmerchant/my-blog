@@ -43,7 +43,7 @@ class PageNav extends HTMLElement {
     {},
     {
       get: (_, key) => {
-        return this.shadowRoot.getElementById(key) ?? {};
+        return this.shadowRoot.getElementById(key);
       },
     }
   );
