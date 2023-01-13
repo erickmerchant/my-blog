@@ -21,17 +21,6 @@ svg {
   overflow-x: hidden;
 }
 
-@media (max-width: 400px) {
-  :host {
-    --list-rows: 0fr;
-  }
-
-  :host([open]) {
-    --list-rows: 1fr;
-    --list-start: 1em;
-  }
-}
-
 @media (min-width: 401px) {
   :host {
     --scrolling-down-override: unset !important;
@@ -60,13 +49,34 @@ svg {
 
 .list {
   display: grid;
-  transition: 0.25s;
+  transition: none;
   overflow: hidden;
-  grid-template-rows: var(--list-rows, 1fr);
-  padding-block-start: var(--list-start, 0);
+  grid-template-rows: auto 0fr;
+  padding-block-start: 0em;
+  align-content: start;
+}
+
+:host([open]) .list {
+  grid-template-rows: auto 1fr;
+}
+
+@media (max-width: 400px) {
+  :host([open]) .list {
+    padding-block-start: 1em;
+  }
 }
 
 .list-content {
   min-height: 0;
-  overflow: hidden;
+  grid-row: 1;
+}
+
+@media (max-width: 400px) {
+  .list {
+    transition: 0.25s;
+  }
+
+  .list-content {
+    grid-row: 2;
+  }
 }
