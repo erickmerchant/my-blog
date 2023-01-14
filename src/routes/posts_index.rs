@@ -4,7 +4,7 @@ use actix_web::{error::ErrorInternalServerError, error::ErrorNotFound, web, Resu
 use minijinja::{context, Environment};
 use std::path::Path;
 
-pub async fn handle(
+pub async fn posts_index(
     site: web::Data<Site>,
     template_env: web::Data<Environment<'_>>,
 ) -> Result<NamedFile> {
@@ -21,7 +21,7 @@ pub async fn handle(
                 };
 
                 template_env
-                    .get_template("posts_index.jinja")
+                    .get_template("posts-index.jinja")
                     .and_then(|template| template.render(ctx))
                     .map_err(ErrorInternalServerError)
             }

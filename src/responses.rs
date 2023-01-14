@@ -1,4 +1,4 @@
-use crate::models::site::*;
+use crate::models::{page::*, site::*};
 use actix_files::NamedFile;
 use actix_web::{
     dev::ServiceResponse, error::Error, error::ErrorInternalServerError, error::ErrorNotFound,
@@ -53,7 +53,7 @@ pub fn file<P: AsRef<Path>>(file: File, src: P) -> Result<NamedFile> {
 pub fn error<B>(
     res: ServiceResponse<B>,
     title: String,
-    message: String,
+    description: String,
 ) -> Result<ErrorHandlerResponse<B>> {
     let req = res.request();
     let site = match req.app_data::<web::Data<Site>>() {
@@ -65,10 +65,15 @@ pub fn error<B>(
     let mut body = "".to_string();
 
     if let Some(t) = template_env {
+        let page = Page {
+            title,
+            description,
+            ..Page::default()
+        };
+
         let ctx = context! {
             site => &site,
-            title => title,
-            message => message
+            page => page
         };
 
         if let Ok(template) = t.get_template("error.jinja") {

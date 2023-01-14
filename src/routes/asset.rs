@@ -3,7 +3,7 @@ use actix_files::NamedFile;
 use actix_web::{error::ErrorForbidden, error::ErrorNotFound, web, Result};
 use std::{fs::File, path::Path};
 
-pub async fn handle(file: web::Path<String>) -> Result<NamedFile> {
+pub async fn asset(file: web::Path<String>) -> Result<NamedFile> {
     if file.ends_with(".jinja") {
         Err(ErrorForbidden(""))
     } else {

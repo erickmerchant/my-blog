@@ -4,7 +4,7 @@ use actix_web::{error::ErrorInternalServerError, error::ErrorNotFound, web, Resu
 use minijinja::{context, Environment};
 use std::path::Path;
 
-pub async fn handle(
+pub async fn page(
     path: web::Path<String>,
     site: web::Data<Site>,
     template_env: web::Data<Environment<'_>>,

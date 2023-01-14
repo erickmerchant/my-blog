@@ -5,7 +5,7 @@ use lightningcss::{stylesheet, targets};
 use parcel_sourcemap::SourceMap;
 use std::{fs, path::Path};
 
-pub async fn handle(
+pub async fn css(
     file: web::Path<String>,
     config: web::Data<config::Config>,
 ) -> Result<NamedFile> {

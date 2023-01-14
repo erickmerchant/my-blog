@@ -1,17 +1,17 @@
 class PageNav extends HTMLElement {
   static {
     let previousY = 0,
-      scrollCalcFired = false;
+      scrollCalcFired = false,
+      body = document.body;
 
-    document.body.addEventListener("scroll", () => {
+    body.addEventListener("scroll", () => {
       if (!scrollCalcFired) {
         scrollCalcFired = true;
 
         window.requestAnimationFrame(() => {
           scrollCalcFired = false;
 
-          let body = document.body,
-            currentY = body.scrollTop;
+          currentY = body.scrollTop;
 
           if (currentY !== previousY) {
             body.style.setProperty(
@@ -56,7 +56,7 @@ class PageNav extends HTMLElement {
     if (!this.shadowRoot) {
       let template = this.querySelector("template"),
         shadowRoot = this.attachShadow({
-          mode: template.getAttribute("shadowroot") ?? "open",
+          mode: "open",
         });
 
       shadowRoot.appendChild(template?.content?.cloneNode(true));

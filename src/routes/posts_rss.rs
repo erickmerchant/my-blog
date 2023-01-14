@@ -4,7 +4,7 @@ use actix_web::{error::ErrorInternalServerError, web, Result};
 use minijinja::{context, Environment};
 use std::path::Path;
 
-pub async fn handle(
+pub async fn posts_rss(
     site: web::Data<Site>,
     template_env: web::Data<Environment<'_>>,
 ) -> Result<NamedFile> {
@@ -14,7 +14,7 @@ pub async fn handle(
             posts => &Page::get_all("posts/*.html"),
         };
         template_env
-            .get_template("posts_rss.jinja")
+            .get_template("posts-rss.jinja")
             .and_then(|template| template.render(ctx))
             .map_err(ErrorInternalServerError)
     })
