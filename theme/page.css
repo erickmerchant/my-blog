@@ -82,6 +82,8 @@ body {
   overflow-x: hidden;
   color: var(--text-color);
   background: var(--primary-background);
+  display: grid;
+  grid-template-rows: min-content auto min-content;
 
   --scrollbar-background: var(--anchor-color);
   --scrollbar-track-background: var(--secondary-background);
@@ -231,7 +233,6 @@ pre {
 .main {
   background-color: var(--primary-background);
   width: 100%;
-  overflow-x: auto;
   display: grid;
   grid-auto-columns: 100%;
   gap: 1em;
