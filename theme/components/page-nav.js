@@ -78,15 +78,15 @@ class PageNav extends HTMLElement {
 
     this.#refs.toggleIcon?.setAttribute("viewBox", `0 ${open ? 16 : 0} 16 16`);
 
-    this.#refs.nav.classList.toggle("open", open);
+    this.#refs.nav?.classList?.toggle("open", open);
 
-    this.#refs.nav.classList.toggle("closing", !open);
+    this.#refs.nav?.classList?.toggle("closing", !open);
 
     if (!open) {
-      this.#refs.nav.addEventListener(
+      this.#refs.nav?.addEventListener(
         "transitionend",
         () => {
-          this.#refs.nav.classList.toggle("closing", false);
+          this.#refs.nav?.classList?.toggle("closing", false);
         },
         {once: true}
       );
