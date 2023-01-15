@@ -30,11 +30,11 @@ class PageNav extends HTMLElement {
     {open: false},
     {
       set: (target, key, val) => {
-        let update = target[key] !== val;
+        if (target[key] !== val) {
+          target[key] = val;
 
-        target[key] = val;
-
-        if (update) this.#update();
+          this.#update();
+        }
 
         return true;
       },

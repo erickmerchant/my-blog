@@ -147,13 +147,11 @@ h2 {
 }
 
 h3,
-dt,
 strong {
   font-size: 1em;
   font-weight: 700;
 }
 
-dl,
 ul,
 ol {
   display: grid;
