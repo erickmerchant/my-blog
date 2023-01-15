@@ -188,13 +188,13 @@ pre {
   }
 }
 
-:focus-visible {
+:focus-visible:where(:not(a)) {
   outline: 2px solid currentColor;
   background: hsl(0 0% 0% / 0);
 }
 
-page-nav:not(:defined) > * {
-  visibility: hidden;
+:focus-visible:where(a) {
+  text-decoration-thickness: 0.2em;
 }
 
 .nav {
@@ -218,8 +218,12 @@ page-nav:not(:defined) > * {
   gap: 0.5em 1em;
 }
 
+:where(.nav:not(:defined)) .nav-list {
+  visibility: hidden;
+}
+
 @media (max-width: 400px) {
-  page-nav:defined .nav-list {
+  :where(.nav:defined) .nav-list {
     flex-direction: column;
   }
 }

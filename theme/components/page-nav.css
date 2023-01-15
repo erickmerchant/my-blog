@@ -47,17 +47,23 @@ svg {
   gap: 0em;
 }
 
-:host([open]) .nav {
+.nav:where(.open) {
   grid-template-rows: auto 1fr;
 }
 
 @media (max-width: 400px) {
   .nav {
     transition: 0.25s;
+
+    --list-display: none;
   }
 
-  :host([open]) .nav {
+  .nav:where(.open) {
     gap: 1em;
+  }
+
+  .nav:where(.open, .closing) {
+    --list-display: block;
   }
 }
 
@@ -69,6 +75,7 @@ svg {
   border: 0;
   background-color: hsl(0 0% 0% / 0);
   color: var(--anchor-color);
+  border-radius: 0.125em;
 }
 
 @media (max-width: 400px) {
@@ -82,6 +89,7 @@ svg {
 }
 
 .list {
+  display: var(--list-display);
   min-height: 0;
   overflow-y: hidden;
 }

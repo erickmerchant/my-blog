@@ -11,7 +11,7 @@ class PageNav extends HTMLElement {
         window.requestAnimationFrame(() => {
           scrollCalcFired = false;
 
-          currentY = body.scrollTop;
+          let currentY = body.scrollTop;
 
           if (currentY !== previousY) {
             body.style.setProperty(
@@ -78,7 +78,19 @@ class PageNav extends HTMLElement {
 
     this.#refs.toggleIcon?.setAttribute("viewBox", `0 ${open ? 16 : 0} 16 16`);
 
-    this.toggleAttribute("open", open);
+    this.#refs.nav.classList.toggle("open", open);
+
+    this.#refs.nav.classList.toggle("closing", !open);
+
+    if (!open) {
+      this.#refs.nav.addEventListener(
+        "transitionend",
+        () => {
+          this.#refs.nav.classList.toggle("closing", false);
+        },
+        {once: true}
+      );
+    }
 
     this.style.setProperty("--scrolling-down-override", open ? "0" : "");
   };
