@@ -16,13 +16,13 @@ svg {
 
 :host {
   position: sticky;
-  top: calc(var(--scrolling-down-override, var(--scrolling-down, 0)) * -2.5em);
+  top: calc(var(--scrolling-down, 0) * -2.5em);
   transition: top 0.25s var(--easing);
 }
 
-@media (min-width: 401px) {
-  :host {
-    --scrolling-down-override: unset !important;
+@media (max-width: 400px) {
+  :host([open]) {
+    --scrolling-down: 0 !important;
   }
 }
 

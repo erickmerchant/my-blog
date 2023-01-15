@@ -1,31 +1,4 @@
 class PageNav extends HTMLElement {
-  static {
-    let previousY = 0,
-      scrollCalcFired = false,
-      body = document.body;
-
-    body.addEventListener("scroll", () => {
-      if (!scrollCalcFired) {
-        scrollCalcFired = true;
-
-        window.requestAnimationFrame(() => {
-          scrollCalcFired = false;
-
-          let currentY = body.scrollTop;
-
-          if (currentY !== previousY) {
-            body.style.setProperty(
-              "--scrolling-down",
-              currentY < previousY ? "0" : "1"
-            );
-          }
-
-          previousY = currentY;
-        });
-      }
-    });
-  }
-
   #state = new Proxy(
     {open: false},
     {
@@ -68,6 +41,30 @@ class PageNav extends HTMLElement {
       this.#state.open = !this.#state.open;
     });
 
+    let previousY = 0,
+      scrollCalcFired = false;
+
+    document.body.addEventListener("scroll", () => {
+      if (!scrollCalcFired) {
+        scrollCalcFired = true;
+
+        window.requestAnimationFrame(() => {
+          scrollCalcFired = false;
+
+          let currentY = document.body.scrollTop;
+
+          if (currentY !== previousY) {
+            this.style.setProperty(
+              "--scrolling-down",
+              currentY < previousY ? "0" : "1"
+            );
+          }
+
+          previousY = currentY;
+        });
+      }
+    });
+
     this.#update();
   }
 
@@ -92,7 +89,7 @@ class PageNav extends HTMLElement {
       );
     }
 
-    this.style.setProperty("--scrolling-down-override", open ? "0" : "");
+    this.toggleAttribute("open", open);
   };
 }
 
