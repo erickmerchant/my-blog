@@ -168,7 +168,7 @@ pre {
   color: var(--code-color);
   background-color: var(--code-background);
   font-family: "Chivo Mono", monospace;
-  white-space: pre;
+  white-space: pre-wrap;
   border-radius: var(--border-radius);
   overflow-x: auto;
 
