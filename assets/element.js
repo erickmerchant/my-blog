@@ -40,7 +40,7 @@ export class Element extends HTMLElement {
   static fragment = Symbol("fragment");
 
   static classNames(...args) {
-    const result = [];
+    let result = [];
 
     for (let arg of args.flat(Infinity)) {
       if (typeof arg === "object") {
