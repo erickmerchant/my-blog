@@ -7,7 +7,8 @@ ADD src src/
 RUN cargo build --release --no-default-features
 RUN mv ./target/release/main ./main
 ADD content content/
-ADD theme theme/
+ADD assets assets/
+ADD templates templates/
 RUN rm -rf target src Cargo.lock Cargo.toml
 
 FROM alpine

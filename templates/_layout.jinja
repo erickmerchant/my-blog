@@ -1,5 +1,3 @@
-{% from "components/page-nav.jinja" import page_nav %}
-
 {%- macro nav_list(class) -%}
   <ul class="{{class}}">
     <li><a href="/">Posts</a></li>
@@ -21,9 +19,9 @@
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   </head>
   <body>
-    {% call page_nav("nav") %}
+    <page-nav class="nav">
       {{ nav_list("nav-list") }}
-    {% endcall %}
+    </page-nav>
     <main class="main">
       {% block main %}
       {% endblock %}
