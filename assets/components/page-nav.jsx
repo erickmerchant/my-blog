@@ -1,11 +1,7 @@
 import {Element} from "../element.js";
 
 class PageNav extends Element {
-  #state = Element.watch({open: false, closing: false});
-
-  constructor() {
-    super();
-
+  static {
     let previousY = 0,
       scrollCalcFired = false;
 
@@ -19,7 +15,7 @@ class PageNav extends Element {
           let currentY = document.body.scrollTop;
 
           if (currentY !== previousY) {
-            this.style.setProperty(
+            document.body.style.setProperty(
               "--scrolling-down",
               currentY < previousY ? "0" : "1"
             );
@@ -30,6 +26,8 @@ class PageNav extends Element {
       }
     });
   }
+
+  #state = Element.watch({open: false, closing: false});
 
   render = () => {
     return (
