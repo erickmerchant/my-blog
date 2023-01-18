@@ -60,7 +60,7 @@
 }
 
 html {
-  font-size: 120%;
+  font-size: 125%;
   font-weight: 400;
   font-family: "Chivo", system-ui, sans-serif;
   line-height: 1.5;
@@ -97,7 +97,7 @@ body {
     --text-color: hsl(0 0% 10%);
     --alt-color: hsl(120 35% 30%);
     --primary-background: hsl(0 0% 100%);
-    --secondary-background: hsl(120 15% 90%);
+    --secondary-background: hsl(120 15% 85%);
     --tertiary-background: hsl(120 15% 60%);
     --code-background: hsl(120 15% 95%);
   }
@@ -112,7 +112,7 @@ body {
     --primary-background: hsl(0 0% 10%);
     --secondary-background: hsl(120 15% 20%);
     --tertiary-background: hsl(120 15% 40%);
-    --code-background: hsl(120 15% 15%);
+    --code-background: hsl(120 15% 12.5%);
   }
 }
 
@@ -142,7 +142,7 @@ h1 {
 }
 
 h2 {
-  font-size: 1.25em;
+  font-size: 1.5em;
   font-weight: 800;
 }
 
@@ -186,25 +186,26 @@ pre {
     outline: none;
     background: hsl(0 0% 0% / 0);
   }
-}
 
-:focus-visible:where(:not(a)) {
-  outline: 2px solid currentColor;
-  background: hsl(0 0% 0% / 0);
-}
+  :focus-visible:where(:not(a)) {
+    outline: 2px solid currentColor;
+    background: hsl(0 0% 0% / 0);
+  }
 
-:focus-visible:where(a) {
-  text-decoration-thickness: 0.2em;
+  :focus-visible:where(a),
+  :hover:where(a) {
+    text-decoration-thickness: 0.2em;
+  }
 }
 
 .nav {
   width: 100%;
   background-color: var(--secondary-background);
   background-image: radial-gradient(
-    var(--tertiary-background) 25%,
+    var(--primary-background) 25%,
     var(--secondary-background) 25%
   );
-  background-size: 0.1875rem 0.1875rem;
+  background-size: 0.375rem 0.375rem;
   padding: 1em;
   font-weight: 500;
   display: grid;
@@ -274,7 +275,12 @@ pre {
   gap: 1em 3em;
   width: 100%;
   color: var(--alt-color);
-  font-size: 0.9em;
+  background-image: repeating-linear-gradient(
+    135deg,
+    var(--primary-background) 0 0.125rem,
+    var(--secondary-background) 0.125rem 0.25rem
+  );
+  font-weight: 500;
 
   --anchor-color: var(--alt-color);
 }
@@ -304,5 +310,4 @@ pre {
   margin-top: 0.5em;
   font-weight: 700;
   color: var(--alt-color);
-  font-size: 0.9em;
 }

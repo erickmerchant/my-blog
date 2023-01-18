@@ -7,6 +7,12 @@
   margin: 0;
 }
 
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+
 svg {
   aspect-ratio: 1 / 1;
   width: 100%;
@@ -47,6 +53,12 @@ svg {
   gap: 0em;
 }
 
+@media (max-width: 600px) {
+  .nav {
+    font-size: 1.25em;
+  }
+}
+
 .nav:where(.open) {
   grid-template-rows: auto 1fr;
 }
@@ -75,7 +87,7 @@ svg {
   border: 0;
   background-color: hsl(0 0% 0% / 0);
   color: var(--anchor-color);
-  border-radius: 0.125em;
+  place-content: center;
 }
 
 @media (max-width: 400px) {

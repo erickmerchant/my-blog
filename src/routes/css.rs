@@ -5,15 +5,18 @@ use lightningcss::{stylesheet, targets};
 use parcel_sourcemap::SourceMap;
 use std::{fs, path::Path};
 
-pub async fn css(file: web::Path<String>, config: web::Data<config::Config>) -> Result<NamedFile> {
+pub async fn css(
+    file: web::Path<String>,
+    assets_config: web::Data<config::AssetsConfig>,
+) -> Result<NamedFile> {
     let src = Path::new("assets")
         .join(file.to_string())
         .with_extension("css");
 
     responses::cacheable(&src, || -> Result<String, Error> {
         let file_contents = fs::read_to_string(&src).map_err(ErrorNotFound)?;
-        let targets =
-            targets::Browsers::from_browserslist([config.targets.as_str()]).unwrap_or_default();
+        let targets = targets::Browsers::from_browserslist([assets_config.targets.as_str()])
+            .unwrap_or_default();
         let parser_options = stylesheet::ParserOptions::default();
         let minifier_options = stylesheet::MinifyOptions {
             targets,
@@ -21,7 +24,7 @@ pub async fn css(file: web::Path<String>, config: web::Data<config::Config>) -> 
         };
         let mut source_map = None;
 
-        if config.source_maps {
+        if assets_config.source_maps {
             let mut sm = SourceMap::new("/");
 
             if let Some(src_str) = src.to_str() {

@@ -1,4 +1,4 @@
-use crate::models::{page::*, site::*};
+use crate::models::*;
 use actix_files::NamedFile;
 use actix_web::{
     dev::ServiceResponse, error::Error, error::ErrorInternalServerError, error::ErrorNotFound,

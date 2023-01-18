@@ -1,2 +1,4 @@
-pub mod page;
-pub mod site;
+mod page;
+mod site;
+
+pub use self::{page::*, site::*};
