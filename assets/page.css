@@ -92,20 +92,20 @@ body {
 
 @media (prefers-color-scheme: light) {
   body {
-    --anchor-color: hsl(120 70% 30%);
+    --anchor-color: hsl(120 80% 30%);
     --code-color: hsl(120 70% 20%);
     --text-color: hsl(0 0% 10%);
     --alt-color: hsl(120 35% 30%);
     --primary-background: hsl(0 0% 100%);
-    --secondary-background: hsl(120 15% 85%);
+    --secondary-background: hsl(120 15% 90%);
     --tertiary-background: hsl(120 15% 60%);
-    --code-background: hsl(120 15% 95%);
+    --code-background: hsl(120 15% 97.5%);
   }
 }
 
 @media (prefers-color-scheme: dark) {
   body {
-    --anchor-color: hsl(120 70% 70%);
+    --anchor-color: hsl(120 80% 70%);
     --code-color: hsl(120 70% 80%);
     --text-color: hsl(0 0% 100%);
     --alt-color: hsl(120 35% 80%);
@@ -192,8 +192,7 @@ pre {
     background: hsl(0 0% 0% / 0);
   }
 
-  :focus-visible:where(a),
-  :hover:where(a) {
+  :focus-visible:where(a) {
     text-decoration-thickness: 0.2em;
   }
 }
