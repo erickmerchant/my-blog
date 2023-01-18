@@ -24,7 +24,7 @@ export class Element extends HTMLElement {
       } else if (typeof value === "function") {
         this.#writes.add({
           callback: value,
-          type: "attribute",
+          type: 1,
           args: [new WeakRef(node), key],
         });
       } else {
@@ -64,7 +64,7 @@ export class Element extends HTMLElement {
 
         this.#writes.add({
           callback: value,
-          type: "fragment",
+          type: 2,
           args: args.map((b) => new WeakRef(b)),
         });
 
@@ -123,13 +123,13 @@ export class Element extends HTMLElement {
 
       this.#current = prev;
 
-      if (formula.type === "attribute") {
+      if (formula.type === 1) {
         let [node, key] = formula.args;
 
         this.#setAttribute(node.deref(), key, result);
       }
 
-      if (formula.type === "fragment") {
+      if (formula.type === 2) {
         let [start, end] = formula.args.map((b) => b.deref());
 
         while (start && end && start.nextSibling !== end) {
