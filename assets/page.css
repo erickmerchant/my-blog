@@ -80,7 +80,7 @@ html {
 body {
   height: 100%;
   overflow-x: hidden;
-  color: var(--ink-1);
+  color: var(--ink-2);
   background: var(--paper-2);
   display: grid;
   grid-template-rows: min-content auto min-content;
@@ -92,7 +92,8 @@ body {
 @media (prefers-color-scheme: light) {
   body {
     --ink-0: hsl(120 70% 20%);
-    --ink-1: hsl(0 0% 10%);
+    --ink-1: hsl(120 35% 20%);
+    --ink-2: hsl(120 0% 10%);
     --paper-0: hsl(120 15% 80%);
     --paper-1: hsl(120 10% 90%);
     --paper-2: hsl(0 0% 100%);
@@ -102,10 +103,11 @@ body {
 @media (prefers-color-scheme: dark) {
   body {
     --ink-0: hsl(120 70% 80%);
-    --ink-1: hsl(0 0% 90%);
+    --ink-1: hsl(120 35% 80%);
+    --ink-2: hsl(120 0% 90%);
     --paper-0: hsl(120 15% 30%);
     --paper-1: hsl(120 10% 20%);
-    --paper-2: hsl(0 0% 10%);
+    --paper-2: hsl(120 0% 10%);
   }
 }
 
@@ -158,7 +160,7 @@ li {
 
 pre {
   display: block;
-  color: var(--ink-0);
+  color: var(--ink-1);
   background-color: var(--paper-1);
   font-family: "Chivo Mono", monospace;
   white-space: pre-wrap;
@@ -188,10 +190,6 @@ pre {
   :focus-visible:where(a) {
     text-decoration-thickness: 0.2em;
   }
-}
-
-:hover:where(a) {
-  text-decoration-thickness: 0.2em;
 }
 
 .nav {
@@ -266,8 +264,8 @@ pre {
   width: 100%;
   background-image: repeating-linear-gradient(
     135deg,
-    var(--paper-1) 0 0.1rem,
-    var(--paper-0) 0.1rem 0.3rem
+    var(--paper-2) 0 0.1rem,
+    var(--paper-1) 0.1rem 0.3rem
   );
   font-weight: 500;
 }
