@@ -1,4 +1,6 @@
 use clap::Parser;
+use serde::{Deserialize, Serialize};
+use std::fs;
 
 #[derive(Parser, Debug, Clone)]
 #[command(version, long_about = None)]
@@ -6,9 +8,6 @@ pub struct ServerConfig {
     #[arg(long, default_value_t = 8080)]
     pub port: u16,
 }
-
-use serde::{Deserialize, Serialize};
-use std::fs;
 
 #[derive(Deserialize, Debug, Clone, Default, Serialize)]
 #[serde(rename_all = "camelCase")]
