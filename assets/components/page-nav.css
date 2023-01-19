@@ -22,8 +22,8 @@ svg {
 
 :host {
   position: sticky;
-  top: calc(var(--scrolling-down, 0) * -2.5em);
-  transition: top 0.25s var(--easing);
+  top: calc(var(--scrolling-down, 0) * -2.75em);
+  transition: top 0.25s cubic-bezier(0.3, 0, 0.3, 0.7);
 }
 
 @media (max-width: 400px) {
@@ -86,7 +86,6 @@ svg {
   height: 1.5em;
   border: 0;
   background-color: hsl(0 0% 0% / 0);
-  color: var(--anchor-color);
   place-content: center;
 }
 

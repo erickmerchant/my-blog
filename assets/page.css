@@ -80,44 +80,37 @@ html {
 body {
   height: 100%;
   overflow-x: hidden;
-  color: var(--text-color);
-  background: var(--primary-background);
+  color: var(--ink-1);
+  background: var(--paper-2);
   display: grid;
   grid-template-rows: min-content auto min-content;
 
-  --scrollbar-background: var(--anchor-color);
-  --scrollbar-track-background: var(--secondary-background);
-  --easing: cubic-bezier(0.3, 0, 0.3, 0.7);
+  --scrollbar-background: var(--ink-0);
+  --scrollbar-track-background: var(--paper-1);
 }
 
 @media (prefers-color-scheme: light) {
   body {
-    --anchor-color: hsl(120 70% 30%);
-    --code-color: hsl(120 70% 20%);
-    --text-color: hsl(0 0% 10%);
-    --alt-color: hsl(120 35% 30%);
-    --primary-background: hsl(0 0% 100%);
-    --secondary-background: hsl(120 15% 90%);
-    --tertiary-background: hsl(120 15% 60%);
-    --code-background: hsl(120 15% 97.5%);
+    --ink-0: hsl(120 70% 20%);
+    --ink-1: hsl(0 0% 10%);
+    --paper-0: hsl(120 15% 80%);
+    --paper-1: hsl(120 15% 90%);
+    --paper-2: hsl(0 0% 100%);
   }
 }
 
 @media (prefers-color-scheme: dark) {
   body {
-    --anchor-color: hsl(120 70% 70%);
-    --code-color: hsl(120 70% 80%);
-    --text-color: hsl(0 0% 100%);
-    --alt-color: hsl(120 35% 80%);
-    --primary-background: hsl(0 0% 10%);
-    --secondary-background: hsl(120 15% 20%);
-    --tertiary-background: hsl(120 15% 40%);
-    --code-background: hsl(120 15% 12.5%);
+    --ink-0: hsl(120 70% 80%);
+    --ink-1: hsl(0 0% 90%);
+    --paper-0: hsl(120 15% 30%);
+    --paper-1: hsl(120 15% 20%);
+    --paper-2: hsl(0 0% 10%);
   }
 }
 
 a {
-  color: var(--anchor-color);
+  color: var(--ink-0);
   text-underline-offset: 0.2em;
   text-decoration-thickness: 0.1em;
 }
@@ -165,8 +158,8 @@ li {
 
 pre {
   display: block;
-  color: var(--code-color);
-  background-color: var(--code-background);
+  color: var(--ink-0);
+  background-color: var(--paper-1);
   font-family: "Chivo Mono", monospace;
   white-space: pre-wrap;
   border-radius: var(--border-radius);
@@ -197,17 +190,17 @@ pre {
   }
 }
 
+:hover:where(a) {
+  text-decoration-thickness: 0.2em;
+}
+
 .nav {
   width: 100%;
-  background-color: var(--secondary-background);
-  background-image: radial-gradient(
-    var(--primary-background) 25%,
-    var(--secondary-background) 25%
-  );
-  background-size: 0.375rem 0.375rem;
+  background-color: var(--paper-0);
   padding: 1em;
   font-weight: 500;
   display: grid;
+  color: var(--ink-0);
 }
 
 .nav-list {
@@ -229,7 +222,7 @@ pre {
 }
 
 .main {
-  background-color: var(--primary-background);
+  background-color: var(--paper-2);
   width: 100%;
   display: grid;
   grid-auto-columns: 100%;
@@ -240,12 +233,6 @@ pre {
   --list-indent: 2rem;
 }
 
-@media (max-width: 600px) {
-  .main {
-    --list-indent: 1rem;
-  }
-}
-
 .main > * {
   max-width: var(--max-width);
   width: 100%;
@@ -254,6 +241,10 @@ pre {
 }
 
 @media (max-width: 600px) {
+  .main {
+    --list-indent: 1rem;
+  }
+
   .main > * {
     max-width: 100%;
   }
@@ -273,15 +264,12 @@ pre {
   flex-wrap: wrap;
   gap: 1em 3em;
   width: 100%;
-  color: var(--alt-color);
   background-image: repeating-linear-gradient(
     135deg,
-    var(--primary-background) 0 0.125rem,
-    var(--secondary-background) 0.125rem 0.25rem
+    var(--paper-2) 0 0.05rem,
+    var(--paper-1) 0.05rem 0.3rem
   );
   font-weight: 500;
-
-  --anchor-color: var(--alt-color);
 }
 
 .footer-nav-list {
@@ -290,6 +278,10 @@ pre {
   display: flex;
   flex-wrap: wrap;
   justify-content: safe center;
+}
+
+.copyright {
+  color: var(--ink-0);
 }
 
 .index {
@@ -306,7 +298,7 @@ pre {
 }
 
 .published {
-  margin-top: 0.5em;
-  font-weight: 700;
-  color: var(--alt-color);
+  font-weight: 500;
+  font-size: 0.875em;
+  color: var(--ink-0);
 }
