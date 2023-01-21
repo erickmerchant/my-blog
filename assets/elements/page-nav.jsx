@@ -31,7 +31,7 @@ class PageNav extends Element {
 
   render = () => (
     <>
-      <link rel="stylesheet" href="/components/page-nav.css" />
+      <link rel="stylesheet" href="/elements/page-nav.css" />
       <nav
         class={() =>
           Element.classNames("nav", {
@@ -55,19 +55,13 @@ class PageNav extends Element {
             this.toggleAttribute("open", this.#state.open);
           }}
         >
-          <svg
-            class="toggle-icon"
-            aria-hidden="true"
-            viewBox="0 0 16 16"
-            xmlns="http://www.w3.org/2000/svg"
-          >
+          <svg class="toggle-icon" aria-hidden="true" viewBox="0 0 16 16">
             <path
               d={() =>
                 this.#state.open
                   ? "M1 4 l3 -3 l11 11 l-3 3 z m11 -3 l3 3 l-11 11 l-3 -3 z"
                   : "M1 1 l14 0 l0 3.5 l-14 0 z m0 5.25 l14 0 l0 3.5 l-14 0 z m0 5.25 l14 0 l0 3.5 l-14 0 z"
               }
-              xmlns="http://www.w3.org/2000/svg"
             />
           </svg>
         </button>

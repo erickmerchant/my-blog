@@ -2,9 +2,7 @@ export class Element extends HTMLElement {
   connectedCallback() {
     this.attachShadow({mode: "open"});
 
-    let children = [].concat(this.render?.() ?? "");
-
-    Element.appendChildren(this.shadowRoot, children);
+    Element.#insertChildren(this.shadowRoot, this.render?.());
   }
 
   /* dom */
@@ -14,27 +12,7 @@ export class Element extends HTMLElement {
       return children;
     }
 
-    let node = attrs?.xmlns
-      ? document.createElementNS(attrs.xmlns, tag)
-      : document.createElement(tag);
-
-    for (let [key, value] of Object.entries(attrs ?? {})) {
-      if (key.startsWith("on:")) {
-        node.addEventListener(key.substring(3), ...[].concat(value));
-      } else if (typeof value === "function") {
-        this.#writes.add({
-          callback: value,
-          type: 1,
-          args: [new WeakRef(node), key],
-        });
-      } else {
-        this.#setAttribute(node, key, value);
-      }
-    }
-
-    this.appendChildren(node, children, false);
-
-    return node;
+    return {tag, attrs, children};
   }
 
   static fragment = Symbol("fragment");
@@ -57,26 +35,94 @@ export class Element extends HTMLElement {
     return result.join(" ");
   }
 
-  static appendChildren(node, children, initalize = true) {
-    for (let value of children.flat(Infinity)) {
+  static #insertChildren(
+    node,
+    children,
+    {useAfter = false, isSvg = false, initialize = true} = {}
+  ) {
+    for (let value of [].concat(children ?? []).flat(Infinity)) {
       if (typeof value === "function") {
-        let args = ["", ""].map((v) => document.createComment(v));
+        let bounds = ["", ""].map((v) => document.createComment(v));
 
         this.#writes.add({
           callback: value,
           type: 2,
-          args: args.map((b) => new WeakRef(b)),
+          bounds: bounds.map((b) => new WeakRef(b)),
+          isSvg,
         });
 
-        value = args;
+        value = bounds;
       } else {
-        value = [value];
+        let {tag, attrs, children} = value;
+
+        if (typeof tag === "function") {
+          let target = document.createDocumentFragment();
+          let props = {};
+          let proxy = this.watch(props);
+
+          for (let [key, val] of Object.entries(attrs)) {
+            if (typeof val === "function") {
+              let f = {
+                callback: () => {
+                  proxy[key] = val();
+                },
+                type: 0,
+              };
+
+              this.#writes.add(f);
+
+              let prev = this.#current;
+
+              this.#current = f;
+
+              f.callback();
+
+              this.#current = prev;
+            } else {
+              props[key] = val;
+            }
+          }
+
+          this.#insertChildren(target, tag(proxy, children), {
+            initialize: false,
+            isSvg,
+          });
+
+          value = [target];
+        } else {
+          let node =
+            tag === "svg" || isSvg
+              ? document.createElementNS("http://www.w3.org/2000/svg", tag)
+              : document.createElement(tag);
+
+          for (let [key, val] of Object.entries(attrs ?? {})) {
+            if (key.startsWith("on:")) {
+              node.addEventListener(key.substring(3), ...[].concat(val));
+            } else if (typeof val === "function") {
+              this.#writes.add({
+                callback: val,
+                type: 1,
+                node: new WeakRef(node),
+                key,
+              });
+            } else {
+              this.#setAttribute(node, key, val);
+            }
+          }
+
+          this.#insertChildren(node, children, {
+            isSvg: tag === "svg" || isSvg,
+            initialize: false,
+          });
+
+          value = [node];
+        }
       }
 
-      node.append(...value);
+      node[useAfter ? "after" : "append"](...value);
     }
 
-    if (initalize) this.#update();
+    if (initialize) this.#update(false);
   }
 
   static #setAttribute(node, key, val) {
@@ -113,8 +159,10 @@ export class Element extends HTMLElement {
 
   static #current = null;
 
-  static #update() {
+  static #update(zeros = true) {
     for (let formula of this.#writes) {
+      if (formula.type === 0 && !zeros) continue;
+
       let prev = this.#current;
 
       this.#current = formula;
@@ -124,19 +172,24 @@ export class Element extends HTMLElement {
       this.#current = prev;
 
       if (formula.type === 1) {
-        let [node, key] = formula.args;
+        let {node, key} = formula;
 
         this.#setAttribute(node.deref(), key, result);
       }
 
       if (formula.type === 2) {
-        let [start, end] = formula.args.map((b) => b.deref());
+        let {bounds, isSvg} = formula;
+        let [start, end] = bounds.map((f) => f.deref());
 
         while (start && end && start.nextSibling !== end) {
           start.nextSibling.remove();
         }
 
-        start.after(...[].concat(result ?? "").flat(Infinity));
+        this.#insertChildren(start, result, {
+          useAfter: true,
+          initialize: false,
+          isSvg,
+        });
       }
     }
 
