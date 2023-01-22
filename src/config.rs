@@ -7,13 +7,13 @@ use std::fs;
 pub struct ServerConfig {
     #[arg(long, default_value_t = 8080)]
     pub port: u16,
+    #[arg(long)]
+    pub source_maps: bool,
 }
 
 #[derive(Deserialize, Debug, Clone, Default, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct AssetsConfig {
-    #[serde(default)]
-    pub source_maps: bool,
     #[serde(default = "AssetsConfig::get_default_targets")]
     pub targets: String,
     #[serde(default = "AssetsConfig::get_default_pragma")]

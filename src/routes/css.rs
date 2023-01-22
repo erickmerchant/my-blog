@@ -8,6 +8,7 @@ use std::{fs, path::Path};
 pub async fn css(
     file: web::Path<String>,
     assets_config: web::Data<config::AssetsConfig>,
+    server_config: web::Data<config::ServerConfig>,
 ) -> Result<NamedFile> {
     let src = Path::new("assets")
         .join(file.to_string())
@@ -24,7 +25,7 @@ pub async fn css(
         };
         let mut source_map = None;
 
-        if assets_config.source_maps {
+        if server_config.source_maps {
             let mut sm = SourceMap::new("/");
 
             if let Some(src_str) = src.to_str() {

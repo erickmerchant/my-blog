@@ -22,7 +22,7 @@ svg {
 
 :host {
   position: sticky;
-  top: calc(var(--scrolling-down, 0) * -2.75em);
+  top: calc(var(--scrolling-down, 0) * -2.825em);
   transition: top 0.25s cubic-bezier(0.3, 0, 0.3, 0.7);
 }
 

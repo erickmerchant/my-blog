@@ -1,4 +1,4 @@
 {
-  "pragma": "Element.h",
-  "pragmaFrag": "Element.fragment"
+  "pragma": "h",
+  "pragmaFrag": "h.Fragment"
 }

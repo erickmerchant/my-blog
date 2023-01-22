@@ -30,6 +30,7 @@ async fn main() -> io::Result<()> {
         let assets_config = config::AssetsConfig::get();
 
         App::new()
+            .app_data(web::Data::new(server_config.clone()))
             .app_data(web::Data::new(assets_config))
             .app_data(web::Data::new(site))
             .app_data(web::Data::new(template_env.to_owned()))
@@ -44,7 +45,7 @@ async fn main() -> io::Result<()> {
             .route("/", web::get().to(routes::posts_index))
             .route("/posts.rss", web::get().to(routes::posts_rss))
             .route("/{file:.*?}.html", web::get().to(routes::page))
-            .route("/{file:.*?}.js", web::get().to(routes::js))
+            .route("/{file:.*?}.{ext:jsx?}", web::get().to(routes::js))
             .route("/{file:.*?}.css", web::get().to(routes::css))
             .route("/{file:.*?}", web::get().to(routes::asset))
     })
