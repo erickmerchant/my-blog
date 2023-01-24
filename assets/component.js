@@ -9,10 +9,12 @@ let reads = new Map();
 let current = null;
 
 export let h = (tag, attrs = {}, ...children) => {
+  if (tag === h.Fragment) return children;
+
   return {tag, attrs, children};
 };
 
-h.Fragment = (_, children) => children;
+h.Fragment = Symbol("fragment");
 
 export let watch = (state) => {
   let symbols = {};
@@ -142,15 +144,14 @@ export let render = (
 
           let target = document.createDocumentFragment();
 
-          let [start, end] = ["", ""].map((v) => document.createComment(v));
-
-          target.append(start, end);
-
-          render(tag(proxy, children), start, {
-            end,
+          render(tag(proxy, children), target, {
             initialize: false,
             svg,
           });
+
+          let end = document.createComment("");
+
+          target.append(end);
 
           registry.set(target.firstChild, {tag, proxy, end: new WeakRef(end)});
 
