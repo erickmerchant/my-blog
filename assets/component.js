@@ -1,3 +1,13 @@
+let registry = new WeakMap();
+
+let scheduled = false;
+
+let writes = new Set();
+
+let reads = new Map();
+
+let current = null;
+
 export let h = (tag, attrs = {}, ...children) => {
   return {tag, attrs, children};
 };
@@ -9,7 +19,7 @@ export let watch = (state) => {
 
   return new Proxy(state, {
     set: (state, key, value) => {
-      if (state[key] !== value) {
+      if (typeof value === "object" || state[key] !== value) {
         state[key] = value;
 
         symbols[key] ??= Symbol("");
@@ -43,9 +53,34 @@ export let watch = (state) => {
 
 export let render = (
   children,
-  node,
-  {useAfter = false, isSvg = false, initialize = true} = {}
+  start,
+  {end = null, svg = false, initialize = true} = {}
 ) => {
+  let currentChild = end ? start : null;
+  let advance = () => {
+    if (currentChild?.nextSibling != end) {
+      currentChild = currentChild?.nextSibling;
+    } else {
+      currentChild = null;
+    }
+  };
+  let insert = (...nodes) => {
+    for (let node of nodes) {
+      if (currentChild) {
+        currentChild.replaceWith(node);
+        currentChild = node;
+      } else if (end) {
+        end.before(node);
+      } else {
+        start.append(node);
+      }
+
+      advance();
+    }
+  };
+
+  advance();
+
   for (let value of [].concat(children ?? []).flat(Infinity)) {
     if (typeof value === "function") {
       let bounds = ["", ""].map((v) => document.createComment(v));
@@ -54,44 +89,76 @@ export let render = (
         callback: value,
         type: 2,
         bounds: bounds.map((b) => new WeakRef(b)),
-        isSvg,
+        svg,
       });
 
-      value = bounds;
-    } else {
+      insert(...bounds);
+    } else if (typeof value === "object") {
       let {tag, attrs, children} = value;
 
       if (typeof tag === "function") {
-        let target = document.createDocumentFragment();
-        let props = {};
-        let proxy = watch(props);
+        let previousRender = currentChild ? registry.get(currentChild) : null;
 
-        for (let [key, val] of Object.entries(attrs ?? {})) {
-          if (typeof val === "function") {
-            let f = {
-              callback: () => {
-                proxy[key] = val();
-              },
-              type: 0,
-            };
+        let endRef = previousRender?.end.deref();
 
-            writes.add(f);
+        if (previousRender && previousRender.tag === tag && endRef) {
+          for (let [key, val] of Object.entries(attrs ?? {})) {
+            if (typeof val === "function") {
+              val = val();
+            }
 
-            run(f);
-          } else {
-            props[key] = val;
+            previousRender.proxy[key] = val;
           }
+
+          for (let key of Object.keys(previousRender.proxy)) {
+            if (!(key in attrs)) {
+              delete previousRender.proxy[key];
+            }
+          }
+
+          currentChild = endRef;
+
+          advance();
+        } else {
+          let props = {};
+          let proxy = watch(props);
+
+          for (let [key, val] of Object.entries(attrs ?? {})) {
+            if (typeof val === "function") {
+              let f = {
+                callback: () => {
+                  proxy[key] = val();
+                },
+                type: 0,
+              };
+
+              writes.add(f);
+
+              run(f);
+            } else {
+              props[key] = val;
+            }
+          }
+
+          let target = document.createDocumentFragment();
+
+          let [start, end] = ["", ""].map((v) => document.createComment(v));
+
+          target.append(start, end);
+
+          render(tag(proxy, children), start, {
+            end,
+            initialize: false,
+            svg,
+          });
+
+          registry.set(target.firstChild, {tag, proxy, end: new WeakRef(end)});
+
+          insert(...target.childNodes);
         }
-
-        render(tag(proxy, children), target, {
-          initialize: false,
-          isSvg,
-        });
-
-        value = [target];
       } else {
         let node =
-          tag === "svg" || isSvg
+          tag === "svg" || svg
             ? document.createElementNS("http://www.w3.org/2000/svg", tag)
             : document.createElement(tag);
 
@@ -111,15 +178,15 @@ export let render = (
         }
 
         render(children, node, {
-          isSvg: tag === "svg" || isSvg,
+          svg: tag === "svg" || svg,
           initialize: false,
         });
 
-        value = [node];
+        insert(node);
       }
+    } else {
+      insert(value);
     }
-
-    node[useAfter ? "after" : "append"](...value);
   }
 
   if (initialize) update(false);
@@ -152,14 +219,6 @@ let setAttribute = (node, key, val) => {
     }
   }
 };
-
-let scheduled = false;
-
-let writes = new Set();
-
-let reads = new Map();
-
-let current = null;
 
 let schedule = () => {
   if (!scheduled) {
@@ -198,17 +257,13 @@ let update = (zeros = true) => {
     }
 
     if (formula.type === 2) {
-      let {bounds, isSvg} = formula;
+      let {bounds, svg} = formula;
       let [start, end] = bounds.map((f) => f.deref());
 
-      while (start && end && start.nextSibling !== end) {
-        start.nextSibling.remove();
-      }
-
       render(result, start, {
-        useAfter: true,
+        end,
         initialize: false,
-        isSvg,
+        svg,
       });
     }
   }
