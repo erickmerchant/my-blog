@@ -1,15 +1,13 @@
 let registry = new WeakMap();
-
 let scheduled = false;
-
 let writes = new Set();
-
 let reads = new Map();
-
 let current = null;
 
 export let h = (tag, attrs = {}, ...children) => {
-  if (tag === h.Fragment) return children;
+  if (tag === h.Fragment) {
+    return children;
+  }
 
   return {tag, attrs, children};
 };
@@ -100,7 +98,6 @@ export let render = (
 
       if (typeof tag === "function") {
         let previousRender = currentChild ? registry.get(currentChild) : null;
-
         let endRef = previousRender?.end?.deref();
 
         if (previousRender?.tag === tag && endRef) {
@@ -190,7 +187,9 @@ export let render = (
     }
   }
 
-  if (initialize) update(false);
+  if (initialize) {
+    update(false);
+  }
 };
 
 export let classes = (...args) => {
@@ -247,7 +246,9 @@ let run = (formula) => {
 
 let update = (zeros = true) => {
   for (let formula of writes) {
-    if (formula.type === 0 && !zeros) continue;
+    if (formula.type === 0 && !zeros) {
+      continue;
+    }
 
     let result = run(formula);
 
