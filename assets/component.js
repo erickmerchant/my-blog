@@ -101,9 +101,9 @@ export let render = (
       if (typeof tag === "function") {
         let previousRender = currentChild ? registry.get(currentChild) : null;
 
-        let endRef = previousRender?.end.deref();
+        let endRef = previousRender?.end?.deref();
 
-        if (previousRender && previousRender.tag === tag && endRef) {
+        if (previousRender?.tag === tag && endRef) {
           for (let [key, val] of Object.entries(attrs ?? {})) {
             if (typeof val === "function") {
               val = val();
