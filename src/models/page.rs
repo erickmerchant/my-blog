@@ -30,10 +30,10 @@ impl Page {
     pub fn get_one<S: AsRef<str>>(path: S) -> Option<Self> {
         let mut result = None;
         let content = Path::new("content");
-        let pattern = content.join(path.as_ref());
-        let pattern = pattern.as_path();
+        let content = content.join(path.as_ref());
+        let content = content.as_path();
 
-        if let Ok(contents) = fs::read_to_string(pattern) {
+        if let Ok(contents) = fs::read_to_string(content) {
             let mut data = Self::default();
             let mut content = contents.to_owned();
 
@@ -62,10 +62,10 @@ impl Page {
     pub fn get_all<S: AsRef<str>>(pattern: S) -> Vec<Self> {
         let mut entries = Vec::<Self>::new();
         let content = Path::new("content");
-        let pattern = content.join(pattern.as_ref());
-        let pattern = pattern.as_path();
+        let content = content.join(pattern.as_ref());
+        let content = content.as_path();
 
-        if let Some(pages) = pattern.to_str().and_then(|s| glob(s).ok()) {
+        if let Some(pages) = content.to_str().and_then(|s| glob(s).ok()) {
             for page in pages.flatten() {
                 if let Some(path) = diff_paths(page, "content") {
                     if let Some(page) = path.as_path().to_str().and_then(Self::get_one) {
