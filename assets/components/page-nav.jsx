@@ -29,7 +29,7 @@ let PageNav = (props) => {
         }}
       >
         <PageIcon
-          class="toggle-icon"
+          class="toggleIcon"
           name={() => (state.open ? "close" : "menu")}
         />
       </button>

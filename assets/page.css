@@ -183,7 +183,7 @@ pre {
   }
 
   :focus-visible:where(:not(a)) {
-    outline: 2px solid currentColor;
+    outline: 0.15em solid currentColor;
     background: hsl(0 0% 0% / 0);
   }
 
@@ -201,7 +201,7 @@ pre {
   color: var(--ink-0);
 }
 
-.nav-list {
+.navList {
   display: flex;
   flex-direction: row;
   list-style: none;
@@ -209,12 +209,12 @@ pre {
   gap: 0.5em 1em;
 }
 
-:where(.nav:not(:defined)) .nav-list {
+:where(.nav:not(:defined)) .navList {
   visibility: hidden;
 }
 
 @media (max-width: 400px) {
-  :where(.nav:defined) .nav-list {
+  :where(.nav:defined) .navList {
     flex-direction: column;
   }
 }
@@ -227,6 +227,7 @@ pre {
   gap: 1em;
   padding-block-start: 1em;
   align-content: start;
+  margin-bottom: 2em;
 
   --list-indent: 2rem;
 }
@@ -270,7 +271,7 @@ pre {
   font-weight: 500;
 }
 
-.footer-nav-list {
+.footerNavList {
   list-style: none;
   gap: 1em;
   display: flex;
@@ -293,6 +294,5 @@ pre {
 
 .published {
   font-weight: 500;
-  font-size: 0.875em;
   color: var(--ink-1);
 }

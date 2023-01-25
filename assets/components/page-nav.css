@@ -37,11 +37,15 @@ svg {
     outline: none;
     background: hsl(0 0% 0% / 0);
   }
-}
 
-:focus-visible {
-  outline: 2px solid currentColor;
-  background: hsl(0 0% 0% / 0);
+  :focus-visible:where(:not(a)) {
+    outline: 0.15em solid currentColor;
+    background: hsl(0 0% 0% / 0);
+  }
+
+  :focus-visible:where(a) {
+    text-decoration-thickness: 0.2em;
+  }
 }
 
 .nav {
@@ -88,6 +92,7 @@ svg {
   border: 0;
   background-color: hsl(0 0% 0% / 0);
   place-content: center;
+  border-radius: 3px;
 }
 
 @media (max-width: 400px) {
@@ -96,7 +101,7 @@ svg {
   }
 }
 
-.toggle-icon {
+.toggleIcon {
   height: 1.5em;
 }
 

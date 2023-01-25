@@ -146,11 +146,11 @@ export let render = (
             svg,
           });
 
-          let end = document.createComment("");
-
-          target.append(end);
-
-          registry.set(target.firstChild, {tag, proxy, end: new WeakRef(end)});
+          registry.set(target.firstChild, {
+            tag,
+            proxy,
+            end: new WeakRef(target.lastChild),
+          });
 
           insert(...target.childNodes);
         }
