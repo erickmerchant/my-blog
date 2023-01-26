@@ -93,6 +93,7 @@ svg {
   background-color: hsl(0 0% 0% / 0);
   place-content: center;
   border-radius: 3px;
+  cursor: pointer;
 }
 
 @media (max-width: 400px) {
