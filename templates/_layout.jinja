@@ -6,13 +6,15 @@
   </ul>
 {%- endmacro -%}
 
+{%- include "_vars.jinja" -%}
+
 <!DOCTYPE html>
 <html lang="en-US">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="{{site.description}}">
-    <title>{{page.title}} | {{site.title}}</title>
+    <meta name="description" content="{{description}}">
+    <title>{{page.title}} | {{title}}</title>
     <script type="module" src="/component.js"></script>
     <script type="module" src="/components/page-nav.jsx"></script>
     <script type="module" src="/components/page-icon.jsx"></script>
@@ -30,7 +32,7 @@
     </main>
     <footer class="footer">
       {{ nav_list("footerNavList") }}
-      <p class="copyright">© {{site.copyright}}</p>
+      <p class="copyright">© {{copyright}}</p>
     </footer>
   </body>
 </html>

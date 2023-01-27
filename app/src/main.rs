@@ -1,11 +1,9 @@
 mod config;
 mod error_routes;
-mod models;
 mod responses;
 mod routes;
 mod templates;
 
-use crate::models::*;
 use actix_web::{
     http::StatusCode, middleware::Compress, middleware::DefaultHeaders, middleware::ErrorHandlers,
     middleware::Logger, web, App, HttpServer,
@@ -26,13 +24,11 @@ async fn main() -> io::Result<()> {
     let template_env = templates::get_env();
 
     HttpServer::new(move || {
-        let site = Site::get();
         let assets_config = config::AssetsConfig::get();
 
         App::new()
             .app_data(web::Data::new(server_config.clone()))
             .app_data(web::Data::new(assets_config))
-            .app_data(web::Data::new(site))
             .app_data(web::Data::new(template_env.to_owned()))
             .wrap(Logger::new("%s %r"))
             .wrap(DefaultHeaders::new().add(("Content-Security-Policy", "default-src 'self'")))

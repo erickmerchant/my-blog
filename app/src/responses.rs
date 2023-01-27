@@ -1,4 +1,3 @@
-use crate::models::*;
 use actix_files::NamedFile;
 use actix_web::{
     dev::ServiceResponse, error::Error, error::ErrorInternalServerError, error::ErrorNotFound,
@@ -6,6 +5,7 @@ use actix_web::{
     Result,
 };
 use minijinja::{context, Environment};
+use schema::*;
 use std::{convert::AsRef, fs, fs::File, io::Write, path::Path};
 
 pub fn cacheable<F: Fn() -> Result<String, Error>, P: AsRef<Path>>(
@@ -56,10 +56,6 @@ pub fn error<B>(
     description: String,
 ) -> Result<ErrorHandlerResponse<B>> {
     let req = res.request();
-    let site = match req.app_data::<web::Data<Site>>() {
-        Some(s) => s.as_ref().to_owned(),
-        None => Site::default(),
-    };
     let template_env = req.app_data::<web::Data<Environment>>();
 
     let mut body = "".to_string();
@@ -72,7 +68,6 @@ pub fn error<B>(
         };
 
         let ctx = context! {
-            site => &site,
             page => page
         };
 

@@ -1,17 +1,15 @@
-FROM rust:1.66-alpine as app
+FROM rust:1.66-alpine as build
 RUN apk add build-base
-WORKDIR /app
+WORKDIR /all
 RUN cargo init . --bin
 COPY Cargo.toml Cargo.lock .
-ADD src src/
-RUN cargo build --release --no-default-features
-RUN mv ./target/release/main ./main
-ADD content content/
-ADD assets assets/
-ADD templates templates/
-RUN rm -rf target src Cargo.lock Cargo.toml
+ADD . ./
+RUN cargo build -p app --release --no-default-features
+RUN rm -rf app schema scripts Cargo.lock Cargo.toml
+RUN mv ./target/release/app ./app
+RUN rm -rf target
 
 FROM alpine
-WORKDIR /app
-COPY --from=app /app .
-ENTRYPOINT ["./main"]
+WORKDIR /all
+COPY --from=build /all .
+ENTRYPOINT ["./app"]

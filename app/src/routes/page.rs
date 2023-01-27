@@ -1,12 +1,12 @@
-use crate::{models::*, responses};
+use crate::responses;
 use actix_files::NamedFile;
 use actix_web::{error::ErrorInternalServerError, error::ErrorNotFound, web, Result};
 use minijinja::{context, Environment};
+use schema::*;
 use std::path::Path;
 
 pub async fn page(
     file: web::Path<String>,
-    site: web::Data<Site>,
     template_env: web::Data<Environment<'_>>,
 ) -> Result<NamedFile> {
     let file = file.as_ref();
@@ -16,7 +16,6 @@ pub async fn page(
 
         if let Some(page) = page {
             let ctx = context! {
-                site => &site.as_ref(),
                 page => &page,
             };
 
