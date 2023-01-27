@@ -38,7 +38,7 @@ fn main() -> Result<()> {
              title text not null,
              date text not null,
              description text not null,
-             template text not null,
+             template text not null
          )",
         [],
     )?;
