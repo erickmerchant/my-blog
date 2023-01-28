@@ -6,25 +6,32 @@ use schema::*;
 use std::path::Path;
 
 pub async fn page(
-    file: web::Path<String>,
+    parts: web::Path<(String, String)>,
     template_env: web::Data<Environment<'_>>,
 ) -> Result<NamedFile> {
-    let file = file.as_ref();
+    let parts = parts.as_ref();
+    let category = parts.0.clone();
+    let slug = parts.1.clone();
 
-    responses::cacheable(Path::new(file).with_extension("html"), || {
-        let page = Page::get_one(format!("{file}.html"));
+    responses::cacheable(
+        Path::new(&category)
+            .with_file_name(&slug)
+            .with_extension("html"),
+        || {
+            let page = Page::get_one(format!("{category}"), format!("{slug}"));
 
-        if let Some(page) = page {
-            let ctx = context! {
-                page => &page,
-            };
+            if let Some(page) = page {
+                let ctx = context! {
+                    page => &page,
+                };
 
-            template_env
-                .get_template(&page.template)
-                .and_then(|template| template.render(ctx))
-                .map_err(ErrorInternalServerError)
-        } else {
-            Err(ErrorNotFound("not found"))
-        }
-    })
+                template_env
+                    .get_template(&page.template)
+                    .and_then(|template| template.render(ctx))
+                    .map_err(ErrorInternalServerError)
+            } else {
+                Err(ErrorNotFound("not found"))
+            }
+        },
+    )
 }

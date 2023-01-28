@@ -10,7 +10,7 @@
     {% for page in posts %}
       <item>
         <title>{{page.title}}</title>
-        <link>{{base}}/{{page.path}}</link>
+        <link>{{base}}/{{page.category}}/{{page.slug}}.html</link>
         <pubDate>{{page.date | date("%a, %d %h %Y")}} 00:00:00 +0000</pubDate>
         <description><![CDATA[{{page.content | safe}}]]></description>
       </item>

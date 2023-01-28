@@ -7,8 +7,8 @@ use std::path::Path;
 
 pub async fn posts_index(template_env: web::Data<Environment<'_>>) -> Result<NamedFile> {
     responses::cacheable(Path::new("index.html"), || {
-        let posts = Page::get_all("posts/*.html");
-        let posts_index_page = Page::get_one("posts.html").unwrap_or_default();
+        let posts = Page::get_all("posts");
+        let posts_index_page = Page::get_one("", "posts").unwrap_or_default();
 
         match !posts.is_empty() {
             true => {
