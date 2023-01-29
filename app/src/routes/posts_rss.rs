@@ -2,7 +2,6 @@ use crate::{queries, queries::Pool, responses};
 use actix_files::NamedFile;
 use actix_web::{error::ErrorInternalServerError, error::ErrorNotFound, web, Result};
 use minijinja::{context, Environment};
-use rusqlite;
 use schema::*;
 use std::vec::Vec;
 
@@ -22,7 +21,7 @@ pub async fn posts_rss(
             .map_err(ErrorInternalServerError)?;
 
         let posts: Vec<Page> = web::block(move || -> Result<Vec<Page>, rusqlite::Error> {
-            queries::get_all_posts(conn)
+            queries::get_all_pages(conn, "posts")
         })
         .await?
         .map_err(|e| ErrorInternalServerError(e.to_string()))?;

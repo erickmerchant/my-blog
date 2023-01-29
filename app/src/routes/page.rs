@@ -1,11 +1,12 @@
-use crate::responses;
+use crate::{queries, queries::Pool, responses};
 use actix_files::NamedFile;
-use actix_web::{error::ErrorInternalServerError, web, Result};
+use actix_web::{error::ErrorInternalServerError, error::ErrorNotFound, web, Result};
 use actix_web_lab::extract;
 use minijinja::{context, Environment};
 use schema::*;
 
 pub async fn page(
+    pool: web::Data<Pool>,
     extract::Path((category, slug)): extract::Path<(String, String)>,
     template_env: web::Data<Environment<'_>>,
 ) -> Result<NamedFile> {
@@ -14,15 +15,18 @@ pub async fn page(
     let file = if let Some(file) = responses::Cache::get(&src) {
         file?
     } else {
-        // let page = Page::get_one(format!("{category}"), format!("{slug}"));
+        let p = pool.clone();
 
-        let page = Page {
-            category,
-            slug,
-            ..Page::default()
-        };
+        let conn = web::block(move || p.get())
+            .await?
+            .map_err(ErrorInternalServerError)?;
 
-        // if let Some(page) = page {
+        let page: Page = web::block(move || -> Result<Page, rusqlite::Error> {
+            queries::get_page(conn, category, slug)
+        })
+        .await?
+        .map_err(|e| ErrorNotFound(e.to_string()))?;
+
         let ctx = context! {
             page => &page,
         };
@@ -33,9 +37,6 @@ pub async fn page(
             .map_err(ErrorInternalServerError)?;
 
         responses::Cache::set(&src, html)?
-        // } else {
-        //     Err(ErrorNotFound("not found"))
-        // }
     };
 
     responses::file(file, src)

@@ -6,15 +6,15 @@ pub struct Page {
     pub slug: String,
     #[serde(default)]
     pub category: String,
-    #[serde(default)]
+    #[serde(default = "Page::get_default_title")]
     pub title: String,
-    #[serde(default)]
+    #[serde(default = "Page::get_default_date")]
     pub date: String,
     #[serde(default)]
     pub description: String,
     #[serde(default)]
     pub content: String,
-    #[serde(default)]
+    #[serde(default = "Page::get_default_template")]
     pub template: String,
 }
 
@@ -23,11 +23,25 @@ impl Default for Page {
         Self {
             slug: "".to_string(),
             category: "".to_string(),
-            title: "Untitled".to_string(),
-            date: "0000-00-00".to_string(),
+            title: Self::get_default_title(),
+            date: Self::get_default_date(),
             description: "".to_string(),
             content: "".to_string(),
-            template: "post.jinja".to_string(),
+            template: Self::get_default_template(),
         }
+    }
+}
+
+impl Page {
+    fn get_default_title() -> String {
+        "Untitled".to_string()
+    }
+
+    fn get_default_date() -> String {
+        "0000-00-00".to_string()
+    }
+
+    fn get_default_template() -> String {
+        "post.jinja".to_string()
     }
 }

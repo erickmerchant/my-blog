@@ -13,22 +13,29 @@ pub async fn posts_index(
     let file = if let Some(file) = responses::Cache::get(src) {
         file?
     } else {
-        let pool = pool.clone();
+        let p = pool.clone();
 
-        let conn = web::block(move || pool.get())
+        let conn = web::block(move || p.get())
             .await?
             .map_err(ErrorInternalServerError)?;
 
         let posts: Vec<Page> = web::block(move || -> Result<Vec<Page>, rusqlite::Error> {
-            queries::get_all_posts(conn)
+            queries::get_all_pages(conn, "posts")
         })
         .await?
         .map_err(|e| ErrorInternalServerError(e.to_string()))?;
 
-        let posts_index_page: Page =
-            web::block(move || -> Result<Page, rusqlite::Error> { queries::get_post(conn, "") })
-                .await?
-                .map_err(|e| ErrorInternalServerError(e.to_string()))?;
+        let p = pool.clone();
+
+        let conn = web::block(move || p.get())
+            .await?
+            .map_err(ErrorInternalServerError)?;
+
+        let posts_index_page: Page = web::block(move || -> Result<Page, rusqlite::Error> {
+            queries::get_page(conn, "", "posts")
+        })
+        .await?
+        .map_err(|e| ErrorInternalServerError(e.to_string()))?;
 
         match !posts.is_empty() {
             true => {
