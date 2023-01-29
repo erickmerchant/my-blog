@@ -1,6 +1,6 @@
 use crate::{config, responses};
 use actix_files::NamedFile;
-use actix_web::{error::Error, error::ErrorInternalServerError, error::ErrorNotFound, web, Result};
+use actix_web::{error::ErrorInternalServerError, error::ErrorNotFound, web, Result};
 use lightningcss::{stylesheet, targets};
 use parcel_sourcemap::SourceMap;
 use std::{fs, path::Path};
@@ -14,7 +14,9 @@ pub async fn css(
         .join(file.to_string())
         .with_extension("css");
 
-    responses::cacheable(&src, || -> Result<String, Error> {
+    let file = if let Some(file) = responses::Cache::get(&src) {
+        file?
+    } else {
         let file_contents = fs::read_to_string(&src).map_err(ErrorNotFound)?;
         let targets = targets::Browsers::from_browserslist([assets_config.targets.as_str()])
             .unwrap_or_default();
@@ -67,6 +69,8 @@ pub async fn css(
             }
         };
 
-        Ok(code)
-    })
+        responses::Cache::set(&src, &code)?
+    };
+
+    responses::file(file, src)
 }

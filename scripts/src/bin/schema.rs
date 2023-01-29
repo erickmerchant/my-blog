@@ -1,61 +1,41 @@
 use glob::glob;
 use pathdiff::diff_paths;
 use rusqlite::Connection;
-use serde::{Deserialize, Serialize};
+use schema::Page;
 use std::fs;
-
-#[derive(Deserialize, Debug, Clone, Default, Serialize)]
-pub struct FrontMatter {
-    #[serde(default)]
-    pub title: String,
-    #[serde(default = "default_date")]
-    pub date: String,
-    #[serde(default)]
-    pub description: String,
-    #[serde(default = "default_template")]
-    pub template: String,
-}
-
-fn default_date() -> String {
-    "0000-00-00".to_string()
-}
-
-fn default_template() -> String {
-    "post.jinja".to_string()
-}
 
 fn main() {
     let conn = Connection::open("storage/content.db").unwrap();
 
-    conn.execute(r#"drop table if exists "page""#, []).unwrap();
+    conn.execute("DROP TABLE IF EXISTS page", []).unwrap();
 
     conn.execute(
-        r#"create table if not exists "page" (
-             "id" integer primary key,
-             "slug" text not null,
-             "category" text not null,
-             "title" text not null,
-             "date" text not null,
-             "description" text not null,
-             "content" text not null,
-             "template" text not null
-         )"#,
+        "CREATE TABLE IF NOT EXISTS page (
+             id INTEGER PRIMARY KEY,
+             slug TEXT NOT NULL,
+             category TEXT NOT NULL,
+             title TEXT NOT NULL,
+             date TEXT NOT NULL,
+             description TEXT NOT NULL,
+             content TEXT NOT NULL,
+             template TEXT NOT NULL
+         )",
         [],
     )
     .unwrap();
 
     let mut insert_stmt = conn
         .prepare(
-            r#"insert into "page" (
-                "slug",
-                "category",
-                "title",
-                "date",
-                "description",
-                "content",
-                "template"
+            "INSERT INTO page (
+                slug,
+                category,
+                title,
+                date,
+                description,
+                content,
+                template
             )
-            values ( ?1, ?2, ?3, ?4, ?5, ?6, ?7 )"#,
+            VALUES ( ?1, ?2, ?3, ?4, ?5, ?6, ?7 )",
         )
         .unwrap();
 
@@ -71,29 +51,35 @@ fn main() {
             };
 
             if let Ok(contents) = fs::read_to_string(&path) {
-                let mut data = FrontMatter::default();
-                let mut content = "".to_string();
+                let mut data = Page {
+                    slug: slug.clone(),
+                    category: category.clone(),
+                    content: "".to_string(),
+                    ..Page::default()
+                };
 
                 if contents.starts_with("{\n") {
                     if let Some((above, below)) = contents.split_once("}\n") {
                         if let Ok(frontmatter) =
-                            serde_json::from_str::<FrontMatter>(format!("{above}}}").as_str())
+                            serde_json::from_str::<Page>(format!("{above}}}").as_str())
                         {
                             data = frontmatter;
 
-                            content = below.to_string();
+                            data.slug = slug;
+                            data.category = category;
+                            data.content = below.to_string();
                         }
                     }
                 }
 
                 insert_stmt
                     .execute([
-                        slug,
-                        category,
+                        data.slug,
+                        data.category,
                         data.title,
                         data.date,
                         data.description,
-                        content,
+                        data.content,
                         data.template,
                     ])
                     .unwrap();

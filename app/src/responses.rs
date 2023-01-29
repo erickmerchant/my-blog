@@ -1,42 +1,42 @@
 use actix_files::NamedFile;
 use actix_web::{
-    dev::ServiceResponse, error::Error, error::ErrorInternalServerError, error::ErrorNotFound,
+    dev::ServiceResponse, error::ErrorInternalServerError, error::ErrorNotFound,
     http::header::HeaderName, http::header::HeaderValue, middleware::ErrorHandlerResponse, web,
     Result,
 };
 use minijinja::{context, Environment};
 use schema::*;
-use std::{convert::AsRef, fs, fs::File, io::Write, path::Path};
+use std::{convert::AsRef, fs, fs::File, io, io::Write, path::Path};
 
-pub fn cacheable<F: Fn() -> Result<String, Error>, P: AsRef<Path>>(
-    src: P,
-    process: F,
-) -> Result<NamedFile> {
-    let src = Path::new("storage/cache").join(src.as_ref());
+pub struct Cache {}
 
-    file(
+impl Cache {
+    pub fn get<P: AsRef<Path>>(src: P) -> Option<io::Result<File>> {
+        let src = Path::new("storage/cache").join(src.as_ref());
+
         match &src.exists() {
-            false => {
-                let body = process()?;
+            false => None,
+            true => Some(File::open(&src)),
+        }
+    }
 
-                fs::create_dir_all(src.with_file_name("")).map_err(ErrorInternalServerError)?;
+    pub fn set<P: AsRef<Path>, B: AsRef<str>>(src: P, body: B) -> Result<File> {
+        let src = Path::new("storage/cache").join(src.as_ref());
 
-                let mut file = File::options()
-                    .read(true)
-                    .append(true)
-                    .create(true)
-                    .open(&src)
-                    .map_err(ErrorInternalServerError)?;
+        fs::create_dir_all(src.with_file_name("")).map_err(ErrorInternalServerError)?;
 
-                file.write_all(body.as_bytes())
-                    .map_err(ErrorInternalServerError)?;
+        let mut file = File::options()
+            .read(true)
+            .append(true)
+            .create(true)
+            .open(&src)
+            .map_err(ErrorInternalServerError)?;
 
-                file
-            }
-            true => File::open(&src).map_err(ErrorInternalServerError)?,
-        },
-        src,
-    )
+        file.write_all(body.as_ref().as_bytes())
+            .map_err(ErrorInternalServerError)?;
+
+        Ok(file)
+    }
 }
 
 pub fn file<P: AsRef<Path>>(file: File, src: P) -> Result<NamedFile> {

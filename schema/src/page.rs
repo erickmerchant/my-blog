@@ -1,14 +1,20 @@
 use serde::{Deserialize, Serialize};
-use std::{convert::AsRef, vec::Vec};
 
 #[derive(Clone, Deserialize, Debug, Serialize)]
 pub struct Page {
+    #[serde(default)]
     pub slug: String,
+    #[serde(default)]
     pub category: String,
+    #[serde(default)]
     pub title: String,
+    #[serde(default)]
     pub date: String,
+    #[serde(default)]
     pub description: String,
+    #[serde(default)]
     pub content: String,
+    #[serde(default)]
     pub template: String,
 }
 

@@ -1,5 +1,6 @@
 mod config;
 mod error_routes;
+mod queries;
 mod responses;
 mod routes;
 mod templates;
@@ -9,10 +10,9 @@ use actix_web::{
     middleware::Logger, web, App, HttpServer,
 };
 use clap::Parser;
+use queries::Pool;
 use r2d2_sqlite::{self, SqliteConnectionManager};
 use std::{fs, io, io::Write};
-
-pub type Pool = r2d2::Pool<r2d2_sqlite::SqliteConnectionManager>;
 
 #[actix_web::main]
 async fn main() -> io::Result<()> {
@@ -25,11 +25,11 @@ async fn main() -> io::Result<()> {
     let port = server_config.port;
 
     let template_env = templates::get_env();
+    let manager = SqliteConnectionManager::file("storage/content.db");
+    let pool = Pool::new(manager).unwrap();
 
     HttpServer::new(move || {
         let assets_config = config::AssetsConfig::get();
-        let manager = SqliteConnectionManager::file("storage/content.db");
-        let pool = Pool::new(manager).unwrap();
 
         App::new()
             .app_data(web::Data::new(server_config.clone()))

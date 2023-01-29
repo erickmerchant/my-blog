@@ -15,7 +15,9 @@ pub async fn js(
     let jsx = ext == *"jsx";
     let src = Path::new("assets").join(file).with_extension(ext);
 
-    responses::cacheable(&src, || {
+    let file = if let Some(file) = responses::Cache::get(&src) {
+        file?
+    } else {
         let src = src.as_ref();
         let cm = Arc::<SourceMap>::default();
         let handler = Arc::new(Handler::with_tty_emitter(
@@ -59,10 +61,14 @@ pub async fn js(
             options.source_maps = Some(SourceMapsConfig::Str("inline".to_string()));
         }
 
-        GLOBALS.set(&Default::default(), || {
+        let code = GLOBALS.set(&Default::default(), || {
             c.process_js_file(fm, &handler, &options)
                 .map(|transformed| transformed.code)
                 .map_err(ErrorInternalServerError)
-        })
-    })
+        })?;
+
+        responses::Cache::set(src, code)?
+    };
+
+    responses::file(file, src)
 }

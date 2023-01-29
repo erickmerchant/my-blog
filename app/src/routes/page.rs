@@ -1,37 +1,42 @@
 use crate::responses;
 use actix_files::NamedFile;
-use actix_web::{error::ErrorInternalServerError, error::ErrorNotFound, web, Result};
+use actix_web::{error::ErrorInternalServerError, web, Result};
+use actix_web_lab::extract;
 use minijinja::{context, Environment};
 use schema::*;
-use std::path::Path;
 
 pub async fn page(
-    parts: web::Path<(String, String)>,
+    extract::Path((category, slug)): extract::Path<(String, String)>,
     template_env: web::Data<Environment<'_>>,
 ) -> Result<NamedFile> {
-    let parts = parts.as_ref();
-    let category = parts.0.clone();
-    let slug = parts.1.clone();
+    let src = format!("{category}/{slug}.html");
 
-    responses::cacheable(
-        Path::new(&category)
-            .with_file_name(&slug)
-            .with_extension("html"),
-        || {
-            let page = Page::get_one(format!("{category}"), format!("{slug}"));
+    let file = if let Some(file) = responses::Cache::get(&src) {
+        file?
+    } else {
+        // let page = Page::get_one(format!("{category}"), format!("{slug}"));
 
-            if let Some(page) = page {
-                let ctx = context! {
-                    page => &page,
-                };
+        let page = Page {
+            category,
+            slug,
+            ..Page::default()
+        };
 
-                template_env
-                    .get_template(&page.template)
-                    .and_then(|template| template.render(ctx))
-                    .map_err(ErrorInternalServerError)
-            } else {
-                Err(ErrorNotFound("not found"))
-            }
-        },
-    )
+        // if let Some(page) = page {
+        let ctx = context! {
+            page => &page,
+        };
+
+        let html = template_env
+            .get_template(&page.template)
+            .and_then(|template| template.render(ctx))
+            .map_err(ErrorInternalServerError)?;
+
+        responses::Cache::set(&src, html)?
+        // } else {
+        //     Err(ErrorNotFound("not found"))
+        // }
+    };
+
+    responses::file(file, src)
 }
