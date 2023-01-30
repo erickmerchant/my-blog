@@ -19,11 +19,18 @@ pub async fn posts_index(
             .await?
             .map_err(ErrorInternalServerError)?;
 
-        let posts: Vec<Page> = web::block(move || -> Result<Vec<Page>, rusqlite::Error> {
+        let posts: Vec<Page> = match web::block(move || -> Result<Vec<Page>, rusqlite::Error> {
             queries::get_all_pages(conn, "posts")
         })
         .await?
-        .map_err(|e| ErrorInternalServerError(e.to_string()))?;
+        {
+            Ok(posts) => posts,
+            Err(error) => {
+                println!("{error:?}");
+
+                vec![]
+            }
+        };
 
         let p = pool.clone();
 

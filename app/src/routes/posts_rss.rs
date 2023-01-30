@@ -1,6 +1,6 @@
 use crate::{queries, queries::Pool, responses};
 use actix_files::NamedFile;
-use actix_web::{error::ErrorInternalServerError, error::ErrorNotFound, web, Result};
+use actix_web::{error::ErrorInternalServerError, web, Result};
 use minijinja::{context, Environment};
 use schema::*;
 use std::vec::Vec;
@@ -20,26 +20,28 @@ pub async fn posts_rss(
             .await?
             .map_err(ErrorInternalServerError)?;
 
-        let posts: Vec<Page> = web::block(move || -> Result<Vec<Page>, rusqlite::Error> {
+        let posts: Vec<Page> = match web::block(move || -> Result<Vec<Page>, rusqlite::Error> {
             queries::get_all_pages(conn, "posts")
         })
         .await?
-        .map_err(|e| ErrorInternalServerError(e.to_string()))?;
+        {
+            Ok(posts) => posts,
+            Err(error) => {
+                println!("{error:?}");
 
-        match !posts.is_empty() {
-            true => {
-                let ctx = context! {
-                    posts => posts,
-                };
-                let html = template_env
-                    .get_template("posts-rss.jinja")
-                    .and_then(|template| template.render(ctx))
-                    .map_err(ErrorInternalServerError)?;
-
-                responses::Cache::set(src, html)?
+                vec![]
             }
-            false => Err(ErrorNotFound("not found"))?,
-        }
+        };
+
+        let ctx = context! {
+            posts => posts,
+        };
+        let html = template_env
+            .get_template("posts-rss.jinja")
+            .and_then(|template| template.render(ctx))
+            .map_err(ErrorInternalServerError)?;
+
+        responses::Cache::set(src, html)?
     };
 
     responses::file(file, src)

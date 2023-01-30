@@ -355,6 +355,7 @@ dependencies = [
  "clap",
  "env_logger",
  "lightningcss",
+ "log",
  "minijinja",
  "parcel_sourcemap",
  "r2d2",

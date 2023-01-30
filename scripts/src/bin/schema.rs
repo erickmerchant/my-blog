@@ -5,6 +5,8 @@ use schema::Page;
 use std::fs;
 
 fn main() {
+    fs::create_dir_all("storage").unwrap();
+
     let conn = Connection::open("storage/content.db").unwrap();
 
     conn.execute("DROP TABLE IF EXISTS page", []).unwrap();
