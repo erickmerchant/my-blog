@@ -304,6 +304,8 @@ pre {
   font-size: 1.25em;
   width: 100%;
   list-style: none;
+
+  --list-indent: 0;
 }
 
 .pagination-previous,
