@@ -41,7 +41,13 @@ customElements.define(
     connectedCallback() {
       this.attachShadow({mode: "open"});
 
-      render(<PageIcon name={this.getAttribute("name")} />, this.shadowRoot);
+      render(
+        <>
+          <link rel="stylesheet" href="/components/page-icon.css" />
+          <PageIcon name={this.getAttribute("name")} />
+        </>,
+        this.shadowRoot
+      );
     }
   }
 );

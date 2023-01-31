@@ -1,0 +1,21 @@
+* {
+  font: inherit;
+  color: inherit;
+  gap: inherit;
+  max-width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+
+svg {
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  fill: currentColor;
+  display: grid;
+}

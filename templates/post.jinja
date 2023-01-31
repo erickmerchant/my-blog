@@ -2,7 +2,7 @@
 
 {%- macro pagination_link(page, icon) -%}
     <a class="pagination-link" href="/{{page.category}}/{{page.slug}}.html">
-      {{page.title}} <page-icon name="{{icon}}"></page-icon>
+      {{page.title}} <page-icon class="pagination-icon" name="{{icon}}"></page-icon>
     </a>
 {%- endmacro -%}
 
@@ -16,12 +16,14 @@
 
   {{page.content | safe}}
 
-  {% if pagination.previous %}
-    {{ pagination_link(pagination.previous, "arrowLeft") }}
-  {% endif %}
+  <div class="pagination">
+    {% if pagination.previous %}
+      {{ pagination_link(pagination.previous, "arrowLeft") }}
+    {% endif %}
 
-  {% if pagination.next %}
-    {{ pagination_link(pagination.next, "arrowRight") }}
-  {% endif %}
+    {% if pagination.next %}
+      {{ pagination_link(pagination.next, "arrowRight") }}
+    {% endif %}
+  </div>
 
 {% endblock %}

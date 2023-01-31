@@ -296,3 +296,28 @@ pre {
   font-weight: 500;
   color: var(--ink-1);
 }
+
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: safe center;
+  font-size: 1.25em;
+  width: 100%;
+}
+
+.pagination-link {
+  display: flex;
+  padding: 0.5em;
+  align-items: center;
+}
+
+.pagination-link:first-child {
+  flex-direction: row-reverse;
+}
+
+.pagination-icon {
+  display: grid;
+  height: 1em;
+  aspect-ratio: 1 / 1;
+  margin-top: 0.25em;
+}
