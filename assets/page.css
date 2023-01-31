@@ -303,6 +303,7 @@ pre {
   justify-content: safe center;
   font-size: 1.25em;
   width: 100%;
+  list-style: none;
 }
 
 .pagination-previous,
