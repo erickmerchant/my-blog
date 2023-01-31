@@ -5,7 +5,7 @@ use actix_web::{
     Result,
 };
 use minijinja::{context, Environment};
-use schema::*;
+use models::*;
 use std::{convert::AsRef, fs, fs::File, io, io::Write, path::Path};
 
 pub struct Cache {}

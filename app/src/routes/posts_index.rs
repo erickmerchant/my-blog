@@ -2,7 +2,7 @@ use crate::{queries, queries::Pool, responses};
 use actix_files::NamedFile;
 use actix_web::{error::ErrorInternalServerError, error::ErrorNotFound, web, Result};
 use minijinja::{context, Environment};
-use schema::*;
+use models::*;
 
 pub async fn posts_index(
     pool: web::Data<Pool>,

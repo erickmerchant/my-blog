@@ -1,7 +1,7 @@
 use glob::glob;
+use models::Page;
 use pathdiff::diff_paths;
 use rusqlite::Connection;
-use schema::Page;
 use std::fs;
 
 fn main() {
@@ -21,7 +21,8 @@ fn main() {
              description TEXT NOT NULL,
              content TEXT NOT NULL,
              template TEXT NOT NULL
-         )",
+         );
+         CREATE UNIQUE INDEX unique_category_slug ON page (category, slug);",
         [],
     )
     .unwrap();

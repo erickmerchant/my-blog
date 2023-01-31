@@ -3,7 +3,7 @@ use actix_files::NamedFile;
 use actix_web::{error::ErrorInternalServerError, error::ErrorNotFound, web, Result};
 use actix_web_lab::extract;
 use minijinja::{context, Environment};
-use schema::*;
+use models::*;
 
 pub async fn page(
     pool: web::Data<Pool>,
@@ -21,14 +21,33 @@ pub async fn page(
             .await?
             .map_err(ErrorInternalServerError)?;
 
+        let page_category = category.clone();
+        let page_slug = slug.clone();
+
         let page: Page = web::block(move || -> Result<Page, rusqlite::Error> {
-            queries::get_page(conn, category, slug)
+            queries::get_page(conn, page_category, page_slug)
+        })
+        .await?
+        .map_err(|e| ErrorNotFound(e.to_string()))?;
+
+        let p = pool.clone();
+
+        let conn = web::block(move || p.get())
+            .await?
+            .map_err(ErrorInternalServerError)?;
+
+        let page_category = category.clone();
+        let page_slug = slug.clone();
+
+        let pagination: Pagination = web::block(move || -> Result<Pagination, rusqlite::Error> {
+            queries::get_pagination(conn, page_category, page_slug)
         })
         .await?
         .map_err(|e| ErrorNotFound(e.to_string()))?;
 
         let ctx = context! {
             page => &page,
+            pagination => &pagination,
         };
 
         let html = template_env
