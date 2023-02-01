@@ -616,9 +616,9 @@ checksum = "14c189c53d098945499cdfa7ecc63567cf3886b3332b312a5b4585d8d3a6a610"
 
 [[package]]
 name = "bytes"
-version = "1.3.0"
+version = "1.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "dfb24e866b15a1af2a1b663f10c6b6b8f397a84aadb828f12e5b289ec23a3a3c"
+checksum = "89b2fd2a0dcf38d7971e2194b6b6eebab45ae01067456a7fd93d5547a61b70be"
 
 [[package]]
 name = "bytestring"
@@ -2345,12 +2345,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "retain_mut"
-version = "0.1.9"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4389f1d5789befaf6029ebd9f7dac4af7f7e3d61b69d4f30e2ac02b57e7712b0"
-
-[[package]]
 name = "rkyv"
 version = "0.7.39"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2804,9 +2798,9 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.245.8"
+version = "0.245.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "dde072607fc702057e110316e803bbd8e62b9420c77d254309b10a8da6097bb6"
+checksum = "4f806205bae9496bba06499d4176934e1bb32739dc12badb82d5f1b8b03d9925"
 dependencies = [
  "ahash 0.7.6",
  "anyhow",
@@ -3042,9 +3036,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.166.8"
+version = "0.166.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "08b1c96fa124e193ada1061788fb1385677fafd26478b5592d9cf7f49f5a71a8"
+checksum = "8c0b340fc1fef4b34fb10727ffe15ff59f3b827439309b83d63462dd4487a70c"
 dependencies = [
  "ahash 0.7.6",
  "arrayvec",
@@ -3055,7 +3049,6 @@ dependencies = [
  "parking_lot",
  "radix_fmt",
  "regex",
- "retain_mut",
  "rustc-hash",
  "serde",
  "serde_json",
@@ -3096,9 +3089,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_preset_env"
-version = "0.180.9"
+version = "0.180.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f24384ddeaede09390eed2724aca3c0d90f9d33ec1e743ebb39bbbfd4797f70a"
+checksum = "4a04e51d3947b209e257fbe56d484a15dda3532a5d45437483bc3ff73d0ea535"
 dependencies = [
  "ahash 0.7.6",
  "anyhow",
@@ -3121,9 +3114,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "0.203.8"
+version = "0.203.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "81763f01c894efef28f2294e2fbcddaf9037991a7bf7e9987382bde0ba19dcc0"
+checksum = "8a182a223d07ecaebcd5f2655f22b9efc0505d152531ad0715d28d8582bcb8aa"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -3177,9 +3170,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.141.5"
+version = "0.141.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "cbaf191a9dd5a88d06dba528de44721b79f0a3b0b377f3590b2ed91e442375ff"
+checksum = "9cbe741a69de15627fb00ffabfd063e1c6e93c5c264831b393bfb09a0f3fb6a0"
 dependencies = [
  "ahash 0.7.6",
  "arrayvec",
@@ -3216,9 +3209,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "0.158.7"
+version = "0.158.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c438b6aa79c5fc30f3737ce0a2b17363e4444cfbdfba776c6caa6d1f8e0cff8e"
+checksum = "c686fc5da9fed4e86f1d3e6153f3aeff81159a80809287fc7dfeaf3f4c91afc4"
 dependencies = [
  "Inflector",
  "ahash 0.7.6",
@@ -3244,9 +3237,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.172.8"
+version = "0.172.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ded1cf7bb097f9e49e3a459e40f73c4c10aaab5ae803ce2c09e5c11fb54d5ff0"
+checksum = "f9f8f9634aa02e26b700abb92680b927baa536e992be979882199d8de294fa1b"
 dependencies = [
  "ahash 0.7.6",
  "dashmap",
@@ -3269,9 +3262,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_proposal"
-version = "0.149.6"
+version = "0.149.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4a36ad3aad866cdf2b68a1ad89bc8c58a29c9e8926299d9717aa0cf350f48965"
+checksum = "32be2f1b003cf46de9a48b163049f71354656cadc9f22241d8f499faf0d5b043"
 dependencies = [
  "either",
  "serde",
@@ -3288,9 +3281,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_react"
-version = "0.160.7"
+version = "0.160.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9dcfa2c4267b7e43d38a00c61401168362887eb24570daf1becf220ed97a30e1"
+checksum = "e81ef1d4e65a3f57407b2b43ddeb0ac377d675ec415c5c6166f96646077f9c3e"
 dependencies = [
  "ahash 0.7.6",
  "base64 0.13.1",
@@ -3314,9 +3307,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "0.164.8"
+version = "0.164.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e2b0e9b65463bd1df6868b97c0ec85972707f000cd30fb201483a878ec0c20e5"
+checksum = "bebff666c1bb29c2da4c39d910f547488a0c190f21491d3559723bcd9d8befea"
 dependencies = [
  "serde",
  "swc_atoms",
@@ -3941,18 +3934,18 @@ checksum = "447660ad36a13288b1db4d4248e857b510e8c3a225c822ba4fb748c0aafecffd"
 
 [[package]]
 name = "zstd"
-version = "0.12.2+zstd.1.5.2"
+version = "0.12.3+zstd.1.5.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e9262a83dc741c0b0ffec209881b45dbc232c21b02a2b9cb1adb93266e41303d"
+checksum = "76eea132fb024e0e13fd9c2f5d5d595d8a967aa72382ac2f9d39fcc95afd0806"
 dependencies = [
  "zstd-safe",
 ]
 
 [[package]]
 name = "zstd-safe"
-version = "6.0.2+zstd.1.5.2"
+version = "6.0.3+zstd.1.5.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a6cf39f730b440bab43da8fb5faf5f254574462f73f260f85f7987f32154ff17"
+checksum = "68e4a3f57d13d0ab7e478665c60f35e2a613dcd527851c2c7287ce5c787e134a"
 dependencies = [
  "libc",
  "zstd-sys",
@@ -3960,9 +3953,9 @@ dependencies = [
 
 [[package]]
 name = "zstd-sys"
-version = "2.0.5+zstd.1.5.2"
+version = "2.0.6+zstd.1.5.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "edc50ffce891ad571e9f9afe5039c4837bede781ac4bb13052ed7ae695518596"
+checksum = "68a3f9792c0c3dc6c165840a75f47ae1f4da402c2d006881129579f6597e801b"
 dependencies = [
  "cc",
  "libc",

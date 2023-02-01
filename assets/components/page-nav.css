@@ -1,15 +1,9 @@
 * {
   font: inherit;
   color: inherit;
-  gap: inherit;
   max-width: 100%;
   padding: 0;
   margin: 0;
-}
-
-*,
-::before,
-::after {
   box-sizing: border-box;
 }
 
@@ -37,15 +31,6 @@ svg {
     outline: none;
     background: hsl(0 0% 0% / 0);
   }
-
-  :focus-visible:where(:not(a)) {
-    outline: 0.15em solid currentColor;
-    background: hsl(0 0% 0% / 0);
-  }
-
-  :focus-visible:where(a) {
-    text-decoration-thickness: 0.2em;
-  }
 }
 
 .nav {
@@ -54,7 +39,6 @@ svg {
   overflow: visible;
   grid-template-rows: auto 0fr;
   align-content: start;
-  gap: 0em;
 }
 
 @media (max-width: 600px) {
@@ -94,6 +78,12 @@ svg {
   place-content: center;
   border-radius: 0.25em;
   cursor: pointer;
+  transition: transform 0.25s;
+}
+
+.toggle:hover,
+.toggle:focus-visible {
+  color: var(--ink-0);
 }
 
 @media (max-width: 400px) {
