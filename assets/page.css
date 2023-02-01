@@ -74,21 +74,20 @@ html {
 body {
   height: 100%;
   overflow-x: hidden;
-  color: var(--ink-3);
+  color: var(--ink-2);
   background: var(--paper-2);
   display: grid;
   grid-template-rows: min-content auto min-content;
 
-  --scrollbar-background: var(--ink-1);
+  --scrollbar-background: var(--ink-0);
   --scrollbar-track-background: var(--paper-1);
 }
 
 @media (prefers-color-scheme: light) {
   body {
-    --ink-0: hsl(120 70% 30%);
-    --ink-1: hsl(120 70% 20%);
-    --ink-2: hsl(120 35% 20%);
-    --ink-3: hsl(120 0% 10%);
+    --ink-0: hsl(120 70% 20%);
+    --ink-1: hsl(120 35% 20%);
+    --ink-2: hsl(120 0% 10%);
     --paper-0: hsl(120 15% 80%);
     --paper-1: hsl(120 10% 90%);
     --paper-2: hsl(0 0% 100%);
@@ -97,10 +96,9 @@ body {
 
 @media (prefers-color-scheme: dark) {
   body {
-    --ink-0: hsl(120 70% 70%);
-    --ink-1: hsl(120 70% 80%);
-    --ink-2: hsl(120 35% 80%);
-    --ink-3: hsl(120 0% 100%);
+    --ink-0: hsl(120 70% 80%);
+    --ink-1: hsl(120 35% 80%);
+    --ink-2: hsl(120 0% 100%);
     --paper-0: hsl(120 15% 30%);
     --paper-1: hsl(120 10% 20%);
     --paper-2: hsl(120 0% 10%);
@@ -108,7 +106,7 @@ body {
 }
 
 a {
-  color: var(--ink-1);
+  color: var(--ink-0);
   text-underline-offset: 0.2em;
   text-decoration-thickness: 0.1em;
 }
@@ -116,7 +114,6 @@ a {
 a:hover,
 a:focus-visible {
   text-decoration-thickness: 0.2em;
-  color: var(--ink-0);
 }
 
 em {
@@ -162,13 +159,14 @@ li {
 
 pre {
   display: block;
-  color: var(--ink-2);
+  color: var(--ink-1);
   background-color: var(--paper-1);
   font-family: "Chivo Mono", monospace;
   white-space: pre-wrap;
   border-radius: var(--border-radius);
   overflow-x: auto;
 
+  --max-width: 44rem;
   --border-radius: 0.25em;
 }
 
@@ -191,7 +189,7 @@ pre {
   padding: 1em;
   font-weight: 500;
   display: grid;
-  color: var(--ink-1);
+  color: var(--ink-0);
 }
 
 .navList {
@@ -287,7 +285,7 @@ pre {
 
 .published {
   font-weight: 500;
-  color: var(--ink-2);
+  color: var(--ink-1);
 }
 
 .pagination {
@@ -302,29 +300,39 @@ pre {
   --list-indent: 0;
 }
 
+.pagination > * {
+  flex: 1 1 auto;
+}
+
 .paginationLeft,
 .paginationRight {
   display: flex;
-  padding: 0.5em;
   align-items: center;
+  justify-content: center;
   gap: 0.5em;
   padding: 0.5em 1em;
   background-color: var(--paper-0);
-  color: var(--ink-1);
+  color: var(--ink-0);
   border-radius: 0.25em;
   transition: transform 0.25s;
   transform: var(--transform);
+  text-decoration: none;
+  border: 0.25em solid hsl(0 0% 0% / 0);
 }
 
 .paginationLeft {
   flex-direction: row-reverse;
 }
 
+:hover:where(.paginationLeft, .paginationRight),
+:focus-visible:where(.paginationLeft, .paginationRight) {
+  border: 0.25em solid currentColor;
+}
+
 .paginationIcon {
   display: grid;
   height: 1em;
   aspect-ratio: 1 / 1;
-  margin-top: 0.2em;
   transition: transform 0.25s;
   transform: var(--transform, none);
 }

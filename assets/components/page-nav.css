@@ -69,21 +69,24 @@ svg {
 }
 
 .toggle {
+  position: relative;
   appearance: none;
   display: none;
   aspect-ratio: 1 / 1;
-  height: 1.5em;
+  height: 2em;
   border: 0;
   background-color: hsl(0 0% 0% / 0);
   place-content: center;
   border-radius: 0.25em;
   cursor: pointer;
   transition: transform 0.25s;
+  border: 0.25em solid hsl(0 0% 0% / 0);
+  margin-left: -0.25em;
 }
 
 .toggle:hover,
 .toggle:focus-visible {
-  color: var(--ink-0);
+  border: 0.25em solid currentColor;
 }
 
 @media (max-width: 400px) {
