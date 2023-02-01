@@ -308,7 +308,7 @@ pre {
   padding: 0.5em;
   align-items: center;
   gap: 0.5em;
-  padding: 1em;
+  padding: 0.5em 1em;
   background-color: var(--paper-0);
   color: var(--ink-1);
   border-radius: 0.25em;
