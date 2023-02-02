@@ -1,11 +1,17 @@
 use glob::glob;
+use lol_html::{element, html_content::ContentType, text, HtmlRewriter, Settings};
 use models::Page;
 use pathdiff::diff_paths;
 use rusqlite::Connection;
 use std::fs;
+use syntect::{
+    html::ClassStyle, html::ClassedHTMLGenerator, parsing::SyntaxSet, util::LinesWithEndings,
+};
 
 fn main() {
     fs::create_dir_all("storage").unwrap();
+
+    let ss = SyntaxSet::load_defaults_newlines();
 
     let conn = Connection::open("storage/content.db").unwrap();
 
@@ -70,7 +76,61 @@ fn main() {
 
                             data.slug = slug;
                             data.category = category;
-                            data.content = below.to_string();
+
+                            let mut output = vec![];
+                            let language_buffer =
+                                std::rc::Rc::new(std::cell::RefCell::new(String::new()));
+
+                            let mut rewriter = HtmlRewriter::new(
+                                Settings {
+                                    element_content_handlers: vec![
+                                        element!("page-code-block[language]", |el| {
+                                            if let Some(language) = el.get_attribute("language") {
+                                                language_buffer.borrow_mut().push_str(&language);
+                                            }
+
+                                            Ok(())
+                                        }),
+                                        text!("page-code-block[language]", |el| {
+                                            let mut language = language_buffer.borrow_mut();
+
+                                            if let Some(syntax) =
+                                                ss.find_syntax_by_extension(&language)
+                                            {
+                                                let original_html = String::from(el.as_str());
+
+                                                let mut html_generator =
+                                                    ClassedHTMLGenerator::new_with_class_style(
+                                                        syntax,
+                                                        &ss,
+                                                        ClassStyle::Spaced,
+                                                    );
+                                                for line in LinesWithEndings::from(&original_html) {
+                                                    html_generator
+                                                        .parse_html_for_line_which_includes_newline(
+                                                            line,
+                                                        )
+                                                        .unwrap();
+                                                }
+                                                let html = html_generator.finalize();
+
+                                                el.replace(format!(r#"<template shadowroot="open"><link rel="stylesheet" href="/components/page-code-block.css"><pre><code>{html}</code></pre></template><pre><code>{original_html}</code></pre>"#).as_str(), ContentType::Html);
+                                            }
+
+                                            language.clear();
+
+                                            Ok(())
+                                        }),
+                                    ],
+                                    ..Settings::default()
+                                },
+                                |c: &[u8]| output.extend_from_slice(c),
+                            );
+
+                            rewriter.write(below.as_bytes()).unwrap();
+                            rewriter.end().unwrap();
+
+                            data.content = String::from_utf8(output).unwrap();
                         }
                     }
                 }

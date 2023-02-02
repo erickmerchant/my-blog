@@ -21,6 +21,17 @@
 
 @font-face {
   font-family: "Chivo Mono";
+  font-style: italic;
+  font-weight: 100 900;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url(/fonts/Chivo_Mono/ChivoMono-Italic-VariableFont_wght-subset.woff2)
+    format("woff2");
+  unicode-range: U+20-7E, U+00A9, U+2014;
+}
+
+@font-face {
+  font-family: "Chivo Mono";
   font-style: normal;
   font-weight: 100 900;
   font-stretch: 100%;
@@ -74,7 +85,7 @@ html {
 body {
   height: 100%;
   overflow-x: hidden;
-  color: var(--ink-2);
+  color: var(--ink-1);
   background: var(--paper-2);
   display: grid;
   grid-template-rows: min-content auto min-content;
@@ -86,22 +97,30 @@ body {
 @media (prefers-color-scheme: light) {
   body {
     --ink-0: hsl(120 70% 20%);
-    --ink-1: hsl(120 35% 20%);
-    --ink-2: hsl(120 0% 10%);
-    --paper-0: hsl(120 15% 80%);
-    --paper-1: hsl(120 10% 90%);
-    --paper-2: hsl(0 0% 100%);
+    --ink-1: hsl(120 0% 10%);
+    --paper-0: hsl(120 5% 80%);
+    --paper-1: hsl(120 5% 90%);
+    --paper-2: hsl(0 5% 100%);
+    --code-0: hsl(180 70% 20%);
+    --code-1: hsl(240 70% 20%);
+    --code-2: hsl(300 70% 20%);
+    --code-3: hsl(0 70% 20%);
+    --code-4: hsl(60 70% 20%);
   }
 }
 
 @media (prefers-color-scheme: dark) {
   body {
     --ink-0: hsl(120 70% 80%);
-    --ink-1: hsl(120 35% 80%);
-    --ink-2: hsl(120 0% 100%);
-    --paper-0: hsl(120 15% 30%);
-    --paper-1: hsl(120 10% 20%);
-    --paper-2: hsl(120 0% 10%);
+    --ink-1: hsl(120 0% 100%);
+    --paper-0: hsl(120 5% 30%);
+    --paper-1: hsl(120 5% 20%);
+    --paper-2: hsl(120 5% 10%);
+    --code-0: hsl(180 70% 80%);
+    --code-1: hsl(240 70% 80%);
+    --code-2: hsl(300 70% 80%);
+    --code-3: hsl(0 70% 80%);
+    --code-4: hsl(60 70% 80%);
   }
 }
 
@@ -157,11 +176,11 @@ li {
   margin-inline-start: var(--list-indent);
 }
 
-pre {
+page-code-block {
   display: block;
-  color: var(--ink-1);
   background-color: var(--paper-1);
   font-family: "Chivo Mono", monospace;
+  font-variant-ligatures: no-common-ligatures;
   white-space: pre-wrap;
   border-radius: var(--border-radius);
   overflow-x: auto;
@@ -171,7 +190,7 @@ pre {
 }
 
 @media (max-width: 810px) {
-  pre {
+  page-code-block {
     --border-radius: 0;
   }
 }
@@ -285,14 +304,12 @@ pre {
 
 .published {
   font-weight: 500;
-  color: var(--ink-1);
 }
 
 .pagination {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: safe center;
-  font-size: 1.25em;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  font-size: 1em;
   width: 100%;
   list-style: none;
   gap: 1em 5vw;
@@ -300,33 +317,56 @@ pre {
   --list-indent: 0;
 }
 
-.pagination > * {
-  flex: 1 1 auto;
+@media (max-width: 600px) {
+  .pagination {
+    grid-template-columns: 100%;
+  }
 }
 
-.paginationLeft,
-.paginationRight {
+.paginationLink {
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: 0.5em;
-  padding: 0.5em 1em;
-  background-color: var(--paper-0);
+  padding: 0.25em 0.5em;
+  min-height: 3.5em;
   color: var(--ink-0);
+  background-color: var(--paper-0);
   border-radius: 0.25em;
   transition: transform 0.25s;
   transform: var(--transform);
   text-decoration: none;
-  border: 0.25em solid hsl(0 0% 0% / 0);
+  box-shadow: 0 0 0 0.125em currentColor, 0 0 0 0.125em hsl(0 0% 0% / 0);
+  height: 100%;
+  text-align: right;
 }
 
-.paginationLeft {
+:where(:first-child) > .paginationLink {
   flex-direction: row-reverse;
+  text-align: left;
 }
 
-:hover:where(.paginationLeft, .paginationRight),
-:focus-visible:where(.paginationLeft, .paginationRight) {
-  border: 0.25em solid currentColor;
+.paginationLink:hover,
+.paginationLink:focus-visible {
+  box-shadow: 0 0 0 0.25em currentColor;
+}
+
+.paginationPlaceholder {
+  display: flex;
+  padding: 0.5em 1em;
+  background-color: var(--paper-1);
+  border-radius: 0.25em;
+  border: 0.25em solid hsl(0 0% 0% / 0);
+  height: 100%;
+}
+
+@media (max-width: 600px) {
+  .paginationPlaceholder {
+    display: none;
+  }
+}
+
+.paginationPageTitle {
+  flex: 1 1 auto;
 }
 
 .paginationIcon {
@@ -335,4 +375,5 @@ pre {
   aspect-ratio: 1 / 1;
   transition: transform 0.25s;
   transform: var(--transform, none);
+  font-size: 1.25em;
 }

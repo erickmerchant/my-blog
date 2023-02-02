@@ -1,0 +1,168 @@
+* {
+  font: inherit;
+  color: inherit;
+  max-width: 100%;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+pre {
+  white-space: pre-wrap;
+}
+
+.accessor {
+}
+
+.assignment {
+}
+
+.begin {
+}
+
+.block {
+}
+
+.brackets {
+}
+
+.builtin {
+}
+
+.class {
+}
+
+.comma {
+}
+
+.comparison {
+}
+
+.conditional {
+}
+
+.constant {
+}
+
+.control {
+}
+
+.declaration {
+}
+
+.definition {
+}
+
+.dom {
+}
+
+.doublend {
+}
+
+.entity {
+}
+
+.flow {
+}
+
+.for {
+}
+
+.function-call {
+}
+
+.group {
+}
+
+.infinity {
+}
+
+.js {
+}
+
+.keyword {
+}
+
+.language {
+}
+
+.loop {
+}
+
+.meta {
+}
+
+.method {
+}
+
+.modifier {
+}
+
+.name {
+}
+
+.numeric {
+}
+
+.object-literal {
+}
+
+.operator {
+}
+
+.other {
+}
+
+.parameter {
+}
+
+.path {
+}
+
+.punctuation {
+}
+
+.quoted {
+}
+
+.readwrite {
+}
+
+.rust {
+}
+
+.section {
+}
+
+.separator {
+}
+
+.sequence {
+}
+
+.source {
+}
+
+.spread {
+}
+
+.statement {
+}
+
+.storage {
+}
+
+.string {
+}
+
+.supporterminator {
+}
+
+.ternary {
+}
+
+.type {
+}
+
+.variable {
+}

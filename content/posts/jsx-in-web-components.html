@@ -30,7 +30,7 @@
 
 <p>And here is an example of <code>h</code> and <code>Fragment</code>. You just need to be sure to import them or make sure they are defined wherever you use JSX.</p>
 
-<pre><code>
+<page-code-block language="js">
 function h(tag, props, ...children) {
   children = children.flat(Infinity);
 
@@ -55,6 +55,6 @@ function Fragment({children}) {
   return children;
 }
 
-</code></pre>
+</page-code-block>
 
 <p>My dream is the have a html tagged template function built into browsers, but in the meantime as long as I'm using Babel, or similar, JSX is a pretty good substitute</p>

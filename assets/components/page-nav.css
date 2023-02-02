@@ -16,7 +16,7 @@ svg {
 
 :host {
   position: sticky;
-  top: calc(var(--scrolling-down, 0) * -2.825em);
+  top: calc(var(--scrolling-down, 0) * -3.125em);
   transition: top 0.25s cubic-bezier(0.3, 0, 0.3, 0.7);
 }
 
@@ -80,13 +80,13 @@ svg {
   border-radius: 0.25em;
   cursor: pointer;
   transition: transform 0.25s;
-  border: 0.25em solid hsl(0 0% 0% / 0);
+  box-shadow: 0 0 0 0.25em hsl(0 0% 0% / 0);
   margin-left: -0.25em;
 }
 
 .toggle:hover,
 .toggle:focus-visible {
-  border: 0.25em solid currentColor;
+  box-shadow: 0 0 0 0.25em currentColor;
 }
 
 @media (max-width: 400px) {
