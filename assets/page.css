@@ -21,23 +21,21 @@
 
 @font-face {
   font-family: "Chivo Mono";
-  font-style: italic;
-  font-weight: 100 900;
+  font-style: normal;
+  font-weight: 400;
   font-stretch: 100%;
   font-display: swap;
-  src: url(/fonts/Chivo_Mono/ChivoMono-Italic-VariableFont_wght-subset.woff2)
-    format("woff2");
+  src: url(/fonts/Chivo_Mono/ChivoMono-Regular-subset.woff2) format("woff2");
   unicode-range: U+20-7E, U+00A9, U+2014;
 }
 
 @font-face {
   font-family: "Chivo Mono";
-  font-style: normal;
-  font-weight: 100 900;
+  font-style: italic;
+  font-weight: 400;
   font-stretch: 100%;
   font-display: swap;
-  src: url(/fonts/Chivo_Mono/ChivoMono-VariableFont_wght-subset.woff2)
-    format("woff2");
+  src: url(/fonts/Chivo_Mono/ChivoMono-Italic-subset.woff2) format("woff2");
   unicode-range: U+20-7E, U+00A9, U+2014;
 }
 
@@ -96,17 +94,16 @@ body {
 
 @media (prefers-color-scheme: light) {
   body {
-    --ink-0: hsl(120 70% 20%);
-    --ink-1: hsl(120 0% 10%);
-    --paper-0: hsl(120 15% 80%);
-    --paper-1: hsl(120 15% 95%);
+    --ink-0: hsl(120 70% 25%);
+    --ink-1: hsl(120 0% 5%);
+    --paper-0: hsl(120 10% 85%);
+    --paper-1: hsl(120 10% 95%);
     --paper-2: hsl(0 5% 100%);
     --code-0: hsl(30 100% 30%);
-    --code-1: hsl(45 100% 30%);
-    --code-2: hsl(180 30% 30%);
-    --code-3: hsl(210 50% 30%);
-    --code-4: hsl(330 30% 30%);
-    --code-5: hsl(0 0% 30%);
+    --code-1: hsl(45 75% 30%);
+    --code-2: hsl(180 50% 30%);
+    --code-3: hsl(210 25% 30%);
+    --code-4: hsl(330 50% 30%);
   }
 }
 
@@ -114,15 +111,14 @@ body {
   body {
     --ink-0: hsl(120 70% 80%);
     --ink-1: hsl(120 0% 100%);
-    --paper-0: hsl(120 15% 30%);
-    --paper-1: hsl(120 15% 15%);
+    --paper-0: hsl(120 10% 25%);
+    --paper-1: hsl(120 10% 15%);
     --paper-2: hsl(120 5% 10%);
-    --code-0: hsl(30 100% 70%);
-    --code-1: hsl(45 100% 70%);
-    --code-2: hsl(180 30% 70%);
-    --code-3: hsl(210 50% 70%);
-    --code-4: hsl(330 30% 70%);
-    --code-5: hsl(0 0% 70%);
+    --code-0: hsl(30 100% 75%);
+    --code-1: hsl(45 75% 75%);
+    --code-2: hsl(180 50% 75%);
+    --code-3: hsl(210 25% 75%);
+    --code-4: hsl(330 50% 75%);
   }
 }
 

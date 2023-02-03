@@ -1,5 +1,5 @@
 [package]
-name = "scripts"
+name = "bin"
 publish = false
 version = "0.1.0"
 edition = "2021"
@@ -8,7 +8,7 @@ edition = "2021"
 glob = "0.3.0"
 serde = "1.0"
 serde_json = "1.0"
-models = { path = "../models" }
+app = { path = "../app" }
 rusqlite = { version = "0.28.0", features = ["bundled"] }
 pathdiff = "0.2.1"
 syntect = "5.0.0"

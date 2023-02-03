@@ -1,0 +1,159 @@
+use app::models::Page;
+use glob::glob;
+use lol_html::{element, html_content::ContentType, text, HtmlRewriter, Settings};
+use pathdiff::diff_paths;
+use rusqlite::Connection;
+use std::{collections::HashSet, fs};
+use syntect::{
+    html::ClassStyle, html::ClassedHTMLGenerator, parsing::SyntaxSet, util::LinesWithEndings,
+};
+
+fn rewrite_content(data: &mut Page, below: &str) {
+    let ss = SyntaxSet::load_defaults_newlines();
+    let mut output = vec![];
+    let language_buffer = std::rc::Rc::new(std::cell::RefCell::new(String::new()));
+
+    let mut rewriter = HtmlRewriter::new(
+        Settings {
+            element_content_handlers: vec![
+                element!("page-code-block[language]", |el| {
+                    if let Some(language) = el.get_attribute("language") {
+                        language_buffer.borrow_mut().push_str(&language);
+                    }
+
+                    Ok(())
+                }),
+                text!("page-code-block[language]", |el| {
+                    let mut language = language_buffer.borrow_mut();
+
+                    if let Some(syntax) = ss.find_syntax_by_extension(&language) {
+                        let original_html = String::from(el.as_str());
+
+                        let mut html_generator = ClassedHTMLGenerator::new_with_class_style(
+                            syntax,
+                            &ss,
+                            ClassStyle::Spaced,
+                        );
+                        for line in LinesWithEndings::from(&original_html) {
+                            html_generator
+                                .parse_html_for_line_which_includes_newline(line)
+                                .unwrap();
+                        }
+                        let html = html_generator.finalize();
+
+                        el.replace(format!(r#"<template shadowroot="open"><link rel="stylesheet" href="/components/page-code-block.css"><pre><code>{html}</code></pre></template><pre><code>{original_html}</code></pre>"#).as_str(), ContentType::Html);
+
+                        data.components.insert("page-code-block".to_string());
+                    }
+
+                    language.clear();
+
+                    Ok(())
+                }),
+            ],
+            ..Settings::default()
+        },
+        |c: &[u8]| output.extend_from_slice(c),
+    );
+
+    rewriter.write(below.as_bytes()).unwrap();
+    rewriter.end().unwrap();
+
+    data.content = String::from_utf8(output).unwrap();
+}
+
+fn main() {
+    fs::create_dir_all("storage").unwrap();
+
+    let conn = Connection::open("storage/content.db").unwrap();
+
+    conn.execute("DROP TABLE IF EXISTS page", []).unwrap();
+
+    conn.execute(
+        "CREATE TABLE IF NOT EXISTS page (
+             id INTEGER PRIMARY KEY,
+             slug TEXT NOT NULL,
+             category TEXT NOT NULL,
+             title TEXT NOT NULL,
+             date TEXT NOT NULL,
+             description TEXT NOT NULL,
+             content TEXT NOT NULL,
+             template TEXT NOT NULL,
+             components TEXT NOT NULL
+         );
+         CREATE UNIQUE INDEX unique_category_slug ON page (category, slug);",
+        [],
+    )
+    .unwrap();
+
+    let mut insert_stmt = conn
+        .prepare(
+            "INSERT INTO page (
+                slug,
+                category,
+                title,
+                date,
+                description,
+                content,
+                template,
+                components
+            )
+            VALUES ( ?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8 )",
+        )
+        .unwrap();
+
+    if let Ok(paths) = glob("content/**/*.html") {
+        for path in paths.flatten() {
+            let slug = format!("{}", path.file_stem().unwrap_or_default().to_string_lossy());
+            let mut category = "".to_string();
+
+            if let Some(p) = diff_paths(&path, "content") {
+                if let Some(parent) = p.parent() {
+                    category = format!("{}", parent.to_string_lossy());
+                }
+            };
+
+            if let Ok(contents) = fs::read_to_string(&path) {
+                let mut data = Page {
+                    slug: slug.clone(),
+                    category: category.clone(),
+                    content: "".to_string(),
+                    components: HashSet::<String>::new(),
+                    ..Page::default()
+                };
+
+                if contents.starts_with("{\n") {
+                    if let Some((above, below)) = contents.split_once("}\n") {
+                        if let Ok(frontmatter) =
+                            serde_json::from_str::<Page>(format!("{above}}}").as_str())
+                        {
+                            data = frontmatter;
+
+                            data.slug = slug;
+                            data.category = category;
+
+                            rewrite_content(&mut data, below)
+                        }
+                    }
+                }
+
+                insert_stmt
+                    .execute([
+                        data.slug,
+                        data.category,
+                        data.title,
+                        data.date,
+                        data.description,
+                        data.content,
+                        data.template,
+                        data.components
+                            .iter()
+                            .map(|s| s.to_string())
+                            .collect::<Vec<String>>()
+                            .join(","),
+                    ])
+                    .unwrap();
+            }
+        }
+    }
+}

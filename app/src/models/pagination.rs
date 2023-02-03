@@ -1,4 +1,4 @@
-use crate::Page;
+use super::Page;
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Deserialize, Default, Debug, Serialize)]

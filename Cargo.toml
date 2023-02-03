@@ -1,5 +1,5 @@
 [workspace]
-members=["app", "scripts", "models"]
+members=["app", "bin"]
 
 [profile.release]
 strip = true

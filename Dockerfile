@@ -5,7 +5,7 @@ COPY . .
 RUN rm -rf storage
 RUN cargo run --bin build_db --release --no-default-features --locked
 RUN cargo build --bin app --release --no-default-features --locked
-RUN rm -rf app models scripts Cargo.lock Cargo.toml
+RUN rm -rf app bin Cargo.lock Cargo.toml
 RUN mv ./target/release/app ./app
 RUN rm -rf target
 

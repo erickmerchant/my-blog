@@ -1,9 +1,9 @@
+use crate::models::*;
 use crate::{queries, queries::Pool, responses};
 use actix_files::NamedFile;
 use actix_web::{error::ErrorInternalServerError, error::ErrorNotFound, web, Result};
 use actix_web_lab::extract;
 use minijinja::{context, Environment};
-use models::*;
 
 pub async fn page(
     pool: web::Data<Pool>,

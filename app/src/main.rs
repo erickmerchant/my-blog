@@ -1,5 +1,6 @@
 mod config;
 mod error_routes;
+mod models;
 mod queries;
 mod responses;
 mod routes;

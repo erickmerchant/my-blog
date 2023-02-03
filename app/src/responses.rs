@@ -1,3 +1,4 @@
+use crate::models::*;
 use actix_files::NamedFile;
 use actix_web::{
     dev::ServiceResponse, error::ErrorInternalServerError, error::ErrorNotFound,
@@ -5,7 +6,6 @@ use actix_web::{
     Result,
 };
 use minijinja::{context, Environment};
-use models::*;
 use std::{convert::AsRef, fs, fs::File, io, io::Write, path::Path};
 
 pub struct Cache {}

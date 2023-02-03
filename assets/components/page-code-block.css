@@ -12,36 +12,27 @@ pre {
 }
 
 code {
-  color: var(--code-5);
+  color: var(--code-3);
 }
 
 :where(.control, .operator):where(
     :not(.ternary, .comparison, .assignment)
   ).keyword,
 :where(.type, .modifier).storage {
-  color: var(--code-3);
-}
-
-.builtin {
-  font-weight: 500;
   color: var(--code-4);
 }
 
-.path,
-.variable {
+.path {
   color: var(--code-2);
 }
 
 :where(.name).function,
 :where(.function-call) .function {
-  color: var(--code-4);
+  color: var(--code-0);
   font-style: italic;
 }
 
-.string {
-  color: var(--code-0);
-}
-
+.string,
 .numeric,
 .boolean,
 .null,

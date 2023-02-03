@@ -1,8 +1,8 @@
+use crate::models::*;
 use crate::{queries, queries::Pool, responses};
 use actix_files::NamedFile;
 use actix_web::{error::ErrorInternalServerError, web, Result};
 use minijinja::{context, Environment};
-use models::*;
 use std::vec::Vec;
 
 pub async fn posts_rss(
