@@ -29,7 +29,6 @@ code {
 :where(.name).function,
 :where(.function-call) .function {
   color: var(--code-0);
-  font-style: italic;
 }
 
 .string,
