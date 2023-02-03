@@ -101,8 +101,8 @@ body {
     --paper-2: hsl(0 5% 100%);
     --code-0: hsl(30 100% 30%);
     --code-1: hsl(45 75% 30%);
-    --code-2: hsl(180 50% 30%);
-    --code-3: hsl(210 25% 30%);
+    --code-2: hsl(100 50% 30%);
+    --code-3: hsl(130 25% 30%);
     --code-4: hsl(330 50% 30%);
   }
 }
@@ -116,8 +116,8 @@ body {
     --paper-2: hsl(120 5% 10%);
     --code-0: hsl(30 100% 75%);
     --code-1: hsl(45 75% 75%);
-    --code-2: hsl(180 50% 75%);
-    --code-3: hsl(210 25% 75%);
+    --code-2: hsl(100 50% 75%);
+    --code-3: hsl(130 25% 75%);
     --code-4: hsl(330 50% 75%);
   }
 }
@@ -310,6 +310,7 @@ page-code-block {
   width: 100%;
   list-style: none;
   gap: 1em 5vw;
+  font-weight: 500;
 
   --list-indent: 0;
 }
