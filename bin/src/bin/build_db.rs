@@ -1,6 +1,7 @@
-use app::models::Page;
+use app::{models::Page, templates::get_env};
 use glob::glob;
 use lol_html::{element, html_content::ContentType, text, HtmlRewriter, Settings};
+use minijinja::context;
 use pathdiff::diff_paths;
 use rusqlite::Connection;
 use std::{collections::HashSet, fs};
@@ -9,6 +10,7 @@ use syntect::{
 };
 
 fn rewrite_content(data: &mut Page, below: &str) {
+    let template_env = get_env();
     let ss = SyntaxSet::load_defaults_newlines();
     let mut output = vec![];
     let language_buffer = std::rc::Rc::new(std::cell::RefCell::new(String::new()));
@@ -41,7 +43,16 @@ fn rewrite_content(data: &mut Page, below: &str) {
                         }
                         let html = html_generator.finalize();
 
-                        el.replace(format!(r#"<template shadowroot="open"><link rel="stylesheet" href="/components/page-code-block.css"><pre><code>{html}</code></pre></template><pre><code>{original_html}</code></pre>"#).as_str(), ContentType::Html);
+                        let ctx = context! {
+                            html => html,
+                            original_html => original_html
+                        };
+
+                        let template = template_env.get_template("page-code-block.jinja")?;
+
+                        let replacement_html = template.render(ctx)?;
+
+                        el.replace(replacement_html.as_str(), ContentType::Html);
 
                         data.components.insert("page-code-block".to_string());
                     }
