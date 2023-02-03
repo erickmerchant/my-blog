@@ -95,6 +95,8 @@ svg {
 }
 
 .toggleIcon {
+  display: grid;
+  aspect-ratio: 1 / 1;
   height: 1.5em;
 }
 

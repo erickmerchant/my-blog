@@ -1,5 +1,4 @@
 import {h, watch, classes, render} from "../component.js";
-import {PageIcon} from "./page-icon.jsx";
 
 let PageNav = (props) => {
   let state = watch({open: false, closing: false});
@@ -28,7 +27,7 @@ let PageNav = (props) => {
           props.toggle(state.open);
         }}
       >
-        <PageIcon
+        <page-icon
           class="toggleIcon"
           name={() => (state.open ? "close" : "menu")}
         />

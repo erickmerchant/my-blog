@@ -1,4 +1,4 @@
-import {h, render} from "../component.js";
+import {h, render, watch} from "../component.js";
 
 let icons = {
   close: {
@@ -19,32 +19,38 @@ let icons = {
   },
 };
 
-let Svg = (props) => (
-  <svg
-    class={() => props.class ?? ""}
-    aria-hidden="true"
-    viewBox={() => "0 0 " + props.icon.width + " 16"}
-  >
+let PageIcon = (props) => (
+  <svg aria-hidden="true" viewBox={() => "0 0 " + props.icon.width + " 16"}>
     <path d={() => props.icon.d ?? ""} />
   </svg>
 );
 
-export let PageIcon = (props) => () => {
-  let icon = icons[props.name];
-
-  return icon ? <Svg icon={icon} class={props.class} /> : "";
-};
-
 customElements.define(
   "page-icon",
   class extends HTMLElement {
+    static get observedAttributes() {
+      return ["name"];
+    }
+
+    #state = watch({name: this.getAttribute("name")});
+
+    attributeChangedCallback(name, _, newValue) {
+      this.#state[name] = newValue;
+    }
+
     connectedCallback() {
       this.attachShadow({mode: "open"});
 
       render(
         <>
           <link rel="stylesheet" href="/components/page-icon.css" />
-          <PageIcon name={this.getAttribute("name")} />
+          {() =>
+            icons[this.#state.name] ? (
+              <PageIcon icon={() => icons[this.#state.name]} />
+            ) : (
+              ""
+            )
+          }
         </>,
         this.shadowRoot
       );

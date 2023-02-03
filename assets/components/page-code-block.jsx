@@ -3,17 +3,20 @@ customElements.define(
   class extends HTMLElement {
     constructor() {
       super();
+
+      let template = this.firstChild;
+
       if (
         !this.shadowRoot &&
-        this.firstChild.nodeName === "TEMPLATE" &&
-        this.firstChild.hasAttribute("shadowroot")
+        template?.nodeName === "TEMPLATE" &&
+        template?.hasAttribute("shadowroot")
       ) {
-        let template = this.firstChild;
         let templateContent = template.content;
 
         const shadowRoot = this.attachShadow({
           mode: template.getAttribute("shadowroot"),
         });
+
         shadowRoot.appendChild(templateContent.cloneNode(true));
       }
     }
