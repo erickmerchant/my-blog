@@ -9,7 +9,6 @@
 
 svg {
   aspect-ratio: 1 / 1;
-  width: 100%;
   fill: currentColor;
   display: grid;
 }

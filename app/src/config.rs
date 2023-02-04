@@ -13,16 +13,16 @@ pub struct ServerConfig {
 
 #[derive(Deserialize, Debug, Clone, Default, Serialize)]
 #[serde(rename_all = "camelCase")]
-pub struct AssetsConfig {
-    #[serde(default = "AssetsConfig::get_default_targets")]
+pub struct ThemeConfig {
+    #[serde(default = "ThemeConfig::get_default_targets")]
     pub targets: String,
-    #[serde(default = "AssetsConfig::get_default_pragma")]
+    #[serde(default = "ThemeConfig::get_default_pragma")]
     pub pragma: String,
-    #[serde(default = "AssetsConfig::get_default_pragma_frag")]
+    #[serde(default = "ThemeConfig::get_default_pragma_frag")]
     pub pragma_frag: String,
 }
 
-impl AssetsConfig {
+impl ThemeConfig {
     pub fn get_default_targets() -> String {
         "supports es6-module and last 2 versions".to_string()
     }
@@ -33,9 +33,9 @@ impl AssetsConfig {
         "fragment".to_string()
     }
     pub fn get() -> Self {
-        match fs::read_to_string("assets/assets.config.json") {
+        match fs::read_to_string("theme/config.json") {
             Ok(file_contents) => serde_json::from_str::<Self>(&file_contents)
-                .expect("failed to parse assets/assets.config.json"),
+                .expect("failed to parse theme/config.json"),
             _ => Self::default(),
         }
     }

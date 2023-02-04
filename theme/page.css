@@ -54,12 +54,12 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--scrollbar-background);
+  background: var(--scrollbar);
   border-radius: var(--border-radius);
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--scrollbar-track-background);
+  background: var(--paper-1);
 }
 
 html {
@@ -69,7 +69,7 @@ html {
   line-height: 1.5;
   overflow-x: hidden;
   height: 100%;
-  scrollbar-color: var(--scrollbar-background) var(--scrollbar-track-background);
+  scrollbar-color: var(--scrollbar) var(--paper-1);
 
   --max-width: 40rem;
 }
@@ -87,9 +87,6 @@ body {
   background: var(--paper-2);
   display: grid;
   grid-template-rows: min-content auto min-content;
-
-  --scrollbar-background: var(--ink-0);
-  --scrollbar-track-background: var(--paper-1);
 }
 
 @media (prefers-color-scheme: light) {
@@ -99,11 +96,12 @@ body {
     --paper-0: hsl(120 10% 85%);
     --paper-1: hsl(120 10% 95%);
     --paper-2: hsl(0 5% 100%);
-    --code-0: hsl(30 100% 30%);
-    --code-1: hsl(45 75% 30%);
-    --code-2: hsl(100 50% 30%);
-    --code-3: hsl(130 25% 30%);
-    --code-4: hsl(330 50% 30%);
+    --code-0: hsl(0 50% 30%);
+    --code-1: hsl(30 100% 30%);
+    --code-2: hsl(60 50% 30%);
+    --code-3: hsl(90 50% 30%);
+    --code-4: hsl(120 5% 30%);
+    --scrollbar: hsl(120 25% 55%);
   }
 }
 
@@ -114,11 +112,12 @@ body {
     --paper-0: hsl(120 10% 25%);
     --paper-1: hsl(120 10% 15%);
     --paper-2: hsl(120 5% 10%);
-    --code-0: hsl(30 100% 75%);
-    --code-1: hsl(45 75% 75%);
-    --code-2: hsl(100 50% 75%);
-    --code-3: hsl(130 25% 75%);
-    --code-4: hsl(330 50% 75%);
+    --code-0: hsl(0 50% 80%);
+    --code-1: hsl(30 100% 80%);
+    --code-2: hsl(60 50% 80%);
+    --code-3: hsl(90 50% 80%);
+    --code-4: hsl(120 5% 80%);
+    --scrollbar: hsl(120 25% 60%);
   }
 }
 
@@ -175,7 +174,7 @@ li {
 }
 
 page-code-block {
-  display: block;
+  display: grid;
   background-color: var(--paper-1);
   font-family: "Chivo Mono", monospace;
   font-variant-ligatures: no-common-ligatures;
@@ -200,11 +199,10 @@ page-code-block {
 }
 
 .nav {
-  width: 100%;
+  display: grid;
   background-color: var(--paper-0);
   padding: 1em;
   font-weight: 500;
-  display: grid;
   color: var(--ink-0);
 }
 
@@ -228,7 +226,6 @@ page-code-block {
 
 .main {
   background-color: var(--paper-2);
-  width: 100%;
   display: grid;
   grid-auto-columns: 100%;
   gap: 1em;
@@ -269,7 +266,6 @@ page-code-block {
   justify-content: safe center;
   flex-wrap: wrap;
   gap: 1em 3em;
-  width: 100%;
   background-image: repeating-linear-gradient(
     135deg,
     var(--paper-2) 0 0.1rem,
@@ -307,7 +303,6 @@ page-code-block {
   display: grid;
   grid-template-columns: 1fr 1fr;
   font-size: 1em;
-  width: 100%;
   list-style: none;
   gap: 1em 5vw;
   font-weight: 500;
@@ -330,8 +325,6 @@ page-code-block {
   color: var(--ink-0);
   background-color: var(--paper-0);
   border-radius: 0.25em;
-  transition: transform 0.25s;
-  transform: var(--transform);
   text-decoration: none;
   box-shadow: 0 0 0 0.125em currentColor, 0 0 0 0.125em hsl(0 0% 0% / 0);
   height: 100%;
@@ -371,7 +364,5 @@ page-code-block {
   display: grid;
   height: 1em;
   aspect-ratio: 1 / 1;
-  transition: transform 0.25s;
-  transform: var(--transform, none);
   font-size: 1.25em;
 }

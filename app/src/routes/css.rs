@@ -7,10 +7,10 @@ use std::{fs, path::Path};
 
 pub async fn css(
     file: web::Path<String>,
-    assets_config: web::Data<config::AssetsConfig>,
+    theme_config: web::Data<config::ThemeConfig>,
     server_config: web::Data<config::ServerConfig>,
 ) -> Result<NamedFile> {
-    let src = Path::new("assets")
+    let src = Path::new("theme")
         .join(file.to_string())
         .with_extension("css");
 
@@ -18,7 +18,7 @@ pub async fn css(
         file?
     } else {
         let file_contents = fs::read_to_string(&src).map_err(ErrorNotFound)?;
-        let targets = targets::Browsers::from_browserslist([assets_config.targets.as_str()])
+        let targets = targets::Browsers::from_browserslist([theme_config.targets.as_str()])
             .unwrap_or_default();
         let parser_options = stylesheet::ParserOptions::default();
         let minifier_options = stylesheet::MinifyOptions {

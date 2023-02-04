@@ -30,11 +30,11 @@ async fn main() -> io::Result<()> {
     let pool = Pool::new(manager).unwrap();
 
     HttpServer::new(move || {
-        let assets_config = config::AssetsConfig::get();
+        let theme_config = config::ThemeConfig::get();
 
         App::new()
             .app_data(web::Data::new(server_config.clone()))
-            .app_data(web::Data::new(assets_config))
+            .app_data(web::Data::new(theme_config))
             .app_data(web::Data::new(pool.clone()))
             .app_data(web::Data::new(template_env.to_owned()))
             .wrap(Logger::new("%s %r"))

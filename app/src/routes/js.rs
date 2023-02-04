@@ -9,11 +9,11 @@ use swc_common::{errors::ColorConfig, errors::Handler, SourceMap, GLOBALS};
 
 pub async fn js(
     extract::Path((file, ext)): extract::Path<(String, String)>,
-    assets_config: web::Data<config::AssetsConfig>,
+    theme_config: web::Data<config::ThemeConfig>,
     server_config: web::Data<config::ServerConfig>,
 ) -> Result<NamedFile> {
     let jsx = ext == *"jsx";
-    let src = Path::new("assets").join(file).with_extension(ext);
+    let src = Path::new("theme").join(file).with_extension(ext);
 
     let file = if let Some(file) = responses::Cache::get(&src) {
         file?
@@ -31,7 +31,7 @@ pub async fn js(
         let options = json!({
             "minify": true,
             "env": {
-                "targets": assets_config.targets,
+                "targets": theme_config.targets,
                 "bugfixes": true
             },
             "jsc": {
@@ -45,8 +45,8 @@ pub async fn js(
                 },
                 "transform": {
                     "react": {
-                      "pragma": assets_config.pragma,
-                      "pragmaFrag": assets_config.pragma_frag,
+                      "pragma": theme_config.pragma,
+                      "pragmaFrag": theme_config.pragma_frag,
                       "runtime": "classic"
                     }
                 }

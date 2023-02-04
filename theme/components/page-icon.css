@@ -2,7 +2,6 @@ svg {
   box-sizing: border-box;
   display: grid;
   aspect-ratio: 1 / 1;
-  width: 100%;
   color: inherit;
   fill: currentColor;
 }

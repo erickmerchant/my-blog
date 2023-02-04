@@ -48,7 +48,8 @@ fn rewrite_content(data: &mut Page, below: &str) {
                             original_html => original_html
                         };
 
-                        let template = template_env.get_template("page-code-block.jinja")?;
+                        let template =
+                            template_env.get_template("components/page-code-block.jinja")?;
 
                         let replacement_html = template.render(ctx)?;
 

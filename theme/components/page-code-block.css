@@ -12,23 +12,23 @@ pre {
 }
 
 code {
-  color: var(--code-3);
+  color: var(--code-4);
 }
 
 :where(.control, .operator):where(
     :not(.ternary, .comparison, .assignment)
   ).keyword,
 :where(.type, .modifier).storage {
-  color: var(--code-4);
+  color: var(--code-0);
 }
 
 .path {
-  color: var(--code-2);
+  color: var(--code-3);
 }
 
 :where(.name).function,
 :where(.function-call) .function {
-  color: var(--code-0);
+  color: var(--code-1);
 }
 
 .string,
@@ -36,5 +36,5 @@ code {
 .boolean,
 .null,
 .undefined {
-  color: var(--code-1);
+  color: var(--code-2);
 }
