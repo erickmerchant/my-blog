@@ -37,7 +37,7 @@ pub async fn posts_rss(
             posts => posts,
         };
         let html = template_env
-            .get_template("posts-rss.jinja")
+            .get_template("pages/posts-rss.jinja")
             .and_then(|template| template.render(ctx))
             .map_err(ErrorInternalServerError)?;
 

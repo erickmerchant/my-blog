@@ -46,6 +46,6 @@ impl Page {
     }
 
     fn get_default_template() -> String {
-        "post.jinja".to_string()
+        "pages/post.jinja".to_string()
     }
 }

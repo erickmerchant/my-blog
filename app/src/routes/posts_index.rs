@@ -52,7 +52,7 @@ pub async fn posts_index(
                 };
 
                 let html = template_env
-                    .get_template("posts-index.jinja")
+                    .get_template("pages/posts-index.jinja")
                     .and_then(|template| template.render(ctx))
                     .map_err(ErrorInternalServerError)?;
 
