@@ -1,4 +1,4 @@
-import {h, watch, classes, render} from "../component.js";
+import {h, watch, render} from "../component.js";
 
 let PageNav = (props) => {
   let state = watch({open: false, closing: false});
@@ -6,10 +6,9 @@ let PageNav = (props) => {
   return (
     <nav
       class={() =>
-        classes("nav", {
-          open: state.open,
-          closing: state.closing,
-        })
+        ["nav", state.open && "open", state.closing && "closing"]
+          .filter((c) => !!c)
+          .join(" ")
       }
       on:transitionend={() => {
         state.closing = false;

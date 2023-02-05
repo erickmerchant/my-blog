@@ -192,24 +192,6 @@ export let render = (
   }
 };
 
-export let classes = (...args) => {
-  let result = [];
-
-  for (let arg of args.flat(Infinity)) {
-    if (typeof arg === "object") {
-      for (let [k, v] of Object.entries(arg)) {
-        if (v) {
-          result.push(k);
-        }
-      }
-    } else {
-      result.push(arg);
-    }
-  }
-
-  return result.join(" ");
-};
-
 let setAttribute = (node, key, val) => {
   if (node) {
     if (val != null && val !== false) {
