@@ -9,7 +9,9 @@ use syntect::{
     html::ClassStyle, html::ClassedHTMLGenerator, parsing::SyntaxSet, util::LinesWithEndings,
 };
 
-fn rewrite_content(data: &mut Page, below: &str) {
+fn page_from_html(category: String, slug: String, contents: &str) -> Page {
+    let mut data = Page::default();
+    let mut components = HashSet::<String>::new();
     let template_env = get_env();
     let ss = SyntaxSet::load_defaults_newlines();
     let mut output = vec![];
@@ -18,6 +20,15 @@ fn rewrite_content(data: &mut Page, below: &str) {
     let mut rewriter = HtmlRewriter::new(
         Settings {
             element_content_handlers: vec![
+                text!("page-json", |el| {
+                    if let Ok(d) = serde_json::from_str::<Page>(el.as_str()) {
+                        data = d;
+
+                        el.remove();
+                    }
+
+                    Ok(())
+                }),
                 element!("page-code-block[language]", |el| {
                     if let Some(language) = el.get_attribute("language") {
                         language_buffer.borrow_mut().push_str(&language);
@@ -55,7 +66,7 @@ fn rewrite_content(data: &mut Page, below: &str) {
 
                         el.replace(replacement_html.as_str(), ContentType::Html);
 
-                        data.components.insert("page-code-block".to_string());
+                        components.insert("page-code-block".to_string());
                     }
 
                     language.clear();
@@ -68,10 +79,15 @@ fn rewrite_content(data: &mut Page, below: &str) {
         |c: &[u8]| output.extend_from_slice(c),
     );
 
-    rewriter.write(below.as_bytes()).unwrap();
+    rewriter.write(contents.as_bytes()).unwrap();
     rewriter.end().unwrap();
 
     data.content = String::from_utf8(output).unwrap();
+    data.components = components;
+    data.slug = slug;
+    data.category = category;
+
+    data
 }
 
 fn main() {
@@ -126,28 +142,7 @@ fn main() {
             };
 
             if let Ok(contents) = fs::read_to_string(&path) {
-                let mut data = Page {
-                    slug: slug.clone(),
-                    category: category.clone(),
-                    content: "".to_string(),
-                    components: HashSet::<String>::new(),
-                    ..Page::default()
-                };
-
-                if contents.starts_with("{\n") {
-                    if let Some((above, below)) = contents.split_once("}\n") {
-                        if let Ok(frontmatter) =
-                            serde_json::from_str::<Page>(format!("{above}}}").as_str())
-                        {
-                            data = frontmatter;
-
-                            data.slug = slug;
-                            data.category = category;
-
-                            rewrite_content(&mut data, below)
-                        }
-                    }
-                }
+                let data = page_from_html(category, slug, &contents);
 
                 insert_stmt
                     .execute([
