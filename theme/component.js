@@ -58,11 +58,9 @@ export let render = (
 ) => {
   let currentChild = end ? start : null;
   let advance = () => {
-    if (currentChild?.nextSibling != end) {
-      currentChild = currentChild?.nextSibling;
-    } else {
-      currentChild = null;
-    }
+    currentChild = currentChild?.nextSibling;
+
+    currentChild = currentChild !== end ? currentChild : null;
   };
   let insert = (...nodes) => {
     for (let node of nodes) {
