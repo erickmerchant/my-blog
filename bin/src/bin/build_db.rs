@@ -1,3 +1,4 @@
+use anyhow::Result;
 use app::{models::Page, templates::get_env};
 use glob::glob;
 use lol_html::{element, html_content::ContentType, text, HtmlRewriter, Settings};
@@ -9,7 +10,7 @@ use syntect::{
     html::ClassStyle, html::ClassedHTMLGenerator, parsing::SyntaxSet, util::LinesWithEndings,
 };
 
-fn page_from_html(category: String, slug: String, contents: &str) -> Page {
+fn page_from_html(category: String, slug: String, contents: &str) -> Result<Page> {
     let mut data = Page::default();
     let mut components = HashSet::<String>::new();
     let template_env = get_env();
@@ -51,9 +52,7 @@ fn page_from_html(category: String, slug: String, contents: &str) -> Page {
                             ClassStyle::Spaced,
                         );
                         for line in LinesWithEndings::from(&original_html) {
-                            html_generator
-                                .parse_html_for_line_which_includes_newline(line)
-                                .unwrap();
+                            html_generator.parse_html_for_line_which_includes_newline(line)?;
                         }
                         let html = html_generator.finalize();
 
@@ -82,23 +81,23 @@ fn page_from_html(category: String, slug: String, contents: &str) -> Page {
         |c: &[u8]| output.extend_from_slice(c),
     );
 
-    rewriter.write(contents.as_bytes()).unwrap();
-    rewriter.end().unwrap();
+    rewriter.write(contents.as_bytes())?;
+    rewriter.end()?;
 
-    data.content = String::from_utf8(output).unwrap();
+    data.content = String::from_utf8(output)?;
     data.components = components;
     data.slug = slug;
     data.category = category;
 
-    data
+    Ok(data)
 }
 
-fn main() {
-    fs::create_dir_all("storage").unwrap();
+fn main() -> Result<()> {
+    fs::create_dir_all("storage")?;
 
-    let conn = Connection::open("storage/content.db").unwrap();
+    let conn = Connection::open("storage/content.db")?;
 
-    conn.execute("DROP TABLE IF EXISTS page", []).unwrap();
+    conn.execute("DROP TABLE IF EXISTS page", [])?;
 
     conn.execute(
         "CREATE TABLE IF NOT EXISTS page (
@@ -114,12 +113,10 @@ fn main() {
          );
          CREATE UNIQUE INDEX unique_category_slug ON page (category, slug);",
         [],
-    )
-    .unwrap();
+    )?;
 
-    let mut insert_stmt = conn
-        .prepare(
-            "INSERT INTO page (
+    let mut insert_stmt = conn.prepare(
+        "INSERT INTO page (
                 slug,
                 category,
                 title,
@@ -130,8 +127,7 @@ fn main() {
                 components
             )
             VALUES ( ?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8 )",
-        )
-        .unwrap();
+    )?;
 
     if let Ok(paths) = glob("content/**/*.html") {
         for path in paths.flatten() {
@@ -145,25 +141,25 @@ fn main() {
             };
 
             if let Ok(contents) = fs::read_to_string(&path) {
-                let data = page_from_html(category, slug, &contents);
+                let data = page_from_html(category, slug, &contents)?;
 
-                insert_stmt
-                    .execute([
-                        data.slug,
-                        data.category,
-                        data.title,
-                        data.date,
-                        data.description,
-                        data.content,
-                        data.template,
-                        data.components
-                            .iter()
-                            .map(|s| s.to_string())
-                            .collect::<Vec<String>>()
-                            .join(","),
-                    ])
-                    .unwrap();
+                insert_stmt.execute([
+                    data.slug,
+                    data.category,
+                    data.title,
+                    data.date,
+                    data.description,
+                    data.content,
+                    data.template,
+                    data.components
+                        .iter()
+                        .map(|s| s.to_string())
+                        .collect::<Vec<String>>()
+                        .join(","),
+                ])?;
             }
         }
-    }
+    };
+
+    Ok(())
 }

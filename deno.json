@@ -1,7 +1,7 @@
 {
   "tasks": {
-    "build_db": "cargo watch -x'run --bin build_db'",
-    "app": "cargo watch -x'run --no-default-features -- --port 3000'",
+    "build_db": "cargo watch -- cargo run --bin build_db",
+    "app": "cargo watch -- cargo run --no-default-features -- --port 3000",
     "run": "export RUST_LOG='actix_web=debug'; deno task build_db & deno task app"
   }
 }
