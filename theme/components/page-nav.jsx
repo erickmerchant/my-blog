@@ -76,7 +76,10 @@ customElements.define(
 
       render(
         <>
-          <link rel="stylesheet" href="/components/page-nav.css" />
+          <link
+            rel="stylesheet"
+            href="/components/page-nav.css"
+          />
           <PageNav toggle={this.#getToggle} />
         </>,
         this.shadowRoot

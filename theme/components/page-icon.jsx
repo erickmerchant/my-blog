@@ -20,7 +20,10 @@ let icons = {
 };
 
 let PageIcon = (props) => (
-  <svg aria-hidden="true" viewBox={() => "0 0 " + props.icon.width + " 16"}>
+  <svg
+    aria-hidden="true"
+    viewBox={() => "0 0 " + props.icon.width + " 16"}
+  >
     <path d={() => props.icon.d ?? ""} />
   </svg>
 );
@@ -43,7 +46,10 @@ customElements.define(
 
       render(
         <>
-          <link rel="stylesheet" href="/components/page-icon.css" />
+          <link
+            rel="stylesheet"
+            href="/components/page-icon.css"
+          />
           {() =>
             icons[this.#state.name] ? (
               <PageIcon icon={() => icons[this.#state.name]} />
