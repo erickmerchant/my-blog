@@ -21,7 +21,7 @@ async fn main() -> io::Result<()> {
         .init();
     fs::remove_dir_all("storage/cache").ok();
 
-    let mut port = 3000;
+    let mut port = 8080;
 
     if let Ok(port_var) = var("PORT") {
         if let Ok(port_var) = port_var.parse::<u32>() {
