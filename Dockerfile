@@ -3,7 +3,7 @@ RUN apk add build-base
 WORKDIR deploy
 COPY . .
 RUN rm -rf storage
-RUN cargo run --bin build_db --release --no-default-features --locked
+RUN cargo run --bin setup --release --no-default-features --locked
 RUN cargo build --bin app --release --no-default-features --locked
 RUN rm -rf app bin Cargo.lock Cargo.toml
 RUN mv ./target/release/app ./app

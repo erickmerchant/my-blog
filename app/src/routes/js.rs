@@ -3,14 +3,13 @@ use actix_files::NamedFile;
 use actix_web::{error::ErrorInternalServerError, error::ErrorNotFound, web, Result};
 use actix_web_lab::extract;
 use serde_json::{from_value, json};
-use std::{convert::AsRef, path::Path, sync::Arc};
+use std::{convert::AsRef, env::var, path::Path, sync::Arc};
 use swc::{config::Options, config::SourceMapsConfig};
 use swc_common::{errors::ColorConfig, errors::Handler, SourceMap, GLOBALS};
 
 pub async fn js(
     extract::Path((file, ext)): extract::Path<(String, String)>,
     theme_config: web::Data<config::ThemeConfig>,
-    server_config: web::Data<config::ServerConfig>,
 ) -> Result<NamedFile> {
     let jsx = ext == *"jsx";
     let src = Path::new("theme").join(file).with_extension(ext);
@@ -57,8 +56,10 @@ pub async fn js(
         });
         let mut options = from_value::<Options>(options).map_err(ErrorInternalServerError)?;
 
-        if server_config.source_maps {
-            options.source_maps = Some(SourceMapsConfig::Str("inline".to_string()));
+        if let Ok(source_maps) = var("SOURCE_MAPS") {
+            if source_maps == "true" {
+                options.source_maps = Some(SourceMapsConfig::Str("inline".to_string()));
+            }
         }
 
         let code = GLOBALS.set(&Default::default(), || {

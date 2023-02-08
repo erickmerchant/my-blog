@@ -10,10 +10,9 @@ use actix_web::{
     http::StatusCode, middleware::Compress, middleware::DefaultHeaders, middleware::ErrorHandlers,
     middleware::Logger, web, App, HttpServer,
 };
-use clap::Parser;
 use queries::Pool;
 use r2d2_sqlite::{self, SqliteConnectionManager};
-use std::{fs, io, io::Write};
+use std::{env::var, fs, io, io::Write};
 
 #[actix_web::main]
 async fn main() -> io::Result<()> {
@@ -22,8 +21,13 @@ async fn main() -> io::Result<()> {
         .init();
     fs::remove_dir_all("storage/cache").ok();
 
-    let server_config = config::ServerConfig::parse();
-    let port = server_config.port;
+    let mut port = 3000;
+
+    if let Ok(port_var) = var("PORT") {
+        if let Ok(port_var) = port_var.parse::<u32>() {
+            port = port_var;
+        }
+    };
 
     let template_env = templates::get_env();
     let manager = SqliteConnectionManager::file("storage/content.db");
@@ -33,7 +37,6 @@ async fn main() -> io::Result<()> {
         let theme_config = config::ThemeConfig::get();
 
         App::new()
-            .app_data(web::Data::new(server_config.clone()))
             .app_data(web::Data::new(theme_config))
             .app_data(web::Data::new(pool.clone()))
             .app_data(web::Data::new(template_env.to_owned()))

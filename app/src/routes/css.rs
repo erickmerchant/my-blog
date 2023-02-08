@@ -3,12 +3,11 @@ use actix_files::NamedFile;
 use actix_web::{error::ErrorInternalServerError, error::ErrorNotFound, web, Result};
 use lightningcss::{stylesheet, targets};
 use parcel_sourcemap::SourceMap;
-use std::{fs, path::Path};
+use std::{env::var, fs, path::Path};
 
 pub async fn css(
     file: web::Path<String>,
     theme_config: web::Data<config::ThemeConfig>,
-    server_config: web::Data<config::ServerConfig>,
 ) -> Result<NamedFile> {
     let src = Path::new("theme")
         .join(file.to_string())
@@ -27,16 +26,18 @@ pub async fn css(
         };
         let mut source_map = None;
 
-        if server_config.source_maps {
-            let mut sm = SourceMap::new("/");
+        if let Ok(source_maps) = var("SOURCE_MAPS") {
+            if source_maps == "true" {
+                let mut sm = SourceMap::new("/");
 
-            if let Some(src_str) = src.to_str() {
-                sm.add_source(src_str);
-            };
+                if let Some(src_str) = src.to_str() {
+                    sm.add_source(src_str);
+                };
 
-            if sm.set_source_content(0, &file_contents).is_ok() {
-                source_map = Some(sm)
-            };
+                if sm.set_source_content(0, &file_contents).is_ok() {
+                    source_map = Some(sm)
+                };
+            }
         };
 
         let printer_options = stylesheet::PrinterOptions {

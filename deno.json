@@ -1,7 +1,8 @@
 {
   "tasks": {
-    "build_db": "cargo watch -- cargo run --bin build_db",
-    "app": "cargo watch -- cargo run --no-default-features -- --port 3000",
-    "run": "export RUST_LOG='actix_web=debug'; deno task build_db & deno task app"
+    "watch": "export RUST_LOG='actix_web=debug'; cargo watch -x'r --bin setup' -s 'cargo run --no-default-features -- --port 3000'",
+    "update": "cargo update && cargo outdated -R",
+    "docker:build": "docker build . -t my-blog",
+    "docker:run": "docker run -p 3000:8080 my-blog"
   }
 }
