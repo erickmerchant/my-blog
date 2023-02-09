@@ -1,5 +1,4 @@
 use crate::models::*;
-use crate::{queries, queries::Pool, responses};
 use actix_files::NamedFile;
 use actix_web::{error::ErrorInternalServerError, error::ErrorNotFound, web, Result};
 use actix_web_lab::extract;
@@ -12,7 +11,7 @@ pub async fn page(
 ) -> Result<NamedFile> {
     let src = format!("{category}/{slug}.html");
 
-    let file = if let Some(file) = responses::Cache::get(&src) {
+    let file = if let Some(file) = super::Cache::get(&src) {
         file?
     } else {
         let p = pool.clone();
@@ -25,7 +24,7 @@ pub async fn page(
         let page_slug = slug.clone();
 
         let page: Page = web::block(move || -> Result<Page, rusqlite::Error> {
-            queries::get_page(conn, page_category, page_slug)
+            Page::get(conn, page_category, page_slug)
         })
         .await?
         .map_err(|e| ErrorNotFound(e.to_string()))?;
@@ -40,7 +39,7 @@ pub async fn page(
         let page_slug = slug.clone();
 
         let pagination: Pagination = web::block(move || -> Result<Pagination, rusqlite::Error> {
-            queries::get_pagination(conn, page_category, page_slug)
+            Pagination::get(conn, page_category, page_slug)
         })
         .await?
         .map_err(|e| ErrorNotFound(e.to_string()))?;
@@ -55,8 +54,8 @@ pub async fn page(
             .and_then(|template| template.render(ctx))
             .map_err(ErrorInternalServerError)?;
 
-        responses::Cache::set(&src, html)?
+        super::Cache::set(&src, html)?
     };
 
-    responses::file(file, src)
+    super::file(file, src)
 }

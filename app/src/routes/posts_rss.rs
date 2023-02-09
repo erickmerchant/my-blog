@@ -1,5 +1,4 @@
 use crate::models::*;
-use crate::{queries, queries::Pool, responses};
 use actix_files::NamedFile;
 use actix_web::{error::ErrorInternalServerError, web, Result};
 use minijinja::{context, Environment};
@@ -11,7 +10,7 @@ pub async fn posts_rss(
 ) -> Result<NamedFile> {
     let src = "posts.rss";
 
-    let file = if let Some(file) = responses::Cache::get(src) {
+    let file = if let Some(file) = super::Cache::get(src) {
         file?
     } else {
         let pool = pool.clone();
@@ -21,7 +20,7 @@ pub async fn posts_rss(
             .map_err(ErrorInternalServerError)?;
 
         let posts: Vec<Page> = match web::block(move || -> Result<Vec<Page>, rusqlite::Error> {
-            queries::get_all_pages(conn, "posts")
+            Page::get_all(conn, "posts")
         })
         .await?
         {
@@ -37,12 +36,12 @@ pub async fn posts_rss(
             posts => posts,
         };
         let html = template_env
-            .get_template("pages/posts-rss.jinja")
+            .get_template("layouts/posts-rss.jinja")
             .and_then(|template| template.render(ctx))
             .map_err(ErrorInternalServerError)?;
 
-        responses::Cache::set(src, html)?
+        super::Cache::set(src, html)?
     };
 
-    responses::file(file, src)
+    super::file(file, src)
 }

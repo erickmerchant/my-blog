@@ -1,4 +1,4 @@
-use crate::{config, responses};
+use crate::config;
 use actix_files::NamedFile;
 use actix_web::{error::ErrorInternalServerError, error::ErrorNotFound, web, Result};
 use lightningcss::{stylesheet, targets};
@@ -13,7 +13,7 @@ pub async fn css(
         .join(file.to_string())
         .with_extension("css");
 
-    let file = if let Some(file) = responses::Cache::get(&src) {
+    let file = if let Some(file) = super::Cache::get(&src) {
         file?
     } else {
         let file_contents = fs::read_to_string(&src).map_err(ErrorNotFound)?;
@@ -70,8 +70,8 @@ pub async fn css(
             }
         };
 
-        responses::Cache::set(&src, &code)?
+        super::Cache::set(&src, &code)?
     };
 
-    responses::file(file, src)
+    super::file(file, src)
 }

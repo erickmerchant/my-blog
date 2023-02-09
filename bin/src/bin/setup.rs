@@ -33,14 +33,14 @@ fn page_from_html(category: String, slug: String, contents: &str) -> Result<Page
 
                     Ok(())
                 }),
-                element!("page-code-block[language]", |el| {
+                element!("code-block[language]", |el| {
                     if let Some(language) = el.get_attribute("language") {
                         language_buffer.borrow_mut().push_str(&language);
                     }
 
                     Ok(())
                 }),
-                text!("page-code-block[language]", |el| {
+                text!("code-block[language]", |el| {
                     let mut language = language_buffer.borrow_mut();
 
                     if let Some(syntax) = ss.find_syntax_by_extension(&language) {
@@ -61,14 +61,13 @@ fn page_from_html(category: String, slug: String, contents: &str) -> Result<Page
                             original_html => original_html
                         };
 
-                        let template =
-                            template_env.get_template("components/page-code-block.jinja")?;
+                        let template = template_env.get_template("components/code-block.jinja")?;
 
                         let replacement_html = template.render(ctx)?;
 
                         el.replace(replacement_html.as_str(), ContentType::Html);
 
-                        components.insert("page-code-block".to_string());
+                        components.insert("code-block".to_string());
                     }
 
                     language.clear();

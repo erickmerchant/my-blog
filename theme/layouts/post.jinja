@@ -1,10 +1,10 @@
-{% extends "pages/_layout.jinja" %}
+{% extends "layouts/_layout.jinja" %}
 
 {%- macro pagination_link(page, icon) -%}
     <li>
       {% if page%}
         <a class="paginationLink" href="/{{page.category}}/{{page.slug}}.html">
-          <span class="paginationPageTitle">{{page.title}}</span> <page-icon class="paginationIcon" name="{{icon}}"></page-icon>
+          <span class="paginationPageTitle">{{page.title}}</span> <svg-icon class="paginationIcon" name="{{icon}}"></svg-icon>
         </a>
       {% else %}
         <span class="paginationPlaceholder"></span>

@@ -26,7 +26,7 @@ let PageNav = (props) => {
           props.toggle(state.open);
         }}
       >
-        <page-icon
+        <svg-icon
           class="toggleIcon"
           name={() => (state.open ? "close" : "menu")}
         />

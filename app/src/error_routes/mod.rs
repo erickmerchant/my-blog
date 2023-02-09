@@ -31,7 +31,7 @@ pub(self) fn error<B>(
             page => page
         };
 
-        if let Ok(template) = t.get_template("pages/error.jinja") {
+        if let Ok(template) = t.get_template("layouts/error.jinja") {
             if let Ok(b) = template.render(ctx) {
                 body = b
             }

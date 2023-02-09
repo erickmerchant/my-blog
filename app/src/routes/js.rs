@@ -1,4 +1,4 @@
-use crate::{config, responses};
+use crate::config;
 use actix_files::NamedFile;
 use actix_web::{error::ErrorInternalServerError, error::ErrorNotFound, web, Result};
 use actix_web_lab::extract;
@@ -14,7 +14,7 @@ pub async fn js(
     let jsx = ext == *"jsx";
     let src = Path::new("theme").join(file).with_extension(ext);
 
-    let file = if let Some(file) = responses::Cache::get(&src) {
+    let file = if let Some(file) = super::Cache::get(&src) {
         file?
     } else {
         let src = src.as_ref();
@@ -68,8 +68,8 @@ pub async fn js(
                 .map_err(ErrorInternalServerError)
         })?;
 
-        responses::Cache::set(src, code)?
+        super::Cache::set(src, code)?
     };
 
-    responses::file(file, src)
+    super::file(file, src)
 }

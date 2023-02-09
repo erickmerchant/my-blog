@@ -29,7 +29,7 @@ let PageIcon = (props) => (
 );
 
 customElements.define(
-  "page-icon",
+  "svg-icon",
   class extends HTMLElement {
     static get observedAttributes() {
       return ["name"];
@@ -48,7 +48,7 @@ customElements.define(
         <>
           <link
             rel="stylesheet"
-            href="/components/page-icon.css"
+            href="/components/svg-icon.css"
           />
           {() =>
             icons[this.#state.name] ? (

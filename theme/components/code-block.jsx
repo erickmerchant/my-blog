@@ -1,5 +1,5 @@
 customElements.define(
-  "page-code-block",
+  "code-block",
   class extends HTMLElement {
     constructor() {
       super();

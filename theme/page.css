@@ -174,7 +174,7 @@ li {
   margin-inline-start: var(--list-indent);
 }
 
-page-code-block {
+code-block {
   display: grid;
   background-color: var(--paper-1);
   font-family: "Chivo Mono", monospace;
@@ -187,7 +187,7 @@ page-code-block {
 }
 
 @media (max-width: 810px) {
-  page-code-block {
+  code-block {
     --border-radius: 0;
   }
 }

@@ -6,7 +6,7 @@
   </ul>
 {%- endmacro -%}
 
-{%- include "pages/_vars.jinja" -%}
+{%- include "_vars.jinja" -%}
 
 <!DOCTYPE html>
 <html lang="en-US">
@@ -17,13 +17,13 @@
     <title>{{page.title}} | {{title}}</title>
     <script type="module" src="/component.js"></script>
     <script type="module" src="/components/page-nav.jsx"></script>
-    <script type="module" src="/components/page-icon.jsx"></script>
+    <script type="module" src="/components/svg-icon.jsx"></script>
     {% for component in page.components %}
       <script type="module" src="/components/{{component}}.jsx"></script>
     {% endfor %}
     <link rel="stylesheet" href="/page.css">
     <link rel="preload" href="/components/page-nav.css" as="style">
-    {# <link rel="preload" href="/components/page-icon.css" as="style"> #}
+    {# <link rel="preload" href="/components/svg-icon.css" as="style"> #}
     {% for component in page.components %}
       <link rel="preload" href="/components/{{component}}.css" as="style">
     {% endfor %}

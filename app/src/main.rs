@@ -1,8 +1,6 @@
 mod config;
 mod error_routes;
 mod models;
-mod queries;
-mod responses;
 mod routes;
 mod templates;
 
@@ -10,7 +8,7 @@ use actix_web::{
     http::StatusCode, middleware::Compress, middleware::DefaultHeaders, middleware::ErrorHandlers,
     middleware::Logger, web, App, HttpServer,
 };
-use queries::Pool;
+use models::Pool;
 use r2d2_sqlite::{self, SqliteConnectionManager};
 use std::{env::var, fs, io, io::Write};
 
