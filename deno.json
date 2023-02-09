@@ -1,6 +1,7 @@
 {
   "tasks": {
     "watch": "export RUST_LOG='actix_web=debug'; export PORT=3000; cargo watch -x'r --bin setup' -s 'cargo run --no-default-features'",
+    "lint": "cargo clippy",
     "update": "cargo update && cargo outdated -R",
     "docker:build": "docker build . -t my-blog",
     "docker:run": "docker run -p 3000:8080 my-blog"
