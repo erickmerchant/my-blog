@@ -2950,9 +2950,9 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.245.20"
+version = "0.245.22"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "cb4ef81a1431a3812ee8ae3430c3965d7cc6201a01a7a38c01dd51e6ff34f474"
+checksum = "9ae9c83d0c3348c76494906104e79500a02fe21896181c7c98e2e6833633fe95"
 dependencies = [
  "ahash 0.7.6",
  "anyhow",
@@ -3188,9 +3188,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.166.17"
+version = "0.166.18"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "daa85d1858e04489d980cab9b4b515ad7363d8c06d7b9c9d530653085ec9a2fd"
+checksum = "fab4ad01e8c7fcf66c810fb99c67e938b19be13c44a0bfe6405dc2e2e17e34e2"
 dependencies = [
  "ahash 0.7.6",
  "arrayvec",
@@ -3242,9 +3242,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_preset_env"
-version = "0.180.16"
+version = "0.180.17"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "fb3c5ee7206bca5785931a2dc6ca93bf3cec74f49077d345df721ed1f394b9ff"
+checksum = "617b64a427a4eeed0d2870579c4b7a9857821a618d277098bd396aa46380ef2c"
 dependencies = [
  "ahash 0.7.6",
  "anyhow",
@@ -3804,9 +3804,9 @@ dependencies = [
 
 [[package]]
 name = "tokio-util"
-version = "0.7.4"
+version = "0.7.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0bb2e075f03b3d66d8d8785356224ba688d2906a371015e225beeb65ca92c740"
+checksum = "7e267c18a719545b481171952a79f8c25c80361463ba44bc7fa9eba7c742ef4f"
 dependencies = [
  "bytes",
  "futures-core",
@@ -4169,9 +4169,9 @@ dependencies = [
 
 [[package]]
 name = "zstd-safe"
-version = "6.0.3+zstd.1.5.2"
+version = "6.0.4+zstd.1.5.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "68e4a3f57d13d0ab7e478665c60f35e2a613dcd527851c2c7287ce5c787e134a"
+checksum = "7afb4b54b8910cf5447638cb54bf4e8a65cbedd783af98b98c62ffe91f185543"
 dependencies = [
  "libc",
  "zstd-sys",
@@ -4179,9 +4179,9 @@ dependencies = [
 
 [[package]]
 name = "zstd-sys"
-version = "2.0.6+zstd.1.5.2"
+version = "2.0.7+zstd.1.5.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "68a3f9792c0c3dc6c165840a75f47ae1f4da402c2d006881129579f6597e801b"
+checksum = "94509c3ba2fe55294d752b79842c530ccfab760192521df74a081a78d2b3c7f5"
 dependencies = [
  "cc",
  "libc",
