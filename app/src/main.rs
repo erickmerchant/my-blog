@@ -1,4 +1,3 @@
-mod config;
 mod error_routes;
 mod models;
 mod routes;
@@ -32,10 +31,7 @@ async fn main() -> io::Result<()> {
     let pool = Pool::new(manager).unwrap();
 
     HttpServer::new(move || {
-        let theme_config = config::ThemeConfig::get();
-
         App::new()
-            .app_data(web::Data::new(theme_config))
             .app_data(web::Data::new(pool.clone()))
             .app_data(web::Data::new(template_env.to_owned()))
             .wrap(Logger::new("%s %r"))
@@ -49,7 +45,7 @@ async fn main() -> io::Result<()> {
             .route("/", web::get().to(routes::posts_index))
             .route("/posts.rss", web::get().to(routes::posts_rss))
             .route("/{category:.*?}/{slug}.html", web::get().to(routes::page))
-            .route("/{file:.*?}.{ext:jsx?}", web::get().to(routes::js))
+            .route("/{file:.*?}.js", web::get().to(routes::js))
             .route("/{file:.*?}.css", web::get().to(routes::css))
             .route("/{file:.*?}", web::get().to(routes::asset))
     })

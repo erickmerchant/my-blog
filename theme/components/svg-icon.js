@@ -19,15 +19,6 @@ let icons = {
   },
 };
 
-let PageIcon = (props) => (
-  <svg
-    aria-hidden="true"
-    viewBox={() => "0 0 " + props.icon.width + " 16"}
-  >
-    <path d={() => props.icon.d ?? ""} />
-  </svg>
-);
-
 customElements.define(
   "svg-icon",
   class extends HTMLElement {
@@ -44,20 +35,26 @@ customElements.define(
     connectedCallback() {
       this.attachShadow({mode: "open"});
 
+      let iconRef = Symbol("icon");
+
+      let {link, svg, path} = h;
+
       render(
-        <>
-          <link
-            rel="stylesheet"
-            href="/components/svg-icon.css"
-          />
-          {() =>
-            icons[this.#state.name] ? (
-              <PageIcon icon={() => icons[this.#state.name]} />
-            ) : (
-              ""
-            )
-          }
-        </>,
+        [
+          link({rel: "stylesheet", href: "/components/svg-icon.css"}),
+          () =>
+            icons[this.#state.name]
+              ? svg(
+                  {
+                    ref: iconRef,
+                    "aria-hidden": "true",
+                    viewBox: () =>
+                      "0 0 " + icons[this.#state.name].width + " 16",
+                  },
+                  path({d: () => icons[this.#state.name].d ?? ""})
+                )
+              : "",
+        ],
         this.shadowRoot
       );
     }

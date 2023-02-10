@@ -1,14 +1,10 @@
-use crate::config;
 use actix_files::NamedFile;
 use actix_web::{error::ErrorInternalServerError, error::ErrorNotFound, web, Result};
 use lightningcss::{stylesheet, targets};
 use parcel_sourcemap::SourceMap;
 use std::{env::var, fs, path::Path};
 
-pub async fn css(
-    file: web::Path<String>,
-    theme_config: web::Data<config::ThemeConfig>,
-) -> Result<NamedFile> {
+pub async fn css(file: web::Path<String>) -> Result<NamedFile> {
     let src = Path::new("theme")
         .join(file.to_string())
         .with_extension("css");
@@ -17,8 +13,9 @@ pub async fn css(
         file?
     } else {
         let file_contents = fs::read_to_string(&src).map_err(ErrorNotFound)?;
-        let targets = targets::Browsers::from_browserslist([theme_config.targets.as_str()])
-            .unwrap_or_default();
+        let targets =
+            targets::Browsers::from_browserslist(["supports es6-module and last 2 versions"])
+                .unwrap_or_default();
         let parser_options = stylesheet::ParserOptions::default();
         let minifier_options = stylesheet::MinifyOptions {
             targets,

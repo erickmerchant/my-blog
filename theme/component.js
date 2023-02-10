@@ -1,18 +1,19 @@
-let registry = new WeakMap();
+let refs = new WeakMap();
 let scheduled = false;
 let writes = new Set();
 let reads = new Map();
 let current = null;
 
-export let h = (tag, attrs = {}, ...children) => {
-  if (tag === h.Fragment) {
-    return children;
+export let h = new Proxy(
+  {},
+  {
+    get: (_, tag) => {
+      return (attrs = {}, ...children) => {
+        return {tag, attrs, children};
+      };
+    },
   }
-
-  return {tag, attrs, children};
-};
-
-h.Fragment = Symbol("fragment");
+);
 
 export let watch = (state) => {
   let symbols = {};
@@ -57,23 +58,26 @@ export let render = (
   {end = null, svg = false, initialize = true} = {}
 ) => {
   let currentChild = end ? start : null;
+
   let advance = () => {
     currentChild = currentChild?.nextSibling;
 
     currentChild = currentChild !== end ? currentChild : null;
   };
+
   let insert = (...nodes) => {
     for (let node of nodes) {
       if (currentChild) {
-        currentChild.replaceWith(node);
-        currentChild = node;
+        let cached = currentChild;
+
+        advance();
+
+        cached.replaceWith(node);
       } else if (end) {
         end.before(node);
       } else {
         start.append(node);
       }
-
-      advance();
     }
   };
 
@@ -85,7 +89,7 @@ export let render = (
 
       writes.add({
         callback: value,
-        type: 2,
+        type: 0,
         bounds: bounds.map((b) => new WeakRef(b)),
         svg,
       });
@@ -94,105 +98,58 @@ export let render = (
     } else if (typeof value === "object") {
       let {tag, attrs, children} = value;
 
-      if (typeof tag === "function") {
-        let previousRender = currentChild ? registry.get(currentChild) : null;
-        let endRef = previousRender?.end?.deref();
-
-        if (previousRender?.tag === tag && endRef) {
-          for (let [key, val] of Object.entries(attrs ?? {})) {
-            if (typeof val === "function") {
-              val = val();
-            }
-
-            previousRender.proxy[key] = val;
-          }
-
-          for (let key of Object.keys(previousRender.proxy)) {
-            if (!(key in attrs)) {
-              delete previousRender.proxy[key];
-            }
-          }
-
-          currentChild = endRef;
-
+      if (attrs && attrs.ref && currentChild) {
+        if (refs.get(currentChild) === attrs.ref) {
           advance();
-        } else {
-          let props = {};
-          let proxy = watch(props);
 
-          for (let [key, val] of Object.entries(attrs ?? {})) {
-            if (typeof val === "function") {
-              let f = {
-                callback: () => {
-                  proxy[key] = val();
-                },
-                type: 0,
-              };
-
-              writes.add(f);
-
-              run(f);
-            } else {
-              props[key] = val;
-            }
-          }
-
-          let target = document.createDocumentFragment();
-
-          render(tag(proxy, children), target, {
-            initialize: false,
-            svg,
-          });
-
-          registry.set(target.firstChild, {
-            tag,
-            proxy,
-            end: new WeakRef(target.lastChild),
-          });
-
-          insert(...target.childNodes);
+          continue;
         }
-      } else {
-        let node =
-          tag === "svg" || svg
-            ? document.createElementNS("http://www.w3.org/2000/svg", tag)
-            : document.createElement(tag);
-
-        for (let [key, val] of Object.entries(attrs ?? {})) {
-          if (key.startsWith("on:")) {
-            node.addEventListener(key.substring(3), ...[].concat(val));
-          } else if (typeof val === "function") {
-            writes.add({
-              callback: val,
-              type: 1,
-              node: new WeakRef(node),
-              key,
-            });
-          } else {
-            setAttribute(node, key, val);
-          }
-        }
-
-        render(children, node, {
-          svg: tag === "svg" || svg,
-          initialize: false,
-        });
-
-        insert(node);
       }
+
+      let node =
+        tag === "svg" || svg
+          ? document.createElementNS("http://www.w3.org/2000/svg", tag)
+          : document.createElement(tag);
+
+      for (let [key, val] of Object.entries(attrs ?? {})) {
+        if (key.startsWith("on")) {
+          node.addEventListener(
+            key.substring(2).toLowerCase(),
+            ...[].concat(val)
+          );
+        } else if (typeof val === "function") {
+          writes.add({
+            callback: val,
+            type: 1,
+            node: new WeakRef(node),
+            key,
+          });
+        } else {
+          setAttribute(node, key, val);
+        }
+      }
+
+      render(children, node, {
+        svg: tag === "svg" || svg,
+        initialize: false,
+      });
+
+      insert(node);
     } else {
       insert(value);
     }
   }
 
   if (initialize) {
-    update(false);
+    update();
   }
 };
 
 let setAttribute = (node, key, val) => {
   if (node) {
-    if (val != null && val !== false) {
+    if (key === "ref") {
+      refs.set(node, val);
+    } else if (val != null && val !== false) {
       node.setAttribute(key, val === true ? "" : val);
     } else {
       node.removeAttribute(key);
@@ -224,21 +181,11 @@ let run = (formula) => {
   return result;
 };
 
-let update = (zeros = true) => {
+let update = () => {
   for (let formula of writes) {
-    if (formula.type === 0 && !zeros) {
-      continue;
-    }
-
     let result = run(formula);
 
-    if (formula.type === 1) {
-      let {node, key} = formula;
-
-      setAttribute(node.deref(), key, result);
-    }
-
-    if (formula.type === 2) {
+    if (formula.type === 0) {
       let {bounds, svg} = formula;
       let [start, end] = bounds.map((f) => f.deref());
 
@@ -247,6 +194,12 @@ let update = (zeros = true) => {
         initialize: false,
         svg,
       });
+    }
+
+    if (formula.type === 1) {
+      let {node, key} = formula;
+
+      setAttribute(node.deref(), key, result);
     }
   }
 

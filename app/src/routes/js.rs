@@ -1,18 +1,14 @@
-use crate::config;
 use actix_files::NamedFile;
 use actix_web::{error::ErrorInternalServerError, error::ErrorNotFound, web, Result};
-use actix_web_lab::extract;
 use serde_json::{from_value, json};
 use std::{convert::AsRef, env::var, path::Path, sync::Arc};
 use swc::{config::Options, config::SourceMapsConfig};
 use swc_common::{errors::ColorConfig, errors::Handler, SourceMap, GLOBALS};
 
-pub async fn js(
-    extract::Path((file, ext)): extract::Path<(String, String)>,
-    theme_config: web::Data<config::ThemeConfig>,
-) -> Result<NamedFile> {
-    let jsx = ext == *"jsx";
-    let src = Path::new("theme").join(file).with_extension(ext);
+pub async fn js(file: web::Path<String>) -> Result<NamedFile> {
+    let src = Path::new("theme")
+        .join(file.to_string())
+        .with_extension("js");
 
     let file = if let Some(file) = super::Cache::get(&src) {
         file?
@@ -30,24 +26,16 @@ pub async fn js(
         let options = json!({
             "minify": true,
             "env": {
-                "targets": theme_config.targets,
+                "targets": "supports es6-module and last 2 versions",
                 "bugfixes": true
             },
             "jsc": {
                 "parser": {
                     "syntax": "ecmascript",
-                    "jsx": jsx,
                 },
                 "minify": {
                     "compress": true,
                     "mangle": true
-                },
-                "transform": {
-                    "react": {
-                      "pragma": theme_config.pragma,
-                      "pragmaFrag": theme_config.pragma_frag,
-                      "runtime": "classic"
-                    }
                 }
             },
             "module": {
