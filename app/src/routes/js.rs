@@ -1,7 +1,7 @@
 use actix_files::NamedFile;
 use actix_web::{error::ErrorInternalServerError, error::ErrorNotFound, web, Result};
 use serde_json::{from_value, json};
-use std::{convert::AsRef, env::var, path::Path, sync::Arc};
+use std::{convert::AsRef, env::var, fs, path::Path, sync::Arc};
 use swc::{config::Options, config::SourceMapsConfig};
 use swc_common::{errors::ColorConfig, errors::Handler, SourceMap, GLOBALS};
 
@@ -13,6 +13,8 @@ pub async fn js(file: web::Path<String>) -> Result<NamedFile> {
     let file = if let Some(file) = super::Cache::get(&src) {
         file?
     } else {
+        let targets = fs::read_to_string("./.browserslistrc")
+            .unwrap_or("supports es6-module and last 2 versions".to_string());
         let src = src.as_ref();
         let cm = Arc::<SourceMap>::default();
         let handler = Arc::new(Handler::with_tty_emitter(
@@ -26,7 +28,7 @@ pub async fn js(file: web::Path<String>) -> Result<NamedFile> {
         let options = json!({
             "minify": true,
             "env": {
-                "targets": "supports es6-module and last 2 versions",
+                "targets": targets,
                 "bugfixes": true
             },
             "jsc": {

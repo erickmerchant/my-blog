@@ -7,11 +7,11 @@ let current = null;
 export let h = new Proxy(
   {},
   {
-    get: (_, tag) => {
-      return (attrs = {}, ...children) => {
+    get:
+      (_, tag) =>
+      (attrs = {}, ...children) => {
         return {tag, attrs, children};
-      };
-    },
+      },
   }
 );
 

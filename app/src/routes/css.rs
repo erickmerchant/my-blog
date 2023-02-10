@@ -13,9 +13,13 @@ pub async fn css(file: web::Path<String>) -> Result<NamedFile> {
         file?
     } else {
         let file_contents = fs::read_to_string(&src).map_err(ErrorNotFound)?;
-        let targets =
-            targets::Browsers::from_browserslist(["supports es6-module and last 2 versions"])
-                .unwrap_or_default();
+        let targets = targets::Browsers::from_browserslist(
+            fs::read_to_string("./.browserslistrc")
+                .unwrap_or("supports es6-module and last 2 versions".to_string())
+                .trim()
+                .split('\n'),
+        )
+        .unwrap_or_default();
         let parser_options = stylesheet::ParserOptions::default();
         let minifier_options = stylesheet::MinifyOptions {
             targets,
