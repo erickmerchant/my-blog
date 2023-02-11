@@ -1,4 +1,4 @@
-let refs = new WeakMap();
+let symbols = new WeakMap();
 let scheduled = false;
 let writes = new Set();
 let reads = new Map();
@@ -9,11 +9,43 @@ export let h = new Proxy(
   {
     get:
       (_, tag) =>
-      (attrs = {}, ...children) => {
-        return {tag, attrs, children};
+      (...args) => {
+        let children = args.pop();
+
+        args = args.flat(Infinity);
+
+        return {tag, args, children};
       },
   }
 );
+
+let makeArgFactory =
+  (callback) =>
+  (...args) => {
+    if (args.length === 1 && typeof args[0] == "object") {
+      let results = [];
+
+      for (let [key, value] of Object.entries(args[0])) {
+        results.push(callback(key, ...[].concat(value)));
+      }
+
+      return results;
+    }
+
+    return callback(...args);
+  };
+
+export let attr = makeArgFactory((attr, value) => {
+  return {attr, value};
+});
+
+export let prop = makeArgFactory((prop, value) => {
+  return {prop, value};
+});
+
+export let on = makeArgFactory((on, handler, options) => {
+  return {on, handler, options};
+});
 
 export let watch = (state) => {
   let symbols = {};
@@ -84,22 +116,25 @@ export let render = (
   advance();
 
   for (let value of [].concat(children ?? []).flat(Infinity)) {
+    if (value == null) continue;
+
     if (typeof value === "function") {
       let bounds = ["", ""].map((v) => document.createComment(v));
 
       writes.add({
-        callback: value,
-        type: 0,
+        value,
         bounds: bounds.map((b) => new WeakRef(b)),
         svg,
       });
 
       insert(...bounds);
     } else if (typeof value === "object") {
-      let {tag, attrs, children} = value;
+      let {tag, args, children} = value;
 
-      if (attrs && attrs.ref && currentChild) {
-        if (refs.get(currentChild) === attrs.ref) {
+      let symbol = args.find((val) => typeof val === "symbol");
+
+      if (symbol && currentChild) {
+        if (symbols.get(currentChild) === symbol) {
           advance();
 
           continue;
@@ -111,21 +146,24 @@ export let render = (
           ? document.createElementNS("http://www.w3.org/2000/svg", tag)
           : document.createElement(tag);
 
-      for (let [key, val] of Object.entries(attrs ?? {})) {
-        if (key.startsWith("on")) {
-          node.addEventListener(
-            key.substring(2).toLowerCase(),
-            ...[].concat(val)
-          );
-        } else if (typeof val === "function") {
-          writes.add({
-            callback: val,
-            type: 1,
-            node: new WeakRef(node),
-            key,
-          });
-        } else {
-          setAttribute(node, key, val);
+      if (symbol) {
+        symbols.set(node, symbol);
+      }
+
+      for (let arg of args) {
+        if (typeof arg === "object") {
+          if (arg.on) {
+            node.addEventListener(arg.on, arg.handler, arg.options);
+          } else if (typeof arg.value === "function") {
+            writes.add({
+              node: new WeakRef(node),
+              ...arg,
+            });
+          } else if (arg.attr) {
+            setAttr(node, arg.attr, arg.value);
+          } else if (arg.prop) {
+            setProp(node, arg.prop, arg.value);
+          }
         }
       }
 
@@ -145,15 +183,19 @@ export let render = (
   }
 };
 
-let setAttribute = (node, key, val) => {
+let setAttr = (node, key, value) => {
   if (node) {
-    if (key === "ref") {
-      refs.set(node, val);
-    } else if (val != null && val !== false) {
-      node.setAttribute(key, val === true ? "" : val);
+    if (value != null && value !== false) {
+      node.setAttribute(key, value === true ? "" : value);
     } else {
       node.removeAttribute(key);
     }
+  }
+};
+
+let setProp = (node, key, value) => {
+  if (node) {
+    node[key] = value;
   }
 };
 
@@ -174,7 +216,7 @@ let run = (formula) => {
 
   current = formula;
 
-  let result = formula.callback();
+  let result = formula.value();
 
   current = prev;
 
@@ -183,23 +225,25 @@ let run = (formula) => {
 
 let update = () => {
   for (let formula of writes) {
-    let result = run(formula);
+    let value = run(formula);
 
-    if (formula.type === 0) {
+    if (formula.bounds) {
       let {bounds, svg} = formula;
       let [start, end] = bounds.map((f) => f.deref());
 
-      render(result, start, {
+      render(value, start, {
         end,
         initialize: false,
         svg,
       });
-    }
+    } else if (formula.attr) {
+      let {node, attr} = formula;
 
-    if (formula.type === 1) {
-      let {node, key} = formula;
+      setAttr(node.deref(), attr, value);
+    } else if (formula.prop) {
+      let {node, prop} = formula;
 
-      setAttribute(node.deref(), key, result);
+      setProp(node.deref(), prop, value);
     }
   }
 

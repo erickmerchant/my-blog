@@ -1,4 +1,4 @@
-import {h, render, watch} from "../component.js";
+import {h, render, watch, attr} from "../component.js";
 
 let icons = {
   close: {
@@ -41,17 +41,23 @@ customElements.define(
 
       render(
         [
-          link({rel: "stylesheet", href: "/components/svg-icon.css"}),
+          link(
+            attr({rel: "stylesheet", href: "/components/svg-icon.css"}),
+            null
+          ),
           () =>
             icons[this.#state.name]
               ? svg(
-                  {
-                    ref: iconRef,
+                  iconRef,
+                  attr({
                     "aria-hidden": "true",
-                    viewBox: () =>
+                    "viewBox": () =>
                       "0 0 " + icons[this.#state.name].width + " 16",
-                  },
-                  path({d: () => icons[this.#state.name].d ?? ""})
+                  }),
+                  path(
+                    attr("d", () => icons[this.#state.name].d ?? ""),
+                    null
+                  )
                 )
               : "",
         ],

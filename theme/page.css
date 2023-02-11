@@ -215,14 +215,15 @@ code-block {
   gap: 0.5em 1em;
 }
 
-:where(.nav:not(:defined)) .navList {
-  visibility: hidden;
-}
-
 @media (max-width: 400px) {
-  :where(.nav:defined) .navList {
+  .navList {
     flex-direction: column;
   }
+}
+
+:where(.nav:not(:defined)) .navList {
+  flex-direction: row;
+  visibility: hidden;
 }
 
 .main {
@@ -332,7 +333,7 @@ code-block {
   text-align: right;
 }
 
-:where(:first-child) > .paginationLink {
+.paginationLink--previous {
   flex-direction: row-reverse;
   text-align: left;
 }

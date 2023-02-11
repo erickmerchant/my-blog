@@ -1,4 +1,4 @@
-import {h, watch, render} from "../component.js";
+import {h, watch, render, on, attr} from "../component.js";
 
 customElements.define(
   "page-nav",
@@ -42,43 +42,47 @@ customElements.define(
 
       render(
         [
-          link({
-            rel: "stylesheet",
-            href: "/components/page-nav.css",
-          }),
+          link(
+            attr({rel: "stylesheet", href: "/components/page-nav.css"}),
+            null
+          ),
           nav(
-            {
-              class: () =>
-                [
-                  "nav",
-                  this.#state.open && "open",
-                  this.#state.closing && "closing",
-                ]
-                  .filter((c) => !!c)
-                  .join(" "),
-              onTransitionend: () => {
-                this.#state.closing = false;
-              },
-            },
-            button(
-              {
-                class: "toggle",
-                "aria-label": "Toggle Nav List",
-                "aria-pressed": () => String(this.#state.open),
-                onClick: () => {
+            attr("class", () =>
+              [
+                "nav",
+                this.#state.open && "nav--open",
+                this.#state.closing && "nav--closing",
+              ]
+                .filter((c) => !!c)
+                .join(" ")
+            ),
+            on("transitionend", () => {
+              this.#state.closing = false;
+            }),
+            [
+              button(
+                attr({
+                  "class": "toggle",
+                  "aria-label": "Toggle Nav List",
+                  "aria-pressed": () => String(this.#state.open),
+                }),
+                on("click", () => {
                   this.#state.closing = this.#state.open;
 
                   this.#state.open = !this.#state.open;
 
                   this.#toggle(this.#state.open);
-                },
-              },
-              svgIcon({
-                class: "toggleIcon",
-                name: () => (this.#state.open ? "close" : "menu"),
-              })
-            ),
-            div({class: "list"}, slot())
+                }),
+                svgIcon(
+                  attr({
+                    class: "toggleIcon",
+                    name: () => (this.#state.open ? "close" : "menu"),
+                  }),
+                  null
+                )
+              ),
+              div(attr("class", "list"), slot()),
+            ]
           ),
         ],
         this.shadowRoot

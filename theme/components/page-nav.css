@@ -47,7 +47,7 @@ svg {
   }
 }
 
-.nav:where(.open) {
+.nav--open {
   grid-template-rows: auto 1fr;
 }
 
@@ -58,12 +58,13 @@ svg {
     --list-display: none;
   }
 
-  .nav:where(.open) {
+  .nav--open {
     gap: 1em;
     margin-bottom: 0.5em;
   }
 
-  .nav:where(.open, .closing) {
+  .nav--open,
+  .nav--closing {
     --list-display: block;
   }
 }
