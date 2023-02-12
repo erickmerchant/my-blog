@@ -1,5 +1,3 @@
-import {h, render, watch, attr} from "../component.js";
-
 let icons = {
   close: {
     d: "M1 4 l3 -3 l11 11 l-3 3 z m11 -3 l3 3 l-11 11 l-3 -3 z",
@@ -26,43 +24,43 @@ customElements.define(
       return ["name"];
     }
 
-    #state = watch({name: this.getAttribute("name")});
-
     attributeChangedCallback(name, _, newValue) {
-      this.#state[name] = newValue;
+      if (name === "name") {
+        this.#setName(newValue);
+      }
     }
 
-    connectedCallback() {
-      this.attachShadow({mode: "open"});
-
-      let iconRef = Symbol("icon");
-
-      let {link, svg, path} = h;
-
-      render(
-        [
-          link(
-            attr({rel: "stylesheet", href: "/components/svg-icon.css"}),
-            null
-          ),
-          () =>
-            icons[this.#state.name]
-              ? svg(
-                  iconRef,
-                  attr({
-                    "aria-hidden": "true",
-                    "viewBox": () =>
-                      "0 0 " + icons[this.#state.name].width + " 16",
-                  }),
-                  path(
-                    attr("d", () => icons[this.#state.name].d ?? ""),
-                    null
-                  )
-                )
-              : "",
-        ],
-        this.shadowRoot
+    #setName = (name) => {
+      this.#refs.svg.setAttribute(
+        "viewBox",
+        "0 0 " + icons[name].width + " 16"
       );
+      this.#refs.path.setAttribute("d", icons[name].d ?? "");
+    };
+
+    #refs = new Proxy(
+      {},
+      {
+        get: (_, id) => {
+          return this.shadowRoot.getElementById(id);
+        },
+      }
+    );
+
+    constructor() {
+      super();
+
+      let template = document.getElementById("svg-icon");
+
+      let templateContent = template.content;
+
+      const shadowRoot = this.attachShadow({
+        mode: "open",
+      });
+
+      shadowRoot.appendChild(templateContent.cloneNode(true));
+
+      this.#setName(this.getAttribute("name"));
     }
   }
 );

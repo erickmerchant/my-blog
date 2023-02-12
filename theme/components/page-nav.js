@@ -1,5 +1,3 @@
-import {h, watch, render, on, attr} from "../component.js";
-
 customElements.define(
   "page-nav",
   class extends HTMLElement {
@@ -29,64 +27,54 @@ customElements.define(
       });
     }
 
-    #state = watch({open: false, closing: false});
+    #open = false;
 
-    #toggle = (open) => {
-      this.toggleAttribute("open", open);
+    #toggleOpen = () => {
+      this.#open = !this.#open;
+
+      this.toggleAttribute("open", this.#open);
+
+      this.#refs.nav.classList.toggle("nav--open", this.#open);
+
+      this.#refs.toggle.setAttribute("aria-pressed", String(this.#open));
+
+      this.#refs.toggleIcon.setAttribute("name", this.#open ? "close" : "menu");
     };
 
-    connectedCallback() {
-      this.attachShadow({mode: "open"});
+    #setClosing = (closing) => {
+      this.#refs.nav.classList.toggle("nav--closing", closing);
+    };
 
-      let {link, nav, button, "svg-icon": svgIcon, div, slot} = h;
+    #refs = new Proxy(
+      {},
+      {
+        get: (_, id) => {
+          return this.shadowRoot.getElementById(id);
+        },
+      }
+    );
 
-      render(
-        [
-          link(
-            attr({rel: "stylesheet", href: "/components/page-nav.css"}),
-            null
-          ),
-          nav(
-            attr("class", () =>
-              [
-                "nav",
-                this.#state.open && "nav--open",
-                this.#state.closing && "nav--closing",
-              ]
-                .filter((c) => !!c)
-                .join(" ")
-            ),
-            on("transitionend", () => {
-              this.#state.closing = false;
-            }),
-            [
-              button(
-                attr({
-                  "class": "toggle",
-                  "aria-label": "Toggle Nav List",
-                  "aria-pressed": () => String(this.#state.open),
-                }),
-                on("click", () => {
-                  this.#state.closing = this.#state.open;
+    constructor() {
+      super();
 
-                  this.#state.open = !this.#state.open;
+      let template = document.getElementById("page-nav");
 
-                  this.#toggle(this.#state.open);
-                }),
-                svgIcon(
-                  attr({
-                    class: "toggleIcon",
-                    name: () => (this.#state.open ? "close" : "menu"),
-                  }),
-                  null
-                )
-              ),
-              div(attr("class", "list"), slot()),
-            ]
-          ),
-        ],
-        this.shadowRoot
-      );
+      let templateContent = template.content;
+
+      const shadowRoot = this.attachShadow({
+        mode: "open",
+      });
+
+      shadowRoot.appendChild(templateContent.cloneNode(true));
+
+      this.#refs.nav.addEventListener("transitionend", () => {
+        this.#setClosing(false);
+      });
+
+      this.#refs.toggle.addEventListener("click", () => {
+        this.#setClosing(this.#open);
+        this.#toggleOpen();
+      });
     }
   }
 );

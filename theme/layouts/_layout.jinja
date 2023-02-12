@@ -15,7 +15,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="{{description}}">
     <title>{{page.title}} | {{title}}</title>
-    <script type="module" src="/component.js"></script>
     <script type="module" src="/components/page-nav.js"></script>
     <script type="module" src="/components/svg-icon.js"></script>
     {% for component in page.components %}
@@ -42,6 +41,8 @@
       {{nav_list("footerNavList")}}
       <p class="copyright">© {{copyright}}</p>
     </footer>
+    {%- include "/components/page-nav.jinja" -%}
+    {%- include "/components/svg-icon.jinja" -%}
   </body>
 </html>
 

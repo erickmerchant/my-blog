@@ -1,0 +1,11 @@
+<template id="page-nav">
+  <link rel="stylesheet" href="/components/page-nav.css">
+  <nav class="nav" id="nav">
+    <button class="toggle" id="toggle" aria-label="Toggle Nav List" aria-pressed="false">
+      <svg-icon class="toggleIcon" id="toggleIcon" name="menu"></svg-icon>
+    </button>
+    <div class="list">
+      <slot></slot>
+    </div>
+  </nav>
+</template>
