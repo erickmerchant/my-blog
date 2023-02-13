@@ -16,13 +16,11 @@
     <meta name="description" content="{{description}}">
     <title>{{page.title}} | {{title}}</title>
     <script type="module" src="/components/page-nav.js"></script>
-    <script type="module" src="/components/svg-icon.js"></script>
     {% for component in page.components %}
       <script type="module" src="/components/{{component}}.js"></script>
     {% endfor %}
     <link rel="stylesheet" href="/page.css">
     <link rel="preload" href="/components/page-nav.css" as="style">
-    {# <link rel="preload" href="/components/svg-icon.css" as="style"> #}
     {% for component in page.components %}
       <link rel="preload" href="/components/{{component}}.css" as="style">
     {% endfor %}
@@ -42,7 +40,6 @@
       <p class="copyright">© {{copyright}}</p>
     </footer>
     {%- include "/components/page-nav.jinja" -%}
-    {%- include "/components/svg-icon.jinja" -%}
   </body>
 </html>
 

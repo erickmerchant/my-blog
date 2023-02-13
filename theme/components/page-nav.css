@@ -37,7 +37,7 @@ svg {
   display: grid;
   transition: none;
   overflow: visible;
-  grid-template-rows: auto 0fr;
+  grid-template-rows: min-content 0fr;
   align-content: start;
 }
 
@@ -48,12 +48,14 @@ svg {
 }
 
 .nav--open {
-  grid-template-rows: auto 1fr;
+  grid-template-rows: min-content 2fr;
 }
 
 @media (max-width: 400px) {
   .nav {
     transition: 0.25s;
+    gap: 0;
+    overflow-y: hidden;
 
     --list-display: none;
   }
@@ -104,5 +106,5 @@ svg {
 .list {
   display: var(--list-display);
   min-height: 0;
-  overflow-y: hidden;
+  overflow-y: visible;
 }

@@ -36,9 +36,13 @@ customElements.define(
 
       this.#refs.nav.classList.toggle("nav--open", this.#open);
 
-      this.#refs.toggle.setAttribute("aria-pressed", String(this.#open));
+      let toggle = this.#refs.toggle;
 
-      this.#refs.toggleIcon.setAttribute("name", this.#open ? "close" : "menu");
+      let icon = this.#open ? this.#refs.closeIcon : this.#refs.menuIcon;
+
+      toggle.setAttribute("aria-pressed", String(this.#open));
+
+      toggle.firstElementChild.replaceWith(icon.content.cloneNode(true));
     };
 
     #setClosing = (closing) => {

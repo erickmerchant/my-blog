@@ -1,11 +1,19 @@
+{%- from "icons.jinja" import menu_icon, close_icon -%}
+
 <template id="page-nav">
   <link rel="stylesheet" href="/components/page-nav.css">
   <nav class="nav" id="nav">
     <button class="toggle" id="toggle" aria-label="Toggle Nav List" aria-pressed="false">
-      <svg-icon class="toggleIcon" id="toggleIcon" name="menu"></svg-icon>
+      {{ menu_icon(class="toggleIcon") }}
     </button>
     <div class="list">
       <slot></slot>
     </div>
   </nav>
+  <template id="menuIcon">
+    {{ menu_icon(class="toggleIcon") }}
+  </template>
+  <template id="closeIcon">
+    {{ close_icon(class="toggleIcon") }}
+  </template>
 </template>
