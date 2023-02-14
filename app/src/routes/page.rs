@@ -1,4 +1,5 @@
 use crate::models::*;
+use crate::templates::minify_html;
 use actix_files::NamedFile;
 use actix_web::{error::ErrorInternalServerError, error::ErrorNotFound, web, Result};
 use actix_web_lab::extract;
@@ -53,6 +54,8 @@ pub async fn page(
             .get_template(&page.template)
             .and_then(|template| template.render(ctx))
             .map_err(ErrorInternalServerError)?;
+
+        let html = minify_html(html);
 
         super::Cache::set(&src, html)?
     };

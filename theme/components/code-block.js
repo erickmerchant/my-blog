@@ -4,7 +4,7 @@ customElements.define(
     constructor() {
       super();
 
-      let template = this.firstChild;
+      let template = this.firstElementChild;
 
       if (
         !this.shadowRoot &&
@@ -14,7 +14,7 @@ customElements.define(
         let templateContent = template.content;
 
         const shadowRoot = this.attachShadow({
-          mode: template.getAttribute("shadowroot"),
+          mode: template.getAttribute("shadowroot") ?? "open",
         });
 
         shadowRoot.appendChild(templateContent.cloneNode(true));

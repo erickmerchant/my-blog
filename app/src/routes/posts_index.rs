@@ -1,4 +1,5 @@
 use crate::models::*;
+use crate::templates::minify_html;
 use actix_files::NamedFile;
 use actix_web::{error::ErrorInternalServerError, error::ErrorNotFound, web, Result};
 use minijinja::{context, Environment};
@@ -53,6 +54,8 @@ pub async fn posts_index(
                     .get_template("layouts/posts-index.jinja")
                     .and_then(|template| template.render(ctx))
                     .map_err(ErrorInternalServerError)?;
+
+                let html = minify_html(html);
 
                 super::Cache::set(src, html)?
             }

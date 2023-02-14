@@ -1,3 +1,4 @@
+use minify_html::{minify, Cfg};
 use minijinja::{Environment, Source};
 
 pub fn get_env() -> Environment<'static> {
@@ -17,4 +18,22 @@ fn date(value: String, fmt: String) -> String {
     }
 
     ret
+}
+
+pub fn minify_html(code: String) -> String {
+    let cfg = Cfg {
+        minify_js: false,
+        minify_css: false,
+        ..Cfg::default()
+    };
+
+    let code_clone = code.as_bytes();
+
+    let minified = minify(code_clone, &cfg);
+
+    if let Ok(code) = String::from_utf8(minified) {
+        code
+    } else {
+        code.clone()
+    }
 }

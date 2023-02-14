@@ -355,6 +355,7 @@ dependencies = [
  "env_logger",
  "lightningcss",
  "log",
+ "minify-html",
  "minijinja",
  "parcel_sourcemap",
  "r2d2",
@@ -593,18 +594,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "bstr"
-version = "0.2.17"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ba3569f383e8f1598449f1a423e72e99569137b47740b1da11ef19af3d5c3223"
-dependencies = [
- "lazy_static",
- "memchr",
- "regex-automata",
- "serde",
-]
-
-[[package]]
 name = "bumpalo"
 version = "3.12.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -807,6 +796,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "css-minify"
+version = "0.3.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "874c6e2d19f8d4a285083b11a3241bfbe01ac3ed85f26e1e6b34888d960552bd"
+dependencies = [
+ "derive_more",
+ "indexmap",
+ "nom",
+]
+
+[[package]]
 name = "cssparser"
 version = "0.27.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -852,13 +852,12 @@ dependencies = [
 
 [[package]]
 name = "csv"
-version = "1.1.6"
+version = "1.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "22813a6dc45b335f9bade10bf7271dc477e81113e89eb251a0bc2a8a81c536e1"
+checksum = "af91f40b7355f82b0a891f50e70399475945bb0b0da4f1700ce60761c9d3e359"
 dependencies = [
- "bstr",
  "csv-core",
- "itoa 0.4.8",
+ "itoa 1.0.5",
  "ryu",
  "serde",
 ]
@@ -1581,9 +1580,9 @@ dependencies = [
 
 [[package]]
 name = "lightningcss"
-version = "1.0.0-alpha.39"
+version = "1.0.0-alpha.40"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a7c81dddc54b0f70e5b291dfa95b4d756dab6426ac53ccc44a275c92c87f1c8f"
+checksum = "6338806873ab8053fa9aac727f603fdd2fe4d8bec192faab114183f8483c67f8"
 dependencies = [
  "bitflags",
  "browserslist-rs 0.7.0",
@@ -1777,10 +1776,34 @@ dependencies = [
 ]
 
 [[package]]
-name = "minijinja"
-version = "0.30.3"
+name = "minify-html"
+version = "0.10.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "277b87a5d253b7cfbfe410802abf884bd1d96ccba8afa7af1b02265c43cb0f14"
+checksum = "7754d4669873379ea6a8a5b56e406eb83de713af8a791517ef35a0c832b1e7d5"
+dependencies = [
+ "aho-corasick",
+ "css-minify",
+ "lazy_static",
+ "memchr",
+ "minify-js",
+ "rustc-hash",
+]
+
+[[package]]
+name = "minify-js"
+version = "0.4.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c300f90ba1138b5c5daf5d9441dc9bdc67b808aac22cf638362a2647bc213be4"
+dependencies = [
+ "lazy_static",
+ "parse-js",
+]
+
+[[package]]
+name = "minijinja"
+version = "0.30.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f95c8f0999f88dd509934824ce03582ffbbcabf8af6484107572618732660c54"
 dependencies = [
  "memo-map",
  "self_cell",
@@ -1937,9 +1960,9 @@ checksum = "c1b04fb49957986fdce4d6ee7a65027d55d4b6d2265e5848bbb507b58ccfdb6f"
 
 [[package]]
 name = "parcel_selectors"
-version = "0.25.0"
+version = "0.25.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f2c9c34c94f61e0f95e7c0b1fe98556be452ebc15ef131ee01f0204696d95956"
+checksum = "a215f11d4e3b505238167f6dbe47e7d809dcf452319506328d904d62c4eb8da5"
 dependencies = [
  "bitflags",
  "cssparser 0.29.6",
@@ -1986,6 +2009,17 @@ dependencies = [
  "redox_syscall",
  "smallvec",
  "windows-sys 0.45.0",
+]
+
+[[package]]
+name = "parse-js"
+version = "0.10.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "30534759e6ad87aa144c396544747e1c25b1020bd133356fd758c8facec764e5"
+dependencies = [
+ "aho-corasick",
+ "lazy_static",
+ "memchr",
 ]
 
 [[package]]
@@ -2428,12 +2462,6 @@ dependencies = [
  "memchr",
  "regex-syntax",
 ]
-
-[[package]]
-name = "regex-automata"
-version = "0.1.10"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6c230d73fb8d8c1b9c0b3135c5142a8acee3a0558fb8db5cf1cb65f8d7862132"
 
 [[package]]
 name = "regex-syntax"
