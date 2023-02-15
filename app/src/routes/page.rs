@@ -4,13 +4,16 @@ use actix_files::NamedFile;
 use actix_web::{error::ErrorInternalServerError, error::ErrorNotFound, web, Result};
 use actix_web_lab::extract;
 use minijinja::{context, Environment};
+use std::path::Path;
 
 pub async fn page(
     pool: web::Data<Pool>,
     extract::Path((category, slug)): extract::Path<(String, String)>,
     template_env: web::Data<Environment<'_>>,
 ) -> Result<NamedFile> {
-    let src = format!("{category}/{slug}.html");
+    let src = Path::new(category.as_str())
+        .join(&slug)
+        .with_extension("html");
 
     let file = if let Some(file) = super::Cache::get(&src) {
         file?

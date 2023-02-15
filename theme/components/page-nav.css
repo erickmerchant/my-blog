@@ -39,32 +39,30 @@ svg {
   overflow: visible;
   grid-template-rows: min-content 0fr;
   align-content: start;
-}
 
-@media (max-width: 600px) {
-  .nav {
+  @media (max-width: 600px) {
     font-size: 1.25em;
   }
-}
 
-.nav--open {
-  grid-template-rows: min-content 2fr;
-}
-
-@media (max-width: 400px) {
-  .nav {
+  @media (max-width: 400px) {
     transition: 0.25s;
     gap: 0;
     overflow-y: hidden;
 
     --list-display: none;
   }
+}
 
-  .nav--open {
+.nav--open {
+  grid-template-rows: min-content 2fr;
+
+  @media (max-width: 400px) {
     gap: 1em;
     margin-bottom: 0.5em;
   }
+}
 
+@media (max-width: 400px) {
   .nav--open,
   .nav--closing {
     --list-display: block;
@@ -85,14 +83,12 @@ svg {
   transition: transform 0.25s;
   box-shadow: 0 0 0 0.25em hsl(0 0% 0% / 0);
   margin-left: -0.25em;
-}
 
-.toggle:focus-visible {
-  box-shadow: 0 0 0 0.25em currentColor;
-}
+  &:focus-visible {
+    box-shadow: 0 0 0 0.25em currentColor;
+  }
 
-@media (max-width: 400px) {
-  .toggle {
+  @media (max-width: 400px) {
     display: grid;
   }
 }

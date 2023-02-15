@@ -61,7 +61,7 @@ customElements.define(
     constructor() {
       super();
 
-      let template = document.getElementById("page-nav");
+      let template = document.getElementById("pageNav");
 
       if (template) {
         let templateContent = template.content;

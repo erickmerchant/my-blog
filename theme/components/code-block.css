@@ -16,20 +16,17 @@ code {
   color: var(--code-4);
 }
 
-:where(.control, .operator):where(
-    :not(.ternary, .comparison, .assignment)
-  ).keyword,
-:where(.type, .modifier).storage {
+.function {
+  color: var(--code-1);
+}
+
+.keyword,
+.storage {
   color: var(--code-0);
 }
 
 .path {
   color: var(--code-3);
-}
-
-:where(.name).function,
-:where(.function-call) .function {
-  color: var(--code-1);
 }
 
 .string,
@@ -38,4 +35,9 @@ code {
 .null,
 .undefined {
   color: var(--code-2);
+}
+
+.punctuation,
+.parameter {
+  color: var(--code-4);
 }

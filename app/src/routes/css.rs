@@ -20,7 +20,10 @@ pub async fn css(file: web::Path<String>) -> Result<NamedFile> {
                 .split('\n'),
         )
         .unwrap_or_default();
-        let parser_options = stylesheet::ParserOptions::default();
+        let parser_options = stylesheet::ParserOptions {
+            nesting: true,
+            ..stylesheet::ParserOptions::default()
+        };
         let minifier_options = stylesheet::MinifyOptions {
             targets,
             ..stylesheet::MinifyOptions::default()
