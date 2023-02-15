@@ -1,6 +1,6 @@
 {
   "tasks": {
-    "watch": "export RUST_LOG='actix_web=debug'; export PORT=3000; cargo watch -x'r --bin setup' -s 'cargo run --no-default-features'",
+    "watch": "export RUST_LOG='actix_web=debug'; export PORT=3000; cargo watch -x'r --bin setup' -s 'cargo run --no-default-features' & deno run --allow-net=0.0.0.0:3000,0.0.0.0:4000 dev-server.ts",
     "lint": "cargo clippy",
     "update": "cargo update && cargo outdated -R",
     "docker:build": "docker build . -t my-blog",
