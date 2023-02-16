@@ -4,7 +4,7 @@ customElements.define(
     static #nodes = new Map();
 
     static {
-      const esrc = new EventSource("/dev-changes");
+      const esrc = new EventSource("/dev/_changes");
 
       esrc.onmessage = (event) => {
         let data = JSON.parse(event.data);

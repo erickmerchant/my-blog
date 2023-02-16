@@ -11,7 +11,7 @@ let fileService = "http://0.0.0.0:3000";
 let reqHandler = async (req) => {
   let path = new URL(req.url).pathname;
 
-  if (path === "/dev-client.js") {
+  if (path === "/dev/client.js") {
     let file;
     try {
       file = await Deno.open("." + path, {read: true});
@@ -28,7 +28,7 @@ let reqHandler = async (req) => {
     });
   }
 
-  if (path === "/dev-changes") {
+  if (path === "/dev/_changes") {
     let watcher = Deno.watchFs("./theme");
     let enc = new TextEncoder();
 
@@ -90,7 +90,7 @@ let reqHandler = async (req) => {
       element(el) {
         el.setAttribute("is", "dev-stylesheet");
 
-        el.after('<script type="module" src="/dev-client.js"></script>', {
+        el.after('<script type="module" src="/dev/client.js"></script>', {
           html: true,
         });
       },

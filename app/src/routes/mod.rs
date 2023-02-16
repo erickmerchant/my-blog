@@ -42,7 +42,7 @@ impl Cache {
 
         let mut file = File::options()
             .read(true)
-            .append(true)
+            .write(true)
             .create(true)
             .open(&src)
             .map_err(ErrorInternalServerError)?;
