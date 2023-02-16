@@ -7,7 +7,7 @@ mod posts_rss;
 
 use actix_files::NamedFile;
 use actix_web::{error::ErrorInternalServerError, error::ErrorNotFound, Result};
-use std::{convert::AsRef, fs, fs::File, io, io::Write, path::Path};
+use std::{convert::AsRef, env::var, fs, fs::File, io, io::Write, path::Path};
 
 pub use self::{asset::*, css::*, js::*, page::*, posts_index::*, posts_rss::*};
 
@@ -15,11 +15,23 @@ pub struct Cache;
 
 impl Cache {
     pub fn get<P: AsRef<Path>>(src: P) -> Option<io::Result<File>> {
-        let src = Path::new("storage/cache").join(src.as_ref());
+        let mut no_cache = false;
 
-        match &src.exists() {
-            false => None,
-            true => Some(File::open(&src)),
+        if let Ok(v) = var("NO_CACHE") {
+            if v.to_lowercase() == "true" {
+                no_cache = true;
+            }
+        };
+
+        if no_cache {
+            None
+        } else {
+            let src = Path::new("storage/cache").join(src.as_ref());
+
+            match &src.exists() {
+                false => None,
+                true => Some(File::open(&src)),
+            }
         }
     }
 
