@@ -2,8 +2,8 @@ customElements.define(
   "page-nav",
   class extends HTMLElement {
     static {
-      let previousY = 0,
-        frameRequested = false;
+      let previousY = 0;
+      let frameRequested = false;
 
       document.body.addEventListener("scroll", () => {
         if (!frameRequested) {
@@ -37,7 +37,6 @@ customElements.define(
       this.#refs.nav?.classList?.toggle("nav--open", this.#open);
 
       let toggle = this.#refs.toggle;
-
       let icon = this.#open ? this.#refs.closeIcon : this.#refs.menuIcon;
 
       toggle?.setAttribute("aria-pressed", String(this.#open));
@@ -65,8 +64,7 @@ customElements.define(
 
       if (template) {
         let templateContent = template.content;
-
-        const shadowRoot = this.attachShadow({
+        let shadowRoot = this.attachShadow({
           mode: "open",
         });
 

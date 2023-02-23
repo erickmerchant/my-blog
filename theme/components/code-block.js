@@ -12,8 +12,7 @@ customElements.define(
         template?.hasAttribute("shadowroot")
       ) {
         let templateContent = template.content;
-
-        const shadowRoot = this.attachShadow({
+        let shadowRoot = this.attachShadow({
           mode: template.getAttribute("shadowroot") ?? "open",
         });
 
