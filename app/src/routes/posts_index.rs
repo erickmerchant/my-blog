@@ -41,7 +41,7 @@ pub async fn posts_index(
         let posts_index_page: Page =
             web::block(move || -> Result<Page, rusqlite::Error> { Page::get(conn, "", "posts") })
                 .await?
-                .map_err(|e| ErrorInternalServerError(e.to_string()))?;
+                .map_err(ErrorInternalServerError)?;
 
         match !posts.is_empty() {
             true => {

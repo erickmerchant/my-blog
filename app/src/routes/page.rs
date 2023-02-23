@@ -31,7 +31,7 @@ pub async fn page(
             Page::get(conn, page_category, page_slug)
         })
         .await?
-        .map_err(|e| ErrorNotFound(e.to_string()))?;
+        .map_err(ErrorNotFound)?;
 
         let p = pool.clone();
 
@@ -46,7 +46,7 @@ pub async fn page(
             Pagination::get(conn, page_category, page_slug)
         })
         .await?
-        .map_err(|e| ErrorNotFound(e.to_string()))?;
+        .map_err(ErrorNotFound)?;
 
         let ctx = context! {
             page => &page,
