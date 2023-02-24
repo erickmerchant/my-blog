@@ -47,17 +47,16 @@ svg {
   @media (max-width: 400px) {
     transition: 0.25s;
     gap: 0;
-    overflow-y: hidden;
 
     --list-display: none;
   }
 }
 
 .nav--open {
-  grid-template-rows: min-content 2fr;
+  grid-template-rows: min-content 1fr;
 
   @media (max-width: 400px) {
-    gap: 1em;
+    gap: 0.75em;
     margin-bottom: 0.5em;
   }
 }
@@ -80,12 +79,12 @@ svg {
   place-content: center;
   border-radius: 0.25em;
   cursor: pointer;
-  transition: transform 0.25s;
-  box-shadow: 0 0 0 0.25em hsl(0 0% 0% / 0);
+  transition: box-shadow 0.25s;
+  box-shadow: 0 0 0 0.125em hsl(0 0% 0% / 0);
   margin-left: -0.25em;
 
   &:focus-visible {
-    box-shadow: 0 0 0 0.25em currentColor;
+    box-shadow: 0 0 0 0.125em currentColor;
   }
 
   @media (max-width: 400px) {
@@ -102,5 +101,5 @@ svg {
 .list {
   display: var(--list-display);
   min-height: 0;
-  overflow-y: visible;
+  overflow-y: hidden;
 }

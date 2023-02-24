@@ -118,12 +118,13 @@ body {
 
 a {
   color: var(--ink-0);
-  text-underline-offset: 0.2em;
-  text-decoration-thickness: 0.1em;
+  border-bottom: 0.1em solid currentColor;
+  transition: border-width 0.25s;
+  text-decoration: none;
 
   &:hover,
   &:focus-visible {
-    text-decoration-thickness: 0.2em;
+    border-bottom-width: 0.2em;
   }
 }
 
@@ -197,6 +198,7 @@ code-block {
   padding: 1em;
   font-weight: 500;
   color: var(--ink-0);
+  z-index: 2;
 }
 
 .navList {
@@ -221,9 +223,9 @@ code-block {
   display: grid;
   grid-auto-columns: 100%;
   gap: 1em;
-  padding-block-start: 1em;
+  padding-block: 1em 2em;
   align-content: start;
-  margin-bottom: 2em;
+  z-index: 1;
 
   --list-indent: 2rem;
 
@@ -249,8 +251,7 @@ code-block {
 
 .footer {
   display: flex;
-  padding: 1em;
-  margin-block-start: 1em;
+  padding: 2em 1em;
   justify-content: safe center;
   flex-wrap: wrap;
   gap: 1em 3em;
@@ -260,6 +261,9 @@ code-block {
     var(--paper-1) 0.1rem 0.3rem
   );
   font-weight: 500;
+  position: sticky;
+  bottom: 0;
+  z-index: 0;
 }
 
 .footerNavList {
@@ -294,6 +298,7 @@ code-block {
   list-style: none;
   gap: 1em 5vw;
   font-weight: 500;
+  margin-top: 2em;
 
   --list-indent: 0;
 
@@ -312,13 +317,15 @@ code-block {
   background-color: var(--paper-0);
   border-radius: 0.25em;
   text-decoration: none;
-  box-shadow: 0 0 0 0.125em currentColor, 0 0 0 0.125em hsl(0 0% 0% / 0);
+  box-shadow: 0 0 0 0.125em hsl(0 0% 0% / 0);
+  transition: box-shadow 0.25s;
   height: 100%;
   text-align: right;
+  border-bottom: none;
 
   &:hover,
   &:focus-visible {
-    box-shadow: 0 0 0 0.25em currentColor;
+    box-shadow: 0 0 0 0.125em currentColor;
   }
 }
 
@@ -331,7 +338,7 @@ code-block {
   display: flex;
   padding: 0.5em 1em;
   background-color: var(--paper-1);
-  border-radius: 0.25em;
+  border-radius: 0.125em;
   border: 0.25em solid hsl(0 0% 0% / 0);
   height: 100%;
 
