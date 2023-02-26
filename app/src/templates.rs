@@ -3,7 +3,7 @@ use minijinja::{Environment, Source};
 
 pub fn get_env() -> Environment<'static> {
     let mut template_env = Environment::new();
-    template_env.set_source(Source::from_path("theme"));
+    template_env.set_source(Source::from_path("templates"));
 
     template_env.add_filter("date", date);
 
