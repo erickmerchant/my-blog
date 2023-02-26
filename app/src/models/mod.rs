@@ -56,15 +56,15 @@ impl Page {
 
     fn map_row(row: &rusqlite::Row<'_>) -> Result<Self, rusqlite::Error> {
         Ok(Self {
-            slug: row.get(0)?,
-            category: row.get(1)?,
-            title: row.get(2)?,
-            date: row.get(3)?,
-            description: row.get(4)?,
-            content: row.get(5)?,
-            template: row.get(6)?,
+            slug: row.get("slug")?,
+            category: row.get("category")?,
+            title: row.get("title")?,
+            date: row.get("date")?,
+            description: row.get("description")?,
+            content: row.get("content")?,
+            template: row.get("template")?,
             components: row
-                .get::<usize, String>(7)?
+                .get::<&str, String>("components")?
                 .split(',')
                 .map(|s| s.to_string())
                 .filter(|s| !s.is_empty())
