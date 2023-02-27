@@ -45,24 +45,22 @@ fn page_from_html(category: String, slug: String, contents: &str) -> Result<Page
 
                     if let Some(syntax) = ss.find_syntax_by_extension(&language) {
                         let original_html = String::from(el.as_str());
-
                         let mut html_generator = ClassedHTMLGenerator::new_with_class_style(
                             syntax,
                             &ss,
                             ClassStyle::Spaced,
                         );
+
                         for line in LinesWithEndings::from(&original_html) {
                             html_generator.parse_html_for_line_which_includes_newline(line)?;
                         }
-                        let html = html_generator.finalize();
 
+                        let html = html_generator.finalize();
                         let ctx = context! {
                             html => html,
                             original_html => original_html
                         };
-
                         let template = template_env.get_template("components/code-block.jinja")?;
-
                         let replacement_html = template.render(ctx)?;
 
                         el.replace(replacement_html.as_str(), ContentType::Html);
