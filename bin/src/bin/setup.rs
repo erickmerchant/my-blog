@@ -94,10 +94,10 @@ fn main() -> Result<()> {
 
     let conn = Connection::open("storage/content.db")?;
 
-    conn.execute("DROP TABLE IF EXISTS page", [])?;
-
-    conn.execute(
-        "CREATE TABLE IF NOT EXISTS page (
+    conn.execute_batch(
+        "
+        DROP TABLE IF EXISTS page;
+        CREATE TABLE page (
              id INTEGER PRIMARY KEY,
              slug TEXT NOT NULL,
              category TEXT NOT NULL,
@@ -108,11 +108,11 @@ fn main() -> Result<()> {
              template TEXT NOT NULL,
              components TEXT NOT NULL
          );
-         CREATE UNIQUE INDEX unique_category_slug ON page (category, slug);",
-        [],
+         CREATE UNIQUE INDEX unique_category_slug ON page (category, slug);
+        ",
     )?;
 
-    let mut insert_stmt = conn.prepare(
+    let mut insert_page_stmt = conn.prepare(
         "INSERT INTO page (
                 slug,
                 category,
@@ -140,7 +140,7 @@ fn main() -> Result<()> {
             if let Ok(contents) = fs::read_to_string(&path) {
                 let data = page_from_html(category, slug, &contents)?;
 
-                insert_stmt.execute([
+                insert_page_stmt.execute([
                     data.slug,
                     data.category,
                     data.title,
