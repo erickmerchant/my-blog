@@ -20,6 +20,10 @@ svg {
   transition: top 0.25s cubic-bezier(0.3, 0, 0.3, 0.7);
 }
 
+:host(:not(:defined)) .toggle {
+  visibility: hidden;
+}
+
 @media (max-width: 400px) {
   :host([open]) {
     --scrolling-down: 0 !important;

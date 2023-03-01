@@ -21,12 +21,12 @@ fn page_from_html(category: String, slug: String, contents: &str) -> Result<Page
     let mut rewriter = HtmlRewriter::new(
         Settings {
             element_content_handlers: vec![
-                element!("front-matter", |el| {
+                element!("front-json", |el| {
                     el.remove();
 
                     Ok(())
                 }),
-                text!("front-matter", |el| {
+                text!("front-json", |el| {
                     if let Ok(d) = serde_json::from_str::<Page>(el.as_str()) {
                         data = d;
                     }

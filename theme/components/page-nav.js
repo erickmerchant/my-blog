@@ -60,25 +60,29 @@ customElements.define(
     constructor() {
       super();
 
-      let template = document.getElementById("pageNav");
+      let template = this.firstElementChild;
 
-      if (template) {
+      if (
+        !this.shadowRoot &&
+        template?.nodeName === "TEMPLATE" &&
+        template?.hasAttribute("shadowroot")
+      ) {
         let templateContent = template.content;
         let shadowRoot = this.attachShadow({
-          mode: "open",
+          mode: template.getAttribute("shadowroot") ?? "open",
         });
 
         shadowRoot.appendChild(templateContent.cloneNode(true));
-
-        this.#refs.nav?.addEventListener("transitionend", () => {
-          this.#setClosing(false);
-        });
-
-        this.#refs.toggle?.addEventListener("click", () => {
-          this.#setClosing(this.#open);
-          this.#toggleOpen();
-        });
       }
+
+      this.#refs.nav?.addEventListener("transitionend", () => {
+        this.#setClosing(false);
+      });
+
+      this.#refs.toggle?.addEventListener("click", () => {
+        this.#setClosing(this.#open);
+        this.#toggleOpen();
+      });
     }
   }
 );

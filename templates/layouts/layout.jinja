@@ -29,6 +29,7 @@
   </head>
   <body>
     <page-nav class="nav">
+      {%- include "/components/page-nav.jinja" -%}
       {{nav_list("navList")}}
     </page-nav>
     <main class="main">
@@ -39,7 +40,6 @@
       {{nav_list("footerNavList")}}
       <p class="copyright">© {{copyright}}</p>
     </footer>
-    {%- include "/components/page-nav.jinja" -%}
   </body>
 </html>
 
