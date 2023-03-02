@@ -57,11 +57,13 @@ fn page_from_html(category: String, slug: String, contents: &str) -> Result<Page
 
                         let html = html_generator.finalize();
                         let ctx = context! {
-                            html => html,
-                            original_html => original_html
+                            html => html
                         };
                         let template = template_env.get_template("components/code-block.jinja")?;
                         let replacement_html = template.render(ctx)?;
+
+                        let replacement_html =
+                            format!("{replacement_html}<pre><code>{original_html}</code></pre>");
 
                         el.replace(replacement_html.as_str(), ContentType::Html);
 
