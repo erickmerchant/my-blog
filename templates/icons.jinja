@@ -1,21 +1,23 @@
-{% macro icon(width, path, class="") %}
-  <svg class="{{class}}" aria-hidden="true" viewBox="0 0 {{width}} 16">
-    <path d="{{path}}"></path>
+{% macro arrow_left_icon(class="") %}
+  <svg class="{{class}}" aria-hidden="true" viewBox="0 0 11 16">
+    <path d="M1 8 l7 -7 l2 2 l-5 5 l5 5 l-2 2 z"></path>
   </svg>
 {% endmacro %}
 
-{% macro arrow_left_icon(class="") %}
-  {{ icon(11, "M1 8 l7 -7 l2 2 l-5 5 l5 5 l-2 2 z", class=class) }}
-{% endmacro %}
-
 {% macro arrow_right_icon(class="") %}
-  {{ icon(11, "M10 8 l-7 -7 l-2 2 l5 5 l-5 5 l2 2 z", class=class) }}
+  <svg class="{{class}}" aria-hidden="true" viewBox="0 0 11 16">
+    <path d="M10 8 l-7 -7 l-2 2 l5 5 l-5 5 l2 2 z"></path>
+  </svg>
 {% endmacro %}
 
 {% macro menu_icon(class="") %}
-  {{ icon(16, "M1 1 l14 0 l0 3.5 l-14 0 z m0 5.25 l14 0 l0 3.5 l-14 0 z m0 5.25 l14 0 l0 3.5 l-14 0 z", class=class) }}
+  <svg class="{{class}}" aria-hidden="true" viewBox="0 0 16 16">
+    <path d="M1 1 l14 0 l0 3.5 l-14 0 z m0 5.25 l14 0 l0 3.5 l-14 0 z m0 5.25 l14 0 l0 3.5 l-14 0 z"></path>
+  </svg>
 {% endmacro %}
 
 {% macro close_icon(class="") %}
-  {{ icon(16, "M1 4 l3 -3 l11 11 l-3 3 z m11 -3 l3 3 l-11 11 l-3 -3 z", class=class) }}
+  <svg class="{{class}}" aria-hidden="true" viewBox="0 0 16 16">
+    <path d="M1 4 l3 -3 l11 11 l-3 3 z m11 -3 l3 3 l-11 11 l-3 -3 z"></path>
+  </svg>
 {% endmacro %}
