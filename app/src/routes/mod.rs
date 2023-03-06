@@ -30,7 +30,7 @@ impl Cache {
 
             match &src.exists() {
                 false => None,
-                true => Some(File::open(&src)),
+                true => Some(File::options().read(true).open(&src)),
             }
         }
     }
