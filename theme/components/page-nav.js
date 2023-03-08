@@ -1,6 +1,8 @@
+import {BaseElement} from "./base-element.js";
+
 customElements.define(
   "page-nav",
-  class extends HTMLElement {
+  class extends BaseElement {
     static {
       let previousY = 0;
       let frameRequested = false;
@@ -51,29 +53,12 @@ customElements.define(
     #refs = new Proxy(
       {},
       {
-        get: (_, id) => {
-          return this.shadowRoot.getElementById(id);
-        },
+        get: (_, id) => this.shadowRoot.getElementById(id),
       }
     );
 
     constructor() {
       super();
-
-      let template = this.firstElementChild;
-
-      if (
-        !this.shadowRoot &&
-        template?.nodeName === "TEMPLATE" &&
-        template?.hasAttribute("shadowroot")
-      ) {
-        let templateContent = template.content;
-        let shadowRoot = this.attachShadow({
-          mode: template.getAttribute("shadowroot") ?? "open",
-        });
-
-        shadowRoot.appendChild(templateContent.cloneNode(true));
-      }
 
       this.#refs.nav?.addEventListener("transitionend", () => {
         this.#setClosing(false);

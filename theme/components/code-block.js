@@ -1,23 +1,3 @@
-customElements.define(
-  "code-block",
-  class extends HTMLElement {
-    constructor() {
-      super();
+import {BaseElement} from "./base-element.js";
 
-      let template = this.firstElementChild;
-
-      if (
-        !this.shadowRoot &&
-        template?.nodeName === "TEMPLATE" &&
-        template?.hasAttribute("shadowroot")
-      ) {
-        let templateContent = template.content;
-        let shadowRoot = this.attachShadow({
-          mode: template.getAttribute("shadowroot") ?? "open",
-        });
-
-        shadowRoot.appendChild(templateContent.cloneNode(true));
-      }
-    }
-  }
-);
+customElements.define("code-block", class extends BaseElement {});
