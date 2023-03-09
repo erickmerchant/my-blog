@@ -50,8 +50,8 @@
 }
 
 ::-webkit-scrollbar {
-  width: 0.5em;
-  height: 0.5em;
+  width: 0.5rem;
+  height: 0.5rem;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -73,10 +73,6 @@ html {
   scrollbar-color: var(--scrollbar) var(--paper-1);
 
   --max-width: 40rem;
-
-  @media (max-width: 600px) {
-    font-size: 100%;
-  }
 }
 
 body {
@@ -86,6 +82,7 @@ body {
   background: var(--paper-2);
   display: grid;
   grid-template-rows: min-content auto min-content;
+  container-type: inline-size;
 
   @media (prefers-color-scheme: light) {
     --ink-0: hsl(120 70% 25%);
@@ -180,7 +177,7 @@ code-block {
   --max-width: 44rem;
   --border-radius: 0.25em;
 
-  @media (max-width: 810px) {
+  @container (width <= 44.5rem) {
     --border-radius: 0;
   }
 }
@@ -208,7 +205,7 @@ code-block {
   white-space: nowrap;
   gap: 0.5em 1em;
 
-  @media (max-width: 400px) {
+  @container (width <= 20rem) {
     flex-direction: column;
   }
 }
@@ -229,7 +226,9 @@ code-block {
 
   --list-indent: 2rem;
 
-  @media (max-width: 600px) {
+  @container (width <= 30rem) {
+    font-size: 0.8em;
+
     --list-indent: 1rem;
   }
 }
@@ -240,11 +239,11 @@ code-block {
   margin-inline: auto;
   padding-inline: 1rem;
 
-  @media (max-width: 600px) {
+  @container (width <= 30rem) {
     max-width: 100%;
   }
 
-  @media (max-width: 900px) {
+  @container (width <= 45rem) {
     max-width: var(--max-width);
   }
 }
@@ -302,7 +301,7 @@ code-block {
 
   --list-indent: 0;
 
-  @media (max-width: 600px) {
+  @container (width <= 30rem) {
     grid-template-columns: 100%;
   }
 }
@@ -311,7 +310,7 @@ code-block {
   display: flex;
   align-items: center;
   gap: 0.5em;
-  padding: 0.25em 0.5em;
+  padding: 0.25em 0.5rem;
   min-height: 3.5em;
   color: var(--ink-0);
   background-color: var(--paper-0);
@@ -342,7 +341,7 @@ code-block {
   border: 0.25em solid hsl(0 0% 0% / 0);
   height: 100%;
 
-  @media (max-width: 600px) {
+  @container (width <= 30rem) {
     display: none;
   }
 }
