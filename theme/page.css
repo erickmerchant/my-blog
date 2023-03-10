@@ -306,7 +306,8 @@ code-block {
   }
 }
 
-.paginationLink {
+.paginationLinkPrevious,
+.paginationLinkNext {
   display: flex;
   align-items: center;
   gap: 0.5em;
@@ -328,7 +329,7 @@ code-block {
   }
 }
 
-.paginationLink--previous {
+.paginationLinkPrevious {
   flex-direction: row-reverse;
   text-align: left;
 }

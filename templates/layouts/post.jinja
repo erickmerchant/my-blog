@@ -5,7 +5,7 @@
 {%- macro pagination_link(page, position, icon) -%}
     <li>
       {% if page %}
-        <a class="paginationLink paginationLink--{{position}}" href="/{{page.category}}/{{page.slug}}.html">
+        <a class="paginationLink{{position}}" href="/{{page.category}}/{{page.slug}}.html">
           <span class="paginationPageTitle">{{page.title}}</span>
           {{icon}}
         </a>
@@ -19,15 +19,15 @@
   <header>
     <h1>{{page.title}}</h1>
     <p class="published">
-      <time>{{page.date | date("%B %e, %Y")}}</time>
+      <time>{{page.date | format_date("%B %e, %Y")}}</time>
     </p>
   </header>
 
   {{page.content | safe}}
 
   <ul class="pagination">
-    {{pagination_link(pagination.previous, "previous", arrow_left_icon(class="paginationIcon"))}}
+    {{pagination_link(pagination.previous, "Previous", arrow_left_icon(class="paginationIcon"))}}
 
-    {{pagination_link(pagination.next, "next", arrow_right_icon(class="paginationIcon"))}}
+    {{pagination_link(pagination.next, "Next", arrow_right_icon(class="paginationIcon"))}}
   </ul>
 {% endblock %}

@@ -9,7 +9,7 @@
     {% for page in posts %}
       <li>
         <h2><a href="/{{page.category}}/{{page.slug}}.html">{{page.title}}</a></h2>
-        <p class="published"><time>{{page.date | date("%B %e, %Y")}}</time></p>
+        <p class="published"><time>{{page.date | format_date("%B %e, %Y")}}</time></p>
         <p>{{page.description}}</p>
       </li>
     {% endfor %}

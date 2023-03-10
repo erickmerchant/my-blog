@@ -54,7 +54,7 @@ svg {
   }
 }
 
-.nav--open {
+.navOpen {
   grid-template-rows: min-content 1fr;
 
   @container (width <= 20rem) {
@@ -64,8 +64,8 @@ svg {
 }
 
 @container (width <= 20rem) {
-  .nav--open,
-  .nav--closing {
+  .navOpen,
+  .navClosing {
     --list-display: grid;
   }
 }

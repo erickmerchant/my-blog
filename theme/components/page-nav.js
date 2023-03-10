@@ -36,7 +36,7 @@ customElements.define(
 
       this.toggleAttribute("open", this.#open);
 
-      this.#refs.nav?.classList?.toggle("nav--open", this.#open);
+      this.#refs.nav?.classList?.toggle("navOpen", this.#open);
 
       let toggle = this.#refs.toggle;
       let icon = this.#open ? this.#refs.closeIcon : this.#refs.menuIcon;
@@ -47,7 +47,7 @@ customElements.define(
     };
 
     #setClosing = (closing) => {
-      this.#refs.nav?.classList?.toggle("nav--closing", closing);
+      this.#refs.nav?.classList?.toggle("navClosing", closing);
     };
 
     #refs = new Proxy(
