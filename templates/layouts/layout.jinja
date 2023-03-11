@@ -20,6 +20,7 @@
     {% for component in page.components %}
       <script type="module" src="/components/{{component}}.js"></script>
     {% endfor %}
+    <link rel="stylesheet" href="/common.css">
     <link rel="stylesheet" href="/page.css">
     <link rel="preload" href="/components/page-nav.css" as="style">
     {% for component in page.components %}

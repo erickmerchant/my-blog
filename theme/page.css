@@ -39,16 +39,6 @@
   unicode-range: U+20-7E, U+00A9, U+2014;
 }
 
-* {
-  font: inherit;
-  color: inherit;
-  max-width: 100%;
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-  -webkit-text-size-adjust: none;
-}
-
 ::-webkit-scrollbar {
   width: 0.5rem;
   height: 0.5rem;
@@ -115,13 +105,14 @@ body {
 
 a {
   color: var(--ink-0);
-  border-bottom: 0.1em solid currentColor;
-  transition: border-width 0.25s;
-  text-decoration: none;
+  /* transition: text-decoration-thickness 0.25s; */
+  text-decoration-thickness: 0.1em;
+  text-underline-offset: 0.3em;
 
   &:hover,
   &:focus-visible {
-    border-bottom-width: 0.2em;
+    text-decoration-thickness: 0.2em;
+    text-underline-offset: 0.2em;
   }
 }
 
@@ -306,56 +297,46 @@ code-block {
   }
 }
 
-.paginationLinkPrevious,
-.paginationLinkNext {
-  display: flex;
-  align-items: center;
-  gap: 0.5em;
-  padding: 0.25em 0.5rem;
-  min-height: 3.5em;
-  color: var(--ink-0);
-  background-color: var(--paper-0);
+.paginationLink,
+.paginationPlaceholder {
+  min-height: 3.5rem;
   border-radius: 0.25em;
-  text-decoration: none;
-  box-shadow: 0 0 0 0.125em hsl(0 0% 0% / 0);
-  transition: box-shadow 0.25s;
+  display: flex;
+  place-content: center;
+  align-items: center;
   height: 100%;
-  text-align: right;
-  border-bottom: none;
+  width: 100%;
+}
 
-  &:hover,
-  &:focus-visible {
-    box-shadow: 0 0 0 0.125em currentColor;
+.paginationLink {
+  background-color: var(--paper-0);
+  transition: margin-top 0.25s;
+  position: relative;
+
+  & a::before {
+    content: "";
+    display: flex;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    border-radius: 0.25em;
+    border: 0.05em solid var(--ink-0);
+    top: 0;
+    left: 0;
+    z-index: 0;
   }
 }
 
-.paginationLinkPrevious {
-  flex-direction: row-reverse;
-  text-align: left;
-}
-
 .paginationPlaceholder {
-  display: flex;
-  padding: 0.5em 1em;
   background-color: var(--paper-1);
-  border-radius: 0.125em;
-  border: 0.25em solid hsl(0 0% 0% / 0);
-  height: 100%;
 
   @container (width <= 30rem) {
     display: none;
   }
 }
 
-.paginationPageTitle {
-  flex: 1 1 auto;
-}
-
 .paginationIcon {
-  display: grid;
   height: 1em;
-  aspect-ratio: 1 / 1;
   font-size: 1.25em;
   color: inherit;
-  fill: currentColor;
 }
