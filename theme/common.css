@@ -1,4 +1,5 @@
-* {
+*,
+*::before {
   font: inherit;
   color: inherit;
   max-width: 100%;

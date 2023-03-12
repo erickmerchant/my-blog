@@ -315,12 +315,12 @@ code-block {
 
   & a::before {
     content: "";
-    display: flex;
+    display: grid;
     height: 100%;
     width: 100%;
     position: absolute;
     border-radius: 0.25em;
-    border: 0.05em solid var(--ink-0);
+    border: 0.1em solid var(--ink-0);
     top: 0;
     left: 0;
     z-index: 0;
