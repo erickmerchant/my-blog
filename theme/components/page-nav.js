@@ -29,6 +29,23 @@ customElements.define(
       });
     }
 
+    #refs = new Proxy(
+      {},
+      {
+        get: (refs, id) => {
+          let el = refs[id]?.deref();
+
+          if (!el) {
+            el = this.shadowRoot.getElementById(id);
+
+            refs[id] = new WeakRef(el);
+          }
+
+          return el;
+        },
+      }
+    );
+
     #open = false;
 
     #toggleOpen = () => {
@@ -38,24 +55,18 @@ customElements.define(
 
       this.#refs.nav?.classList?.toggle("open", this.#open);
 
-      let toggle = this.#refs.toggle;
       let icon = this.#open ? this.#refs.closeIcon : this.#refs.menuIcon;
 
-      toggle?.setAttribute("aria-pressed", String(this.#open));
+      this.#refs.toggle?.setAttribute("aria-pressed", String(this.#open));
 
-      toggle?.firstElementChild?.replaceWith(icon?.content?.cloneNode(true));
+      this.#refs.toggle?.firstElementChild?.replaceWith(
+        icon?.content?.cloneNode(true)
+      );
     };
 
     #setClosing = (closing) => {
       this.#refs.nav?.classList?.toggle("closing", closing);
     };
-
-    #refs = new Proxy(
-      {},
-      {
-        get: (_, id) => this.shadowRoot.getElementById(id),
-      }
-    );
 
     constructor() {
       super();
