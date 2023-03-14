@@ -1,13 +1,10 @@
 {% extends "layouts/layout.jinja" %}
 
-{%- from "icons.jinja" import arrow_left_icon, arrow_right_icon -%}
-
-{%- macro pagination_link(page, position, icon) -%}
+{%- macro pagination_link(page, position) -%}
   {% if page %}
     <li class="paginationLink">
       <a href="/{{page.category}}/{{page.slug}}.html">
         {{page.title}}
-        {{icon}}
       </a>
     </li>
   {% else %}
@@ -26,8 +23,8 @@
   {{page.content | safe}}
 
   <ul class="pagination">
-    {{pagination_link(pagination.previous, arrow_left_icon(class="paginationIcon"))}}
+    {{pagination_link(pagination.previous)}}
 
-    {{pagination_link(pagination.next, arrow_right_icon(class="paginationIcon"))}}
+    {{pagination_link(pagination.next)}}
   </ul>
 {% endblock %}

@@ -29,6 +29,11 @@ customElements.define(
       });
     }
 
+    #icons = {
+      open: "M1 1 l14 0 l0 3.5 l-14 0 z m0 5.25 l14 0 l0 3.5 l-14 0 z m0 5.25 l14 0 l0 3.5 l-14 0 z",
+      close: "M1 4 l3 -3 l11 11 l-3 3 z m11 -3 l3 3 l-11 11 l-3 -3 z",
+    };
+
     #refs = new Proxy(
       {},
       {
@@ -55,14 +60,17 @@ customElements.define(
 
       this.#refs.nav?.classList?.toggle("open", this.#open);
 
-      let icon = this.#open ? this.#refs.closeIcon : this.#refs.menuIcon;
-
       this.#refs.toggle?.setAttribute("aria-pressed", String(this.#open));
 
-      this.#refs.toggle?.firstElementChild?.replaceWith(
-        icon?.content?.cloneNode(true)
-      );
+      this.#setIcon();
     };
+
+    #setIcon() {
+      this.#refs.icon?.setAttribute(
+        "d",
+        this.#icons[this.#open ? "close" : "open"]
+      );
+    }
 
     #setClosing = (closing) => {
       this.#refs.nav?.classList?.toggle("closing", closing);
@@ -79,6 +87,8 @@ customElements.define(
         this.#setClosing(this.#open);
         this.#toggleOpen();
       });
+
+      this.#setIcon();
     }
   }
 );
