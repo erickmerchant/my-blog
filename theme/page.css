@@ -264,6 +264,10 @@ code-block {
   justify-content: safe center;
 }
 
+.copyright {
+  text-align: center;
+}
+
 .index {
   gap: 1em;
   list-style: none;
@@ -301,9 +305,11 @@ code-block {
 .paginationPlaceholder {
   min-height: 3.5rem;
   border-radius: 0.25em;
+  padding-inline: 1em;
   display: flex;
   place-content: center;
   align-items: center;
+  text-align: center;
   height: 100%;
   width: 100%;
 }
