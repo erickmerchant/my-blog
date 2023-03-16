@@ -1,8 +1,8 @@
-import {BaseElement} from "./base-element.js";
+import {Element, run, watch} from "../element.js";
 
 customElements.define(
   "page-nav",
-  class extends BaseElement {
+  class extends Element {
     static {
       let previousY = 0;
       let frameRequested = false;
@@ -34,61 +34,36 @@ customElements.define(
       close: "M1 4 l3 -3 l11 11 l-3 3 z m11 -3 l3 3 l-11 11 l-3 -3 z",
     };
 
-    #refs = new Proxy(
-      {},
-      {
-        get: (refs, id) => {
-          let el = refs[id]?.deref();
-
-          if (!el) {
-            el = this.shadowRoot.getElementById(id);
-
-            refs[id] = new WeakRef(el);
-          }
-
-          return el;
-        },
-      }
-    );
-
-    #open = false;
-
-    #toggleOpen = () => {
-      this.#open = !this.#open;
-
-      this.toggleAttribute("open", this.#open);
-
-      this.#refs.nav?.classList?.toggle("open", this.#open);
-
-      this.#refs.toggle?.setAttribute("aria-pressed", String(this.#open));
-
-      this.#setIcon();
-    };
-
-    #setIcon() {
-      this.#refs.icon?.setAttribute(
-        "d",
-        this.#icons[this.#open ? "close" : "open"]
-      );
-    }
-
-    #setClosing = (closing) => {
-      this.#refs.nav?.classList?.toggle("closing", closing);
-    };
+    #state = watch({open: false, closing: false});
 
     constructor() {
       super();
 
-      this.#refs.nav?.addEventListener("transitionend", () => {
-        this.#setClosing(false);
+      let nav = this.shadowRoot.getElementById("nav");
+      let toggle = this.shadowRoot.getElementById("toggle");
+      let icon = this.shadowRoot.getElementById("icon");
+
+      nav?.addEventListener("transitionend", () => {
+        this.#state.closing = false;
       });
 
-      this.#refs.toggle?.addEventListener("click", () => {
-        this.#setClosing(this.#open);
-        this.#toggleOpen();
+      toggle?.addEventListener("click", () => {
+        this.#state.closing = this.#state.open;
+
+        this.#state.open = !this.#state.open;
       });
 
-      this.#setIcon();
+      run(
+        () => this.toggleAttribute("open", this.#state.open),
+        () => nav?.classList?.toggle("open", this.#state.open),
+        () => nav?.classList?.toggle("closing", this.#state.closing),
+        () => toggle?.setAttribute("aria-pressed", String(this.#state.open)),
+        () =>
+          icon?.setAttribute(
+            "d",
+            this.#icons[this.#state.open ? "close" : "open"]
+          )
+      );
     }
   }
 );

@@ -1,3 +1,3 @@
-import {BaseElement} from "./base-element.js";
+import {Element} from "../element.js";
 
-customElements.define("code-block", class extends BaseElement {});
+customElements.define("code-block", class extends Element {});

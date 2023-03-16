@@ -250,6 +250,7 @@ code-block {
     var(--paper-2) 0 0.1rem,
     var(--paper-1) 0.1rem 0.3rem
   );
+  font-size: 0.8em;
   font-weight: 500;
   position: sticky;
   bottom: 0;
@@ -292,7 +293,7 @@ code-block {
   list-style: none;
   gap: 1em 5vw;
   font-weight: 500;
-  margin-top: 2em;
+  margin-block-start: 2em;
 
   --list-indent: 0;
 
@@ -316,19 +317,15 @@ code-block {
 
 .paginationLink {
   background-color: var(--paper-0);
-  transition: margin-top 0.25s;
   position: relative;
 
   & a::before {
     content: "";
     display: grid;
-    height: 100%;
-    width: 100%;
     position: absolute;
     border-radius: 0.25em;
     border: 0.1em solid var(--ink-0);
-    top: 0;
-    left: 0;
+    inset: 0;
     z-index: 0;
   }
 }
