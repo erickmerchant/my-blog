@@ -1,4 +1,4 @@
-import {Element, run, watch} from "../element.js";
+import {Element} from "../element.js";
 
 customElements.define(
   "page-nav",
@@ -34,7 +34,7 @@ customElements.define(
       close: "M1 4 l3 -3 l11 11 l-3 3 z m11 -3 l3 3 l-11 11 l-3 -3 z",
     };
 
-    #state = watch({open: false, closing: false});
+    #state = Element.watch({open: false, closing: false});
 
     constructor() {
       super();
@@ -53,7 +53,7 @@ customElements.define(
         this.#state.open = !this.#state.open;
       });
 
-      run(
+      Element.run(
         () => this.toggleAttribute("open", this.#state.open),
         () => nav?.classList?.toggle("open", this.#state.open),
         () => nav?.classList?.toggle("closing", this.#state.closing),

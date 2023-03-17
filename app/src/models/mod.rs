@@ -23,7 +23,7 @@ impl Page {
                 description,
                 content,
                 template,
-                components
+                elements
             FROM page
             WHERE category = ?1
             ORDER BY date DESC",
@@ -46,7 +46,7 @@ impl Page {
                 description,
                 content,
                 template,
-                components
+                elements
             FROM page
             WHERE category = ?1 AND slug = ?2
             LIMIT 1",
@@ -63,8 +63,8 @@ impl Page {
             description: row.get("description")?,
             content: row.get("content")?,
             template: row.get("template")?,
-            components: row
-                .get::<&str, String>("components")?
+            elements: row
+                .get::<&str, String>("elements")?
                 .split(',')
                 .map(|s| s.to_string())
                 .filter(|s| !s.is_empty())
@@ -89,7 +89,7 @@ impl Pagination {
                     description,
                     content,
                     template,
-                    components
+                    elements
                 FROM page
                 WHERE category = ?1 AND slug != ?2 AND date >= (
                     SELECT date FROM page WHERE category = ?1 AND slug = ?2 LIMIT 1
@@ -114,7 +114,7 @@ impl Pagination {
                     description,
                     content,
                     template,
-                    components
+                    elements
                 FROM page
                 WHERE category = ?1 AND slug != ?2 AND date <= (
                     SELECT date FROM page WHERE category = ?1 AND slug = ?2 LIMIT 1

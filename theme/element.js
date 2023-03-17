@@ -4,89 +4,89 @@ export class Element extends HTMLElement {
 
     let template = this.firstElementChild;
 
-    if (
-      !this.shadowRoot &&
-      template?.nodeName === "TEMPLATE" &&
-      template?.hasAttribute("shadowroot")
-    ) {
-      let templateContent = template.content;
-      let shadowRoot = this.attachShadow({
-        mode: template.getAttribute("shadowroot") ?? "open",
-      });
+    if (!this.shadowRoot && template?.nodeName === "TEMPLATE") {
+      let mode = template.getAttribute("shadowroot");
 
-      shadowRoot.appendChild(templateContent.cloneNode(true));
+      if (mode) {
+        let templateContent = template.content;
+        let shadowRoot = this.attachShadow({
+          mode,
+        });
+
+        shadowRoot.appendChild(templateContent.cloneNode(true));
+      }
     }
   }
-}
 
-let scheduled = false;
-let writes = new Set();
-let reads = new Map();
-let current = null;
+  static #scheduled = false;
+  static #writes = new Set();
+  static #reads = new Map();
+  static #current = null;
 
-export let watch = (state) => {
-  let symbols = {};
+  static watch(state) {
+    let symbols = {};
 
-  return new Proxy(state, {
-    set: (state, key, value) => {
-      if (typeof value === "object" || state[key] !== value) {
-        state[key] = value;
-
+    return new Proxy(state, {
+      set: (state, key, value) => {
         symbols[key] ??= Symbol("");
 
-        for (let formula of reads.get(symbols[key]) ?? []) {
-          writes.add(formula);
+        if (state[key] !== value) {
+          state[key] = value;
+
+          for (let formula of this.#reads.get(symbols[key]) ?? []) {
+            this.#writes.add(formula);
+          }
+
+          this.#reads.set(symbols[key], new Set());
+
+          this.#schedule();
         }
 
-        reads.set(symbols[key], new Set());
+        return true;
+      },
+      get: (state, key) => {
+        symbols[key] ??= Symbol("");
 
-        schedule();
-      }
+        if (this.#current) {
+          let r = this.#reads.get(symbols[key]) ?? new Set();
 
-      return true;
-    },
-    get: (state, key) => {
-      symbols[key] ??= Symbol("");
+          this.#reads.set(symbols[key], r);
 
-      if (current) {
-        let r = reads.get(symbols[key]) ?? new Set();
+          r.add(this.#current);
+        }
 
-        reads.set(symbols[key], r);
-
-        r.add(current);
-      }
-
-      return state[key];
-    },
-  });
-};
-
-export let run = (...formulae) => {
-  update(new Set(formulae));
-};
-
-let schedule = () => {
-  if (!scheduled) {
-    scheduled = true;
-
-    window.requestAnimationFrame(() => {
-      scheduled = false;
-
-      update();
+        return state[key];
+      },
     });
   }
-};
 
-let update = (formulae = writes) => {
-  for (let formula of formulae) {
-    let prev = current;
-
-    current = formula;
-
-    formula();
-
-    current = prev;
+  static run(...formulae) {
+    this.#update(new Set(formulae));
   }
 
-  writes.clear();
-};
+  static #schedule() {
+    if (!this.#scheduled) {
+      this.#scheduled = true;
+
+      window.requestAnimationFrame(() => {
+        this.#scheduled = false;
+
+        this.#update();
+      });
+    }
+  }
+
+  static #update(formulae = this.#writes) {
+    for (let formula of formulae) {
+      let prev = this.#current;
+
+      this.#current = formula;
+
+      formula();
+
+      this.#current = prev;
+    }
+
+    this.#writes.clear();
+  }
+}

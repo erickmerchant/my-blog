@@ -12,7 +12,7 @@ use syntect::{
 
 fn page_from_html(category: String, slug: String, contents: &str) -> Result<Page> {
     let mut data = Page::default();
-    let mut components = HashSet::<String>::new();
+    let mut elements = HashSet::<String>::new();
     let template_env = get_env();
     let ss = SyntaxSet::load_defaults_newlines();
     let mut output = vec![];
@@ -59,7 +59,7 @@ fn page_from_html(category: String, slug: String, contents: &str) -> Result<Page
                         let ctx = context! {
                             html => html
                         };
-                        let template = template_env.get_template("components/code-block.jinja")?;
+                        let template = template_env.get_template("elements/code-block.jinja")?;
                         let replacement_html = template.render(ctx)?;
 
                         let replacement_html =
@@ -67,7 +67,7 @@ fn page_from_html(category: String, slug: String, contents: &str) -> Result<Page
 
                         el.replace(replacement_html.as_str(), ContentType::Html);
 
-                        components.insert("code-block".to_string());
+                        elements.insert("code-block".to_string());
                     }
 
                     language.clear();
@@ -84,7 +84,7 @@ fn page_from_html(category: String, slug: String, contents: &str) -> Result<Page
     rewriter.end()?;
 
     data.content = String::from_utf8(output)?;
-    data.components = components;
+    data.elements = elements;
     data.slug = slug;
     data.category = category;
 
@@ -108,7 +108,7 @@ fn main() -> Result<()> {
              description TEXT NOT NULL,
              content TEXT NOT NULL,
              template TEXT NOT NULL,
-             components TEXT NOT NULL
+             elements TEXT NOT NULL
          );
          CREATE UNIQUE INDEX unique_category_slug ON page (category, slug);
         ",
@@ -123,7 +123,7 @@ fn main() -> Result<()> {
                 description,
                 content,
                 template,
-                components
+                elements
             )
             VALUES ( ?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8 )",
     )?;
@@ -150,7 +150,7 @@ fn main() -> Result<()> {
                     data.description,
                     data.content,
                     data.template,
-                    data.components
+                    data.elements
                         .iter()
                         .map(|s| s.to_string())
                         .collect::<Vec<String>>()

@@ -18,7 +18,7 @@ pub struct Page {
     #[serde(default = "Page::get_default_template")]
     pub template: String,
     #[serde(default)]
-    pub components: HashSet<String>,
+    pub elements: HashSet<String>,
 }
 
 impl Default for Page {
@@ -31,7 +31,7 @@ impl Default for Page {
             description: "".to_string(),
             content: "".to_string(),
             template: Self::get_default_template(),
-            components: HashSet::<String>::new(),
+            elements: HashSet::<String>::new(),
         }
     }
 }

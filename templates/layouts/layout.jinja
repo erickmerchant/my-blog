@@ -16,22 +16,22 @@
     <meta name="description" content="{{description}}">
     <title>{{page.title}} | {{title}}</title>
     <script type="module" src="/element.js"></script>
-    <script type="module" src="/components/page-nav.js"></script>
-    {% for component in page.components %}
-      <script type="module" src="/components/{{component}}.js"></script>
+    <script type="module" src="/elements/page-nav.js"></script>
+    {% for component in page.elements %}
+      <script type="module" src="/elements/{{component}}.js"></script>
     {% endfor %}
     <link rel="stylesheet" href="/common.css">
     <link rel="stylesheet" href="/page.css">
-    <link rel="preload" href="/components/page-nav.css" as="style">
-    {% for component in page.components %}
-      <link rel="preload" href="/components/{{component}}.css" as="style">
+    <link rel="preload" href="/elements/page-nav.css" as="style">
+    {% for component in page.elements %}
+      <link rel="preload" href="/elements/{{component}}.css" as="style">
     {% endfor %}
     <link rel="preload" href="/fonts/Chivo/Chivo-VariableFont_wght-subset.woff2" as="font" crossorigin="anonymous">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   </head>
   <body>
     <page-nav class="nav">
-      {%- include "/components/page-nav.jinja" -%}
+      {%- include "/elements/page-nav.jinja" -%}
       {{nav_list("navList")}}
     </page-nav>
     <main class="main">
