@@ -28,9 +28,9 @@ export class Element extends HTMLElement {
 
     return new Proxy(state, {
       set: (state, key, value) => {
-        symbols[key] ??= Symbol("");
-
         if (state[key] !== value) {
+          symbols[key] ??= Symbol("");
+
           state[key] = value;
 
           for (let formula of this.#reads.get(symbols[key]) ?? []) {
@@ -48,9 +48,13 @@ export class Element extends HTMLElement {
         symbols[key] ??= Symbol("");
 
         if (this.#current) {
-          let r = this.#reads.get(symbols[key]) ?? new Set();
+          let r = this.#reads.get(symbols[key]);
 
-          this.#reads.set(symbols[key], r);
+          if (!r) {
+            r = new Set();
+
+            this.#reads.set(symbols[key], r);
+          }
 
           r.add(this.#current);
         }
