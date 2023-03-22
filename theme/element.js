@@ -64,7 +64,7 @@ export class Element extends HTMLElement {
     });
   }
 
-  static run(...formulae) {
+  static mutate(...formulae) {
     this.#update(new Set(formulae));
   }
 

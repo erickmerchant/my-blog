@@ -105,7 +105,6 @@ body {
 
 a {
   color: var(--ink-0);
-  /* transition: text-decoration-thickness 0.25s; */
   text-decoration-thickness: 0.1em;
   text-underline-offset: 0.3em;
 
@@ -183,7 +182,6 @@ code-block {
 .nav {
   display: grid;
   background-color: var(--paper-0);
-  padding: 1em;
   font-weight: 500;
   color: var(--ink-0);
   z-index: 2;
