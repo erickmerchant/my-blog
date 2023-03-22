@@ -34,7 +34,7 @@ customElements.define(
       close: "M1 4 l3 -3 l11 11 l-3 3 z m11 -3 l3 3 l-11 11 l-3 -3 z",
     };
 
-    #state = Element.watch({open: false});
+    #state = Element.watch({open: false, closed: true});
     #nav = this.shadowRoot.getElementById("nav");
     #toggle = this.shadowRoot.getElementById("toggle");
     #icon = this.shadowRoot.getElementById("icon");
@@ -44,11 +44,17 @@ customElements.define(
 
       this.#toggle?.addEventListener("click", () => {
         this.#state.open = !this.#state.open;
+        this.#state.closed = false;
+      });
+
+      this.#nav?.addEventListener("transitionend", () => {
+        this.#state.closed = !this.#state.open;
       });
 
       Element.mutate(
         () => this.toggleAttribute("open", this.#state.open),
         () => this.#nav?.classList?.toggle("open", this.#state.open),
+        () => this.#nav?.classList?.toggle("closed", this.#state.closed),
         () =>
           this.#toggle?.setAttribute("aria-pressed", String(this.#state.open)),
         () =>
