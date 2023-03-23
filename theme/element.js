@@ -64,10 +64,6 @@ export class Element extends HTMLElement {
     });
   }
 
-  static mutate(...formulae) {
-    this.#update(new Set(formulae));
-  }
-
   static #schedule() {
     if (!this.#scheduled) {
       this.#scheduled = true;
@@ -75,12 +71,12 @@ export class Element extends HTMLElement {
       window.requestAnimationFrame(() => {
         this.#scheduled = false;
 
-        this.#update();
+        this.update(...this.#writes.values());
       });
     }
   }
 
-  static #update(formulae = this.#writes) {
+  static update(...formulae) {
     for (let formula of formulae) {
       let prev = this.#current;
 
