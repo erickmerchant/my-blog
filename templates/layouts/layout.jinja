@@ -30,7 +30,7 @@
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   </head>
   <body>
-    <page-nav class="nav">
+    <page-nav>
       {%- include "/elements/page-nav.jinja" -%}
       {{nav_list("navList")}}
     </page-nav>
@@ -40,7 +40,7 @@
     </main>
     <footer class="footer">
       {{nav_list("footerNavList")}}
-      <p class="copyright">© {{copyright}}</p>
+      <p class="copyright">&copy; {{copyright}}</p>
     </footer>
   </body>
 </html>

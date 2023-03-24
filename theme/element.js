@@ -64,18 +64,6 @@ export class Element extends HTMLElement {
     });
   }
 
-  static #schedule() {
-    if (!this.#scheduled) {
-      this.#scheduled = true;
-
-      window.requestAnimationFrame(() => {
-        this.#scheduled = false;
-
-        this.update(...this.#writes.values());
-      });
-    }
-  }
-
   static update(...formulae) {
     for (let formula of formulae) {
       let prev = this.#current;
@@ -88,5 +76,17 @@ export class Element extends HTMLElement {
     }
 
     this.#writes.clear();
+  }
+
+  static #schedule() {
+    if (!this.#scheduled) {
+      this.#scheduled = true;
+
+      window.requestAnimationFrame(() => {
+        this.#scheduled = false;
+
+        this.update(...this.#writes.values());
+      });
+    }
   }
 }

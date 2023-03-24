@@ -147,61 +147,21 @@ strong {
 
 ul,
 ol {
-  display: grid;
-  grid-auto-columns: 100%;
-  gap: 0.25em;
+  &:where(:not([class])) {
+    display: grid;
+    grid-auto-columns: 100%;
+    gap: 0.25em;
+  }
 }
 
 li {
   margin-inline-start: var(--list-indent);
 }
 
-code-block {
-  display: grid;
-  background-color: var(--paper-1);
-  font-family: "Chivo Mono", monospace;
-  font-variant-ligatures: no-common-ligatures;
-  border-radius: var(--border-radius);
-  overflow-x: auto;
-
-  --max-width: 44rem;
-  --border-radius: 0.25em;
-
-  @container (width <= 44.5rem) {
-    --border-radius: 0;
-  }
-}
-
 @supports selector(:focus-visible) {
   :focus {
     outline: none;
-    background: hsl(0 0% 0% / 0);
   }
-}
-
-.nav {
-  display: grid;
-  background-color: var(--paper-0);
-  font-weight: 500;
-  color: var(--ink-0);
-  z-index: 2;
-}
-
-.navList {
-  display: flex;
-  flex-direction: row;
-  list-style: none;
-  white-space: nowrap;
-  gap: 0.5em 1em;
-
-  @container (width <= 20rem) {
-    flex-direction: column;
-  }
-}
-
-:where(.nav:not(:defined)) .navList {
-  flex-direction: row;
-  visibility: hidden;
 }
 
 .main {
@@ -220,20 +180,20 @@ code-block {
 
     --list-indent: 1rem;
   }
-}
 
-.main > * {
-  max-width: var(--max-width);
-  width: 100%;
-  margin-inline: auto;
-  padding-inline: 1rem;
-
-  @container (width <= 30rem) {
-    max-width: 100%;
-  }
-
-  @container (width <= 45rem) {
+  & > * {
     max-width: var(--max-width);
+    width: 100%;
+    margin-inline: auto;
+    padding-inline: 1rem;
+
+    @container (width <= 30rem) {
+      max-width: 100%;
+    }
+
+    @container (width <= 45rem) {
+      max-width: var(--max-width);
+    }
   }
 }
 
@@ -272,12 +232,12 @@ code-block {
   list-style: none;
 
   --list-indent: 0;
-}
 
-.index > * {
-  display: grid;
-  grid-auto-columns: 100%;
-  gap: 0.5em;
+  & > * {
+    display: grid;
+    grid-auto-columns: 100%;
+    gap: 0.5em;
+  }
 }
 
 .published {

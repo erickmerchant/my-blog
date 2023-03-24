@@ -3,12 +3,24 @@
   top: calc(var(--scrolling-down, 0) * -3.125em);
   transition: top 0.25s var(--easing);
   overflow: hidden;
+  display: grid;
+  background-color: var(--paper-0);
+  font-weight: 500;
+  color: var(--ink-0);
+  z-index: 2;
 
   --easing: cubic-bezier(0.3, 0, 0.3, 0.7);
 }
 
-:host(:not(:defined)) .toggle {
-  visibility: hidden;
+:host(:not(:defined)) {
+  & .toggle {
+    visibility: hidden;
+  }
+
+  & ::slotted(*) {
+    flex-direction: row;
+    visibility: hidden;
+  }
 }
 
 @container (width <= 20rem) {
@@ -20,7 +32,6 @@
 @supports selector(:focus-visible) {
   :focus {
     outline: none;
-    background: hsl(0 0% 0% / 0);
   }
 }
 
@@ -33,6 +44,7 @@
   padding-inline: 1em;
   padding-block-start: 1em;
   padding-block-end: 0.75em;
+  color: var(--ink-0);
 
   --list-visibility: visible;
 
@@ -83,12 +95,21 @@
   height: 1.5em;
 }
 
-.list {
+::slotted(*) {
+  display: flex;
+  flex-direction: row;
+  list-style: none;
+  white-space: nowrap;
+  gap: 0.5em 1em;
   min-height: 0;
   visibility: var(--list-visibility);
 
   @container (width > 20rem) {
     height: 2em;
     align-content: center;
+  }
+
+  @container (width <= 20rem) {
+    flex-direction: column;
   }
 }
