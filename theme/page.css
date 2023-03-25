@@ -265,6 +265,7 @@ li {
 .paginationPlaceholder {
   border-radius: 0.25em;
   padding-inline: 1em;
+  padding-block: 1.25em;
   display: flex;
   place-content: center;
   align-items: center;
