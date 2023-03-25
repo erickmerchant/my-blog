@@ -35,7 +35,7 @@ async fn main() -> io::Result<()> {
             .app_data(web::Data::new(pool.clone()))
             .app_data(web::Data::new(template_env.to_owned()))
             .wrap(Logger::new("%s %r"))
-            .wrap(DefaultHeaders::new().add(("Content-Security-Policy", "default-src 'self'")))
+            // .wrap(DefaultHeaders::new().add(("Content-Security-Policy", "default-src 'self'")))
             .wrap(ErrorHandlers::new().handler(StatusCode::NOT_FOUND, error_routes::not_found))
             .wrap(ErrorHandlers::new().handler(
                 StatusCode::INTERNAL_SERVER_ERROR,

@@ -1,5 +1,7 @@
 <template shadowroot="open">
-  <link rel="stylesheet" href="/common.css">
-  <link rel="stylesheet" href="/elements/code-block.css">
+  <style>
+    {{ inline_css("theme/common.css") }}
+    {{ inline_css("theme/elements/code-block.css") }}
+  </style>
   <pre><code>{{html}}</code></pre>
 </template>

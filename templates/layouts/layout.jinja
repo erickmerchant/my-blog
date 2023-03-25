@@ -20,12 +20,10 @@
     {% for name in page.elements %}
       <script type="module" src="/elements/{{name}}.js"></script>
     {% endfor %}
-    <link rel="stylesheet" href="/common.css">
-    <link rel="stylesheet" href="/page.css">
-    <link rel="preload" href="/elements/page-nav.css" as="style">
-    {% for name in page.elements %}
-      <link rel="preload" href="/elements/{{name}}.css" as="style">
-    {% endfor %}
+    <style>
+      {{ inline_css("theme/common.css") }}
+      {{ inline_css("theme/page.css") }}
+    </style>
     <link rel="preload" href="/fonts/Chivo/Chivo-VariableFont_wght-subset.woff2" as="font" crossorigin="anonymous">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   </head>
