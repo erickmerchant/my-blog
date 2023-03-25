@@ -14,6 +14,8 @@ export class Element extends HTMLElement {
         });
 
         shadowRoot.appendChild(templateContent.cloneNode(true));
+
+        template.remove();
       }
     }
   }

@@ -126,6 +126,7 @@ p {
 h1,
 h2,
 h3 {
+  color: var(--ink-0);
   line-height: 1.125;
 }
 
@@ -262,7 +263,6 @@ li {
 
 .paginationLink,
 .paginationPlaceholder {
-  min-height: 3.5rem;
   border-radius: 0.25em;
   padding-inline: 1em;
   display: flex;
