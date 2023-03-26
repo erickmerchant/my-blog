@@ -46,6 +46,7 @@ pub async fn posts_index(
         match !posts.is_empty() {
             true => {
                 let ctx = context! {
+                    site => Site::get_site(),
                     page => &posts_index_page,
                     posts => &posts,
                 };

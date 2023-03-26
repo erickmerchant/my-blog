@@ -28,6 +28,7 @@ pub(self) fn error<B>(
         };
 
         let ctx = context! {
+            site => Site::get_site(),
             page => page
         };
 

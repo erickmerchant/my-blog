@@ -49,6 +49,7 @@ pub async fn page(
         .map_err(ErrorNotFound)?;
 
         let ctx = context! {
+            site => Site::get_site(),
             page => &page,
             pagination => &pagination,
         };

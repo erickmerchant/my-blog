@@ -1,16 +1,14 @@
-{%- include "vars.jinja" -%}
-
 <?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0">
   <channel>
-    <title>{{title}}</title>
-    <link>{{base}}</link>
+    <title>{{site.title}}</title>
+    <link>{{site.base}}</link>
     <description>{{description}}</description>
-    <copyright>© {{copyright}}</copyright>
+    <copyright>© {{site.year}} {{site.author}}</copyright>
     {% for page in posts %}
       <item>
         <title>{{page.title}}</title>
-        <link>{{base}}/{{page.category}}/{{page.slug}}.html</link>
+        <link>{{site.base}}/{{page.category}}/{{page.slug}}.html</link>
         <pubDate>{{page.date | format_date("%a, %d %h %Y")}} 00:00:00 +0000</pubDate>
         <description><![CDATA[{{page.content | safe}}]]></description>
       </item>

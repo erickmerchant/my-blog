@@ -33,6 +33,7 @@ pub async fn posts_rss(
         };
 
         let ctx = context! {
+            site => Site::get_site(),
             posts => posts,
         };
         let html = template_env
