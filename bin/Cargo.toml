@@ -13,5 +13,5 @@ rusqlite = { version = "0.28.0", features = ["bundled"] }
 pathdiff = "0.2.1"
 syntect = "5.0.0"
 lol_html = "0.3.2"
-minijinja = "0.30.2"
+minijinja = "0.31.0"
 anyhow = "1.0.69"

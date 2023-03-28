@@ -14,7 +14,7 @@ env_logger = "0.10"
 lightningcss = { version = "1.0.0-alpha.16", features = ["grid", "browserslist"] }
 log = "0.4.17"
 minify-html = "0.10.8"
-minijinja = { version = "0.30.0", features = ["builtins", "debug", "key_interning", "deserialization", "macros", "multi-template", "source"] }
+minijinja = { version = "0.31.0", features = ["builtins", "debug", "key_interning", "deserialization", "macros", "multi-template", "source"] }
 parcel_sourcemap = "2.0.2"
 r2d2 = "0.8.10"
 r2d2_sqlite = "0.21.0"
