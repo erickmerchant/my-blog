@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 use std::fs::read_to_string;
 
-#[derive(Clone, Deserialize, Debug, Serialize)]
+#[derive(Clone, Deserialize, Serialize)]
 pub struct Site {
     #[serde(default)]
     pub title: String,
