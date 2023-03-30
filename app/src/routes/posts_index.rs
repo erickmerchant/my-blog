@@ -1,4 +1,3 @@
-use crate::models::*;
 use crate::templates::minify_html;
 use actix_files::NamedFile;
 use actix_web::{error::ErrorInternalServerError, error::ErrorNotFound, web, Result};
@@ -19,7 +18,7 @@ pub async fn posts_index(
             .await?
             .map_err(ErrorInternalServerError)?;
 
-        let posts: Vec<Page> = match web::block(move || -> Result<Vec<Page>, rusqlite::Error> {
+        let posts: Vec<Page> = match web::block(move || -> Result<Vec<Page>, foo::Error> {
             Page::get_all(conn, "posts")
         })
         .await?
@@ -39,7 +38,7 @@ pub async fn posts_index(
             .map_err(ErrorInternalServerError)?;
 
         let posts_index_page: Page =
-            web::block(move || -> Result<Page, rusqlite::Error> { Page::get(conn, "", "posts") })
+            web::block(move || -> Result<Page, foo::Error> { Page::get(conn, "", "posts") })
                 .await?
                 .map_err(ErrorInternalServerError)?;
 

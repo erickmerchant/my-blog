@@ -1,4 +1,3 @@
-use crate::models::*;
 use actix_files::NamedFile;
 use actix_web::{error::ErrorInternalServerError, web, Result};
 use minijinja::{context, Environment};
@@ -19,7 +18,7 @@ pub async fn posts_rss(
             .await?
             .map_err(ErrorInternalServerError)?;
 
-        let posts: Vec<Page> = match web::block(move || -> Result<Vec<Page>, rusqlite::Error> {
+        let posts: Vec<Page> = match web::block(move || -> Result<Vec<Page>, foo::Error> {
             Page::get_all(conn, "posts")
         })
         .await?

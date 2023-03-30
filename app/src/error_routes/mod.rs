@@ -1,7 +1,6 @@
 mod internal_error;
 mod not_found;
 
-use crate::models::*;
 use actix_web::{
     dev::ServiceResponse, http::header::HeaderName, http::header::HeaderValue,
     middleware::ErrorHandlerResponse, web, Result,

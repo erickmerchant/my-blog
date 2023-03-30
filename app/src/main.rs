@@ -1,5 +1,5 @@
+mod entities;
 mod error_routes;
-mod models;
 mod routes;
 mod templates;
 
@@ -7,8 +7,7 @@ use actix_web::{
     http::StatusCode, middleware::Compress, middleware::DefaultHeaders, middleware::ErrorHandlers,
     middleware::Logger, web, App, HttpServer,
 };
-use models::Pool;
-use r2d2_sqlite::{self, SqliteConnectionManager};
+use sea_orm::{Database, DatabaseConnection};
 use std::{env::var, fs, io, io::Write};
 
 #[actix_web::main]
@@ -27,12 +26,13 @@ async fn main() -> io::Result<()> {
     };
 
     let template_env = templates::get_env();
-    let manager = SqliteConnectionManager::file("storage/content.db");
-    let pool = Pool::new(manager).unwrap();
+    let db_connection: DatabaseConnection = Database::connect("sqlite://./storage/content.db")
+        .await
+        .unwrap();
 
     HttpServer::new(move || {
         App::new()
-            .app_data(web::Data::new(pool.clone()))
+            .app_data(web::Data::new(db_connection))
             .app_data(web::Data::new(template_env.to_owned()))
             .wrap(Logger::new("%s %r"))
             .wrap(DefaultHeaders::new().add(("Content-Security-Policy", "default-src 'self'")))

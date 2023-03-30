@@ -15,5 +15,5 @@ async-std = { version = "1", features = ["attributes", "tokio1"] }
 version = "0.11.0"
 features = [
   "sqlx-sqlite",
-  "runtime-async-std-native-tls"
+  "runtime-actix-rustls"
 ]

@@ -1,10 +1,11 @@
 use anyhow::Result;
-use app::{models::Page, templates::get_env};
+use app::templates::get_env;
 use glob::glob;
 use lol_html::{element, html_content::ContentType, text, HtmlRewriter, Settings};
+use migration::{Migrator, MigratorTrait};
 use minijinja::context;
 use pathdiff::diff_paths;
-use rusqlite::Connection;
+use sea_orm::Database;
 use std::{collections::HashSet, fs};
 use syntect::{
     html::ClassStyle, html::ClassedHTMLGenerator, parsing::SyntaxSet, util::LinesWithEndings,
@@ -91,42 +92,14 @@ fn page_from_html(category: String, slug: String, contents: &str) -> Result<Page
     Ok(data)
 }
 
-fn main() -> Result<()> {
+#[async_std::main]
+async fn main() -> Result<()> {
     fs::create_dir_all("storage")?;
 
-    let conn = Connection::open("storage/content.db")?;
-
-    conn.execute_batch(
-        "
-        DROP TABLE IF EXISTS page;
-        CREATE TABLE page (
-             id INTEGER PRIMARY KEY,
-             slug TEXT NOT NULL,
-             category TEXT NOT NULL,
-             title TEXT NOT NULL,
-             date TEXT NOT NULL,
-             description TEXT NOT NULL,
-             content TEXT NOT NULL,
-             template TEXT NOT NULL,
-             elements TEXT NOT NULL
-         );
-         CREATE UNIQUE INDEX unique_category_slug ON page (category, slug);
-        ",
-    )?;
-
-    let mut insert_page_stmt = conn.prepare(
-        "INSERT INTO page (
-                slug,
-                category,
-                title,
-                date,
-                description,
-                content,
-                template,
-                elements
-            )
-            VALUES ( ?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8 )",
-    )?;
+    let conn = Database::connect("sqlite://./storage/content.db")
+        .await
+        .unwrap();
+    Migrator::up(&conn, None).await.unwrap();
 
     if let Ok(paths) = glob("content/**/*.html") {
         for path in paths.flatten() {

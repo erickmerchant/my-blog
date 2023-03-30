@@ -1,4 +1,3 @@
-use crate::models::*;
 use crate::templates::minify_html;
 use actix_files::NamedFile;
 use actix_web::{error::ErrorInternalServerError, error::ErrorNotFound, web, Result};
@@ -27,7 +26,7 @@ pub async fn page(
         let page_category = category.clone();
         let page_slug = slug.clone();
 
-        let page: Page = web::block(move || -> Result<Page, rusqlite::Error> {
+        let page: Page = web::block(move || -> Result<Page, foo::Error> {
             Page::get(conn, page_category, page_slug)
         })
         .await?
@@ -42,7 +41,7 @@ pub async fn page(
         let page_category = category.clone();
         let page_slug = slug.clone();
 
-        let pagination: Pagination = web::block(move || -> Result<Pagination, rusqlite::Error> {
+        let pagination: Pagination = web::block(move || -> Result<Pagination, foo::Error> {
             Pagination::get(conn, page_category, page_slug)
         })
         .await?
