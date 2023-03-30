@@ -5,12 +5,14 @@ pub fn get_env() -> Environment<'static> {
     let mut template_env = Environment::new();
     template_env.set_source(Source::from_path("templates"));
 
-    template_env.add_filter("format_date", format_date);
+    template_env.add_filter("format_date_string", format_date_string);
+
+    template_env.add_filter("split_string", split_string);
 
     template_env
 }
 
-fn format_date(value: String, fmt: String) -> String {
+fn format_date_string(value: String, fmt: String) -> String {
     let mut ret = value.clone();
 
     if let Ok(parsed) = chrono::NaiveDate::parse_from_str(&value, "%Y-%m-%d") {
@@ -18,6 +20,10 @@ fn format_date(value: String, fmt: String) -> String {
     }
 
     ret
+}
+
+fn split_string(value: String, delim: String) -> Vec<String> {
+    value.split(&delim).map(|s| s.to_string()).collect()
 }
 
 pub fn minify_html(code: String) -> String {

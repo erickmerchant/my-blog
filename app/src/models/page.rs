@@ -1,5 +1,4 @@
 use serde::{Deserialize, Serialize};
-use std::collections::HashSet;
 
 #[derive(Clone, Deserialize, Serialize)]
 pub struct Page {
@@ -18,7 +17,7 @@ pub struct Page {
     #[serde(default = "Page::get_default_template")]
     pub template: String,
     #[serde(default)]
-    pub elements: HashSet<String>,
+    pub elements: String,
 }
 
 impl Default for Page {
@@ -31,7 +30,7 @@ impl Default for Page {
             description: "".to_string(),
             content: "".to_string(),
             template: Self::get_default_template(),
-            elements: HashSet::<String>::new(),
+            elements: "".to_string(),
         }
     }
 }

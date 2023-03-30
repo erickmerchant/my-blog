@@ -84,7 +84,7 @@ fn page_from_html(category: String, slug: String, contents: &str) -> Result<Page
     rewriter.end()?;
 
     data.content = String::from_utf8(output)?;
-    data.elements = elements;
+    data.elements = elements.into_iter().collect::<Vec<String>>().join(",");
     data.slug = slug;
     data.category = category;
 
@@ -150,11 +150,7 @@ fn main() -> Result<()> {
                     data.description,
                     data.content,
                     data.template,
-                    data.elements
-                        .iter()
-                        .map(|s| s.to_string())
-                        .collect::<Vec<String>>()
-                        .join(","),
+                    data.elements,
                 ])?;
             }
         }
