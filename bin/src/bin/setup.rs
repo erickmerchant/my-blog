@@ -1,17 +1,20 @@
 use anyhow::Result;
-use app::{models::Page, templates::get_env};
+use app::{entities::page, templates::get_env};
 use glob::glob;
 use lol_html::{element, html_content::ContentType, text, HtmlRewriter, Settings};
+use migration::{Migrator, MigratorTrait};
 use minijinja::context;
 use pathdiff::diff_paths;
-use rusqlite::Connection;
+use sea_orm::{ActiveModelTrait, ActiveValue::Set, Database};
 use std::{collections::HashSet, fs};
 use syntect::{
     html::ClassStyle, html::ClassedHTMLGenerator, parsing::SyntaxSet, util::LinesWithEndings,
 };
 
-fn page_from_html(category: String, slug: String, contents: &str) -> Result<Page> {
-    let mut data = Page::default();
+fn page_from_html(category: String, slug: String, contents: &str) -> Result<page::ActiveModel> {
+    let mut data = page::ActiveModel {
+        ..Default::default()
+    };
     let mut elements = HashSet::<String>::new();
     let template_env = get_env();
     let ss = SyntaxSet::load_defaults_newlines();
@@ -27,8 +30,8 @@ fn page_from_html(category: String, slug: String, contents: &str) -> Result<Page
                     Ok(())
                 }),
                 text!("front-json", |el| {
-                    if let Ok(d) = serde_json::from_str::<Page>(el.as_str()) {
-                        data = d;
+                    if let Ok(d) = serde_json::from_str::<serde_json::Value>(el.as_str()) {
+                        data.set_from_json(d)?;
                     }
 
                     Ok(())
@@ -75,7 +78,7 @@ fn page_from_html(category: String, slug: String, contents: &str) -> Result<Page
                     Ok(())
                 }),
             ],
-            ..Settings::default()
+            ..Default::default()
         },
         |c: &[u8]| output.extend_from_slice(c),
     );
@@ -83,50 +86,39 @@ fn page_from_html(category: String, slug: String, contents: &str) -> Result<Page
     rewriter.write(contents.as_bytes())?;
     rewriter.end()?;
 
-    data.content = String::from_utf8(output)?;
-    data.elements = elements;
-    data.slug = slug;
-    data.category = category;
+    data.content = Set(String::from_utf8(output)?);
+    data.elements = Set(elements.into_iter().collect::<Vec<String>>().join(","));
+    data.slug = Set(slug);
+    data.category = Set(category);
+
+    if data.title.is_not_set() {
+        data.title = Set("Untitled".to_string());
+    }
+
+    if data.description.is_not_set() {
+        data.description = Set("".to_string());
+    }
+
+    if data.date.is_not_set() {
+        data.date = Set("0000-00-00".to_string());
+    }
+
+    if data.template.is_not_set() {
+        data.template = Set("layouts/post.jinja".to_string());
+    }
 
     Ok(data)
 }
 
-fn main() -> Result<()> {
+#[async_std::main]
+async fn main() -> Result<()> {
+    fs::remove_dir_all("storage").ok();
     fs::create_dir_all("storage")?;
 
-    let conn = Connection::open("storage/content.db")?;
-
-    conn.execute_batch(
-        "
-        DROP TABLE IF EXISTS page;
-        CREATE TABLE page (
-             id INTEGER PRIMARY KEY,
-             slug TEXT NOT NULL,
-             category TEXT NOT NULL,
-             title TEXT NOT NULL,
-             date TEXT NOT NULL,
-             description TEXT NOT NULL,
-             content TEXT NOT NULL,
-             template TEXT NOT NULL,
-             elements TEXT NOT NULL
-         );
-         CREATE UNIQUE INDEX unique_category_slug ON page (category, slug);
-        ",
-    )?;
-
-    let mut insert_page_stmt = conn.prepare(
-        "INSERT INTO page (
-                slug,
-                category,
-                title,
-                date,
-                description,
-                content,
-                template,
-                elements
-            )
-            VALUES ( ?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8 )",
-    )?;
+    let conn = Database::connect("sqlite://./storage/content.db?mode=rwc")
+        .await
+        .unwrap();
+    Migrator::up(&conn, None).await.unwrap();
 
     if let Ok(paths) = glob("content/**/*.html") {
         for path in paths.flatten() {
@@ -142,20 +134,7 @@ fn main() -> Result<()> {
             if let Ok(contents) = fs::read_to_string(&path) {
                 let data = page_from_html(category, slug, &contents)?;
 
-                insert_page_stmt.execute([
-                    data.slug,
-                    data.category,
-                    data.title,
-                    data.date,
-                    data.description,
-                    data.content,
-                    data.template,
-                    data.elements
-                        .iter()
-                        .map(|s| s.to_string())
-                        .collect::<Vec<String>>()
-                        .join(","),
-                ])?;
+                data.insert(&conn).await?;
             }
         }
     };

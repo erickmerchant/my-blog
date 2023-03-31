@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0">
   <channel>
-    <title>{{site.title}}</title>
-    <link>{{site.base}}</link>
-    <description>{{description}}</description>
-    <copyright>© {{site.year}} {{site.author}}</copyright>
+    <title>ErickMerchant.com</title>
+    <link>https://erickmerchant.com</link>
+    <copyright>© 2023 Erick Merchant</copyright>
     {% for page in posts %}
       <item>
         <title>{{page.title}}</title>
-        <link>{{site.base}}/{{page.category}}/{{page.slug}}.html</link>
-        <pubDate>{{page.date | format_date("%a, %d %h %Y")}} 00:00:00 +0000</pubDate>
+        <link>https:://erickmerchant.com/{{page.category}}/{{page.slug}}.html</link>
+        <pubDate>{{page.date | format_date_string("%a, %d %h %Y")}} 00:00:00 +0000</pubDate>
         <description><![CDATA[{{page.content | safe}}]]></description>
       </item>
     {% endfor %}

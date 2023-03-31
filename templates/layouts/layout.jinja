@@ -11,16 +11,16 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{page.title}} | {{site.title}}</title>
+    <title>{{page.title}} | ErickMerchant.com</title>
     <script type="module" src="/element.js"></script>
     <script type="module" src="/elements/page-nav.js"></script>
-    {% for name in page.elements %}
+    {% for name in page.elements | split_string(',') %}
       <script type="module" src="/elements/{{name}}.js"></script>
     {% endfor %}
     <link rel="stylesheet" href="/common.css">
     <link rel="stylesheet" href="/page.css">
     <link rel="preload" href="/elements/page-nav.css" as="style">
-    {% for name in page.elements %}
+    {% for name in page.elements | split_string(',') %}
       <link rel="preload" href="/elements/{{name}}.css" as="style">
     {% endfor %}
     <link rel="preload" href="/fonts/Chivo/Chivo-VariableFont_wght-subset.woff2" as="font" crossorigin="anonymous">
@@ -37,7 +37,7 @@
     </main>
     <footer class="footer">
       {{nav_list("footerNavList")}}
-      <p class="copyright">&copy; {{site.year}} {{site.author}}</p>
+      <p class="copyright">&copy; 2023 Erick Merchant</p>
     </footer>
   </body>
 </html>

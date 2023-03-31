@@ -1,15 +1,18 @@
-use crate::models::*;
+use crate::entities::page;
+use crate::entities::page::Entity as Page;
 use crate::templates::minify_html;
+use crate::AppState;
 use actix_files::NamedFile;
 use actix_web::{error::ErrorInternalServerError, error::ErrorNotFound, web, Result};
 use actix_web_lab::extract;
-use minijinja::{context, Environment};
+use minijinja::context;
+use sea_orm::{entity::prelude::*, query::*};
+use serde_json::json;
 use std::path::Path;
 
 pub async fn page(
-    pool: web::Data<Pool>,
+    app_state: web::Data<AppState>,
     extract::Path((category, slug)): extract::Path<(String, String)>,
-    template_env: web::Data<Environment<'_>>,
 ) -> Result<NamedFile> {
     let src = Path::new(category.as_str())
         .join(&slug)
@@ -18,50 +21,62 @@ pub async fn page(
     let file = if let Some(file) = super::Cache::get(&src) {
         file?
     } else {
-        let p = pool.clone();
-
-        let conn = web::block(move || p.get())
-            .await?
-            .map_err(ErrorInternalServerError)?;
-
         let page_category = category.clone();
         let page_slug = slug.clone();
 
-        let page: Page = web::block(move || -> Result<Page, rusqlite::Error> {
-            Page::get(conn, page_category, page_slug)
-        })
-        .await?
-        .map_err(ErrorNotFound)?;
-
-        let p = pool.clone();
-
-        let conn = web::block(move || p.get())
-            .await?
+        let page: Option<page::Model> = Page::find()
+            .filter(
+                Condition::all()
+                    .add(page::Column::Category.eq(&page_category))
+                    .add(page::Column::Slug.eq(page_slug)),
+            )
+            .order_by_desc(page::Column::Date)
+            .one(&app_state.database.clone())
+            .await
             .map_err(ErrorInternalServerError)?;
 
-        let page_category = category.clone();
-        let page_slug = slug.clone();
+        match page {
+            Some(page) => {
+                let next = Page::find()
+                    .filter(page::Column::Category.eq(&page_category))
+                    .cursor_by((page::Column::Date, page::Column::Id))
+                    .order_by_desc(page::Column::Date)
+                    .after((page.date.clone(), page.id))
+                    .first(1)
+                    .all(&app_state.database.clone())
+                    .await
+                    .map_err(ErrorInternalServerError)?;
 
-        let pagination: Pagination = web::block(move || -> Result<Pagination, rusqlite::Error> {
-            Pagination::get(conn, page_category, page_slug)
-        })
-        .await?
-        .map_err(ErrorNotFound)?;
+                let previous = Page::find()
+                    .filter(page::Column::Category.eq(page_category))
+                    .cursor_by((page::Column::Date, page::Column::Id))
+                    .order_by_desc(page::Column::Date)
+                    .before((page.date.clone(), page.id))
+                    .last(1)
+                    .all(&app_state.database.clone())
+                    .await
+                    .map_err(ErrorInternalServerError)?;
 
-        let ctx = context! {
-            site => Site::get_site(),
-            page => &page,
-            pagination => &pagination,
-        };
+                let ctx = context! {
+                    page => &page,
+                    pagination => json!({
+                        "next": next.get(0),
+                        "previous": previous.get(0)
+                    }),
+                };
 
-        let html = template_env
-            .get_template(&page.template)
-            .and_then(|template| template.render(ctx))
-            .map_err(ErrorInternalServerError)?;
+                let html = app_state
+                    .templates
+                    .get_template(&page.template)
+                    .and_then(|template| template.render(ctx))
+                    .map_err(ErrorInternalServerError)?;
 
-        let html = minify_html(html);
+                let html = minify_html(html);
 
-        super::Cache::set(&src, html)?
+                super::Cache::set(&src, html)?
+            }
+            None => Err(ErrorNotFound("not found"))?,
+        }
     };
 
     super::file(file, src)
