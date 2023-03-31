@@ -23,7 +23,11 @@ fn format_date_string(value: String, fmt: String) -> String {
 }
 
 fn split_string(value: String, delim: String) -> Vec<String> {
-    value.split(&delim).map(|s| s.to_string()).collect()
+    if value == "".to_string() {
+        vec![]
+    } else {
+        value.split(&delim).map(|s| s.to_string()).collect()
+    }
 }
 
 pub fn minify_html(code: String) -> String {

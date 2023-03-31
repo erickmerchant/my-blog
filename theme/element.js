@@ -3,20 +3,14 @@ export class Element extends HTMLElement {
     super();
 
     let template = this.firstElementChild;
+    let mode = template?.getAttribute("shadowroot");
 
-    if (!this.shadowRoot && template?.nodeName === "TEMPLATE") {
-      let mode = template.getAttribute("shadowroot");
+    if (!this.shadowRoot && template?.nodeName === "TEMPLATE" && mode) {
+      this.attachShadow({
+        mode,
+      }).appendChild(template.content.cloneNode(true));
 
-      if (mode) {
-        let templateContent = template.content;
-        let shadowRoot = this.attachShadow({
-          mode,
-        });
-
-        shadowRoot.appendChild(templateContent.cloneNode(true));
-
-        template.remove();
-      }
+      template.remove();
     }
   }
 
@@ -76,8 +70,6 @@ export class Element extends HTMLElement {
 
       this.#current = prev;
     }
-
-    this.#writes.clear();
   }
 
   static #schedule() {
@@ -88,6 +80,8 @@ export class Element extends HTMLElement {
         this.#scheduled = false;
 
         this.update(...this.#writes.values());
+
+        this.#writes.clear();
       });
     }
   }
