@@ -1,41 +1,30 @@
+use crate::entities::page;
+use crate::entities::page::Entity as Page;
+use crate::AppState;
 use actix_files::NamedFile;
 use actix_web::{error::ErrorInternalServerError, web, Result};
-use minijinja::{context, Environment};
+use minijinja::context;
+use sea_orm::{entity::prelude::*, query::*};
 use std::vec::Vec;
 
-pub async fn posts_rss(
-    pool: web::Data<Pool>,
-    template_env: web::Data<Environment<'_>>,
-) -> Result<NamedFile> {
+pub async fn posts_rss(app_state: web::Data<AppState>) -> Result<NamedFile> {
     let src = "posts.rss";
 
     let file = if let Some(file) = super::Cache::get(src) {
         file?
     } else {
-        let pool = pool.clone();
-
-        let conn = web::block(move || pool.get())
-            .await?
+        let posts: Vec<page::Model> = Page::find()
+            .filter(page::Column::Category.eq("posts"))
+            .order_by_desc(page::Column::Date)
+            .all(&app_state.database.clone())
+            .await
             .map_err(ErrorInternalServerError)?;
 
-        let posts: Vec<Page> = match web::block(move || -> Result<Vec<Page>, foo::Error> {
-            Page::get_all(conn, "posts")
-        })
-        .await?
-        {
-            Ok(posts) => posts,
-            Err(error) => {
-                println!("{error:?}");
-
-                vec![]
-            }
-        };
-
         let ctx = context! {
-            site => Site::get_site(),
             posts => posts,
         };
-        let html = template_env
+        let html = app_state
+            .templates
             .get_template("layouts/posts-rss.jinja")
             .and_then(|template| template.render(ctx))
             .map_err(ErrorInternalServerError)?;

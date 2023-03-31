@@ -22,11 +22,11 @@ pub async fn css(file: web::Path<String>) -> Result<NamedFile> {
         .unwrap_or_default();
         let parser_options = stylesheet::ParserOptions {
             nesting: true,
-            ..stylesheet::ParserOptions::default()
+            ..Default::default()
         };
         let minifier_options = stylesheet::MinifyOptions {
             targets,
-            ..stylesheet::MinifyOptions::default()
+            ..Default::default()
         };
         let mut source_map = None;
 
@@ -48,7 +48,7 @@ pub async fn css(file: web::Path<String>) -> Result<NamedFile> {
             minify: true,
             targets,
             source_map: source_map.as_mut(),
-            ..stylesheet::PrinterOptions::default()
+            ..Default::default()
         };
         let mut stylesheet = stylesheet::StyleSheet::parse(&file_contents, parser_options)
             .map_err(|e| ErrorInternalServerError(e.to_string()))?;

@@ -8,14 +8,19 @@ use actix_web::{
     middleware::Logger, web, App, HttpServer,
 };
 use sea_orm::{Database, DatabaseConnection};
-use std::{env::var, fs, io, io::Write};
+use std::{env::var, io, io::Write};
+
+#[derive(Debug, Clone)]
+pub struct AppState {
+    pub templates: minijinja::Environment<'static>,
+    pub database: sea_orm::DatabaseConnection,
+}
 
 #[actix_web::main]
 async fn main() -> io::Result<()> {
     env_logger::builder()
         .format(|buf, record| writeln!(buf, "[{}] {}", record.level(), record.args()))
         .init();
-    fs::remove_dir_all("storage/cache").ok();
 
     let mut port = 8080;
 
@@ -25,15 +30,18 @@ async fn main() -> io::Result<()> {
         }
     };
 
-    let template_env = templates::get_env();
-    let db_connection: DatabaseConnection = Database::connect("sqlite://./storage/content.db")
+    let templates = templates::get_env();
+    let database: DatabaseConnection = Database::connect("sqlite://./storage/content.db")
         .await
         .unwrap();
+    let app_state = AppState {
+        templates,
+        database,
+    };
 
     HttpServer::new(move || {
         App::new()
-            .app_data(web::Data::new(db_connection))
-            .app_data(web::Data::new(template_env.to_owned()))
+            .app_data(web::Data::new(app_state.clone()))
             .wrap(Logger::new("%s %r"))
             .wrap(DefaultHeaders::new().add(("Content-Security-Policy", "default-src 'self'")))
             .wrap(ErrorHandlers::new().handler(StatusCode::NOT_FOUND, error_routes::not_found))

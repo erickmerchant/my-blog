@@ -110,8 +110,8 @@ a {
 
   &:hover,
   &:focus-visible {
-    text-decoration-thickness: 0.2em;
-    text-underline-offset: 0.2em;
+    text-decoration-thickness: 0.15em;
+    text-underline-offset: 0.25em;
   }
 }
 
@@ -231,6 +231,8 @@ li {
 .index {
   gap: 1em;
   list-style: none;
+  display: grid;
+  gap: 1em;
 
   --list-indent: 0;
 

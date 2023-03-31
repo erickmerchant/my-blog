@@ -1,11 +1,13 @@
 mod internal_error;
 mod not_found;
 
+use crate::AppState;
 use actix_web::{
     dev::ServiceResponse, http::header::HeaderName, http::header::HeaderValue,
     middleware::ErrorHandlerResponse, web, Result,
 };
-use minijinja::{context, Environment};
+use minijinja::context;
+use serde_json::json;
 
 pub use self::{internal_error::*, not_found::*};
 
@@ -15,23 +17,19 @@ pub(self) fn error<B>(
     description: String,
 ) -> Result<ErrorHandlerResponse<B>> {
     let req = res.request();
-    let template_env = req.app_data::<web::Data<Environment>>();
+    let app_state = req.app_data::<web::Data<AppState>>();
 
     let mut body = "".to_string();
 
-    if let Some(t) = template_env {
-        let page = Page {
-            title,
-            description,
-            ..Page::default()
-        };
-
+    if let Some(a) = app_state {
         let ctx = context! {
-            site => Site::get_site(),
-            page => page
+            page => json! ({
+                "title": title,
+                "description": description,
+            })
         };
 
-        if let Ok(template) = t.get_template("layouts/error.jinja") {
+        if let Ok(template) = a.templates.get_template("layouts/error.jinja") {
             if let Ok(b) = template.render(ctx) {
                 body = b
             }
