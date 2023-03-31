@@ -23,7 +23,7 @@ fn format_date_string(value: String, fmt: String) -> String {
 }
 
 fn split_string(value: String, delim: String) -> Vec<String> {
-    if value == "".to_string() {
+    if value == *"" {
         vec![]
     } else {
         value.split(&delim).map(|s| s.to_string()).collect()
