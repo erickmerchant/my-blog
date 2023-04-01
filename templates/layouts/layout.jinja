@@ -6,6 +6,8 @@
   </ul>
 {%- endmacro -%}
 
+{% from "/elements/page-nav.jinja" import page_nav %}
+
 <!DOCTYPE html>
 <html lang="en-US">
   <head>
@@ -27,10 +29,9 @@
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   </head>
   <body>
-    <page-nav>
-      {%- include "/elements/page-nav.jinja" -%}
+    {% call page_nav() %}
       {{nav_list("navList")}}
-    </page-nav>
+    {% endcall %}
     <main class="main">
       {% block main %}
       {% endblock %}
@@ -41,4 +42,3 @@
     </footer>
   </body>
 </html>
-

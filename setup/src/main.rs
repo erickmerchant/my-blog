@@ -43,6 +43,8 @@ fn page_from_html(category: String, slug: String, contents: &str) -> Result<page
                         language_buffer.borrow_mut().push_str(&language);
                     }
 
+                    el.remove_and_keep_content();
+
                     Ok(())
                 }),
                 text!("code-block[language]", |el| {
@@ -60,15 +62,14 @@ fn page_from_html(category: String, slug: String, contents: &str) -> Result<page
                             html_generator.parse_html_for_line_which_includes_newline(line)?;
                         }
 
-                        let html = html_generator.finalize();
+                        let highlighted_code = html_generator.finalize();
                         let ctx = context! {
-                            html => html
+                            language => language.clone(),
+                            highlighted_code => highlighted_code,
+                            inner_html => format!("<pre><code>{original_html}</code></pre>")
                         };
                         let template = template_env.get_template("elements/code-block.jinja")?;
                         let replacement_html = template.render(ctx)?;
-
-                        let replacement_html =
-                            format!("{replacement_html}<pre><code>{original_html}</code></pre>");
 
                         el.replace(replacement_html.as_str(), ContentType::Html);
 
