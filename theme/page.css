@@ -200,7 +200,9 @@ li {
 
 .footer {
   display: flex;
-  padding: 2em 1em;
+  padding-inline: 1em;
+  padding-block-start: 1.25em;
+  padding-block-end: 1.5em;
   justify-content: safe center;
   flex-wrap: wrap;
   gap: 1em 3em;
@@ -209,7 +211,6 @@ li {
     var(--paper-2) 0 0.1rem,
     var(--paper-1) 0.1rem 0.3rem
   );
-  font-size: 0.8em;
   font-weight: 500;
   position: sticky;
   bottom: 0;
