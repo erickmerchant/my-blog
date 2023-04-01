@@ -1,5 +1,4 @@
-use crate::entities::page;
-use crate::entities::page::Entity as Page;
+use crate::models::page;
 use crate::templates::minify_html;
 use crate::AppState;
 use actix_files::NamedFile;
@@ -14,14 +13,14 @@ pub async fn posts_index(app_state: web::Data<AppState>) -> Result<NamedFile> {
     let file = if let Some(file) = super::Cache::get(src) {
         file?
     } else {
-        let posts: Vec<page::Model> = Page::find()
+        let posts: Vec<page::Model> = page::Entity::find()
             .filter(page::Column::Category.eq("posts"))
             .order_by_desc(page::Column::Date)
             .all(&app_state.database.clone())
             .await
             .map_err(ErrorInternalServerError)?;
 
-        let posts_index_page: Option<page::Model> = Page::find()
+        let posts_index_page: Option<page::Model> = page::Entity::find()
             .filter(
                 Condition::all()
                     .add(page::Column::Category.eq(""))

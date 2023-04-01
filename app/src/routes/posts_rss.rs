@@ -1,5 +1,4 @@
-use crate::entities::page;
-use crate::entities::page::Entity as Page;
+use crate::models::page;
 use crate::AppState;
 use actix_files::NamedFile;
 use actix_web::{error::ErrorInternalServerError, web, Result};
@@ -13,7 +12,7 @@ pub async fn posts_rss(app_state: web::Data<AppState>) -> Result<NamedFile> {
     let file = if let Some(file) = super::Cache::get(src) {
         file?
     } else {
-        let posts: Vec<page::Model> = Page::find()
+        let posts: Vec<page::Model> = page::Entity::find()
             .filter(page::Column::Category.eq("posts"))
             .order_by_desc(page::Column::Date)
             .all(&app_state.database.clone())

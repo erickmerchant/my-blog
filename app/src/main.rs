@@ -1,5 +1,5 @@
-mod entities;
 mod error_routes;
+mod models;
 mod routes;
 mod templates;
 

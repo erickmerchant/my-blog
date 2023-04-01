@@ -1,7 +1,7 @@
 mod migrations;
 
 use anyhow::Result;
-use app::{entities::page, templates::get_env};
+use app::{models::page, templates::get_env};
 use glob::glob;
 use lol_html::{element, html_content::ContentType, text, HtmlRewriter, Settings};
 use migrations::{Migrator, MigratorTrait};

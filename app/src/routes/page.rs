@@ -1,5 +1,4 @@
-use crate::entities::page;
-use crate::entities::page::Entity as Page;
+use crate::models::page;
 use crate::templates::minify_html;
 use crate::AppState;
 use actix_files::NamedFile;
@@ -24,7 +23,7 @@ pub async fn page(
         let page_category = category.clone();
         let page_slug = slug.clone();
 
-        let page: Option<page::Model> = Page::find()
+        let page: Option<page::Model> = page::Entity::find()
             .filter(
                 Condition::all()
                     .add(page::Column::Category.eq(&page_category))
@@ -37,7 +36,7 @@ pub async fn page(
 
         match page {
             Some(page) => {
-                let next = Page::find()
+                let next = page::Entity::find()
                     .filter(page::Column::Category.eq(&page_category))
                     .cursor_by((page::Column::Date, page::Column::Id))
                     .order_by_desc(page::Column::Date)
@@ -47,7 +46,7 @@ pub async fn page(
                     .await
                     .map_err(ErrorInternalServerError)?;
 
-                let previous = Page::find()
+                let previous = page::Entity::find()
                     .filter(page::Column::Category.eq(page_category))
                     .cursor_by((page::Column::Date, page::Column::Id))
                     .order_by_desc(page::Column::Date)
