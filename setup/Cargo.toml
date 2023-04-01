@@ -1,0 +1,19 @@
+[package]
+name = "setup"
+publish = false
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = "1.0.69"
+app = { path = "../app" }
+async-std = { version = "1", features = ["attributes", "tokio1"] }
+glob = "0.3.0"
+lol_html = "0.3.2"
+minijinja = "0.31.0"
+pathdiff = "0.2.1"
+sea-orm = { version = "0.11.2", features = ["sqlx-sqlite", "runtime-actix-rustls"] }
+sea-orm-migration = { version = "0.11.0", features = ["sqlx-sqlite", "runtime-actix-rustls"] }
+serde = "1.0"
+serde_json = "1.0"
+syntect = "5.0.0"

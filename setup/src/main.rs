@@ -1,8 +1,10 @@
+mod migrations;
+
 use anyhow::Result;
 use app::{entities::page, templates::get_env};
 use glob::glob;
 use lol_html::{element, html_content::ContentType, text, HtmlRewriter, Settings};
-use migration::{Migrator, MigratorTrait};
+use migrations::{Migrator, MigratorTrait};
 use minijinja::context;
 use pathdiff::diff_paths;
 use sea_orm::{ActiveModelTrait, ActiveValue::Set, Database};
