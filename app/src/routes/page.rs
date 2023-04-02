@@ -6,7 +6,6 @@ use actix_web::{error::ErrorInternalServerError, error::ErrorNotFound, web, Resu
 use actix_web_lab::extract;
 use minijinja::context;
 use sea_orm::{entity::prelude::*, query::*};
-use serde_json::json;
 use std::path::Path;
 
 pub async fn page(
@@ -59,10 +58,10 @@ pub async fn page(
                 let ctx = context! {
                     site => &app_state.site,
                     page => &page,
-                    pagination => json!({
-                        "next": next.get(0),
-                        "previous": previous.get(0)
-                    }),
+                    pagination => context! {
+                        next => next.get(0),
+                        previous => previous.get(0)
+                    },
                 };
 
                 let html = app_state

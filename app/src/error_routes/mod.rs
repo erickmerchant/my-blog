@@ -7,11 +7,10 @@ use actix_web::{
     middleware::ErrorHandlerResponse, web, Result,
 };
 use minijinja::context;
-use serde_json::json;
 
 pub use self::{internal_error::*, not_found::*};
 
-pub(self) fn error<B>(
+pub fn error<B>(
     res: ServiceResponse<B>,
     title: String,
     description: String,
@@ -23,11 +22,11 @@ pub(self) fn error<B>(
 
     if let Some(a) = app_state {
         let ctx = context! {
-            page => json! ({
-                "site": a.site,
-                "title": title,
-                "description": description,
-            })
+            site => a.site,
+            page => context! {
+                title => title,
+                description => description,
+            }
         };
 
         if let Ok(template) = a.templates.get_template("layouts/error.jinja") {
