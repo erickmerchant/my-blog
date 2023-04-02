@@ -1,8 +1,8 @@
 {% macro nav_list(class) %}
   <ul class="{{class}}">
-    <li><a href="/">Posts</a></li>
-    <li><a href="/posts.rss">RSS Feed</a></li>
-    <li><a href="https://github.com/erickmerchant/my-blog">View Source</a></li>
+    {% for link in site.links %}
+      <li><a href="{{link.href}}">{{link.title}}</a></li>
+    {% endfor %}
   </ul>
 {% endmacro %}
 

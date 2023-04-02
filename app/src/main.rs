@@ -13,10 +13,17 @@ use serde_json::from_slice;
 use std::{env::var, fs::read, io, io::Write};
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
+pub struct Link {
+    title: String,
+    href: String,
+}
+
+#[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct Site {
     title: String,
     base: String,
     author: String,
+    links: Vec<Link>,
 }
 
 #[derive(Debug, Clone)]
