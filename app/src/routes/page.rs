@@ -57,6 +57,7 @@ pub async fn page(
                     .map_err(ErrorInternalServerError)?;
 
                 let ctx = context! {
+                    site => &app_state.site,
                     page => &page,
                     pagination => json!({
                         "next": next.get(0),

@@ -1,6 +1,6 @@
-{% extends "layouts/layout.jinja" %}
+{% extends "layouts/base.jinja" %}
 
-{%- macro pagination_link(page, position) -%}
+{% macro pagination_link(page, position) %}
   {% if page %}
     <li class="paginationLink">
       <a href="/{{page.category}}/{{page.slug}}.html">
@@ -10,7 +10,7 @@
   {% else %}
     <li class="paginationPlaceholder"></li>
   {% endif %}
-{%- endmacro -%}
+{% endmacro %}
 
 {% block main %}
   <header>

@@ -1,3 +1,4 @@
+use chrono::Datelike;
 use minify_html::{minify, Cfg};
 use minijinja::{Environment, Source};
 
@@ -8,6 +9,8 @@ pub fn get_env() -> Environment<'static> {
     template_env.add_filter("format_date_string", format_date_string);
 
     template_env.add_filter("split_string", split_string);
+
+    template_env.add_function("year", year);
 
     template_env
 }
@@ -28,6 +31,12 @@ fn split_string(value: String, delim: String) -> Vec<String> {
     } else {
         value.split(&delim).map(|s| s.to_string()).collect()
     }
+}
+
+fn year() -> i32 {
+    let current_date = chrono::Utc::now();
+
+    current_date.year()
 }
 
 pub fn minify_html(code: String) -> String {

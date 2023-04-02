@@ -8,12 +8,22 @@ use actix_web::{
     middleware::Logger, web, App, HttpServer,
 };
 use sea_orm::{Database, DatabaseConnection};
-use std::{env::var, io, io::Write};
+use serde::{Deserialize, Serialize};
+use serde_json::from_slice;
+use std::{env::var, fs::read, io, io::Write};
+
+#[derive(Debug, Clone, Deserialize, Serialize)]
+pub struct Site {
+    title: String,
+    base: String,
+    author: String,
+}
 
 #[derive(Debug, Clone)]
 pub struct AppState {
     pub templates: minijinja::Environment<'static>,
     pub database: sea_orm::DatabaseConnection,
+    pub site: Site,
 }
 
 #[actix_web::main]
@@ -34,9 +44,12 @@ async fn main() -> io::Result<()> {
     let database: DatabaseConnection = Database::connect("sqlite://./storage/content.db")
         .await
         .unwrap();
+    let site = read("./content/site.json")?;
+    let site = from_slice::<Site>(&site)?;
     let app_state = AppState {
         templates,
         database,
+        site,
     };
 
     HttpServer::new(move || {

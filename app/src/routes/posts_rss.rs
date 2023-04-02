@@ -20,6 +20,7 @@ pub async fn posts_rss(app_state: web::Data<AppState>) -> Result<NamedFile> {
             .map_err(ErrorInternalServerError)?;
 
         let ctx = context! {
+            site => &app_state.site,
             posts => posts,
         };
         let html = app_state

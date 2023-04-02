@@ -1,10 +1,10 @@
-{%- macro nav_list(class) -%}
+{% macro nav_list(class) %}
   <ul class="{{class}}">
     <li><a href="/">Posts</a></li>
     <li><a href="/posts.rss">RSS Feed</a></li>
     <li><a href="https://github.com/erickmerchant/my-blog">View Source</a></li>
   </ul>
-{%- endmacro -%}
+{% endmacro %}
 
 {% from "/elements/page-nav.jinja" import page_nav %}
 
@@ -13,7 +13,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{page.title}} | ErickMerchant.com</title>
+    <title>{{page.title}} | {{site.title}}</title>
     <script type="module" src="/element.js"></script>
     <script type="module" src="/elements/page-nav.js"></script>
     {% for name in page.elements | split_string(',') %}
@@ -38,7 +38,7 @@
     </main>
     <footer class="footer">
       {{nav_list("footerNavList")}}
-      <p class="copyright">&copy; 2023 Erick Merchant</p>
+      <p class="copyright">&copy; {{year()}} {{site.author}}</p>
     </footer>
   </body>
 </html>

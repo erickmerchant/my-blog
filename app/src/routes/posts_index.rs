@@ -34,6 +34,7 @@ pub async fn posts_index(app_state: web::Data<AppState>) -> Result<NamedFile> {
         match !posts.is_empty() && posts_index_page.is_some() {
             true => {
                 let ctx = context! {
+                    site => &app_state.site,
                     page => &posts_index_page.unwrap(),
                     posts => &posts,
                 };

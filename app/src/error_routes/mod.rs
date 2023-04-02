@@ -24,6 +24,7 @@ pub(self) fn error<B>(
     if let Some(a) = app_state {
         let ctx = context! {
             page => json! ({
+                "site": a.site,
                 "title": title,
                 "description": description,
             })
