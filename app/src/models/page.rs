@@ -14,7 +14,7 @@ pub struct Model {
     pub category: String,
     pub title: String,
     #[serde(default)]
-    pub date: String,
+    pub date: Option<chrono::NaiveDate>,
     #[serde(default)]
     pub description: String,
     #[serde(default)]

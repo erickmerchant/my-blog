@@ -1,8 +1,3 @@
-/*
-@todo
-- date should be a date type
-*/
-
 use sea_orm_migration::prelude::*;
 
 #[derive(DeriveMigrationName)]
@@ -26,7 +21,7 @@ impl MigrationTrait for Migration {
                     .col(ColumnDef::new(Page::Title).string().not_null())
                     .col(ColumnDef::new(Page::Slug).string().not_null())
                     .col(ColumnDef::new(Page::Category).string().not_null())
-                    .col(ColumnDef::new(Page::Date).string().not_null())
+                    .col(ColumnDef::new(Page::Date).string())
                     .col(ColumnDef::new(Page::Description).string().not_null())
                     .col(ColumnDef::new(Page::Content).string().not_null())
                     .col(ColumnDef::new(Page::Template).string().not_null())

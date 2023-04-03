@@ -105,7 +105,7 @@ fn page_from_html(category: String, slug: String, contents: &str) -> Result<page
     }
 
     if data.date.is_not_set() {
-        data.date = Set("0000-00-00".to_string());
+        data.date = Set(None);
     }
 
     if data.template.is_not_set() {
