@@ -90,7 +90,9 @@ fn page_from_html(category: String, slug: String, contents: &str) -> Result<page
     rewriter.end()?;
 
     data.content = Set(String::from_utf8(output)?);
-    data.elements = Set(elements.into_iter().collect::<Vec<String>>().join(","));
+    data.elements = Set(serde_json::to_value(
+        elements.into_iter().collect::<Vec<String>>(),
+    )?);
     data.slug = Set(slug);
     data.category = Set(category);
 

@@ -8,8 +8,6 @@ pub fn get_env() -> Environment<'static> {
 
     template_env.add_filter("format_date_string", format_date_string);
 
-    template_env.add_filter("split_string", split_string);
-
     template_env.add_function("year", year);
 
     template_env
@@ -23,14 +21,6 @@ fn format_date_string(value: String, fmt: String) -> String {
     }
 
     ret
-}
-
-fn split_string(value: String, delim: String) -> Vec<String> {
-    if value == *"" {
-        vec![]
-    } else {
-        value.split(&delim).map(|s| s.to_string()).collect()
-    }
 }
 
 fn year() -> i32 {

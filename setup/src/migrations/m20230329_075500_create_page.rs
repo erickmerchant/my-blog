@@ -1,7 +1,6 @@
 /*
 @todo
 - date should be a date type
-- elements should be json
 */
 
 use sea_orm_migration::prelude::*;
