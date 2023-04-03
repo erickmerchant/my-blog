@@ -1,6 +1,5 @@
 /*
 @todo
-- unique index of category and slug
 - date should be a date type
 - elements should be json
 */
@@ -35,7 +34,21 @@ impl MigrationTrait for Migration {
                     .col(ColumnDef::new(Page::Elements).string().not_null())
                     .to_owned(),
             )
-            .await
+            .await?;
+
+        manager
+            .create_index(
+                sea_query::Index::create()
+                    .name("idx-page-category-slug-uniq")
+                    .table(Page::Table)
+                    .col(Page::Category)
+                    .col(Page::Slug)
+                    .unique()
+                    .to_owned(),
+            )
+            .await?;
+
+        Ok(())
     }
 
     async fn down(&self, manager: &SchemaManager) -> Result<(), DbErr> {
