@@ -39,7 +39,7 @@ pub async fn page(
                     .filter(page::Column::Category.eq(&page_category))
                     .cursor_by((page::Column::Date, page::Column::Id))
                     .order_by_desc(page::Column::Date)
-                    .after((page.date.clone(), page.id))
+                    .after((page.date, page.id))
                     .first(1)
                     .all(&app_state.database.clone())
                     .await
@@ -49,7 +49,7 @@ pub async fn page(
                     .filter(page::Column::Category.eq(page_category))
                     .cursor_by((page::Column::Date, page::Column::Id))
                     .order_by_desc(page::Column::Date)
-                    .before((page.date.clone(), page.id))
+                    .before((page.date, page.id))
                     .last(1)
                     .all(&app_state.database.clone())
                     .await
