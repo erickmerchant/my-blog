@@ -1,6 +1,4 @@
-use crate::models::page;
-use crate::templates::minify_html;
-use crate::AppState;
+use crate::{models::page, templates::minify_html, AppState};
 use actix_files::NamedFile;
 use actix_web::{error::ErrorInternalServerError, error::ErrorNotFound, web, Result};
 use actix_web_lab::extract;

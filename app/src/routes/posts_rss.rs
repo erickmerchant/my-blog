@@ -1,5 +1,4 @@
-use crate::models::page;
-use crate::AppState;
+use crate::{models::page, AppState};
 use actix_files::NamedFile;
 use actix_web::{error::ErrorInternalServerError, web, Result};
 use minijinja::context;
