@@ -34,15 +34,20 @@ customElements.define(
       close: "M1 4 l3 -3 l11 11 l-3 3 z m11 -3 l3 3 l-11 11 l-3 -3 z",
     };
 
-    #state = Element.watch({open: false, transitioning: false});
+    static get observedAttributes() {
+      return ["open"];
+    }
+
+    #state = Element.watch({
+      open: this.hasAttribute("open"),
+      transitioning: false,
+    });
 
     #nav = this.shadowRoot.getElementById("nav");
     #toggle = this.shadowRoot.getElementById("toggle");
     #icon = this.shadowRoot.getElementById("icon");
 
-    constructor() {
-      super();
-
+    connectedCallback() {
       this.#toggle?.addEventListener("click", () => {
         this.#state.open = !this.#state.open;
         this.#state.transitioning = true;
@@ -68,6 +73,12 @@ customElements.define(
             PageNav.#icons[this.#state.open ? "close" : "open"]
           )
       );
+    }
+
+    attributeChangedCallback(name, oldValue, newValue) {
+      if (name === "open" && newValue !== oldValue) {
+        this.#state.open = newValue !== null;
+      }
     }
   }
 );
