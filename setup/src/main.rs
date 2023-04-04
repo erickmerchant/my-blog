@@ -66,7 +66,7 @@ fn page_from_html(category: String, slug: String, contents: &str) -> Result<page
                         let ctx = context! {
                             language => language.clone(),
                             highlighted_code => highlighted_code,
-                            inner_html => format!("<pre><code>{original_html}</code></pre>")
+                            inner_html => original_html
                         };
                         let template = template_env.get_template("elements/code-block.jinja")?;
                         let replacement_html = template.render(ctx)?;
@@ -127,12 +127,16 @@ async fn main() -> Result<()> {
 
     if let Ok(paths) = glob("content/**/*.html") {
         for path in paths.flatten() {
-            let slug = format!("{}", path.file_stem().unwrap_or_default().to_string_lossy());
+            let slug = path
+                .file_stem()
+                .unwrap_or_default()
+                .to_string_lossy()
+                .to_string();
             let mut category = "".to_string();
 
             if let Some(p) = diff_paths(&path, "content") {
                 if let Some(parent) = p.parent() {
-                    category = format!("{}", parent.to_string_lossy());
+                    category = parent.to_string_lossy().to_string();
                 }
             };
 

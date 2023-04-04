@@ -6,14 +6,14 @@ pub fn get_env() -> Environment<'static> {
     let mut template_env = Environment::new();
     template_env.set_source(Source::from_path("theme"));
 
-    template_env.add_filter("format_date_string", format_date_string);
+    template_env.add_filter("format_date", format_date);
 
     template_env.add_function("year", year);
 
     template_env
 }
 
-fn format_date_string(value: String, fmt: String) -> String {
+fn format_date(value: String, fmt: String) -> String {
     let mut ret = value.clone();
 
     if let Ok(parsed) = chrono::NaiveDate::parse_from_str(&value, "%Y-%m-%d") {
