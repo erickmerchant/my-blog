@@ -34,6 +34,8 @@ fn page_from_html(category: String, slug: String, contents: &str) -> Result<page
                 text!("front-matter", |el| {
                     if let Ok(d) = serde_json::from_str::<serde_json::Value>(el.as_str()) {
                         data.set_from_json(d)?;
+                    } else {
+                        eprintln!("Failed to parse front-matter: {}", el.as_str());
                     }
 
                     Ok(())
