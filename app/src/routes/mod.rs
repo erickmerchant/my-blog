@@ -44,6 +44,7 @@ impl Cache {
             .read(true)
             .write(true)
             .create(true)
+            .truncate(true)
             .open(&src)
             .map_err(ErrorInternalServerError)?;
 
