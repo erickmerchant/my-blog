@@ -1,6 +1,6 @@
 {
   "tasks": {
-    "watch": "export RUST_LOG='actix_web=debug'; export PORT=3000; export NO_CACHE=true; cargo watch -i 'theme/**/*.css' -x'r --bin setup' -s 'cargo run --no-default-features' & coolstyleserver --watch ./theme",
+    "watch": "export RUST_LOG='actix_web=debug'; export PORT=3000; export NO_CACHE=true; cargo watch -i theme -x'r --bin setup' -s 'cargo run --no-default-features' & coolstyleserver --watch ./theme",
     "lint": "cargo clippy",
     "update": "cargo update && cargo outdated -w -R",
     "docker:build": "docker build . -t my-blog",
