@@ -33,7 +33,7 @@ pub struct AppState {
     pub site: Site,
 }
 
-#[actix_web::main]
+#[tokio::main]
 async fn main() -> io::Result<()> {
     env_logger::builder()
         .format(|buf, record| writeln!(buf, "[{}] {}", record.level(), record.args()))

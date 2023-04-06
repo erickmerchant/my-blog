@@ -115,7 +115,7 @@ fn page_from_html(category: String, slug: String, contents: &str) -> Result<page
     Ok(data)
 }
 
-#[async_std::main]
+#[tokio::main]
 async fn main() -> Result<()> {
     fs::remove_dir_all("storage").ok();
     fs::create_dir_all("storage")?;
