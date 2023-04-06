@@ -1,6 +1,6 @@
 <front-matter>
 {
-  "title": "Rust Note #2: Use std::fs::OpenOptions truncate",
+  "title": "Rust Note #2: Use truncate with File::options",
   "date": "2023-04-05",
   "description": "A tip about Rust. Part of an ongoing series. This one is about a pitfall of opening files for writing in Rust."
 }
@@ -14,12 +14,13 @@
 
 <code-block language="rs">
 let mut file = File::options()
-  .read(true)
+  .read(true) // this is why I can't use File::create()
   .write(true)
   .create(true)
   .truncate(true)
-  .open(&src)
-  .map_err(ErrorInternalServerError)?;
+  .open(&src)?;
 
 file.write_all(my_content)?;
 </code-block>
+
+<p>Note also if you use <code>std::fs::write</code> or <code>std::fs::File::create</code> with <code>std::io::prelude::write_all</code> it will truncate the file for you.</p>
