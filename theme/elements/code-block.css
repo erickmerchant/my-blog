@@ -16,6 +16,7 @@ pre {
   font-family: "Chivo Mono", monospace;
   font-variant-ligatures: no-common-ligatures;
   white-space: pre-wrap;
+  padding-block-end: 1.5em;
 }
 
 code {

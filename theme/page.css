@@ -159,6 +159,11 @@ li {
   margin-inline-start: var(--list-indent);
 }
 
+code {
+  font-family: "Chivo Mono", monospace;
+  color: var(--code-4);
+}
+
 @supports selector(:focus-visible) {
   :focus {
     outline: none;
