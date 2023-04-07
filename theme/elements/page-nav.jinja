@@ -1,5 +1,5 @@
-{% macro page_nav() %}
-  <page-nav>
+{% macro page_nav(open) %}
+  <page-nav{% if open %} open{% endif %}>
     <template shadowroot="open">
       <link rel="stylesheet" href="/common.css">
       <link rel="stylesheet" href="/elements/page-nav.css">
@@ -16,6 +16,6 @@
   </page-nav>
 {% endmacro %}
 
-{% call page_nav() %}
+{% call page_nav(open|default(false)) %}
   {{inner_html}}
 {% endcall %}
