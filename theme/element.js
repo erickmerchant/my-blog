@@ -6,9 +6,7 @@ export class Element extends HTMLElement {
     let mode = template?.getAttribute("shadowroot");
 
     if (!this.shadowRoot && template?.nodeName === "TEMPLATE" && mode) {
-      this.attachShadow({
-        mode,
-      }).appendChild(template.content.cloneNode(true));
+      this.attachShadow({mode}).appendChild(template.content.cloneNode(true));
 
       template.remove();
     }
@@ -35,7 +33,17 @@ export class Element extends HTMLElement {
 
           this.#reads.set(symbols[key], new Set());
 
-          this.#schedule();
+          if (!this.#scheduled) {
+            this.#scheduled = true;
+
+            window.requestAnimationFrame(() => {
+              this.#scheduled = false;
+
+              this.update(...this.#writes.values());
+
+              this.#writes.clear();
+            });
+          }
         }
 
         return true;
@@ -69,20 +77,6 @@ export class Element extends HTMLElement {
       formula();
 
       this.#current = prev;
-    }
-  }
-
-  static #schedule() {
-    if (!this.#scheduled) {
-      this.#scheduled = true;
-
-      window.requestAnimationFrame(() => {
-        this.#scheduled = false;
-
-        this.update(...this.#writes.values());
-
-        this.#writes.clear();
-      });
     }
   }
 }
