@@ -1,25 +1,4 @@
 @font-face {
-  font-family: "Chivo";
-  font-style: normal;
-  font-weight: 100 900;
-  font-stretch: 100%;
-  font-display: swap;
-  src: url(/fonts/Chivo/Chivo-VariableFont_wght-subset.woff2) format("woff2");
-  unicode-range: U+20-7E, U+00A9, U+2014;
-}
-
-@font-face {
-  font-family: "Chivo";
-  font-style: italic;
-  font-weight: 100 900;
-  font-stretch: 100%;
-  font-display: swap;
-  src: url(/fonts/Chivo/Chivo-Italic-VariableFont_wght-subset.woff2)
-    format("woff2");
-  unicode-range: U+20-7E, U+00A9, U+2014;
-}
-
-@font-face {
   font-family: "Chivo Mono";
   font-style: normal;
   font-weight: 400;
@@ -55,13 +34,13 @@
 
 html {
   font-size: 125%;
-  font-weight: 400;
-  font-family: "Chivo", system-ui, sans-serif;
+  font-family: system-ui, sans-serif;
   line-height: 1.5;
   overflow-x: hidden;
   height: 100%;
   scrollbar-color: var(--scrollbar) var(--paper-1);
 
+  --font-weight: 400;
   --max-width: 40rem;
 }
 
@@ -107,6 +86,7 @@ a {
   color: var(--ink-0);
   text-decoration-thickness: 0.1em;
   text-underline-offset: 0.3em;
+  font-weight: calc(var(--font-weight) + 100);
 
   &:hover,
   &:focus-visible {
@@ -132,18 +112,20 @@ h3 {
 
 h1 {
   font-size: 2em;
-  font-weight: 900;
+
+  --font-weight: 900;
 }
 
 h2 {
   font-size: 1.5em;
-  font-weight: 800;
+
+  --font-weight: 800;
 }
 
 h3,
 strong {
   font-size: 1em;
-  font-weight: 700;
+  --font-weight: 700;
 }
 
 ul,
@@ -168,6 +150,10 @@ code {
   :focus {
     outline: none;
   }
+}
+
+.navList {
+  --font-weight: 600;
 }
 
 .main {
@@ -216,10 +202,11 @@ code {
     var(--paper-2) 0 0.1rem,
     var(--paper-1) 0.1rem 0.3rem
   );
-  font-weight: 500;
   position: sticky;
   bottom: 0;
   z-index: 0;
+
+  --font-weight: 600;
 }
 
 .footerNavList {
@@ -250,7 +237,7 @@ code {
 }
 
 .published {
-  font-weight: 500;
+  --font-weight: 600;
 }
 
 .pagination {
@@ -259,9 +246,9 @@ code {
   font-size: 1em;
   list-style: none;
   gap: 1em 5vw;
-  font-weight: 500;
   margin-block-start: 2em;
 
+  --font-weight: 600;
   --list-indent: 0;
 
   @container (width <= 30rem) {

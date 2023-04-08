@@ -5,7 +5,6 @@
   overflow: hidden;
   display: grid;
   background-color: var(--paper-0);
-  font-weight: 500;
   color: var(--ink-0);
   z-index: 2;
 
