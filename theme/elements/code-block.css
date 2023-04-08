@@ -1,5 +1,5 @@
 :host {
-  display: grid;
+  display: block;
   background-color: var(--paper-1);
   border-radius: var(--border-radius);
   overflow-x: auto;

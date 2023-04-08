@@ -275,7 +275,7 @@ code {
 
   & a::before {
     content: "";
-    display: grid;
+    display: block;
     position: absolute;
     border-radius: 0.25em;
     border: 0.1em solid var(--ink-0);

@@ -3,7 +3,7 @@
   top: calc(var(--scrolling-down, 0) * -3.125em);
   transition: top 0.25s var(--easing);
   overflow: hidden;
-  display: grid;
+  display: block;
   background-color: var(--paper-0);
   color: var(--ink-0);
   z-index: 2;
