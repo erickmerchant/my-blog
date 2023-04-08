@@ -40,11 +40,16 @@ code {
 .numeric,
 .boolean,
 .null,
-.undefined {
+.undefined,
+.constant {
   color: var(--code-2);
 }
 
 .punctuation,
 .parameter {
   color: var(--code-4);
+}
+
+.comment {
+  font-style: italic;
 }
