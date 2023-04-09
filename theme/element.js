@@ -2,13 +2,13 @@ export class Element extends HTMLElement {
   constructor() {
     super();
 
-    let template = this.firstElementChild;
-    let mode = template?.getAttribute("shadowroot");
+    let firstChild = this.firstElementChild;
+    let mode = firstChild?.getAttribute("shadowrootmode");
 
-    if (!this.shadowRoot && template?.nodeName === "TEMPLATE" && mode) {
-      this.attachShadow({mode}).appendChild(template.content.cloneNode(true));
+    if (firstChild?.nodeName === "TEMPLATE" && mode) {
+      this.attachShadow({mode}).appendChild(firstChild.content.cloneNode(true));
 
-      template.remove();
+      firstChild.remove();
     }
   }
 
