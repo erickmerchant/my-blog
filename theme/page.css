@@ -8,16 +8,6 @@
   unicode-range: U+20-7E, U+00A9, U+2014;
 }
 
-@font-face {
-  font-family: "Chivo Mono";
-  font-style: italic;
-  font-weight: 400;
-  font-stretch: 100%;
-  font-display: swap;
-  src: url(/fonts/Chivo_Mono/ChivoMono-Italic-subset.woff2) format("woff2");
-  unicode-range: U+20-7E, U+00A9, U+2014;
-}
-
 ::-webkit-scrollbar {
   width: 0.5rem;
   height: 0.5rem;
@@ -62,7 +52,7 @@ body {
     --code-0: hsl(0 70% 30%);
     --code-1: hsl(30 100% 30%);
     --code-2: hsl(45 70% 30%);
-    --code-3: hsl(90 70% 20%);
+    --code-3: hsl(90 35% 20%);
     --code-4: hsl(120 5% 30%);
     --scrollbar: hsl(120 25% 50%);
   }
@@ -76,7 +66,7 @@ body {
     --code-0: hsl(0 70% 75%);
     --code-1: hsl(30 100% 75%);
     --code-2: hsl(45 70% 75%);
-    --code-3: hsl(90 70% 85%);
+    --code-3: hsl(90 35% 85%);
     --code-4: hsl(120 5% 75%);
     --scrollbar: hsl(120 25% 50%);
   }

@@ -14,13 +14,14 @@
 
 pre {
   font-family: "Chivo Mono", monospace;
+  font-weight: 400;
   font-variant-ligatures: no-common-ligatures;
   white-space: pre-wrap;
   padding-block-end: 1.5em;
 }
 
 code {
-  color: var(--code-4);
+  color: var(--code-3);
 }
 
 .function {
@@ -33,7 +34,7 @@ code {
 }
 
 .path {
-  color: var(--code-3);
+  color: var(--code-4);
 }
 
 .string,
@@ -47,9 +48,9 @@ code {
 
 .punctuation,
 .parameter {
-  color: var(--code-4);
+  color: var(--code-3);
 }
 
 .comment {
-  font-style: italic;
+  color: var(--code-4);
 }
