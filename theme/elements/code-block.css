@@ -33,10 +33,6 @@ code {
   color: var(--code-0);
 }
 
-.path {
-  color: var(--code-4);
-}
-
 .string,
 .numeric,
 .boolean,
@@ -47,10 +43,11 @@ code {
 }
 
 .punctuation,
-.parameter {
+.parameter,
+.comment {
   color: var(--code-3);
 }
 
-.comment {
+.path {
   color: var(--code-4);
 }

@@ -5,7 +5,7 @@ export class Element extends HTMLElement {
     let firstChild = this.firstElementChild;
     let mode = firstChild?.getAttribute("shadowrootmode");
 
-    if (firstChild?.nodeName === "TEMPLATE" && mode) {
+    if (!this.shadowRoot && firstChild?.nodeName === "TEMPLATE" && mode) {
       this.attachShadow({mode}).appendChild(firstChild.content.cloneNode(true));
 
       firstChild.remove();
