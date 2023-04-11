@@ -75,12 +75,10 @@ body {
 a {
   color: var(--ink-0);
   text-decoration-thickness: 0.1em;
-  text-underline-offset: 0.3em;
 
   &:hover,
   &:focus-visible {
-    text-decoration-thickness: 0.15em;
-    text-underline-offset: 0.25em;
+    text-decoration-thickness: 0.2em;
   }
 }
 
