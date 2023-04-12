@@ -75,10 +75,12 @@ body {
 a {
   color: var(--ink-0);
   text-decoration-thickness: 0.1em;
+  text-underline-offset: 0.1em;
 
   &:hover,
   &:focus-visible {
-    text-decoration-thickness: 0.2em;
+    text-decoration-thickness: 0.15em;
+    text-decoration-skip-ink: none;
   }
 }
 
@@ -148,7 +150,7 @@ code {
   display: grid;
   grid-auto-columns: 100%;
   gap: 1em;
-  padding-block: 1em 2em;
+  padding-block: 1em;
   align-content: start;
   z-index: 1;
 
@@ -193,6 +195,10 @@ code {
   bottom: 0;
   z-index: 0;
   font-weight: 500;
+
+  @container (width <= 30rem) {
+    font-size: 0.8em;
+  }
 }
 
 .footerNavList {
@@ -232,7 +238,7 @@ code {
   font-size: 1em;
   list-style: none;
   gap: 1em 5vw;
-  margin-block-start: 2em;
+  margin-block: 1em;
   font-weight: 500;
 
   --list-indent: 0;

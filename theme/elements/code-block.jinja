@@ -3,9 +3,9 @@
     <template shadowrootmode="open">
       <link rel="stylesheet" href="/common.css">
       <link rel="stylesheet" href="/elements/code-block.css">
-      <pre><code>{{highlighted_code}}</code></pre>
+      <figure><pre><code>{{highlighted_code}}</code></pre></figure>
     </template>
-    <pre><code>{{caller()}}</code></pre>
+    <figure><pre><code>{{caller()}}</code></pre></figure>
   </code-block>
 {% endmacro %}
 
