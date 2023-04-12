@@ -218,10 +218,10 @@ code {
 }
 
 .index {
-  gap: 1em;
   list-style: none;
   display: grid;
   gap: 1em;
+  margin-block-end: 1em;
 
   --list-indent: 0;
 
