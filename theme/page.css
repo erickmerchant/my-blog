@@ -240,6 +240,7 @@ code {
   gap: 1em 5vw;
   margin-block: 1em;
   font-weight: 500;
+  align-items: center;
 
   --list-indent: 0;
 
@@ -257,7 +258,6 @@ code {
   place-content: center;
   align-items: center;
   text-align: center;
-  height: 100%;
   width: 100%;
 }
 
@@ -277,6 +277,7 @@ code {
 }
 
 .paginationPlaceholder {
+  height: 100%;
   background-color: var(--paper-1);
 
   @container (width <= 30rem) {
