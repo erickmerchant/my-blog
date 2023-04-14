@@ -109,7 +109,7 @@ fn page_from_html(category: String, slug: String, contents: &str) -> Result<page
     }
 
     if data.template.is_not_set() {
-        data.template = Set("layouts/post.jinja".to_string());
+        data.template = Set("layouts/page.jinja".to_string());
     }
 
     Ok(data)

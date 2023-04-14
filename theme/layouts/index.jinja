@@ -6,7 +6,7 @@
     {{page.content | safe}}
   </div>
   <ol class="index">
-    {% for page in posts %}
+    {% for page in pages %}
       <li>
         <h2><a href="/{{page.category}}/{{page.slug}}.html">{{page.title}}</a></h2>
         <p class="published"><time>{{page.date | format_date("%B %e, %Y")}}</time></p>

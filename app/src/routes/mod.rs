@@ -1,15 +1,16 @@
 mod asset;
 mod css;
+mod index;
 mod js;
 mod page;
 mod posts_index;
-mod posts_rss;
+mod rss;
 
 use actix_files::NamedFile;
 use actix_web::{error::ErrorInternalServerError, error::ErrorNotFound, Result};
 use std::{convert::AsRef, env::var, fs, fs::File, io, io::Write, path::Path};
 
-pub use self::{asset::*, css::*, js::*, page::*, posts_index::*, posts_rss::*};
+pub use self::{asset::*, css::*, index::*, js::*, page::*, posts_index::*, rss::*};
 
 pub struct Cache;
 

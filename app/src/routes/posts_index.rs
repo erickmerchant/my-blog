@@ -1,55 +1,8 @@
-use crate::{models::page, templates::minify_html, AppState};
+use super::index::index;
+use crate::AppState;
 use actix_files::NamedFile;
-use actix_web::{error::ErrorInternalServerError, error::ErrorNotFound, web, Result};
-use minijinja::context;
-use sea_orm::{entity::prelude::*, query::*};
-use std::vec::Vec;
+use actix_web::{web, Result};
 
 pub async fn posts_index(app_state: web::Data<AppState>) -> Result<NamedFile> {
-    let src = "index.html";
-
-    let file = if let Some(file) = super::Cache::get(src) {
-        file?
-    } else {
-        let posts: Vec<page::Model> = page::Entity::find()
-            .filter(page::Column::Category.eq("posts"))
-            .order_by_desc(page::Column::Date)
-            .all(&app_state.database.clone())
-            .await
-            .map_err(ErrorInternalServerError)?;
-
-        let posts_index_page: Option<page::Model> = page::Entity::find()
-            .filter(
-                Condition::all()
-                    .add(page::Column::Category.eq(""))
-                    .add(page::Column::Slug.eq("posts")),
-            )
-            .order_by_desc(page::Column::Date)
-            .one(&app_state.database.clone())
-            .await
-            .map_err(ErrorInternalServerError)?;
-
-        match !posts.is_empty() && posts_index_page.is_some() {
-            true => {
-                let ctx = context! {
-                    site => &app_state.site,
-                    page => &posts_index_page.unwrap(),
-                    posts => &posts,
-                };
-
-                let html = app_state
-                    .templates
-                    .get_template("layouts/posts-index.jinja")
-                    .and_then(|template| template.render(ctx))
-                    .map_err(ErrorInternalServerError)?;
-
-                let html = minify_html(html);
-
-                super::Cache::set(src, html)?
-            }
-            false => Err(ErrorNotFound("not found"))?,
-        }
-    };
-
-    super::file(file, src)
+    index(app_state, web::Path::from("posts".to_string())).await
 }

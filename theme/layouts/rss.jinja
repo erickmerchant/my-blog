@@ -4,7 +4,7 @@
     <title>{{site.title}}</title>
     <link>{{site.base}}</link>
     <copyright>© {{year()}} {{site.author}}</copyright>
-    {% for page in posts %}
+    {% for page in pages %}
       <item>
         <title>{{page.title}}</title>
         <link>{{site.base}}{{page.category}}/{{page.slug}}.html</link>
