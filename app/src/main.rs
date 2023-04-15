@@ -10,7 +10,7 @@ use actix_web::{
 use sea_orm::{Database, DatabaseConnection};
 use serde::{Deserialize, Serialize};
 use serde_json::from_slice;
-use std::{env::var, fs::read, io, io::Write};
+use std::{fs::read, io, io::Write};
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct Link {
@@ -39,13 +39,7 @@ async fn main() -> io::Result<()> {
         .format(|buf, record| writeln!(buf, "[{}] {}", record.level(), record.args()))
         .init();
 
-    let mut port = 8080;
-
-    if let Ok(port_var) = var("PORT") {
-        if let Ok(port_var) = port_var.parse::<u32>() {
-            port = port_var;
-        }
-    };
+    let port = envmnt::get_u32("PORT", 8080);
 
     let templates = templates::get_env();
     let database: DatabaseConnection = Database::connect("sqlite://./storage/content.db")

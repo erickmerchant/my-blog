@@ -8,7 +8,7 @@ mod rss;
 
 use actix_files::NamedFile;
 use actix_web::{error::ErrorInternalServerError, error::ErrorNotFound, Result};
-use std::{convert::AsRef, env::var, fs, fs::File, io, io::Write, path::Path};
+use std::{convert::AsRef, fs, fs::File, io, io::Write, path::Path};
 
 pub use self::{asset::*, css::*, index::*, js::*, page::*, posts_index::*, rss::*};
 
@@ -16,13 +16,7 @@ pub struct Cache;
 
 impl Cache {
     pub fn get<P: AsRef<Path>>(src: P) -> Option<io::Result<File>> {
-        let mut no_cache = false;
-
-        if let Ok(v) = var("NO_CACHE") {
-            if v.to_lowercase() == "true" {
-                no_cache = true;
-            }
-        };
+        let no_cache = envmnt::is("NO_CACHE");
 
         if no_cache {
             None

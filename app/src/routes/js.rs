@@ -1,7 +1,7 @@
 use actix_files::NamedFile;
 use actix_web::{error::ErrorInternalServerError, error::ErrorNotFound, web, Result};
 use serde_json::{from_value, json};
-use std::{convert::AsRef, env::var, fs, path::Path, sync::Arc};
+use std::{convert::AsRef, fs, path::Path, sync::Arc};
 use swc::{config::Options, config::SourceMapsConfig};
 use swc_common::{errors::ColorConfig, errors::Handler, SourceMap, GLOBALS};
 
@@ -46,10 +46,10 @@ pub async fn js(file: web::Path<String>) -> Result<NamedFile> {
         });
         let mut options = from_value::<Options>(options).map_err(ErrorInternalServerError)?;
 
-        if let Ok(source_maps) = var("SOURCE_MAPS") {
-            if source_maps == "true" {
-                options.source_maps = Some(SourceMapsConfig::Str("inline".to_string()));
-            }
+        let source_maps = envmnt::is("SOURCE_MAPS");
+
+        if source_maps {
+            options.source_maps = Some(SourceMapsConfig::Str("inline".to_string()));
         }
 
         let code = GLOBALS.set(&Default::default(), || {

@@ -11,6 +11,7 @@ actix-web = { version = "4.0.0", features = ["compress-brotli"] }
 actix-web-lab = "0.19.0"
 chrono = "0.4.23"
 env_logger = "0.10"
+envmnt = "0.10.4"
 lightningcss = { version = "1.0.0-alpha.16", features = ["grid", "browserslist"] }
 log = "0.4.17"
 minify-html = "0.10.8"
