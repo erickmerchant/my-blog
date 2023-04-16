@@ -6,8 +6,6 @@ mod page;
 mod posts_index;
 mod rss;
 
-use actix_files::NamedFile;
-use actix_web::{error::ErrorInternalServerError, error::ErrorNotFound, Result};
 use std::{convert::AsRef, fs, fs::File, io, io::Write, path::Path};
 
 pub use self::{asset::*, css::*, index::*, js::*, page::*, posts_index::*, rss::*};

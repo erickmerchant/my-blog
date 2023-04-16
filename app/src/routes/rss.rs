@@ -1,12 +1,14 @@
 use crate::{models::page, AppState};
-use actix_files::NamedFile;
-use actix_web::{error::ErrorInternalServerError, web, Result};
+use axum::extract;
 use minijinja::context;
 use sea_orm::{entity::prelude::*, query::*};
 use std::path::Path;
-use std::vec::Vec;
+use std::{sync::Arc, vec::Vec};
 
-pub async fn rss(app_state: web::Data<AppState>, category: web::Path<String>) -> Result<NamedFile> {
+pub async fn rss(
+    extract::State(app_state): extract::State<Arc<AppState>>,
+    extract::Path(category): extract::Path<String>,
+) -> Result<NamedFile> {
     let src = Path::new(category.as_str()).with_extension("rss");
 
     let file = if let Some(file) = super::Cache::get(&src) {

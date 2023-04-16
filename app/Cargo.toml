@@ -6,12 +6,12 @@ edition = "2021"
 default-run = "app"
 
 [dependencies]
-actix-files = "0.6.0"
-actix-web = { version = "4.0.0", features = ["compress-brotli"] }
-actix-web-lab = "0.19.0"
+anyhow = "1.0.70"
+axum = "0.6.15"
 chrono = "0.4.23"
 env_logger = "0.10"
 envmnt = "0.10.4"
+hyper = "0.14.26"
 lightningcss = { version = "1.0.0-alpha.16", features = ["grid", "browserslist"] }
 log = "0.4.17"
 minify-html = "0.10.8"
@@ -22,4 +22,5 @@ serde = "1.0"
 serde_json = "1.0"
 swc = "0.251"
 swc_common = { version = "0.29", features = ["tty-emitter"] }
-tokio = "1.27.0"
+tokio = { version = "1.27.0", features = ["full"] }
+tower = "0.4.13"

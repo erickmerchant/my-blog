@@ -3,10 +3,6 @@ mod models;
 mod routes;
 mod templates;
 
-use actix_web::{
-    http::StatusCode, middleware::Compress, middleware::DefaultHeaders, middleware::ErrorHandlers,
-    middleware::Logger, web, App, HttpServer,
-};
 use sea_orm::{Database, DatabaseConnection};
 use serde::{Deserialize, Serialize};
 use serde_json::from_slice;

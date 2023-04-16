@@ -1,8 +1,10 @@
 use super::index::index;
 use crate::AppState;
-use actix_files::NamedFile;
-use actix_web::{web, Result};
+use axum::extract;
+use std::sync::Arc;
 
-pub async fn posts_index(app_state: web::Data<AppState>) -> Result<NamedFile> {
-    index(app_state, web::Path::from("posts".to_string())).await
+pub async fn posts_index(
+    extract::State(app_state): extract::State<Arc<AppState>>,
+) -> Result<NamedFile> {
+    index(app_state, extract::Path::from("posts".to_string())).await
 }

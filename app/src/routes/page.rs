@@ -1,13 +1,11 @@
 use crate::{models::page, templates::minify_html, AppState};
-use actix_files::NamedFile;
-use actix_web::{error::ErrorInternalServerError, error::ErrorNotFound, web, Result};
-use actix_web_lab::extract;
+use axum::extract;
 use minijinja::context;
 use sea_orm::{entity::prelude::*, query::*};
-use std::path::Path;
+use std::{path::Path, sync::Arc};
 
 pub async fn page(
-    app_state: web::Data<AppState>,
+    extract::State(app_state): extract::State<Arc<AppState>>,
     extract::Path((category, slug)): extract::Path<(String, String)>,
 ) -> Result<NamedFile> {
     let src = Path::new(category.as_str())

@@ -1,13 +1,12 @@
 use crate::{models::page, templates::minify_html, AppState};
-use actix_files::NamedFile;
-use actix_web::{error::ErrorInternalServerError, error::ErrorNotFound, web, Result};
+use axum::extract;
 use minijinja::context;
 use sea_orm::{entity::prelude::*, query::*};
-use std::vec::Vec;
+use std::{sync::Arc, vec::Vec};
 
 pub async fn index(
-    app_state: web::Data<AppState>,
-    category: web::Path<String>,
+    extract::State(app_state): extract::State<Arc<AppState>>,
+    extract::Path(category): extract::Path<String>,
 ) -> Result<NamedFile> {
     let src = "index.html";
 

@@ -1,10 +1,9 @@
-use actix_files::NamedFile;
-use actix_web::{error::ErrorInternalServerError, error::ErrorNotFound, web, Result};
+use axum::extract;
 use lightningcss::{stylesheet, targets};
 use parcel_sourcemap::SourceMap;
 use std::{fs, path::Path};
 
-pub async fn css(file: web::Path<String>) -> Result<NamedFile> {
+pub async fn css(extract::Path(file): extract::Path<String>) -> Result<NamedFile> {
     let src = Path::new("theme")
         .join(file.to_string())
         .with_extension("css");

@@ -1,8 +1,7 @@
-use actix_files::NamedFile;
-use actix_web::{error::ErrorNotFound, web, Result};
+use axum::extract;
 use std::{fs::File, path::Path};
 
-pub async fn asset(file: web::Path<String>) -> Result<NamedFile> {
+pub async fn asset(extract::Path(file): extract::Path<String>) -> Result<NamedFile> {
     match file.to_string().ends_with(".jinja") {
         true => Err(ErrorNotFound("not found")),
         false => {

@@ -1,8 +1,10 @@
-use actix_web::{dev::ServiceResponse, middleware::ErrorHandlerResponse, Result};
+use crate::AppState;
+use axum::{extract::State, http::StatusCode};
+use std::sync::Arc;
 
-pub fn not_found<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerResponse<B>> {
+pub fn not_found(State(app_state): State<Arc<AppState>>) -> (StatusCode, String) {
     let title = "Page Not Found".to_string();
     let description = "That page was moved, removed, or never existed.".to_string();
 
-    super::error(res, title, description)
+    super::error(app_state, StatusCode::NOT_FOUND, title, description)
 }

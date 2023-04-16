@@ -1,11 +1,10 @@
-use actix_files::NamedFile;
-use actix_web::{error::ErrorInternalServerError, error::ErrorNotFound, web, Result};
+use axum::extract;
 use serde_json::{from_value, json};
 use std::{convert::AsRef, fs, path::Path, sync::Arc};
 use swc::{config::Options, config::SourceMapsConfig};
 use swc_common::{errors::ColorConfig, errors::Handler, SourceMap, GLOBALS};
 
-pub async fn js(file: web::Path<String>) -> Result<NamedFile> {
+pub async fn js(extract::Path(file): extract::Path<String>) -> Result<NamedFile> {
     let src = Path::new("theme")
         .join(file.to_string())
         .with_extension("js");
