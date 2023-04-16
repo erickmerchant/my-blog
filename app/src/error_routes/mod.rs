@@ -2,7 +2,7 @@ mod internal_error;
 mod not_found;
 
 use crate::AppState;
-use axum::http::StatusCode;
+use axum::{http::StatusCode, response::Html, response::Response};
 use minijinja::context;
 
 pub use self::{internal_error::*, not_found::*};
@@ -12,7 +12,7 @@ pub fn error(
     status_code: StatusCode,
     title: String,
     description: String,
-) -> (StatusCode, String) {
+) -> Response {
     let mut body = "".to_string();
 
     let ctx = context! {
@@ -29,5 +29,5 @@ pub fn error(
         }
     }
 
-    (status_code, body)
+    (status_code, Html(body)).into_response()
 }

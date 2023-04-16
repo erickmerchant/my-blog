@@ -6,6 +6,7 @@ mod page;
 mod posts_index;
 mod rss;
 
+use axum::Response;
 use std::{convert::AsRef, fs, fs::File, io, io::Write, path::Path};
 
 pub use self::{asset::*, css::*, index::*, js::*, page::*, posts_index::*, rss::*};
@@ -48,7 +49,7 @@ impl Cache {
     }
 }
 
-pub fn file<P: AsRef<Path>>(file: File, src: P) -> Result<NamedFile> {
+pub fn file<P: AsRef<Path>>(file: File, src: P) -> Response {
     let file = NamedFile::from_file(file, src).map_err(ErrorNotFound)?;
     let file = file
         .prefer_utf8(true)
