@@ -3,10 +3,11 @@ mod models;
 mod routes;
 mod templates;
 
+use axum::{http::StatusCode, response::IntoResponse, response::Response};
 use sea_orm::{Database, DatabaseConnection};
 use serde::{Deserialize, Serialize};
 use serde_json::from_slice;
-use std::{fs::read, io, io::Write};
+use std::{fs, io, io::Write};
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct Link {
@@ -41,7 +42,7 @@ async fn main() -> io::Result<()> {
     let database: DatabaseConnection = Database::connect("sqlite://./storage/content.db")
         .await
         .unwrap();
-    let site = read("./content/site.json")?;
+    let site = fs::read("./content/site.json")?;
     let site = from_slice::<Site>(&site)?;
     let app_state = AppState {
         templates,
@@ -54,11 +55,7 @@ async fn main() -> io::Result<()> {
             .app_data(web::Data::new(app_state.clone()))
             .wrap(Logger::new("%s %r"))
             .wrap(DefaultHeaders::new().add(("Content-Security-Policy", "default-src 'self'")))
-            .wrap(ErrorHandlers::new().handler(StatusCode::NOT_FOUND, error_routes::not_found))
-            .wrap(ErrorHandlers::new().handler(
-                StatusCode::INTERNAL_SERVER_ERROR,
-                error_routes::internal_error,
-            ))
+            .wrap(ErrorHandlers::new().handler(StatusCode::NOT_FOUND, routes::not_found))
             .wrap(Compress::default())
             .route("/", web::get().to(routes::posts_index))
             .route("/{category:.*?}/", web::get().to(routes::index))
@@ -66,9 +63,25 @@ async fn main() -> io::Result<()> {
             .route("/{category:.*?}/{slug}.html", web::get().to(routes::page))
             .route("/{file:.*?}.js", web::get().to(routes::js))
             .route("/{file:.*?}.css", web::get().to(routes::css))
-            .route("/{file:.*?}", web::get().to(routes::asset))
     })
     .bind(format!("0.0.0.0:{port}"))?
     .run()
     .await
+}
+
+pub struct AppError(anyhow::Error);
+
+impl IntoResponse for AppError {
+    fn into_response(self) -> Response {
+        (StatusCode::INTERNAL_SERVER_ERROR, format!("{}", self.0)).into_response()
+    }
+}
+
+impl<E> From<E> for AppError
+where
+    E: Into<anyhow::Error>,
+{
+    fn from(err: E) -> Self {
+        Self(err.into())
+    }
 }

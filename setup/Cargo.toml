@@ -5,7 +5,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-anyhow = "1.0.69"
+anyhow = "1.0.70"
 app = { path = "../app" }
 chrono = "0.4.23"
 glob = "0.3.0"

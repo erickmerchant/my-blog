@@ -1,18 +1,14 @@
-mod internal_error;
-mod not_found;
-
 use crate::AppState;
-use axum::{http::StatusCode, response::Html, response::Response};
+use axum::{
+    extract::State, http::StatusCode, response::Html, response::IntoResponse, response::Response,
+};
 use minijinja::context;
+use std::sync::Arc;
 
-pub use self::{internal_error::*, not_found::*};
+pub fn not_found(State(app_state): State<Arc<AppState>>) -> Response {
+    let title = "Page Not Found".to_string();
+    let description = "That page was moved, removed, or never existed.".to_string();
 
-pub fn error(
-    app_state: AppState,
-    status_code: StatusCode,
-    title: String,
-    description: String,
-) -> Response {
     let mut body = "".to_string();
 
     let ctx = context! {
@@ -29,5 +25,5 @@ pub fn error(
         }
     }
 
-    (status_code, Html(body)).into_response()
+    (StatusCode::NOT_FOUND, Html(body)).into_response()
 }

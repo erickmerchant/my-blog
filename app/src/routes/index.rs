@@ -1,57 +1,48 @@
-use crate::{models::page, templates::minify_html, AppState};
-use axum::extract;
+use crate::{models::page, routes::not_found, templates::minify_html, AppError, AppState};
+use axum::{extract::Path, extract::State, response::IntoResponse, response::Response};
 use minijinja::context;
 use sea_orm::{entity::prelude::*, query::*};
 use std::{sync::Arc, vec::Vec};
 
 pub async fn index(
-    extract::State(app_state): extract::State<Arc<AppState>>,
-    extract::Path(category): extract::Path<String>,
-) -> Result<NamedFile> {
+    State(app_state): State<Arc<AppState>>,
+    Path(category): Path<String>,
+) -> Result<Response, AppError> {
     let src = "index.html";
 
-    let file = if let Some(file) = super::Cache::get(src) {
-        file?
-    } else {
-        let pages: Vec<page::Model> = page::Entity::find()
-            .filter(page::Column::Category.eq(category.as_str()))
-            .order_by_desc(page::Column::Date)
-            .all(&app_state.database.clone())
-            .await
-            .map_err(ErrorInternalServerError)?;
+    let pages: Vec<page::Model> = page::Entity::find()
+        .filter(page::Column::Category.eq(category.as_str()))
+        .order_by_desc(page::Column::Date)
+        .all(&app_state.database.clone())
+        .await?;
 
-        let pages_index_page: Option<page::Model> = page::Entity::find()
-            .filter(
-                Condition::all()
-                    .add(page::Column::Category.eq(""))
-                    .add(page::Column::Slug.eq(category.as_str())),
-            )
-            .order_by_desc(page::Column::Date)
-            .one(&app_state.database.clone())
-            .await
-            .map_err(ErrorInternalServerError)?;
+    let pages_index_page: Option<page::Model> = page::Entity::find()
+        .filter(
+            Condition::all()
+                .add(page::Column::Category.eq(""))
+                .add(page::Column::Slug.eq(category.as_str())),
+        )
+        .order_by_desc(page::Column::Date)
+        .one(&app_state.database.clone())
+        .await?;
 
-        match !pages.is_empty() && pages_index_page.is_some() {
-            true => {
-                let ctx = context! {
-                    site => &app_state.site,
-                    page => &pages_index_page.unwrap(),
-                    pages => &pages,
-                };
+    match !pages.is_empty() && pages_index_page.is_some() {
+        true => {
+            let ctx = context! {
+                site => &app_state.site,
+                page => &pages_index_page.unwrap(),
+                pages => &pages,
+            };
 
-                let html = app_state
-                    .templates
-                    .get_template("layouts/index.jinja")
-                    .and_then(|template| template.render(ctx))
-                    .map_err(ErrorInternalServerError)?;
+            let html = app_state
+                .templates
+                .get_template("layouts/index.jinja")
+                .and_then(|template| template.render(ctx))?;
 
-                let html = minify_html(html);
+            let html = minify_html(html);
 
-                super::Cache::set(src, html)?
-            }
-            false => Err(ErrorNotFound("not found"))?,
+            html.into_response()
         }
-    };
-
-    super::file(file, src)
+        false => not_found(State(app_state)),
+    }
 }

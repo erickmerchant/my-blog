@@ -1,10 +1,8 @@
 use super::index::index;
-use crate::AppState;
-use axum::extract;
+use crate::{AppError, AppState};
+use axum::{extract::Path, extract::State, response::Response};
 use std::sync::Arc;
 
-pub async fn posts_index(
-    extract::State(app_state): extract::State<Arc<AppState>>,
-) -> Result<NamedFile> {
-    index(app_state, extract::Path::from("posts".to_string())).await
+pub async fn posts_index(State(app_state): State<Arc<AppState>>) -> Result<Response, AppError> {
+    index(State(app_state), Path("posts".to_string())).await
 }
