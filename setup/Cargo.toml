@@ -10,7 +10,7 @@ app = { path = "../app" }
 chrono = "0.4.23"
 glob = "0.3.0"
 lol_html = "0.3.2"
-minijinja = "0.31.0"
+minijinja = "0.32.0"
 pathdiff = "0.2.1"
 sea-orm = { version = "0.11.2", features = ["sqlx-sqlite", "runtime-tokio-rustls"] }
 sea-orm-migration = { version = "0.11.0", features = ["sqlx-sqlite", "runtime-tokio-rustls"] }
