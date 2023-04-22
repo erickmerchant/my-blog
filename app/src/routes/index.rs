@@ -41,8 +41,8 @@ pub async fn index(
 
             let html = minify_html(html);
 
-            html.into_response()
+            Ok(html.into_response())
         }
-        false => not_found(State(app_state)),
+        false => Ok(not_found(State(app_state))),
     }
 }
