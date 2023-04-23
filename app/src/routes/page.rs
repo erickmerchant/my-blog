@@ -4,15 +4,15 @@ use axum::{
 };
 use minijinja::context;
 use sea_orm::{entity::prelude::*, query::*};
-use std::{path, sync::Arc};
+use std::sync::Arc;
 
 pub async fn page(
     State(app_state): State<Arc<AppState>>,
     Path((category, slug)): Path<(String, String)>,
 ) -> Result<Response, AppError> {
-    let src = path::Path::new(category.as_str())
-        .join(&slug)
-        .with_extension("html");
+    // let src = path::Path::new(category.as_str())
+    //     .join(&slug)
+    //     .with_extension("html");
 
     let page_category = category.clone();
     let page_slug = slug.clone();

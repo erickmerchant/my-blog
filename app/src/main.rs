@@ -1,13 +1,12 @@
-mod error_routes;
 mod models;
 mod routes;
 mod templates;
 
-use axum::{http::StatusCode, response::IntoResponse, response::Response};
+use axum::{http::StatusCode, response::IntoResponse, response::Response, routing::get, Router};
 use sea_orm::{Database, DatabaseConnection};
 use serde::{Deserialize, Serialize};
 use serde_json::from_slice;
-use std::{fs, io, io::Write};
+use std::{fs, io, net::SocketAddr, sync::Arc};
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct Link {
@@ -30,13 +29,16 @@ pub struct AppState {
     pub site: Site,
 }
 
+/*
+    @todo
+    - logging
+    - compression
+    - "Content-Security-Policy", "default-src 'self'"
+    - static files
+*/
 #[tokio::main]
 async fn main() -> io::Result<()> {
-    env_logger::builder()
-        .format(|buf, record| writeln!(buf, "[{}] {}", record.level(), record.args()))
-        .init();
-
-    let port = envmnt::get_u32("PORT", 8080);
+    let port = envmnt::get_u16("PORT", 8080);
 
     let templates = templates::get_env();
     let database: DatabaseConnection = Database::connect("sqlite://./storage/content.db")
@@ -44,29 +46,36 @@ async fn main() -> io::Result<()> {
         .unwrap();
     let site = fs::read("./content/site.json")?;
     let site = from_slice::<Site>(&site)?;
-    let app_state = AppState {
+    let app_state = Arc::new(AppState {
         templates,
         database,
         site,
-    };
+    });
 
-    HttpServer::new(move || {
-        App::new()
-            .app_data(web::Data::new(app_state.clone()))
-            .wrap(Logger::new("%s %r"))
-            .wrap(DefaultHeaders::new().add(("Content-Security-Policy", "default-src 'self'")))
-            .wrap(ErrorHandlers::new().handler(StatusCode::NOT_FOUND, routes::not_found))
-            .wrap(Compress::default())
-            .route("/", web::get().to(routes::posts_index))
-            .route("/{category:.*?}/", web::get().to(routes::index))
-            .route("/{category:.*?}.rss", web::get().to(routes::rss))
-            .route("/{category:.*?}/{slug}.html", web::get().to(routes::page))
-            .route("/{file:.*?}.js", web::get().to(routes::js))
-            .route("/{file:.*?}.css", web::get().to(routes::css))
-    })
-    .bind(format!("0.0.0.0:{port}"))?
-    .run()
-    .await
+    // .route("/", web::get().to(routes::posts_index))
+    // .route("/{category:.*?}/", web::get().to(routes::index))
+    // .route("/{category:.*?}.rss", web::get().to(routes::rss))
+    // .route("/{category:.*?}/{slug}.html", web::get().to(routes::page))
+    // .route("/{file:.*?}.js", web::get().to(routes::js))
+    // .route("/{file:.*?}.css", web::get().to(routes::css))
+
+    let app = Router::new()
+        .route("/", get(routes::posts_index))
+        .route("/:category.rss", get(routes::rss))
+        .route("/:category/", get(routes::index))
+        .route("/:category/:slug.html", get(routes::page))
+        .route("/*file.js", get(routes::js))
+        .route("/*file.css", get(routes::css));
+
+    let app = app.with_state(app_state);
+
+    let addr = SocketAddr::from(([0, 0, 0, 0], port));
+    axum::Server::bind(&addr)
+        .serve(app.into_make_service())
+        .await
+        .unwrap();
+
+    Ok(())
 }
 
 pub struct AppError(anyhow::Error);

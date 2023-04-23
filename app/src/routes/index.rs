@@ -10,8 +10,6 @@ pub async fn index(
     State(app_state): State<Arc<AppState>>,
     Path(category): Path<String>,
 ) -> Result<Response, AppError> {
-    let src = "index.html";
-
     let pages: Vec<page::Model> = page::Entity::find()
         .filter(page::Column::Category.eq(category.as_str()))
         .order_by_desc(page::Column::Date)

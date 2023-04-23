@@ -4,13 +4,13 @@ use axum::{
 };
 use minijinja::context;
 use sea_orm::{entity::prelude::*, query::*};
-use std::{path, sync::Arc, vec::Vec};
+use std::{sync::Arc, vec::Vec};
 
 pub async fn rss(
     State(app_state): State<Arc<AppState>>,
     Path(category): Path<String>,
 ) -> Result<Response, AppError> {
-    let src = path::Path::new(category.as_str()).with_extension("rss");
+    // let src = path::Path::new(category.as_str()).with_extension("rss");
 
     let pages: Vec<page::Model> = page::Entity::find()
         .filter(page::Column::Category.eq(category.as_str()))
