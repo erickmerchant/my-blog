@@ -16,21 +16,18 @@ pub async fn asset(
         css(State(app_state), Path(file)).await
     } else {
         let src = path::Path::new("theme").join(&file);
+        let mime_type = mime_guess::from_path(&src).first_or_text_plain();
 
-        match fs::read_to_string(&src) {
+        match fs::read(&src) {
             Err(_) => Ok(not_found(State(app_state))),
-            Ok(file_contents) => {
-                let mime_type = mime_guess::from_path(src).first_or_text_plain();
-
-                Ok((
-                    [(
-                        header::CONTENT_TYPE,
-                        HeaderValue::from_str(mime_type.as_ref())?,
-                    )],
-                    file_contents,
-                )
-                    .into_response())
-            }
+            Ok(file_contents) => Ok((
+                [(
+                    header::CONTENT_TYPE,
+                    HeaderValue::from_str(mime_type.as_ref())?,
+                )],
+                file_contents,
+            )
+                .into_response()),
         }
     }
 }
