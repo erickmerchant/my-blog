@@ -4,7 +4,8 @@
   font-weight: 400;
   font-stretch: 100%;
   font-display: swap;
-  src: url(/fonts/Chivo_Mono/ChivoMono-Regular-subset.woff2) format("woff2");
+  src: url(/theme/fonts/Chivo_Mono/ChivoMono-Regular-subset.woff2)
+    format("woff2");
   unicode-range: U+20-7E, U+00A9, U+2014;
 }
 

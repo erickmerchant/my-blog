@@ -10,12 +10,10 @@ pub async fn page(
     State(app_state): State<Arc<AppState>>,
     Path((category, slug)): Path<(String, String)>,
 ) -> Result<Response, AppError> {
-    // let src = path::Path::new(category.as_str())
-    //     .join(&slug)
-    //     .with_extension("html");
-
     let page_category = category.clone();
     let page_slug = slug.clone();
+
+    let page_slug = page_slug.trim_end_matches(".html");
 
     let page: Option<page::Model> = page::Entity::find()
         .filter(

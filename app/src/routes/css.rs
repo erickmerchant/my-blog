@@ -6,7 +6,7 @@ use lightningcss::{stylesheet, targets};
 use parcel_sourcemap::SourceMap;
 use std::{fs, path, sync::Arc};
 
-fn get_css<'a>(file_contents: &'a String, src: &path::Path) -> String {
+fn get_css(file_contents: &String, src: &path::Path) -> String {
     let targets = targets::Browsers::from_browserslist(
         fs::read_to_string("./.browserslistrc")
             .unwrap_or("supports es6-module and last 2 versions".to_string())
@@ -33,7 +33,7 @@ fn get_css<'a>(file_contents: &'a String, src: &path::Path) -> String {
             sm.add_source(src_str);
         };
 
-        if sm.set_source_content(0, &file_contents.as_str()).is_ok() {
+        if sm.set_source_content(0, file_contents.as_str()).is_ok() {
             source_map = Some(sm)
         };
     };
@@ -62,25 +62,21 @@ fn get_css<'a>(file_contents: &'a String, src: &path::Path) -> String {
         }
     };
 
-    let c = code.to_string();
-
-    c.to_string()
+    code.to_string()
 }
 
 pub async fn css(
     State(app_state): State<Arc<AppState>>,
     Path(file): Path<String>,
 ) -> Result<Response, AppError> {
-    let src = path::Path::new("theme")
-        .join(file.to_string())
-        .with_extension("css");
+    let src = path::Path::new("theme").join(file);
 
     match fs::read_to_string(&src) {
         Err(_) => Ok(not_found(State(app_state))),
         Ok(file_contents) => {
             let code = get_css(&file_contents, &src);
 
-            Ok(([(header::CONTENT_TYPE, "text/css")], code.to_owned()).into_response())
+            Ok(([(header::CONTENT_TYPE, "text/css")], code).into_response())
         }
     }
 }

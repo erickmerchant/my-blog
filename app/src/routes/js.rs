@@ -11,9 +11,7 @@ pub async fn js(
     State(app_state): State<Arc<AppState>>,
     Path(file): Path<String>,
 ) -> Result<Response, AppError> {
-    let src = path::Path::new("theme")
-        .join(file.to_string())
-        .with_extension("js");
+    let src = path::Path::new("theme").join(file);
 
     let targets = fs::read_to_string("./.browserslistrc")
         .unwrap_or("supports es6-module and last 2 versions".to_string());

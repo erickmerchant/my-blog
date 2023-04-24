@@ -10,10 +10,10 @@ pub async fn rss(
     State(app_state): State<Arc<AppState>>,
     Path(category): Path<String>,
 ) -> Result<Response, AppError> {
-    // let src = path::Path::new(category.as_str()).with_extension("rss");
+    let category = category.trim_end_matches(".rss");
 
     let pages: Vec<page::Model> = page::Entity::find()
-        .filter(page::Column::Category.eq(category.as_str()))
+        .filter(page::Column::Category.eq(category))
         .order_by_desc(page::Column::Date)
         .all(&app_state.database.clone())
         .await?;

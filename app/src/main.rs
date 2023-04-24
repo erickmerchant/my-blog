@@ -52,20 +52,11 @@ async fn main() -> io::Result<()> {
         site,
     });
 
-    // .route("/", web::get().to(routes::posts_index))
-    // .route("/{category:.*?}/", web::get().to(routes::index))
-    // .route("/{category:.*?}.rss", web::get().to(routes::rss))
-    // .route("/{category:.*?}/{slug}.html", web::get().to(routes::page))
-    // .route("/{file:.*?}.js", web::get().to(routes::js))
-    // .route("/{file:.*?}.css", web::get().to(routes::css))
-
     let app = Router::new()
         .route("/", get(routes::posts_index))
-        .route("/:category.rss", get(routes::rss))
-        .route("/:category/", get(routes::index))
-        .route("/:category/:slug.html", get(routes::page))
-        .route("/*file.js", get(routes::js))
-        .route("/*file.css", get(routes::css));
+        .route("/:category", get(routes::index))
+        .route("/:category/:slug", get(routes::page))
+        .route("/theme/*file", get(routes::asset));
 
     let app = app.with_state(app_state);
 
