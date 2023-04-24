@@ -6,7 +6,7 @@ use lightningcss::{stylesheet, targets};
 use parcel_sourcemap::SourceMap;
 use std::{fs, path, sync::Arc};
 
-fn get_css(file_contents: &String, src: &path::Path) -> String {
+fn get_css(file_contents: &str, src: &path::Path) -> String {
     let targets = targets::Browsers::from_browserslist(
         fs::read_to_string("./.browserslistrc")
             .unwrap_or("supports es6-module and last 2 versions".to_string())
@@ -33,7 +33,7 @@ fn get_css(file_contents: &String, src: &path::Path) -> String {
             sm.add_source(src_str);
         };
 
-        if sm.set_source_content(0, file_contents.as_str()).is_ok() {
+        if sm.set_source_content(0, file_contents).is_ok() {
             source_map = Some(sm)
         };
     };
@@ -44,8 +44,7 @@ fn get_css(file_contents: &String, src: &path::Path) -> String {
         source_map: source_map.as_mut(),
         ..Default::default()
     };
-    let mut stylesheet =
-        stylesheet::StyleSheet::parse(file_contents.as_str(), parser_options).unwrap();
+    let mut stylesheet = stylesheet::StyleSheet::parse(file_contents, parser_options).unwrap();
 
     stylesheet.minify(minifier_options).unwrap();
 
