@@ -15,9 +15,7 @@ pub async fn index(
     if category.ends_with(".rss") {
         rss(State(app_state), Path(category)).await
     } else if category.ends_with(".html") {
-        let cache_src = path::Path::new("storage/cache")
-            .join(category.clone())
-            .with_extension("rss");
+        let cache_src = path::Path::new("storage/cache").join(category.clone());
 
         let code: Option<String> = match fs::read_to_string(&cache_src) {
             Err(_) => {

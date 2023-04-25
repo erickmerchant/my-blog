@@ -10,9 +10,7 @@ pub async fn rss(
     State(app_state): State<Arc<AppState>>,
     Path(category): Path<String>,
 ) -> Result<Response, AppError> {
-    let cache_src = path::Path::new("storage/cache")
-        .join(category.clone())
-        .with_extension("rss");
+    let cache_src = path::Path::new("storage/cache").join(category.clone());
 
     let code: Option<String> = match fs::read_to_string(&cache_src) {
         Err(_) => {

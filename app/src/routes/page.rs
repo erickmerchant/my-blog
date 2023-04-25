@@ -12,8 +12,7 @@ pub async fn page(
 ) -> Result<Response, AppError> {
     let cache_src = path::Path::new("storage/cache")
         .join(category.clone())
-        .join(slug.clone())
-        .with_extension("html");
+        .join(slug.clone());
 
     let code: Option<String> = match fs::read_to_string(&cache_src) {
         Err(_) => {
