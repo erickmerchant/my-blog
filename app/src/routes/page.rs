@@ -4,65 +4,83 @@ use axum::{
 };
 use minijinja::context;
 use sea_orm::{entity::prelude::*, query::*};
-use std::sync::Arc;
+use std::{fs, path, sync::Arc};
 
 pub async fn page(
     State(app_state): State<Arc<AppState>>,
     Path((category, slug)): Path<(String, String)>,
 ) -> Result<Response, AppError> {
-    let page_category = category.clone();
-    let page_slug = slug.clone();
+    let cache_src = path::Path::new("storage/cache")
+        .join(category.clone())
+        .join(slug.clone())
+        .with_extension("html");
 
-    let page_slug = page_slug.trim_end_matches(".html");
+    let code: Option<String> = match fs::read_to_string(&cache_src) {
+        Err(_) => {
+            let page_category = category.clone();
+            let page_slug = slug.clone();
 
-    let page: Option<page::Model> = page::Entity::find()
-        .filter(
-            Condition::all()
-                .add(page::Column::Category.eq(&page_category))
-                .add(page::Column::Slug.eq(page_slug)),
-        )
-        .order_by_desc(page::Column::Date)
-        .one(&app_state.database.clone())
-        .await?;
+            let page_slug = page_slug.trim_end_matches(".html");
 
-    match page {
-        Some(page) => {
-            let next = page::Entity::find()
-                .filter(page::Column::Category.eq(&page_category))
-                .cursor_by((page::Column::Date, page::Column::Id))
+            let page: Option<page::Model> = page::Entity::find()
+                .filter(
+                    Condition::all()
+                        .add(page::Column::Category.eq(&page_category))
+                        .add(page::Column::Slug.eq(page_slug)),
+                )
                 .order_by_desc(page::Column::Date)
-                .after((page.date, page.id))
-                .first(1)
-                .all(&app_state.database.clone())
+                .one(&app_state.database.clone())
                 .await?;
 
-            let previous = page::Entity::find()
-                .filter(page::Column::Category.eq(page_category))
-                .cursor_by((page::Column::Date, page::Column::Id))
-                .order_by_desc(page::Column::Date)
-                .before((page.date, page.id))
-                .last(1)
-                .all(&app_state.database.clone())
-                .await?;
+            match page {
+                Some(page) => {
+                    let next = page::Entity::find()
+                        .filter(page::Column::Category.eq(&page_category))
+                        .cursor_by((page::Column::Date, page::Column::Id))
+                        .order_by_desc(page::Column::Date)
+                        .after((page.date, page.id))
+                        .first(1)
+                        .all(&app_state.database.clone())
+                        .await?;
 
-            let ctx = context! {
-                site => &app_state.site,
-                page => &page,
-                pagination => context! {
-                    next => next.get(0),
-                    previous => previous.get(0)
-                },
-            };
+                    let previous = page::Entity::find()
+                        .filter(page::Column::Category.eq(page_category))
+                        .cursor_by((page::Column::Date, page::Column::Id))
+                        .order_by_desc(page::Column::Date)
+                        .before((page.date, page.id))
+                        .last(1)
+                        .all(&app_state.database.clone())
+                        .await?;
 
-            let html = app_state
-                .templates
-                .get_template(&page.template)
-                .and_then(|template| template.render(ctx))?;
+                    let ctx = context! {
+                        site => &app_state.site,
+                        page => &page,
+                        pagination => context! {
+                            next => next.get(0),
+                            previous => previous.get(0)
+                        },
+                    };
 
-            let html = minify_html(html);
+                    let html = app_state
+                        .templates
+                        .get_template(&page.template)
+                        .and_then(|template| template.render(ctx))?;
 
-            Ok(Html(html).into_response())
+                    let html = minify_html(html);
+
+                    fs::create_dir_all(cache_src.parent().unwrap()).ok();
+                    fs::write(&cache_src, &html).ok();
+
+                    Some(html)
+                }
+                None => None,
+            }
         }
+        Ok(code) => Some(code),
+    };
+
+    match code {
         None => Ok(not_found(State(app_state))),
+        Some(code) => Ok(Html(code).into_response()),
     }
 }
