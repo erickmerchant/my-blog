@@ -2,11 +2,15 @@ mod models;
 mod routes;
 mod templates;
 
-use axum::{http::StatusCode, response::IntoResponse, response::Response, routing::get, Router};
+use axum::{
+    http::header, http::Request, http::StatusCode, middleware::from_fn, middleware::Next,
+    response::IntoResponse, response::Response, routing::get, Router,
+};
 use sea_orm::{Database, DatabaseConnection};
 use serde::{Deserialize, Serialize};
 use serde_json::from_slice;
 use std::{fs, io, net::SocketAddr, sync::Arc};
+use tower_http::{compression::CompressionLayer, trace::TraceLayer};
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct Link {
@@ -29,15 +33,22 @@ pub struct AppState {
     pub site: Site,
 }
 
-/*
-    @todo
-    - logging
-    - compression
-    - "Content-Security-Policy", "default-src 'self'"
-    - static files
-*/
+pub async fn set_content_security_policy<B>(req: Request<B>, next: Next<B>) -> impl IntoResponse {
+    let mut response = next.run(req).await;
+    let headers = response.headers_mut();
+    headers.insert(
+        header::CONTENT_SECURITY_POLICY,
+        header::HeaderValue::from_str("default-src 'self'").unwrap(),
+    );
+    response
+}
+
 #[tokio::main]
 async fn main() -> io::Result<()> {
+    tracing_subscriber::fmt()
+        .with_max_level(tracing::Level::DEBUG)
+        .init();
+
     let port = envmnt::get_u16("PORT", 8080);
 
     let templates = templates::get_env();
@@ -56,7 +67,10 @@ async fn main() -> io::Result<()> {
         .route("/", get(routes::posts_index))
         .route("/:category", get(routes::index))
         .route("/:category/:slug", get(routes::page))
-        .route("/theme/*file", get(routes::asset));
+        .route("/theme/*file", get(routes::asset))
+        .layer(from_fn(set_content_security_policy))
+        .layer(CompressionLayer::new())
+        .layer(TraceLayer::new_for_http());
 
     let app = app.with_state(app_state);
 
