@@ -9,6 +9,17 @@
   unicode-range: U+20-7E, U+00A9, U+2014;
 }
 
+*,
+*::before {
+  font: inherit;
+  color: inherit;
+  max-width: 100%;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  -webkit-text-size-adjust: none;
+}
+
 ::-webkit-scrollbar {
   width: 0.5rem;
   height: 0.5rem;

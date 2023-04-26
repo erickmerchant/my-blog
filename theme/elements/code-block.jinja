@@ -1,7 +1,6 @@
 {% macro code_block(language, highlighted_code) %}
   <code-block language="{{language}}">
     <template shadowrootmode="open">
-      <link rel="stylesheet" href="/theme/common.css">
       <link rel="stylesheet" href="/theme/elements/code-block.css">
       <figure><pre><code>{{highlighted_code}}</code></pre></figure>
     </template>
