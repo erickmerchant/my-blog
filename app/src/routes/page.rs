@@ -13,9 +13,14 @@ pub async fn page(
     let cache_src = path::Path::new("storage/cache")
         .join(category.clone())
         .join(slug.clone());
+    let cache_result = if envmnt::is("NO_CACHE") {
+        None
+    } else {
+        fs::read_to_string(&cache_src).ok()
+    };
 
-    let code: Option<String> = match fs::read_to_string(&cache_src) {
-        Err(_) => {
+    let code: Option<String> = match cache_result {
+        None => {
             let page_category = category.clone();
             let page_slug = slug.clone();
 
@@ -75,7 +80,7 @@ pub async fn page(
                 None => None,
             }
         }
-        Ok(code) => Some(code),
+        Some(code) => Some(code),
     };
 
     match code {

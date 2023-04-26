@@ -16,9 +16,14 @@ pub async fn index(
         rss(State(app_state), Path(category)).await
     } else if category.ends_with(".html") {
         let cache_src = path::Path::new("storage/cache").join(category.clone());
+        let cache_result = if envmnt::is("NO_CACHE") {
+            None
+        } else {
+            fs::read_to_string(&cache_src).ok()
+        };
 
-        let code: Option<String> = match fs::read_to_string(&cache_src) {
-            Err(_) => {
+        let code: Option<String> = match cache_result {
+            None => {
                 let category = category.trim_end_matches(".html");
 
                 let pages: Vec<page::Model> = page::Entity::find()
@@ -60,7 +65,7 @@ pub async fn index(
                     false => None,
                 }
             }
-            Ok(code) => Some(code),
+            Some(code) => Some(code),
         };
 
         match code {

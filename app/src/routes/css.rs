@@ -12,9 +12,14 @@ pub async fn css(
 ) -> Result<Response, AppError> {
     let src = path::Path::new("theme").join(&file);
     let cache_src = path::Path::new("storage/cache").join(file);
+    let cache_result = if envmnt::is("NO_CACHE") {
+        None
+    } else {
+        fs::read_to_string(&cache_src).ok()
+    };
 
-    let code: Option<String> = match fs::read_to_string(&cache_src) {
-        Err(_) => match fs::read_to_string(&src) {
+    let code: Option<String> = match cache_result {
+        None => match fs::read_to_string(&src) {
             Err(_) => None,
             Ok(file_contents) => {
                 let file_contents = file_contents.as_str();
@@ -83,7 +88,7 @@ pub async fn css(
                 Some(code)
             }
         },
-        Ok(code) => Some(code),
+        Some(code) => Some(code),
     };
 
     match code {

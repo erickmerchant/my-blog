@@ -9,8 +9,13 @@ use axum::{
 use sea_orm::{Database, DatabaseConnection};
 use serde::{Deserialize, Serialize};
 use serde_json::from_slice;
+use std::time::Duration;
 use std::{fs, io, net::SocketAddr, sync::Arc};
-use tower_http::{compression::CompressionLayer, trace::TraceLayer};
+use tower_http::{
+    classify::ServerErrorsFailureClass, compression::CompressionLayer, trace::TraceLayer,
+};
+use tracing::{info_span, Span};
+use tracing_subscriber::EnvFilter;
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct Link {
@@ -46,7 +51,8 @@ pub async fn set_content_security_policy<B>(req: Request<B>, next: Next<B>) -> i
 #[tokio::main]
 async fn main() -> io::Result<()> {
     tracing_subscriber::fmt()
-        .with_max_level(tracing::Level::DEBUG)
+        .compact()
+        .with_env_filter(EnvFilter::from_default_env())
         .init();
 
     let port = envmnt::get_u16("PORT", 8080);
@@ -70,7 +76,24 @@ async fn main() -> io::Result<()> {
         .route("/theme/*file", get(routes::asset))
         .layer(from_fn(set_content_security_policy))
         .layer(CompressionLayer::new())
-        .layer(TraceLayer::new_for_http());
+        .layer(
+            TraceLayer::new_for_http()
+                .make_span_with(|request: &Request<_>| {
+                    info_span!(
+                        "main",
+                        method = ?request.method(),
+                        uri = ?request.uri(),
+                    )
+                })
+                .on_response(|_response: &Response<_>, latency: Duration, _span: &Span| {
+                    tracing::info!("response in {latency:?}")
+                })
+                .on_failure(
+                    |error: ServerErrorsFailureClass, _latency: Duration, _span: &Span| {
+                        tracing::error!("{error}")
+                    },
+                ),
+        );
 
     let app = app.with_state(app_state);
 
@@ -79,6 +102,8 @@ async fn main() -> io::Result<()> {
         .serve(app.into_make_service())
         .await
         .unwrap();
+
+    tracing::debug!("listening on {}", addr);
 
     Ok(())
 }

@@ -13,9 +13,14 @@ pub async fn js(
 ) -> Result<Response, AppError> {
     let src = path::Path::new("theme").join(&file);
     let cache_src = path::Path::new("storage/cache").join(file);
+    let cache_result = if envmnt::is("NO_CACHE") {
+        None
+    } else {
+        fs::read_to_string(&cache_src).ok()
+    };
 
-    let code: Option<String> = match fs::read_to_string(&cache_src) {
-        Err(_) => {
+    let code: Option<String> = match cache_result {
+        None => {
             let targets = fs::read_to_string("./.browserslistrc")
                 .unwrap_or("supports es6-module and last 2 versions".to_string());
             let src = src.as_ref();
@@ -69,7 +74,7 @@ pub async fn js(
                 }
             }
         }
-        Ok(code) => Some(code),
+        Some(code) => Some(code),
     };
 
     match code {
