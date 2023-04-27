@@ -1,8 +1,8 @@
 mod error;
-mod models;
 mod routes;
 mod state;
-mod templates;
+
+use app::{models, templates};
 
 use axum::{
     http::header, http::Request, middleware::from_fn, middleware::Next, response::IntoResponse,

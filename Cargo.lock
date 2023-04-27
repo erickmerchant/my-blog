@@ -98,18 +98,23 @@ dependencies = [
  "chrono",
  "env_logger",
  "envmnt",
+ "glob",
  "hyper",
  "lightningcss",
  "log",
+ "lol_html",
  "mime_guess",
  "minify-html",
  "minijinja",
  "parcel_sourcemap",
+ "pathdiff",
  "sea-orm",
+ "sea-orm-migration",
  "serde",
  "serde_json",
  "swc",
  "swc_common",
+ "syntect",
  "tokio",
  "tower-http",
  "tracing",
@@ -3056,25 +3061,6 @@ checksum = "d98238b800e0d1576d8b6e3de32827c2d74bee68bb97748dcf5071fb53965432"
 dependencies = [
  "nodrop",
  "stable_deref_trait",
-]
-
-[[package]]
-name = "setup"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "app",
- "chrono",
- "glob",
- "lol_html",
- "minijinja",
- "pathdiff",
- "sea-orm",
- "sea-orm-migration",
- "serde",
- "serde_json",
- "syntect",
- "tokio",
 ]
 
 [[package]]
