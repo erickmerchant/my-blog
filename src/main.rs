@@ -3,7 +3,6 @@ mod routes;
 mod state;
 
 use app::{models, templates};
-
 use axum::{
     http::header, http::Request, middleware::from_fn, middleware::Next, response::IntoResponse,
     response::Response, routing::get, Router,
