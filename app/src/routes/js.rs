@@ -67,8 +67,10 @@ pub async fn js(
                             .map(|transformed| transformed.code)
                     })?;
 
-                    fs::create_dir_all(cache_src.parent().unwrap()).ok();
-                    fs::write(&cache_src, &code).ok();
+                    if let Some(parent) = cache_src.parent() {
+                        fs::create_dir_all(parent).ok();
+                        fs::write(&cache_src, &code).ok();
+                    }
 
                     Some(code)
                 }

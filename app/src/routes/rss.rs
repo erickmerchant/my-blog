@@ -36,8 +36,10 @@ pub async fn rss(
                 .get_template("layouts/rss.jinja")
                 .and_then(|template| template.render(ctx))?;
 
-            fs::create_dir_all(cache_src.parent().unwrap()).ok();
-            fs::write(&cache_src, &rss).ok();
+            if let Some(parent) = cache_src.parent() {
+                fs::create_dir_all(parent).ok();
+                fs::write(&cache_src, &rss).ok();
+            }
 
             Some(rss)
         }

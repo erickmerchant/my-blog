@@ -46,7 +46,7 @@ pub async fn index(
                     true => {
                         let ctx = context! {
                             site => &app_state.site,
-                            page => &pages_index_page.unwrap(),
+                            page => &pages_index_page,
                             pages => &pages,
                         };
 
@@ -57,8 +57,10 @@ pub async fn index(
 
                         let html = minify_html(html);
 
-                        fs::create_dir_all(cache_src.parent().unwrap()).ok();
-                        fs::write(&cache_src, &html).ok();
+                        if let Some(parent) = cache_src.parent() {
+                            fs::create_dir_all(parent).ok();
+                            fs::write(&cache_src, &html).ok();
+                        }
 
                         Some(html)
                     }

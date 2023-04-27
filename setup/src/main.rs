@@ -122,8 +122,10 @@ async fn main() -> Result<()> {
 
     let conn = Database::connect("sqlite://./storage/content.db?mode=rwc")
         .await
-        .unwrap();
-    Migrator::up(&conn, None).await.unwrap();
+        .expect("database should connect");
+    Migrator::up(&conn, None)
+        .await
+        .expect("migration should run");
 
     if let Ok(paths) = glob("content/**/*.html") {
         for path in paths.flatten() {
