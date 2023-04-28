@@ -1,12 +1,13 @@
 use crate::{
-    models::page, routes::not_found, routes::rss, templates::minify_html, AppError, AppState,
+    cache::Cache, models::page, routes::not_found, routes::rss, templates::minify_html, AppError,
+    AppState,
 };
 use axum::{
     extract::Path, extract::State, response::Html, response::IntoResponse, response::Response,
 };
 use minijinja::context;
 use sea_orm::{entity::prelude::*, query::*};
-use std::{fs, path, sync::Arc, vec::Vec};
+use std::{sync::Arc, vec::Vec};
 
 pub async fn index(
     State(app_state): State<Arc<AppState>>,
@@ -15,12 +16,8 @@ pub async fn index(
     if category.ends_with(".rss") {
         rss(State(app_state), Path(category)).await
     } else if category.ends_with(".html") {
-        let cache_src = path::Path::new("storage/cache").join(category.clone());
-        let cache_result = if envmnt::is("NO_CACHE") {
-            None
-        } else {
-            fs::read_to_string(&cache_src).ok()
-        };
+        let cache = Cache::new(&category);
+        let cache_result = cache.read();
 
         let code: Option<String> = match cache_result {
             None => {
@@ -57,10 +54,7 @@ pub async fn index(
 
                         let html = minify_html(html);
 
-                        if let Some(parent) = cache_src.parent() {
-                            fs::create_dir_all(parent).ok();
-                            fs::write(&cache_src, &html).ok();
-                        }
+                        cache.write(&html);
 
                         Some(html)
                     }

@@ -1,3 +1,4 @@
+mod cache;
 mod error;
 mod routes;
 mod state;
