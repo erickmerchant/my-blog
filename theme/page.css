@@ -162,7 +162,7 @@ code {
   display: grid;
   grid-auto-columns: 100%;
   gap: 1em;
-  padding-block: 1em;
+  padding-block: 1em 3em;
   align-content: start;
   z-index: 1;
 
@@ -241,58 +241,5 @@ code {
     display: grid;
     grid-auto-columns: 100%;
     gap: 0.5em;
-  }
-}
-
-.pagination {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  font-size: 1em;
-  list-style: none;
-  gap: 1em 5vw;
-  margin-block: 1em;
-  font-weight: 500;
-  align-items: center;
-
-  --list-indent: 0;
-
-  @container (width <= 30rem) {
-    grid-template-columns: 100%;
-  }
-}
-
-.paginationLink,
-.paginationPlaceholder {
-  border-radius: 0.25em;
-  padding-inline: 1em;
-  padding-block: 1.25em;
-  display: flex;
-  place-content: center;
-  align-items: center;
-  text-align: center;
-  width: 100%;
-}
-
-.paginationLink {
-  background-color: var(--paper-0);
-  position: relative;
-
-  & a::before {
-    content: "";
-    display: block;
-    position: absolute;
-    border-radius: 0.25em;
-    border: 0.1em solid var(--ink-0);
-    inset: 0;
-    z-index: 0;
-  }
-}
-
-.paginationPlaceholder {
-  height: 100%;
-  background-color: var(--paper-1);
-
-  @container (width <= 30rem) {
-    display: none;
   }
 }

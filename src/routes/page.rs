@@ -37,31 +37,9 @@ pub async fn page(
 
             match page {
                 Some(page) => {
-                    let next = page::Entity::find()
-                        .filter(page::Column::Category.eq(&page_category))
-                        .cursor_by((page::Column::Date, page::Column::Id))
-                        .order_by_desc(page::Column::Date)
-                        .after((page.date, page.id))
-                        .first(1)
-                        .all(&app_state.database.clone())
-                        .await?;
-
-                    let previous = page::Entity::find()
-                        .filter(page::Column::Category.eq(page_category))
-                        .cursor_by((page::Column::Date, page::Column::Id))
-                        .order_by_desc(page::Column::Date)
-                        .before((page.date, page.id))
-                        .last(1)
-                        .all(&app_state.database.clone())
-                        .await?;
-
                     let ctx = context! {
                         site => &app_state.site,
                         page => &page,
-                        pagination => context! {
-                            next => next.get(0),
-                            previous => previous.get(0)
-                        },
                     };
 
                     let html = app_state
