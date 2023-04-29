@@ -68,8 +68,8 @@ export class Element extends HTMLElement {
     });
   }
 
-  connectedCallback() {
-    for (let formula of this?.generateView() ?? []) {
+  update(...formulas) {
+    for (let formula of formulas) {
       let prev = this.#current;
 
       this.#current = formula;
@@ -78,5 +78,9 @@ export class Element extends HTMLElement {
 
       this.#current = prev;
     }
+  }
+
+  connectedCallback() {
+    this.update(...(this?.generateView() ?? []));
   }
 }
