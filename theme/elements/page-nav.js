@@ -38,7 +38,7 @@ customElements.define(
       return ["open"];
     }
 
-    #state = Element.watch({
+    #state = this.watch({
       open: this.hasAttribute("open"),
       transitioning: false,
     });
@@ -47,7 +47,7 @@ customElements.define(
     #toggle = this.shadowRoot.getElementById("toggle");
     #icon = this.shadowRoot.getElementById("icon");
 
-    connectedCallback() {
+    *generateView() {
       this.#toggle?.addEventListener("click", () => {
         this.#state.open = !this.#state.open;
         this.#state.transitioning = true;
@@ -57,22 +57,24 @@ customElements.define(
         this.#state.transitioning = false;
       });
 
-      Element.update(
-        () => this.toggleAttribute("open", this.#state.open),
-        () => this.#nav?.classList?.toggle("open", this.#state.open),
-        () =>
-          this.#nav?.classList?.toggle(
-            "transitioning",
-            this.#state.transitioning
-          ),
-        () =>
-          this.#toggle?.setAttribute("aria-pressed", String(this.#state.open)),
-        () =>
-          this.#icon?.setAttribute(
-            "d",
-            PageNav.#icons[this.#state.open ? "close" : "open"]
-          )
-      );
+      yield () => this.toggleAttribute("open", this.#state.open);
+
+      yield () => this.#nav?.classList?.toggle("open", this.#state.open);
+
+      yield () =>
+        this.#nav?.classList?.toggle(
+          "transitioning",
+          this.#state.transitioning
+        );
+
+      yield () =>
+        this.#toggle?.setAttribute("aria-pressed", String(this.#state.open));
+
+      yield () =>
+        this.#icon?.setAttribute(
+          "d",
+          PageNav.#icons[this.#state.open ? "close" : "open"]
+        );
     }
 
     attributeChangedCallback(name, oldValue, newValue) {

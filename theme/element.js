@@ -12,12 +12,12 @@ export class Element extends HTMLElement {
     }
   }
 
-  static #scheduled = false;
-  static #writes = new Set();
-  static #reads = new Map();
-  static #current = null;
+  #scheduled = false;
+  #writes = new Set();
+  #reads = new Map();
+  #current = null;
 
-  static watch(state) {
+  watch(state) {
     let symbols = {};
 
     return new Proxy(state, {
@@ -68,8 +68,8 @@ export class Element extends HTMLElement {
     });
   }
 
-  static update(...formulae) {
-    for (let formula of formulae) {
+  connectedCallback() {
+    for (let formula of this?.generateView() ?? []) {
       let prev = this.#current;
 
       this.#current = formula;
