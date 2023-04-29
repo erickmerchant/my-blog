@@ -39,7 +39,7 @@ export class Element extends HTMLElement {
             window.requestAnimationFrame(() => {
               this.#scheduled = false;
 
-              this.update(...this.#writes.values());
+              this.#update(...this.#writes.values());
 
               this.#writes.clear();
             });
@@ -68,7 +68,7 @@ export class Element extends HTMLElement {
     });
   }
 
-  update(...formulas) {
+  #update(...formulas) {
     for (let formula of formulas) {
       let prev = this.#current;
 
@@ -81,6 +81,6 @@ export class Element extends HTMLElement {
   }
 
   connectedCallback() {
-    this.update(...(this?.generateView() ?? []));
+    this.#update(...(this?.generateView() ?? []));
   }
 }
