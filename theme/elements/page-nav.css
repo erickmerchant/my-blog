@@ -21,7 +21,11 @@ svg {
   transition: top 0.25s var(--easing);
   overflow: hidden;
   display: block;
-  background-color: var(--paper-0);
+  background-image: repeating-radial-gradient(
+    circle at 50% 2em,
+    var(--paper-1) 0 0.075em,
+    var(--paper-0) 0.075em 0.3em
+  );
   color: var(--ink-0);
   z-index: 2;
 
@@ -67,16 +71,14 @@ svg {
   overflow: visible;
   grid-template-rows: min-content 0fr;
   align-content: start;
-  padding-inline: 1em;
-  padding-block-start: 1em;
-  padding-block-end: 0.75em;
+  padding: 1em;
   color: var(--ink-0);
 
   --list-visibility: visible;
 
   @container (width <= 20rem) {
     transition: grid-template-rows 0.25s var(--easing);
-    gap: 0.75em;
+    gap: 1em;
     padding-block-end: 0em;
 
     &:where(:not(.open):not(.transitioning)) {
@@ -131,8 +133,9 @@ svg {
   visibility: var(--list-visibility);
 
   @container (width > 20rem) {
+    display: flex;
     height: 2em;
-    align-content: center;
+    align-items: center;
   }
 
   @container (width <= 20rem) {
