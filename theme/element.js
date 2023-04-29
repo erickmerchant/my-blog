@@ -1,4 +1,9 @@
 export class Element extends HTMLElement {
+  #scheduled = false;
+  #writes = new Set();
+  #reads = new Map();
+  #current = null;
+
   constructor() {
     super();
 
@@ -12,10 +17,9 @@ export class Element extends HTMLElement {
     }
   }
 
-  #scheduled = false;
-  #writes = new Set();
-  #reads = new Map();
-  #current = null;
+  connectedCallback() {
+    this.#update(...(this.generateView?.() ?? []));
+  }
 
   watch(state) {
     let symbols = {};
@@ -78,9 +82,5 @@ export class Element extends HTMLElement {
 
       this.#current = prev;
     }
-  }
-
-  connectedCallback() {
-    this.#update(...(this.generateView?.() ?? []));
   }
 }
