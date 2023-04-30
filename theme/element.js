@@ -1,6 +1,4 @@
 export class Element extends HTMLElement {
-  #scheduled = false;
-  #writes = new Set();
   #reads = new Map();
   #current = null;
 
@@ -8,9 +6,12 @@ export class Element extends HTMLElement {
     super();
 
     let firstChild = this.firstElementChild;
-    let mode = firstChild?.getAttribute("shadowrootmode");
+    let mode =
+      firstChild?.nodeName === "TEMPLATE"
+        ? firstChild?.getAttribute("shadowrootmode")
+        : null;
 
-    if (!this.shadowRoot && firstChild?.nodeName === "TEMPLATE" && mode) {
+    if (!this.shadowRoot && mode) {
       this.attachShadow({mode}).appendChild(firstChild.content.cloneNode(true));
 
       firstChild.remove();
@@ -18,7 +19,7 @@ export class Element extends HTMLElement {
   }
 
   connectedCallback() {
-    this.#update(...(this.hydrate?.() ?? []));
+    this.#update(this.hydrate?.() ?? []);
   }
 
   watch(state) {
@@ -31,22 +32,12 @@ export class Element extends HTMLElement {
 
           state[key] = value;
 
-          for (let formula of this.#reads.get(symbols[key]) ?? []) {
-            this.#writes.add(formula);
-          }
+          let formulas = this.#reads.get(symbols[key]);
 
-          this.#reads.set(symbols[key], new Set());
+          if (formulas) {
+            this.#reads.delete(symbols[key]);
 
-          if (!this.#scheduled) {
-            this.#scheduled = true;
-
-            window.requestAnimationFrame(() => {
-              this.#scheduled = false;
-
-              this.#update(...this.#writes.values());
-
-              this.#writes.clear();
-            });
+            this.#update(formulas);
           }
         }
 
@@ -72,15 +63,15 @@ export class Element extends HTMLElement {
     });
   }
 
-  #update(...formulas) {
-    for (let formula of formulas) {
-      let prev = this.#current;
+  #update(formulas) {
+    let prev = this.#current;
 
+    for (let formula of formulas) {
       this.#current = formula;
 
       formula();
-
-      this.#current = prev;
     }
+
+    this.#current = prev;
   }
 }
