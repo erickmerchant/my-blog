@@ -18,7 +18,7 @@ export class Element extends HTMLElement {
   }
 
   connectedCallback() {
-    this.#update(...(this.generateView?.() ?? []));
+    this.#update(...(this.hydrate?.() ?? []));
   }
 
   watch(state) {

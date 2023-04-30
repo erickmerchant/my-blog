@@ -15,8 +15,6 @@ pub async fn rss(
 
     let code: Option<String> = match cache_result {
         None => {
-            let category = category.trim_end_matches(".rss");
-
             let pages: Vec<page::Model> = page::Entity::find()
                 .filter(page::Column::Category.eq(category))
                 .order_by_desc(page::Column::Date)

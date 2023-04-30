@@ -3,7 +3,7 @@ use axum::{
     extract::Path, extract::State, http::header, response::IntoResponse, response::Response,
 };
 use serde_json::{from_value, json};
-use std::{convert::AsRef, fs, path, sync::Arc};
+use std::{fs, path, sync::Arc};
 use swc::{config::Options, config::SourceMapsConfig};
 use swc_common::{errors::ColorConfig, errors::Handler, SourceMap, GLOBALS};
 
@@ -19,7 +19,7 @@ pub async fn js(
         None => {
             let targets = fs::read_to_string("./.browserslistrc")
                 .unwrap_or("supports es6-module and last 2 versions".to_string());
-            let src = src.as_ref();
+            let src = src;
             let cm = Arc::<SourceMap>::default();
             let handler = Arc::new(Handler::with_tty_emitter(
                 ColorConfig::Auto,
@@ -28,7 +28,7 @@ pub async fn js(
                 Some(cm.clone()),
             ));
             let c = swc::Compiler::new(cm.clone());
-            match cm.load_file(src) {
+            match cm.load_file(&src) {
                 Err(_) => None,
                 Ok(fm) => {
                     let options = json!({

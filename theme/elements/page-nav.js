@@ -47,7 +47,7 @@ customElements.define(
     #toggle = this.shadowRoot.getElementById("toggle");
     #icon = this.shadowRoot.getElementById("icon");
 
-    *generateView() {
+    *hydrate() {
       this.#toggle?.addEventListener("click", () => {
         this.#state.open = !this.#state.open;
         this.#state.transitioning = true;

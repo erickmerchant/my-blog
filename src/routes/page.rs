@@ -23,8 +23,6 @@ pub async fn page(
             let page_category = category.clone();
             let page_slug = slug.clone();
 
-            let page_slug = page_slug.trim_end_matches(".html");
-
             let page: Option<page::Model> = page::Entity::find()
                 .filter(
                     Condition::all()

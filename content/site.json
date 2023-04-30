@@ -8,7 +8,7 @@
       "title": "Posts"
     },
     {
-      "href": "/posts.rss",
+      "href": "/posts/feed/",
       "title": "RSS Feed"
     },
     {

@@ -129,14 +129,15 @@ async fn main() -> Result<()> {
         for path in paths.flatten() {
             let slug = path
                 .file_stem()
-                .unwrap_or_default()
-                .to_string_lossy()
+                .expect("file stem should exist")
+                .to_str()
+                .expect("file stem should be a str")
                 .to_string();
             let mut category = "".to_string();
 
             if let Some(p) = diff_paths(&path, "content") {
                 if let Some(parent) = p.parent() {
-                    category = parent.to_string_lossy().to_string();
+                    category = parent.to_str().expect("parent should be a str").to_string();
                 }
             };
 

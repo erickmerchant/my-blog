@@ -54,9 +54,10 @@ async fn main() -> io::Result<()> {
 
     let app = Router::new()
         .route("/", get(routes::posts_index))
-        .route("/:category", get(routes::index))
-        .route("/:category/:slug", get(routes::page))
-        .route("/theme/*file", get(routes::asset))
+        .route("/:category/", get(routes::index))
+        .route("/:category/feed/", get(routes::rss))
+        .route("/:category/:slug/", get(routes::page))
+        .fallback(routes::asset)
         .layer(from_fn(set_content_security_policy))
         .layer(CompressionLayer::new())
         .layer(
