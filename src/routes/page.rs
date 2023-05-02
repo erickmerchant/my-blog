@@ -1,24 +1,30 @@
 use crate::{
-    cache::Cache, models::page, routes::not_found, templates::minify_html, AppError, AppState,
+    models::cache, models::page, routes::not_found, templates::minify_html, AppError, AppState,
 };
 use axum::{
-    extract::Path, extract::State, response::Html, response::IntoResponse, response::Response,
+    extract::Path, extract::State, http::header, response::Html, response::IntoResponse,
+    response::Response,
 };
+use etag::EntityTag;
 use minijinja::context;
-use sea_orm::{entity::prelude::*, query::*};
-use std::{path, sync::Arc};
+use sea_orm::{entity::prelude::*, query::*, ActiveValue::Set};
+use std::sync::Arc;
 
 pub async fn page(
     State(app_state): State<Arc<AppState>>,
     Path((category, slug)): Path<(String, String)>,
 ) -> Result<Response, AppError> {
-    let file = path::Path::new("")
-        .join(category.clone())
-        .join(slug.clone());
-    let cache = Cache::new(&file);
-    let cache_result = cache.read();
+    let file = format!("{category}/{slug}");
+    let cache_result: Option<cache::Model> = if envmnt::is("NO_CACHE") {
+        None
+    } else {
+        cache::Entity::find()
+            .filter(Condition::all().add(cache::Column::Path.eq(&file)))
+            .one(&app_state.database.clone())
+            .await?
+    };
 
-    let code: Option<String> = match cache_result {
+    let cache_result: Option<(String, Vec<u8>)> = match cache_result {
         None => {
             let page_category = category.clone();
             let page_slug = slug.clone();
@@ -47,18 +53,32 @@ pub async fn page(
 
                     let html = minify_html(html);
 
-                    cache.write(&html);
+                    let html_bytes = html.as_bytes().to_vec();
 
-                    Some(html)
+                    let etag = EntityTag::from_data(&html_bytes).to_string();
+                    let body = html_bytes;
+
+                    if !envmnt::is("NO_CACHE") {
+                        let cache_model = cache::ActiveModel {
+                            path: Set(file),
+                            etag: Set(etag.clone()),
+                            body: Set(body.clone()),
+                            ..Default::default()
+                        };
+
+                        cache_model.clone().insert(&app_state.database).await?;
+                    };
+
+                    Some((etag, body))
                 }
                 None => None,
             }
         }
-        Some(code) => Some(code),
+        Some(cache_result) => Some((cache_result.etag, cache_result.body)),
     };
 
-    match code {
+    match cache_result {
         None => Ok(not_found(State(app_state))),
-        Some(code) => Ok(Html(code).into_response()),
+        Some((etag, body)) => Ok(([(header::ETAG, etag)], Html(body)).into_response()),
     }
 }

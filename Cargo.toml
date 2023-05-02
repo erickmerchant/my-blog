@@ -11,6 +11,7 @@ axum = "0.6.15"
 chrono = "0.4.23"
 env_logger = "0.10"
 envmnt = "0.10.4"
+etag = "4.0.0"
 glob = "0.3.0"
 hyper = "0.14.26"
 lightningcss = { version = "1.0.0-alpha.16", features = ["grid", "browserslist"] }

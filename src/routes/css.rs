@@ -1,9 +1,11 @@
-use crate::{cache::Cache, routes::not_found, AppError, AppState};
+use crate::{models::cache, routes::not_found, AppError, AppState};
 use axum::{
     extract::Path, extract::State, http::header, response::IntoResponse, response::Response,
 };
+use etag::EntityTag;
 use lightningcss::{stylesheet, targets};
 use parcel_sourcemap::SourceMap;
+use sea_orm::{entity::prelude::*, query::*, ActiveValue::Set};
 use std::{fs, path, sync::Arc};
 
 pub async fn css(
@@ -11,10 +13,16 @@ pub async fn css(
     Path(file): Path<String>,
 ) -> Result<Response, AppError> {
     let src = path::Path::new("theme").join(&file);
-    let cache = Cache::new(&file);
-    let cache_result = cache.read();
+    let cache_result: Option<cache::Model> = if envmnt::is("NO_CACHE") {
+        None
+    } else {
+        cache::Entity::find()
+            .filter(Condition::all().add(cache::Column::Path.eq(&file)))
+            .one(&app_state.database.clone())
+            .await?
+    };
 
-    let code: Option<String> = match cache_result {
+    let cache_result: Option<(String, Vec<u8>)> = match cache_result {
         None => match fs::read_to_string(&src) {
             Err(_) => None,
             Ok(file_contents) => {
@@ -76,18 +84,37 @@ pub async fn css(
                     }
                 };
 
-                let code = code.to_string();
+                let code_bytes = code.as_bytes().to_vec();
 
-                cache.write(&code);
+                let etag = EntityTag::from_data(&code_bytes).to_string();
+                let body = code_bytes;
 
-                Some(code)
+                if !envmnt::is("NO_CACHE") {
+                    let cache_model = cache::ActiveModel {
+                        path: Set(file.clone()),
+                        etag: Set(etag.clone()),
+                        body: Set(body.clone()),
+                        ..Default::default()
+                    };
+
+                    cache_model.clone().insert(&app_state.database).await?;
+                };
+
+                Some((etag, body))
             }
         },
-        Some(code) => Some(code),
+        Some(cache_result) => Some((cache_result.etag, cache_result.body)),
     };
 
-    match code {
+    match cache_result {
         None => Ok(not_found(State(app_state))),
-        Some(code) => Ok(([(header::CONTENT_TYPE, "text/css")], code).into_response()),
+        Some((etag, body)) => Ok((
+            [
+                (header::CONTENT_TYPE, "text/css".to_string()),
+                (header::ETAG, etag),
+            ],
+            body,
+        )
+            .into_response()),
     }
 }
