@@ -11,12 +11,14 @@
 
 :host {
   display: block;
-  background-color: var(--paper-1);
-  background-image: radial-gradient(
-    var(--paper-1) 0 0.05em,
-    var(--paper-2) 0.05em 0.2em
-  );
-  background-size: 0.2em 0.2em;
+  background-color: var(--paper-2);
+  background-size: 0.375em 0.375em;
+  background-image: linear-gradient(
+      to right,
+      var(--paper-1) 0.025em,
+      hsla(0 0% 0% / 0) 0.05em
+    ),
+    linear-gradient(to bottom, var(--paper-1) 0.025em, hsla(0 0% 0% / 0) 0.05em);
   border-radius: var(--border-radius);
   overflow-x: auto;
 
