@@ -1,14 +1,14 @@
-mod error;
-mod middleware;
-mod routes;
-mod state;
-
-use app::{models, templates};
-use axum::{http::Request, middleware::from_fn, response::Response, routing::get, Router};
-use error::AppError;
+use app::{
+    middleware, routes,
+    state::{AppState, Site},
+    templates,
+};
+use axum::{
+    http::Request, middleware::from_fn, middleware::from_fn_with_state, response::Response,
+    routing::get, Router,
+};
 use sea_orm::{Database, DatabaseConnection};
 use serde_json::from_slice;
-use state::{AppState, Site};
 use std::time::Duration;
 use std::{fs, io, net::SocketAddr, sync::Arc};
 use tower_http::{
@@ -32,11 +32,11 @@ async fn main() -> io::Result<()> {
         .expect("database should connect");
     let site = fs::read("./content/site.json")?;
     let site = from_slice::<Site>(&site)?;
-    let app_state = Arc::new(AppState {
+    let app_state = AppState {
         templates,
         database,
         site,
-    });
+    };
 
     let app = Router::new()
         .route("/", get(routes::posts_index))
@@ -44,7 +44,10 @@ async fn main() -> io::Result<()> {
         .route("/:category/feed/", get(routes::rss))
         .route("/:category/:slug/", get(routes::page))
         .fallback(routes::asset)
-        .layer(from_fn(middleware::not_modified))
+        .layer(from_fn_with_state(
+            app_state.clone(),
+            middleware::not_modified,
+        ))
         .layer(from_fn(middleware::content_security_policy))
         .layer(CompressionLayer::new())
         .layer(
@@ -68,7 +71,7 @@ async fn main() -> io::Result<()> {
                     },
                 ),
         )
-        .with_state(app_state);
+        .with_state(Arc::new(app_state));
 
     let addr = SocketAddr::from(([0, 0, 0, 0], port));
     axum::Server::bind(&addr)

@@ -20,6 +20,7 @@ impl MigrationTrait for Migration {
                     )
                     .col(ColumnDef::new(Cache::Path).string().not_null())
                     .col(ColumnDef::new(Cache::Etag).string().not_null())
+                    .col(ColumnDef::new(Cache::ContentType).string().not_null())
                     .col(ColumnDef::new(Cache::Body).binary().not_null())
                     .to_owned(),
             )
@@ -53,5 +54,6 @@ enum Cache {
     Id,
     Path,
     Etag,
+    ContentType,
     Body,
 }

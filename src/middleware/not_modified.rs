@@ -1,32 +1,61 @@
-use axum::{http::Request, http::StatusCode, middleware::Next, response::IntoResponse};
+use crate::{error::AppError, models::cache, state::AppState};
+use axum::{
+    extract::State, http::header, http::Request, http::StatusCode, middleware::Next,
+    response::IntoResponse, response::Response,
+};
 use etag::EntityTag;
+use sea_orm::{entity::prelude::*, query::*};
 
-pub async fn not_modified<B>(req: Request<B>, next: Next<B>) -> impl IntoResponse {
+pub async fn not_modified<B>(
+    State(app_state): State<AppState>,
+    req: Request<B>,
+    next: Next<B>,
+) -> Result<Response, AppError> {
     let req_headers = req.headers().clone();
-    let mut response = next.run(req).await;
-    let headers = response.headers_mut();
+    let uri = req.uri().to_string();
+    let mut if_none_match: Option<EntityTag> = None;
 
-    let mut not_modified = false;
-
-    if let Some(etag_header) = headers.get("etag") {
-        if let Ok(etag_header) = etag_header.to_str() {
-            if let Some(if_none_match) = req_headers.get("if-none-match") {
-                if let Ok(if_none_match) = if_none_match.to_str() {
-                    let etag = etag_header.parse::<EntityTag>().expect("etag should parse");
-                    let if_none_match = if_none_match
-                        .parse::<EntityTag>()
-                        .expect("if-none-match should parse");
-
-                    if etag.weak_eq(&if_none_match) {
-                        not_modified = true;
-                    }
-                }
-            }
+    if let Some(header) = req_headers.get("if-none-match") {
+        if let Ok(header) = header.to_str() {
+            if_none_match = header.parse::<EntityTag>().ok();
         }
     };
 
-    match not_modified {
-        true => (StatusCode::NOT_MODIFIED).into_response(),
-        false => response,
-    }
+    let mut etag_matches = false;
+    let cache_result: Option<cache::Model> = if envmnt::is("NO_CACHE") {
+        None
+    } else {
+        cache::Entity::find()
+            .filter(Condition::all().add(cache::Column::Path.eq(uri.clone())))
+            .one(&app_state.database.clone())
+            .await?
+    };
+
+    Ok(match cache_result {
+        Some(cache_result) => {
+            let etag = cache_result.etag.parse::<EntityTag>().ok();
+
+            if let Some(etag) = etag {
+                if let Some(if_none_match) = if_none_match {
+                    if etag.weak_eq(&if_none_match) {
+                        etag_matches = true
+                    }
+                }
+            }
+
+            if etag_matches {
+                (StatusCode::NOT_MODIFIED).into_response()
+            } else {
+                (
+                    [
+                        (header::CONTENT_TYPE, cache_result.content_type),
+                        (header::ETAG, cache_result.etag),
+                    ],
+                    cache_result.body,
+                )
+                    .into_response()
+            }
+        }
+        None => next.run(req).await,
+    })
 }
