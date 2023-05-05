@@ -53,6 +53,7 @@ body {
   display: grid;
   grid-template-rows: min-content auto min-content;
   container-type: inline-size;
+  scrollbar-gutter: stable;
 
   @media (prefers-color-scheme: light) {
     --ink-0: hsl(120 70% 25%);
@@ -177,10 +178,11 @@ code {
     max-width: var(--max-width);
     width: 100%;
     margin-inline: auto;
-    padding-inline: 1rem;
+    padding-inline: 1.5rem;
 
     @container (width <= 30rem) {
       max-width: 100%;
+      padding-inline: 0.5rem;
     }
 
     @container (width <= 45rem) {
