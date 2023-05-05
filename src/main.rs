@@ -25,7 +25,6 @@ async fn main() -> io::Result<()> {
         .init();
 
     let port = envmnt::get_u16("PORT", 8080);
-
     let templates = templates::get_env();
     let database: DatabaseConnection = Database::connect("sqlite://./storage/content.db")
         .await
@@ -37,7 +36,6 @@ async fn main() -> io::Result<()> {
         database,
         site,
     };
-
     let app = Router::new()
         .route("/", get(routes::posts_index))
         .route("/:category/", get(routes::index))
@@ -72,7 +70,6 @@ async fn main() -> io::Result<()> {
                 ),
         )
         .with_state(Arc::new(app_state));
-
     let addr = SocketAddr::from(([0, 0, 0, 0], port));
     axum::Server::bind(&addr)
         .serve(app.into_make_service())

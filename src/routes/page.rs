@@ -16,10 +16,8 @@ pub async fn page(
     uri: Uri,
 ) -> Result<Response, AppError> {
     let content_type = "text/html".to_string();
-
     let page_category = category.clone();
     let page_slug = slug.clone();
-
     let page: Option<page::Model> = page::Entity::find()
         .filter(
             Condition::all()
@@ -36,17 +34,12 @@ pub async fn page(
                 site => &app_state.site,
                 page => &page,
             };
-
             let html = app_state
                 .templates
                 .get_template(&page.template)
                 .and_then(|template| template.render(ctx))?;
-
             let html = minify_html(html);
-
-            let html_bytes = html.as_bytes().to_vec();
-
-            let body = html_bytes;
+            let body = html.as_bytes().to_vec();
             let etag = cache::save(
                 &app_state,
                 uri.to_string(),

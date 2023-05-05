@@ -25,8 +25,7 @@ pub async fn asset(State(app_state): State<Arc<AppState>>, uri: Uri) -> Result<R
 
             match fs::read(src).ok() {
                 None => Ok(not_found(State(app_state))),
-                Some(file_contents) => {
-                    let body = file_contents;
+                Some(body) => {
                     let etag = cache::save(
                         &app_state,
                         uri.to_string(),

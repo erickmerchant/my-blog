@@ -35,7 +35,6 @@ pub async fn css(
                 ..Default::default()
             };
             let mut source_map = None;
-
             let source_maps = envmnt::is("SOURCE_MAPS");
 
             if source_maps {
@@ -76,9 +75,7 @@ pub async fn css(
                 }
             };
 
-            let code_bytes = code.as_bytes().to_vec();
-
-            let body = code_bytes;
+            let body = code.as_bytes().to_vec();
             let etag = cache::save(
                 &app_state,
                 uri.to_string(),

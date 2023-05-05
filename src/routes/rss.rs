@@ -13,13 +13,11 @@ pub async fn rss(
     uri: Uri,
 ) -> Result<Response, AppError> {
     let content_type = "application/rss+xml".to_string();
-
     let pages: Vec<page::Model> = page::Entity::find()
         .filter(page::Column::Category.eq(&category))
         .order_by_desc(page::Column::Date)
         .all(&app_state.database.clone())
         .await?;
-
     let ctx = context! {
         site => &app_state.site,
         pages => pages,
@@ -28,10 +26,7 @@ pub async fn rss(
         .templates
         .get_template("layouts/rss.jinja")
         .and_then(|template| template.render(ctx))?;
-
-    let rss_bytes = rss.as_bytes().to_vec();
-
-    let body = rss_bytes;
+    let body = rss.as_bytes().to_vec();
     let etag = cache::save(
         &app_state,
         uri.to_string(),

@@ -15,7 +15,6 @@ pub async fn js(
 ) -> Result<Response, AppError> {
     let content_type = "application/javascript".to_string();
     let src = path::Path::new("theme").join(&file);
-
     let targets = fs::read_to_string("./.browserslistrc")
         .unwrap_or("supports es6-module and last 2 versions".to_string());
     let src = src;
@@ -27,6 +26,7 @@ pub async fn js(
         Some(cm.clone()),
     ));
     let c = swc::Compiler::new(cm.clone());
+
     match cm.load_file(&src).ok() {
         None => Ok(not_found(State(app_state))),
         Some(fm) => {
@@ -50,7 +50,6 @@ pub async fn js(
                 }
             });
             let mut options = from_value::<Options>(options)?;
-
             let source_maps = envmnt::is("SOURCE_MAPS");
 
             if source_maps {
@@ -61,10 +60,7 @@ pub async fn js(
                 c.process_js_file(fm, &handler, &options)
                     .map(|transformed| transformed.code)
             })?;
-
-            let code_bytes = code.as_bytes().to_vec();
-
-            let body = code_bytes;
+            let body = code.as_bytes().to_vec();
             let etag = cache::save(
                 &app_state,
                 uri.to_string(),

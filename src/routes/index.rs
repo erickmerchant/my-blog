@@ -16,13 +16,11 @@ pub async fn index(
     uri: Uri,
 ) -> Result<Response, AppError> {
     let content_type = "text/html".to_string();
-
     let pages: Vec<page::Model> = page::Entity::find()
         .filter(page::Column::Category.eq(&category))
         .order_by_desc(page::Column::Date)
         .all(&app_state.database.clone())
         .await?;
-
     let pages_index_page: Option<page::Model> = page::Entity::find()
         .filter(
             Condition::all()
@@ -40,16 +38,12 @@ pub async fn index(
                 page => &pages_index_page,
                 pages => &pages,
             };
-
             let html = app_state
                 .templates
                 .get_template("layouts/index.jinja")
                 .and_then(|template| template.render(ctx))?;
-
             let html = minify_html(html);
-            let html_bytes = html.as_bytes().to_vec();
-
-            let body = html_bytes;
+            let body = html.as_bytes().to_vec();
             let etag = cache::save(
                 &app_state,
                 uri.to_string(),

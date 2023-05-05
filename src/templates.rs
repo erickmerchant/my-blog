@@ -4,10 +4,9 @@ use minijinja::{Environment, Source};
 
 pub fn get_env() -> Environment<'static> {
     let mut template_env = Environment::new();
+
     template_env.set_source(Source::from_path("theme"));
-
     template_env.add_filter("format_date", format_date);
-
     template_env.add_function("year", year);
 
     template_env
@@ -35,9 +34,7 @@ pub fn minify_html(code: String) -> String {
         minify_css: false,
         ..Default::default()
     };
-
     let code_clone = code.as_bytes();
-
     let minified = minify(code_clone, &cfg);
 
     if let Ok(code) = String::from_utf8(minified) {

@@ -20,7 +20,6 @@ fn page_from_html(category: String, slug: String, contents: &str) -> Result<page
     let ss = SyntaxSet::load_defaults_newlines();
     let mut output = vec![];
     let language_buffer = std::rc::Rc::new(std::cell::RefCell::new(String::new()));
-
     let mut rewriter = HtmlRewriter::new(
         Settings {
             element_content_handlers: vec![
