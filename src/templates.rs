@@ -32,7 +32,7 @@ pub fn minify_html(code: String) -> String {
     let cfg = Cfg {
         minify_js: false,
         minify_css: false,
-        ..Default::default()
+        ..Cfg::spec_compliant()
     };
     let code_clone = code.as_bytes();
     let minified = minify(code_clone, &cfg);
