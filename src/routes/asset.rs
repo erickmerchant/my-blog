@@ -1,6 +1,4 @@
-use crate::{
-    error::AppError, models::cache, routes::css, routes::js, routes::not_found, state::AppState,
-};
+use crate::{error::AppError, models::cache, routes::css, routes::not_found, state::AppState};
 use axum::{
     extract::Path, extract::State, http::header, http::StatusCode, http::Uri,
     response::IntoResponse, response::Response,
@@ -17,7 +15,6 @@ pub async fn asset(State(app_state): State<Arc<AppState>>, uri: Uri) -> Result<R
 
     match extension {
         Some("jinja") => Ok((StatusCode::FORBIDDEN).into_response()),
-        Some("js") => js(State(app_state), Path(file), uri).await,
         Some("css") => css(State(app_state), Path(file), uri).await,
         _ => {
             let src = path::Path::new("theme").join(&file);
