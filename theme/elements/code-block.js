@@ -1,3 +1,5 @@
 import {Element} from "../element.js";
 
-customElements.define("code-block", class CodeBlock extends Element {});
+export class CodeBlock extends Element {}
+
+customElements.define("code-block", CodeBlock);
