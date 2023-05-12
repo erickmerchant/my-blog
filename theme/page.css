@@ -47,15 +47,17 @@ html {
 
 body {
   height: 100%;
-  overflow-x: hidden;
+  overflow-x: auto;
   color: var(--ink-1);
   background: var(--paper-1);
   display: grid;
   grid-template-rows: min-content auto min-content;
   container-type: inline-size;
   scrollbar-gutter: stable;
+}
 
-  @media (prefers-color-scheme: light) {
+@media (prefers-color-scheme: light) {
+  body {
     --ink-0: hsl(120 70% 25%);
     --ink-1: hsl(0 0% 5%);
     --paper-0: hsl(120 25% 90%);
@@ -68,8 +70,10 @@ body {
     --code-4: hsl(120 35% 30%);
     --scrollbar: hsl(120 25% 50%);
   }
+}
 
-  @media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: dark) {
+  body {
     --ink-0: hsl(120 70% 80%);
     --ink-1: hsl(0 0% 100%);
     --paper-0: hsl(120 25% 15%);
@@ -88,12 +92,12 @@ a {
   color: var(--ink-0);
   text-decoration-thickness: 0.1em;
   text-underline-offset: 0.1em;
+}
 
-  &:hover,
-  &:focus-visible {
-    text-decoration-thickness: 0.15em;
-    text-decoration-skip-ink: none;
-  }
+a:hover,
+a:focus-visible {
+  text-decoration-thickness: 0.15em;
+  text-decoration-skip-ink: none;
 }
 
 em {
@@ -129,13 +133,10 @@ strong {
   font-weight: 700;
 }
 
-ul,
-ol {
-  &:where(:not([class])) {
-    display: grid;
-    grid-auto-columns: 100%;
-    gap: 0.25em;
-  }
+:is(ul, ol):where(:not([class])) {
+  display: grid;
+  grid-auto-columns: 100%;
+  gap: 0.25em;
 }
 
 li {
@@ -167,27 +168,24 @@ code {
   z-index: 1;
 
   --list-indent: 2rem;
+}
 
-  @container (width <= 30rem) {
+.main > * {
+  max-width: var(--max-width);
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+}
+
+@container (width <= 30rem) {
+  .main {
     font-size: 0.8em;
 
     --list-indent: 1rem;
   }
 
-  & > * {
-    max-width: var(--max-width);
-    width: 100%;
-    margin-inline: auto;
-    padding-inline: 1.5rem;
-
-    @container (width <= 30rem) {
-      max-width: 100%;
-      padding-inline: 0.5rem;
-    }
-
-    @container (width <= 45rem) {
-      max-width: var(--max-width);
-    }
+  .main > * {
+    padding-inline: 0.5rem;
   }
 }
 
@@ -207,8 +205,10 @@ code {
   bottom: 0;
   z-index: 0;
   font-weight: 500;
+}
 
-  @container (width <= 30rem) {
+@container (width <= 30rem) {
+  .footer {
     font-size: 0.8em;
   }
 }
@@ -236,10 +236,10 @@ code {
   margin-block-end: 1em;
 
   --list-indent: 0;
+}
 
-  & > * {
-    display: grid;
-    grid-auto-columns: 100%;
-    gap: 0.5em;
-  }
+.index > * {
+  display: grid;
+  grid-auto-columns: 100%;
+  gap: 0.5em;
 }

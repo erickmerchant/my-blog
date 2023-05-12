@@ -1,12 +1,12 @@
-{% macro nav_list(class) %}
+{%- macro nav_list(class) -%}
   <ul class="{{class}}">
     {% for link in site.links %}
       <li><a href="{{link.href}}">{{link.title}}</a></li>
     {% endfor %}
   </ul>
-{% endmacro %}
+{%- endmacro -%}
 
-{% from "/elements/page-nav.jinja" import page_nav %}
+{%- from "/elements/page-nav.jinja" import page_nav -%}
 
 <!DOCTYPE html>
 <html lang="en-US">

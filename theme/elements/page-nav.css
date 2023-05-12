@@ -32,15 +32,13 @@ svg {
   --easing: cubic-bezier(0.3, 0, 0.3, 0.7);
 }
 
-:host(:not(:defined)) {
-  & .toggle {
-    visibility: hidden;
-  }
+:host(:not(:defined)) .toggle {
+  visibility: hidden;
+}
 
-  & ::slotted(*) {
-    flex-direction: row;
-    visibility: hidden;
-  }
+:host(:not(:defined)) ::slotted(*) {
+  flex-direction: row;
+  visibility: hidden;
 }
 
 @container (width <= 20rem) {
@@ -75,23 +73,25 @@ svg {
   color: var(--ink-0);
 
   --list-visibility: visible;
+}
 
-  @container (width <= 20rem) {
+.nav:where(.open) {
+  grid-template-rows: min-content 1fr;
+}
+
+@container (width <= 20rem) {
+  .nav {
     transition: grid-template-rows 0.25s var(--easing);
     gap: 1em;
     padding-block-end: 0em;
-
-    &:where(:not(.open):not(.transitioning)) {
-      --list-visibility: hidden;
-    }
   }
 
-  &:where(.open) {
-    grid-template-rows: min-content 1fr;
+  .nav:where(:not(.open):not(.transitioning)) {
+    --list-visibility: hidden;
+  }
 
-    @container (width <= 20rem) {
-      padding-block-end: 1.5em;
-    }
+  .nav:where(.open) {
+    padding-block-end: 1.5em;
   }
 }
 
@@ -109,12 +109,14 @@ svg {
   transition: box-shadow 0.25s;
   box-shadow: 0 0 0 0.125em hsl(0 0% 0% / 0);
   margin-inline-start: -0.25em;
+}
 
-  &:focus-visible {
-    box-shadow: 0 0 0 0.125em currentColor;
-  }
+.toggle:focus-visible {
+  box-shadow: 0 0 0 0.125em currentColor;
+}
 
-  @container (width <= 20rem) {
+@container (width <= 20rem) {
+  .toggle {
     display: grid;
   }
 }
@@ -131,14 +133,18 @@ svg {
   gap: 0.5em 1em;
   min-height: 0;
   visibility: var(--list-visibility);
+}
 
-  @container (width > 20rem) {
+@container (width > 20rem) {
+  ::slotted(*) {
     display: flex;
     height: 2em;
     align-items: center;
   }
+}
 
-  @container (width <= 20rem) {
+@container (width <= 20rem) {
+  ::slotted(*) {
     flex-direction: column;
   }
 }

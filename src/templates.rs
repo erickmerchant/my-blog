@@ -1,5 +1,4 @@
 use chrono::Datelike;
-use minify_html::{minify, Cfg};
 use minijinja::{Environment, Source};
 
 pub fn get_env() -> Environment<'static> {
@@ -26,20 +25,4 @@ fn year() -> i32 {
     let current_date = chrono::Utc::now();
 
     current_date.year()
-}
-
-pub fn minify_html(code: String) -> String {
-    let cfg = Cfg {
-        minify_js: false,
-        minify_css: false,
-        ..Cfg::spec_compliant()
-    };
-    let code_clone = code.as_bytes();
-    let minified = minify(code_clone, &cfg);
-
-    if let Ok(code) = String::from_utf8(minified) {
-        code
-    } else {
-        code.clone()
-    }
 }

@@ -1,7 +1,4 @@
-use crate::{
-    error::AppError, models::cache, models::page, routes::not_found, state::AppState,
-    templates::minify_html,
-};
+use crate::{error::AppError, models::cache, models::page, routes::not_found, state::AppState};
 use axum::{
     extract::Path, extract::State, http::header, http::Uri, response::IntoResponse,
     response::Response,
@@ -38,7 +35,6 @@ pub async fn page(
                 .templates
                 .get_template(&page.template)
                 .and_then(|template| template.render(ctx))?;
-            let html = minify_html(html);
             let body = html.as_bytes().to_vec();
             let etag = cache::save(
                 &app_state,

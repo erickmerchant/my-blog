@@ -28,8 +28,10 @@
 
   --max-width: 42rem;
   --border-radius: 0.25em;
+}
 
-  @container (width <= 44.5rem) {
+@container (width <= 44.5rem) {
+  :host {
     --border-radius: 0;
   }
 }
