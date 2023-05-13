@@ -1,11 +1,10 @@
 use anyhow::Result;
-use app::{migrations, models::page, templates::get_env};
+use app::{models::cache, models::page, templates::get_env};
 use glob::glob;
 use lol_html::{element, html_content::ContentType, text, HtmlRewriter, Settings};
-use migrations::{Migrator, MigratorTrait};
 use minijinja::context;
 use pathdiff::diff_paths;
-use sea_orm::{ActiveModelTrait, ActiveValue::Set, Database};
+use sea_orm::{sea_query, ActiveModelTrait, ActiveValue::Set, ConnectionTrait, Database, Schema};
 use std::{collections::HashSet, fs};
 use syntect::{
     html::ClassStyle, html::ClassedHTMLGenerator, parsing::SyntaxSet, util::LinesWithEndings,
@@ -120,9 +119,46 @@ async fn main() -> Result<()> {
     let conn = Database::connect("sqlite://./storage/content.db?mode=rwc")
         .await
         .expect("database should connect");
-    Migrator::up(&conn, None)
-        .await
-        .expect("migration should run");
+
+    let backend = conn.get_database_backend();
+    let schema = Schema::new(backend);
+
+    conn.execute(
+        backend
+            .build(&schema.create_table_from_entity(page::Entity))
+            .to_owned(),
+    )
+    .await?;
+
+    conn.execute(
+        backend.build(
+            sea_query::Index::create()
+                .name("idx-page-category-slug-uniq")
+                .table(page::Entity)
+                .col(page::Column::Category)
+                .col(page::Column::Slug)
+                .unique(),
+        ),
+    )
+    .await?;
+
+    conn.execute(
+        backend
+            .build(&schema.create_table_from_entity(cache::Entity))
+            .to_owned(),
+    )
+    .await?;
+
+    conn.execute(
+        backend.build(
+            sea_query::Index::create()
+                .name("idx-cache-path-uniq")
+                .table(cache::Entity)
+                .col(cache::Column::Path)
+                .unique(),
+        ),
+    )
+    .await?;
 
     if let Ok(paths) = glob("content/**/*.html") {
         for path in paths.flatten() {
