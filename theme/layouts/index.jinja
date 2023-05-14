@@ -1,17 +1,17 @@
 {% extends "layouts/base.jinja" %}
 
 {% block main %}
-  <div>
-    <h1>{{page.title}}</h1>
-    {{page.content | safe}}
-  </div>
-  <ol class="index">
-    {% for page in pages %}
-      <li>
-        <h2><a href="/{{page.category}}/{{page.slug}}/">{{page.title}}</a></h2>
-        <p class="published"><time>{{page.date | format_date("%B %e, %Y")}}</time></p>
-        <p>{{page.description}}</p>
-      </li>
-    {% endfor %}
-  </ol>
+	<div>
+		<h1>{{page.title}}</h1>
+		{{page.content | safe}}
+	</div>
+	<ol class="index">
+		{% for page in pages %}
+			<li>
+				<h2><a href="/{{page.category}}/{{page.slug}}/">{{page.title}}</a></h2>
+				<p class="published"><time>{{page.date | format_date("%B %e, %Y")}}</time></p>
+				<p>{{page.description}}</p>
+			</li>
+		{% endfor %}
+	</ol>
 {% endblock %}

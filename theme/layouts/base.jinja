@@ -1,42 +1,42 @@
 {%- macro nav_list(class) -%}
-  <ul class="{{class}}">
-    {% for link in site.links %}
-      <li><a href="{{link.href}}">{{link.title}}</a></li>
-    {% endfor %}
-  </ul>
+	<ul class="{{class}}">
+		{% for link in site.links %}
+			<li><a href="{{link.href}}">{{link.title}}</a></li>
+		{% endfor %}
+	</ul>
 {%- endmacro -%}
 
 {%- from "/elements/page-nav.jinja" import page_nav -%}
 
 <!DOCTYPE html>
 <html lang="en-US">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{page.title}} | {{site.title}}</title>
-    <script type="module" src="/element.js"></script>
-    <script type="module" src="/elements/page-nav.js"></script>
-    {% for name in page.elements %}
-      <script type="module" src="/elements/{{name}}.js"></script>
-    {% endfor %}
-    <link rel="stylesheet" href="/page.css">
-    <link rel="preload" href="/elements/page-nav.css" as="style">
-    {% for name in page.elements %}
-      <link rel="preload" href="/elements/{{name}}.css" as="style">
-    {% endfor %}
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  </head>
-  <body>
-    {% call page_nav() %}
-      {{nav_list("navList")}}
-    {% endcall %}
-    <main class="main">
-      {% block main %}
-      {% endblock %}
-    </main>
-    <footer class="footer">
-      {{nav_list("footerNavList")}}
-      <p class="copyright">&copy; {{year()}} {{site.author}}</p>
-    </footer>
-  </body>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>{{page.title}} | {{site.title}}</title>
+		<script type="module" src="/element.js"></script>
+		<script type="module" src="/elements/page-nav.js"></script>
+		{% for name in page.elements %}
+			<script type="module" src="/elements/{{name}}.js"></script>
+		{% endfor %}
+		<link rel="stylesheet" href="/page.css">
+		<link rel="preload" href="/elements/page-nav.css" as="style">
+		{% for name in page.elements %}
+			<link rel="preload" href="/elements/{{name}}.css" as="style">
+		{% endfor %}
+		<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+	</head>
+	<body>
+		{% call page_nav() %}
+			{{nav_list("navList")}}
+		{% endcall %}
+		<main class="main">
+			{% block main %}
+			{% endblock %}
+		</main>
+		<footer class="footer">
+			{{nav_list("footerNavList")}}
+			<p class="copyright">&copy; {{year()}} {{site.author}}</p>
+		</footer>
+	</body>
 </html>
