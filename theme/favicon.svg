@@ -1,9 +1,9 @@
 <?xml version="1.0" standalone="yes"?>
 <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-  <style>
-    rect {
-      fill: hsl(120 30% 50%);
-    }
-  </style>
-  <rect width="70" height="70" x="15" y="15" rx="5"></rect>
+	<style>
+		rect {
+			fill: hsl(120 30% 50%);
+		}
+	</style>
+	<rect width="70" height="70" x="15" y="15" rx="5"></rect>
 </svg>
