@@ -1,150 +1,150 @@
 *,
 *::before {
-  font: inherit;
-  color: inherit;
-  max-width: 100%;
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-  -webkit-text-size-adjust: none;
+	font: inherit;
+	color: inherit;
+	max-width: 100%;
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+	-webkit-text-size-adjust: none;
 }
 
 svg {
-  aspect-ratio: 1 / 1;
-  fill: currentColor;
-  display: block;
+	aspect-ratio: 1 / 1;
+	fill: currentColor;
+	display: block;
 }
 
 :host {
-  position: sticky;
-  top: calc(var(--scrolling-down, 0) * -3.125em);
-  transition: top 0.25s var(--easing);
-  overflow: hidden;
-  display: block;
-  background-image: repeating-radial-gradient(
-    circle at 50% 2em,
-    var(--paper-1) 0 0.075em,
-    var(--paper-0) 0.075em 0.3em
-  );
-  color: var(--ink-0);
-  z-index: 2;
+	position: sticky;
+	top: calc(var(--scrolling-down, 0) * -3.125em);
+	transition: top 0.25s var(--easing);
+	overflow: hidden;
+	display: block;
+	background-image: repeating-radial-gradient(
+		circle at 50% 2em,
+		var(--paper-1) 0 0.075em,
+		var(--paper-0) 0.075em 0.3em
+	);
+	color: var(--ink-0);
+	z-index: 2;
 
-  --easing: cubic-bezier(0.3, 0, 0.3, 0.7);
+	--easing: cubic-bezier(0.3, 0, 0.3, 0.7);
 }
 
 :host(:not(:defined)) .toggle {
-  visibility: hidden;
+	visibility: hidden;
 }
 
 :host(:not(:defined)) ::slotted(*) {
-  flex-direction: row;
-  visibility: hidden;
+	flex-direction: row;
+	visibility: hidden;
 }
 
 @container (width <= 20rem) {
-  :host([open]) {
-    --scrolling-down: 0 !important;
-  }
+	:host([open]) {
+		--scrolling-down: 0 !important;
+	}
 }
 
 @supports selector(:focus-visible) {
-  :focus {
-    outline: none;
-  }
+	:focus {
+		outline: none;
+	}
 }
 
 .label {
-  clip: rect(0 0 0 0);
-  clip-path: inset(50%);
-  height: 1px;
-  overflow: hidden;
-  position: absolute;
-  white-space: nowrap;
-  width: 1px;
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
 }
 
 .nav {
-  display: grid;
-  transition: none;
-  overflow: visible;
-  grid-template-rows: min-content 0fr;
-  align-content: start;
-  padding: 1em;
-  color: var(--ink-0);
+	display: grid;
+	transition: none;
+	overflow: visible;
+	grid-template-rows: min-content 0fr;
+	align-content: start;
+	padding: 1em;
+	color: var(--ink-0);
 
-  --list-visibility: visible;
+	--list-visibility: visible;
 }
 
 .nav:where(.open) {
-  grid-template-rows: min-content 1fr;
+	grid-template-rows: min-content 1fr;
 }
 
 @container (width <= 20rem) {
-  .nav {
-    transition: grid-template-rows 0.25s var(--easing);
-    gap: 1em;
-    padding-block-end: 0em;
-  }
+	.nav {
+		transition: grid-template-rows 0.25s var(--easing);
+		gap: 1em;
+		padding-block-end: 0em;
+	}
 
-  .nav:where(:not(.open):not(.transitioning)) {
-    --list-visibility: hidden;
-  }
+	.nav:where(:not(.open):not(.transitioning)) {
+		--list-visibility: hidden;
+	}
 
-  .nav:where(.open) {
-    padding-block-end: 1.5em;
-  }
+	.nav:where(.open) {
+		padding-block-end: 1.5em;
+	}
 }
 
 .toggle {
-  position: relative;
-  appearance: none;
-  display: none;
-  aspect-ratio: 1 / 1;
-  height: 2em;
-  border: 0;
-  background-color: hsl(0 0% 0% / 0);
-  place-content: center;
-  border-radius: 0.25em;
-  cursor: pointer;
-  transition: box-shadow 0.25s;
-  box-shadow: 0 0 0 0.125em hsl(0 0% 0% / 0);
-  margin-inline-start: -0.25em;
+	position: relative;
+	appearance: none;
+	display: none;
+	aspect-ratio: 1 / 1;
+	height: 2em;
+	border: 0;
+	background-color: hsl(0 0% 0% / 0);
+	place-content: center;
+	border-radius: 0.25em;
+	cursor: pointer;
+	transition: box-shadow 0.25s;
+	box-shadow: 0 0 0 0.125em hsl(0 0% 0% / 0);
+	margin-inline-start: -0.25em;
 }
 
 .toggle:focus-visible {
-  box-shadow: 0 0 0 0.125em currentColor;
+	box-shadow: 0 0 0 0.125em currentColor;
 }
 
 @container (width <= 20rem) {
-  .toggle {
-    display: grid;
-  }
+	.toggle {
+		display: grid;
+	}
 }
 
 .toggleIcon {
-  height: 1.5em;
+	height: 1.5em;
 }
 
 ::slotted(*) {
-  display: flex;
-  flex-direction: row;
-  list-style: none;
-  white-space: nowrap;
-  gap: 0.5em 1em;
-  min-height: 0;
-  visibility: var(--list-visibility);
+	display: flex;
+	flex-direction: row;
+	list-style: none;
+	white-space: nowrap;
+	gap: 0.5em 1em;
+	min-height: 0;
+	visibility: var(--list-visibility);
 }
 
 @container (width > 20rem) {
-  ::slotted(*) {
-    display: flex;
-    height: 2em;
-    align-items: center;
-  }
+	::slotted(*) {
+		display: flex;
+		height: 2em;
+		align-items: center;
+	}
 }
 
 @container (width <= 20rem) {
-  ::slotted(*) {
-    flex-direction: column;
-  }
+	::slotted(*) {
+		flex-direction: column;
+	}
 }
