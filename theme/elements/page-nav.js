@@ -38,7 +38,6 @@ export class PageNav extends Element {
 
 	#state = this.watch({
 		open: this.hasAttribute("open"),
-		transitioning: false,
 	});
 
 	#nav = this.shadowRoot.getElementById("nav");
@@ -48,19 +47,11 @@ export class PageNav extends Element {
 	*hydrate() {
 		this.#toggle?.addEventListener("click", () => {
 			this.#state.open = !this.#state.open;
-			this.#state.transitioning = true;
-		});
-
-		this.#nav?.addEventListener("transitionend", () => {
-			this.#state.transitioning = false;
 		});
 
 		yield () => this.toggleAttribute("open", this.#state.open);
 
 		yield () => this.#nav?.classList?.toggle("open", this.#state.open);
-
-		yield () =>
-			this.#nav?.classList?.toggle("transitioning", this.#state.transitioning);
 
 		yield () =>
 			this.#toggle?.setAttribute("aria-pressed", String(this.#state.open));
