@@ -1,19 +1,19 @@
 {
-  "title": "erickmerchant.com",
-  "base": "https://erickmerchant.com",
-  "author": "Erick Merchant",
-  "links": [
-    {
-      "href": "/",
-      "title": "Posts"
-    },
-    {
-      "href": "/posts/feed/",
-      "title": "RSS Feed"
-    },
-    {
-      "href": "https://github.com/erickmerchant/my-blog",
-      "title": "View Source"
-    }
-  ]
+	"title": "erickmerchant.com",
+	"base": "https://erickmerchant.com",
+	"author": "Erick Merchant",
+	"links": [
+		{
+			"href": "/",
+			"title": "Posts"
+		},
+		{
+			"href": "/posts/feed/",
+			"title": "RSS Feed"
+		},
+		{
+			"href": "https://github.com/erickmerchant/my-blog",
+			"title": "View Source"
+		}
+	]
 }

@@ -1,8 +1,8 @@
 <front-matter>
 {
-  "title": "Rust Note #2: Use truncate with File::options",
-  "date": "2023-04-05",
-  "description": "A tip about Rust. Part of an ongoing series. This one is about a pitfall of opening files for writing in Rust."
+	"title": "Rust Note #2: Use truncate with File::options",
+	"date": "2023-04-05",
+	"description": "A tip about Rust. Part of an ongoing series. This one is about a pitfall of opening files for writing in Rust."
 }
 </front-matter>
 
@@ -14,11 +14,11 @@
 
 <code-block language="rs">
 let mut file = File::options()
-  .read(true) // this is why I can't use File::create()
-  .write(true)
-  .create(true)
-  .truncate(true)
-  .open(&src)?;
+	.read(true) // this is why I can't use File::create()
+	.write(true)
+	.create(true)
+	.truncate(true)
+	.open(&src)?;
 
 file.write_all(my_content)?;
 </code-block>

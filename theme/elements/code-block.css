@@ -25,6 +25,7 @@
 		);
 	border-radius: var(--border-radius);
 	overflow-x: auto;
+	tab-size: 2;
 
 	--max-width: 42rem;
 	--border-radius: 0.25em;

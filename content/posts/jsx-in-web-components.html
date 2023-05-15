@@ -1,8 +1,8 @@
 <front-matter>
 {
-  "title": "JSX In Web Components",
-  "date": "2022-08-06",
-  "description": "How to use JSX in Web Components"
+	"title": "JSX In Web Components",
+	"date": "2022-08-06",
+	"description": "How to use JSX in Web Components"
 }
 </front-matter>
 
@@ -23,9 +23,9 @@
 <p>OK so how do we use JSX with Web Components? There are really just two steps with an optional third.</p>
 
 <ol>
-  <li>Enable JSX compiling in whatever you are using. Babel, etc.</li>
-  <li>Define an <code>h</code> function.</li>
-  <li>Define a <code>Fragment</code> function if you use fragments.</li>
+	<li>Enable JSX compiling in whatever you are using. Babel, etc.</li>
+	<li>Define an <code>h</code> function.</li>
+	<li>Define a <code>Fragment</code> function if you use fragments.</li>
 </ol>
 
 <p>For step 1, if you are using Babel you can use their <a href="https://babeljs.io/docs/en/babel-plugin-transform-react-jsx">JSX plugin</a> along with setting runtime to <code>classic</code> and pragma to <code>h</code> and pragmaFrag to <code>Fragment</code>.</p>
@@ -34,27 +34,27 @@
 
 <code-block language="js">
 function h(tag, props, ...children) {
-  children = children.flat(Infinity);
+	children = children.flat(Infinity);
 
-  if (typeof tag === "function") return tag({...props, children});
+	if (typeof tag === "function") return tag({...props, children});
 
-  let node = document.createElement(tag);
+	let node = document.createElement(tag);
 
-  for (let [key, val] of Object.entries(props ?? {})) {
-    if (key.startsWith("on")) {
-      node.addEventListener(key.substring(2).toLowerCase(), ...[].concat(val));
-    } else {
-      node[key] = val
-    }
-  }
+	for (let [key, val] of Object.entries(props ?? {})) {
+		if (key.startsWith("on")) {
+			node.addEventListener(key.substring(2).toLowerCase(), ...[].concat(val));
+		} else {
+			node[key] = val
+		}
+	}
 
-  node.append(...children);
+	node.append(...children);
 
-  return node;
+	return node;
 }
 
 function Fragment({children}) {
-  return children;
+	return children;
 }
 </code-block>
 
