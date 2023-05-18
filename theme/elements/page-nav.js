@@ -27,11 +27,6 @@ export class PageNav extends Element {
 		});
 	}
 
-	static #icons = {
-		open: "M1 1 l14 0 l0 3.5 l-14 0 z m0 5.25 l14 0 l0 3.5 l-14 0 z m0 5.25 l14 0 l0 3.5 l-14 0 z",
-		close: "M1 4 l3 -3 l11 11 l-3 3 z m11 -3 l3 3 l-11 11 l-3 -3 z",
-	};
-
 	static get observedAttributes() {
 		return ["open"];
 	}
@@ -59,7 +54,9 @@ export class PageNav extends Element {
 		yield () =>
 			this.#icon?.setAttribute(
 				"d",
-				PageNav.#icons[this.#state.open ? "close" : "open"]
+				this.#state.open
+					? "M1 4 l3 -3 l11 11 l-3 3 z m11 -3 l3 3 l-11 11 l-3 -3 z"
+					: "M1 1 l14 0 l0 3.5 l-14 0 z m0 5.25 l14 0 l0 3.5 l-14 0 z m0 5.25 l14 0 l0 3.5 l-14 0 z"
 			);
 	}
 
