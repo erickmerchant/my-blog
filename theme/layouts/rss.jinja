@@ -4,12 +4,12 @@
 		<title>{{site.title}}</title>
 		<link>{{site.base}}</link>
 		<copyright>© {{year()}} {{site.author}}</copyright>
-		{% for page in pages %}
+		{% for p in pages %}
 			<item>
-				<title>{{page.title}}</title>
-				<link>{{site.base}}{{page.category}}/{{page.slug}}/</link>
-				<pubDate>{{page.date | format_date("%a, %d %h %Y")}} 00:00:00 +0000</pubDate>
-				<description><![CDATA[{{page.content | safe}}]]></description>
+				<title>{{p.title}}</title>
+				<link>{{site.base}}{{p.category}}/{{p.slug}}/</link>
+				<pubDate>{{p.date | format_date("%a, %d %h %Y")}} 00:00:00 +0000</pubDate>
+				<description><![CDATA[{{p.content | safe}}]]></description>
 			</item>
 		{% endfor %}
 	</channel>

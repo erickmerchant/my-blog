@@ -6,11 +6,11 @@
 		{{page.content | safe}}
 	</div>
 	<ol class="index">
-		{% for page in pages %}
+		{% for p in pages %}
 			<li>
-				<h2><a href="/{{page.category}}/{{page.slug}}/">{{page.title}}</a></h2>
-				<p class="published"><time>{{page.date | format_date("%B %e, %Y")}}</time></p>
-				<p>{{page.description}}</p>
+				<h2><a href="/{{p.category}}/{{p.slug}}/">{{p.title}}</a></h2>
+				<p class="published"><time>{{p.date | format_date("%B %e, %Y")}}</time></p>
+				<p>{{p.description}}</p>
 			</li>
 		{% endfor %}
 	</ol>
