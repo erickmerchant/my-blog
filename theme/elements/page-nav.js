@@ -44,9 +44,31 @@ export class PageNav extends Element {
 			this.#state.open = !this.#state.open;
 		});
 
-		yield () => this.toggleAttribute("open", this.#state.open);
+		window.addEventListener("resize", () => {
+			this.#state.open = false;
+		});
 
-		yield () => this.#nav?.classList?.toggle("open", this.#state.open);
+		document.body.addEventListener("click", (e) => {
+			if (!e.target.matches("a") || !this.#state.open) return;
+
+			let href = new URL(e.target.href);
+
+			if (href.origin !== window.location.origin) return;
+
+			e.preventDefault();
+
+			this.#nav.addEventListener(
+				"transitionend",
+				() => {
+					window.location = href;
+				},
+				{once: true}
+			);
+
+			this.#state.open = false;
+		});
+
+		yield () => this.toggleAttribute("open", this.#state.open);
 
 		yield () =>
 			this.#toggle?.setAttribute("aria-pressed", String(this.#state.open));
@@ -61,8 +83,8 @@ export class PageNav extends Element {
 	}
 
 	attributeChangedCallback(name, oldValue, newValue) {
-		if (name === "open" && newValue !== oldValue) {
-			this.#state.open = newValue !== null;
+		if (newValue !== oldValue) {
+			this.#state[name] = newValue !== null;
 		}
 	}
 }

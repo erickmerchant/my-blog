@@ -18,7 +18,7 @@ svg {
 :host {
 	position: sticky;
 	top: calc(var(--scrolling-down, 0) * -3.125em);
-	transition: top 0.25s var(--easing);
+	transition: top 0.125s var(--easing);
 	overflow: hidden;
 	display: block;
 	background-image: repeating-radial-gradient(
@@ -28,8 +28,6 @@ svg {
 	);
 	color: var(--ink-0);
 	z-index: 2;
-
-	--easing: cubic-bezier(0.3, 0, 0.3, 0.7);
 }
 
 :host(:not(:defined)) .toggle {
@@ -75,19 +73,16 @@ svg {
 	--list-visibility: visible;
 }
 
-.nav:where(.open) {
-	grid-template-rows: min-content 1fr;
-}
-
 @container (width <= 20rem) {
 	.nav {
-		transition: grid-template-rows 0.25s var(--easing),
-			padding-block-end 0.25s var(--easing);
+		transition: grid-template-rows 0.125s var(--easing),
+			padding-block-end 0.125s var(--easing);
 		gap: 1em;
 		padding-block-end: 0em;
 	}
 
-	.nav:where(.open) {
+	:host([open]) .nav {
+		grid-template-rows: min-content 1fr;
 		padding-block-end: 1.5em;
 	}
 }
@@ -103,7 +98,7 @@ svg {
 	place-content: center;
 	border-radius: 0.25em;
 	cursor: pointer;
-	transition: box-shadow 0.25s;
+	transition: box-shadow 0.125s;
 	box-shadow: 0 0 0 0.125em hsl(0 0% 0% / 0);
 	margin-inline-start: -0.25em;
 }

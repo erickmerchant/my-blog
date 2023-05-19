@@ -8,6 +8,15 @@
 	unicode-range: U+20-7E, U+00A9, U+2014;
 }
 
+@keyframes main-transition {
+	from {
+		filter: blur(0);
+	}
+	to {
+		filter: blur(0.25em);
+	}
+}
+
 *,
 *::before {
 	font: inherit;
@@ -43,6 +52,7 @@ html {
 	scrollbar-color: var(--scrollbar) var(--paper-1);
 
 	--max-width: 40rem;
+	--easing: cubic-bezier(0.3, 0, 0.3, 0.7);
 }
 
 body {
@@ -166,8 +176,19 @@ code {
 	padding-block: 1em 3em;
 	align-content: start;
 	z-index: 1;
+	view-transition-name: main;
 
 	--list-indent: 2rem;
+}
+
+::view-transition-old(main) {
+	animation: main-transition 0.25s linear forwards;
+	height: fit-content;
+}
+
+::view-transition-new(main) {
+	animation: main-transition 0.25s linear reverse;
+	height: fit-content;
 }
 
 .main > * {
