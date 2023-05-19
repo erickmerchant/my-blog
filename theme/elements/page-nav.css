@@ -75,10 +75,6 @@ svg {
 	--list-visibility: visible;
 }
 
-.nav:where(.open) {
-	grid-template-rows: min-content 1fr;
-}
-
 @container (width <= 20rem) {
 	.nav {
 		transition: grid-template-rows 0.25s var(--easing),
@@ -87,7 +83,8 @@ svg {
 		padding-block-end: 0em;
 	}
 
-	.nav:where(.open) {
+	:host([open]) .nav {
+		grid-template-rows: min-content 1fr;
 		padding-block-end: 1.5em;
 	}
 }

@@ -46,8 +46,6 @@ export class PageNav extends Element {
 
 		yield () => this.toggleAttribute("open", this.#state.open);
 
-		yield () => this.#nav?.classList?.toggle("open", this.#state.open);
-
 		yield () =>
 			this.#toggle?.setAttribute("aria-pressed", String(this.#state.open));
 
