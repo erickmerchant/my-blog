@@ -1,14 +1,13 @@
-use crate::state::AppState;
+use crate::{error::AppError, state::AppState};
 use axum::{
 	extract::State, http::StatusCode, response::Html, response::IntoResponse, response::Response,
 };
 use minijinja::context;
 use std::sync::Arc;
 
-pub fn not_found(State(app_state): State<Arc<AppState>>) -> Response {
+pub fn not_found(State(app_state): State<Arc<AppState>>) -> Result<Response, AppError> {
 	let title = "Page Not Found".to_string();
 	let description = "That page was moved, removed, or never existed.".to_string();
-	let mut body = "".to_string();
 	let ctx = context! {
 		site => app_state.site,
 		page => context! {
@@ -17,11 +16,8 @@ pub fn not_found(State(app_state): State<Arc<AppState>>) -> Response {
 		}
 	};
 
-	if let Ok(template) = app_state.templates.get_template("layouts/error.jinja") {
-		if let Ok(b) = template.render(ctx) {
-			body = b
-		}
-	}
+	let template = app_state.templates.get_template("layouts/error.jinja")?;
+	let body = template.render(ctx)?;
 
-	(StatusCode::NOT_FOUND, Html(body)).into_response()
+	Ok((StatusCode::NOT_FOUND, Html(body)).into_response())
 }

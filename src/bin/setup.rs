@@ -160,29 +160,27 @@ async fn main() -> Result<()> {
 	)
 	.await?;
 
-	if let Ok(paths) = glob("content/**/*.html") {
-		for path in paths.flatten() {
-			let slug = path
-				.file_stem()
-				.expect("file stem should exist")
-				.to_str()
-				.expect("file stem should be a str")
-				.to_string();
-			let mut category = "".to_string();
+	let paths = glob("content/**/*.html")?;
+	for path in paths.flatten() {
+		let slug = path
+			.file_stem()
+			.expect("file stem should exist")
+			.to_str()
+			.expect("file stem should be a str")
+			.to_string();
+		let mut category = "".to_string();
 
-			if let Some(p) = diff_paths(&path, "content") {
-				if let Some(parent) = p.parent() {
-					category = parent.to_str().expect("parent should be a str").to_string();
-				}
-			};
-
-			if let Ok(contents) = fs::read_to_string(&path) {
-				let data = page_from_html(category, slug, &contents)?;
-
-				data.insert(&conn).await?;
+		if let Some(p) = diff_paths(&path, "content") {
+			if let Some(parent) = p.parent() {
+				category = parent.to_str().expect("parent should be a str").to_string();
 			}
-		}
-	};
+		};
+
+		let contents = fs::read_to_string(&path)?;
+		let data = page_from_html(category, slug, &contents)?;
+
+		data.insert(&conn).await?;
+	}
 
 	Ok(())
 }

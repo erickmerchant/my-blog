@@ -54,6 +54,6 @@ pub async fn index(
 			)
 				.into_response())
 		}
-		false => Ok(not_found(State(app_state))),
+		false => not_found(State(app_state)),
 	}
 }

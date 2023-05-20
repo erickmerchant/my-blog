@@ -50,6 +50,6 @@ pub async fn page(
 			)
 				.into_response())
 		}
-		None => Ok(not_found(State(app_state))),
+		None => not_found(State(app_state)),
 	}
 }

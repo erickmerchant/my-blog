@@ -16,7 +16,7 @@ pub async fn asset(State(app_state): State<Arc<AppState>>, uri: Uri) -> Result<R
 			let content_type = mime_guess::from_path(&src).first_or_text_plain();
 
 			match fs::read(src).ok() {
-				None => Ok(not_found(State(app_state))),
+				None => not_found(State(app_state)),
 				Some(body) => {
 					let etag = cache::save(
 						&app_state,
