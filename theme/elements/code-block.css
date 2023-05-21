@@ -38,7 +38,8 @@
 }
 
 pre {
-	font-family: "Chivo Mono", monospace;
+	font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas,
+		"DejaVu Sans Mono", monospace;
 	font-weight: 400;
 	font-variant-ligatures: no-common-ligatures;
 	white-space: pre-wrap;
@@ -58,21 +59,22 @@ code {
 	color: var(--code-0);
 }
 
+.punctuation,
+.parameter,
+.spread {
+	color: var(--code-3);
+}
+
 .string,
 .numeric,
 .boolean,
 .null,
 .undefined,
-.constant {
+.constant,
+.path {
 	color: var(--code-2);
 }
 
-.punctuation,
-.parameter,
 .comment {
-	color: var(--code-3);
-}
-
-.path {
 	color: var(--code-4);
 }
