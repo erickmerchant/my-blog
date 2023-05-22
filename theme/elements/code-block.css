@@ -31,6 +31,24 @@
 	--border-radius: 0.25em;
 }
 
+@media (prefers-color-scheme: light) {
+	:host {
+		--code-0: hsl(350 70% 25%);
+		--code-1: hsl(20 100% 25%);
+		--code-2: hsl(50 70% 25%);
+		--code-3: hsl(110 5% 25%);
+	}
+}
+
+@media (prefers-color-scheme: dark) {
+	:host {
+		--code-0: hsl(350 70% 80%);
+		--code-1: hsl(20 100% 80%);
+		--code-2: hsl(50 70% 80%);
+		--code-3: hsl(110 5% 80%);
+	}
+}
+
 @container (width <= 44.5rem) {
 	:host {
 		--border-radius: 0;
@@ -76,5 +94,5 @@ code {
 }
 
 .comment {
-	color: var(--code-4);
+	font-style: italic;
 }
