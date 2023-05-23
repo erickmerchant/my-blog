@@ -33,18 +33,18 @@
 
 @media (prefers-color-scheme: light) {
 	:host {
-		--code-0: hsl(350 70% 25%);
+		--code-0: hsl(350 80% 25%);
 		--code-1: hsl(20 100% 25%);
-		--code-2: hsl(50 70% 25%);
+		--code-2: hsl(50 80% 25%);
 		--code-3: hsl(110 5% 25%);
 	}
 }
 
 @media (prefers-color-scheme: dark) {
 	:host {
-		--code-0: hsl(350 70% 80%);
+		--code-0: hsl(350 80% 80%);
 		--code-1: hsl(20 100% 80%);
-		--code-2: hsl(50 70% 80%);
+		--code-2: hsl(50 80% 80%);
 		--code-3: hsl(110 5% 80%);
 	}
 }
@@ -77,12 +77,6 @@ code {
 	color: var(--code-0);
 }
 
-.punctuation,
-.parameter,
-.spread {
-	color: var(--code-3);
-}
-
 .string,
 .numeric,
 .boolean,
@@ -91,6 +85,12 @@ code {
 .constant,
 .path {
 	color: var(--code-2);
+}
+
+.punctuation,
+.parameter,
+.spread {
+	color: var(--code-3);
 }
 
 .comment {
