@@ -47,14 +47,14 @@ fn page_from_html(category: String, slug: String, contents: &str) -> Result<page
 					let mut language = language_buffer.borrow_mut();
 
 					if let Some(syntax) = ss.find_syntax_by_extension(&language) {
-						let original_html = String::from(el.as_str());
+						let inner_html = String::from(el.as_str());
 						let mut html_generator = ClassedHTMLGenerator::new_with_class_style(
 							syntax,
 							&ss,
 							ClassStyle::Spaced,
 						);
 
-						for line in LinesWithEndings::from(&original_html) {
+						for line in LinesWithEndings::from(&inner_html) {
 							html_generator.parse_html_for_line_which_includes_newline(line)?;
 						}
 
@@ -62,7 +62,7 @@ fn page_from_html(category: String, slug: String, contents: &str) -> Result<page
 						let ctx = context! {
 							language => language.clone(),
 							highlighted_code => highlighted_code,
-							inner_html => original_html
+							inner_html => inner_html
 						};
 						let template = template_env.get_template("elements/code-block.jinja")?;
 						let replacement_html = template.render(ctx)?;
