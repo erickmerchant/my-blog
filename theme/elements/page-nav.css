@@ -32,6 +32,16 @@ svg {
 	--easing: cubic-bezier(0.3, 0, 0.3, 0.7);
 }
 
+:host([minified]) {
+	--scrolling-down: 1;
+}
+
+@container (width <= 20rem) {
+	:host([open]) {
+		--scrolling-down: 0;
+	}
+}
+
 :host(:not(:defined)) .toggle {
 	visibility: hidden;
 }
@@ -39,12 +49,6 @@ svg {
 :host(:not(:defined)) ::slotted(*) {
 	flex-direction: row;
 	visibility: hidden;
-}
-
-@container (width <= 20rem) {
-	:host([open]) {
-		--scrolling-down: 0 !important;
-	}
 }
 
 @supports selector(:focus-visible) {

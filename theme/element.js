@@ -1,6 +1,7 @@
 export class Element extends HTMLElement {
 	#reads = new Map();
 	#current = null;
+	#frameRequested = false;
 
 	constructor() {
 		super();
@@ -20,6 +21,20 @@ export class Element extends HTMLElement {
 
 	connectedCallback() {
 		this.#update(this.hydrate?.() ?? []);
+	}
+
+	throttle(callback) {
+		return () => {
+			if (!this.#frameRequested) {
+				this.#frameRequested = true;
+
+				window.requestAnimationFrame(() => {
+					this.#frameRequested = false;
+
+					callback();
+				});
+			}
+		};
 	}
 
 	watch(state) {
