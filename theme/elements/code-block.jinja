@@ -1,13 +1,17 @@
 {%- macro code_block(language, highlighted_code) -%}
-	<code-block language="{{language}}">
-		<template shadowrootmode="open">
-			<link rel="stylesheet" href="/elements/code-block.css">
-			<figure><pre><code>{{highlighted_code}}</code></pre></figure>
-		</template>
-		<figure><pre><code>{{caller()}}</code></pre></figure>
-	</code-block>
+<code-block language="{{language}}">
+	<template shadowrootmode="open">
+		<link rel="stylesheet" href="/elements/code-block.css">
+		<figure>
+			<pre><code>{{highlighted_code}}</code></pre>
+		</figure>
+	</template>
+	<figure>
+		<pre><code>{{caller()}}</code></pre>
+	</figure>
+</code-block>
 {%- endmacro -%}
 
 {%- call code_block(language, highlighted_code) -%}
-	{{inner_html}}
+{{inner_html}}
 {%- endcall -%}

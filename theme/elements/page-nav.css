@@ -32,12 +32,12 @@ svg {
 	--easing: cubic-bezier(0.3, 0, 0.3, 0.7);
 }
 
-:host([minified]) {
+:host([minimized]) {
 	--scrolling-down: 1;
 }
 
 @container (width <= 20rem) {
-	:host([open]) {
+	:host([expanded]) {
 		--scrolling-down: 0;
 	}
 }
@@ -87,7 +87,7 @@ svg {
 		padding-block-end: 0em;
 	}
 
-	:host([open]) .nav {
+	:host([expanded]) .nav {
 		grid-template-rows: min-content 1fr;
 		padding-block-end: 1.5em;
 	}
