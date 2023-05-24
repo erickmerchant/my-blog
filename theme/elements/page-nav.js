@@ -6,31 +6,46 @@ export class PageNav extends Element {
 		minified: this.hasAttribute("minified"),
 	});
 
-	#toggle = this.shadowRoot.getElementById("toggle");
-
-	#icon = this.shadowRoot.getElementById("icon");
-
 	#previousY = 0;
+	#transitioning = false;
 
 	#handleScroll = this.throttle(() => {
 		let currentY = document.body.scrollTop;
 
-		if (currentY !== this.#previousY) {
+		if (currentY !== this.#previousY && !this.#transitioning) {
 			this.#state.minified = currentY >= this.#previousY;
 		}
 
 		this.#previousY = currentY;
 	});
 
-	*hydrate() {
-		this.#toggle?.addEventListener("click", () => {
-			this.#state.open = !this.#state.open;
-		});
+	#refs = new Proxy(
+		{},
+		{
+			get: (_, name) => {
+				return this.shadowRoot.getElementById(name);
+			},
+		}
+	);
 
+	*hydrate() {
 		document.body.addEventListener("scroll", this.#handleScroll);
 
 		this.addEventListener("mouseenter", () => {
 			this.#state.minified = false;
+		});
+
+		this.#refs.toggle?.addEventListener("click", () => {
+			this.#state.open = !this.#state.open;
+			this.#state.minified = false;
+		});
+
+		this.#refs.nav?.addEventListener("transitionstart", () => {
+			this.#transitioning = true;
+		});
+
+		this.#refs.nav?.addEventListener("transitionend", () => {
+			this.#transitioning = false;
 		});
 
 		yield () => {
@@ -42,11 +57,11 @@ export class PageNav extends Element {
 		};
 
 		yield () => {
-			this.#toggle?.setAttribute("aria-pressed", `${this.#state.open}`);
+			this.#refs.toggle?.setAttribute("aria-pressed", `${this.#state.open}`);
 		};
 
 		yield () => {
-			this.#icon?.setAttribute(
+			this.#refs.icon?.setAttribute(
 				"d",
 				this.#state.open
 					? "M1 4 l3 -3 l11 11 l-3 3 z m11 -3 l3 3 l-11 11 l-3 -3 z"
