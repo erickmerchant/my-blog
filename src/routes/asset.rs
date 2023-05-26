@@ -10,7 +10,7 @@ pub async fn asset(State(app_state): State<Arc<AppState>>, uri: Uri) -> Result<R
 	let file = file.trim_start_matches('/').to_string();
 
 	match file.ends_with(".jinja") {
-		true => Ok((StatusCode::FORBIDDEN).into_response()),
+		true => Ok(StatusCode::FORBIDDEN.into_response()),
 		false => {
 			let src = path::Path::new("theme").join(&file);
 			let content_type = mime_guess::from_path(&src).first_or_text_plain();

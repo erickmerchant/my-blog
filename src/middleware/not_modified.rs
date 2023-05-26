@@ -44,7 +44,7 @@ pub async fn not_modified<B>(
 			}
 
 			if etag_matches {
-				(StatusCode::NOT_MODIFIED).into_response()
+				StatusCode::NOT_MODIFIED.into_response()
 			} else {
 				(
 					[
