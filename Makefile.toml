@@ -1,0 +1,12 @@
+[tasks.watch]
+env = {PORT=3000, RUST_LOG="serve=debug", NO_CACHE=true}
+command="cargo"
+args=["watch", "-i", "*.css", "-x", "r --bin setup", "-s", "cargo run --no-default-features"]
+
+[tasks.build]
+command="docker"
+args=["build", ".", "-t", "my-blog"]
+
+[tasks.run]
+command="docker"
+args=["run", "-p", "3000:8080", "my-blog"]

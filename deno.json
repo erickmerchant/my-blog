@@ -1,9 +1,0 @@
-{
-	"tasks": {
-		"watch": "export PORT=3000; export RUST_LOG=serve=debug; export NO_CACHE=true; cargo watch -i '*.css' -x'r --bin setup' -s'cargo run --no-default-features' & coolstyleserver --watch theme",
-		"lint": "cargo clippy",
-		"update": "cargo update && cargo outdated -R",
-		"docker:build": "docker build . -t my-blog",
-		"docker:run": "docker run -p 3000:8080 my-blog"
-	}
-}
