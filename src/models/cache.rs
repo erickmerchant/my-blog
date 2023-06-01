@@ -29,7 +29,7 @@ pub async fn save(
 ) -> String {
 	let etag = EntityTag::from_data(&body).to_string();
 
-	if !envmnt::is("NO_CACHE") {
+	if !envmnt::is("APP_DEV") {
 		let cache_model = ActiveModel {
 			path: Set(path.clone()),
 			content_type: Set(content_type.clone()),

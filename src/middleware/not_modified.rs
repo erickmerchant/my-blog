@@ -22,7 +22,7 @@ pub async fn not_modified<B>(
 	};
 
 	let mut etag_matches = false;
-	let cache_result: Option<cache::Model> = if envmnt::is("NO_CACHE") {
+	let cache_result: Option<cache::Model> = if envmnt::is("APP_DEV") {
 		None
 	} else {
 		cache::Entity::find()

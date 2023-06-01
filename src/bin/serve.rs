@@ -24,7 +24,7 @@ async fn main() -> io::Result<()> {
 		.with_env_filter(EnvFilter::from_default_env())
 		.init();
 
-	let port = envmnt::get_u16("PORT", 8080);
+	let port = envmnt::get_u16("APP_PORT", 8080);
 	let templates = templates::get_env();
 	let database: DatabaseConnection = Database::connect("sqlite://./storage/content.db")
 		.await

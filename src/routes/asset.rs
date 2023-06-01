@@ -1,4 +1,4 @@
-use crate::{error::AppError, models::cache, routes::not_found, state::AppState};
+use crate::{error::AppError, models::cache, state::AppState};
 use axum::{
 	extract::State, http::header, http::StatusCode, http::Uri, response::IntoResponse,
 	response::Response,
@@ -16,7 +16,7 @@ pub async fn asset(State(app_state): State<Arc<AppState>>, uri: Uri) -> Result<R
 			let content_type = mime_guess::from_path(&src).first_or_text_plain();
 
 			match fs::read(src).ok() {
-				None => not_found(State(app_state)),
+				None => Ok(StatusCode::NOT_FOUND.into_response()),
 				Some(body) => {
 					let etag = cache::save(
 						&app_state,
