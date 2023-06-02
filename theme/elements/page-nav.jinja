@@ -1,5 +1,6 @@
 {%- macro page_nav(expanded, minimized) %}
-<page-nav {%- if expanded %} expanded{% endif %} {%- if minimized %} minimized{% endif %}>
+<page-nav style="view-transition-name: nav;" {%- if expanded %} expanded{% endif %} {%- if minimized %} minimized{%
+	endif %}>
 	<template shadowrootmode="open">
 		<link rel="stylesheet" href="/elements/page-nav.css">
 		<nav class="nav" id="nav">

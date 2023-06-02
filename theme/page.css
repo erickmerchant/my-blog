@@ -119,10 +119,6 @@ code {
 	color: var(--ink-0);
 }
 
-page-nav {
-	view-transition-name: nav;
-}
-
 @supports selector(:focus-visible) {
 	:focus {
 		outline: none;
