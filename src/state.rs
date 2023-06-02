@@ -9,6 +9,7 @@ pub struct Link {
 #[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct Site {
 	title: String,
+	description: String,
 	base: String,
 	author: String,
 	links: Vec<Link>,
