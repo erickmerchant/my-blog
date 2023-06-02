@@ -1040,9 +1040,9 @@ dependencies = [
 
 [[package]]
 name = "minijinja"
-version = "0.33.0"
+version = "0.34.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "933dc6e6e1f909926a2f6bf72ba8b8d6e38ab4f92778c77ea898001e044a30eb"
+checksum = "75aa91cba87dcad6af3e53bc7adb9c99755eba2d49b6c5f10dbcc79d4727c1bd"
 dependencies = [
  "memo-map",
  "self_cell",
@@ -1849,9 +1849,9 @@ dependencies = [
 
 [[package]]
 name = "self_cell"
-version = "0.10.2"
+version = "1.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1ef965a420fe14fdac7dd018862966a4c14094f900e1650bbc71ddd7d580c8af"
+checksum = "4a3926e239738d36060909ffe6f511502f92149a45a1fade7fe031cb2d33e88b"
 
 [[package]]
 name = "semver"
