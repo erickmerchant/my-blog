@@ -1,7 +1,23 @@
 export class Element extends HTMLElement {
-	#reads = new Map();
-	#current = null;
-	#frameRequested = false;
+	#observedAttributes = new Map();
+	#observer;
+
+	refs = new Proxy(
+		{},
+		{
+			get: (refs, key) => {
+				let ref = refs[key]?.deref();
+
+				if (!ref) {
+					ref = this.shadowRoot?.getElementById(key);
+
+					refs[key] = ref ? new WeakRef(ref) : null;
+				}
+
+				return ref;
+			},
+		}
+	);
 
 	constructor() {
 		super();
@@ -17,13 +33,63 @@ export class Element extends HTMLElement {
 
 			firstChild.remove();
 		}
+
+		this.#observer = new MutationObserver((mutationList, _observer) => {
+			for (const mutation of mutationList) {
+				this.#observedAttributes.get(mutation.attributeName)?.(
+					this.getAttribute(mutation.attributeName)
+				);
+			}
+		});
+
+		this.#observer.observe(this, {
+			attributes: true,
+			childList: false,
+			subtree: false,
+		});
 	}
 
 	connectedCallback() {
-		this.#update(this.hydrate?.() ?? []);
+		Element.#update(this.hydrateCallback?.() ?? []);
 	}
 
-	throttle(callback) {
+	disconnectedCallback() {
+		this.#observer.disconnect();
+	}
+
+	attributes(state) {
+		let formulas = [];
+		let watched = Element.watch(state);
+
+		for (let [key, value] of Object.entries(state)) {
+			let isBool = typeof value === "boolean";
+
+			watched[key] =
+				(isBool ? this.hasAttribute(key) : this.getAttribute(key)) ?? value;
+
+			formulas.push(() => {
+				if (isBool) {
+					this.toggleAttribute(key, watched[key]);
+				} else {
+					this.setAttribute(key, watched[key]);
+				}
+			});
+
+			this.#observedAttributes.set(key, (value) => {
+				watched[key] = isBool ? value === "" : value;
+			});
+		}
+
+		Element.#update(formulas);
+
+		return watched;
+	}
+
+	static #reads = new Map();
+	static #current = null;
+	static #frameRequested = false;
+
+	static throttle(callback) {
 		return () => {
 			if (!this.#frameRequested) {
 				this.#frameRequested = true;
@@ -37,7 +103,7 @@ export class Element extends HTMLElement {
 		};
 	}
 
-	watch(state) {
+	static watch(state) {
 		let symbols = {};
 
 		return new Proxy(state, {
@@ -78,7 +144,7 @@ export class Element extends HTMLElement {
 		});
 	}
 
-	#update(formulas) {
+	static #update(formulas) {
 		let prev = this.#current;
 
 		for (let formula of formulas) {
