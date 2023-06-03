@@ -11,7 +11,7 @@ export class Element extends HTMLElement {
 				if (!ref) {
 					ref = this.shadowRoot?.getElementById(key);
 
-					refs[key] = ref ? new WeakRef(ref) : null;
+					refs[key] = new WeakRef(ref);
 				}
 
 				return ref;
@@ -23,12 +23,9 @@ export class Element extends HTMLElement {
 		super();
 
 		let firstChild = this.firstElementChild;
-		let mode =
-			firstChild?.nodeName === "TEMPLATE"
-				? firstChild?.getAttribute("shadowrootmode")
-				: null;
+		let mode = firstChild?.getAttribute("shadowrootmode");
 
-		if (!this.shadowRoot && mode) {
+		if (!this.shadowRoot && firstChild?.nodeName === "TEMPLATE" && mode) {
 			this.attachShadow({mode}).appendChild(firstChild.content.cloneNode(true));
 
 			firstChild.remove();
@@ -67,14 +64,10 @@ export class Element extends HTMLElement {
 			let isBool = typeof value === "boolean";
 
 			watched[key] =
-				(isBool ? this.hasAttribute(key) : this.getAttribute(key)) ?? value;
+				this[isBool ? "hasAttribute" : "getAttribute"](key) ?? value;
 
 			formulas.push(() => {
-				if (isBool) {
-					this.toggleAttribute(key, watched[key]);
-				} else {
-					this.setAttribute(key, watched[key]);
-				}
+				this[isBool ? "toggleAttribute" : "setAttribute"](key, watched[key]);
 			});
 
 			this.#observedAttributes.set(key, (value) => {
