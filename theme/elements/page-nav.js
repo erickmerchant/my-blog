@@ -5,20 +5,20 @@ export class PageNav extends Element {
 		expanded: false,
 		minimized: false,
 	});
-	#previousY = 0;
+	#scrollTop = 0;
 	#transitioning = false;
 
 	#handleScroll = Element.throttle(() => {
-		let currentY = document.body.scrollTop;
+		let scrollTop = document.body.scrollTop;
 
-		if (currentY !== this.#previousY && !this.#transitioning) {
-			this.#state.minimized = currentY >= this.#previousY;
+		if (scrollTop !== this.#scrollTop && !this.#transitioning) {
+			this.#state.minimized = scrollTop >= this.#scrollTop;
 		}
 
-		this.#previousY = currentY;
+		this.#scrollTop = scrollTop;
 	});
 
-	*hydrateCallback() {
+	*setupCallback() {
 		document.body.addEventListener("scroll", this.#handleScroll);
 
 		this.addEventListener("mouseenter", () => {
@@ -52,9 +52,7 @@ export class PageNav extends Element {
 		};
 	}
 
-	disconnectedCallback() {
-		super.disconnectedCallback();
-
+	teardownCallback() {
 		document.body.removeEventListener("scroll", this.#handleScroll);
 	}
 }

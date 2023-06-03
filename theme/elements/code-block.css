@@ -28,7 +28,6 @@
 	tab-size: 2;
 
 	--max-width: 42rem;
-	--border-radius: 0.25em;
 }
 
 @media (prefers-color-scheme: light) {

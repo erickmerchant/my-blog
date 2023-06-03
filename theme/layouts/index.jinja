@@ -9,7 +9,9 @@
 	{% for p in pages %}
 	<li>
 		<h2><a href="/{{p.category}}/{{p.slug}}/">{{p.title}}</a></h2>
+		{% if p.date %}
 		<p class="published"><time>{{p.date | format_date("%B %e, %Y")}}</time></p>
+		{% endif %}
 		<p>{{p.description}}</p>
 	</li>
 	{% endfor %}

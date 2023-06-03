@@ -43,6 +43,9 @@ body {
 	grid-template-rows: min-content auto min-content;
 	container-type: inline-size;
 	scrollbar-gutter: stable;
+
+	--border-radius: 0.25em;
+	--easing: cubic-bezier(0.3, 0, 0.3, 0.7);
 }
 
 @media (prefers-color-scheme: light) {
@@ -101,6 +104,11 @@ h2 {
 
 h3 {
 	font-size: 1em;
+}
+
+strong {
+	font-weight: 700;
+	font-style: normal;
 }
 
 :is(ul, ol):where(:not([class])) {
@@ -194,6 +202,15 @@ code {
 
 .published {
 	font-weight: 700;
+	font-style: italic;
+}
+
+.annotation {
+	font-style: italic;
+	background-color: var(--paper-2);
+	border-radius: var(--border-radius);
+	padding-block: 1em;
+	max-width: calc(var(--max-width) - 3em);
 }
 
 .index {

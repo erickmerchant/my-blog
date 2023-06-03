@@ -50,11 +50,13 @@ export class Element extends HTMLElement {
 	}
 
 	connectedCallback() {
-		Element.#update(this.hydrateCallback?.() ?? []);
+		Element.#update(this.setupCallback?.() ?? []);
 	}
 
 	disconnectedCallback() {
 		this.#observer.disconnect();
+
+		this.teardownCallback?.();
 	}
 
 	attributes(state) {

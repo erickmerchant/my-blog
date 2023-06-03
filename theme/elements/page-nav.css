@@ -28,8 +28,6 @@ svg {
 	);
 	color: var(--ink-0);
 	z-index: 2;
-
-	--easing: cubic-bezier(0.3, 0, 0.3, 0.7);
 }
 
 :host([minimized]) {
