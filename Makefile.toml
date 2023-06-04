@@ -9,4 +9,8 @@ args=["build", ".", "-t", "my-blog"]
 
 [tasks.run]
 command="docker"
-args=["run", "-p", "3000:8080", "my-blog"]
+args=["run", "-p", "3000:8080", "--name", "my-blog", "my-blog"]
+
+[tasks.stop]
+command="docker"
+args=["rm", "-f", "my-blog"]
