@@ -8,7 +8,7 @@ export class PageNav extends Element {
 	#scrollTop = 0;
 	#transitioning = false;
 
-	#handleScroll = Element.throttle(() => {
+	#handleScroll = () => {
 		let scrollTop = document.body.scrollTop;
 
 		if (scrollTop !== this.#scrollTop && !this.#transitioning) {
@@ -16,7 +16,7 @@ export class PageNav extends Element {
 		}
 
 		this.#scrollTop = scrollTop;
-	});
+	};
 
 	*setupCallback() {
 		document.body.addEventListener("scroll", this.#handleScroll);

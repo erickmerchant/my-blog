@@ -58,45 +58,33 @@ export class Element extends HTMLElement {
 
 	attributes(state) {
 		let formulas = [];
-		let watched = Element.watch(state);
+
+		state = Element.watch(state);
 
 		for (let [key, value] of Object.entries(state)) {
 			let isBool = typeof value === "boolean";
 
-			watched[key] =
-				this[isBool ? "hasAttribute" : "getAttribute"](key) ?? value;
+			state[key] =
+				(isBool ? this.hasAttribute(key) : this.getAttribute(key)) ?? value;
 
 			formulas.push(() => {
-				this[isBool ? "toggleAttribute" : "setAttribute"](key, watched[key]);
+				isBool
+					? this.toggleAttribute(key, state[key])
+					: this.setAttribute(key, state[key]);
 			});
 
 			this.#observedAttributes.set(key, (value) => {
-				watched[key] = isBool ? value === "" : value;
+				state[key] = isBool ? value === "" : value;
 			});
 		}
 
 		Element.#update(formulas);
 
-		return watched;
+		return state;
 	}
 
 	static #reads = new Map();
 	static #current = null;
-	static #frameRequested = false;
-
-	static throttle(callback) {
-		return () => {
-			if (!this.#frameRequested) {
-				this.#frameRequested = true;
-
-				window.requestAnimationFrame(() => {
-					this.#frameRequested = false;
-
-					callback();
-				});
-			}
-		};
-	}
 
 	static watch(state) {
 		let symbols = {};
