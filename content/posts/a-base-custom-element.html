@@ -1,0 +1,96 @@
+<front-matter>
+	{
+		"title": "A base Custom Element for Declarative Shadow Dom",
+		"date": "2023-06-04",
+		"description": "What I think a good base Custom Element should have, and what I see as a viable way to tie DOM updates to reactive state."
+	}
+</front-matter>
+
+<h2>Declarative Shadow DOM</h2>
+
+<p>I think Shadow Dom is great. Even without Custom Elements it can be useful. It's the only real way to partition HTML off. Without it an HTML document is just a blob of… everything. Sure you can add classes to things, but I'd argue <code>&lt;page-nav></code> is a much better way to actually have a page nav than <code>&lt;div class="page-nav"></code>. Also up until now it was the only real way to scope CSS to an element. Soon you'll be able to do that with <code>@scope</code> in CSS, but who knows when that will be supported cross browser.</p>
+
+<p>However for a long time the only way to use Shadow DOM was through JS. With Declarative Shadow DOM you can now declare shadow trees directly in static HTML. I love it. I think at the very least for sites that are not "web applications" this could be very good. I generate it with jinja templates myself. I have just a bit of JS on my site.</p>
+
+<h2>The conundrum</h2>
+
+<p>It does pose a problem though. If you need JS, how do you use one of the popular web frameworks. You will likely end up shipping instructions on generating the same markup you already have in your HTML, likely via JSX.</p>
+
+<p>This is where a base Custom Element for Declarative Shadow Dom comes in. I'm going to use my own element.js used on this site as an example, but this is more a list of features I think you want in such a Custom Element. Also to be clear when I say base element I mean a class that all your other Custom Elements would extend.</p>
+
+<h2>The features</h2>
+
+<h3>No duplicate HTML</h3>
+
+<p>We don't want to ship our shadow tree in two places. You could use for example JSX to output your Declarative Shadow DOM and then also have that compiled into <code>h</code> or <code>createElement</code> or whatever in your JS. I believe we shouldn't do this. This one is kind of hard to show in my element.js, since it's the absence of code.</p>
+
+<h3>Reactive state</h3>
+
+<p>We need reactive state. When the state changes, the UI updates without having to manually keep track of what changes need to happen with which state changes.</p>
+
+<p>With element.js I have a <code>watch</code> method.</p>
+
+<code-block language="js">
+import {Element} from "./element.js";
+
+class ExampleElement extends Element {
+	#state = this.watch({count: 0});
+
+	*setupCallback() {
+		this.shadowRoot.getElementById("button")
+			?.addEventListener("click", () => {
+				this.#state.count++;
+			});
+
+		yield () => {
+			this.shadowRoot.getElementById("output")
+				?.innerHTML = this.#state.count;
+		}
+}
+
+customElements.define("example-element", ExampleElement);
+</code-block>
+
+<p>In the example above I have <code>#state</code> that uses <code>watch</code>. In <code>*setupCallback</code> is where we declare our DOM changes. At the top we can declare event listeners. Anything in a function returned from <code>yield</code> is a DOM update. The base element in element.js keeps track of what state is accessed with each, so when for instance count is incremented it knows to do the change in the example without having to manually call that. I think in the front end web world JSX has become synonymous with declarative, but really things like CSS are also declarative. As long as we say what our UI should be, but not when it should be, it's declarative.</p>
+
+<p>Also worth noting that <code>setupCallback</code> doesn't have to be a generator. It could be a regular function that returns an array of functions. I just like generators for this.</p>
+
+<h3>Querying the Shadow Root</h3>
+
+<p>We need a way to query our <code>shadowRoot</code>. Just for convenience sake I think you should have a way to get elements from the shadowRoot without call <code>querySelectorAll</code>, <code>getElementById</code>, etc all the time. I use ids. One of the other cool things about Shadow DOM is that you can use any ids you want, and they only have to be unique within that shadow tree. You may get warnings in various dev tools, but I'm 90% sure they're safe to ignore. Anyhow here is an example of code in an element that extends my element.js. We can change the addEventListener call from above.</p>
+
+<code-block language="js">
+this.refs.button
+	?.addEventListener("click", () => {
+		this.#state.count++;
+	});
+</code-block>
+
+<p><code>refs</code> is a proxy with a get trap that calls <code>getElementById</code> off the shadowRoot for us.</p>
+
+<h3>Polyfill Declarative Shadow DOM</h3>
+
+<p>Declarative Shadow DOM isn't supported in Firefox at the time of writing, so if you want to support that browser you should polyfill it. You can do that in your base element.</p>
+
+<p>In element.js I have the following.</p>
+
+<code-block language="js">
+let firstChild = this.firstElementChild;
+let mode = firstChild?.getAttribute("shadowrootmode");
+
+if (!this.shadowRoot && firstChild?.nodeName === "TEMPLATE" && mode) {
+	this.attachShadow({mode}).appendChild(firstChild.content.cloneNode(true));
+
+	firstChild.remove();
+}
+</code-block>
+
+<h3>Two way binding to attributes</h3>
+
+<p>This last one is probably the one that you could probably take or leave. It's nice to have attributes behave like any other watched state, but also have your base element handle updating attributes when that state is changed by you. In element.js I use a <code>MutationObserver</code> for this. You can accomplish it with <code>static get observerdAttibutes</code> and <code>attributeChangedCallback</code>, but then you must do it in your child elements. I've found no way to do it in a base element using the idiomatic Custom Element way. It's also easy to do if you don't use classes and implement some sort of functional interface. Here is an example again though.</p>
+
+<code-block language="js">
+#state = this.attributes({count: 0});
+</code-block>
+
+<p>Here I've converted the state to use <code>attributes</code>. Now when we increment count, an attribute called count on our <code>&lt;example-element></code> will update, and if we change that attribute externally the innerHTML of our output element in our shadow tree will update.</p>
