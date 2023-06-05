@@ -82,8 +82,10 @@ a:focus-visible {
 	text-decoration-skip-ink: none;
 }
 
-p {
-	hyphens: auto;
+@container (width <= 20rem) {
+	p {
+		hyphens: auto;
+	}
 }
 
 h1,
