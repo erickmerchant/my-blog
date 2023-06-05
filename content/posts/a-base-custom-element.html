@@ -57,7 +57,7 @@ customElements.define("example-element", ExampleElement);
 
 <h3>Querying the Shadow Root</h3>
 
-<p>We need a way to query our <code>shadowRoot</code>. Just for convenience sake I think you should have a way to get elements from the shadowRoot without call <code>querySelectorAll</code>, <code>getElementById</code>, etc all the time. I use ids. One of the other cool things about Shadow DOM is that you can use any ids you want, and they only have to be unique within that shadow tree. You may get warnings in various dev tools, but I'm 90% sure they're safe to ignore. Anyhow here is an example of code in an element that extends my element.js. We can change the addEventListener call from above.</p>
+<p>We need a way to query our <code>shadowRoot</code>. Just for convenience sake I think you should have a way to get elements from the shadowRoot without calling <code>querySelectorAll</code>, <code>getElementById</code>, etc all the time. I use ids. One of the other cool things about Shadow DOM is that you can use any ids you want, and they only have to be unique within that shadow tree. You may get warnings in various dev tools, but I'm 90% sure they're safe to ignore. Anyhow here is an example of code in an element that extends my element.js. We can change the addEventListener call from above.</p>
 
 <code-block language="js">
 this.refs.button
@@ -87,10 +87,14 @@ if (!this.shadowRoot && firstChild?.nodeName === "TEMPLATE" && mode) {
 
 <h3>Two way binding to attributes</h3>
 
-<p>This last one is probably the one that you could probably take or leave. It's nice to have attributes behave like any other watched state, but also have your base element handle updating attributes when that state is changed by you. In element.js I use a <code>MutationObserver</code> for this. You can accomplish it with <code>static get observerdAttibutes</code> and <code>attributeChangedCallback</code>, but then you must do it in your child elements. I've found no way to do it in a base element using the idiomatic Custom Element way. It's also easy to do if you don't use classes and implement some sort of functional interface. Here is an example again though.</p>
+<p>This last one is probably the one that you could probably take or leave. It's nice to have attributes behave like any other watched state, but also have your base element handle updating attributes when that state is changed by you. In element.js I use a <code>MutationObserver</code> for this. You can accomplish it with <code>static get observerdAttibutes</code> and <code>attributeChangedCallback</code>, but then you must do it in your child elements. I've found no way to do it in a base element using the idiomatic Custom Element way. It's also easy to do if you don't use classes and implement some sort of functional interface. Here is an example from our ExampleElement again though.</p>
 
 <code-block language="js">
 #state = this.attributes({count: 0});
 </code-block>
 
 <p>Here I've converted the state to use <code>attributes</code>. Now when we increment count, an attribute called count on our <code>&lt;example-element></code> will update, and if we change that attribute externally the innerHTML of our output element in our shadow tree will update.</p>
+
+<h2>Conclusion</h2>
+
+<p>Well that's it. I'll likely be packaging up my element.js and shipping it to a place where others can use it. I'll update this post if I do.</p>
