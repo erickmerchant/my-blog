@@ -22,7 +22,7 @@
 
 <h3>No duplicate HTML</h3>
 
-<p>We don't want to ship our shadow tree in two places. You could use for example JSX to output your Declarative Shadow DOM and then also have that compiled into <code>h</code> or <code>createElement</code> or whatever in your JS. I believe we shouldn't do this. This one is kind of hard to show in my element.js, since it's the absence of code.</p>
+<p>We don't want to ship our shadow tree in two places. You could use, for example, JSX to output your Declarative Shadow DOM and then also have that compiled into <code>h</code> or <code>createElement</code> or whatever in your JS. I believe we shouldn't do this. This one is kind of hard to show in my element.js, since it's the absence of code.</p>
 
 <h3>Reactive state</h3>
 
@@ -51,22 +51,9 @@ class ExampleElement extends Element {
 customElements.define("example-element", ExampleElement);
 </code-block>
 
-<p>In the example above I have <code>#state</code> that uses <code>watch</code>. In <code>*setupCallback</code> is where we declare our DOM changes. At the top we can declare event listeners. Anything in a function returned from <code>yield</code> is a DOM update. The base element in element.js keeps track of what state is accessed with each, so when for instance count is incremented it knows to do the change in the example without having to manually call that. I think in the front end web world JSX has become synonymous with declarative, but really things like CSS are also declarative. As long as we say what our UI should be, but not when it should be, it's declarative.</p>
+<p>In the example above I have <code>#state</code> that uses <code>watch</code>. In <code>*setupCallback</code> is where we declare our DOM changes. At the top we can declare event listeners. Anything in a function returned from <code>yield</code> is a DOM update. The base element in element.js keeps track of what state is accessed with each, so when for instance count is incremented it knows to do the change in the example without having to manually call that. I think in the front end web world JSX has become synonymous with declarative, but really things like CSS, and this setupCallback are also declarative. As long as we say what our UI should be, but not when it should be, it's declarative.</p>
 
 <p>Also worth noting that <code>setupCallback</code> doesn't have to be a generator. It could be a regular function that returns an array of functions. I just like generators for this.</p>
-
-<h3>Querying the Shadow Root</h3>
-
-<p>We need a way to query our <code>shadowRoot</code>. Just for convenience sake I think you should have a way to get elements from the shadowRoot without calling <code>querySelectorAll</code>, <code>getElementById</code>, etc all the time. I use ids. One of the other cool things about Shadow DOM is that you can use any ids you want, and they only have to be unique within that shadow tree. You may get warnings in various dev tools, but I'm 90% sure they're safe to ignore. Anyhow here is an example of code in an element that extends my element.js. We can change the addEventListener call from above.</p>
-
-<code-block language="js">
-this.refs.button
-	?.addEventListener("click", () => {
-		this.#state.count++;
-	});
-</code-block>
-
-<p><code>refs</code> is a proxy with a get trap that calls <code>getElementById</code> off the shadowRoot for us.</p>
 
 <h3>Polyfill Declarative Shadow DOM</h3>
 
@@ -79,7 +66,8 @@ let firstChild = this.firstElementChild;
 let mode = firstChild?.getAttribute("shadowrootmode");
 
 if (!this.shadowRoot && firstChild?.nodeName === "TEMPLATE" && mode) {
-	this.attachShadow({mode}).appendChild(firstChild.content.cloneNode(true));
+	this.attachShadow({mode})
+		.appendChild(firstChild.content.cloneNode(true));
 
 	firstChild.remove();
 }
@@ -97,4 +85,13 @@ if (!this.shadowRoot && firstChild?.nodeName === "TEMPLATE" && mode) {
 
 <h2>Conclusion</h2>
 
-<p>Well that's it. I'll likely be packaging up my element.js and shipping it to a place where others can use it. I'll update this post if I do.</p>
+<p>So four features I think a base element for Declarative Shadow DOM should have.</p>
+
+<ul>
+	<li>No duplicate HTML</li>
+	<li>Reactive state</li>
+	<li>Polyfill Declarative Shadow DOM</li>
+	<li>Two way binding to attributes</li>
+</ul>
+
+<p>I'll likely be packaging up my element.js and shipping it to a place where others can use it. I'll update this post if I do.</p>

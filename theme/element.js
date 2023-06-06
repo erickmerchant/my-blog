@@ -2,23 +2,6 @@ export class Element extends HTMLElement {
 	#observedAttributes = new Map();
 	#observer;
 
-	refs = new Proxy(
-		{},
-		{
-			get: (refs, key) => {
-				let ref = refs[key]?.deref();
-
-				if (!ref) {
-					ref = this.shadowRoot?.getElementById(key);
-
-					refs[key] = new WeakRef(ref);
-				}
-
-				return ref;
-			},
-		}
-	);
-
 	constructor() {
 		super();
 
