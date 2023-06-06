@@ -22,8 +22,6 @@ export class Element extends HTMLElement {
 
 		this.#observer.observe(this, {
 			attributes: true,
-			childList: false,
-			subtree: false,
 		});
 	}
 
@@ -66,6 +64,7 @@ export class Element extends HTMLElement {
 
 	static #reads = new Map();
 	static #current = null;
+	static #scheduled = false;
 
 	static watch(state) {
 		let symbols = {};
@@ -82,7 +81,15 @@ export class Element extends HTMLElement {
 					if (formulas) {
 						this.#reads.delete(symbols[key]);
 
-						this.#update(formulas);
+						if (!this.#scheduled) {
+							setTimeout(() => {
+								this.#update(formulas);
+
+								this.#scheduled = false;
+							}, 0);
+
+							this.#scheduled = true;
+						}
 					}
 				}
 
