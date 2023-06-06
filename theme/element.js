@@ -1,5 +1,5 @@
 export class Element extends HTMLElement {
-	#observedAttributes = new Map();
+	#observed = new Map();
 	#observer;
 
 	constructor() {
@@ -14,11 +14,9 @@ export class Element extends HTMLElement {
 			firstChild.remove();
 		}
 
-		this.#observer = new MutationObserver((mutationList, _observer) => {
-			for (const mutation of mutationList) {
-				this.#observedAttributes.get(mutation.attributeName)?.(
-					this.getAttribute(mutation.attributeName)
-				);
+		this.#observer = new MutationObserver((mutations) => {
+			for (const {attributeName} of mutations) {
+				this.#observed.get(attributeName)?.(this.getAttribute(attributeName));
 			}
 		});
 
@@ -56,7 +54,7 @@ export class Element extends HTMLElement {
 					: this.setAttribute(key, state[key]);
 			});
 
-			this.#observedAttributes.set(key, (value) => {
+			this.#observed.set(key, (value) => {
 				state[key] = isBool ? value === "" : value;
 			});
 		}
