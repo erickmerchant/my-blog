@@ -5,18 +5,33 @@ export class PageNav extends Element {
 		expanded: false,
 		minimized: false,
 	});
-	#scrollTop = 0;
 	#transitioning = false;
+
+	#toggleMinimized(minimized) {
+		if (this.#transitioning || (minimized && this.#state.expanded)) {
+			return;
+		}
+
+		this.#state.minimized = minimized;
+	}
+
+	#toggleExpanded(expanded = !this.#state.expanded) {
+		this.#state.minimized = false;
+
+		this.#state.expanded = expanded;
+	}
 
 	#nav = this.shadowRoot?.getElementById("nav");
 	#toggle = this.shadowRoot?.getElementById("toggle");
 	#icon = this.shadowRoot?.getElementById("icon");
 
+	#scrollTop = 0;
+
 	#handleScroll = () => {
 		let scrollTop = document.body.scrollTop;
 
-		if (scrollTop !== this.#scrollTop && !this.#transitioning) {
-			this.#state.minimized = scrollTop >= this.#scrollTop;
+		if (scrollTop !== this.#scrollTop) {
+			this.#toggleMinimized(scrollTop >= this.#scrollTop);
 		}
 
 		this.#scrollTop = scrollTop;
@@ -26,7 +41,7 @@ export class PageNav extends Element {
 		document.body.addEventListener("scroll", this.#handleScroll);
 
 		this.addEventListener("mouseenter", () => {
-			this.#state.minimized = false;
+			this.#toggleMinimized(false);
 		});
 
 		this.#nav?.addEventListener("transitionstart", () => {
@@ -38,8 +53,7 @@ export class PageNav extends Element {
 		});
 
 		this.#toggle?.addEventListener("click", () => {
-			this.#state.expanded = !this.#state.expanded;
-			this.#state.minimized = false;
+			this.#toggleExpanded();
 		});
 
 		yield () => {
