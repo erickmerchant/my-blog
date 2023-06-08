@@ -4,8 +4,7 @@ use app::{
 	templates,
 };
 use axum::{
-	http::Request, middleware::from_fn, middleware::from_fn_with_state, response::Response,
-	routing::get, Router,
+	http::Request, middleware::from_fn_with_state, response::Response, routing::get, Router,
 };
 use sea_orm::{Database, DatabaseConnection};
 use serde_json::from_slice;
@@ -46,7 +45,7 @@ async fn main() -> io::Result<()> {
 			app_state.clone(),
 			middleware::not_modified,
 		))
-		.layer(from_fn(middleware::content_security_policy))
+		// .layer(from_fn(middleware::content_security_policy))
 		.layer(CompressionLayer::new())
 		.layer(
 			TraceLayer::new_for_http()

@@ -1,12 +1,9 @@
-use crate::{error::AppError, models::cache, state::AppState};
-use axum::{
-	extract::State, http::header, http::StatusCode, http::Uri, response::IntoResponse,
-	response::Response,
-};
-use std::{fs, path, sync::Arc};
+use crate::error::AppError;
+use axum::{http::header, http::StatusCode, http::Uri, response::IntoResponse, response::Response};
+use std::{fs, path};
 
-pub async fn asset(State(app_state): State<Arc<AppState>>, uri: Uri) -> Result<Response, AppError> {
-	let file = &uri.to_string();
+pub async fn asset(uri: Uri) -> Result<Response, AppError> {
+	let file = &uri.path().to_string();
 	let file = file.trim_start_matches('/').to_string();
 
 	match file.ends_with(".jinja") {
@@ -15,26 +12,22 @@ pub async fn asset(State(app_state): State<Arc<AppState>>, uri: Uri) -> Result<R
 			let src = path::Path::new("theme").join(&file);
 			let content_type = mime_guess::from_path(&src).first_or_text_plain();
 
+			let cache_control_header = if envmnt::is("APP_DEV") {
+				"no-cache"
+			} else {
+				"public, max-age=2419200"
+			};
+
 			match fs::read(src).ok() {
 				None => Ok(StatusCode::NOT_FOUND.into_response()),
-				Some(body) => {
-					let etag = cache::save(
-						&app_state,
-						uri.to_string(),
-						content_type.to_string(),
-						body.clone(),
-					)
-					.await;
-
-					Ok((
-						[
-							(header::CONTENT_TYPE, content_type.as_ref()),
-							(header::ETAG, etag.as_str()),
-						],
-						body,
-					)
-						.into_response())
-				}
+				Some(body) => Ok((
+					[
+						(header::CONTENT_TYPE, content_type.as_ref()),
+						(header::CACHE_CONTROL, cache_control_header),
+					],
+					body,
+				)
+					.into_response()),
 			}
 		}
 	}

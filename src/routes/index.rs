@@ -42,7 +42,7 @@ pub async fn index(
 			let body = html.as_bytes().to_vec();
 			let etag = cache::save(
 				&app_state,
-				uri.to_string(),
+				uri.path().to_string(),
 				content_type.to_string(),
 				body.clone(),
 			)
