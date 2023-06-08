@@ -13,9 +13,11 @@ pub async fn asset(uri: Uri) -> Result<Response, AppError> {
 			let content_type = mime_guess::from_path(&src).first_or_text_plain();
 
 			let cache_control_header = if envmnt::is("APP_DEV") {
-				"no-cache"
+				"no-cache".to_string()
 			} else {
-				"public, max-age=2419200"
+				let year_in_seconds = 60 * 60 * 24 * 365;
+
+				format!("public, max-age={}, immutable", year_in_seconds)
 			};
 
 			match fs::read(src).ok() {
@@ -23,7 +25,7 @@ pub async fn asset(uri: Uri) -> Result<Response, AppError> {
 				Some(body) => Ok((
 					[
 						(header::CONTENT_TYPE, content_type.as_ref()),
-						(header::CACHE_CONTROL, cache_control_header),
+						(header::CACHE_CONTROL, cache_control_header.as_str()),
 					],
 					body,
 				)
