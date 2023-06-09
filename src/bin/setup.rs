@@ -48,20 +48,22 @@ fn page_from_html(category: String, slug: String, contents: &str) -> Result<page
 
 					if let Some(syntax) = ss.find_syntax_by_extension(&language) {
 						let inner_html = String::from(el.as_str());
-						let mut html_generator = ClassedHTMLGenerator::new_with_class_style(
-							syntax,
-							&ss,
-							ClassStyle::Spaced,
-						);
+						let mut highlighted_lines: Vec<String> = vec![];
 
-						for line in LinesWithEndings::from(&inner_html) {
+						for line in LinesWithEndings::from(inner_html.trim()) {
+							let mut html_generator = ClassedHTMLGenerator::new_with_class_style(
+								syntax,
+								&ss,
+								ClassStyle::Spaced,
+							);
 							html_generator.parse_html_for_line_which_includes_newline(line)?;
+
+							highlighted_lines.push(html_generator.finalize());
 						}
 
-						let highlighted_code = html_generator.finalize();
 						let ctx = context! {
 							language => language.clone(),
-							highlighted_code => highlighted_code,
+							highlighted_lines => highlighted_lines,
 							inner_html => inner_html
 						};
 						let template = template_env.get_template("elements/code-block.jinja")?;
@@ -90,7 +92,7 @@ fn page_from_html(category: String, slug: String, contents: &str) -> Result<page
 		elements.into_iter().collect::<Vec<String>>(),
 	)?);
 	data.slug = Set(slug);
-	data.category = Set(category);
+	data.category = Set(category.clone());
 
 	if data.title.is_not_set() {
 		data.title = Set("Untitled".to_string());
@@ -105,7 +107,11 @@ fn page_from_html(category: String, slug: String, contents: &str) -> Result<page
 	}
 
 	if data.template.is_not_set() {
-		data.template = Set("layouts/page.jinja".to_string());
+		data.template = if category.is_empty() {
+			Set("layouts/index.jinja".to_string())
+		} else {
+			Set("layouts/page.jinja".to_string())
+		};
 	}
 
 	Ok(data)
@@ -116,49 +122,53 @@ async fn main() -> Result<()> {
 	fs::remove_dir_all("storage").ok();
 	fs::create_dir_all("storage")?;
 
-	let conn = Database::connect("sqlite://./storage/content.db?mode=rwc")
+	let connection = Database::connect("sqlite://./storage/content.db?mode=rwc")
 		.await
 		.expect("database should connect");
 
-	let backend = conn.get_database_backend();
+	let backend = connection.get_database_backend();
 	let schema = Schema::new(backend);
 
-	conn.execute(
-		backend
-			.build(&schema.create_table_from_entity(page::Entity))
-			.to_owned(),
-	)
-	.await?;
+	connection
+		.execute(
+			backend
+				.build(&schema.create_table_from_entity(page::Entity))
+				.to_owned(),
+		)
+		.await?;
 
-	conn.execute(
-		backend.build(
-			sea_query::Index::create()
-				.name("idx-page-category-slug-uniq")
-				.table(page::Entity)
-				.col(page::Column::Category)
-				.col(page::Column::Slug)
-				.unique(),
-		),
-	)
-	.await?;
+	connection
+		.execute(
+			backend.build(
+				sea_query::Index::create()
+					.name("idx-page-category-slug-uniq")
+					.table(page::Entity)
+					.col(page::Column::Category)
+					.col(page::Column::Slug)
+					.unique(),
+			),
+		)
+		.await?;
 
-	conn.execute(
-		backend
-			.build(&schema.create_table_from_entity(cache::Entity))
-			.to_owned(),
-	)
-	.await?;
+	connection
+		.execute(
+			backend
+				.build(&schema.create_table_from_entity(cache::Entity))
+				.to_owned(),
+		)
+		.await?;
 
-	conn.execute(
-		backend.build(
-			sea_query::Index::create()
-				.name("idx-cache-path-uniq")
-				.table(cache::Entity)
-				.col(cache::Column::Path)
-				.unique(),
-		),
-	)
-	.await?;
+	connection
+		.execute(
+			backend.build(
+				sea_query::Index::create()
+					.name("idx-cache-path-uniq")
+					.table(cache::Entity)
+					.col(cache::Column::Path)
+					.unique(),
+			),
+		)
+		.await?;
 
 	let paths = glob("content/**/*.html")?;
 	for path in paths.flatten() {
@@ -179,7 +189,7 @@ async fn main() -> Result<()> {
 		let contents = fs::read_to_string(&path)?;
 		let data = page_from_html(category, slug, &contents)?;
 
-		data.insert(&conn).await?;
+		data.insert(&connection).await?;
 	}
 
 	Ok(())

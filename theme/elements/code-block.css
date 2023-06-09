@@ -12,22 +12,13 @@
 :host {
 	display: block;
 	background-color: var(--paper-2);
-	background-size: 0.75em 0.75em;
-	background-image: linear-gradient(
-			to bottom,
-			var(--paper-1) 0em 0.075em,
-			hsla(0 0% 0% / 0) 0.075em
-		),
-		linear-gradient(
-			to right,
-			var(--paper-1) 0em 0.075em,
-			hsla(0 0% 0% / 0) 0.075em
-		);
 	border-radius: var(--border-radius);
 	overflow-x: auto;
 	tab-size: 2;
 
 	--max-width: 42rem;
+	--padding-inline: 1em;
+	--white-space: pre-wrap;
 }
 
 @media (prefers-color-scheme: light) {
@@ -36,6 +27,7 @@
 		--code-1: hsl(20 100% 25%);
 		--code-2: hsl(50 80% 25%);
 		--code-3: hsl(110 5% 25%);
+		--code-4: hsl(110 5% 40%);
 	}
 }
 
@@ -45,12 +37,20 @@
 		--code-1: hsl(20 100% 80%);
 		--code-2: hsl(50 80% 80%);
 		--code-3: hsl(110 5% 80%);
+		--code-4: hsl(110 5% 65%);
 	}
 }
 
 @container (width <= 44.5rem) {
 	:host {
+		--padding-inline: 0.5em;
 		--border-radius: 0;
+	}
+}
+
+@container (width <= 30rem) {
+	:host {
+		--white-space: pre;
 	}
 }
 
@@ -59,12 +59,30 @@ pre {
 		"DejaVu Sans Mono", monospace;
 	font-weight: 400;
 	font-variant-ligatures: no-common-ligatures;
-	white-space: pre-wrap;
-	padding-block-end: 1.5em;
+	padding: 0;
 }
 
 code {
+	padding-inline: 0.5em;
+	padding-block: 1em;
+	counter-reset: lines;
+	display: grid;
+	grid-template-columns: auto 1fr;
+	gap: 0.25em 1em;
+}
+
+.line {
 	color: var(--code-3);
+	white-space: var(--white-space);
+	word-break: break-word;
+}
+
+.line-number {
+	color: var(--code-4);
+	counter-increment: lines;
+	content: counter(lines);
+	display: grid;
+	justify-content: end;
 }
 
 .function {

@@ -37,7 +37,11 @@ pub async fn index(
 			};
 			let html = app_state
 				.templates
-				.get_template("layouts/index.jinja")
+				.get_template(
+					pages_index_page
+						.map_or("layouts/index.jinja".to_string(), |page| page.template)
+						.as_str(),
+				)
 				.and_then(|template| template.render(ctx))?;
 			let body = html.as_bytes().to_vec();
 			let etag = cache::save(

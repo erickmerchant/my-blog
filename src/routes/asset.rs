@@ -12,7 +12,7 @@ pub async fn asset(uri: Uri) -> Result<Response, AppError> {
 			let src = path::Path::new("theme").join(&file);
 			let content_type = mime_guess::from_path(&src).first_or_text_plain();
 
-			let cache_control_header = if envmnt::is("APP_DEV") {
+			let cache_control = if envmnt::is("APP_DEV") {
 				"no-cache".to_string()
 			} else {
 				let year_in_seconds = 60 * 60 * 24 * 365;
@@ -25,7 +25,7 @@ pub async fn asset(uri: Uri) -> Result<Response, AppError> {
 				Some(body) => Ok((
 					[
 						(header::CONTENT_TYPE, content_type.as_ref()),
-						(header::CACHE_CONTROL, cache_control_header.as_str()),
+						(header::CACHE_CONTROL, cache_control.as_str()),
 					],
 					body,
 				)

@@ -3,7 +3,11 @@
 	<template shadowrootmode="open">
 		<link rel="stylesheet" href="{{ asset_url('/elements/code-block.css') }}">
 		<figure>
-			<pre><code>{{highlighted_code}}</code></pre>
+			<pre><code>
+				{%- for line in highlighted_lines -%}
+				<span class="line-number" aria-hidden="true">{{loop.index}}</span> <span class="line">{{line}}</span>
+				{%- endfor -%}
+			</code></pre>
 		</figure>
 	</template>
 	<figure>

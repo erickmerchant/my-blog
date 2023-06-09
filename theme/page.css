@@ -30,8 +30,6 @@ html {
 	line-height: 1.5;
 	height: 100%;
 	scrollbar-color: var(--scrollbar) var(--paper-1);
-
-	--max-width: 40rem;
 }
 
 body {
@@ -94,6 +92,7 @@ h3 {
 	color: var(--ink-0);
 	line-height: 1.125;
 	font-weight: 900;
+	text-wrap: balance;
 }
 
 h1 {
@@ -149,13 +148,15 @@ code {
 	z-index: 1;
 
 	--list-indent: 2rem;
+	--max-width: 40rem;
+	--padding-inline: 1.5rem;
 }
 
 .main > * {
 	max-width: var(--max-width);
 	width: 100%;
 	margin-inline: auto;
-	padding-inline: 1.5rem;
+	padding-inline: var(--padding-inline);
 }
 
 @container (width <= 30rem) {
@@ -163,10 +164,7 @@ code {
 		font-size: 0.8em;
 
 		--list-indent: 1rem;
-	}
-
-	.main > * {
-		padding-inline: 0.5rem;
+		--padding-inline: 0.5rem;
 	}
 }
 
