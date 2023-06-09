@@ -8,6 +8,7 @@ default-run = "serve"
 [dependencies]
 anyhow = "1.0.70"
 axum = "0.6.15"
+base62 = "2.0.2"
 chrono = "0.4.23"
 envmnt = "0.10.4"
 etag = "4.0.0"
