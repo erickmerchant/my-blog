@@ -71,7 +71,7 @@ code {
 	gap: 0.25em 1em;
 }
 
-.line {
+.source {
 	color: var(--code-3);
 	white-space: var(--white-space);
 	word-break: break-word;
