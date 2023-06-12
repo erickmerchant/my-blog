@@ -1,4 +1,4 @@
-# The source code for erickmerchant.com
+# My blog
 
 ## Requirements
 
