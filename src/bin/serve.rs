@@ -1,15 +1,10 @@
-use app::{
-	middleware, routes,
-	state::{AppState, Site},
-	templates,
-};
+use app::{middleware, routes, state::AppState, state::Site, templates};
 use axum::{
 	http::Request, middleware::from_fn_with_state, response::Response, routing::get, Router,
 };
 use sea_orm::{Database, DatabaseConnection};
 use serde_json::from_slice;
-use std::time::Duration;
-use std::{fs, io, net::SocketAddr, sync::Arc};
+use std::{fs, io, net::SocketAddr, sync::Arc, time::Duration};
 use tower_http::{
 	classify::ServerErrorsFailureClass, compression::CompressionLayer, trace::TraceLayer,
 };

@@ -1,7 +1,6 @@
 use crate::state::AppState;
 use etag::EntityTag;
-use sea_orm::entity::prelude::*;
-use sea_orm::ActiveValue::Set;
+use sea_orm::{entity::prelude::*, ActiveValue::Set};
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq, Serialize, Deserialize)]
