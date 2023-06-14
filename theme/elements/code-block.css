@@ -17,7 +17,7 @@
 	tab-size: 2;
 
 	--max-width: 42rem;
-	--padding-inline: 1em;
+	--padding-inline: 0.5em;
 	--white-space: pre-wrap;
 }
 
@@ -41,7 +41,7 @@
 	}
 }
 
-@container (width <= 44.5rem) {
+@container (width <= 42rem) {
 	:host {
 		--padding-inline: 0.5em;
 		--border-radius: 0;
