@@ -5,6 +5,7 @@ use lol_html::{element, html_content::ContentType, text, HtmlRewriter, Settings}
 use minijinja::context;
 use pathdiff::diff_paths;
 use sea_orm::{sea_query, ActiveModelTrait, ActiveValue::Set, ConnectionTrait, Database, Schema};
+use serde_json as json;
 use std::{collections::HashSet, fs};
 use syntect::{
 	html::ClassStyle, html::ClassedHTMLGenerator, parsing::SyntaxSet, util::LinesWithEndings,
@@ -28,7 +29,7 @@ fn page_from_html(category: String, slug: String, contents: &str) -> Result<page
 					Ok(())
 				}),
 				text!("front-matter", |el| {
-					if let Ok(d) = serde_json::from_str::<serde_json::Value>(el.as_str()) {
+					if let Ok(d) = json::from_str::<json::Value>(el.as_str()) {
 						data.set_from_json(d)?;
 					}
 
@@ -57,7 +58,6 @@ fn page_from_html(category: String, slug: String, contents: &str) -> Result<page
 								ClassStyle::Spaced,
 							);
 							html_generator.parse_html_for_line_which_includes_newline(line)?;
-
 							highlighted_lines.push(html_generator.finalize());
 						}
 
@@ -70,7 +70,6 @@ fn page_from_html(category: String, slug: String, contents: &str) -> Result<page
 						let replacement_html = template.render(ctx)?;
 
 						el.replace(replacement_html.as_str(), ContentType::Html);
-
 						elements.insert("code-block".to_string());
 					}
 
@@ -86,9 +85,8 @@ fn page_from_html(category: String, slug: String, contents: &str) -> Result<page
 
 	rewriter.write(contents.as_bytes())?;
 	rewriter.end()?;
-
 	data.content = Set(String::from_utf8(output)?);
-	data.elements = Set(serde_json::to_value(
+	data.elements = Set(json::to_value(
 		elements.into_iter().collect::<Vec<String>>(),
 	)?);
 	data.slug = Set(slug);
@@ -171,6 +169,7 @@ async fn main() -> Result<()> {
 		.await?;
 
 	let paths = glob("content/**/*.html")?;
+
 	for path in paths.flatten() {
 		let slug = path
 			.file_stem()
@@ -178,6 +177,7 @@ async fn main() -> Result<()> {
 			.to_str()
 			.expect("file stem should be a str")
 			.to_string();
+
 		let mut category = "".to_string();
 
 		if let Some(p) = diff_paths(&path, "content") {

@@ -23,7 +23,7 @@ svg {
 	display: block;
 	background-image: repeating-radial-gradient(
 		circle at 50% 2em,
-		var(--paper-1) 0 0.075em,
+		var(--paper-2) 0 0.075em,
 		var(--paper-0) 0.075em 0.3em
 	);
 	color: var(--ink-0);

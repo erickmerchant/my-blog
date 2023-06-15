@@ -3,7 +3,7 @@ use axum::{
 	http::Request, middleware::from_fn_with_state, response::Response, routing::get, Router,
 };
 use sea_orm::{Database, DatabaseConnection};
-use serde_json::from_slice;
+use serde_json as json;
 use std::{fs, io, net::SocketAddr, sync::Arc, time::Duration};
 use tower_http::{
 	classify::ServerErrorsFailureClass, compression::CompressionLayer, trace::TraceLayer,
@@ -20,16 +20,19 @@ async fn main() -> io::Result<()> {
 
 	let port = envmnt::get_u16("APP_PORT", 8080);
 	let templates = templates::get_env();
+
 	let database: DatabaseConnection = Database::connect("sqlite://./storage/content.db")
 		.await
 		.expect("database should connect");
+
 	let site = fs::read("./content/site.json")?;
-	let site = from_slice::<Site>(&site)?;
+	let site = json::from_slice::<Site>(&site)?;
 	let app_state = AppState {
 		templates,
 		database,
 		site,
 	};
+
 	let app = Router::new()
 		.route("/", get(routes::posts_index))
 		.route("/:category/", get(routes::index))
@@ -54,7 +57,6 @@ async fn main() -> io::Result<()> {
 				})
 				.on_response(|response: &Response<_>, latency: Duration, span: &Span| {
 					span.record("status", response.status().as_u16());
-
 					tracing::info!("response in {latency:?}")
 				})
 				.on_failure(
@@ -64,7 +66,9 @@ async fn main() -> io::Result<()> {
 				),
 		)
 		.with_state(Arc::new(app_state));
+
 	let addr = SocketAddr::from(([0, 0, 0, 0], port));
+
 	axum::Server::bind(&addr)
 		.serve(app.into_make_service())
 		.await

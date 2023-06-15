@@ -15,7 +15,6 @@ pub fn not_found(State(app_state): State<Arc<AppState>>) -> Result<Response, App
 			description => description,
 		}
 	};
-
 	let template = app_state.templates.get_template("layouts/error.jinja")?;
 	let body = template.render(ctx)?;
 

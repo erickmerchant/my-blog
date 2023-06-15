@@ -20,7 +20,7 @@
 }
 
 ::-webkit-scrollbar-track {
-	background: var(--paper-1);
+	background: var(--paper-2);
 }
 
 html {
@@ -29,14 +29,14 @@ html {
 	font-weight: 400;
 	line-height: 1.5;
 	height: 100%;
-	scrollbar-color: var(--scrollbar) var(--paper-1);
+	scrollbar-color: var(--scrollbar) var(--paper-2);
 }
 
 body {
 	height: 100%;
 	overflow-x: auto;
 	color: var(--ink-1);
-	background: var(--paper-1);
+	background: var(--paper-2);
 	display: grid;
 	grid-template-rows: min-content auto min-content;
 	container-type: inline-size;
@@ -48,23 +48,23 @@ body {
 
 @media (prefers-color-scheme: light) {
 	body {
-		--ink-0: hsl(110 70% 25%);
+		--ink-0: hsl(120 70% 25%);
 		--ink-1: hsl(0 0% 5%);
-		--paper-0: hsl(110 25% 90%);
-		--paper-1: hsl(0 10% 100%);
-		--paper-2: hsl(110 15% 95%);
-		--scrollbar: hsl(110 25% 50%);
+		--paper-0: hsl(120 10% 90%);
+		--paper-1: hsl(120 10% 95%);
+		--paper-2: hsl(0 10% 100%);
+		--scrollbar: hsl(120 25% 50%);
 	}
 }
 
 @media (prefers-color-scheme: dark) {
 	body {
-		--ink-0: hsl(110 70% 80%);
+		--ink-0: hsl(120 70% 80%);
 		--ink-1: hsl(0 0% 100%);
-		--paper-0: hsl(110 25% 15%);
-		--paper-1: hsl(110 10% 5%);
-		--paper-2: hsl(110 15% 10%);
-		--scrollbar: hsl(110 25% 55%);
+		--paper-0: hsl(120 10% 15%);
+		--paper-1: hsl(120 10% 10%);
+		--paper-2: hsl(120 10% 5%);
+		--scrollbar: hsl(120 25% 55%);
 	}
 }
 
@@ -139,7 +139,7 @@ code {
 }
 
 .main {
-	background-color: var(--paper-1);
+	background-color: var(--paper-2);
 	display: grid;
 	grid-auto-columns: 100%;
 	gap: 1em;
@@ -177,8 +177,8 @@ code {
 	gap: 1em 3em;
 	background-image: repeating-linear-gradient(
 		135deg,
-		var(--paper-1) 0 0.1rem,
-		var(--paper-2) 0.1rem 0.4rem
+		var(--paper-2) 0 0.1rem,
+		var(--paper-1) 0.1rem 0.4rem
 	);
 	position: sticky;
 	bottom: 0;
@@ -207,7 +207,7 @@ code {
 
 .annotation {
 	font-style: italic;
-	background-color: var(--paper-2);
+	background-color: var(--paper-1);
 	border-radius: var(--border-radius);
 	padding-block: 1em;
 	max-width: calc(var(--max-width) - 3em);

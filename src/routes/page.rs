@@ -15,6 +15,7 @@ pub async fn page(
 	let content_type = "text/html".to_string();
 	let page_category = category.clone();
 	let page_slug = slug.clone();
+
 	let page: Option<page::Model> = page::Entity::find()
 		.filter(
 			Condition::all()
@@ -31,11 +32,14 @@ pub async fn page(
 				site => &app_state.site,
 				page => &page,
 			};
+
 			let html = app_state
 				.templates
 				.get_template(&page.template)
 				.and_then(|template| template.render(ctx))?;
+
 			let body = html.as_bytes().to_vec();
+
 			let etag = cache::save(
 				&app_state,
 				uri.path().to_string(),

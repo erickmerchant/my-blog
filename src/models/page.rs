@@ -1,6 +1,6 @@
 use sea_orm::entity::prelude::*;
 use serde::{Deserialize, Serialize};
-use serde_json::Value;
+use serde_json as json;
 
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq, Serialize, Deserialize)]
 #[sea_orm(table_name = "page")]
@@ -22,7 +22,7 @@ pub struct Model {
 	#[serde(skip_deserializing)]
 	pub template: String,
 	#[serde(skip_deserializing)]
-	pub elements: Value,
+	pub elements: json::Value,
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]

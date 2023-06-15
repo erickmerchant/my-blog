@@ -11,7 +11,6 @@ pub async fn asset(uri: Uri) -> Result<Response, AppError> {
 		false => {
 			let src = path::Path::new("theme").join(&file);
 			let content_type = mime_guess::from_path(&src).first_or_text_plain();
-
 			let cache_control = if envmnt::is("APP_DEV") {
 				"no-cache".to_string()
 			} else {

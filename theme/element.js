@@ -10,7 +10,6 @@ export class Element extends HTMLElement {
 
 		if (!this.shadowRoot && firstChild?.nodeName === "TEMPLATE" && mode) {
 			this.attachShadow({mode}).appendChild(firstChild.content.cloneNode(true));
-
 			firstChild.remove();
 		}
 
@@ -31,33 +30,31 @@ export class Element extends HTMLElement {
 
 	disconnectedCallback() {
 		this.#observer.disconnect();
-
 		this.teardownCallback?.();
 	}
 
 	attributes(state) {
-		let formulas = [];
+		let updates = [];
 
 		state = Element.watch(state);
 
-		for (let [key, value] of Object.entries(state)) {
-			let isBool = typeof value === "boolean";
+		for (let [k, v] of Object.entries(state)) {
+			let isBool = typeof v === "boolean";
 
-			state[key] =
-				(isBool ? this.hasAttribute(key) : this.getAttribute(key)) ?? value;
+			state[k] = (isBool ? this.hasAttribute(k) : this.getAttribute(k)) ?? v;
 
-			formulas.push(() => {
+			updates.push(() => {
 				isBool
-					? this.toggleAttribute(key, state[key])
-					: this.setAttribute(key, state[key]);
+					? this.toggleAttribute(k, state[k])
+					: this.setAttribute(k, state[k]);
 			});
 
-			this.#observed.set(key, (value) => {
-				state[key] = isBool ? value === "" : value;
+			this.#observed.set(k, (v) => {
+				state[k] = isBool ? v === "" : v;
 			});
 		}
 
-		Element.#update(formulas);
+		Element.#update(updates);
 
 		return state;
 	}
@@ -70,21 +67,19 @@ export class Element extends HTMLElement {
 		let symbols = {};
 
 		return new Proxy(state, {
-			set: (state, key, value) => {
-				if (state[key] !== value) {
-					symbols[key] ??= Symbol("");
+			set: (state, k, v) => {
+				if (state[k] !== v) {
+					symbols[k] ??= Symbol("");
+					state[k] = v;
 
-					state[key] = value;
+					let updates = this.#reads.get(symbols[k]);
 
-					let formulas = this.#reads.get(symbols[key]);
-
-					if (formulas) {
-						this.#reads.delete(symbols[key]);
+					if (updates) {
+						this.#reads.delete(symbols[k]);
 
 						if (!this.#scheduled) {
 							setTimeout(() => {
-								this.#update(formulas);
-
+								this.#update(updates);
 								this.#scheduled = false;
 							}, 0);
 
@@ -95,33 +90,31 @@ export class Element extends HTMLElement {
 
 				return true;
 			},
-			get: (state, key) => {
-				symbols[key] ??= Symbol("");
+			get: (state, k) => {
+				symbols[k] ??= Symbol("");
 
 				if (this.#current) {
-					let r = this.#reads.get(symbols[key]);
+					let r = this.#reads.get(symbols[k]);
 
 					if (!r) {
 						r = new Set();
-
-						this.#reads.set(symbols[key], r);
+						this.#reads.set(symbols[k], r);
 					}
 
 					r.add(this.#current);
 				}
 
-				return state[key];
+				return state[k];
 			},
 		});
 	}
 
-	static #update(formulas) {
+	static #update(updates) {
 		let prev = this.#current;
 
-		for (let formula of formulas) {
-			this.#current = formula;
-
-			formula();
+		for (let u of updates) {
+			this.#current = u;
+			u();
 		}
 
 		this.#current = prev;

@@ -11,7 +11,7 @@
 
 :host {
 	display: block;
-	background-color: var(--paper-2);
+	background-color: var(--paper-1);
 	border-radius: var(--border-radius);
 	overflow-x: auto;
 	tab-size: 2;
@@ -23,21 +23,21 @@
 
 @media (prefers-color-scheme: light) {
 	:host {
-		--code-0: hsl(350 80% 25%);
-		--code-1: hsl(20 100% 25%);
-		--code-2: hsl(50 80% 25%);
-		--code-3: hsl(110 5% 25%);
-		--code-4: hsl(110 5% 40%);
+		--code-0: hsl(0 80% 25%);
+		--code-1: hsl(30 100% 25%);
+		--code-2: hsl(60 80% 25%);
+		--code-3: hsl(120 5% 25%);
+		--code-4: hsl(120 5% 40%);
 	}
 }
 
 @media (prefers-color-scheme: dark) {
 	:host {
-		--code-0: hsl(350 80% 80%);
-		--code-1: hsl(20 100% 80%);
-		--code-2: hsl(50 80% 80%);
-		--code-3: hsl(110 5% 80%);
-		--code-4: hsl(110 5% 65%);
+		--code-0: hsl(0 80% 80%);
+		--code-1: hsl(30 100% 80%);
+		--code-2: hsl(60 80% 80%);
+		--code-3: hsl(120 5% 80%);
+		--code-4: hsl(120 5% 65%);
 	}
 }
 
