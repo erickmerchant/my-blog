@@ -16,13 +16,13 @@
 
 <p>It does pose a problem though. If you need JS, how do you use one of the popular web frameworks. You will likely end up shipping instructions on generating the same markup you already have in your HTML, likely via JSX.</p>
 
-<p>This is where a base Custom Element for Declarative Shadow Dom comes in. I'm going to use my own element.js used on this site as an example, but this is more a list of features I think you want in such a Custom Element. Also to be clear when I say base element I mean a class that all your other Custom Elements would extend.</p>
+<p>This is where a base Custom Element for Declarative Shadow Dom comes in. I'm going to use my own <a href="/element.js">element.js</a> used on this site as an example, but this is more a list of features I think you want in such a Custom Element. Also to be clear when I say base element I mean a class that all your other Custom Elements would extend.</p>
 
 <h2>The features</h2>
 
 <h3>No duplicate HTML</h3>
 
-<p>We don't want to ship our shadow tree in two places. You could use, for example, JSX to output your Declarative Shadow DOM and then also have that compiled into <code>h</code> or <code>createElement</code> or whatever in your JS. I believe we shouldn't do this. This one is kind of hard to show in my element.js, since it's the absence of code.</p>
+<p>We don't want to ship our shadow tree in two places. You could use, for example, JSX to output your Declarative Shadow DOM and then also have that compiled into <code>h</code> or <code>createElement</code> or whatever in your JS. I believe we shouldn't do this. This one is kind of hard to show in element.js, since it's the absence of code.</p>
 
 <h3>Reactive state</h3>
 
@@ -94,4 +94,4 @@ if (!this.shadowRoot && firstChild?.nodeName === "TEMPLATE" && mode) {
 	<li>Two way binding to attributes</li>
 </ul>
 
-<p>I'll likely be packaging up my element.js and shipping it to a place where others can use it. I'll update this post if I do.</p>
+<p>I'll likely be packaging up <a href="/element.js">element.js</a> and shipping it to a place where others can use it. I'll update this post if I do.</p>

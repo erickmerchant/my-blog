@@ -5,10 +5,9 @@ export class PageNav extends Element {
 		expanded: false,
 		minimized: false,
 	});
-	#transitioning = false;
 
 	#toggleMinimized(minimized) {
-		if (this.#transitioning || (minimized && this.#state.expanded)) {
+		if (this.#state.expanded) {
 			return;
 		}
 
@@ -40,14 +39,6 @@ export class PageNav extends Element {
 
 		this.addEventListener("mouseenter", () => {
 			this.#toggleMinimized(false);
-		});
-
-		this.#nav?.addEventListener("transitionstart", () => {
-			this.#transitioning = true;
-		});
-
-		this.#nav?.addEventListener("transitionend", () => {
-			this.#transitioning = false;
 		});
 
 		this.#toggle?.addEventListener("click", () => {

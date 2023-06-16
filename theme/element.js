@@ -61,7 +61,6 @@ export class Element extends HTMLElement {
 
 	static #reads = new Map();
 	static #current = null;
-	static #scheduled = false;
 
 	static watch(state) {
 		let symbols = {};
@@ -72,20 +71,9 @@ export class Element extends HTMLElement {
 					symbols[k] ??= Symbol("");
 					state[k] = v;
 
-					let updates = this.#reads.get(symbols[k]);
-
-					if (updates) {
-						this.#reads.delete(symbols[k]);
-
-						if (!this.#scheduled) {
-							setTimeout(() => {
-								this.#update(updates);
-								this.#scheduled = false;
-							}, 0);
-
-							this.#scheduled = true;
-						}
-					}
+					this.#update(
+						new Set(this.#reads.get(symbols[k]).splice(0, Infinity))
+					);
 				}
 
 				return true;
@@ -97,11 +85,11 @@ export class Element extends HTMLElement {
 					let r = this.#reads.get(symbols[k]);
 
 					if (!r) {
-						r = new Set();
+						r = [];
 						this.#reads.set(symbols[k], r);
 					}
 
-					r.add(this.#current);
+					r.push(this.#current);
 				}
 
 				return state[k];
