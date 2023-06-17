@@ -1,11 +1,11 @@
 use chrono::Datelike;
-use minijinja::{Environment, Source};
+use minijinja::{path_loader, Environment};
 use std::{fs, time::UNIX_EPOCH};
 
 pub fn get_env() -> Environment<'static> {
 	let mut template_env = Environment::new();
 
-	template_env.set_source(Source::from_path("theme"));
+	template_env.set_loader(path_loader("theme"));
 	template_env.add_filter("format_date", format_date);
 	template_env.add_function("year", year);
 	template_env.add_function("asset_url", asset_url);

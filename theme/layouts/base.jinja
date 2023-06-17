@@ -34,7 +34,7 @@
 	{% for k in page.elements %}
 	<link rel="preload" href="{{ asset_url(('/elements/' + k + '.css')) }}" as="style">
 	{% endfor %}
-	<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+	<link rel="icon" href="{{ asset_url('/favicon.svg') }}" type="image/svg+xml">
 </head>
 
 <body>
