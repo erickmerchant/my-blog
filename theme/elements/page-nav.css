@@ -79,8 +79,7 @@ svg {
 
 @container (width <= 20rem) {
 	.nav {
-		transition: grid-template-rows 0.25s var(--easing),
-			padding-block-end 0.25s var(--easing);
+		transition: grid-template-rows 0.25s var(--easing);
 		gap: 1em;
 		padding-block-end: 0em;
 	}
