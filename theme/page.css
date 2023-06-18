@@ -41,9 +41,10 @@ body {
 	grid-template-rows: min-content auto min-content;
 	container-type: inline-size;
 	scrollbar-gutter: stable;
+	overscroll-behavior: none;
 
 	--border-radius: 0.25em;
-	--easing: cubic-bezier(0.3, 0, 0.3, 0.7);
+	--easing: linear;
 }
 
 @media (prefers-color-scheme: light) {
