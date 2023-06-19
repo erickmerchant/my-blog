@@ -19,7 +19,6 @@ export class PageNav extends Element {
 		this.#state.expanded = expanded;
 	}
 
-	#nav = this.shadowRoot?.getElementById("nav");
 	#toggle = this.shadowRoot?.getElementById("toggle");
 	#icon = this.shadowRoot?.getElementById("icon");
 	#scrollTop = 0;
