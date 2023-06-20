@@ -1,4 +1,4 @@
-{%- macro code_block(language, highlighted_code) %}
+{%- macro code_block(language, highlighted_lines) %}
 <code-block language="{{language}}">
 	<template shadowrootmode="open">
 		<link rel="stylesheet" href="{{ asset_url('/elements/code-block.css') }}">
@@ -16,6 +16,6 @@
 </code-block>
 {% endmacro -%}
 
-{%- call code_block(language, highlighted_code) %}
+{%- call code_block(language, highlighted_lines) %}
 {{inner_html}}
 {% endcall -%}
