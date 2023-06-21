@@ -12,7 +12,7 @@ pub async fn page(
 	Path((category, slug)): Path<(String, String)>,
 	uri: Uri,
 ) -> Result<Response, AppError> {
-	let content_type = "text/html".to_string();
+	let content_type = "text/html; charset=utf-8".to_string();
 	let page_category = category.clone();
 	let page_slug = slug.clone();
 

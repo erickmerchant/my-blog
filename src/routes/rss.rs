@@ -12,7 +12,7 @@ pub async fn rss(
 	Path(category): Path<String>,
 	uri: Uri,
 ) -> Result<Response, AppError> {
-	let content_type = "application/rss+xml".to_string();
+	let content_type = "application/rss+xml; charset=utf-8".to_string();
 
 	let pages: Vec<page::Model> = page::Entity::find()
 		.filter(page::Column::Category.eq(&category))

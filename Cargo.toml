@@ -15,7 +15,6 @@ etag = "4.0.0"
 glob = "0.3.0"
 log = "0.4.17"
 lol_html = "1.0.0"
-mime_guess = "2.0.4"
 minijinja = { version = "1.0.0", features = ["loader"] }
 pathdiff = "0.2.1"
 sea-orm = { version = "0.11.2", features = ["sqlx-sqlite", "runtime-tokio-rustls"] }

@@ -7,10 +7,10 @@
 		{% for p in pages %}
 		<item>
 			<title>{{p.title}}</title>
-			<link>{{site.base}}{{p.category}}/{{p.slug}}/</link>
+			<link>{{site.base + p.category + "/" + p.slug + "/"}}</link>
 			<pubDate>{{p.date | format_date("%a, %d %h %Y")}} 00:00:00 +0000</pubDate>
 			<description>
-				<![CDATA[{{p.content | safe}}]]>
+				<![CDATA[{{p.content}}]]>
 			</description>
 		</item>
 		{% endfor %}
