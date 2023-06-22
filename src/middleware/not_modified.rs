@@ -31,31 +31,30 @@ pub async fn not_modified<B>(
 			.await?
 	};
 
-	Ok(match cache_result {
-		Some(cache_result) => {
-			let etag = cache_result.etag.parse::<EntityTag>().ok();
+	let result = if let Some(cache_result) = cache_result {
+		let etag = cache_result.etag.parse::<EntityTag>().ok();
 
-			if let Some(etag) = etag {
-				if let Some(if_none_match) = if_none_match {
-					if etag.weak_eq(&if_none_match) {
-						etag_matches = true
-					}
-				}
-			}
-
-			if etag_matches {
-				StatusCode::NOT_MODIFIED.into_response()
-			} else {
-				(
-					[
-						(header::CONTENT_TYPE, cache_result.content_type),
-						(header::ETAG, cache_result.etag),
-					],
-					cache_result.body,
-				)
-					.into_response()
+		if let (Some(etag), Some(if_none_match)) = (etag, if_none_match) {
+			if etag.weak_eq(&if_none_match) {
+				etag_matches = true
 			}
 		}
-		None => next.run(req).await,
-	})
+
+		if etag_matches {
+			StatusCode::NOT_MODIFIED.into_response()
+		} else {
+			(
+				[
+					(header::CONTENT_TYPE, cache_result.content_type),
+					(header::ETAG, cache_result.etag),
+				],
+				cache_result.body,
+			)
+				.into_response()
+		}
+	} else {
+		next.run(req).await
+	};
+
+	Ok(result)
 }

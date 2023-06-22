@@ -1,7 +1,7 @@
 [tasks.watch]
 env = {RUST_LOG="serve=debug", RUST_BACKTRACE=1, APP_PORT=3000, APP_DEV=true}
 command="cargo"
-args=["watch", "-i", "*.css", "-x", "r --bin setup", "-s", "cargo run --no-default-features"]
+args=["watch", "-i", "assets", "-x", "r --bin setup", "-s", "cargo run --no-default-features"]
 
 [tasks.build]
 command="docker"

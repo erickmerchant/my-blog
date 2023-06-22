@@ -30,39 +30,38 @@ pub async fn index(
 		.one(&app_state.database.clone())
 		.await?;
 
-	match !pages.is_empty() && pages_index_page.is_some() {
-		true => {
-			let ctx = context! {
-				site => &app_state.site,
-				page => &pages_index_page,
-				pages => &pages,
-			};
+	if !pages.is_empty() && pages_index_page.is_some() {
+		let ctx = context! {
+			site => &app_state.site,
+			page => &pages_index_page,
+			pages => &pages,
+		};
 
-			let html = app_state
-				.templates
-				.get_template(
-					pages_index_page
-						.map_or("layouts/index.jinja".to_string(), |page| page.template)
-						.as_str(),
-				)
-				.and_then(|template| template.render(ctx))?;
-
-			let body = html.as_bytes().to_vec();
-
-			let etag = cache::save(
-				&app_state,
-				uri.path().to_string(),
-				content_type.to_string(),
-				body.clone(),
+		let html = app_state
+			.templates
+			.get_template(
+				pages_index_page
+					.map_or("layouts/index.jinja".to_string(), |page| page.template)
+					.as_str(),
 			)
-			.await;
+			.and_then(|template| template.render(ctx))?;
 
-			Ok((
-				[(header::CONTENT_TYPE, content_type), (header::ETAG, etag)],
-				body,
-			)
-				.into_response())
-		}
-		false => not_found(State(app_state)),
+		let body = html.as_bytes().to_vec();
+
+		let etag = cache::save(
+			&app_state,
+			uri.path().to_string(),
+			content_type.to_string(),
+			body.clone(),
+		)
+		.await;
+
+		Ok((
+			[(header::CONTENT_TYPE, content_type), (header::ETAG, etag)],
+			body,
+		)
+			.into_response())
+	} else {
+		not_found(State(app_state))
 	}
 }

@@ -26,34 +26,33 @@ pub async fn page(
 		.one(&app_state.database.clone())
 		.await?;
 
-	match page {
-		Some(page) => {
-			let ctx = context! {
-				site => &app_state.site,
-				page => &page,
-			};
+	if let Some(page) = page {
+		let ctx = context! {
+			site => &app_state.site,
+			page => &page,
+		};
 
-			let html = app_state
-				.templates
-				.get_template(&page.template)
-				.and_then(|template| template.render(ctx))?;
+		let html = app_state
+			.templates
+			.get_template(&page.template)
+			.and_then(|template| template.render(ctx))?;
 
-			let body = html.as_bytes().to_vec();
+		let body = html.as_bytes().to_vec();
 
-			let etag = cache::save(
-				&app_state,
-				uri.path().to_string(),
-				content_type.to_string(),
-				body.clone(),
-			)
-			.await;
+		let etag = cache::save(
+			&app_state,
+			uri.path().to_string(),
+			content_type.to_string(),
+			body.clone(),
+		)
+		.await;
 
-			Ok((
-				[(header::CONTENT_TYPE, content_type), (header::ETAG, etag)],
-				body,
-			)
-				.into_response())
-		}
-		None => not_found(State(app_state)),
+		Ok((
+			[(header::CONTENT_TYPE, content_type), (header::ETAG, etag)],
+			body,
+		)
+			.into_response())
+	} else {
+		not_found(State(app_state))
 	}
 }
