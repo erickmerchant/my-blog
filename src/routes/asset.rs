@@ -1,8 +1,8 @@
-use crate::{error::AppError, mime::get_mime};
+use crate::mime::get_mime;
 use axum::{http::header, http::StatusCode, http::Uri, response::IntoResponse, response::Response};
 use std::{fs, path};
 
-pub async fn asset(uri: Uri) -> Result<Response, AppError> {
+pub async fn asset(uri: Uri) -> Response {
 	let uri_path = &uri.path();
 	let asset = get_mime(
 		path::Path::new(uri_path)
@@ -25,15 +25,15 @@ pub async fn asset(uri: Uri) -> Result<Response, AppError> {
 			format!("public, max-age={}, immutable", year_in_seconds)
 		};
 
-		Ok((
+		(
 			[
 				(header::CONTENT_TYPE, content_type),
 				(header::CACHE_CONTROL, cache_control),
 			],
 			body,
 		)
-			.into_response())
+			.into_response()
 	} else {
-		Ok(StatusCode::NOT_FOUND.into_response())
+		StatusCode::NOT_FOUND.into_response()
 	}
 }
