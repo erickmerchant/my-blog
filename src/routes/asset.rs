@@ -4,15 +4,19 @@ use std::{fs, path};
 
 pub async fn asset(uri: Uri) -> Result<Response, AppError> {
 	let uri_path = &uri.path();
-	let file = uri_path.to_string().trim_start_matches('/').to_string();
-	let content_type = get_mime(
+	let asset = get_mime(
 		path::Path::new(uri_path)
 			.extension()
 			.and_then(|ext| ext.to_str()),
-	);
-
-	if let Some(content_type) = content_type {
+	)
+	.map(|content_type| {
+		let file = uri_path.to_string().trim_start_matches('/').to_string();
 		let src = path::Path::new("assets").join(file);
+
+		(content_type, fs::read(src))
+	});
+
+	if let Some((content_type, Ok(body))) = asset {
 		let cache_control = if envmnt::is("APP_DEV") {
 			"no-cache".to_string()
 		} else {
@@ -21,18 +25,14 @@ pub async fn asset(uri: Uri) -> Result<Response, AppError> {
 			format!("public, max-age={}, immutable", year_in_seconds)
 		};
 
-		if let Ok(body) = fs::read(src) {
-			Ok((
-				[
-					(header::CONTENT_TYPE, content_type),
-					(header::CACHE_CONTROL, cache_control),
-				],
-				body,
-			)
-				.into_response())
-		} else {
-			Ok(StatusCode::NOT_FOUND.into_response())
-		}
+		Ok((
+			[
+				(header::CONTENT_TYPE, content_type),
+				(header::CACHE_CONTROL, cache_control),
+			],
+			body,
+		)
+			.into_response())
 	} else {
 		Ok(StatusCode::NOT_FOUND.into_response())
 	}
