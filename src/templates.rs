@@ -5,7 +5,7 @@ use std::{fs, time::UNIX_EPOCH};
 pub fn get_env() -> Environment<'static> {
 	let mut template_env = Environment::new();
 
-	template_env.set_loader(path_loader("templates"));
+	template_env.set_loader(path_loader("theme"));
 	template_env.add_filter("format_date", format_date);
 	template_env.add_function("year", year);
 	template_env.add_function("asset_url", asset_url);
@@ -33,7 +33,7 @@ fn asset_url(value: String) -> String {
 	let mut ret = value;
 
 	if ret.starts_with('/') && !envmnt::is("APP_DEV") {
-		if let Ok(time) = fs::metadata(format!("assets{}", ret)).and_then(|meta| meta.modified()) {
+		if let Ok(time) = fs::metadata(format!("theme{}", ret)).and_then(|meta| meta.modified()) {
 			let version_time = time
 				.duration_since(UNIX_EPOCH)
 				.expect("time should be a valid time since the unix epoch")

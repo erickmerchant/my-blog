@@ -11,7 +11,7 @@ pub async fn asset(uri: Uri) -> Response {
 	)
 	.map(|content_type| {
 		let file = uri_path.to_string().trim_start_matches('/').to_string();
-		let src = path::Path::new("assets").join(file);
+		let src = path::Path::new("theme").join(file);
 
 		(content_type, fs::read(src))
 	});
