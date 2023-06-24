@@ -43,7 +43,6 @@ async fn main() -> io::Result<()> {
 			app_state.clone(),
 			middleware::not_modified,
 		))
-		// .layer(from_fn(middleware::content_security_policy))
 		.layer(CompressionLayer::new())
 		.layer(
 			TraceLayer::new_for_http()
