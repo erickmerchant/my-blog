@@ -15,10 +15,11 @@ pub async fn not_modified<B>(
 	let uri = req.uri().to_string();
 	let mut if_none_match: Option<EntityTag> = None;
 
-	if let Some(header) = req_headers.get("if-none-match") {
-		if let Ok(header) = header.to_str() {
-			if_none_match = header.parse::<EntityTag>().ok();
-		}
+	if let Some(header) = req_headers
+		.get("if-none-match")
+		.and_then(|h| h.to_str().ok())
+	{
+		if_none_match = header.parse::<EntityTag>().ok();
 	};
 
 	let mut etag_matches = false;
