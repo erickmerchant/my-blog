@@ -6,7 +6,7 @@ edition = "2021"
 default-run = "serve"
 
 [dependencies]
-anyhow = "1.0.70"
+anyhow = { version = "1.0.70", features = ["backtrace"] }
 axum = "0.6.15"
 base62 = "2.0.2"
 chrono = "0.4.23"

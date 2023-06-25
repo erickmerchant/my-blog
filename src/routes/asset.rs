@@ -22,7 +22,7 @@ pub async fn asset(uri: Uri) -> Response {
 		} else {
 			let year_in_seconds = 60 * 60 * 24 * 365;
 
-			format!("public, max-age={}, immutable", year_in_seconds)
+			format!("public, max-age={year_in_seconds}, immutable")
 		};
 
 		(

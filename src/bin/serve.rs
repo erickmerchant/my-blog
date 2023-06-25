@@ -73,7 +73,7 @@ async fn main() -> io::Result<()> {
 		.await
 		.expect("server should start");
 
-	tracing::debug!("listening on {}", addr);
+	tracing::debug!("listening on {addr}");
 
 	Ok(())
 }
