@@ -127,6 +127,9 @@ code {
 	font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas,
 		"DejaVu Sans Mono", monospace;
 	color: var(--ink-0);
+	background-color: var(--paper-1);
+	border-radius: var(--border-radius);
+	padding-inline: 0.5em;
 }
 
 @supports selector(:focus-visible) {
