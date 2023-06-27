@@ -6,19 +6,6 @@ export class PageNav extends Element {
 		minimized: false,
 	});
 
-	#toggleMinimized(minimized) {
-		if (this.#state.expanded) {
-			return;
-		}
-
-		this.#state.minimized = minimized;
-	}
-
-	#toggleExpanded(expanded = !this.#state.expanded) {
-		this.#state.minimized = false;
-		this.#state.expanded = expanded;
-	}
-
 	#toggle = this.shadowRoot?.getElementById("toggle");
 	#icon = this.shadowRoot?.getElementById("icon");
 	#scrollTop = 0;
@@ -32,6 +19,19 @@ export class PageNav extends Element {
 
 		this.#scrollTop = scrollTop;
 	};
+
+	#toggleMinimized(minimized) {
+		if (this.#state.expanded) {
+			return;
+		}
+
+		this.#state.minimized = minimized;
+	}
+
+	#toggleExpanded(expanded = !this.#state.expanded) {
+		this.#state.minimized = false;
+		this.#state.expanded = expanded;
+	}
 
 	*setupCallback() {
 		document.body.addEventListener("scroll", this.#handleScroll);
