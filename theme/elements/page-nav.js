@@ -1,11 +1,8 @@
 import {Element} from "element";
 
 export class PageNav extends Element {
-	static get observedAttributeDefaults() {
-		return {
-			expanded: false,
-			minimized: false,
-		};
+	static get observedAttributes() {
+		return ["expanded", "minimized"];
 	}
 
 	#toggle = this.shadowRoot?.getElementById("toggle");

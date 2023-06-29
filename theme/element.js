@@ -3,15 +3,9 @@ export class Element extends HTMLElement {
 	#reads = new Map();
 	#current = null;
 
-	constructor() {
-		super();
-
-		for (let [k, initial] of Object.entries(
-			this.constructor.observedAttributeDefaults
-		)) {
-			let isBool = typeof initial === "boolean";
-
-			Object.defineProperty(this, k, {
+	watch(object, set, keys = Object.keys(object)) {
+		for (let k of keys) {
+			Object.defineProperty(object, k, {
 				get: () => {
 					if (this.#current) {
 						let r = this.#reads.get(k);
@@ -29,38 +23,12 @@ export class Element extends HTMLElement {
 				set: (v) => {
 					if (this.#observed[k] !== v) {
 						this.#observed[k] = v;
-						isBool ? this.toggleAttribute(k, v) : this.setAttribute(k, v);
+						set(k, v);
 						this.#update(new Set(this.#reads.get(k)?.splice(0, Infinity)));
 					}
 				},
 			});
-
-			this[k] = isBool ? this.hasAttribute(k) : this.getAttribute(k) ?? initial;
 		}
-
-		let firstChild = this.firstElementChild;
-		let mode = firstChild?.getAttribute("shadowrootmode");
-
-		if (!this.shadowRoot && firstChild?.nodeName === "TEMPLATE" && mode) {
-			this.attachShadow({mode}).appendChild(firstChild.content.cloneNode(true));
-			firstChild.remove();
-		}
-	}
-
-	attributeChangedCallback(name, oldValue, newValue) {
-		if (oldValue !== newValue) {
-			let isBool = typeof this[name] === "boolean";
-
-			this[name] = isBool ? newValue === "" : newValue;
-		}
-	}
-
-	connectedCallback() {
-		this.#update(this.setupCallback?.() ?? []);
-	}
-
-	disconnectedCallback() {
-		this.teardownCallback?.();
 	}
 
 	#update(updates) {
@@ -74,7 +42,40 @@ export class Element extends HTMLElement {
 		this.#current = prev;
 	}
 
-	static get observedAttributes() {
-		return Object.keys(this.observedAttributeDefaults);
+	constructor() {
+		super();
+
+		this.watch(
+			this,
+			(k, v) => {
+				let bool = typeof v === "boolean";
+				bool ? this.toggleAttribute(k, v) : this.setAttribute(k, v);
+			},
+			this.constructor?.observedAttributes ?? []
+		);
+
+		let firstChild = this.firstElementChild;
+		let mode = firstChild?.getAttribute("shadowrootmode");
+
+		if (!this.shadowRoot && firstChild?.nodeName === "TEMPLATE" && mode) {
+			this.attachShadow({mode}).appendChild(firstChild.content.cloneNode(true));
+			firstChild.remove();
+		}
+	}
+
+	attributeChangedCallback(name, oldValue, newValue) {
+		if (oldValue !== newValue) {
+			let bool = typeof this[name] === "boolean";
+
+			this[name] = bool ? newValue === "" : newValue;
+		}
+	}
+
+	connectedCallback() {
+		this.#update(this.setupCallback?.() ?? []);
+	}
+
+	disconnectedCallback() {
+		this.teardownCallback?.();
 	}
 }
