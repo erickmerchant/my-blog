@@ -73,7 +73,7 @@ if (!this.shadowRoot && firstChild?.nodeName === "TEMPLATE" && mode) {
 }
 </code-block>
 
-<h3>Two way binding to attributes</h3>
+<h3>Two way data binding to attributes</h3>
 
 <p>This last one is probably the one that you could probably take or leave. It's nice to have attributes behave like any other watched state, but also have your base element handle updating attributes when that state is changed by you. In element.js I use a <code>MutationObserver</code> for this. You can accomplish it with <code>static get observerdAttibutes</code> and <code>attributeChangedCallback</code>, but then you must do it in your child elements. I've found no way to do it in a base element using the idiomatic Custom Element way. It's also easy to do if you don't use classes and implement some sort of functional interface. Here is an example from our ExampleElement again though.</p>
 
@@ -91,7 +91,11 @@ if (!this.shadowRoot && firstChild?.nodeName === "TEMPLATE" && mode) {
 	<li>No duplicate HTML</li>
 	<li>Reactive state</li>
 	<li>Polyfill Declarative Shadow DOM</li>
-	<li>Two way binding to attributes</li>
+	<li>Two way data binding to attributes</li>
 </ul>
 
 <p>I'll likely be packaging up <a href="/element.js">element.js</a> and shipping it to a place where others can use it. I'll update this post if I do.</p>
+
+<p class="annotation">
+	<strong>Follow-up:</strong> I found a way to use attributeChangedCallback for the data binding to attributes, resulting in an even smaller element.js.</a>
+</p>
