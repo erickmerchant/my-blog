@@ -1,9 +1,44 @@
 export class Element extends HTMLElement {
-	#observed = new Map();
-	#observer;
+	#observed = {};
+	#reads = new Map();
+	#current = null;
 
 	constructor() {
 		super();
+
+		for (let [k, initial] of Object.entries(
+			this.constructor.observedAttributeDefaults
+		)) {
+			let isBool = typeof initial === "boolean";
+
+			Object.defineProperty(this, k, {
+				get: () => {
+					if (this.#current) {
+						let r = this.#reads.get(k);
+
+						if (!r) {
+							r = [];
+							this.#reads.set(k, r);
+						}
+
+						r.push(this.#current);
+					}
+
+					return this.#observed[k];
+				},
+				set: (v) => {
+					if (this.#observed[k] !== v) {
+						this.#observed[k] = v;
+
+						isBool ? this.toggleAttribute(k, v) : this.setAttribute(k, v);
+
+						this.#update(new Set(this.#reads.get(k)?.splice(0, Infinity)));
+					}
+				},
+			});
+
+			this[k] = isBool ? this.hasAttribute(k) : this.getAttribute(k) ?? initial;
+		}
 
 		let firstChild = this.firstElementChild;
 		let mode = firstChild?.getAttribute("shadowrootmode");
@@ -12,92 +47,25 @@ export class Element extends HTMLElement {
 			this.attachShadow({mode}).appendChild(firstChild.content.cloneNode(true));
 			firstChild.remove();
 		}
+	}
 
-		this.#observer = new MutationObserver((mutations) => {
-			for (const {attributeName} of mutations) {
-				this.#observed.get(attributeName)?.(this.getAttribute(attributeName));
-			}
-		});
+	attributeChangedCallback(name, oldValue, newValue) {
+		if (oldValue !== newValue) {
+			let isBool = typeof this[name] === "boolean";
 
-		this.#observer.observe(this, {
-			attributes: true,
-		});
+			this[name] = isBool ? newValue === "" : newValue;
+		}
 	}
 
 	connectedCallback() {
-		Element.#update(this.setupCallback?.() ?? []);
+		this.#update(this.setupCallback?.() ?? []);
 	}
 
 	disconnectedCallback() {
-		this.#observer.disconnect();
 		this.teardownCallback?.();
 	}
 
-	attributes(state) {
-		let updates = [];
-
-		state = Element.watch(state);
-
-		for (let [k, v] of Object.entries(state)) {
-			let isBool = typeof v === "boolean";
-
-			state[k] = (isBool ? this.hasAttribute(k) : this.getAttribute(k)) ?? v;
-
-			updates.push(() => {
-				isBool
-					? this.toggleAttribute(k, state[k])
-					: this.setAttribute(k, state[k]);
-			});
-
-			this.#observed.set(k, (v) => {
-				state[k] = isBool ? v === "" : v;
-			});
-		}
-
-		Element.#update(updates);
-
-		return state;
-	}
-
-	static #reads = new Map();
-	static #current = null;
-
-	static watch(state) {
-		let symbols = {};
-
-		return new Proxy(state, {
-			set: (state, k, v) => {
-				if (state[k] !== v) {
-					symbols[k] ??= Symbol("");
-					state[k] = v;
-
-					this.#update(
-						new Set(this.#reads.get(symbols[k]).splice(0, Infinity))
-					);
-				}
-
-				return true;
-			},
-			get: (state, k) => {
-				symbols[k] ??= Symbol("");
-
-				if (this.#current) {
-					let r = this.#reads.get(symbols[k]);
-
-					if (!r) {
-						r = [];
-						this.#reads.set(symbols[k], r);
-					}
-
-					r.push(this.#current);
-				}
-
-				return state[k];
-			},
-		});
-	}
-
-	static #update(updates) {
+	#update(updates) {
 		let prev = this.#current;
 
 		for (let u of updates) {
@@ -106,5 +74,9 @@ export class Element extends HTMLElement {
 		}
 
 		this.#current = prev;
+	}
+
+	static get observedAttributes() {
+		return Object.keys(this.observedAttributeDefaults);
 	}
 }

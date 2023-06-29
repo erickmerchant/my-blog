@@ -1,10 +1,12 @@
 import {Element} from "element";
 
 export class PageNav extends Element {
-	#state = this.attributes({
-		expanded: false,
-		minimized: false,
-	});
+	static get observedAttributeDefaults() {
+		return {
+			expanded: false,
+			minimized: false,
+		};
+	}
 
 	#toggle = this.shadowRoot?.getElementById("toggle");
 	#icon = this.shadowRoot?.getElementById("icon");
@@ -21,16 +23,16 @@ export class PageNav extends Element {
 	};
 
 	#toggleMinimized(minimized) {
-		if (this.#state.expanded) {
+		if (this.expanded) {
 			return;
 		}
 
-		this.#state.minimized = minimized;
+		this.minimized = minimized;
 	}
 
-	#toggleExpanded(expanded = !this.#state.expanded) {
-		this.#state.minimized = false;
-		this.#state.expanded = expanded;
+	#toggleExpanded(expanded = !this.expanded) {
+		this.minimized = false;
+		this.expanded = expanded;
 	}
 
 	*setupCallback() {
@@ -45,13 +47,13 @@ export class PageNav extends Element {
 		});
 
 		yield () => {
-			this.#toggle?.setAttribute("aria-pressed", `${this.#state.expanded}`);
+			this.#toggle?.setAttribute("aria-pressed", `${this.expanded}`);
 		};
 
 		yield () => {
 			this.#icon?.setAttribute(
 				"d",
-				this.#state.expanded
+				this.expanded
 					? "M1 4 l3 -3 l11 11 l-3 3 z m11 -3 l3 3 l-11 11 l-3 -3 z"
 					: "M1 1 l14 0 l0 3.5 l-14 0 z m0 5.25 l14 0 l0 3.5 l-14 0 z m0 5.25 l14 0 l0 3.5 l-14 0 z"
 			);
