@@ -29,9 +29,7 @@ export class Element extends HTMLElement {
 				set: (v) => {
 					if (this.#observed[k] !== v) {
 						this.#observed[k] = v;
-
 						isBool ? this.toggleAttribute(k, v) : this.setAttribute(k, v);
-
 						this.#update(new Set(this.#reads.get(k)?.splice(0, Infinity)));
 					}
 				},
