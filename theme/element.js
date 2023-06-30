@@ -3,8 +3,8 @@ export class Element extends HTMLElement {
 	#reads = new Map();
 	#current = null;
 
-	watch(object, set, keys = Object.keys(object)) {
-		for (let k of keys) {
+	watch(object, set, defaults = object) {
+		for (let [k, initial] of Object.entries(defaults)) {
 			Object.defineProperty(object, k, {
 				get: () => {
 					if (this.#current) {
@@ -28,6 +28,8 @@ export class Element extends HTMLElement {
 					}
 				},
 			});
+
+			object[k] = initial;
 		}
 	}
 
@@ -51,7 +53,7 @@ export class Element extends HTMLElement {
 				let bool = typeof v === "boolean";
 				bool ? this.toggleAttribute(k, v) : this.setAttribute(k, v);
 			},
-			this.constructor?.observedAttributes ?? []
+			this.constructor?.observedAttributeDefaults ?? {}
 		);
 
 		let firstChild = this.firstElementChild;
@@ -77,5 +79,9 @@ export class Element extends HTMLElement {
 
 	disconnectedCallback() {
 		this.teardownCallback?.();
+	}
+
+	static get observedAttributes() {
+		return Object.keys(this.observedAttributeDefaults ?? {});
 	}
 }
