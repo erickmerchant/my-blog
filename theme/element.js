@@ -57,8 +57,9 @@ export class Element extends HTMLElement {
 			this,
 			(k, v) => {
 				let bool = typeof v === "boolean";
+				let name = k.replaceAll(/[A-Z]/g, (m) => "-" + m[0].toLowerCase());
 
-				bool ? this.toggleAttribute(k, v) : this.setAttribute(k, v);
+				bool ? this.toggleAttribute(name, v) : this.setAttribute(name, v);
 			},
 			this.constructor?.observedAttributeDefaults ?? {}
 		);
@@ -73,10 +74,11 @@ export class Element extends HTMLElement {
 	}
 
 	attributeChangedCallback(name, oldValue, newValue) {
+		let k = name.replaceAll(/-([a-z])/g, (m) => m[1].toUpperCase());
 		if (oldValue !== newValue) {
-			let bool = typeof this[name] === "boolean";
+			let bool = typeof this[k] === "boolean";
 
-			this[name] = bool ? newValue === "" : newValue;
+			this[k] = bool ? newValue === "" : newValue;
 		}
 	}
 
