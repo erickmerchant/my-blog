@@ -74,9 +74,9 @@ export class Element extends HTMLElement {
 	}
 
 	attributeChangedCallback(name, oldValue, newValue) {
-		let k = name.replaceAll(/-([a-z])/g, (m) => m[1].toUpperCase());
 		if (oldValue !== newValue) {
 			let bool = typeof this[k] === "boolean";
+			let k = name.replaceAll(/-([a-z])/g, (m) => m[1].toUpperCase());
 
 			this[k] = bool ? newValue === "" : newValue;
 		}
