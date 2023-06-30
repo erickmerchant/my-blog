@@ -1,4 +1,8 @@
 export class Element extends HTMLElement {
+	static get observedAttributes() {
+		return Object.keys(this.observedAttributeDefaults ?? {});
+	}
+
 	#observed = {};
 	#reads = new Map();
 	#current = null;
@@ -23,7 +27,7 @@ export class Element extends HTMLElement {
 				set: (v) => {
 					if (this.#observed[k] !== v) {
 						this.#observed[k] = v;
-						set(k, v);
+						set?.(k, v);
 						this.#update(new Set(this.#reads.get(k)?.splice(0, Infinity)));
 					}
 				},
@@ -31,6 +35,8 @@ export class Element extends HTMLElement {
 
 			object[k] = initial;
 		}
+
+		return object;
 	}
 
 	#update(updates) {
@@ -51,6 +57,7 @@ export class Element extends HTMLElement {
 			this,
 			(k, v) => {
 				let bool = typeof v === "boolean";
+
 				bool ? this.toggleAttribute(k, v) : this.setAttribute(k, v);
 			},
 			this.constructor?.observedAttributeDefaults ?? {}
@@ -79,9 +86,5 @@ export class Element extends HTMLElement {
 
 	disconnectedCallback() {
 		this.teardownCallback?.();
-	}
-
-	static get observedAttributes() {
-		return Object.keys(this.observedAttributeDefaults ?? {});
 	}
 }
