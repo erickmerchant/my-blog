@@ -3,9 +3,11 @@ export class Element extends HTMLElement {
 		return Object.keys(this.observedAttributeDefaults ?? {});
 	}
 
+	static keys = {};
+
 	#observed = {};
 	#reads = new Map();
-	#current = null;
+	#current;
 
 	watch(object, set, defaults = object) {
 		for (let [k, initial] of Object.entries(defaults)) {
@@ -27,7 +29,13 @@ export class Element extends HTMLElement {
 				set: (v) => {
 					if (this.#observed[k] !== v) {
 						this.#observed[k] = v;
-						set?.(k, v);
+						set?.(
+							(Element.keys[k] ??= k.replaceAll(
+								/[A-Z]/g,
+								(m) => "-" + m[0].toLowerCase()
+							)),
+							v
+						);
 						this.#update(new Set(this.#reads.get(k)?.splice(0, Infinity)));
 					}
 				},
@@ -55,11 +63,10 @@ export class Element extends HTMLElement {
 
 		this.watch(
 			this,
-			(k, v) => {
-				let bool = typeof v === "boolean";
-				let name = k.replaceAll(/[A-Z]/g, (m) => "-" + m[0].toLowerCase());
-
-				bool ? this.toggleAttribute(name, v) : this.setAttribute(name, v);
+			(name, v) => {
+				typeof v === "boolean"
+					? this.toggleAttribute(name, v)
+					: this.setAttribute(name, v);
 			},
 			this.constructor?.observedAttributeDefaults ?? {}
 		);
@@ -75,10 +82,11 @@ export class Element extends HTMLElement {
 
 	attributeChangedCallback(name, oldValue, newValue) {
 		if (oldValue !== newValue) {
-			let k = name.replaceAll(/-([a-z])/g, (m) => m[1].toUpperCase());
-			let bool = typeof this[k] === "boolean";
+			let k = (Element.keys[name] ??= name.replaceAll(/-([a-z])/g, (m) =>
+				m[1].toUpperCase()
+			));
 
-			this[k] = bool ? newValue === "" : newValue;
+			this[k] = typeof this[k] === "boolean" ? newValue === "" : newValue;
 		}
 	}
 
