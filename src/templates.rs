@@ -1,3 +1,4 @@
+use camino::Utf8Path;
 use chrono::Datelike;
 use minijinja::{path_loader, Environment};
 use std::{fs, time::UNIX_EPOCH};
@@ -36,10 +37,12 @@ fn asset_url(mut url: String) -> String {
 				.duration_since(UNIX_EPOCH)
 				.expect("time should be a valid time since the unix epoch")
 				.as_secs();
-
-			let version_time = base62::encode(version_time);
-
-			url.push_str(&format!("?v={version_time}"));
+			let cache_key = base62::encode(version_time);
+			let path = Utf8Path::new(&url);
+			let ext = path.extension().unwrap_or_default();
+			url = path
+				.with_extension(format!("{cache_key}.{ext}"))
+				.to_string();
 		}
 	};
 

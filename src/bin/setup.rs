@@ -1,9 +1,10 @@
 use anyhow::Result;
 use app::{models::cache, models::page, templates::get_env};
+use camino::Utf8Path;
 use glob::glob;
 use lol_html::{element, html_content::ContentType, text, HtmlRewriter, Settings};
 use minijinja::context;
-use pathdiff::diff_paths;
+use pathdiff::diff_utf8_paths;
 use sea_orm::{sea_query, ActiveModelTrait, ActiveValue::Set, ConnectionTrait, Database, Schema};
 use serde_json as json;
 use std::{collections::HashSet, fs};
@@ -171,24 +172,25 @@ async fn main() -> Result<()> {
 	let paths = glob("content/**/*.html")?;
 
 	for path in paths.flatten() {
-		let slug = path
-			.file_stem()
-			.expect("file stem should exist")
-			.to_string_lossy()
-			.to_string();
+		if let Some(path) = Utf8Path::from_path(&path) {
+			let slug = path
+				.file_stem()
+				.expect("file stem should exist")
+				.to_string();
 
-		let mut category = "".to_string();
+			let mut category = "".to_string();
 
-		if let Some(p) = diff_paths(&path, "content") {
-			if let Some(parent) = p.parent() {
-				category = parent.to_string_lossy().to_string();
-			}
-		};
+			if let Some(p) = diff_utf8_paths(path, "content") {
+				if let Some(parent) = p.parent() {
+					category = parent.to_string();
+				}
+			};
 
-		let contents = fs::read_to_string(&path)?;
-		let data = page_from_html(category, slug, &contents)?;
+			let contents = fs::read_to_string(path)?;
+			let data = page_from_html(category, slug, &contents)?;
 
-		data.insert(&connection).await?;
+			data.insert(&connection).await?;
+		}
 	}
 
 	Ok(())
