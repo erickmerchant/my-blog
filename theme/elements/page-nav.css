@@ -28,6 +28,7 @@ svg {
 	);
 	color: var(--ink-0);
 	z-index: 2;
+	box-shadow: 0 0.1em 0.1em var(--paper-0);
 }
 
 :host([minimized]) {

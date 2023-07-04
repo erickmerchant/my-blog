@@ -150,6 +150,7 @@ code {
 	padding-block: 1em 3em;
 	align-content: start;
 	z-index: 1;
+	box-shadow: 0 0.1em 0.1em var(--paper-0);
 
 	--list-indent: 2rem;
 	--max-width: 40rem;
@@ -212,6 +213,11 @@ code {
 .annotation {
 	font-style: italic;
 	background-color: var(--paper-1);
+	background-size: 0.25em 0.25em;
+	background-image: radial-gradient(
+		var(--paper-2) 0 0.075em,
+		var(--paper-1) 0.075em 0.3em
+	);
 	border-radius: var(--border-radius);
 	padding-block: 1em;
 	max-width: calc(var(--max-width) - 3em);
