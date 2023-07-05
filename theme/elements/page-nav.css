@@ -100,7 +100,7 @@ svg {
 	border: 0;
 	background-color: hsl(0 0% 0% / 0);
 	place-content: center;
-	border-radius: 0.25em;
+	border-radius: var(--border-radius);
 	cursor: pointer;
 	transition: box-shadow 0.25s;
 	box-shadow: 0 0 0 0.125em hsl(0 0% 0% / 0);

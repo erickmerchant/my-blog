@@ -10,8 +10,8 @@
 }
 
 ::-webkit-scrollbar {
-	width: 0.5rem;
-	height: 0.5rem;
+	width: 0.5em;
+	height: 0.5em;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -152,9 +152,9 @@ code {
 	z-index: 1;
 	box-shadow: 0 0.1em 0.1em var(--paper-0);
 
-	--list-indent: 2rem;
 	--max-width: 40rem;
-	--padding-inline: 1.5rem;
+	--list-indent: 3cqi;
+	--padding-inline: 2.25cqi;
 }
 
 .main > * {
@@ -167,9 +167,6 @@ code {
 @container (width <= 30rem) {
 	.main {
 		font-size: 0.8em;
-
-		--list-indent: 1rem;
-		--padding-inline: 0.5rem;
 	}
 }
 
@@ -182,8 +179,8 @@ code {
 	gap: 1em 3em;
 	background-image: repeating-linear-gradient(
 		135deg,
-		var(--paper-2) 0 0.1rem,
-		var(--paper-1) 0.1rem 0.4rem
+		var(--paper-2) 0 0.1em,
+		var(--paper-1) 0.1em 0.4em
 	);
 	position: sticky;
 	bottom: 0;
