@@ -3,8 +3,6 @@ export class Element extends HTMLElement {
 		return Object.keys(this.observedAttributeDefaults ?? {});
 	}
 
-	static keys = {};
-
 	#observed = {};
 	#reads = new Map();
 	#current;
@@ -29,13 +27,7 @@ export class Element extends HTMLElement {
 				set: (v) => {
 					if (this.#observed[k] !== v) {
 						this.#observed[k] = v;
-						set?.(
-							(Element.keys[k] ??= k.replaceAll(
-								/[A-Z]/g,
-								(m) => "-" + m[0].toLowerCase()
-							)),
-							v
-						);
+						set?.(k, v);
 						this.#update(new Set(this.#reads.get(k)?.splice(0, Infinity)));
 					}
 				},
@@ -80,12 +72,8 @@ export class Element extends HTMLElement {
 		}
 	}
 
-	attributeChangedCallback(name, oldValue, newValue) {
+	attributeChangedCallback(k, oldValue, newValue) {
 		if (oldValue !== newValue) {
-			let k = (Element.keys[name] ??= name.replaceAll(/-([a-z])/g, (m) =>
-				m[1].toUpperCase()
-			));
-
 			this[k] = typeof this[k] === "boolean" ? newValue === "" : newValue;
 		}
 	}
