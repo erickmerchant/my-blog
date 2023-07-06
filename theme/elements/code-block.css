@@ -1,5 +1,5 @@
 *,
-*::before {
+* {
 	font: inherit;
 	color: inherit;
 	max-width: 100%;
@@ -57,9 +57,6 @@
 pre {
 	font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas,
 		"DejaVu Sans Mono", monospace;
-	font-weight: 400;
-	font-variant-ligatures: no-common-ligatures;
-	padding: 0;
 }
 
 code {
