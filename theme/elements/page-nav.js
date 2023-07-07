@@ -13,34 +13,22 @@ export class PageNav extends Element {
 		let scrollTop = document.body.scrollTop;
 
 		if (scrollTop !== this.#scrollTop) {
-			this.#toggleMinimized(scrollTop >= this.#scrollTop);
+			this.minimized = scrollTop >= this.#scrollTop;
 		}
 
 		this.#scrollTop = scrollTop;
 	};
 
-	#toggleMinimized(minimized) {
-		if (this.expanded) {
-			return;
-		}
-
-		this.minimized = minimized;
-	}
-
-	#toggleExpanded(expanded = !this.expanded) {
-		this.minimized = false;
-		this.expanded = expanded;
-	}
-
 	*setupCallback() {
 		document.body.addEventListener("scroll", this.#handleScroll);
 
 		this.addEventListener("mouseenter", () => {
-			this.#toggleMinimized(false);
+			this.minimized = false;
 		});
 
 		this.#toggle?.addEventListener("click", () => {
-			this.#toggleExpanded();
+			this.minimized = false;
+			this.expanded = !this.expanded;
 		});
 
 		yield () => {

@@ -21,26 +21,6 @@
 	--white-space: pre-wrap;
 }
 
-@media (prefers-color-scheme: light) {
-	:host {
-		--code-0: hsl(0 80% 25%);
-		--code-1: hsl(30 100% 25%);
-		--code-2: hsl(60 80% 25%);
-		--code-3: hsl(120 5% 25%);
-		--code-4: hsl(120 5% 40%);
-	}
-}
-
-@media (prefers-color-scheme: dark) {
-	:host {
-		--code-0: hsl(0 80% 80%);
-		--code-1: hsl(30 100% 80%);
-		--code-2: hsl(60 80% 80%);
-		--code-3: hsl(120 5% 80%);
-		--code-4: hsl(120 5% 65%);
-	}
-}
-
 @container (width <= 42rem) {
 	:host {
 		--padding-inline: 0.5em;
