@@ -35,7 +35,7 @@ html {
 body {
 	height: 100%;
 	overflow-x: auto;
-	color: var(--ink-1);
+	color: var(--ink-0);
 	background: var(--paper-2);
 	display: grid;
 	grid-template-rows: min-content auto min-content;
@@ -48,38 +48,40 @@ body {
 
 @media (prefers-color-scheme: light) {
 	body {
-		--ink-0: hsl(120 70% 25%);
-		--ink-1: hsl(0 0% 5%);
-		--paper-0: hsl(30 15% 90%);
-		--paper-1: hsl(30 15% 95%);
-		--paper-2: hsl(30 15% 100%);
+		--ink-0: hsl(0 0% 5%);
+		--ink-1: hsl(120 70% 25%);
+		--ink-2: hsl(120 70% 15%);
+		--paper-0: hsl(60 15% 90%);
+		--paper-1: hsl(60 15% 95%);
+		--paper-2: hsl(60 15% 100%);
 		--scrollbar: hsl(120 25% 50%);
 		--code-0: hsl(0 80% 25%);
 		--code-1: hsl(30 100% 25%);
 		--code-2: hsl(60 80% 20%);
-		--code-3: hsl(120 15% 25%);
-		--code-4: hsl(120 15% 40%);
+		--code-3: hsl(200 20% 25%);
+		--code-4: hsl(120 10% 40%);
 	}
 }
 
 @media (prefers-color-scheme: dark) {
 	body {
-		--ink-0: hsl(120 70% 80%);
-		--ink-1: hsl(0 0% 100%);
-		--paper-0: hsl(30 15% 15%);
-		--paper-1: hsl(30 15% 10%);
-		--paper-2: hsl(30 15% 5%);
+		--ink-0: hsl(0 0% 100%);
+		--ink-1: hsl(120 70% 80%);
+		--ink-2: hsl(120 70% 90%);
+		--paper-0: hsl(60 15% 15%);
+		--paper-1: hsl(60 15% 10%);
+		--paper-2: hsl(60 15% 5%);
 		--scrollbar: hsl(120 25% 55%);
 		--code-0: hsl(0 80% 80%);
 		--code-1: hsl(30 100% 80%);
 		--code-2: hsl(60 80% 85%);
-		--code-3: hsl(120 15% 80%);
-		--code-4: hsl(120 15% 65%);
+		--code-3: hsl(200 20% 80%);
+		--code-4: hsl(120 10% 65%);
 	}
 }
 
 a {
-	color: var(--ink-0);
+	color: var(--ink-1);
 	text-decoration-thickness: 0.1em;
 	text-underline-offset: 0.1em;
 }
@@ -99,7 +101,7 @@ a:focus-visible {
 h1,
 h2,
 h3 {
-	color: var(--ink-0);
+	color: var(--ink-2);
 	line-height: 1.125;
 	font-weight: 900;
 	text-wrap: balance;
