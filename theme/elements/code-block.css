@@ -15,7 +15,6 @@
 	border-radius: var(--border-radius);
 	overflow-x: auto;
 	tab-size: 2;
-
 	--max-width: 42rem;
 	--padding-inline: 0.5em;
 	--white-space: pre-wrap;

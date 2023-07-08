@@ -42,7 +42,6 @@ body {
 	container-type: inline-size;
 	scrollbar-gutter: stable;
 	overscroll-behavior: none;
-
 	--border-radius: 0.25em;
 	--easing: linear;
 }
@@ -51,15 +50,15 @@ body {
 	body {
 		--ink-0: hsl(120 70% 25%);
 		--ink-1: hsl(0 0% 5%);
-		--paper-0: hsl(60 10% 90%);
-		--paper-1: hsl(60 10% 95%);
-		--paper-2: hsl(0 10% 100%);
+		--paper-0: hsl(30 15% 90%);
+		--paper-1: hsl(30 15% 95%);
+		--paper-2: hsl(30 15% 100%);
 		--scrollbar: hsl(120 25% 50%);
 		--code-0: hsl(0 80% 25%);
 		--code-1: hsl(30 100% 25%);
 		--code-2: hsl(60 80% 25%);
-		--code-3: hsl(120 5% 25%);
-		--code-4: hsl(120 5% 40%);
+		--code-3: hsl(120 15% 25%);
+		--code-4: hsl(120 15% 40%);
 	}
 }
 
@@ -67,15 +66,15 @@ body {
 	body {
 		--ink-0: hsl(120 70% 80%);
 		--ink-1: hsl(0 0% 100%);
-		--paper-0: hsl(60 10% 15%);
-		--paper-1: hsl(60 10% 10%);
-		--paper-2: hsl(60 10% 5%);
+		--paper-0: hsl(30 15% 15%);
+		--paper-1: hsl(30 15% 10%);
+		--paper-2: hsl(30 15% 5%);
 		--scrollbar: hsl(120 25% 55%);
 		--code-0: hsl(0 80% 80%);
 		--code-1: hsl(30 100% 80%);
 		--code-2: hsl(60 80% 80%);
-		--code-3: hsl(120 5% 80%);
-		--code-4: hsl(120 5% 65%);
+		--code-3: hsl(120 15% 80%);
+		--code-4: hsl(120 15% 65%);
 	}
 }
 
@@ -161,7 +160,6 @@ code {
 	align-content: start;
 	z-index: 1;
 	box-shadow: 0 0.1em 0.1em var(--paper-0);
-
 	--max-width: 40rem;
 	--list-indent: 3cqi;
 	--padding-inline: 2.25cqi;
@@ -220,14 +218,21 @@ code {
 .annotation {
 	font-style: italic;
 	background-color: var(--paper-1);
-	background-size: 0.25em 0.25em;
+	background-size: 0.2em 0.2em;
 	background-image: radial-gradient(
-		var(--paper-2) 0 0.075em,
-		var(--paper-1) 0.075em 0.3em
+		var(--paper-2) 0 0.05em,
+		var(--paper-1) 0.05em 0.2em
 	);
 	border-radius: var(--border-radius);
 	padding-block: 1em;
-	max-width: calc(var(--max-width) - 3em);
+	max-width: calc(var(--max-width) - 2em);
+}
+
+@container (width <= 38.5rem) {
+	.annotation {
+		max-width: 100%;
+		--border-radius: 0;
+	}
 }
 
 .index {
@@ -235,7 +240,6 @@ code {
 	display: grid;
 	gap: 1em;
 	margin-block-end: 1em;
-
 	--list-indent: 0;
 }
 
