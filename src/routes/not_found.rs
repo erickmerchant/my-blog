@@ -1,6 +1,8 @@
 use crate::{error::AppError, state::AppState};
 use axum::{
-	extract::State, http::StatusCode, response::Html, response::IntoResponse, response::Response,
+	extract::State,
+	http::StatusCode,
+	response::{Html, IntoResponse, Response},
 };
 use minijinja::context;
 use std::sync::Arc;

@@ -1,7 +1,9 @@
 use crate::{error::AppError, models::cache, state::AppState};
 use axum::{
-	extract::State, http::header, http::Request, http::StatusCode, middleware::Next,
-	response::IntoResponse, response::Response,
+	extract::State,
+	http::{header, Request, StatusCode},
+	middleware::Next,
+	response::{IntoResponse, Response},
 };
 use etag::EntityTag;
 use sea_orm::{entity::prelude::*, query::*};

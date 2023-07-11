@@ -1,5 +1,8 @@
 use crate::mime::get_mime;
-use axum::{http::header, http::StatusCode, http::Uri, response::IntoResponse, response::Response};
+use axum::{
+	http::{header, StatusCode, Uri},
+	response::{IntoResponse, Response},
+};
 use camino::Utf8Path;
 use std::fs;
 

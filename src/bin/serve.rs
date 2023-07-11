@@ -1,4 +1,8 @@
-use app::{middleware, routes, state::AppState, state::Site, templates};
+use app::{
+	middleware, routes,
+	state::{AppState, Site},
+	templates,
+};
 use axum::{
 	http::Request, middleware::from_fn_with_state, response::Response, routing::get, Router,
 };

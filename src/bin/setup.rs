@@ -1,5 +1,8 @@
 use anyhow::Result;
-use app::{models::cache, models::page, templates::get_env};
+use app::{
+	models::{cache, page},
+	templates::get_env,
+};
 use camino::Utf8Path;
 use glob::glob;
 use lol_html::{element, html_content::ContentType, text, HtmlRewriter, Settings};
@@ -9,7 +12,9 @@ use sea_orm::{sea_query, ActiveModelTrait, ActiveValue::Set, ConnectionTrait, Da
 use serde_json as json;
 use std::{collections::HashSet, fs};
 use syntect::{
-	html::ClassStyle, html::ClassedHTMLGenerator, parsing::SyntaxSet, util::LinesWithEndings,
+	html::{ClassStyle, ClassedHTMLGenerator},
+	parsing::SyntaxSet,
+	util::LinesWithEndings,
 };
 
 fn page_from_html(category: String, slug: String, contents: &str) -> Result<page::ActiveModel> {
