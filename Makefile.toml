@@ -1,16 +1,23 @@
-[tasks.watch]
+[tasks.run-watch]
 env = {RUST_LOG="serve=debug", RUST_BACKTRACE=1, APP_PORT=3000, APP_DEV=true}
 command="cargo"
 args=["watch", "-i", "*.css", "-x", "r --bin setup", "-s", "cargo run --no-default-features"]
 
-[tasks.build]
+[tasks.docker-build]
 command="docker"
 args=["build", ".", "-t", "my-blog"]
 
-[tasks.run]
+[tasks.docker-run]
 command="docker"
 args=["run", "-p", "3000:8080", "--name", "my-blog", "my-blog"]
 
-[tasks.stop]
+[tasks.docker-stop]
 command="docker"
 args=["rm", "-f", "my-blog"]
+
+[tasks.style-watch]
+command="coolstyleserver"
+args=["--watch", "theme"]
+
+[tasks.watch]
+run_task = { name = ["style-watch", "run-watch"], parallel = true }
