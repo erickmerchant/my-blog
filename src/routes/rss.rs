@@ -1,18 +1,14 @@
-use crate::{
-	error::AppError,
-	models::{cache, page},
-	state::AppState,
-};
+use crate::{error::AppError, models::page, state::AppState, views::cacheable};
 use axum::{
 	extract::{Path, State},
-	http::{header, Uri},
-	response::{IntoResponse, Response},
+	http::Uri,
+	response::Response,
 };
 use minijinja::context;
 use sea_orm::{entity::prelude::*, query::*};
 use std::{sync::Arc, vec::Vec};
 
-pub async fn rss(
+pub async fn route(
 	State(app_state): State<Arc<AppState>>,
 	Path(category): Path<String>,
 	uri: Uri,
@@ -25,29 +21,15 @@ pub async fn rss(
 		.all(&app_state.database.clone())
 		.await?;
 
-	let ctx = context! {
-		site => &app_state.site,
-		pages => pages,
-	};
-
-	let rss = app_state
-		.templates
-		.get_template("layouts/rss.jinja")
-		.and_then(|template| template.render(ctx))?;
-
-	let body = rss.as_bytes().to_vec();
-
-	let etag = cache::save(
-		&app_state,
-		uri.path().to_string(),
-		content_type.to_string(),
-		body.clone(),
+	cacheable::view(
+		app_state.as_ref().clone(),
+		content_type.clone(),
+		uri,
+		"layouts/rss.jinja".to_string(),
+		context! {
+			site => &app_state.site,
+			pages => &pages,
+		},
 	)
-	.await;
-
-	Ok((
-		[(header::CONTENT_TYPE, content_type), (header::ETAG, etag)],
-		body,
-	)
-		.into_response())
+	.await
 }

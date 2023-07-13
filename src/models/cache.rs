@@ -1,6 +1,4 @@
-use crate::state::AppState;
-use etag::EntityTag;
-use sea_orm::{entity::prelude::*, ActiveValue::Set};
+use sea_orm::entity::prelude::*;
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq, Serialize, Deserialize)]
@@ -19,26 +17,3 @@ pub struct Model {
 pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}
-
-pub async fn save(
-	app_state: &AppState,
-	path: String,
-	content_type: String,
-	body: Vec<u8>,
-) -> String {
-	let etag = EntityTag::from_data(&body).to_string();
-
-	if !envmnt::is("APP_DEV") {
-		let cache_model = ActiveModel {
-			path: Set(path.clone()),
-			content_type: Set(content_type.clone()),
-			etag: Set(etag.clone()),
-			body: Set(body.clone()),
-			..Default::default()
-		};
-
-		cache_model.clone().insert(&app_state.database).await.ok();
-	};
-
-	etag
-}

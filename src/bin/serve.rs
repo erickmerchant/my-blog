@@ -1,5 +1,6 @@
 use app::{
-	middleware, routes,
+	middleware::*,
+	routes::*,
 	state::{AppState, Site},
 	templates,
 };
@@ -38,14 +39,14 @@ async fn main() -> io::Result<()> {
 	};
 
 	let app = Router::new()
-		.route("/", get(routes::posts_index))
-		.route("/:category/", get(routes::index))
-		.route("/:category/feed/", get(routes::rss))
-		.route("/:category/:slug/", get(routes::page))
-		.fallback(routes::asset)
+		.route("/", get(posts_index::route))
+		.route("/:category/", get(index::route))
+		.route("/:category/feed/", get(rss::route))
+		.route("/:category/:slug/", get(page::route))
+		.fallback(asset::route)
 		.layer(from_fn_with_state(
 			app_state.clone(),
-			middleware::not_modified,
+			not_modified::middleware,
 		))
 		.layer(CompressionLayer::new())
 		.layer(

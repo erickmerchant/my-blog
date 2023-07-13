@@ -1,19 +1,14 @@
-use crate::{
-	error::AppError,
-	models::{cache, page},
-	routes::not_found,
-	state::AppState,
-};
+use crate::{error::AppError, models::page, routes::not_found, state::AppState, views::cacheable};
 use axum::{
 	extract::{Path, State},
-	http::{header, Uri},
-	response::{IntoResponse, Response},
+	http::Uri,
+	response::Response,
 };
 use minijinja::context;
 use sea_orm::{entity::prelude::*, query::*};
 use std::sync::Arc;
 
-pub async fn page(
+pub async fn route(
 	State(app_state): State<Arc<AppState>>,
 	Path((category, slug)): Path<(String, String)>,
 	uri: Uri,
@@ -33,32 +28,18 @@ pub async fn page(
 		.await?;
 
 	if let Some(page) = page {
-		let ctx = context! {
-			site => &app_state.site,
-			page => &page,
-		};
-
-		let html = app_state
-			.templates
-			.get_template(&page.template)
-			.and_then(|template| template.render(ctx))?;
-
-		let body = html.as_bytes().to_vec();
-
-		let etag = cache::save(
-			&app_state,
-			uri.path().to_string(),
-			content_type.to_string(),
-			body.clone(),
+		cacheable::view(
+			app_state.as_ref().clone(),
+			content_type.clone(),
+			uri,
+			page.template.clone(),
+			context! {
+				site => &app_state.site,
+				page => page,
+			},
 		)
-		.await;
-
-		Ok((
-			[(header::CONTENT_TYPE, content_type), (header::ETAG, etag)],
-			body,
-		)
-			.into_response())
+		.await
 	} else {
-		not_found(State(app_state))
+		not_found::route(State(app_state))
 	}
 }

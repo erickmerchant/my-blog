@@ -1,18 +1,21 @@
-use crate::mime::get_mime;
+use crate::{error::AppError, routes::not_found, state::AppState};
 use axum::{
+	extract::State,
 	http::{header, StatusCode, Uri},
 	response::{IntoResponse, Response},
 };
 use camino::Utf8Path;
-use std::fs;
+use std::{fs, sync::Arc};
 
-pub async fn asset(uri: Uri) -> Response {
+pub async fn route(State(app_state): State<Arc<AppState>>, uri: Uri) -> Result<Response, AppError> {
 	let mut response: Option<Response> = None;
 	let uri = Utf8Path::new("theme").join(uri.path().trim_start_matches('/'));
 
 	if let Some(ext) = uri.extension() {
 		let uri = uri.with_extension("").with_extension(ext);
-		let asset = get_mime(Some(ext)).map(|content_type| (content_type, fs::read(uri)));
+		let asset = mime_guess::from_ext(ext)
+			.first()
+			.map(|content_type| (content_type, fs::read(uri)));
 
 		if let Some((content_type, Ok(body))) = asset {
 			let cache_control = if envmnt::is("APP_DEV") {
@@ -26,19 +29,21 @@ pub async fn asset(uri: Uri) -> Response {
 			response = Some(
 				(
 					[
-						(header::CONTENT_TYPE, content_type),
+						(header::CONTENT_TYPE, content_type.to_string()),
 						(header::CACHE_CONTROL, cache_control),
 					],
 					body,
 				)
 					.into_response(),
 			);
+		} else {
+			response = Some(StatusCode::NOT_FOUND.into_response());
 		}
 	}
 
 	if let Some(response) = response {
-		response
+		Ok(response)
 	} else {
-		StatusCode::NOT_FOUND.into_response()
+		not_found::route(State(app_state))
 	}
 }

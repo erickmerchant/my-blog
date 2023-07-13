@@ -8,7 +8,7 @@ use axum::{
 use etag::EntityTag;
 use sea_orm::{entity::prelude::*, query::*};
 
-pub async fn not_modified<B>(
+pub async fn middleware<B>(
 	State(app_state): State<AppState>,
 	req: Request<B>,
 	next: Next<B>,
