@@ -7,7 +7,10 @@ use axum::{
 use camino::Utf8Path;
 use std::{fs, sync::Arc};
 
-pub async fn route(State(app_state): State<Arc<AppState>>, uri: Uri) -> Result<Response, AppError> {
+pub async fn handler(
+	State(app_state): State<Arc<AppState>>,
+	uri: Uri,
+) -> Result<Response, AppError> {
 	let mut response: Option<Response> = None;
 	let uri = Utf8Path::new("theme").join(uri.path().trim_start_matches('/'));
 
@@ -44,6 +47,6 @@ pub async fn route(State(app_state): State<Arc<AppState>>, uri: Uri) -> Result<R
 	if let Some(response) = response {
 		Ok(response)
 	} else {
-		not_found::route(State(app_state))
+		not_found::handler(State(app_state))
 	}
 }

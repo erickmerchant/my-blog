@@ -8,7 +8,7 @@ use minijinja::context;
 use sea_orm::{entity::prelude::*, query::*};
 use std::{sync::Arc, vec::Vec};
 
-pub async fn route(
+pub async fn handler(
 	State(app_state): State<Arc<AppState>>,
 	Path(category): Path<String>,
 	uri: Uri,
@@ -32,7 +32,7 @@ pub async fn route(
 		.await?;
 
 	if !pages.is_empty() && pages_index_page.is_some() {
-		cacheable::view(
+		cacheable::handler(
 			app_state.as_ref().clone(),
 			content_type.clone(),
 			uri,
@@ -47,6 +47,6 @@ pub async fn route(
 		)
 		.await
 	} else {
-		not_found::route(State(app_state))
+		not_found::handler(State(app_state))
 	}
 }

@@ -39,11 +39,11 @@ async fn main() -> io::Result<()> {
 	};
 
 	let app = Router::new()
-		.route("/", get(posts_index::route))
-		.route("/:category/", get(index::route))
-		.route("/:category/feed/", get(rss::route))
-		.route("/:category/:slug/", get(page::route))
-		.fallback(asset::route)
+		.route("/", get(posts_index::handler))
+		.route("/:category/", get(index::handler))
+		.route("/:category/feed/", get(rss::handler))
+		.route("/:category/:slug/", get(page::handler))
+		.fallback(asset::handler)
 		.layer(from_fn_with_state(
 			app_state.clone(),
 			not_modified::middleware,

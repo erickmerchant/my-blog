@@ -7,7 +7,7 @@ use axum::{
 use minijinja::context;
 use std::sync::Arc;
 
-pub fn route(State(app_state): State<Arc<AppState>>) -> Result<Response, AppError> {
+pub fn handler(State(app_state): State<Arc<AppState>>) -> Result<Response, AppError> {
 	let title = "Page Not Found".to_string();
 	let description = "That page was moved, removed, or never existed.".to_string();
 	let ctx = context! {

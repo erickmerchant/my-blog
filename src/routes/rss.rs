@@ -8,7 +8,7 @@ use minijinja::context;
 use sea_orm::{entity::prelude::*, query::*};
 use std::{sync::Arc, vec::Vec};
 
-pub async fn route(
+pub async fn handler(
 	State(app_state): State<Arc<AppState>>,
 	Path(category): Path<String>,
 	uri: Uri,
@@ -21,7 +21,7 @@ pub async fn route(
 		.all(&app_state.database.clone())
 		.await?;
 
-	cacheable::view(
+	cacheable::handler(
 		app_state.as_ref().clone(),
 		content_type.clone(),
 		uri,

@@ -7,7 +7,7 @@ use etag::EntityTag;
 use minijinja::value::Value;
 use sea_orm::{entity::prelude::*, ActiveValue::Set};
 
-pub async fn view(
+pub async fn handler(
 	app_state: AppState,
 	content_type: String,
 	uri: Uri,
