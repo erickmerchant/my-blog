@@ -1,14 +1,15 @@
 use crate::{error::AppError, models::cache, state::AppState};
 use axum::{
-	extract::State,
-	http::{header, Request, StatusCode},
+	http::{Request, StatusCode},
 	middleware::Next,
 	response::{IntoResponse, Response},
+	{extract::State, http::header},
 };
 use etag::EntityTag;
-use sea_orm::{entity::prelude::*, query::*};
+use hyper::{body::to_bytes, Body};
+use sea_orm::{entity::prelude::*, query::*, ActiveValue::Set};
 
-pub async fn middleware<B>(
+pub async fn not_modified<B>(
 	State(app_state): State<AppState>,
 	req: Request<B>,
 	next: Next<B>,
@@ -56,7 +57,33 @@ pub async fn middleware<B>(
 				.into_response()
 		}
 	} else {
-		next.run(req).await
+		let res = next.run(req).await;
+
+		let (parts, body) = res.into_parts();
+
+		match to_bytes(body).await {
+			Ok(bytes) => {
+				let content_type = parts.headers.get("content-type");
+				let etag = parts.headers.get("etag");
+
+				if let (Some(content_type), Some(etag)) = (content_type, etag) {
+					if !envmnt::is("APP_DEV") {
+						let cache_model = cache::ActiveModel {
+							path: Set(uri),
+							content_type: Set(content_type.to_str().unwrap().to_string()),
+							etag: Set(etag.to_str().unwrap().to_string()),
+							body: Set(bytes.to_vec()),
+							..Default::default()
+						};
+
+						cache_model.clone().insert(&app_state.database).await.ok();
+					};
+				};
+
+				Response::from_parts(parts, Body::from(bytes)).into_response()
+			}
+			Err(_) => StatusCode::INTERNAL_SERVER_ERROR.into_response(),
+		}
 	};
 
 	Ok(result)

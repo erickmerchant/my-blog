@@ -1,4 +1,4 @@
-use crate::{error::AppError, routes::not_found, state::AppState};
+use crate::{error::AppError, routes::not_found::*, state::AppState};
 use axum::{
 	extract::State,
 	http::{header, StatusCode, Uri},
@@ -7,10 +7,7 @@ use axum::{
 use camino::Utf8Path;
 use std::{fs, sync::Arc};
 
-pub async fn handler(
-	State(app_state): State<Arc<AppState>>,
-	uri: Uri,
-) -> Result<Response, AppError> {
+pub async fn asset(State(app_state): State<Arc<AppState>>, uri: Uri) -> Result<Response, AppError> {
 	let mut response: Option<Response> = None;
 	let uri = Utf8Path::new("theme").join(uri.path().trim_start_matches('/'));
 
@@ -47,6 +44,6 @@ pub async fn handler(
 	if let Some(response) = response {
 		Ok(response)
 	} else {
-		not_found::handler(State(app_state))
+		not_found(State(app_state))
 	}
 }

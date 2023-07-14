@@ -48,34 +48,34 @@ body {
 
 @media (prefers-color-scheme: light) {
 	body {
-		--ink-0: hsl(0 0% 5%);
-		--ink-1: hsl(90 70% 25%);
+		--ink-0: hsl(90 15% 5%);
+		--ink-1: hsl(90 35% 25%);
 		--ink-2: hsl(90 70% 15%);
-		--paper-0: hsl(60 15% 90%);
-		--paper-1: hsl(60 15% 95%);
-		--paper-2: hsl(60 15% 100%);
+		--paper-0: hsl(60 15% 85%);
+		--paper-1: hsl(60 15% 90%);
+		--paper-2: hsl(60 15% 95%);
 		--scrollbar: hsl(90 25% 50%);
 		--code-0: hsl(0 80% 25%);
 		--code-1: hsl(30 100% 25%);
 		--code-2: hsl(60 80% 20%);
 		--code-3: hsl(90 20% 25%);
-		--code-4: hsl(90 10% 40%);
+		--code-4: hsl(90 10% 35%);
 	}
 }
 
 @media (prefers-color-scheme: dark) {
 	body {
-		--ink-0: hsl(0 0% 100%);
-		--ink-1: hsl(90 70% 80%);
-		--ink-2: hsl(90 70% 90%);
+		--ink-0: hsl(90 15% 95%);
+		--ink-1: hsl(90 35% 75%);
+		--ink-2: hsl(90 70% 85%);
 		--paper-0: hsl(60 15% 15%);
 		--paper-1: hsl(60 15% 10%);
 		--paper-2: hsl(60 15% 5%);
-		--scrollbar: hsl(90 25% 55%);
-		--code-0: hsl(0 80% 80%);
-		--code-1: hsl(30 100% 80%);
-		--code-2: hsl(60 80% 85%);
-		--code-3: hsl(90 20% 80%);
+		--scrollbar: hsl(90 25% 50%);
+		--code-0: hsl(0 80% 75%);
+		--code-1: hsl(30 100% 75%);
+		--code-2: hsl(60 80% 80%);
+		--code-3: hsl(90 20% 75%);
 		--code-4: hsl(90 10% 65%);
 	}
 }

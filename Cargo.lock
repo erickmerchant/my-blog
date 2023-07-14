@@ -102,6 +102,7 @@ dependencies = [
  "envmnt",
  "etag",
  "glob",
+ "hyper",
  "log",
  "lol_html",
  "mime_guess",
