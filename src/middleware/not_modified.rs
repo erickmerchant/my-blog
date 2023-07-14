@@ -6,7 +6,7 @@ use axum::{
 	{extract::State, http::header},
 };
 use etag::EntityTag;
-use hyper::{body::to_bytes, Body};
+use hyper::{body::to_bytes, header::HeaderValue, Body};
 use sea_orm::{entity::prelude::*, query::*, ActiveValue::Set};
 
 pub async fn not_modified<B>(
@@ -59,19 +59,26 @@ pub async fn not_modified<B>(
 	} else {
 		let res = next.run(req).await;
 
-		let (parts, body) = res.into_parts();
+		let (mut parts, body) = res.into_parts();
 
 		match to_bytes(body).await {
 			Ok(bytes) => {
-				let content_type = parts.headers.get("content-type");
-				let etag = parts.headers.get("etag");
+				let etag = EntityTag::from_data(&bytes).to_string();
 
-				if let (Some(content_type), Some(etag)) = (content_type, etag) {
+				parts.headers.insert(
+					header::ETAG,
+					HeaderValue::from_str(etag.as_str()).expect("should be valid etag"),
+				);
+
+				if let Some(content_type) = parts.headers.get("content-type") {
 					if !envmnt::is("APP_DEV") {
 						let cache_model = cache::ActiveModel {
 							path: Set(uri),
-							content_type: Set(content_type.to_str().unwrap().to_string()),
-							etag: Set(etag.to_str().unwrap().to_string()),
+							content_type: Set(content_type
+								.to_str()
+								.expect("should be str")
+								.to_string()),
+							etag: Set(etag),
 							body: Set(bytes.to_vec()),
 							..Default::default()
 						};

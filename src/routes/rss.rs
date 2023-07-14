@@ -4,7 +4,6 @@ use axum::{
 	http::header,
 	response::{IntoResponse, Response},
 };
-use etag::EntityTag;
 use minijinja::context;
 use sea_orm::{entity::prelude::*, query::*};
 use std::{sync::Arc, vec::Vec};
@@ -33,11 +32,5 @@ pub async fn rss(
 
 	let body = html.as_bytes().to_vec();
 
-	let etag = EntityTag::from_data(&body).to_string();
-
-	Ok((
-		[(header::CONTENT_TYPE, content_type), (header::ETAG, etag)],
-		body,
-	)
-		.into_response())
+	Ok(([(header::CONTENT_TYPE, content_type)], body).into_response())
 }
