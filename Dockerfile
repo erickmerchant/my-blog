@@ -7,7 +7,7 @@ RUN ./target/release/setup
 RUN mv ./target/release/serve ./serve
 RUN rm -rf target src Cargo.lock Cargo.toml
 
-FROM alpine
+FROM scratch
 WORKDIR /deploy
 COPY --from=build /deploy .
 ENTRYPOINT ["./serve"]
