@@ -1,4 +1,4 @@
-FROM rust:1.70-alpine as build
+FROM rust:1.71-alpine as build
 RUN apk add build-base
 WORKDIR deploy
 COPY . .
