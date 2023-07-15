@@ -180,8 +180,8 @@ async fn main() -> Result<()> {
 		if let Some(path) = Utf8Path::from_path(&path) {
 			let slug = path
 				.file_stem()
-				.expect("file stem should exist")
-				.to_string();
+				.map(|f| f.to_string())
+				.expect("file stem should exist");
 
 			let mut category = "".to_string();
 

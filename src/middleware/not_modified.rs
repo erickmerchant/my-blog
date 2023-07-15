@@ -14,55 +14,48 @@ pub async fn not_modified<B>(
 	req: Request<B>,
 	next: Next<B>,
 ) -> Result<Response, AppError> {
-	let req_headers = req.headers().clone();
-	let uri = req.uri().to_string();
-	let mut if_none_match: Option<EntityTag> = None;
-
-	if let Some(header) = req_headers
-		.get("if-none-match")
-		.and_then(|h| h.to_str().ok())
-	{
-		if_none_match = header.parse::<EntityTag>().ok();
-	};
-
-	let mut etag_matches = false;
-	let cache_result: Option<cache::Model> = if envmnt::is("APP_DEV") {
-		None
+	if envmnt::is("APP_DEV") {
+		Ok(next.run(req).await)
 	} else {
-		cache::Entity::find()
+		let req_headers = req.headers().clone();
+		let uri = req.uri().to_string();
+
+		let cache_result: Option<cache::Model> = cache::Entity::find()
 			.filter(Condition::all().add(cache::Column::Path.eq(uri.clone())))
 			.one(&app_state.database.clone())
-			.await?
-	};
+			.await?;
 
-	let result = if let Some(cache_result) = cache_result {
-		let etag = cache_result.etag.parse::<EntityTag>().ok();
+		Ok(if let Some(cache_result) = cache_result {
+			let etag = cache_result.etag.parse::<EntityTag>().ok();
+			let etag_matches = req_headers
+				.get("if-none-match")
+				.and_then(|h| h.to_str().ok())
+				.and_then(|h| h.parse::<EntityTag>().ok())
+				.map(|if_none_match| {
+					etag.map(|etag| etag.weak_eq(&if_none_match))
+						.unwrap_or(false)
+				})
+				.unwrap_or(false);
 
-		if let (Some(etag), Some(if_none_match)) = (etag, if_none_match) {
-			if etag.weak_eq(&if_none_match) {
-				etag_matches = true
+			if etag_matches {
+				StatusCode::NOT_MODIFIED.into_response()
+			} else {
+				(
+					[
+						(header::CONTENT_TYPE, cache_result.content_type),
+						(header::ETAG, cache_result.etag),
+					],
+					cache_result.body,
+				)
+					.into_response()
 			}
-		}
-
-		if etag_matches {
-			StatusCode::NOT_MODIFIED.into_response()
 		} else {
-			(
-				[
-					(header::CONTENT_TYPE, cache_result.content_type),
-					(header::ETAG, cache_result.etag),
-				],
-				cache_result.body,
-			)
-				.into_response()
-		}
-	} else {
-		let res = next.run(req).await;
+			let res = next.run(req).await;
 
-		let (mut parts, body) = res.into_parts();
+			let (mut parts, body) = res.into_parts();
+			let bytes = to_bytes(body).await;
 
-		match to_bytes(body).await {
-			Ok(bytes) => {
+			if let Ok(bytes) = bytes {
 				let etag = EntityTag::from_data(&bytes).to_string();
 
 				parts.headers.insert(
@@ -71,27 +64,24 @@ pub async fn not_modified<B>(
 				);
 
 				if let Some(content_type) = parts.headers.get("content-type") {
-					if !envmnt::is("APP_DEV") {
-						let cache_model = cache::ActiveModel {
-							path: Set(uri),
-							content_type: Set(content_type
-								.to_str()
-								.expect("should be str")
-								.to_string()),
-							etag: Set(etag),
-							body: Set(bytes.to_vec()),
-							..Default::default()
-						};
-
-						cache_model.clone().insert(&app_state.database).await.ok();
+					let cache_model = cache::ActiveModel {
+						path: Set(uri),
+						content_type: Set(content_type
+							.to_str()
+							.map(|c| c.to_string())
+							.expect("should be str")),
+						etag: Set(etag),
+						body: Set(bytes.to_vec()),
+						..Default::default()
 					};
+
+					cache_model.clone().insert(&app_state.database).await.ok();
 				};
 
 				Response::from_parts(parts, Body::from(bytes)).into_response()
+			} else {
+				StatusCode::INTERNAL_SERVER_ERROR.into_response()
 			}
-			Err(_) => StatusCode::INTERNAL_SERVER_ERROR.into_response(),
-		}
-	};
-
-	Ok(result)
+		})
+	}
 }

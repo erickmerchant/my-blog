@@ -15,13 +15,11 @@ pub fn get_env() -> Environment<'static> {
 }
 
 fn format_date(value: String, fmt: String) -> String {
-	let mut ret = value.clone();
-
 	if let Ok(parsed) = chrono::NaiveDate::parse_from_str(&value, "%Y-%m-%d") {
-		ret = parsed.format(&fmt).to_string();
+		parsed.format(&fmt).to_string()
+	} else {
+		value
 	}
-
-	ret
 }
 
 fn year() -> i32 {
@@ -35,8 +33,8 @@ fn asset_url(mut url: String) -> String {
 		if let Ok(time) = fs::metadata(format!("theme{url}")).and_then(|meta| meta.modified()) {
 			let version_time = time
 				.duration_since(UNIX_EPOCH)
-				.expect("time should be a valid time since the unix epoch")
-				.as_secs();
+				.map(|d| d.as_secs())
+				.expect("time should be a valid time since the unix epoch");
 			let cache_key = base62::encode(version_time);
 			let path = Utf8Path::new(&url);
 			let ext = path.extension().unwrap_or_default();
