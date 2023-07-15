@@ -1,10 +1,17 @@
 FROM rust:1.71-alpine as build
 RUN apk add build-base
 WORKDIR deploy
+# cache deps
+RUN mkdir -p src
+RUN echo "fn main() {}" > src/main.rs
+COPY Cargo.toml Cargo.lock .
+RUN cargo build --release --no-default-features --locked
+# build app
 COPY . .
 RUN cargo build --release --no-default-features --locked
 RUN ./target/release/setup
 RUN mv ./target/release/serve ./serve
+# clean up
 RUN rm -rf target src Cargo.lock Cargo.toml
 
 FROM scratch
