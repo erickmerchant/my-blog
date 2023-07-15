@@ -78,7 +78,8 @@ svg {
 
 @container (width <= 20rem) {
 	.nav {
-		transition: grid-template-rows 0.125s var(--easing);
+		transition: grid-template-rows 0.125s var(--easing),
+			padding 0.125s var(--easing);
 		gap: 1em;
 		padding-block-end: 0em;
 	}
@@ -86,6 +87,10 @@ svg {
 	:host([expanded]) .nav {
 		grid-template-rows: min-content 1fr;
 		padding-block-end: 1.5em;
+	}
+
+	:host(:not([expanded]):not([transitioning])) ::slotted(*) {
+		display: none;
 	}
 }
 

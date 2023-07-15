@@ -2,9 +2,10 @@ import {Element} from "element";
 
 export class PageNav extends Element {
 	static get observedAttributeDefaults() {
-		return {expanded: false, minimized: false};
+		return {expanded: false, minimized: false, transitioning: false};
 	}
 
+	#nav = this.shadowRoot?.getElementById("nav");
 	#toggle = this.shadowRoot?.getElementById("toggle");
 	#icon = this.shadowRoot?.getElementById("icon");
 	#scrollTop = 0;
@@ -29,6 +30,18 @@ export class PageNav extends Element {
 		this.#toggle?.addEventListener("click", () => {
 			this.minimized = false;
 			this.expanded = !this.expanded;
+		});
+
+		this.#nav?.addEventListener("transitionstart", (e) => {
+			if (e.target === this.#nav) {
+				this.transitioning = true;
+			}
+		});
+
+		this.#nav?.addEventListener("transitionend", (e) => {
+			if (e.target === this.#nav) {
+				this.transitioning = false;
+			}
 		});
 
 		yield () => {
