@@ -1,5 +1,5 @@
-{%- macro page_nav(expanded, minimized) %}
-<page-nav {%- if expanded %} expanded{% endif %} {%- if minimized %} minimized{% endif %}>
+{%- macro page_nav(expanded, minimized) -%}
+<page-nav {{ "expanded" if expanded }} {{ "minimized" if minimized }}>
 	<template shadowrootmode="open">
 		<link rel="stylesheet" href="{{ asset_url('/elements/page-nav.css') }}">
 		<nav class="nav" id="nav">
@@ -14,8 +14,8 @@
 	</template>
 	{{caller()}}
 </page-nav>
-{% endmacro -%}
+{%- endmacro -%}
 
-{%- call page_nav(expanded|default(false), minimized|default(false)) %}
+{%- call page_nav(expanded|default(false), minimized|default(false)) -%}
 {{inner_html}}
-{% endcall -%}
+{%- endcall -%}

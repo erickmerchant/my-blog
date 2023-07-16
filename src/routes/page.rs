@@ -32,7 +32,6 @@ pub async fn page(
 			.get_template(page.template.as_str())
 			.and_then(|template| {
 				template.render(context! {
-					site => &app_state.site,
 					page => page,
 				})
 			})?;

@@ -1,15 +1,14 @@
 use app::{
 	middleware::not_modified::*,
 	routes::{asset::*, index::*, page::*, posts_index::*, rss::*},
-	state::{AppState, Site},
+	state::AppState,
 	templates,
 };
 use axum::{
 	http::Request, middleware::from_fn_with_state, response::Response, routing::get, Router,
 };
 use sea_orm::{Database, DatabaseConnection};
-use serde_json as json;
-use std::{fs, io, net::SocketAddr, sync::Arc, time::Duration};
+use std::{io, net::SocketAddr, sync::Arc, time::Duration};
 use tower_http::{
 	classify::ServerErrorsFailureClass, compression::CompressionLayer, trace::TraceLayer,
 };
@@ -30,12 +29,9 @@ async fn main() -> io::Result<()> {
 		.await
 		.expect("database should connect");
 
-	let site = fs::read("./content/site.json")?;
-	let site = json::from_slice::<Site>(&site)?;
 	let app_state = AppState {
 		templates,
 		database,
-		site,
 	};
 
 	let pages = Router::new()

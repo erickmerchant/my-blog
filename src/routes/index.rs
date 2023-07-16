@@ -36,7 +36,6 @@ pub async fn index(
 			.get_template("layouts/index.jinja")
 			.and_then(|template| {
 				template.render(context! {
-					site => &app_state.site,
 					page => pages_index_page,
 					pages => &pages,
 				})

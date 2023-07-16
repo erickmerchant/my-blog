@@ -25,7 +25,6 @@ pub async fn rss(
 		.get_template("layouts/rss.jinja")
 		.and_then(|template| {
 			template.render(context! {
-				site => &app_state.site,
 				pages => &pages,
 			})
 		})?;

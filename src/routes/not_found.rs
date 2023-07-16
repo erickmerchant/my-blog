@@ -11,7 +11,6 @@ pub fn not_found(State(app_state): State<Arc<AppState>>) -> Result<Response, App
 	let title = "Page Not Found".to_string();
 	let description = "That page was moved, removed, or never existed.".to_string();
 	let ctx = context! {
-		site => app_state.site,
 		page => context! {
 			title => title,
 			description => description,
