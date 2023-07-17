@@ -30,12 +30,7 @@ export class PageNav extends Element {
 		this.#toggle?.addEventListener("click", () => {
 			this.minimized = false;
 			this.expanded = !this.expanded;
-		});
-
-		this.#nav?.addEventListener("transitionstart", (e) => {
-			if (e.target === this.#nav) {
-				this.transitioning = true;
-			}
+			this.transitioning = true;
 		});
 
 		this.#nav?.addEventListener("transitionend", (e) => {
