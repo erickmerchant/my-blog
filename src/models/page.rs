@@ -1,3 +1,4 @@
+use chrono::NaiveDate;
 use sea_orm::entity::prelude::*;
 use serde::{Deserialize, Serialize};
 use serde_json as json;
@@ -14,7 +15,7 @@ pub struct Model {
 	pub category: String,
 	pub title: String,
 	#[serde(default)]
-	pub date: Option<chrono::NaiveDate>,
+	pub date: Option<NaiveDate>,
 	#[serde(default)]
 	pub description: String,
 	#[serde(default)]

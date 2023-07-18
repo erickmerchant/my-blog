@@ -1,5 +1,5 @@
 use camino::Utf8Path;
-use chrono::Datelike;
+use chrono::{Datelike, NaiveDate, Utc};
 use minijinja::{path_loader, Environment};
 use std::{fs, time::UNIX_EPOCH};
 
@@ -15,7 +15,7 @@ pub fn get_env() -> Environment<'static> {
 }
 
 fn format_date(value: String, fmt: String) -> String {
-	if let Ok(parsed) = chrono::NaiveDate::parse_from_str(&value, "%Y-%m-%d") {
+	if let Ok(parsed) = NaiveDate::parse_from_str(&value, "%Y-%m-%d") {
 		parsed.format(&fmt).to_string()
 	} else {
 		value
@@ -23,7 +23,7 @@ fn format_date(value: String, fmt: String) -> String {
 }
 
 fn year() -> i32 {
-	let current_date = chrono::Utc::now();
+	let current_date = Utc::now();
 
 	current_date.year()
 }

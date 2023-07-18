@@ -8,9 +8,11 @@ use glob::glob;
 use lol_html::{element, html_content::ContentType, text, HtmlRewriter, Settings};
 use minijinja::context;
 use pathdiff::diff_utf8_paths;
-use sea_orm::{sea_query, ActiveModelTrait, ActiveValue::Set, ConnectionTrait, Database, Schema};
+use sea_orm::{
+	sea_query::Index, ActiveModelTrait, ActiveValue::Set, ConnectionTrait, Database, Schema,
+};
 use serde_json as json;
-use std::{collections::HashSet, fs};
+use std::{cell::RefCell, collections::HashSet, fs, rc::Rc};
 use syntect::{
 	html::{ClassStyle, ClassedHTMLGenerator},
 	parsing::SyntaxSet,
@@ -25,7 +27,7 @@ fn page_from_html(category: String, slug: String, contents: &str) -> Result<page
 	let template_env = get_env();
 	let ss = SyntaxSet::load_defaults_newlines();
 	let mut output = vec![];
-	let language_buffer = std::rc::Rc::new(std::cell::RefCell::new(String::new()));
+	let language_buffer = Rc::new(RefCell::new(String::new()));
 	let mut rewriter = HtmlRewriter::new(
 		Settings {
 			element_content_handlers: vec![
@@ -144,7 +146,7 @@ async fn main() -> Result<()> {
 	connection
 		.execute(
 			backend.build(
-				sea_query::Index::create()
+				Index::create()
 					.name("idx-page-category-slug-uniq")
 					.table(page::Entity)
 					.col(page::Column::Category)
@@ -165,7 +167,7 @@ async fn main() -> Result<()> {
 	connection
 		.execute(
 			backend.build(
-				sea_query::Index::create()
+				Index::create()
 					.name("idx-cache-path-uniq")
 					.table(cache::Entity)
 					.col(cache::Column::Path)
