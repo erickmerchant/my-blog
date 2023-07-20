@@ -1,5 +1,5 @@
 use app::{
-	middleware::not_modified::*,
+	middleware::cache::*,
 	routes::{asset::*, index::*, page::*, posts_index::*, rss::*},
 	state::AppState,
 	templates,
@@ -32,16 +32,13 @@ async fn main() -> io::Result<()> {
 		database,
 	};
 
-	let pages = Router::new()
+	let app = Router::new()
 		.route("/", get(posts_index))
 		.route("/:category/", get(index))
 		.route("/:category/feed/", get(rss))
 		.route("/:category/:slug/", get(page))
-		.layer(from_fn_with_state(app_state.clone(), not_modified));
-
-	let app = Router::new()
-		.merge(pages)
 		.fallback(asset)
+		.layer(from_fn_with_state(app_state.clone(), cache))
 		.layer(CompressionLayer::new())
 		.layer(
 			TraceLayer::new_for_http()

@@ -8,7 +8,7 @@ pub struct Model {
 	#[serde(skip_deserializing)]
 	pub id: i32,
 	pub path: String,
-	pub etag: String,
+	pub etag: Option<String>,
 	pub content_type: String,
 	pub body: Vec<u8>,
 }

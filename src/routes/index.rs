@@ -4,6 +4,7 @@ use axum::{
 	http::header,
 	response::{IntoResponse, Response},
 };
+use mime_guess::mime::TEXT_HTML_UTF_8;
 use minijinja::context;
 use sea_orm::{entity::prelude::*, query::*};
 use std::{sync::Arc, vec::Vec};
@@ -12,7 +13,7 @@ pub async fn index(
 	State(app_state): State<Arc<AppState>>,
 	Path(category): Path<String>,
 ) -> Result<Response, AppError> {
-	let content_type = "text/html; charset=utf-8".to_string();
+	let content_type = TEXT_HTML_UTF_8.to_string();
 
 	let pages: Vec<page::Model> = page::Entity::find()
 		.filter(page::Column::Category.eq(&category))

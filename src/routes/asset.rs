@@ -16,26 +16,11 @@ pub async fn asset(State(app_state): State<Arc<AppState>>, uri: Uri) -> Result<R
 			.first()
 			.map(|content_type| (content_type, fs::read(uri)));
 
-		Ok(if let Some((content_type, Ok(body))) = asset {
-			let cache_control = if envmnt::is("APP_DEV") {
-				"no-cache".to_string()
-			} else {
-				let year_in_seconds = 60 * 60 * 24 * 365;
-
-				format!("public, max-age={year_in_seconds}, immutable")
-			};
-
-			(
-				[
-					(header::CONTENT_TYPE, content_type.to_string()),
-					(header::CACHE_CONTROL, cache_control),
-				],
-				body,
-			)
-				.into_response()
+		if let Some((content_type, Ok(body))) = asset {
+			Ok(([(header::CONTENT_TYPE, content_type.to_string())], body).into_response())
 		} else {
-			StatusCode::NOT_FOUND.into_response()
-		})
+			Ok(StatusCode::NOT_FOUND.into_response())
+		}
 	} else {
 		not_found(State(app_state))
 	}

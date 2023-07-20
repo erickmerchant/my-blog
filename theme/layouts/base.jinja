@@ -22,21 +22,21 @@
 	<script type="importmap">
 		{
 			"imports": {
-				"element": "{{ asset_url('/element.js') }}"
+				"element": "/element.js"
 			}
 		}
 	</script>
-	<script type="module" src="{{ asset_url('/element.js')  }}"></script>
-	<script type="module" src="{{ asset_url('/elements/page-nav.js') }}"></script>
+	<script type="module" src="/element.js"></script>
+	<script type="module" src="/elements/page-nav.js"></script>
 	{% for k in page.elements %}
-	<script type="module" src="{{ asset_url(('/elements/' + k + '.js')) }}"></script>
+	<script type="module" src="{{ '/elements/' + k + '.js' }}"></script>
 	{% endfor %}
-	<link rel="stylesheet" href="{{ asset_url('/page.css') }}">
-	<link rel="preload" href="{{ asset_url('/elements/page-nav.css') }}" as="style">
+	<link rel="stylesheet" href="/page.css">
+	<link rel="preload" href="/elements/page-nav.css" as="style">
 	{% for k in page.elements %}
-	<link rel="preload" href="{{ asset_url(('/elements/' + k + '.css')) }}" as="style">
+	<link rel="preload" href="{{ '/elements/' + k + '.css' }}" as="style">
 	{% endfor %}
-	<link rel="icon" href="{{ asset_url('/favicon.svg') }}" type="image/svg+xml">
+	<link rel="icon" href="/favicon.svg" type="image/svg+xml">
 </head>
 
 <body>
