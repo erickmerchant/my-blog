@@ -17,7 +17,7 @@ pub async fn rss(
 	let pages: Vec<page::Model> = page::Entity::find()
 		.filter(page::Column::Category.eq(&category))
 		.order_by_desc(page::Column::Date)
-		.all(&app_state.database.clone())
+		.all(&app_state.database)
 		.await?;
 
 	let html = app_state

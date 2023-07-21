@@ -14,8 +14,8 @@ pub async fn page(
 	Path((category, slug)): Path<(String, String)>,
 ) -> Result<Response, AppError> {
 	let content_type = TEXT_HTML_UTF_8.to_string();
-	let page_category = category.clone();
-	let page_slug = slug.clone();
+	let page_category = category;
+	let page_slug = slug;
 
 	let page: Option<page::Model> = page::Entity::find()
 		.filter(
@@ -24,7 +24,7 @@ pub async fn page(
 				.add(page::Column::Slug.eq(page_slug)),
 		)
 		.order_by_desc(page::Column::Date)
-		.one(&app_state.database.clone())
+		.one(&app_state.database)
 		.await?;
 
 	if let Some(page) = page {

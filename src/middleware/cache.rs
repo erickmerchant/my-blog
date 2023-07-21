@@ -13,28 +13,28 @@ use mime_guess::mime::TEXT_HTML_UTF_8;
 use sea_orm::{entity::prelude::*, query::*, ActiveValue::Set};
 use serde::{Deserialize, Serialize};
 use serde_json as json;
-use std::{collections::HashMap, fs, time::UNIX_EPOCH};
+use std::{collections::HashMap, fs, sync::Arc, time::UNIX_EPOCH};
 
 pub async fn cache<B>(
-	State(app_state): State<AppState>,
+	State(app_state): State<Arc<AppState>>,
 	req: Request<B>,
 	next: Next<B>,
 ) -> Result<Response, AppError> {
-	if envmnt::is("APP_DEV") {
+	if envmnt::is("APP_NO_CACHE") {
 		return Ok(next.run(req).await);
 	}
 
 	let uri = req.uri().to_string();
 	let cache_result: Option<cache::Model> = cache::Entity::find()
-		.filter(Condition::all().add(cache::Column::Path.eq(uri.clone())))
-		.one(&app_state.database.clone())
+		.filter(Condition::all().add(cache::Column::Path.eq(&uri)))
+		.one(&app_state.database)
 		.await?;
 
 	if let Some(cache_result) = cache_result {
 		let res_headers = HeaderMap::new();
 
 		return if cache_result.content_type == TEXT_HTML_UTF_8.to_string() {
-			let etag_matches = if let Some(etag) = cache_result.etag.clone() {
+			let etag_matches = if let Some(etag) = &cache_result.etag {
 				let etag = etag.parse::<EntityTag>().ok();
 				let req_headers = req.headers().clone();
 
@@ -53,14 +53,14 @@ pub async fn cache<B>(
 				Ok(StatusCode::NOT_MODIFIED.into_response())
 			} else {
 				Ok((
-					set_headers(res_headers, cache_result.content_type, cache_result.etag),
+					headers(res_headers, cache_result.content_type, cache_result.etag),
 					cache_result.body,
 				)
 					.into_response())
 			}
 		} else {
 			Ok((
-				set_headers(res_headers, cache_result.content_type, None),
+				headers(res_headers, cache_result.content_type, None),
 				cache_result.body,
 			)
 				.into_response())
@@ -93,8 +93,10 @@ pub async fn cache<B>(
 				..Default::default()
 			};
 
-			cache_model.clone().insert(&app_state.database).await.ok();
-			parts.headers = set_headers(parts.headers, content_type, etag);
+			cache_model.insert(&app_state.database).await.ok();
+			parts.headers = headers(parts.headers, content_type, etag);
+		} else {
+			output = bytes.to_vec();
 		};
 
 		Ok(Response::from_parts(parts, Body::from(output)).into_response())
@@ -110,7 +112,7 @@ fn get_header(headers: HeaderMap, key: String) -> Option<String> {
 		.map(|h| h.to_string())
 }
 
-fn set_headers(mut headers: HeaderMap, content_type: String, etag: Option<String>) -> HeaderMap {
+fn headers(mut headers: HeaderMap, content_type: String, etag: Option<String>) -> HeaderMap {
 	let cache_control = format!("public, max-age={}, immutable", 60 * 60 * 24 * 365);
 
 	headers.insert(

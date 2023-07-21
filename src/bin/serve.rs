@@ -27,10 +27,10 @@ async fn main() -> io::Result<()> {
 		.await
 		.expect("database should connect");
 
-	let app_state = AppState {
+	let app_state = Arc::new(AppState {
 		templates,
 		database,
-	};
+	});
 
 	let app = Router::new()
 		.route("/", get(posts_index))
@@ -62,7 +62,7 @@ async fn main() -> io::Result<()> {
 					},
 				),
 		)
-		.with_state(Arc::new(app_state));
+		.with_state(app_state);
 
 	let addr = SocketAddr::from(([0, 0, 0, 0], port));
 
