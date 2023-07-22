@@ -20,7 +20,7 @@ pub async fn cache<B>(
 	req: Request<B>,
 	next: Next<B>,
 ) -> Result<Response, AppError> {
-	if envmnt::is("APP_NO_CACHE") {
+	if app_state.args.no_cache {
 		return Ok(next.run(req).await);
 	}
 
@@ -115,24 +115,20 @@ fn get_header(headers: HeaderMap, key: String) -> Option<String> {
 fn headers(mut headers: HeaderMap, content_type: String, etag: Option<String>) -> HeaderMap {
 	let cache_control = format!("public, max-age={}, immutable", 60 * 60 * 24 * 365);
 
-	headers.insert(
-		header::CONTENT_TYPE,
-		HeaderValue::from_str(content_type.as_str()).expect("should be a valid content type"),
-	);
+	HeaderValue::from_str(content_type.as_str())
+		.ok()
+		.and_then(|v| headers.insert(header::CONTENT_TYPE, v));
 
 	if content_type == TEXT_HTML_UTF_8.to_string() {
 		if let Some(etag) = etag {
-			headers.insert(
-				header::ETAG,
-				HeaderValue::from_str(etag.as_str()).expect("should be valid etag"),
-			);
+			HeaderValue::from_str(etag.as_str())
+				.ok()
+				.and_then(|v| headers.insert(header::ETAG, v));
 		}
 	} else {
-		headers.insert(
-			header::CACHE_CONTROL,
-			HeaderValue::from_str(cache_control.as_str())
-				.expect("should be valid cache control value"),
-		);
+		HeaderValue::from_str(cache_control.as_str())
+			.ok()
+			.and_then(|v| headers.insert(header::CACHE_CONTROL, v));
 	}
 
 	headers
@@ -206,8 +202,10 @@ fn rewrite_assets(bytes: Bytes, mut output: Vec<u8>) -> anyhow::Result<Vec<u8>> 
 }
 
 fn asset_url(mut url: String) -> String {
-	if url.starts_with('/') && !envmnt::is("APP_DEV") {
-		if let Ok(time) = fs::metadata(format!("theme{url}")).and_then(|meta| meta.modified()) {
+	if url.starts_with('/') {
+		if let Ok(time) =
+			fs::metadata(Utf8Path::new("theme").join(&url)).and_then(|meta| meta.modified())
+		{
 			let version_time = time
 				.duration_since(UNIX_EPOCH)
 				.map(|d| d.as_secs())
