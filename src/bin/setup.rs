@@ -18,6 +18,7 @@ use syntect::{
 	parsing::SyntaxSet,
 	util::LinesWithEndings,
 };
+use tokio::try_join;
 
 fn page_from_html(category: String, slug: String, contents: &str) -> Result<page::ActiveModel> {
 	let mut data = page::ActiveModel {
@@ -135,16 +136,13 @@ async fn main() -> Result<()> {
 	let backend = connection.get_database_backend();
 	let schema = Schema::new(backend);
 
-	connection
-		.execute(
+	try_join!(
+		connection.execute(
 			backend
 				.build(&schema.create_table_from_entity(page::Entity))
 				.to_owned(),
-		)
-		.await?;
-
-	connection
-		.execute(
+		),
+		connection.execute(
 			backend.build(
 				Index::create()
 					.name("idx-page-category-slug-uniq")
@@ -153,19 +151,21 @@ async fn main() -> Result<()> {
 					.col(page::Column::Slug)
 					.unique(),
 			),
-		)
-		.await?;
-
-	connection
-		.execute(
+		),
+		connection.execute(
+			backend.build(
+				Index::create()
+					.name("idx-page-category")
+					.table(page::Entity)
+					.col(page::Column::Category),
+			),
+		),
+		connection.execute(
 			backend
 				.build(&schema.create_table_from_entity(cache::Entity))
 				.to_owned(),
-		)
-		.await?;
-
-	connection
-		.execute(
+		),
+		connection.execute(
 			backend.build(
 				Index::create()
 					.name("idx-cache-path-uniq")
@@ -173,8 +173,8 @@ async fn main() -> Result<()> {
 					.col(cache::Column::Path)
 					.unique(),
 			),
-		)
-		.await?;
+		),
+	)?;
 
 	let paths = glob("content/**/*.html")?;
 

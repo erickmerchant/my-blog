@@ -4,31 +4,32 @@ use axum::{
 	http::header,
 	response::{IntoResponse, Response},
 };
+use mime_guess::mime::TEXT_HTML_UTF_8;
 use minijinja::context;
 use sea_orm::{entity::prelude::*, query::*};
 use std::{sync::Arc, vec::Vec};
+use tokio::try_join;
 
 pub async fn index(
 	State(app_state): State<Arc<AppState>>,
 	Path(category): Path<String>,
 ) -> Result<Response, AppError> {
-	let content_type = "text/html; charset=utf-8".to_string();
+	let content_type = TEXT_HTML_UTF_8.to_string();
 
-	let pages: Vec<page::Model> = page::Entity::find()
-		.filter(page::Column::Category.eq(&category))
-		.order_by_desc(page::Column::Date)
-		.all(&app_state.database.clone())
-		.await?;
-
-	let pages_index_page: Option<page::Model> = page::Entity::find()
-		.filter(
-			Condition::all()
-				.add(page::Column::Category.eq(""))
-				.add(page::Column::Slug.eq(&category)),
-		)
-		.order_by_desc(page::Column::Date)
-		.one(&app_state.database.clone())
-		.await?;
+	let (pages, pages_index_page): (Vec<page::Model>, Option<page::Model>) = try_join!(
+		page::Entity::find()
+			.filter(page::Column::Category.eq(&category))
+			.order_by_desc(page::Column::Date)
+			.all(&app_state.database),
+		page::Entity::find()
+			.filter(
+				Condition::all()
+					.add(page::Column::Category.eq(""))
+					.add(page::Column::Slug.eq(&category)),
+			)
+			.order_by_desc(page::Column::Date)
+			.one(&app_state.database)
+	)?;
 
 	if !pages.is_empty() && pages_index_page.is_some() {
 		let html = app_state

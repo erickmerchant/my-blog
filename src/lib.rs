@@ -1,3 +1,4 @@
+pub mod args;
 pub mod error;
 pub mod middleware;
 pub mod models;
