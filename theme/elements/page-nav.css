@@ -40,15 +40,6 @@ svg {
 	}
 }
 
-:host(:not(:defined)) .toggle {
-	visibility: hidden;
-}
-
-:host(:not(:defined)) ::slotted(*) {
-	flex-direction: row;
-	visibility: hidden;
-}
-
 @supports selector(:focus-visible) {
 	:focus {
 		outline: none;
@@ -92,8 +83,8 @@ svg {
 		padding-block-end: 1.5em;
 	}
 
-	:host(:not([expanded]):not([transitioning])) ::slotted(*) {
-		display: none;
+	:host(:not(:defined)) .nav {
+		grid-template-rows: min-content 1fr;
 	}
 }
 
@@ -115,16 +106,6 @@ svg {
 
 .toggle:focus-visible {
 	box-shadow: 0 0 0 0.125em currentColor;
-}
-
-@container (width <= 20rem) {
-	.toggle {
-		display: grid;
-	}
-}
-
-.toggleIcon {
-	height: 1.5em;
 }
 
 ::slotted(*) {

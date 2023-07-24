@@ -2,11 +2,27 @@
 <page-nav {{ "expanded" if expanded }} {{ "minimized" if minimized }}>
 	<template shadowrootmode="open">
 		<link rel="stylesheet" href="/elements/page-nav.css">
+		<style media="not all" onload="this.media = 'all'">
+			@container (width <=20rem) {
+				:host(:not([expanded]):not([transitioning])) ::slotted(*) {
+					display: none;
+				}
+
+				.toggle {
+					display: grid;
+				}
+			}
+
+			.toggleIcon {
+				height: 1.5em;
+			}
+		</style>
 		<nav class="nav" id="nav">
 			<button class="toggle" id="toggle" aria-pressed="false">
 				<span class="label">Toggle Nav List</span>
 				<svg class="toggleIcon" aria-hidden="true" viewBox="0 0 16 16">
-					<path id="icon"></path>
+					<path id="icon" d="M0 0 z">
+					</path>
 				</svg>
 			</button>
 			<slot></slot>
