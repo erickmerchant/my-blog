@@ -1,4 +1,5 @@
-use crate::{error::AppError, routes::index::*, state::AppState};
+use super::index::*;
+use crate::{error::AppError, state::AppState};
 use axum::{
 	extract::{Path, State},
 	response::Response,

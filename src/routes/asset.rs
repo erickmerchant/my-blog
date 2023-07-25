@@ -1,4 +1,5 @@
-use crate::{error::AppError, routes::not_found::*, state::AppState};
+use super::not_found::*;
+use crate::{error::AppError, state::AppState};
 use axum::{
 	extract::State,
 	http::{header, StatusCode, Uri},

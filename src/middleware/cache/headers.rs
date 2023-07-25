@@ -9,7 +9,11 @@ pub fn get_header(headers: HeaderMap, key: String) -> Option<String> {
 		.map(|h| h.to_string())
 }
 
-pub fn headers(mut headers: HeaderMap, content_type: String, etag: Option<String>) -> HeaderMap {
+pub fn add_cache_headers(
+	mut headers: HeaderMap,
+	content_type: String,
+	etag: Option<String>,
+) -> HeaderMap {
 	let cache_control = format!("public, max-age={}, immutable", 60 * 60 * 24 * 365);
 
 	HeaderValue::from_str(content_type.as_str())

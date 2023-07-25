@@ -1,4 +1,5 @@
-use crate::{error::AppError, models::page, routes::not_found::*, state::AppState};
+use super::not_found::*;
+use crate::{error::AppError, models::page, state::AppState};
 use axum::{
 	extract::{Path, State},
 	http::header,

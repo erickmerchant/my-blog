@@ -50,14 +50,14 @@ pub async fn handler<B>(
 				Ok(StatusCode::NOT_MODIFIED.into_response())
 			} else {
 				Ok((
-					headers(res_headers, cache_result.content_type, cache_result.etag),
+					add_cache_headers(res_headers, cache_result.content_type, cache_result.etag),
 					cache_result.body,
 				)
 					.into_response())
 			}
 		} else {
 			Ok((
-				headers(res_headers, cache_result.content_type, None),
+				add_cache_headers(res_headers, cache_result.content_type, None),
 				cache_result.body,
 			)
 				.into_response())
@@ -91,7 +91,7 @@ pub async fn handler<B>(
 			};
 
 			cache_model.insert(&app_state.database).await.ok();
-			parts.headers = headers(parts.headers, content_type, etag);
+			parts.headers = add_cache_headers(parts.headers, content_type, etag);
 		} else {
 			output = bytes.to_vec();
 		};
