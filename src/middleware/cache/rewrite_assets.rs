@@ -67,7 +67,7 @@ pub fn rewrite_assets(bytes: Bytes, mut output: Vec<u8>) -> anyhow::Result<Vec<u
 fn asset_url(mut url: String) -> String {
 	if url.starts_with('/') {
 		if let Ok(time) =
-			fs::metadata(Utf8Path::new("theme").join(&url)).and_then(|meta| meta.modified())
+			fs::metadata(Utf8Path::new("theme").join(&url[1..])).and_then(|meta| meta.modified())
 		{
 			let version_time = time
 				.duration_since(UNIX_EPOCH)
