@@ -4,7 +4,7 @@ export class Element extends HTMLElement {
 	}
 
 	#observed = {};
-	#reads = new Map();
+	#reads = {};
 	#current;
 
 	watch(object, set, defaults = object) {
@@ -12,14 +12,8 @@ export class Element extends HTMLElement {
 			Object.defineProperty(object, k, {
 				get: () => {
 					if (this.#current) {
-						let r = this.#reads.get(k);
-
-						if (!r) {
-							r = [];
-							this.#reads.set(k, r);
-						}
-
-						r.push(this.#current);
+						this.#reads[k] ??= [];
+						this.#reads[k].push(this.#current);
 					}
 
 					return this.#observed[k];
@@ -28,7 +22,7 @@ export class Element extends HTMLElement {
 					if (this.#observed[k] !== v) {
 						this.#observed[k] = v;
 						set?.(k, v);
-						this.#update(new Set(this.#reads.get(k)?.splice(0, Infinity)));
+						this.#update(new Set(this.#reads[k]?.splice(0, Infinity)));
 					}
 				},
 			});
