@@ -34,16 +34,20 @@ async fn main() -> io::Result<()> {
 	let app_state = Arc::new(AppState {
 		templates,
 		database,
-		args,
 	});
 
-	let app = Router::new()
+	let mut app = Router::new()
 		.route("/", get(root))
 		.route("/:category/", get(category))
 		.route("/:category/feed/", get(rss))
 		.route("/:category/:slug/", get(page))
-		.fallback(asset)
-		.layer(from_fn_with_state(app_state.clone(), cache))
+		.fallback(asset);
+
+	if !args.no_cache {
+		app = app.layer(from_fn_with_state(app_state.clone(), cache));
+	}
+
+	let app = app
 		.layer(CompressionLayer::new())
 		.layer(
 			TraceLayer::new_for_http()
