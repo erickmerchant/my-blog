@@ -11,7 +11,7 @@ use sea_orm::{entity::prelude::*, query::*};
 use std::{sync::Arc, vec::Vec};
 use tokio::try_join;
 
-pub async fn index(
+pub async fn category(
 	State(app_state): State<Arc<AppState>>,
 	Path(category): Path<String>,
 ) -> Result<Response, AppError> {

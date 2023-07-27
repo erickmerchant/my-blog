@@ -1,4 +1,4 @@
-use super::index::*;
+use super::category::*;
 use crate::{error::AppError, state::AppState};
 use axum::{
 	extract::{Path, State},
@@ -6,6 +6,6 @@ use axum::{
 };
 use std::sync::Arc;
 
-pub async fn posts_index(app_state: State<Arc<AppState>>) -> Result<Response, AppError> {
-	index(app_state, Path("posts".to_string())).await
+pub async fn root(app_state: State<Arc<AppState>>) -> Result<Response, AppError> {
+	category(app_state, Path("posts".to_string())).await
 }

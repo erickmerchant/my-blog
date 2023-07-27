@@ -1,7 +1,7 @@
 use app::{
 	args::Args,
 	middleware::cache::*,
-	routes::{asset::*, index::*, page::*, posts_index::*, rss::*},
+	routes::{asset::*, category::*, page::*, root::*, rss::*},
 	state::AppState,
 	templates,
 };
@@ -38,8 +38,8 @@ async fn main() -> io::Result<()> {
 	});
 
 	let app = Router::new()
-		.route("/", get(posts_index))
-		.route("/:category/", get(index))
+		.route("/", get(root))
+		.route("/:category/", get(category))
 		.route("/:category/feed/", get(rss))
 		.route("/:category/:slug/", get(page))
 		.fallback(asset)
