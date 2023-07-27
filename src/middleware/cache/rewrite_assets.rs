@@ -3,7 +3,7 @@ use camino::Utf8Path;
 use hyper::body::Bytes;
 use lol_html::{element, html_content::ContentType, text, HtmlRewriter, Settings};
 use serde_json as json;
-use std::{collections::HashMap, fs, time::UNIX_EPOCH};
+use std::{fs, time::UNIX_EPOCH};
 
 pub fn rewrite_assets(bytes: Bytes, mut output: Vec<u8>) -> anyhow::Result<Vec<u8>> {
 	let mut rewriter = HtmlRewriter::new(
@@ -27,22 +27,7 @@ pub fn rewrite_assets(bytes: Bytes, mut output: Vec<u8>) -> anyhow::Result<Vec<u
 				}),
 				text!("script[type='importmap']", |el| {
 					if let Ok(mut import_map) = json::from_str::<ImportMap>(el.as_str()) {
-						for (key, value) in import_map.imports.clone() {
-							import_map.imports.insert(key, asset_url(value));
-						}
-
-						let mut new_scopes: HashMap<String, HashMap<String, String>> =
-							HashMap::new();
-						for (scope_key, old_map) in import_map.scopes.clone() {
-							let mut new_map: HashMap<String, String> = HashMap::new();
-							for (key, value) in old_map {
-								new_map.insert(key, asset_url(value));
-							}
-
-							new_scopes.insert(scope_key, new_map);
-						}
-
-						import_map.scopes = new_scopes;
+						import_map.map(asset_url);
 
 						el.replace(
 							json::to_string(&import_map).unwrap().as_str(),
