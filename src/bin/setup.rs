@@ -38,7 +38,7 @@ fn page_from_html(category: String, slug: String, contents: &str) -> Result<page
 					Ok(())
 				}),
 				text!("front-matter", |el| {
-					if let Ok(d) = json::from_str::<json::Value>(el.as_str()) {
+					if let Ok(d) = json::from_str(el.as_str()) {
 						data.set_from_json(d)?;
 					}
 
