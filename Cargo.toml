@@ -19,7 +19,7 @@ lol_html = "1.0.0"
 mime_guess = "2.0.4"
 minijinja = { version = "1.0.0", features = ["loader"] }
 pathdiff = { version = "0.2.1", features = ["camino"]	}
-sea-orm = { version = "0.11.2", features = ["sqlx-sqlite", "runtime-tokio-rustls"] }
+sea-orm = { version = "0.12.1", features = ["sqlx-sqlite", "runtime-tokio-rustls"] }
 serde = "1.0"
 serde_json = "1.0"
 syntect = "5.0.0"
