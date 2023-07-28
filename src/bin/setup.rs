@@ -98,7 +98,7 @@ fn page_from_html(category: String, slug: String, contents: &str) -> Result<page
 	data.elements = Set(json::to_value(
 		elements.into_iter().collect::<Vec<String>>(),
 	)?);
-	data.slug = Set(slug);
+	data.slug = Set(slug.clone());
 	data.category = Set(category.clone());
 
 	if data.title.is_not_set() {
@@ -114,8 +114,8 @@ fn page_from_html(category: String, slug: String, contents: &str) -> Result<page
 	}
 
 	if data.template.is_not_set() {
-		data.template = if category.is_empty() {
-			Set("layouts/index.jinja".to_string())
+		data.template = if category.is_empty() || slug.is_empty() {
+			Set("layouts/category.jinja".to_string())
 		} else {
 			Set("layouts/page.jinja".to_string())
 		};

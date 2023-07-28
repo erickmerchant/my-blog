@@ -11,7 +11,7 @@ pub fn not_found(State(app_state): State<Arc<AppState>>) -> Result<Response, App
 	let ctx = context! {};
 	let template = app_state
 		.templates
-		.get_template("layouts/not_found.jinja")?;
+		.get_template("layouts/not-found.jinja")?;
 	let body = template.render(ctx)?;
 
 	Ok((StatusCode::NOT_FOUND, Html(body)).into_response())

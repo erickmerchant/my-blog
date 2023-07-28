@@ -35,7 +35,7 @@ pub async fn category(
 	if !pages.is_empty() && pages_index_page.is_some() {
 		let html = app_state
 			.templates
-			.get_template("layouts/index.jinja")
+			.get_template("layouts/category.jinja")
 			.and_then(|template| {
 				template.render(context! {
 					page => pages_index_page,
