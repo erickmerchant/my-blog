@@ -1,16 +1,13 @@
 use anyhow::Result;
 use app::{
-	models::{cache, page},
+	models::{cache, page, post},
 	templates::get_env,
 };
 use camino::Utf8Path;
 use glob::glob;
 use lol_html::{element, html_content::ContentType, text, HtmlRewriter, Settings};
 use minijinja::context;
-use pathdiff::diff_utf8_paths;
-use sea_orm::{
-	sea_query::Index, ActiveModelTrait, ActiveValue::Set, ConnectionTrait, Database, Schema,
-};
+use sea_orm::{ActiveModelTrait, ActiveValue::Set, ConnectionTrait, Database, Schema};
 use serde_json as json;
 use std::{cell::RefCell, collections::HashSet, fs, rc::Rc};
 use syntect::{
@@ -20,10 +17,8 @@ use syntect::{
 };
 use tokio::try_join;
 
-fn page_from_html(category: String, slug: String, contents: &str) -> Result<page::ActiveModel> {
-	let mut data = page::ActiveModel {
-		..Default::default()
-	};
+fn rewrite_and_scrape(contents: &str) -> Result<(json::Value, Vec<u8>, HashSet<String>)> {
+	let mut data = json::Value::Null;
 	let mut elements = HashSet::<String>::new();
 	let template_env = get_env();
 	let ss = SyntaxSet::load_defaults_newlines();
@@ -39,7 +34,7 @@ fn page_from_html(category: String, slug: String, contents: &str) -> Result<page
 				}),
 				text!("front-matter", |el| {
 					if let Ok(d) = json::from_str(el.as_str()) {
-						data.set_from_json(d)?;
+						data = d;
 					}
 
 					Ok(())
@@ -94,34 +89,8 @@ fn page_from_html(category: String, slug: String, contents: &str) -> Result<page
 
 	rewriter.write(contents.as_bytes())?;
 	rewriter.end()?;
-	data.content = Set(String::from_utf8(output)?);
-	data.elements = Set(json::to_value(
-		elements.into_iter().collect::<Vec<String>>(),
-	)?);
-	data.slug = Set(slug.clone());
-	data.category = Set(category.clone());
 
-	if data.title.is_not_set() {
-		data.title = Set("Untitled".to_string());
-	}
-
-	if data.description.is_not_set() {
-		data.description = Set("".to_string());
-	}
-
-	if data.date.is_not_set() {
-		data.date = Set(None);
-	}
-
-	if data.template.is_not_set() {
-		data.template = if category.is_empty() || slug.is_empty() {
-			Set("layouts/category.jinja".to_string())
-		} else {
-			Set("layouts/page.jinja".to_string())
-		};
-	}
-
-	Ok(data)
+	Ok((data, output, elements))
 }
 
 #[tokio::main]
@@ -132,7 +101,6 @@ async fn main() -> Result<()> {
 	let connection = Database::connect("sqlite://./storage/content.db?mode=rwc")
 		.await
 		.expect("database should connect");
-
 	let backend = connection.get_database_backend();
 	let schema = Schema::new(backend);
 
@@ -143,40 +111,18 @@ async fn main() -> Result<()> {
 				.to_owned(),
 		),
 		connection.execute(
-			backend.build(
-				Index::create()
-					.name("idx-page-category-slug-uniq")
-					.table(page::Entity)
-					.col(page::Column::Category)
-					.col(page::Column::Slug)
-					.unique(),
-			),
-		),
-		connection.execute(
-			backend.build(
-				Index::create()
-					.name("idx-page-category")
-					.table(page::Entity)
-					.col(page::Column::Category),
-			),
+			backend
+				.build(&schema.create_table_from_entity(post::Entity))
+				.to_owned(),
 		),
 		connection.execute(
 			backend
 				.build(&schema.create_table_from_entity(cache::Entity))
 				.to_owned(),
 		),
-		connection.execute(
-			backend.build(
-				Index::create()
-					.name("idx-cache-path-uniq")
-					.table(cache::Entity)
-					.col(cache::Column::Path)
-					.unique(),
-			),
-		),
 	)?;
 
-	let paths = glob("content/**/*.html")?;
+	let paths = glob("content/posts/*.html")?;
 
 	for path in paths.flatten() {
 		if let Some(path) = Utf8Path::from_path(&path) {
@@ -184,19 +130,43 @@ async fn main() -> Result<()> {
 				.file_stem()
 				.map(|f| f.to_string())
 				.expect("file stem should exist");
-
-			let mut category = "".to_string();
-
-			if let Some(p) = diff_utf8_paths(path, "content") {
-				if let Some(parent) = p.parent() {
-					category = parent.to_string();
-				}
-			};
-
 			let contents = fs::read_to_string(path)?;
-			let data = page_from_html(category, slug, &contents)?;
+			let mut post = post::ActiveModel {
+				..Default::default()
+			};
+			let (data, output, elements) = rewrite_and_scrape(&contents)?;
 
-			data.insert(&connection).await?;
+			post.set_from_json(data).ok();
+			post.content = Set(String::from_utf8(output)?);
+			post.elements = Set(json::to_value(
+				elements.into_iter().collect::<Vec<String>>(),
+			)?);
+			post.slug = Set(slug.clone());
+			post.insert(&connection).await?;
+		}
+	}
+
+	let paths = glob("content/pages/*.html")?;
+
+	for path in paths.flatten() {
+		if let Some(path) = Utf8Path::from_path(&path) {
+			let slug = path
+				.file_stem()
+				.map(|f| f.to_string())
+				.expect("file stem should exist");
+			let contents = fs::read_to_string(path)?;
+			let mut page = page::ActiveModel {
+				..Default::default()
+			};
+			let (data, output, elements) = rewrite_and_scrape(&contents)?;
+
+			page.set_from_json(data).ok();
+			page.content = Set(String::from_utf8(output)?);
+			page.elements = Set(json::to_value(
+				elements.into_iter().collect::<Vec<String>>(),
+			)?);
+			page.slug = Set(slug.clone());
+			page.insert(&connection).await?;
 		}
 	}
 

@@ -1,9 +1,10 @@
+use chrono::NaiveDate;
 use sea_orm::entity::prelude::*;
 use serde::{Deserialize, Serialize};
 use serde_json as json;
 
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq, Serialize, Deserialize)]
-#[sea_orm(table_name = "pages")]
+#[sea_orm(table_name = "posts")]
 pub struct Model {
 	#[sea_orm(primary_key)]
 	#[serde(skip_deserializing)]
@@ -30,7 +31,7 @@ pub struct Model {
 	pub elements: json::Value,
 
 	#[serde(default)]
-	pub redirect: Option<String>,
+	pub date: Option<NaiveDate>,
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]

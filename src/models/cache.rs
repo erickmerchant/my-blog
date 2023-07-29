@@ -7,9 +7,14 @@ pub struct Model {
 	#[sea_orm(primary_key)]
 	#[serde(skip_deserializing)]
 	pub id: i32,
+
+	#[sea_orm(unique)]
 	pub path: String,
+
 	pub etag: Option<String>,
+
 	pub content_type: String,
+
 	pub body: Vec<u8>,
 }
 

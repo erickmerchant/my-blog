@@ -1,7 +1,7 @@
 use app::{
 	args::Args,
 	middleware::cache::*,
-	routes::{asset::*, category::*, page::*, root::*, rss::*},
+	routes::{asset::*, index::*, page::*, post::*, rss::*},
 	state::AppState,
 	templates,
 };
@@ -26,21 +26,18 @@ async fn main() -> io::Result<()> {
 
 	let port = args.listen;
 	let templates = templates::get_env();
-
 	let database: DatabaseConnection = Database::connect("sqlite://./storage/content.db")
 		.await
 		.expect("database should connect");
-
 	let app_state = Arc::new(AppState {
 		templates,
 		database,
 	});
-
 	let mut app = Router::new()
-		.route("/", get(root))
-		.route("/:category/", get(category))
-		.route("/:category/feed/", get(rss))
-		.route("/:category/:slug/", get(page))
+		.route("/", get(index))
+		.route("/pages/:slug/", get(page))
+		.route("/posts/feed/", get(rss))
+		.route("/posts/:slug/", get(post))
 		.fallback(asset);
 
 	if !args.no_cache {
@@ -72,7 +69,6 @@ async fn main() -> io::Result<()> {
 				),
 		)
 		.with_state(app_state);
-
 	let addr = SocketAddr::from(([0, 0, 0, 0], port));
 
 	Server::bind(&addr)

@@ -2,45 +2,44 @@ use super::not_found::*;
 use crate::{error::AppError, models::page, state::AppState};
 use axum::{
 	extract::{Path, State},
-	http::header,
+	http::{header, StatusCode},
 	response::{IntoResponse, Response},
 };
 use mime_guess::mime::TEXT_HTML_UTF_8;
 use minijinja::context;
-use sea_orm::{entity::prelude::*, query::*};
+use sea_orm::entity::prelude::*;
 use std::sync::Arc;
 
 pub async fn page(
 	State(app_state): State<Arc<AppState>>,
-	Path((category, slug)): Path<(String, String)>,
+	Path(slug): Path<String>,
 ) -> Result<Response, AppError> {
 	let content_type = TEXT_HTML_UTF_8.to_string();
-	let page_category = category;
-	let page_slug = slug;
-
 	let page: Option<page::Model> = page::Entity::find()
-		.filter(
-			Condition::all()
-				.add(page::Column::Category.eq(&page_category))
-				.add(page::Column::Slug.eq(page_slug)),
-		)
-		.order_by_desc(page::Column::Date)
+		.filter(page::Column::Slug.eq(slug))
 		.one(&app_state.database)
 		.await?;
 
 	if let Some(page) = page {
-		let html = app_state
-			.templates
-			.get_template(page.template.as_str())
-			.and_then(|template| {
-				template.render(context! {
-					page => page,
-				})
-			})?;
+		if let Some(redirect) = page.redirect {
+			Ok((
+				[(header::LOCATION, redirect)],
+				StatusCode::MOVED_PERMANENTLY,
+			)
+				.into_response())
+		} else {
+			let html = app_state
+				.templates
+				.get_template("layouts/page.jinja")
+				.and_then(|template| {
+					template.render(context! {
+						page => page,
+					})
+				})?;
+			let body = html.as_bytes().to_vec();
 
-		let body = html.as_bytes().to_vec();
-
-		Ok(([(header::CONTENT_TYPE, content_type)], body).into_response())
+			Ok(([(header::CONTENT_TYPE, content_type)], body).into_response())
+		}
 	} else {
 		not_found(State(app_state))
 	}

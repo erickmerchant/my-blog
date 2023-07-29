@@ -6,10 +6,10 @@
 		<title>{{title}}</title>
 		<link>{{host}}</link>
 		<copyright>© {{year()}} {{author}}</copyright>
-		{% for p in pages %}
+		{% for p in posts %}
 		<item>
 			<title>{{p.title}}</title>
-			<link>{{host + p.category + "/" + p.slug + "/"}}</link>
+			<link>{{host + "/posts/" + p.slug + "/"}}</link>
 			<pubDate>{{p.date | format_date("%a, %d %h %Y")}} 00:00:00 +0000</pubDate>
 			<description>
 				<![CDATA[{{p.content}}]]>

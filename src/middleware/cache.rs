@@ -14,7 +14,7 @@ use headers::*;
 use hyper::{body::to_bytes, Body, HeaderMap};
 use mime_guess::mime::TEXT_HTML_UTF_8;
 use rewrite_assets::*;
-use sea_orm::{entity::prelude::*, query::*, ActiveValue::Set};
+use sea_orm::{entity::prelude::*, ActiveValue::Set};
 use std::sync::Arc;
 
 pub async fn cache<B>(
@@ -24,7 +24,7 @@ pub async fn cache<B>(
 ) -> Result<Response, AppError> {
 	let uri = req.uri().to_string();
 	let cache_result: Option<cache::Model> = cache::Entity::find()
-		.filter(Condition::all().add(cache::Column::Path.eq(&uri)))
+		.filter(cache::Column::Path.eq(&uri))
 		.one(&app_state.database)
 		.await?;
 
@@ -65,42 +65,47 @@ pub async fn cache<B>(
 		}
 	} else {
 		let res = next.run(req).await;
-		let (mut parts, body) = res.into_parts();
-		let bytes = to_bytes(body).await;
-		let mut output = vec![];
 
-		if let Ok(bytes) = bytes {
-			if let Some(content_type) =
-				get_header(parts.headers.clone(), "content-type".to_string())
-			{
-				let mut etag = None;
+		if res.status() == StatusCode::OK {
+			let (mut parts, body) = res.into_parts();
+			let bytes = to_bytes(body).await;
+			let mut output = vec![];
 
-				if content_type == TEXT_HTML_UTF_8.to_string() {
-					let etag_string = EntityTag::from_data(&bytes).to_string();
+			if let Ok(bytes) = bytes {
+				if let Some(content_type) =
+					get_header(parts.headers.clone(), "content-type".to_string())
+				{
+					let mut etag = None;
 
-					etag = Some(etag_string.clone());
-					output = rewrite_assets(bytes, output)?;
+					if content_type == TEXT_HTML_UTF_8.to_string() {
+						let etag_string = EntityTag::from_data(&bytes).to_string();
+
+						etag = Some(etag_string.clone());
+						output = rewrite_assets(bytes, output)?;
+					} else {
+						output = bytes.to_vec();
+					};
+
+					let cache_model = cache::ActiveModel {
+						path: Set(uri),
+						content_type: Set(content_type.clone()),
+						etag: Set(etag.clone()),
+						body: Set(output.clone()),
+						..Default::default()
+					};
+
+					cache_model.insert(&app_state.database).await.ok();
+					parts.headers = add_cache_headers(parts.headers, content_type, etag);
 				} else {
 					output = bytes.to_vec();
 				};
 
-				let cache_model = cache::ActiveModel {
-					path: Set(uri),
-					content_type: Set(content_type.clone()),
-					etag: Set(etag.clone()),
-					body: Set(output.clone()),
-					..Default::default()
-				};
-
-				cache_model.insert(&app_state.database).await.ok();
-				parts.headers = add_cache_headers(parts.headers, content_type, etag);
+				Ok(Response::from_parts(parts, Body::from(output)).into_response())
 			} else {
-				output = bytes.to_vec();
-			};
-
-			Ok(Response::from_parts(parts, Body::from(output)).into_response())
+				Ok(StatusCode::INTERNAL_SERVER_ERROR.into_response())
+			}
 		} else {
-			Ok(StatusCode::INTERNAL_SERVER_ERROR.into_response())
+			Ok(res)
 		}
 	}
 }
