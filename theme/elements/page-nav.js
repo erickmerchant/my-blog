@@ -27,16 +27,16 @@ export class PageNav extends Element {
 			this.minimized = false;
 		});
 
-		this.#toggle?.addEventListener("click", () => {
-			this.minimized = false;
-			this.expanded = !this.expanded;
-			this.transitioning = true;
-		});
-
 		this.#nav?.addEventListener("transitionend", (e) => {
 			if (e.target === this.#nav) {
 				this.transitioning = false;
 			}
+		});
+
+		this.#toggle?.addEventListener("click", () => {
+			this.minimized = false;
+			this.expanded = !this.expanded;
+			this.transitioning = true;
 		});
 
 		yield () => {
