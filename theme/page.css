@@ -140,7 +140,7 @@ code {
 	color: var(--code-3);
 	background-color: var(--paper-1);
 	border-radius: var(--border-radius);
-	padding-inline: 0.5em;
+	padding-inline: 0.25em;
 }
 
 @supports selector(:focus-visible) {
