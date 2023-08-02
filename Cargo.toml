@@ -18,12 +18,19 @@ log = "0.4.17"
 lol_html = "1.0.0"
 mime_guess = "2.0.4"
 minijinja = { version = "1.0.0", features = ["loader"] }
-sea-orm = { version = "0.12.1", features = ["sqlx-sqlite", "runtime-tokio-rustls"] }
+sea-orm = { version = "0.12.1", features = [
+	"sqlx-sqlite",
+	"runtime-tokio-rustls",
+] }
 serde = "1.0"
 serde_json = "1.0"
 syntect = "5.0.0"
 tokio = { version = "1.27.0", features = ["macros", "rt-multi-thread"] }
-tower-http = { version = "0.4.2", features = ["set-header", "compression-gzip", "trace"] }
+tower-http = { version = "0.4.2", features = [
+	"set-header",
+	"compression-gzip",
+	"trace",
+] }
 tracing = "0.1.37"
 tracing-subscriber = { version = "0.3.17", features = ["env-filter"] }
 

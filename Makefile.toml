@@ -1,23 +1,31 @@
 [tasks.app-watch]
-env = {RUST_LOG="serve=debug", RUST_BACKTRACE=1}
-command="cargo"
-args=["watch", "-i", "*.css", "-x", "r --bin setup", "-s", "cargo run --bin serve --no-default-features -- --no-cache --listen 3000"]
+env = { RUST_LOG = "serve=debug", RUST_BACKTRACE = 1 }
+command = "cargo"
+args = [
+	"watch",
+	"-i",
+	"*.css",
+	"-x",
+	"r --bin setup",
+	"-s",
+	"cargo run --bin serve --no-default-features -- --no-cache --listen 3000",
+]
 
 [tasks.docker-build]
-command="docker"
-args=["build", ".", "-t", "my-blog"]
+command = "docker"
+args = ["build", ".", "-t", "my-blog"]
 
 [tasks.docker-start]
-command="docker"
-args=["run", "-p", "3000:8080", "--name", "my-blog", "my-blog"]
+command = "docker"
+args = ["run", "-p", "3000:8080", "--name", "my-blog", "my-blog"]
 
 [tasks.docker-stop]
-command="docker"
-args=["rm", "-f", "my-blog"]
+command = "docker"
+args = ["rm", "-f", "my-blog"]
 
 [tasks.style-watch]
-command="coolstyleserver"
-args=["--watch", "theme"]
+command = "coolstyleserver"
+args = ["--watch", "theme"]
 
 [tasks.watch]
 run_task = { name = ["style-watch", "app-watch"], parallel = true }
