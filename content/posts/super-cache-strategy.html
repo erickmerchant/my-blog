@@ -2,17 +2,17 @@
 {
 	"title": "Super cache strategy",
 	"date": "2023-08-01",
-	"description": "What I think is the best way to cache your website"
+	"description": "The best cache strategy I've found."
 }
 </front-matter>
 
-<p>For probably over a decade Etags were the beginning and end of cache headers that I would set. <code>cache-control</code> sort of eluded me. I knew about using it with cache-busting techniques, but I never did it. Recently it finally dawned on me how to combine <code>etag</code> with <code>cache-control</code> headers and cache-busting.</p>
+<p>For a long time etags were the beginning and end of cache headers that I would set when writing a server. It's sibling, <code>cache-control</code>, sort of eluded me. I knew about using it with cache busting techniques, but I never did it. Recently it finally dawned on me how to combine <code>etag</code> with <code>cache-control</code> headers and cache busting.</p>
 
-<p>The strategy is fairly simple. I can't be the first person to do this, but I've never heard it explained as such.</p>
+<p>The strategy is fairly simple. I can't be the first person to do this, but I have never heard it explained as the following.</p>
 
 <ul>
 	<li>Use an <code>etag</code> header for <code>text/html</code> responses</li>
-	<li>Use a <code>cache-control</code> header with a <code>max-age=31536000</code> (one year which is the recommended max) set for everything else that has a cache-busting url like your js and css</li>
+	<li>Use a <code>cache-control</code> header with a <code>max-age=31536000</code> (one year which is the recommended max) set for everything else that has a cache busting url like your js and css.</li>
 </ul>
 
-<p>This way in an ideal situation with a warm cache the browser just requests the html and receives a <code>304</code> status code. Everything else gets served from the cache and is a <code>200</code>.</p>
+<p>This way in an ideal situation, with a warm cache, the browser just requests the html and receives a <code>304</code> status code. Everything else gets served from the cache and is a <code>200</code>.</p>

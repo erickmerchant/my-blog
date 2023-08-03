@@ -75,7 +75,7 @@ if (!this.shadowRoot && firstChild?.nodeName === "TEMPLATE" && mode) {
 
 <h3>Two way data binding to attributes</h3>
 
-<p>This last one is probably the one that you could probably take or leave. It's nice to have attributes behave like any other watched state, but also have your base element handle updating attributes when that state is changed by you. In element.js I use a <code>MutationObserver</code> for this. You can accomplish it with <code>static get observerdAttibutes</code> and <code>attributeChangedCallback</code>, but then you must do it in your child elements. I've found no way to do it in a base element using the idiomatic Custom Element way. It's also easy to do if you don't use classes and implement some sort of functional interface. Here is an example from our ExampleElement again though.</p>
+<p>This last one is probably the one that you could take or leave. It's nice to have attributes behave like any other watched state, but also have your base element handle updating attributes when that state is changed by you. In element.js I use a <code>MutationObserver</code> for this. You can accomplish it with <code>static get observerdAttibutes</code> and <code>attributeChangedCallback</code>, but then you must do it in your child elements. I've found no way to do it in a base element using the idiomatic Custom Element way. It's also easy to do if you don't use classes and implement some sort of functional interface. Here is an example from our ExampleElement again though.</p>
 
 <code-block language="js">
 #state = this.attributes({count: 0});
