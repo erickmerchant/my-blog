@@ -15,7 +15,7 @@ pub async fn page(
 	Path(slug): Path<String>,
 ) -> Result<Response, AppError> {
 	let content_type = TEXT_HTML_UTF_8.to_string();
-	let page: Option<page::Model> = page::Entity::find()
+	let page = page::Entity::find()
 		.filter(page::Column::Slug.eq(slug))
 		.one(&app_state.database)
 		.await?;

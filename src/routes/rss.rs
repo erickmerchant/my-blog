@@ -6,11 +6,11 @@ use axum::{
 };
 use minijinja::context;
 use sea_orm::{entity::prelude::*, query::*};
-use std::{sync::Arc, vec::Vec};
+use std::sync::Arc;
 
 pub async fn rss(State(app_state): State<Arc<AppState>>) -> Result<Response, AppError> {
 	let content_type = "application/rss+xml; charset=utf-8".to_string();
-	let posts: Vec<post::Model> = post::Entity::find()
+	let posts = post::Entity::find()
 		.order_by_desc(post::Column::Date)
 		.all(&app_state.database)
 		.await?;

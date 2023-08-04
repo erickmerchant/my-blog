@@ -12,12 +12,12 @@ use axum::{
 use mime_guess::mime::TEXT_HTML_UTF_8;
 use minijinja::context;
 use sea_orm::{entity::prelude::*, query::*};
-use std::{sync::Arc, vec::Vec};
+use std::sync::Arc;
 use tokio::try_join;
 
 pub async fn index(State(app_state): State<Arc<AppState>>) -> Result<Response, AppError> {
 	let content_type = TEXT_HTML_UTF_8.to_string();
-	let (posts, index_page): (Vec<post::Model>, Option<page::Model>) = try_join!(
+	let (posts, index_page) = try_join!(
 		post::Entity::find()
 			.filter(post::Column::Date.is_not_null())
 			.order_by_desc(post::Column::Date)

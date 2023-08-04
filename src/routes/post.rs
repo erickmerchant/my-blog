@@ -15,7 +15,7 @@ pub async fn post(
 	Path(slug): Path<String>,
 ) -> Result<Response, AppError> {
 	let content_type = TEXT_HTML_UTF_8.to_string();
-	let post: Option<post::Model> = post::Entity::find()
+	let post = post::Entity::find()
 		.filter(post::Column::Slug.eq(slug))
 		.one(&app_state.database)
 		.await?;

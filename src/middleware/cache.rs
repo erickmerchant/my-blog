@@ -23,7 +23,7 @@ pub async fn cache<B>(
 	next: Next<B>,
 ) -> Result<Response, AppError> {
 	let uri = req.uri().to_string();
-	let cache_result: Option<cache::Model> = cache::Entity::find()
+	let cache_result = cache::Entity::find()
 		.filter(cache::Column::Path.eq(&uri))
 		.one(&app_state.database)
 		.await?;
@@ -69,7 +69,7 @@ pub async fn cache<B>(
 		if res.status() == StatusCode::OK {
 			let (mut parts, body) = res.into_parts();
 			let bytes = to_bytes(body).await;
-			let mut output = vec![];
+			let mut output = Vec::new();
 
 			if let Ok(bytes) = bytes {
 				if let Some(content_type) =

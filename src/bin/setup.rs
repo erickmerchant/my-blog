@@ -22,7 +22,7 @@ fn rewrite_and_scrape(contents: &str) -> Result<(json::Value, Vec<u8>, HashSet<S
 	let mut elements = HashSet::<String>::new();
 	let template_env = get_env();
 	let ss = SyntaxSet::load_defaults_newlines();
-	let mut output = vec![];
+	let mut output = Vec::new();
 	let language_buffer = Rc::new(RefCell::new(String::new()));
 	let mut rewriter = HtmlRewriter::new(
 		Settings {
@@ -53,7 +53,7 @@ fn rewrite_and_scrape(contents: &str) -> Result<(json::Value, Vec<u8>, HashSet<S
 
 					if let Some(syntax) = ss.find_syntax_by_extension(&language) {
 						let inner_html = String::from(el.as_str());
-						let mut highlighted_lines: Vec<String> = vec![];
+						let mut highlighted_lines = Vec::<String>::new();
 
 						for line in LinesWithEndings::from(inner_html.trim()) {
 							let mut html_generator = ClassedHTMLGenerator::new_with_class_style(

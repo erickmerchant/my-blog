@@ -9,7 +9,7 @@ use axum::{
 	http::Request, middleware::from_fn_with_state, response::Response, routing::get, Router, Server,
 };
 use clap::Parser;
-use sea_orm::{Database, DatabaseConnection};
+use sea_orm::Database;
 use std::{io, net::SocketAddr, sync::Arc, time::Duration};
 use tower_http::{
 	classify::ServerErrorsFailureClass, compression::CompressionLayer, trace::TraceLayer,
@@ -26,7 +26,7 @@ async fn main() -> io::Result<()> {
 
 	let port = args.listen;
 	let templates = templates::get_env();
-	let database: DatabaseConnection = Database::connect("sqlite://./storage/content.db")
+	let database = Database::connect("sqlite://./storage/content.db")
 		.await
 		.expect("database should connect");
 	let app_state = Arc::new(AppState {

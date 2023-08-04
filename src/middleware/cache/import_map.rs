@@ -15,9 +15,9 @@ impl ImportMap {
 			self.imports.insert(key, map(value));
 		}
 
-		let mut new_scopes: HashMap<String, HashMap<String, String>> = HashMap::new();
+		let mut new_scopes = HashMap::<String, HashMap<String, String>>::new();
 		for (scope_key, old_map) in self.scopes.clone() {
-			let mut new_map: HashMap<String, String> = HashMap::new();
+			let mut new_map = HashMap::<String, String>::new();
 			for (key, value) in old_map {
 				new_map.insert(key, map(value));
 			}
