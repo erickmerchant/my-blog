@@ -1,6 +1,6 @@
 use anyhow::Result;
 use app::{
-	models::{cache, page, post},
+	models::{cache, elements, page, post},
 	templates::get_env,
 };
 use camino::Utf8Path;
@@ -138,9 +138,9 @@ async fn main() -> Result<()> {
 
 			post.set_from_json(data).ok();
 			post.content = Set(String::from_utf8(output)?);
-			post.elements = Set(json::to_value(
+			post.elements = Set(elements::Elements(
 				elements.into_iter().collect::<Vec<String>>(),
-			)?);
+			));
 			post.slug = Set(slug.clone());
 			post.insert(&connection).await?;
 		}
@@ -162,9 +162,9 @@ async fn main() -> Result<()> {
 
 			page.set_from_json(data).ok();
 			page.content = Set(String::from_utf8(output)?);
-			page.elements = Set(json::to_value(
+			page.elements = Set(elements::Elements(
 				elements.into_iter().collect::<Vec<String>>(),
-			)?);
+			));
 			page.slug = Set(slug.clone());
 			page.insert(&connection).await?;
 		}

@@ -1,7 +1,6 @@
 use chrono::NaiveDate;
 use sea_orm::entity::prelude::*;
 use serde::{Deserialize, Serialize};
-use serde_json as json;
 
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq, Serialize, Deserialize)]
 #[sea_orm(table_name = "posts")]
@@ -28,7 +27,7 @@ pub struct Model {
 
 	#[sea_orm(default_value = "[]")]
 	#[serde(skip_deserializing)]
-	pub elements: json::Value,
+	pub elements: super::elements::Elements,
 
 	#[serde(default)]
 	pub date: Option<NaiveDate>,
