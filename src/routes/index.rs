@@ -1,9 +1,5 @@
 use super::not_found::*;
-use crate::{
-	error::AppError,
-	models::{page, post},
-	state::AppState,
-};
+use crate::{error::AppError, models::entry, state::AppState};
 use axum::{
 	extract::State,
 	http::header,
@@ -18,12 +14,20 @@ use tokio::try_join;
 pub async fn index(State(app_state): State<Arc<AppState>>) -> Result<Response, AppError> {
 	let content_type = TEXT_HTML_UTF_8.to_string();
 	let (posts, index_page) = try_join!(
-		post::Entity::find()
-			.filter(post::Column::Date.is_not_null())
-			.order_by_desc(post::Column::Date)
+		entry::Entity::find()
+			.filter(
+				Condition::all()
+					.add(entry::Column::Date.is_not_null())
+					.add(entry::Column::Category.eq("posts"))
+			)
+			.order_by_desc(entry::Column::Date)
 			.all(&app_state.database),
-		page::Entity::find()
-			.filter(page::Column::Slug.eq("index"))
+		entry::Entity::find()
+			.filter(
+				Condition::all()
+					.add(entry::Column::Slug.eq("index"))
+					.add(entry::Column::Category.eq("pages"))
+			)
 			.one(&app_state.database)
 	)?;
 

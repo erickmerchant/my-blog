@@ -1,4 +1,4 @@
-use crate::{error::AppError, models::post, state::AppState};
+use crate::{error::AppError, models::entry, state::AppState};
 use axum::{
 	extract::State,
 	http::header,
@@ -10,8 +10,9 @@ use std::sync::Arc;
 
 pub async fn rss(State(app_state): State<Arc<AppState>>) -> Result<Response, AppError> {
 	let content_type = "application/rss+xml; charset=utf-8".to_string();
-	let posts = post::Entity::find()
-		.order_by_desc(post::Column::Date)
+	let posts = entry::Entity::find()
+		.filter(entry::Column::Category.eq("posts"))
+		.order_by_desc(entry::Column::Date)
 		.all(&app_state.database)
 		.await?;
 	let html = app_state

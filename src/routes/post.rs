@@ -1,5 +1,5 @@
 use super::not_found::*;
-use crate::{error::AppError, models::post, state::AppState};
+use crate::{error::AppError, models::entry, state::AppState};
 use axum::{
 	extract::{Path, State},
 	http::header,
@@ -7,7 +7,7 @@ use axum::{
 };
 use mime_guess::mime::TEXT_HTML_UTF_8;
 use minijinja::context;
-use sea_orm::entity::prelude::*;
+use sea_orm::{entity::prelude::*, query::*};
 use std::sync::Arc;
 
 pub async fn post(
@@ -15,8 +15,12 @@ pub async fn post(
 	Path(slug): Path<String>,
 ) -> Result<Response, AppError> {
 	let content_type = TEXT_HTML_UTF_8.to_string();
-	let post = post::Entity::find()
-		.filter(post::Column::Slug.eq(slug))
+	let post = entry::Entity::find()
+		.filter(
+			Condition::all()
+				.add(entry::Column::Slug.eq(slug))
+				.add(entry::Column::Category.eq("posts")),
+		)
 		.one(&app_state.database)
 		.await?;
 

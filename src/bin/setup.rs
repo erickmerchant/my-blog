@@ -1,13 +1,15 @@
 use anyhow::Result;
 use app::{
-	models::{cache, elements, page, post},
+	models::{cache, entry},
 	templates::get_env,
 };
 use camino::Utf8Path;
 use glob::glob;
 use lol_html::{element, html_content::ContentType, text, HtmlRewriter, Settings};
 use minijinja::context;
-use sea_orm::{ActiveModelTrait, ActiveValue::Set, ConnectionTrait, Database, Schema};
+use sea_orm::{
+	sea_query::Index, ActiveModelTrait, ActiveValue::Set, ConnectionTrait, Database, Schema,
+};
 use serde_json as json;
 use std::{cell::RefCell, collections::HashSet, fs, rc::Rc};
 use syntect::{
@@ -17,7 +19,7 @@ use syntect::{
 };
 use tokio::try_join;
 
-fn rewrite_and_scrape(contents: &str) -> Result<(json::Value, Vec<u8>, HashSet<String>)> {
+fn rewrite_and_scrape(contents: String) -> Result<(json::Value, Vec<u8>, entry::Elements)> {
 	let mut data = json::Value::Null;
 	let mut elements = HashSet::<String>::new();
 	let template_env = get_env();
@@ -90,6 +92,8 @@ fn rewrite_and_scrape(contents: &str) -> Result<(json::Value, Vec<u8>, HashSet<S
 	rewriter.write(contents.as_bytes())?;
 	rewriter.end()?;
 
+	let elements = entry::Elements(elements.into_iter().collect::<Vec<String>>());
+
 	Ok((data, output, elements))
 }
 
@@ -107,12 +111,19 @@ async fn main() -> Result<()> {
 	try_join!(
 		connection.execute(
 			backend
-				.build(&schema.create_table_from_entity(page::Entity))
+				.build(&schema.create_table_from_entity(entry::Entity))
 				.to_owned(),
 		),
 		connection.execute(
 			backend
-				.build(&schema.create_table_from_entity(post::Entity))
+				.build(
+					Index::create()
+						.name("entry-slug-category-unique")
+						.table(entry::Entity)
+						.col(entry::Column::Slug)
+						.col(entry::Column::Category)
+						.unique()
+				)
 				.to_owned(),
 		),
 		connection.execute(
@@ -122,51 +133,28 @@ async fn main() -> Result<()> {
 		),
 	)?;
 
-	let paths = glob("content/posts/*.html")?;
+	for category in ["pages", "posts"] {
+		let paths = glob(format!("content/{category}/*.html").as_str())?;
 
-	for path in paths.flatten() {
-		if let Some(path) = Utf8Path::from_path(&path) {
-			let slug = path
-				.file_stem()
-				.map(|f| f.to_string())
-				.expect("file stem should exist");
-			let contents = fs::read_to_string(path)?;
-			let mut post = post::ActiveModel {
-				..Default::default()
-			};
-			let (data, output, elements) = rewrite_and_scrape(&contents)?;
+		for path in paths.flatten() {
+			if let Some(path) = Utf8Path::from_path(&path) {
+				let mut post = entry::ActiveModel {
+					..Default::default()
+				};
+				let slug = path
+					.file_stem()
+					.map(|f| f.to_string())
+					.expect("file stem should exist");
+				let contents = fs::read_to_string(path)?;
+				let (data, content, elements) = rewrite_and_scrape(contents)?;
 
-			post.set_from_json(data).ok();
-			post.content = Set(String::from_utf8(output)?);
-			post.elements = Set(elements::Elements(
-				elements.into_iter().collect::<Vec<String>>(),
-			));
-			post.slug = Set(slug.clone());
-			post.insert(&connection).await?;
-		}
-	}
-
-	let paths = glob("content/pages/*.html")?;
-
-	for path in paths.flatten() {
-		if let Some(path) = Utf8Path::from_path(&path) {
-			let slug = path
-				.file_stem()
-				.map(|f| f.to_string())
-				.expect("file stem should exist");
-			let contents = fs::read_to_string(path)?;
-			let mut page = page::ActiveModel {
-				..Default::default()
-			};
-			let (data, output, elements) = rewrite_and_scrape(&contents)?;
-
-			page.set_from_json(data).ok();
-			page.content = Set(String::from_utf8(output)?);
-			page.elements = Set(elements::Elements(
-				elements.into_iter().collect::<Vec<String>>(),
-			));
-			page.slug = Set(slug.clone());
-			page.insert(&connection).await?;
+				post.set_from_json(data).ok();
+				post.content = Set(String::from_utf8(content)?);
+				post.elements = Set(elements);
+				post.slug = Set(slug.clone());
+				post.category = Set(category.to_string());
+				post.insert(&connection).await?;
+			}
 		}
 	}
 
