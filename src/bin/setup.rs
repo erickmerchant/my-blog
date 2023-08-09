@@ -140,7 +140,7 @@ async fn main() -> Result<()> {
 		if let Some(path) = Utf8Path::from_path(&path) {
 			let diff = diff_utf8_paths(path, Utf8Path::new("content/"))
 				.expect("path should be diffable with content");
-			let mut post = entry::ActiveModel {
+			let mut entry = entry::ActiveModel {
 				..Default::default()
 			};
 			let slug = diff.file_stem().expect("file stem should exist");
@@ -148,12 +148,12 @@ async fn main() -> Result<()> {
 			let contents = fs::read_to_string(path)?;
 			let (data, content, elements) = rewrite_and_scrape(contents)?;
 
-			post.set_from_json(data).ok();
-			post.content = Set(String::from_utf8(content)?);
-			post.elements = Set(elements);
-			post.slug = Set(slug.to_string());
-			post.category = Set(category.to_string());
-			post.insert(&connection).await?;
+			entry.set_from_json(data).ok();
+			entry.content = Set(String::from_utf8(content)?);
+			entry.elements = Set(elements);
+			entry.slug = Set(slug.to_string());
+			entry.category = Set(category.to_string());
+			entry.insert(&connection).await?;
 		}
 	}
 
