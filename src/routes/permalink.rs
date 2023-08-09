@@ -7,7 +7,7 @@ use axum::{
 };
 use mime_guess::mime::TEXT_HTML_UTF_8;
 use minijinja::context;
-use sea_orm::{entity::prelude::*, query::*};
+use sea_orm::entity::prelude::*;
 use std::sync::Arc;
 
 pub async fn permalink(
@@ -16,7 +16,7 @@ pub async fn permalink(
 ) -> Result<Response, AppError> {
 	let content_type = TEXT_HTML_UTF_8.to_string();
 	let entry = entry::Entity::find()
-		.filter(Condition::all().add(entry::Column::Permalink.eq(uri.path())))
+		.filter(entry::Column::Permalink.eq(uri.path()))
 		.one(&app_state.database)
 		.await?;
 
