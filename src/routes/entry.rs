@@ -10,34 +10,40 @@ use minijinja::context;
 use sea_orm::{entity::prelude::*, query::*};
 use std::sync::Arc;
 
-pub async fn page(
+pub async fn entry(
 	State(app_state): State<Arc<AppState>>,
-	Path(slug): Path<String>,
+	Path((category, slug)): Path<(String, String)>,
 ) -> Result<Response, AppError> {
 	let content_type = TEXT_HTML_UTF_8.to_string();
-	let page = entry::Entity::find()
+	let entry = entry::Entity::find()
 		.filter(
 			Condition::all()
 				.add(entry::Column::Slug.eq(slug))
-				.add(entry::Column::Category.eq("pages")),
+				.add(entry::Column::Category.eq(category)),
 		)
 		.one(&app_state.database)
 		.await?;
 
-	if let Some(page) = page {
-		if let Some(redirect) = page.redirect {
+	if let Some(entry) = entry {
+		if let Some(permalink) = entry.permalink {
 			Ok((
-				[(header::LOCATION, redirect)],
+				[(header::LOCATION, permalink)],
 				StatusCode::MOVED_PERMANENTLY,
 			)
 				.into_response())
 		} else {
 			let html = app_state
 				.templates
-				.get_template("layouts/page.jinja")
+				.get_template(
+					entry
+						.to_owned()
+						.template
+						.unwrap_or("layouts/entry.jinja".to_string())
+						.as_str(),
+				)
 				.and_then(|template| {
 					template.render(context! {
-						page => page,
+						entry => entry,
 					})
 				})?;
 			let body = html.as_bytes().to_vec();

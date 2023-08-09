@@ -1,0 +1,14 @@
+{% extends "layouts/base.jinja" %}
+
+{% block main %}
+<header>
+	<h1>{{entry.title}}</h1>
+	<p class="published">
+		{% if entry.date %}
+		<time>{{entry.date | format_date("%B %e, %Y")}}</time>
+		{% endif %}
+	</p>
+</header>
+
+{{entry.content}}
+{% endblock %}

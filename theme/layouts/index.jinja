@@ -2,17 +2,17 @@
 
 {% block main %}
 <div>
-	<h1>{{page.title}}</h1>
-	{{page.content}}
+	<h1>{{entry.title}}</h1>
+	{{entry.content}}
 </div>
 <ol class="index">
-	{% for p in posts %}
+	{% for e in entry.query.results %}
 	<li>
-		<h2><a href="/posts/{{p.slug}}/">{{p.title}}</a></h2>
-		{% if p.date %}
-		<p class="published"><time>{{p.date | format_date("%B %e, %Y")}}</time></p>
+		<h2><a href="/posts/{{e.slug}}/">{{e.title}}</a></h2>
+		{% if e.date %}
+		<p class="published"><time>{{e.date | format_date("%B %e, %Y")}}</time></p>
 		{% endif %}
-		<p>{{p.description}}</p>
+		<p>{{e.description}}</p>
 	</li>
 	{% endfor %}
 </ol>

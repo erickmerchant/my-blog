@@ -1,6 +1,5 @@
 pub mod asset;
-pub mod index;
+pub mod entry;
 pub mod not_found;
-pub mod page;
-pub mod post;
+pub mod permalink;
 pub mod rss;

@@ -7,6 +7,7 @@ use camino::Utf8Path;
 use glob::glob;
 use lol_html::{element, html_content::ContentType, text, HtmlRewriter, Settings};
 use minijinja::context;
+use pathdiff::diff_utf8_paths;
 use sea_orm::{
 	sea_query::Index, ActiveModelTrait, ActiveValue::Set, ConnectionTrait, Database, Schema,
 };
@@ -133,28 +134,26 @@ async fn main() -> Result<()> {
 		),
 	)?;
 
-	for category in ["pages", "posts"] {
-		let paths = glob(format!("content/{category}/*.html").as_str())?;
+	let paths = glob("content/*/*.html".to_string().as_str())?;
 
-		for path in paths.flatten() {
-			if let Some(path) = Utf8Path::from_path(&path) {
-				let mut post = entry::ActiveModel {
-					..Default::default()
-				};
-				let slug = path
-					.file_stem()
-					.map(|f| f.to_string())
-					.expect("file stem should exist");
-				let contents = fs::read_to_string(path)?;
-				let (data, content, elements) = rewrite_and_scrape(contents)?;
+	for path in paths.flatten() {
+		if let Some(path) = Utf8Path::from_path(&path) {
+			let diff = diff_utf8_paths(path, Utf8Path::new("content/"))
+				.expect("path should be diffable with content");
+			let mut post = entry::ActiveModel {
+				..Default::default()
+			};
+			let slug = diff.file_stem().expect("file stem should exist");
+			let category = diff.parent().expect("parent should exist");
+			let contents = fs::read_to_string(path)?;
+			let (data, content, elements) = rewrite_and_scrape(contents)?;
 
-				post.set_from_json(data).ok();
-				post.content = Set(String::from_utf8(content)?);
-				post.elements = Set(elements);
-				post.slug = Set(slug.clone());
-				post.category = Set(category.to_string());
-				post.insert(&connection).await?;
-			}
+			post.set_from_json(data).ok();
+			post.content = Set(String::from_utf8(content)?);
+			post.elements = Set(elements);
+			post.slug = Set(slug.to_string());
+			post.category = Set(category.to_string());
+			post.insert(&connection).await?;
 		}
 	}
 
