@@ -1,7 +1,7 @@
 use app::{
 	args::Args,
 	middleware::cache::*,
-	routes::{asset::*, index::*, page::*, post::*, rss::*},
+	routes::{asset::*, entry::*, permalink::*, rss::*},
 	state::AppState,
 	templates,
 };
@@ -34,11 +34,10 @@ async fn main() -> io::Result<()> {
 		database,
 	});
 	let mut app = Router::new()
-		.route("/", get(index))
-		.route("/pages/:slug/", get(page))
-		.route("/posts/feed/", get(rss))
-		.route("/posts/:slug/", get(post))
-		.fallback(asset);
+		.route("/theme/*path", get(asset))
+		.route("/:category/:slug/rss/", get(rss))
+		.route("/:category/:slug/", get(entry))
+		.fallback(permalink);
 
 	if !args.no_cache {
 		app = app.layer(from_fn_with_state(app_state.clone(), cache));

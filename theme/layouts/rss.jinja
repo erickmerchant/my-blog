@@ -6,13 +6,13 @@
 		<title>{{title}}</title>
 		<link>{{host}}</link>
 		<copyright>© {{year()}} {{author}}</copyright>
-		{% for p in posts %}
+		{% for e in entry.query.results %}
 		<item>
-			<title>{{p.title}}</title>
-			<link>{{host + "/posts/" + p.slug + "/"}}</link>
-			<pubDate>{{p.date | format_date("%a, %d %h %Y")}} 00:00:00 +0000</pubDate>
+			<title>{{e.title}}</title>
+			<link>{{host + "/posts/" + e.slug + "/"}}</link>
+			<pubDate>{{e.date | format_date("%a, %d %h %Y")}} 00:00:00 +0000</pubDate>
 			<description>
-				<![CDATA[{{p.content}}]]>
+				<![CDATA[{{e.content}}]]>
 			</description>
 		</item>
 		{% endfor %}

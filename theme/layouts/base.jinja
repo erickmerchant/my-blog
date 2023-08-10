@@ -3,7 +3,7 @@
 {%- macro nav_list(class) -%}
 <ul class="{{class}}">
 	<li><a href="/">Posts</a></li>
-	<li><a href="/posts/feed/">RSS Feed</a></li>
+	<li><a href="/channels/posts/rss/" type="application/rss+xml">RSS Feed</a></li>
 	<li><a href="https://github.com/erickmerchant/my-blog">View Source</a></li>
 </ul>
 {%- endmacro -%}
@@ -18,25 +18,25 @@
 	<meta name="view-transition" content="same-origin">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="{{description}}">
-	<title>{{title}} — {{page.title}}</title>
+	<title>{{title}} — {{entry.title}}</title>
 	<script type="importmap">
 		{
 			"imports": {
-				"element": "/element.js"
+				"element": "/theme/element.js"
 			}
 		}
 	</script>
-	<script type="module" src="/element.js"></script>
-	<script type="module" src="/elements/page-nav.js"></script>
-	{% for k in page.elements %}
-	<script type="module" src="{{ '/elements/' + k + '.js' }}"></script>
+	<script type="module" src="/theme/element.js"></script>
+	<script type="module" src="/theme/elements/page-nav.js"></script>
+	{% for k in entry.elements %}
+	<script type="module" src="{{ '/theme/elements/' + k + '.js' }}"></script>
 	{% endfor %}
-	<link rel="stylesheet" href="/page.css">
-	<link rel="preload" href="/elements/page-nav.css" as="style">
-	{% for k in page.elements %}
-	<link rel="preload" href="{{ '/elements/' + k + '.css' }}" as="style">
+	<link rel="stylesheet" href="/theme/page.css">
+	<link rel="preload" href="/theme/elements/page-nav.css" as="style">
+	{% for k in entry.elements %}
+	<link rel="preload" href="{{ '/theme/elements/' + k + '.css' }}" as="style">
 	{% endfor %}
-	<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+	<link rel="icon" href="/theme/favicon.svg" type="image/svg+xml">
 </head>
 
 <body>

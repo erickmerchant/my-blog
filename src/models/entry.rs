@@ -1,10 +1,12 @@
-use chrono::NaiveDate;
-use sea_orm::entity::prelude::*;
-use sea_orm::FromJsonQueryResult;
-use serde::{Deserialize, Serialize};
+mod elements;
+mod order;
+mod query;
+mod sort;
 
-#[derive(Clone, Debug, Default, PartialEq, Eq, Serialize, Deserialize, FromJsonQueryResult)]
-pub struct Elements(pub Vec<String>);
+use chrono::NaiveDate;
+pub use elements::Elements;
+use sea_orm::entity::prelude::*;
+use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq, Serialize, Deserialize)]
 #[sea_orm(table_name = "entries")]
@@ -36,10 +38,17 @@ pub struct Model {
 	pub elements: Elements,
 
 	#[serde(default)]
-	pub redirect: Option<String>,
+	#[sea_orm(unique)]
+	pub permalink: Option<String>,
+
+	#[serde(default)]
+	pub template: Option<String>,
 
 	#[serde(default)]
 	pub date: Option<NaiveDate>,
+
+	#[serde(default)]
+	pub query: Option<query::Query>,
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
