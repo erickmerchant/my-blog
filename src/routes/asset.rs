@@ -1,5 +1,4 @@
-use super::not_found::*;
-use crate::{error::AppError, state::AppState};
+use crate::{error::AppError, state::AppState, views::not_found};
 use axum::{
 	extract::{Path, State},
 	http::{header, StatusCode},
@@ -26,6 +25,6 @@ pub async fn asset(
 			Ok(StatusCode::NOT_FOUND.into_response())
 		}
 	} else {
-		not_found(State(app_state))
+		not_found::view(app_state)
 	}
 }

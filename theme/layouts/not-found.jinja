@@ -1,12 +1,8 @@
 {% set entry = {
 "title": "Page Not Found",
 "description": "That page was moved, removed, or never existed.",
+"content": "<p>That page was moved, removed, or never existed.</p>",
 "elements": []
 } %}
 
-{% extends "layouts/base.jinja" %}
-
-{% block main %}
-<h1>{{entry.title}}</h1>
-<p>{{entry.description}}</p>
-{% endblock %}
+{% extends "layouts/entry.jinja" %}

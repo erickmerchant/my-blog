@@ -1,9 +1,12 @@
-use chrono::NaiveDate;
-use sea_orm::{entity::prelude::*, query::*, DatabaseConnection, FromJsonQueryResult};
-use serde::{Deserialize, Serialize};
+mod elements;
+mod order;
+mod query;
+mod sort;
 
-#[derive(Clone, Debug, Default, PartialEq, Eq, Serialize, Deserialize, FromJsonQueryResult)]
-pub struct Elements(pub Vec<String>);
+use chrono::NaiveDate;
+pub use elements::Elements;
+use sea_orm::entity::prelude::*;
+use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq, Serialize, Deserialize)]
 #[sea_orm(table_name = "entries")]
@@ -45,54 +48,10 @@ pub struct Model {
 	pub date: Option<NaiveDate>,
 
 	#[serde(default)]
-	pub query: Option<Query>,
+	pub query: Option<query::Query>,
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
 pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}
-
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, FromJsonQueryResult)]
-pub struct Query {
-	pub category: String,
-	#[serde(default)]
-	pub has_date: bool,
-	#[serde(default)]
-	pub order: Option<Order>,
-	#[serde(default)]
-	pub results: Option<Vec<Model>>,
-}
-
-impl Query {
-	pub async fn run(&mut self, database: &DatabaseConnection) -> anyhow::Result<()> {
-		let mut conditions = Condition::all().add(Column::Category.eq(self.category.clone()));
-
-		if self.has_date {
-			conditions = conditions.add(Column::Date.is_not_null());
-		}
-
-		let mut query = Entity::find().filter(conditions);
-
-		if let Some(order) = self.order.clone() {
-			match order {
-				Order::DESC => {
-					query = query.order_by_desc(Column::Date);
-				}
-				Order::ASC => {
-					query = query.order_by_asc(Column::Date);
-				}
-			}
-		};
-
-		self.results = Some(query.all(database).await?);
-
-		Ok(())
-	}
-}
-
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
-pub enum Order {
-	DESC,
-	ASC,
-}

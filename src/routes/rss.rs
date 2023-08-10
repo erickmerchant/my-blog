@@ -1,10 +1,9 @@
-use crate::{error::AppError, models::entry, state::AppState};
+use crate::{error::AppError, models::entry, state::AppState, views::entry::view};
 use axum::{
 	extract::{Path, State},
-	http::{header, StatusCode},
+	http::StatusCode,
 	response::{IntoResponse, Response},
 };
-use minijinja::context;
 use sea_orm::{entity::prelude::*, query::*};
 use std::sync::Arc;
 
@@ -24,23 +23,13 @@ pub async fn rss(
 		.await?;
 
 	if let Some(mut entry) = entry {
-		if let Some(mut query) = entry.query.clone() {
-			query.run(&app_state.database).await?;
-
-			entry.query = Some(query);
-		}
-
-		let html = app_state
-			.templates
-			.get_template("layouts/rss.jinja")
-			.and_then(|template| {
-				template.render(context! {
-					entry => &entry,
-				})
-			})?;
-		let body = html.as_bytes().to_vec();
-
-		Ok(([(header::CONTENT_TYPE, content_type)], body).into_response())
+		Ok(view(
+			app_state,
+			&mut entry,
+			"layouts/rss.jinja".to_string(),
+			content_type,
+		)
+		.await?)
 	} else {
 		Ok(StatusCode::NOT_FOUND.into_response())
 	}
