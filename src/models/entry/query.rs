@@ -13,10 +13,11 @@ pub struct Query {
 	pub sort: Option<Sort>,
 	#[serde(default)]
 	pub results: Option<Vec<Model>>,
+	// limit, alignment (start, end, previous, next), tags
 }
 
 impl Query {
-	pub async fn run(&mut self, database: &DatabaseConnection) -> anyhow::Result<()> {
+	pub async fn hydrate(&mut self, database: &DatabaseConnection) -> anyhow::Result<()> {
 		let mut conditions = Condition::all().add(Column::Category.eq(self.category.clone()));
 
 		if self.has_date {

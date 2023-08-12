@@ -3,13 +3,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0">
 	<channel>
-		<title>{{title}}</title>
-		<link>{{host}}</link>
-		<copyright>© {{year()}} {{author}}</copyright>
+		<title>{{site.title}}</title>
+		<link>{{site.host}}</link>
+		<copyright>© {{year()}} {{site.author}}</copyright>
 		{% for e in entry.query.results %}
 		<item>
-			<title>{{e.title}}</title>
-			<link>{{host + "/posts/" + e.slug + "/"}}</link>
+			<title>{% if e.title %}{{e.title}}{% else %}Untitled{% endif %}</title>
+			<link>{{site.host + "/posts/" + e.slug + "/"}}</link>
 			<pubDate>{{e.date | format_date("%a, %d %h %Y")}} 00:00:00 +0000</pubDate>
 			<description>
 				<![CDATA[{{e.content}}]]>

@@ -212,9 +212,36 @@ code {
 	justify-content: safe center;
 }
 
-.published {
+.published-and-tags {
+	margin-block-start: 1em;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1em;
+	align-items: center;
+	font-size: 0.8em;
 	font-weight: 700;
+}
+
+.published {
 	font-style: italic;
+	background-color: var(--paper-0);
+	border-radius: var(--border-radius);
+	padding: 0.0625em 0.5em;
+}
+
+.tags {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5em;
+	align-items: center;
+	list-style: none;
+}
+
+.tags > * {
+	background-color: var(--paper-0);
+	border-radius: var(--border-radius);
+	padding: 0.0625em 0.5em;
+	margin-inline-start: 0;
 }
 
 .annotation {

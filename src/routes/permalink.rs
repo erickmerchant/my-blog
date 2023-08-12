@@ -1,5 +1,5 @@
 use crate::{
-	error::AppError, models::entry, state::AppState, views::entry::view, views::not_found,
+	error::AppError, models::entry::*, state::AppState, views::entry::view, views::not_found,
 };
 use axum::{extract::State, http::Uri, response::Response};
 use mime_guess::mime::TEXT_HTML_UTF_8;
@@ -11,8 +11,8 @@ pub async fn permalink(
 	uri: Uri,
 ) -> Result<Response, AppError> {
 	let content_type = TEXT_HTML_UTF_8.to_string();
-	let entry = entry::Entity::find()
-		.filter(entry::Column::Permalink.eq(uri.path()))
+	let entry = Entity::find()
+		.filter(Column::Permalink.eq(uri.path()))
 		.one(&app_state.database)
 		.await?;
 

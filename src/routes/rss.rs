@@ -1,4 +1,4 @@
-use crate::{error::AppError, models::entry, state::AppState, views::entry::view};
+use crate::{error::AppError, models::entry::*, state::AppState, views::entry::view};
 use axum::{
 	extract::{Path, State},
 	http::StatusCode,
@@ -13,11 +13,11 @@ pub async fn rss(
 ) -> Result<Response, AppError> {
 	let content_type = "application/rss+xml; charset=utf-8".to_string();
 
-	let entry = entry::Entity::find()
+	let entry = Entity::find()
 		.filter(
 			Condition::all()
-				.add(entry::Column::Slug.eq(slug))
-				.add(entry::Column::Category.eq(category)),
+				.add(Column::Slug.eq(slug))
+				.add(Column::Category.eq(category)),
 		)
 		.one(&app_state.database)
 		.await?;

@@ -1,6 +1,6 @@
 use anyhow::Result;
 use app::{
-	models::{cache, entry},
+	models::{cache, entry::*},
 	templates::get_env,
 };
 use camino::Utf8Path;
@@ -20,8 +20,14 @@ use syntect::{
 };
 use tokio::try_join;
 
-fn rewrite_and_scrape(contents: String) -> Result<(json::Value, Vec<u8>, entry::Elements)> {
-	let mut data = json::Value::Null;
+fn rewrite_and_scrape(
+	contents: String,
+) -> Result<(
+	Option<frontmatter::Frontmatter>,
+	Vec<u8>,
+	elements::Elements,
+)> {
+	let data: Rc<RefCell<Option<frontmatter::Frontmatter>>> = Rc::new(RefCell::new(None));
 	let mut elements = HashSet::<String>::new();
 	let template_env = get_env();
 	let ss = SyntaxSet::load_defaults_newlines();
@@ -36,8 +42,8 @@ fn rewrite_and_scrape(contents: String) -> Result<(json::Value, Vec<u8>, entry::
 					Ok(())
 				}),
 				text!("front-matter", |el| {
-					if let Ok(d) = json::from_str(el.as_str()) {
-						data = d;
+					if let Ok(d) = json::from_str::<frontmatter::Frontmatter>(el.as_str()) {
+						data.borrow_mut().replace(d);
 					}
 
 					Ok(())
@@ -93,7 +99,9 @@ fn rewrite_and_scrape(contents: String) -> Result<(json::Value, Vec<u8>, entry::
 	rewriter.write(contents.as_bytes())?;
 	rewriter.end()?;
 
-	let elements = entry::Elements(elements.into_iter().collect::<Vec<String>>());
+	let elements = elements::Elements(elements.into_iter().collect::<Vec<String>>());
+
+	let data = data.take();
 
 	Ok((data, output, elements))
 }
@@ -112,7 +120,7 @@ async fn main() -> Result<()> {
 	try_join!(
 		connection.execute(
 			backend
-				.build(&schema.create_table_from_entity(entry::Entity))
+				.build(&schema.create_table_from_entity(Entity))
 				.to_owned(),
 		),
 		connection.execute(
@@ -120,9 +128,9 @@ async fn main() -> Result<()> {
 				.build(
 					Index::create()
 						.name("entry-slug-category-unique")
-						.table(entry::Entity)
-						.col(entry::Column::Slug)
-						.col(entry::Column::Category)
+						.table(Entity)
+						.col(Column::Slug)
+						.col(Column::Category)
 						.unique()
 				)
 				.to_owned(),
@@ -140,7 +148,7 @@ async fn main() -> Result<()> {
 		if let Some(path) = Utf8Path::from_path(&path) {
 			let diff = diff_utf8_paths(path, Utf8Path::new("content/"))
 				.expect("path should be diffable with content");
-			let mut entry = entry::ActiveModel {
+			let mut entry = ActiveModel {
 				..Default::default()
 			};
 			let slug = diff.file_stem().expect("file stem should exist");
@@ -148,7 +156,16 @@ async fn main() -> Result<()> {
 			let contents = fs::read_to_string(path)?;
 			let (data, content, elements) = rewrite_and_scrape(contents)?;
 
-			entry.set_from_json(data).ok();
+			if let Some(data) = data {
+				entry.title = Set(data.title);
+				entry.description = Set(data.description);
+				entry.permalink = Set(data.permalink);
+				entry.template = Set(data.template);
+				entry.date = Set(data.date);
+				entry.query = Set(data.query);
+				entry.tags = Set(data.tags);
+			}
+
 			entry.content = Set(String::from_utf8(content)?);
 			entry.elements = Set(elements);
 			entry.slug = Set(slug.to_string());

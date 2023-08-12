@@ -1,5 +1,4 @@
-pub use crate::models::entry::Elements;
-use crate::{models::entry::Model, state::AppState};
+use crate::{models::entry::*, state::AppState};
 use axum::{
 	http::header,
 	response::{IntoResponse, Response},
@@ -14,7 +13,7 @@ pub async fn view(
 	content_type: String,
 ) -> anyhow::Result<Response> {
 	if let Some(mut query) = model.query.clone() {
-		query.run(&app_state.database).await?;
+		query.hydrate(&app_state.database).await?;
 
 		model.query = Some(query);
 	}

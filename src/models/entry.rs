@@ -1,10 +1,11 @@
-mod elements;
+pub mod elements;
+pub mod frontmatter;
 mod order;
 mod query;
 mod sort;
+pub mod tags;
 
 use chrono::NaiveDate;
-pub use elements::Elements;
 use sea_orm::entity::prelude::*;
 use serde::{Deserialize, Serialize};
 
@@ -21,24 +22,22 @@ pub struct Model {
 	#[serde(skip_deserializing)]
 	pub category: String,
 
-	#[sea_orm(default_value = "Untitled")]
-	#[serde(default)]
-	pub title: String,
-
-	#[sea_orm(default_value = "")]
-	#[serde(default)]
-	pub description: String,
-
-	#[sea_orm(default_value = "")]
+	#[serde(skip_deserializing)]
 	#[serde(default)]
 	pub content: String,
 
-	#[sea_orm(default_value = "[]")]
 	#[serde(skip_deserializing)]
-	pub elements: Elements,
+	#[sea_orm(default_value = "[]")]
+	pub elements: elements::Elements,
 
 	#[serde(default)]
+	pub title: Option<String>,
+
+	#[serde(default)]
+	pub description: Option<String>,
+
 	#[sea_orm(unique)]
+	#[serde(default)]
 	pub permalink: Option<String>,
 
 	#[serde(default)]
@@ -49,6 +48,9 @@ pub struct Model {
 
 	#[serde(default)]
 	pub query: Option<query::Query>,
+
+	#[serde(default)]
+	pub tags: Option<tags::Tags>,
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]

@@ -1,7 +1,7 @@
 use app::{
 	args::Args,
 	middleware::cache::*,
-	routes::{asset::*, entry::*, permalink::*, rss::*},
+	routes::{asset::*, entry::*, permalink::*, robots::*, rss::*},
 	state::AppState,
 	templates,
 };
@@ -34,6 +34,7 @@ async fn main() -> io::Result<()> {
 		database,
 	});
 	let mut app = Router::new()
+		.route("/robots.txt", get(robots))
 		.route("/theme/*path", get(asset))
 		.route("/:category/:slug/rss/", get(rss))
 		.route("/:category/:slug/", get(entry))

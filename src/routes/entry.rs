@@ -1,5 +1,5 @@
 use crate::{
-	error::AppError, models::entry, state::AppState, views::entry::view, views::not_found,
+	error::AppError, models::entry::*, state::AppState, views::entry::view, views::not_found,
 };
 use axum::{
 	extract::{Path, State},
@@ -15,11 +15,11 @@ pub async fn entry(
 	Path((category, slug)): Path<(String, String)>,
 ) -> Result<Response, AppError> {
 	let content_type = TEXT_HTML_UTF_8.to_string();
-	let entry = entry::Entity::find()
+	let entry = Entity::find()
 		.filter(
 			Condition::all()
-				.add(entry::Column::Slug.eq(slug))
-				.add(entry::Column::Category.eq(category)),
+				.add(Column::Slug.eq(slug))
+				.add(Column::Category.eq(category)),
 		)
 		.one(&app_state.database)
 		.await?;
