@@ -1,16 +1,13 @@
-use crate::{error::AppError, state::AppState, views::not_found};
+use crate::error::AppError;
 use axum::{
-	extract::{Path, State},
+	extract::Path,
 	http::{header, StatusCode},
 	response::{IntoResponse, Response},
 };
 use camino::Utf8Path;
-use std::{fs, sync::Arc};
+use std::fs;
 
-pub async fn asset(
-	State(app_state): State<Arc<AppState>>,
-	Path(path): Path<String>,
-) -> Result<Response, AppError> {
+pub async fn asset(Path(path): Path<String>) -> Result<Response, AppError> {
 	let uri = Utf8Path::new("theme").join(path.trim_start_matches('/'));
 
 	if let Some(ext) = uri.extension() {
@@ -25,6 +22,6 @@ pub async fn asset(
 			Ok(StatusCode::NOT_FOUND.into_response())
 		}
 	} else {
-		not_found::view(app_state)
+		Ok(StatusCode::NOT_FOUND.into_response())
 	}
 }

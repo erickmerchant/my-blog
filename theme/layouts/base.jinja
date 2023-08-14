@@ -18,7 +18,7 @@
 	<meta name="view-transition" content="same-origin">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="{{site.description}}">
-	<title>{{site.title}} — {% if entry.title %}{{entry.title}}{% else %}Untitled{% endif %}</title>
+	<title>{% block title %}{{site.title}}{% endblock %}</title>
 	<script type="importmap">
 		{
 			"imports": {
@@ -28,14 +28,10 @@
 	</script>
 	<script type="module" src="/theme/element.js"></script>
 	<script type="module" src="/theme/elements/page-nav.js"></script>
-	{% for k in entry.elements %}
-	<script type="module" src="{{ '/theme/elements/' + k + '.js' }}"></script>
-	{% endfor %}
+	{% block modules %}{% endblock %}
 	<link rel="stylesheet" href="/theme/page.css">
 	<link rel="preload" href="/theme/elements/page-nav.css" as="style">
-	{% for k in entry.elements %}
-	<link rel="preload" href="{{ '/theme/elements/' + k + '.css' }}" as="style">
-	{% endfor %}
+	{% block stylesheets %}{% endblock %}
 	<link rel="icon" href="/theme/favicon.svg" type="image/svg+xml">
 </head>
 

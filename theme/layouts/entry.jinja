@@ -35,6 +35,22 @@
 </ol>
 {% endmacro %}
 
+{% block title %}
+{{site.title}} {% if entry.title %}— {{entry.title}}{% else %}Untitled{% endif %}
+{% endblock %}
+
+{% block modules %}
+{% for k in entry.elements %}
+<script type="module" src="{{ '/theme/elements/' + k + '.js' }}"></script>
+{% endfor %}
+{% endblock %}
+
+{% block stylesheets %}
+{% for k in entry.elements %}
+<link rel="preload" href="{{ '/theme/elements/' + k + '.css' }}" as="style">
+{% endfor %}
+{% endblock %}
+
 {% block main %}
 <header>
 	<h1>{% if entry.title %}{{entry.title}}{% else %}Untitled{% endif %}</h1>
