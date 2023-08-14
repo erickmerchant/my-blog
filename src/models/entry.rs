@@ -1,12 +1,7 @@
-pub mod elements;
 pub mod frontmatter;
-mod order;
-mod query;
-mod sort;
-pub mod tags;
 
 use chrono::NaiveDate;
-use sea_orm::entity::prelude::*;
+use sea_orm::{entity::prelude::*, FromJsonQueryResult};
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq, Serialize, Deserialize)]
@@ -16,25 +11,24 @@ pub struct Model {
 	#[serde(skip_deserializing)]
 	pub id: i32,
 
-	#[serde(skip_deserializing)]
-	pub slug: String,
-
-	#[serde(skip_deserializing)]
 	pub category: String,
 
-	#[serde(skip_deserializing)]
-	#[serde(default)]
-	pub content: String,
-
-	#[serde(skip_deserializing)]
-	#[sea_orm(default_value = "[]")]
-	pub elements: elements::Elements,
+	pub slug: String,
 
 	#[serde(default)]
 	pub title: Option<String>,
 
 	#[serde(default)]
+	pub date: Option<NaiveDate>,
+
+	#[serde(default)]
 	pub description: Option<String>,
+
+	#[serde(skip_deserializing, default)]
+	pub content: String,
+
+	#[sea_orm(default_value = "[]")]
+	pub elements: Elements,
 
 	#[sea_orm(unique)]
 	#[serde(default)]
@@ -42,18 +36,22 @@ pub struct Model {
 
 	#[serde(default)]
 	pub template: Option<String>,
-
-	#[serde(default)]
-	pub date: Option<NaiveDate>,
-
-	#[serde(default)]
-	pub query: Option<query::Query>,
-
-	#[serde(default)]
-	pub tags: Option<tags::Tags>,
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
 pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}
+
+impl Related<super::tag::Entity> for Entity {
+	fn to() -> RelationDef {
+		super::entry_tag::Relation::Tag.def()
+	}
+
+	fn via() -> Option<RelationDef> {
+		Some(super::entry_tag::Relation::Entry.def().rev())
+	}
+}
+
+#[derive(Clone, Debug, Default, PartialEq, Eq, Serialize, Deserialize, FromJsonQueryResult)]
+pub struct Elements(pub Vec<String>);

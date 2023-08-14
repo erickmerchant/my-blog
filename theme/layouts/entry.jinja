@@ -1,18 +1,17 @@
 {% extends "layouts/base.jinja" %}
 
-{% macro published_and_tags(entry) %}
-{% if entry.date or entry.tags %}
-<div class="published-and-tags">
+{% macro sub_heading(entry, tags) %}
+{% if entry.date or tags %}
+<div class="sub-heading">
 	{% if entry.date %}
 	<p class="published">
 		<time>{{entry.date | format_date("%B %e, %Y")}}</time>
 	</p>
 	{% endif %}
-	{% if entry.tags %}
+	{% if tags %}
 	<ul class="tags">
-		{% for t in entry.tags %}
-		{# <li><a href="/tags/{{t}}/">{{t}}</a></li> #}
-		<li>{{t}}</li>
+		{% for t in tags %}
+		<li><a href="/tags/{{t.slug}}/">{{t.slug}}</a></li>
 		{% endfor %}
 	</ul>
 	{% endif %}
@@ -20,21 +19,13 @@
 {% endif %}
 {% endmacro %}
 
-{% block main %}
-<header>
-	<h1>{% if entry.title %}{{entry.title}}{% else %}Untitled{% endif %}</h1>
-	{{published_and_tags(entry)}}
-</header>
-
-{{entry.content}}
-
-{% if entry.query and entry.query.results %}
+{% macro list_entries(entries) %}
 <ol class="index">
-	{% for e in entry.query.results %}
+	{% for (e, tags) in entries %}
 	<li>
 		<header>
-			<h2><a href="/posts/{{e.slug}}/">{% if e.title %}{{e.title}}{% else %}Untitled{% endif %}</a></h2>
-			{{published_and_tags(e)}}
+			<h2><a href="/{{e.category}}/{{e.slug}}/">{% if e.title %}{{e.title}}{% else %}Untitled{% endif %}</a></h2>
+			{{sub_heading(e, tags)}}
 		</header>
 		{% if e.description %}
 		<p>{{e.description}}</p>
@@ -42,5 +33,13 @@
 	</li>
 	{% endfor %}
 </ol>
-{% endif %}
+{% endmacro %}
+
+{% block main %}
+<header>
+	<h1>{% if entry.title %}{{entry.title}}{% else %}Untitled{% endif %}</h1>
+	{{sub_heading(entry, entry_tags)}}
+</header>
+
+{{entry.content}}
 {% endblock %}

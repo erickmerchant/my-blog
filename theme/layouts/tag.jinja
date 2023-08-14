@@ -1,0 +1,7 @@
+{% extends "layouts/entry.jinja" %}
+
+{% block main %}
+{{super()}}
+
+{{list_entries(tag_entries)}}
+{% endblock %}

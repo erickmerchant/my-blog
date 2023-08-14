@@ -1,4 +1,3 @@
-use super::{query, tags};
 use chrono::NaiveDate;
 use serde::{Deserialize, Serialize};
 
@@ -20,8 +19,5 @@ pub struct Frontmatter {
 	pub date: Option<NaiveDate>,
 
 	#[serde(default)]
-	pub query: Option<query::Query>,
-
-	#[serde(default)]
-	pub tags: Option<tags::Tags>,
+	pub tags: Option<Vec<String>>,
 }

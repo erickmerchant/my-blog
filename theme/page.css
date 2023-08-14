@@ -212,7 +212,7 @@ code {
 	justify-content: safe center;
 }
 
-.published-and-tags {
+.sub-heading {
 	margin-block-start: 1em;
 	display: flex;
 	flex-wrap: wrap;
