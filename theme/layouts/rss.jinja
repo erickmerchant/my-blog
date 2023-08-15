@@ -3,8 +3,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0">
 	<channel>
-		<title>{{site.title}}</title>
-		<link>{{site.host}}</link>
+		<title>{{entry.title}}</title>
+		<link>{{site.host + "/" + entry.category + "/" + entry.slug + "/feed.rss"}}</link>
 		<copyright>© {{year()}} {{site.author}}</copyright>
 		{% for (e, tags) in feed %}
 		<item>
@@ -12,7 +12,7 @@
 			<link>{{site.host + "/" + e.category + "/" + e.slug + "/"}}</link>
 			<pubDate>{{e.date | format_date("%a, %d %h %Y")}} 00:00:00 +0000</pubDate>
 			<description>
-				<![CDATA[{{e.content}}]]>
+				<![CDATA[{{e.description}}]]>
 			</description>
 		</item>
 		{% endfor %}
