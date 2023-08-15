@@ -71,6 +71,7 @@ fn rewrite_and_scrape(
 								&ss,
 								ClassStyle::Spaced,
 							);
+
 							html_generator.parse_html_for_line_which_includes_newline(line)?;
 							highlighted_lines.push(html_generator.finalize());
 						}
@@ -101,7 +102,6 @@ fn rewrite_and_scrape(
 	rewriter.end()?;
 
 	let elements = entry::Elements(elements.into_iter().collect::<Vec<String>>());
-
 	let data = data.take();
 
 	Ok((data, output, elements))
@@ -173,6 +173,7 @@ async fn main() -> Result<()> {
 				entry.permalink = Set(data.permalink);
 				entry.template = Set(data.template);
 				entry.date = Set(data.date);
+				entry.feed = Set(data.feed);
 			}
 
 			entry.content = Set(String::from_utf8(content)?);

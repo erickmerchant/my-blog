@@ -212,6 +212,17 @@ code {
 	justify-content: safe center;
 }
 
+.rss-link {
+	display: flex;
+	align-items: center;
+	gap: 0.5em;
+}
+
+.rss-link svg {
+	width: 1em;
+	height: 1em;
+}
+
 .sub-heading {
 	margin-block-start: 1em;
 	display: flex;

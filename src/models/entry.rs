@@ -1,3 +1,4 @@
+pub mod feed;
 pub mod frontmatter;
 
 use chrono::NaiveDate;
@@ -36,6 +37,9 @@ pub struct Model {
 
 	#[serde(default)]
 	pub template: Option<String>,
+
+	#[serde(default)]
+	pub feed: Option<feed::Feed>,
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]

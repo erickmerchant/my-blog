@@ -6,7 +6,7 @@
 		<title>{{site.title}}</title>
 		<link>{{site.host}}</link>
 		<copyright>© {{year()}} {{site.author}}</copyright>
-		{% for (e, tags) in category_entries %}
+		{% for (e, tags) in feed %}
 		<item>
 			<title>{% if e.title %}{{e.title}}{% else %}Untitled{% endif %}</title>
 			<link>{{site.host + "/" + e.category + "/" + e.slug + "/"}}</link>

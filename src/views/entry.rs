@@ -38,35 +38,37 @@ pub async fn view(
 			)
 				.into_response())
 		} else {
-			let category_entries = entry::Entity::find()
-				.filter(entry::Column::Category.eq(entry.slug.clone()))
-				.order_by(entry::Column::Date, Order::Desc)
-				.find_with_related(tag::Entity)
-				.all(&app_state.database)
-				.await?;
-
-			let tag = tag::Entity::find()
-				.filter(tag::Column::Slug.eq(entry.slug.clone()))
-				.one(&app_state.database)
-				.await?;
-
-			let tag_entries = if let Some(tag) = tag {
-				entry::Entity::find()
-					.filter(
-						entry::Column::Id.in_subquery(
-							Query::select()
-								.from(entry_tag::Entity)
-								.column(entry_tag::Column::EntryId)
-								.and_where(entry_tag::Column::TagId.eq(tag.id))
-								.to_owned(),
-						),
-					)
-					.order_by(entry::Column::Date, Order::Desc)
-					.find_with_related(tag::Entity)
-					.all(&app_state.database)
-					.await?
-			} else {
-				vec![]
+			let feed = match entry.feed {
+				Some(entry::feed::Feed::Category) => Some(
+					entry::Entity::find()
+						.filter(entry::Column::Category.eq(entry.slug.clone()))
+						.order_by(entry::Column::Date, Order::Desc)
+						.find_with_related(tag::Entity)
+						.all(&app_state.database)
+						.await?,
+				),
+				Some(entry::feed::Feed::Tag) => Some(
+					entry::Entity::find()
+						.filter(
+							entry::Column::Id.in_subquery(
+								Query::select()
+									.from(entry_tag::Entity)
+									.left_join(
+										tag::Entity,
+										Expr::col((tag::Entity, tag::Column::Id))
+											.equals((entry_tag::Entity, entry_tag::Column::TagId)),
+									)
+									.column(entry_tag::Column::EntryId)
+									.and_where(tag::Column::Slug.eq(entry.slug.clone()))
+									.to_owned(),
+							),
+						)
+						.order_by(entry::Column::Date, Order::Desc)
+						.find_with_related(tag::Entity)
+						.all(&app_state.database)
+						.await?,
+				),
+				None => None,
 			};
 
 			let template = template_override.unwrap_or(
@@ -75,15 +77,13 @@ pub async fn view(
 					.template
 					.unwrap_or("layouts/entry.jinja".to_string()),
 			);
-
 			let html = app_state
 				.templates
 				.get_template(template.as_str())
 				.and_then(|template| {
 					template.render(context! {
 						entry => entry,
-						category_entries => category_entries,
-						tag_entries => tag_entries,
+						feed => feed,
 						entry_tags => entry_tags,
 					})
 				})?;

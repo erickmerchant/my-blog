@@ -36,7 +36,7 @@ async fn main() -> io::Result<()> {
 	let mut app = Router::new()
 		.route("/robots.txt", get(robots))
 		.route("/theme/*path", get(asset))
-		.route("/:category/:slug/rss/", get(rss))
+		.route("/:category/:slug/feed.rss", get(rss))
 		.route("/:category/:slug/", get(entry))
 		.fallback(permalink);
 
