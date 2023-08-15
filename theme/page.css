@@ -212,17 +212,6 @@ code {
 	justify-content: safe center;
 }
 
-.rss-link {
-	display: flex;
-	align-items: center;
-	gap: 0.5em;
-}
-
-.rss-link svg {
-	width: 1em;
-	height: 1em;
-}
-
 .sub-heading {
 	margin-block-start: 1em;
 	display: flex;
@@ -234,7 +223,6 @@ code {
 }
 
 .published {
-	font-style: italic;
 	background-color: var(--paper-0);
 	border-radius: var(--border-radius);
 	padding: 0.0625em 0.5em;
@@ -287,4 +275,19 @@ code {
 	display: grid;
 	grid-auto-columns: 100%;
 	gap: 0.5em;
+}
+
+.rss-link {
+	display: flex;
+	align-items: center;
+	gap: 0.5em;
+}
+
+.rss-link svg {
+	fill: currentColor;
+	background: var(--paper-0);
+	border-radius: var(--border-radius);
+	padding: 0.125em;
+	width: 1.5em;
+	height: 1.5em;
 }
