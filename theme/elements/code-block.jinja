@@ -1,7 +1,7 @@
 {% macro code_block(language, highlighted_lines) %}
 <code-block language="{{language}}">
 	<template shadowrootmode="open">
-		<link rel="stylesheet" href="/theme/elements/code-block.css">
+		<link rel="stylesheet" href="/elements/code-block.css">
 		<figure>
 			<pre><code>
 				{% for line in highlighted_lines %}

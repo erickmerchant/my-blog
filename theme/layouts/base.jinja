@@ -21,17 +21,17 @@
 	<script type="importmap">
 		{
 			"imports": {
-				"element": "/theme/element.js"
+				"element": "/element.js"
 			}
 		}
 	</script>
-	<script type="module" src="/theme/element.js"></script>
-	<script type="module" src="/theme/elements/page-nav.js"></script>
+	<script type="module" src="/element.js"></script>
+	<script type="module" src="/elements/page-nav.js"></script>
 	{% block modules %}{% endblock %}
-	<link rel="stylesheet" href="/theme/page.css">
-	<link rel="preload" href="/theme/elements/page-nav.css" as="style">
+	<link rel="stylesheet" href="/page.css">
+	<link rel="preload" href="/elements/page-nav.css" as="style">
 	{% block stylesheets %}{% endblock %}
-	<link rel="icon" href="/theme/favicon.svg" type="image/svg+xml">
+	<link rel="icon" href="/favicon.svg" type="image/svg+xml">
 </head>
 
 <body>

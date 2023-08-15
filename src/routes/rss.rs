@@ -1,4 +1,9 @@
-use crate::{error::AppError, models::entry, state::AppState, views::entry::view};
+use crate::{
+	error::AppError,
+	models::{entry, tag},
+	state::AppState,
+	views::entry::view,
+};
 use axum::{
 	extract::{Path, State},
 	response::Response,
@@ -11,12 +16,19 @@ pub async fn rss(
 	Path((category, slug)): Path<(String, String)>,
 ) -> Result<Response, AppError> {
 	let content_type = "application/rss+xml; charset=utf-8".to_string();
+	let results = entry::Entity::find()
+		.filter(
+			Condition::all()
+				.add(entry::Column::Slug.eq(slug))
+				.add(entry::Column::Category.eq(category)),
+		)
+		.find_with_related(tag::Entity)
+		.all(&app_state.database)
+		.await?;
 
 	view(
 		app_state,
-		Condition::all()
-			.add(entry::Column::Slug.eq(slug))
-			.add(entry::Column::Category.eq(category)),
+		results,
 		Some("layouts/rss.jinja".to_string()),
 		content_type,
 		false,

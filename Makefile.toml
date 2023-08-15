@@ -13,7 +13,7 @@ args = [
 
 [tasks."watch:style"]
 command = "coolstyleserver"
-args = ["--watch", "theme", "--style-base", "theme"]
+args = ["--watch", "theme"]
 
 [tasks."docker:build"]
 command = "docker"

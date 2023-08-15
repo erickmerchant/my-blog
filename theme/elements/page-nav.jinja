@@ -1,7 +1,7 @@
 {% macro page_nav(expanded, minimized) %}
 <page-nav {{ "expanded" if expanded }} {{ "minimized" if minimized }}>
 	<template shadowrootmode="open">
-		<link rel="stylesheet" href="/theme/elements/page-nav.css">
+		<link rel="stylesheet" href="/elements/page-nav.css">
 		<style media="not all" onload="this.media = 'all'">
 			@container (width <=20rem) {
 				:host(:not([expanded]):not([transitioning])) ::slotted(*) {
