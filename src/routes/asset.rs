@@ -10,12 +10,11 @@ use axum::{
 	response::{IntoResponse, Response},
 };
 use camino::Utf8Path;
-use mime_guess::mime::TEXT_HTML_UTF_8;
 use sea_orm::{entity::prelude::*, query::*};
 use std::{fs, sync::Arc};
 
 pub async fn asset(State(app_state): State<Arc<AppState>>, uri: Uri) -> Result<Response, AppError> {
-	let content_type = TEXT_HTML_UTF_8.to_string();
+	let content_type = "text/html; charset=utf-8".to_string();
 	let results = entry::Entity::find()
 		.filter(Condition::all().add(entry::Column::Permalink.eq(uri.path())))
 		.find_with_related(tag::Entity)

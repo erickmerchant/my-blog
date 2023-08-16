@@ -12,10 +12,14 @@ use axum::{
 use etag::EntityTag;
 use headers::*;
 use hyper::{body::to_bytes, Body, HeaderMap};
-use mime_guess::mime::TEXT_HTML_UTF_8;
 use rewrite_assets::*;
 use sea_orm::{entity::prelude::*, ActiveValue::Set};
 use std::sync::Arc;
+
+pub const ETAGABLE_TYPES: &[&str] = &[
+	"text/html; charset=utf-8",
+	"application/rss+xml; charset=utf-8",
+];
 
 pub async fn cache<B>(
 	State(app_state): State<Arc<AppState>>,
@@ -31,7 +35,7 @@ pub async fn cache<B>(
 	if let Some(cache_result) = cache_result {
 		let res_headers = HeaderMap::new();
 
-		if cache_result.content_type == TEXT_HTML_UTF_8.to_string() {
+		if ETAGABLE_TYPES.contains(&cache_result.content_type.as_str()) {
 			let etag_matches = if let Some(etag) = &cache_result.etag {
 				let etag = etag.parse::<EntityTag>().ok();
 				let req_headers = req.headers().clone();
@@ -77,7 +81,7 @@ pub async fn cache<B>(
 				{
 					let mut etag = None;
 
-					if content_type == TEXT_HTML_UTF_8.to_string() {
+					if ETAGABLE_TYPES.contains(&content_type.as_str()) {
 						let etag_string = EntityTag::from_data(&bytes).to_string();
 
 						etag = Some(etag_string.clone());

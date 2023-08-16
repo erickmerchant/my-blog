@@ -1,6 +1,6 @@
+use super::ETAGABLE_TYPES;
 use axum::http::header;
 use hyper::{header::HeaderValue, HeaderMap};
-use mime_guess::mime::TEXT_HTML_UTF_8;
 
 pub fn get_header(headers: HeaderMap, key: String) -> Option<String> {
 	headers
@@ -20,7 +20,7 @@ pub fn add_cache_headers(
 		.ok()
 		.and_then(|v| headers.insert(header::CONTENT_TYPE, v));
 
-	if content_type == TEXT_HTML_UTF_8.to_string() {
+	if ETAGABLE_TYPES.contains(&content_type.as_str()) {
 		if let Some(etag) = etag {
 			HeaderValue::from_str(etag.as_str())
 				.ok()
