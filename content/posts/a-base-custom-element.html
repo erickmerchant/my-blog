@@ -11,11 +11,11 @@
 
 <p>I think Shadow Dom is useful. Even without Custom Elements it can be useful. It's the only real way to partition HTML off. Without it an HTML document is just a blob of… everything. Sure you can add classes to things, but I'd argue <code>&lt;page-nav></code> is a much better way to actually have a page nav than <code>&lt;div class="page-nav"></code>. Also up until now it was the only real way to scope CSS to an element. Soon you'll be able to do that with <code>@scope</code> in CSS, but who knows when that will be supported cross browser.</p>
 
-<p>However for a long time the only way to use Shadow DOM was through JS. With Declarative Shadow DOM you can now declare shadow trees directly in static HTML. I love it. I think at the very least for sites that are not "web applications" this could be useful. I generate it with jinja templates myself. I have just a bit of JS on my site.</p>
+<p>However for a long time the only way to use Shadow DOM was through JS. With Declarative Shadow DOM you can now declare shadow trees directly in static HTML. I'm a big fan of this. I think at the very least for sites that are not "web applications" this could be useful. I generate it with jinja templates myself. I have just a bit of JS on my site.</p>
 
 <h2>The conundrum</h2>
 
-<p>It does pose a problem though. If you need JS, how do you use one of the popular web frameworks. You will likely end up shipping instructions on generating the same markup you already have in your HTML, likely via JSX.</p>
+<p>It does pose a problem though. If you need JS, how do you use a web framework. You will likely end up shipping instructions on generating the same markup you already have in your HTML, likely via JSX.</p>
 
 <p>This is where a base Custom Element for Declarative Shadow Dom comes in. I'm going to use my own <a href="/element.js">element.js</a> used on this site as an example, but this is more a list of features I think you want in such a Custom Element. Also to be clear when I say base element I mean a class that all your other Custom Elements would extend.</p>
 
@@ -47,6 +47,7 @@ class ExampleElement extends Element {
 			this.shadowRoot.getElementById("output")
 				?.innerHTML = this.#state.count;
 		}
+	}
 }
 
 customElements.define("example-element", ExampleElement);
@@ -76,13 +77,33 @@ if (!this.shadowRoot && firstChild?.nodeName === "TEMPLATE" && mode) {
 
 <h3>Two way data binding to attributes</h3>
 
-<p>This last one is probably the one that you could take or leave. It's nice to have attributes behave like any other watched state, but also have your base element handle updating attributes when that state is changed by you. In element.js I use a <code>MutationObserver</code> for this. You can accomplish it with <code>static get observerdAttibutes</code> and <code>attributeChangedCallback</code>, but then you must do it in your child elements. I've found no way to do it in a base element using the idiomatic Custom Element way. It's also easy to do if you don't use classes and implement some sort of functional interface. Here is an example from our ExampleElement again though.</p>
+<p>This last one is probably the one that you could take or leave. It's nice to have attributes behave like any other watched state, but also have your base element handle updating attributes when that state is changed by you.</p>
 
 <code-block language="js">
-#state = this.attributes({count: 0});
-</code-block>
+	import {Element} from "./element.js";
 
-<p>Here I've converted the state to use <code>attributes</code>. Now when we increment count, an attribute called count on our <code>&lt;example-element></code> will update, and if we change that attribute externally the innerHTML of our output element in our shadow tree will update.</p>
+	class ExampleElement extends Element {
+		static get observedAttributeDefaults() {
+			return {count: 0};
+		}
+
+		*setupCallback() {
+			this.shadowRoot.getElementById("button")
+				?.addEventListener("click", () => {
+					this.count++;
+				});
+
+			yield () => {
+				this.shadowRoot.getElementById("output")
+					?.innerHTML = this.count;
+			}
+		}
+	}
+
+	customElements.define("example-element", ExampleElement);
+	</code-block>
+
+<p>Here I've converted the state to use <code>observedAttributeDefaults</code>, which internally calls <code>watch</code> and populates <code>observedAttributes</code> for us. Now when we increment count, an attribute called count on our <code>&lt;example-element></code> will update, and if we change that attribute externally the innerHTML of our output element in our shadow tree will update.</p>
 
 <h2>Conclusion</h2>
 
@@ -96,7 +117,3 @@ if (!this.shadowRoot && firstChild?.nodeName === "TEMPLATE" && mode) {
 </ul>
 
 <p>I'll likely be packaging up <a href="/element.js">element.js</a> and shipping it to a place where others can use it. I'll update this post if I do.</p>
-
-<p class="annotation">
-	<strong>Follow-up:</strong> I found a way to use attributeChangedCallback for the data binding to attributes, resulting in an even smaller element.js.</a>
-</p>
