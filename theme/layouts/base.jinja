@@ -1,12 +1,5 @@
 {%- include "/vars.jinja" -%}
 
-{%- macro nav_list(class) -%}
-<ul class="{{class}}">
-	<li><a href="/">Posts</a></li>
-	<li><a href="https://github.com/erickmerchant/my-blog">View Source</a></li>
-</ul>
-{%- endmacro -%}
-
 {%- from "/elements/page-nav.jinja" import page_nav -%}
 
 <!DOCTYPE html>
@@ -36,15 +29,20 @@
 
 <body>
 	{% call page_nav() %}
-	{{nav_list("navList")}}
+	<ul class="navList">
+		<li><a href="/">Posts</a></li>
+		<li><a href="https://github.com/erickmerchant/my-blog">View Source</a></li>
+	</ul>
 	{% endcall %}
 	<main class="main">
 		{% block main %}
 		{% endblock %}
 	</main>
 	<footer class="footer">
-		{{nav_list("footerNavList")}}
-		<p>&copy; {{year()}} {{site.author}}</p>
+		<div>
+			{% block footer %}<div></div>{% endblock %}
+			<p class="copyright">&copy; {{year()}} {{site.author}}</p>
+		</div>
 	</footer>
 </body>
 

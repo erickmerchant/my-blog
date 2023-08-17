@@ -1,7 +1,7 @@
 use app::{
 	args::Args,
 	middleware::cache::*,
-	routes::{asset::*, entry::*, rss::*},
+	routes::{entry::*, fallback::*, rss::*},
 	state::AppState,
 	templates,
 };
@@ -36,7 +36,7 @@ async fn main() -> io::Result<()> {
 	let mut app = Router::new()
 		.route("/:category/:slug/", get(entry))
 		.route("/:category/:slug/feed.rss", get(rss))
-		.fallback(asset);
+		.fallback(fallback);
 
 	if !args.no_cache {
 		app = app.layer(from_fn_with_state(app_state.clone(), cache));

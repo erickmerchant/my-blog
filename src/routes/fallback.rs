@@ -2,7 +2,7 @@ use crate::{
 	error::AppError,
 	models::{entry, tag},
 	state::AppState,
-	views::entry::view,
+	views::{entry::view, not_found},
 };
 use axum::{
 	extract::State,
@@ -13,7 +13,10 @@ use camino::Utf8Path;
 use sea_orm::{entity::prelude::*, query::*};
 use std::{fs, sync::Arc};
 
-pub async fn asset(State(app_state): State<Arc<AppState>>, uri: Uri) -> Result<Response, AppError> {
+pub async fn fallback(
+	State(app_state): State<Arc<AppState>>,
+	uri: Uri,
+) -> Result<Response, AppError> {
 	let content_type = "text/html; charset=utf-8".to_string();
 	let results = entry::Entity::find()
 		.filter(Condition::all().add(entry::Column::Permalink.eq(uri.path())))
@@ -38,7 +41,7 @@ pub async fn asset(State(app_state): State<Arc<AppState>>, uri: Uri) -> Result<R
 				Ok(StatusCode::NOT_FOUND.into_response())
 			}
 		} else {
-			Ok(StatusCode::NOT_FOUND.into_response())
+			not_found::view(app_state)
 		}
 	}
 }

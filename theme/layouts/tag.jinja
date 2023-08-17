@@ -1,0 +1,5 @@
+{% extends "layouts/entry.jinja" %}
+
+{% block footer %}
+{{rss_link("RSS for the tag \"" + entry.slug + "\"", "tags/" + entry.slug)}}
+{% endblock %}
