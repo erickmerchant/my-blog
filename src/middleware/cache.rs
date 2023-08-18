@@ -33,36 +33,24 @@ pub async fn cache<B>(
 		.await?;
 
 	if let Some(cache_result) = cache_result {
-		let res_headers = HeaderMap::new();
+		let etag_matches = cache_result.etag.clone().map_or(false, |etag| {
+			let etag = etag.parse::<EntityTag>().ok();
+			let req_headers = req.headers().clone();
 
-		if ETAGABLE_TYPES.contains(&cache_result.content_type.as_str()) {
-			let etag_matches = if let Some(etag) = &cache_result.etag {
-				let etag = etag.parse::<EntityTag>().ok();
-				let req_headers = req.headers().clone();
+			get_header(req_headers, "if-none-match".to_string())
+				.and_then(|h| h.parse::<EntityTag>().ok())
+				.is_some_and(|if_none_match| etag.is_some_and(|etag| etag.weak_eq(&if_none_match)))
+		});
 
-				Some(
-					get_header(req_headers, "if-none-match".to_string())
-						.and_then(|h| h.parse::<EntityTag>().ok())
-						.is_some_and(|if_none_match| {
-							etag.is_some_and(|etag| etag.weak_eq(&if_none_match))
-						}),
-				)
-			} else {
-				None
-			};
-
-			if etag_matches.is_some_and(|m| m) {
-				Ok(StatusCode::NOT_MODIFIED.into_response())
-			} else {
-				Ok((
-					add_cache_headers(res_headers, cache_result.content_type, cache_result.etag),
-					cache_result.body,
-				)
-					.into_response())
-			}
+		if etag_matches {
+			Ok(StatusCode::NOT_MODIFIED.into_response())
 		} else {
 			Ok((
-				add_cache_headers(res_headers, cache_result.content_type, None),
+				add_cache_headers(
+					HeaderMap::new(),
+					cache_result.content_type,
+					cache_result.etag,
+				),
 				cache_result.body,
 			)
 				.into_response())

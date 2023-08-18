@@ -1,4 +1,3 @@
-use super::ETAGABLE_TYPES;
 use axum::http::header;
 use hyper::{header::HeaderValue, HeaderMap};
 
@@ -20,12 +19,10 @@ pub fn add_cache_headers(
 		.ok()
 		.and_then(|v| headers.insert(header::CONTENT_TYPE, v));
 
-	if ETAGABLE_TYPES.contains(&content_type.as_str()) {
-		if let Some(etag) = etag {
-			HeaderValue::from_str(etag.as_str())
-				.ok()
-				.and_then(|v| headers.insert(header::ETAG, v));
-		}
+	if let Some(etag) = etag {
+		HeaderValue::from_str(etag.as_str())
+			.ok()
+			.and_then(|v| headers.insert(header::ETAG, v));
 	} else {
 		HeaderValue::from_str(cache_control.as_str())
 			.ok()
