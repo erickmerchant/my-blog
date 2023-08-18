@@ -29,7 +29,7 @@ pub async fn rss(
 	view(
 		app_state,
 		results,
-		Some("templates/rss.jinja".to_string()),
+		Some("layouts/rss.jinja".to_string()),
 		content_type,
 		false,
 	)
