@@ -34,12 +34,17 @@ pub async fn cache<B>(
 
 	if let Some(cache_result) = cache_result {
 		let etag_matches = cache_result.etag.clone().map_or(false, |etag| {
-			let etag = etag.parse::<EntityTag>().ok();
 			let req_headers = req.headers().clone();
 
-			get_header(req_headers, "if-none-match".to_string())
-				.and_then(|h| h.parse::<EntityTag>().ok())
-				.is_some_and(|if_none_match| etag.is_some_and(|etag| etag.weak_eq(&if_none_match)))
+			if let (Some(etag), Some(if_none_match)) = (
+				etag.parse::<EntityTag>().ok(),
+				get_header(req_headers, "if-none-match".to_string())
+					.and_then(|h| h.parse::<EntityTag>().ok()),
+			) {
+				etag.weak_eq(&if_none_match)
+			} else {
+				false
+			}
 		});
 
 		if etag_matches {
@@ -60,42 +65,38 @@ pub async fn cache<B>(
 
 		if res.status() == StatusCode::OK {
 			let (mut parts, body) = res.into_parts();
-			let bytes = to_bytes(body).await;
+			let bytes = to_bytes(body).await?;
 			let mut output = Vec::new();
 
-			if let Ok(bytes) = bytes {
-				if let Some(content_type) =
-					get_header(parts.headers.clone(), "content-type".to_string())
-				{
-					let mut etag = None;
+			if let Some(content_type) =
+				get_header(parts.headers.clone(), "content-type".to_string())
+			{
+				let mut etag = None;
 
-					if ETAGABLE_TYPES.contains(&content_type.as_str()) {
-						let etag_string = EntityTag::from_data(&bytes).to_string();
+				if ETAGABLE_TYPES.contains(&content_type.as_str()) {
+					let etag_string = EntityTag::from_data(&bytes).to_string();
 
-						etag = Some(etag_string.clone());
-						output = rewrite_assets(bytes, output)?;
-					} else {
-						output = bytes.to_vec();
-					};
-
-					let cache_model = cache::ActiveModel {
-						path: Set(uri),
-						content_type: Set(content_type.clone()),
-						etag: Set(etag.clone()),
-						body: Set(output.clone()),
-						..Default::default()
-					};
-
-					cache_model.insert(&app_state.database).await.ok();
-					parts.headers = add_cache_headers(parts.headers, content_type, etag);
+					etag = Some(etag_string.clone());
+					output = rewrite_assets(bytes, output)?;
 				} else {
 					output = bytes.to_vec();
 				};
 
-				Ok(Response::from_parts(parts, Body::from(output)).into_response())
+				let cache_model = cache::ActiveModel {
+					path: Set(uri),
+					content_type: Set(content_type.clone()),
+					etag: Set(etag.clone()),
+					body: Set(output.clone()),
+					..Default::default()
+				};
+
+				cache_model.insert(&app_state.database).await.ok();
+				parts.headers = add_cache_headers(parts.headers, content_type, etag);
 			} else {
-				Ok(StatusCode::INTERNAL_SERVER_ERROR.into_response())
-			}
+				output = bytes.to_vec();
+			};
+
+			Ok(Response::from_parts(parts, Body::from(output)).into_response())
 		} else {
 			Ok(res)
 		}

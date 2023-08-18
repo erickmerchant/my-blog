@@ -20,11 +20,13 @@ pub async fn view(
 	may_redirect: bool,
 ) -> anyhow::Result<Response, AppError> {
 	if let Some((entry, entry_tags)) = results.get(0) {
-		if let Some(permalink) = if !may_redirect {
+		let permalink = if !may_redirect {
 			None
 		} else {
 			entry.clone().permalink
-		} {
+		};
+
+		if let Some(permalink) = permalink {
 			Ok((
 				[(header::LOCATION, permalink)],
 				StatusCode::MOVED_PERMANENTLY,
@@ -63,7 +65,6 @@ pub async fn view(
 				),
 				None => None,
 			};
-
 			let template = template_override.unwrap_or(
 				entry
 					.clone()
