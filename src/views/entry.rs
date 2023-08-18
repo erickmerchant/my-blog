@@ -32,7 +32,7 @@ pub async fn view(
 				.into_response())
 		} else {
 			let feed = match entry.feed {
-				Some(entry::feed::Feed::Category) => Some(
+				Some(entry::Feed::Category) => Some(
 					entry::Entity::find()
 						.filter(entry::Column::Category.eq(entry.slug.clone()))
 						.order_by(entry::Column::Date, Order::Desc)
@@ -40,7 +40,7 @@ pub async fn view(
 						.all(&app_state.database)
 						.await?,
 				),
-				Some(entry::feed::Feed::Tag) => Some(
+				Some(entry::Feed::Tag) => Some(
 					entry::Entity::find()
 						.filter(
 							entry::Column::Id.in_subquery(

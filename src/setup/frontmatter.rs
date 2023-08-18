@@ -1,4 +1,4 @@
-use super::feed::Feed;
+use crate::models::entry;
 use chrono::NaiveDate;
 use serde::{Deserialize, Serialize};
 
@@ -23,5 +23,5 @@ pub struct Frontmatter {
 	pub tags: Option<Vec<String>>,
 
 	#[serde(default)]
-	pub feed: Option<Feed>,
+	pub feed: Option<entry::Feed>,
 }

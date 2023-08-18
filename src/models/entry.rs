@@ -1,6 +1,3 @@
-pub mod feed;
-pub mod frontmatter;
-
 use chrono::NaiveDate;
 use sea_orm::{entity::prelude::*, FromJsonQueryResult};
 use serde::{Deserialize, Serialize};
@@ -39,7 +36,7 @@ pub struct Model {
 	pub template: Option<String>,
 
 	#[serde(default)]
-	pub feed: Option<feed::Feed>,
+	pub feed: Option<Feed>,
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
@@ -59,3 +56,13 @@ impl Related<super::tag::Entity> for Entity {
 
 #[derive(Clone, Debug, Default, PartialEq, Eq, Serialize, Deserialize, FromJsonQueryResult)]
 pub struct Elements(pub Vec<String>);
+
+#[derive(EnumIter, DeriveActiveEnum)]
+#[sea_orm(rs_type = "String", db_type = "Text")]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, Eq)]
+pub enum Feed {
+	#[sea_orm(string_value = "Category")]
+	Category,
+	#[sea_orm(string_value = "Tag")]
+	Tag,
+}
