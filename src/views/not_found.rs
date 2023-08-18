@@ -10,7 +10,7 @@ pub fn view(app_state: Arc<AppState>) -> Result<Response, AppError> {
 	let ctx = context! {};
 	let template = app_state
 		.templates
-		.get_template("layouts/not-found.jinja")?;
+		.get_template("templates/not-found.jinja")?;
 	let body = template.render(ctx)?;
 
 	Ok((StatusCode::NOT_FOUND, Html(body)).into_response())

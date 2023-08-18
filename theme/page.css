@@ -153,21 +153,17 @@ code {
 	font-weight: 500;
 }
 
-.main {
-	background-color: var(--paper-2);
+:is(.main, .footer) {
 	display: grid;
 	grid-auto-columns: 100%;
 	gap: 1em;
-	padding-block: 1em 3em;
 	align-content: start;
-	z-index: 1;
-	box-shadow: 0 0.1em 0.1em var(--paper-0);
 	--max-width: 40rem;
 	--list-indent: 3cqi;
 	--padding-inline: 2.25cqi;
 }
 
-.main > * {
+:is(.main, .footer) > * {
 	max-width: var(--max-width);
 	width: 100%;
 	margin-inline: auto;
@@ -175,13 +171,19 @@ code {
 }
 
 @container (width <= 30rem) {
-	.main {
+	:is(.main, .footer) {
 		font-size: 0.8em;
 	}
 }
 
+.main {
+	background-color: var(--paper-2);
+	padding-block: 1em 3em;
+	z-index: 1;
+	box-shadow: 0 0.1em 0.1em var(--paper-0);
+}
+
 .footer {
-	padding-inline: 1em;
 	padding-block: 1.5em;
 	background-image: repeating-linear-gradient(
 		135deg,
@@ -193,36 +195,14 @@ code {
 	z-index: 0;
 }
 
-.footer > div {
-	display: flex;
-	justify-content: space-between;
-	flex-wrap: wrap;
-	gap: 1em 3em;
-	font-weight: 500;
-	max-width: 40rem;
-	width: 100%;
-	margin-inline: auto;
-}
-
 @container (width <= 30rem) {
-	.footer > div {
+	.footer > * {
 		font-size: 0.8em;
 	}
 }
 
-.rss-link {
-	display: flex;
-	align-items: center;
-	gap: 0.5em;
-}
-
-.rss-link svg {
-	fill: currentColor;
-	background: var(--paper-0);
-	border-radius: var(--border-radius);
-	padding: 0.125em;
-	width: 1.5em;
-	height: 1.5em;
+.copyright {
+	font-weight: 500;
 }
 
 .sub-heading {
@@ -288,4 +268,19 @@ code {
 	display: grid;
 	grid-auto-columns: 100%;
 	gap: 0.5em;
+}
+
+.rss-link {
+	display: flex;
+	align-items: center;
+	gap: 0.5em;
+}
+
+.rss-link :where(svg) {
+	fill: currentColor;
+	background: var(--paper-0);
+	border-radius: var(--border-radius);
+	padding: 0.125em;
+	width: 1.5em;
+	height: 1.5em;
 }

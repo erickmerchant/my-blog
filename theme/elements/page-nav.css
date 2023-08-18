@@ -73,17 +73,17 @@ svg {
 		padding-block-end: 0em;
 	}
 
-	:host([transitioning]) .nav {
+	:host([transitioning]) :where(.nav) {
 		transition: grid-template-rows 0.125s var(--easing),
 			padding 0.125s var(--easing);
 	}
 
-	:host([expanded]) .nav {
+	:host([expanded]) :where(.nav) {
 		grid-template-rows: min-content 1fr;
 		padding-block-end: 1.5em;
 	}
 
-	:host(:not(:defined)) .nav {
+	:host(:not(:defined)) :where(.nav) {
 		grid-template-rows: min-content 1fr;
 	}
 }

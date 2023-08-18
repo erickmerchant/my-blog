@@ -68,7 +68,7 @@ pub async fn view(
 				entry
 					.clone()
 					.template
-					.unwrap_or("layouts/entry.jinja".to_string()),
+					.unwrap_or("templates/entry.jinja".to_string()),
 			);
 			let html = app_state
 				.templates
