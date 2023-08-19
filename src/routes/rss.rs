@@ -2,7 +2,7 @@ use crate::{
 	error::AppError,
 	models::{entry, tag},
 	state::AppState,
-	views::entry::view,
+	views::entry::*,
 };
 use axum::{
 	extract::{Path, State},
@@ -11,7 +11,7 @@ use axum::{
 use sea_orm::{entity::prelude::*, query::*};
 use std::sync::Arc;
 
-pub async fn rss(
+pub async fn rss_handler(
 	State(app_state): State<Arc<AppState>>,
 	Path((category, slug)): Path<(String, String)>,
 ) -> Result<Response, AppError> {
@@ -26,7 +26,7 @@ pub async fn rss(
 		.all(&app_state.database)
 		.await?;
 
-	view(
+	entry_view(
 		app_state,
 		results,
 		Some("layouts/rss.jinja".to_string()),

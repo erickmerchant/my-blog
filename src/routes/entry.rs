@@ -2,7 +2,7 @@ use crate::{
 	error::AppError,
 	models::{entry, tag},
 	state::AppState,
-	views::entry::view,
+	views::entry::*,
 };
 use axum::{
 	extract::{Path, State},
@@ -11,7 +11,7 @@ use axum::{
 use sea_orm::{entity::prelude::*, query::*};
 use std::sync::Arc;
 
-pub async fn entry(
+pub async fn entry_handler(
 	State(app_state): State<Arc<AppState>>,
 	Path((category, slug)): Path<(String, String)>,
 ) -> Result<Response, AppError> {
@@ -26,5 +26,5 @@ pub async fn entry(
 		.all(&app_state.database)
 		.await?;
 
-	view(app_state, results, None, content_type, true).await
+	entry_view(app_state, results, None, content_type, true).await
 }

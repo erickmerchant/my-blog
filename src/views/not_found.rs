@@ -6,7 +6,7 @@ use axum::{
 use minijinja::context;
 use std::sync::Arc;
 
-pub fn view(app_state: Arc<AppState>) -> Result<Response, AppError> {
+pub fn not_found_view(app_state: Arc<AppState>) -> Result<Response, AppError> {
 	let ctx = context! {};
 	let template = app_state
 		.templates

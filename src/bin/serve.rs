@@ -34,12 +34,12 @@ async fn main() -> io::Result<()> {
 		database,
 	});
 	let mut app = Router::new()
-		.route("/:category/:slug/", get(entry))
-		.route("/:category/:slug/feed.rss", get(rss))
-		.fallback(fallback);
+		.route("/:category/:slug/", get(entry_handler))
+		.route("/:category/:slug/feed.rss", get(rss_handler))
+		.fallback(fallback_handler);
 
 	if !args.no_cache {
-		app = app.layer(from_fn_with_state(app_state.clone(), cache));
+		app = app.layer(from_fn_with_state(app_state.clone(), cache_layer));
 	}
 
 	let app = app

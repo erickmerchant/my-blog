@@ -2,7 +2,7 @@ use crate::{
 	error::AppError,
 	models::{entry, tag},
 	state::AppState,
-	views::{entry::view, not_found},
+	views::{entry::*, not_found::*},
 };
 use axum::{
 	extract::State,
@@ -13,7 +13,7 @@ use camino::Utf8Path;
 use sea_orm::{entity::prelude::*, query::*};
 use std::{fs, sync::Arc};
 
-pub async fn fallback(
+pub async fn fallback_handler(
 	State(app_state): State<Arc<AppState>>,
 	uri: Uri,
 ) -> Result<Response, AppError> {
@@ -25,7 +25,7 @@ pub async fn fallback(
 		.await?;
 
 	if !results.is_empty() {
-		view(app_state, results, None, content_type, false).await
+		entry_view(app_state, results, None, content_type, false).await
 	} else {
 		let uri = Utf8Path::new("theme").join(uri.path().trim_start_matches('/'));
 
@@ -41,7 +41,7 @@ pub async fn fallback(
 				Ok(StatusCode::NOT_FOUND.into_response())
 			}
 		} else {
-			not_found::view(app_state)
+			not_found_view(app_state)
 		}
 	}
 }

@@ -13,7 +13,6 @@ async fn main() -> Result<()> {
 		.expect("database should connect");
 
 	create_schema(&connection).await?;
-
 	import_content(&connection).await?;
 
 	Ok(())

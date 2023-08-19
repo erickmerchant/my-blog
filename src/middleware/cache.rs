@@ -21,7 +21,7 @@ pub const ETAGABLE_TYPES: &[&str] = &[
 	"application/rss+xml; charset=utf-8",
 ];
 
-pub async fn cache<B>(
+pub async fn cache_layer<B>(
 	State(app_state): State<Arc<AppState>>,
 	req: Request<B>,
 	next: Next<B>,

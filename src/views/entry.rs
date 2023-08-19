@@ -1,4 +1,4 @@
-use super::not_found;
+use super::not_found::*;
 use crate::{
 	error::AppError,
 	models::{entry, entry_tag, tag},
@@ -12,7 +12,7 @@ use minijinja::context;
 use sea_orm::{entity::prelude::*, query::*, sea_query::Query};
 use std::sync::Arc;
 
-pub async fn view(
+pub async fn entry_view(
 	app_state: Arc<AppState>,
 	results: Vec<(entry::Model, Vec<tag::Model>)>,
 	template_override: Option<String>,
@@ -86,7 +86,7 @@ pub async fn view(
 			Ok(([(header::CONTENT_TYPE, content_type)], body).into_response())
 		}
 	} else if content_type == *"text/html; charset=utf-8" {
-		not_found::view(app_state)
+		not_found_view(app_state)
 	} else {
 		Ok(StatusCode::NOT_FOUND.into_response())
 	}
