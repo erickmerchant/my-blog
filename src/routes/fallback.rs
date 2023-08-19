@@ -25,23 +25,23 @@ pub async fn fallback_handler(
 		.await?;
 
 	if !results.is_empty() {
-		entry_view(app_state, results, None, content_type, false).await
-	} else {
-		let uri = Utf8Path::new("theme").join(uri.path().trim_start_matches('/'));
+		return entry_view(app_state, results, None, content_type, false).await;
+	}
 
-		if let Some(ext) = uri.extension() {
-			let uri = uri.with_extension("").with_extension(ext);
-			let asset = mime_guess::from_ext(ext)
-				.first()
-				.map(|content_type| (content_type, fs::read(uri)));
+	let uri = Utf8Path::new("theme").join(uri.path().trim_start_matches('/'));
 
-			if let Some((content_type, Ok(body))) = asset {
-				Ok(([(header::CONTENT_TYPE, content_type.to_string())], body).into_response())
-			} else {
-				Ok(StatusCode::NOT_FOUND.into_response())
-			}
+	if let Some(ext) = uri.extension() {
+		let uri = uri.with_extension("").with_extension(ext);
+		let asset = mime_guess::from_ext(ext)
+			.first()
+			.map(|content_type| (content_type, fs::read(uri)));
+
+		if let Some((content_type, Ok(body))) = asset {
+			Ok(([(header::CONTENT_TYPE, content_type.to_string())], body).into_response())
 		} else {
-			not_found_view(app_state)
+			Ok(StatusCode::NOT_FOUND.into_response())
 		}
+	} else {
+		not_found_view(app_state)
 	}
 }

@@ -5,7 +5,7 @@ use lol_html::{element, html_content::ContentType, text, HtmlRewriter, Settings}
 use serde_json as json;
 use std::{fs, time::UNIX_EPOCH};
 
-pub fn rewrite_assets(bytes: Bytes, mut output: Vec<u8>) -> anyhow::Result<Vec<u8>> {
+pub fn rewrite_assets(bytes: Bytes, mut output: Vec<u8>) -> anyhow::Result<()> {
 	let mut rewriter = HtmlRewriter::new(
 		Settings {
 			element_content_handlers: vec![
@@ -46,10 +46,10 @@ pub fn rewrite_assets(bytes: Bytes, mut output: Vec<u8>) -> anyhow::Result<Vec<u
 	rewriter.write(bytes.as_ref())?;
 	rewriter.end()?;
 
-	Ok(output)
+	Ok(())
 }
 
-fn asset_url(mut url: String) -> String {
+fn asset_url(url: String) -> String {
 	if url.starts_with('/') {
 		if let Ok(time) =
 			fs::metadata(Utf8Path::new("theme").join(&url[1..])).and_then(|meta| meta.modified())
@@ -61,7 +61,8 @@ fn asset_url(mut url: String) -> String {
 			let cache_key = base62::encode(version_time);
 			let path = Utf8Path::new(&url);
 			let ext = path.extension().unwrap_or_default();
-			url = path
+
+			return path
 				.with_extension(format!("{cache_key}.{ext}"))
 				.to_string();
 		}

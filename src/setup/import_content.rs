@@ -9,7 +9,6 @@ use std::fs;
 
 pub async fn import_content(connection: &DatabaseConnection) -> Result<()> {
 	let paths = glob("content/*/*.html".to_string().as_str())?;
-
 	let connection = connection.clone();
 
 	for path in paths.flatten() {

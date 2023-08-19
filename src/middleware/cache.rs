@@ -31,74 +31,69 @@ pub async fn cache_layer<B>(
 		.filter(cache::Column::Path.eq(&uri))
 		.one(&app_state.database)
 		.await?;
+	let req_headers = req.headers().clone();
 
 	if let Some(cache_result) = cache_result {
-		let etag_matches = cache_result.etag.clone().map_or(false, |etag| {
-			let req_headers = req.headers().clone();
-
-			if let (Some(etag), Some(if_none_match)) = (
-				etag.parse::<EntityTag>().ok(),
-				get_header(req_headers, "if-none-match".to_string())
-					.and_then(|h| h.parse::<EntityTag>().ok()),
-			) {
-				etag.weak_eq(&if_none_match)
-			} else {
-				false
-			}
-		});
+		let etag_matches = headers::etag_matches(cache_result.etag.clone(), req_headers);
 
 		if etag_matches {
-			Ok(StatusCode::NOT_MODIFIED.into_response())
-		} else {
-			Ok((
-				add_cache_headers(
-					HeaderMap::new(),
-					cache_result.content_type,
-					cache_result.etag,
-				),
-				cache_result.body,
-			)
-				.into_response())
+			return Ok(StatusCode::NOT_MODIFIED.into_response());
 		}
-	} else {
-		let res = next.run(req).await;
 
-		if res.status() == StatusCode::OK {
-			let (mut parts, body) = res.into_parts();
-			let bytes = to_bytes(body).await?;
-			let mut output = Vec::new();
+		return Ok((
+			add_cache_headers(
+				HeaderMap::new(),
+				cache_result.content_type,
+				cache_result.etag,
+			),
+			cache_result.body,
+		)
+			.into_response());
+	}
 
-			if let Some(content_type) =
-				get_header(parts.headers.clone(), "content-type".to_string())
-			{
-				let mut etag = None;
+	let res = next.run(req).await;
 
-				if ETAGABLE_TYPES.contains(&content_type.as_str()) {
-					let etag_string = EntityTag::from_data(&bytes).to_string();
+	if res.status() == StatusCode::OK {
+		let (parts, body) = res.into_parts();
+		let bytes = to_bytes(body).await?;
+		let mut output = Vec::new();
 
-					etag = Some(etag_string.clone());
-					output = rewrite_assets(bytes, output)?;
-				} else {
-					output = bytes.to_vec();
-				};
+		if let Some(content_type) = get_header(parts.headers.clone(), "content-type".to_string()) {
+			let mut etag = None;
 
-				let cache_model = cache::ActiveModel {
-					path: Set(uri),
-					content_type: Set(content_type.clone()),
-					etag: Set(etag.clone()),
-					body: Set(output.clone()),
-					..Default::default()
-				};
+			if ETAGABLE_TYPES.contains(&content_type.as_str()) {
+				let etag_string = EntityTag::from_data(&bytes).to_string();
 
-				cache_model.insert(&app_state.database).await.ok();
-				parts.headers = add_cache_headers(parts.headers, content_type, etag);
+				etag = Some(etag_string.clone());
+
+				rewrite_assets(bytes, output.to_owned())?;
 			} else {
 				output = bytes.to_vec();
 			};
 
-			Ok(Response::from_parts(parts, Body::from(output)).into_response())
+			let cache_model = cache::ActiveModel {
+				path: Set(uri),
+				content_type: Set(content_type.clone()),
+				etag: Set(etag.clone()),
+				body: Set(output.clone()),
+				..Default::default()
+			};
+
+			cache_model.insert(&app_state.database).await.ok();
+
+			let etag_matches = headers::etag_matches(etag.clone(), req_headers);
+
+			if etag_matches {
+				return Ok(StatusCode::NOT_MODIFIED.into_response());
+			}
+
+			add_cache_headers(parts.headers.clone(), content_type, etag);
 		} else {
-			Ok(res)
-		}
+			output = bytes.to_vec();
+		};
+
+		return Ok(Response::from_parts(parts, Body::from(output)).into_response());
 	}
+
+	Ok(res)
 }

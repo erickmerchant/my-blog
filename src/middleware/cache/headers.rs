@@ -1,4 +1,5 @@
 use axum::http::header;
+use etag::EntityTag;
 use hyper::{header::HeaderValue, HeaderMap};
 
 pub fn get_header(headers: HeaderMap, key: String) -> Option<String> {
@@ -9,10 +10,11 @@ pub fn get_header(headers: HeaderMap, key: String) -> Option<String> {
 }
 
 pub fn add_cache_headers(
-	mut headers: HeaderMap,
+	headers: HeaderMap,
 	content_type: String,
 	etag: Option<String>,
 ) -> HeaderMap {
+	let mut headers = headers.clone();
 	let cache_control = format!("public, max-age={}, immutable", 60 * 60 * 24 * 365);
 
 	HeaderValue::from_str(content_type.as_str())
@@ -30,4 +32,18 @@ pub fn add_cache_headers(
 	}
 
 	headers
+}
+
+pub fn etag_matches(etag: Option<String>, req_headers: HeaderMap) -> bool {
+	etag.clone().map_or(false, |etag| {
+		if let (Some(etag), Some(if_none_match)) = (
+			etag.parse::<EntityTag>().ok(),
+			get_header(req_headers, "if-none-match".to_string())
+				.and_then(|h| h.parse::<EntityTag>().ok()),
+		) {
+			etag.weak_eq(&if_none_match)
+		} else {
+			false
+		}
+	})
 }
