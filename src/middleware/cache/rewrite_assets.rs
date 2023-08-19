@@ -51,20 +51,22 @@ pub fn rewrite_assets(bytes: Bytes, mut output: Vec<u8>) -> anyhow::Result<Vec<u
 
 fn asset_url(url: String) -> String {
 	if url.starts_with('/') {
-		if let Ok(time) =
-			fs::metadata(Utf8Path::new("theme").join(&url[1..])).and_then(|meta| meta.modified())
-		{
-			let version_time = time
-				.duration_since(UNIX_EPOCH)
-				.map(|d| d.as_secs())
-				.expect("time should be a valid time since the unix epoch");
-			let cache_key = base62::encode(version_time);
-			let path = Utf8Path::new(&url);
-			let ext = path.extension().unwrap_or_default();
+		if let Some(bare_url) = url.strip_prefix('/') {
+			if let Ok(time) =
+				fs::metadata(Utf8Path::new("theme").join(bare_url)).and_then(|meta| meta.modified())
+			{
+				let version_time = time
+					.duration_since(UNIX_EPOCH)
+					.map(|d| d.as_secs())
+					.expect("time should be a valid time since the unix epoch");
+				let cache_key = base62::encode(version_time);
+				let path = Utf8Path::new(&url);
+				let ext = path.extension().unwrap_or_default();
 
-			return path
-				.with_extension(format!("{cache_key}.{ext}"))
-				.to_string();
+				return path
+					.with_extension(format!("{cache_key}.{ext}"))
+					.to_string();
+			}
 		}
 	};
 
