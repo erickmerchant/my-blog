@@ -15,12 +15,12 @@
 }
 
 ::-webkit-scrollbar-thumb {
-	background: var(--scrollbar);
+	background-color: var(--scrollbar);
 	border-radius: var(--border-radius);
 }
 
 ::-webkit-scrollbar-track {
-	background: var(--paper-2);
+	background-color: var(--paper-2);
 }
 
 html {
@@ -36,7 +36,7 @@ body {
 	height: 100%;
 	overflow-x: auto;
 	color: var(--ink-0);
-	background: var(--paper-2);
+	background-color: var(--paper-2);
 	display: grid;
 	grid-template-rows: min-content auto min-content;
 	container-type: inline-size;
@@ -130,7 +130,7 @@ strong {
 	gap: 0.25em;
 }
 
-li {
+:is(ul, ol):where(:not([class])) > * {
 	margin-inline-start: var(--list-indent);
 }
 
@@ -205,8 +205,12 @@ code {
 	font-weight: 500;
 }
 
+.heading {
+	display: grid;
+	gap: 1em;
+}
+
 .sub-heading {
-	margin-block-start: 1em;
 	display: flex;
 	flex-wrap: wrap;
 	gap: 1em;
@@ -233,7 +237,6 @@ code {
 	background-color: var(--paper-0);
 	border-radius: var(--border-radius);
 	padding: 0.0625em 0.5em;
-	margin-inline-start: 0;
 }
 
 .annotation {
@@ -260,7 +263,6 @@ code {
 	list-style: none;
 	display: grid;
 	gap: 1em;
-	margin-block-end: 1em;
 	--list-indent: 0;
 }
 
@@ -274,11 +276,12 @@ code {
 	display: flex;
 	align-items: center;
 	gap: 0.5em;
+	padding-block-start: 2em;
 }
 
 .rss-link :where(svg) {
 	fill: currentColor;
-	background: var(--paper-0);
+	background-color: var(--paper-0);
 	border-radius: var(--border-radius);
 	padding: 0.125em;
 	width: 1.5em;

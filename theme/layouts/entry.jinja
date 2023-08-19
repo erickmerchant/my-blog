@@ -36,7 +36,7 @@
 {% endblock %}
 
 {% block main %}
-<header>
+<header class="heading">
 	<h1>{% if entry.title %}{{entry.title}}{% else %}Untitled{% endif %}</h1>
 	{{sub_heading(entry, entry_tags)}}
 </header>
@@ -47,7 +47,7 @@
 <ol class="index">
 	{% for (e, tags) in feed %}
 	<li>
-		<header>
+		<header class="heading">
 			<h2><a href="/{{e.category}}/{{e.slug}}/">{% if e.title %}{{e.title}}{% else %}Untitled{% endif %}</a></h2>
 			{{sub_heading(e, tags)}}
 		</header>
