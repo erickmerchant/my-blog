@@ -66,7 +66,7 @@ pub async fn cache_layer<B>(
 
 				etag = Some(etag_string.clone());
 
-				rewrite_assets(bytes, output.to_owned())?;
+				output = rewrite_assets(bytes, output.to_owned())?;
 			} else {
 				output = bytes.to_vec();
 			};
