@@ -1,30 +1,50 @@
 <front-matter>
 {
 	"title": "Fairly small rust + docker",
-	"date": "2023-08-19",
+	"date": "2023-08-20",
 	"description": "How to get fairly small docker images for rust projects. A walk through of my Dockerfile.",
 	"tags": ["rust", "docker"]
 }
 </front-matter>
 
-<p>Like me you may be sort of obsessed with getting the smallest docker image for your rust server. This is the best way I've found. The following is an example Dockerfile, slightly simplified from the one I actually use</p>
+<p>Like me you may be sort of obsessed with getting the smallest docker image for your Rust server. This is the best way I've found. The following is an example Dockerfile, slightly simplified from the one I actually use</p>
+
+<p>Use Alpine as a your base to build your binary.</p>
 
 <code-block language="dockerfile">
+# build step
 FROM rust:1.71-alpine as build
 RUN apk add build-base
 WORKDIR deploy
-# cache deps
+</code-block>
+
+<p>Cache dependencies. This is not strictly related to a small build, but helps if you have to push front end changes and don't want to wait for a full rebuild.</p>
+
+<code-block language="dockerfile" first-line="5">
 RUN mkdir -p src
 RUN echo "fn main() {}" > src/main.rs
 COPY Cargo.toml Cargo.lock .
 RUN cargo build --release --no-default-features --locked
-# build app
+</code-block>
+
+<p>Build the application.</p>
+
+<code-block language="dockerfile" first-line="9">
 COPY . .
 RUN cargo build --release --no-default-features --locked
 RUN mv ./target/release/your-app ./your-app
-# clean up
-RUN rm -rf target src Cargo.lock Cargo.toml
+</code-block>
 
+<p>Clean up build artifacts.</p>
+
+<code-block language="dockerfile" first-line="12">
+RUN rm -rf target src Cargo.lock Cargo.toml
+</code-block>
+
+<p>Use scratch as your base to run your binary. <a href="https://hub.docker.com/_/scratch">https://hub.docker.com/_/scratch</a></p>
+
+<code-block language="dockerfile" first-line="13">
+# run step
 FROM scratch
 WORKDIR /deploy
 COPY --from=build /deploy .

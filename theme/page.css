@@ -153,7 +153,8 @@ code {
 	font-weight: 500;
 }
 
-:is(.main, .footer) {
+.main,
+.footer {
 	display: grid;
 	grid-auto-columns: 100%;
 	gap: 1em;
@@ -171,7 +172,8 @@ code {
 }
 
 @container (width <= 30rem) {
-	:is(.main, .footer) {
+	.main,
+	.footer {
 		font-size: 0.8em;
 	}
 }

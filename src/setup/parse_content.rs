@@ -18,6 +18,8 @@ pub fn parse_content(contents: String) -> Result<(Option<Frontmatter>, Vec<u8>, 
 	let ss = SyntaxSet::load_defaults_newlines();
 	let mut content = Vec::new();
 	let language_buffer = Rc::new(RefCell::new(String::new()));
+	let default_line: u32 = 1;
+	let first_line_buffer = Rc::new(RefCell::new(default_line));
 	let mut rewriter = HtmlRewriter::new(
 		Settings {
 			element_content_handlers: vec![
@@ -45,43 +47,52 @@ pub fn parse_content(contents: String) -> Result<(Option<Frontmatter>, Vec<u8>, 
 						language_buffer.borrow_mut().push_str(&language);
 					}
 
+					if let Some(first_line) = el.get_attribute("first-line") {
+						first_line_buffer.replace(first_line.parse::<u32>().unwrap_or(1));
+					}
+
 					el.remove_and_keep_content();
 
 					Ok(())
 				}),
 				text!("code-block[language]", |el| {
 					let mut language = language_buffer.borrow_mut();
-					let mut highlighted_lines = Vec::<String>::new();
-					let inner_html = String::from(el.as_str());
+					let first_line = first_line_buffer.as_ref();
 
-					if let Some(syntax) = ss.find_syntax_by_extension(&language) {
-						for line in LinesWithEndings::from(inner_html.trim()) {
-							let mut html_generator = ClassedHTMLGenerator::new_with_class_style(
-								syntax,
-								&ss,
-								ClassStyle::Spaced,
-							);
+					if !language.is_empty() {
+						let mut highlighted_lines = Vec::<String>::new();
+						let inner_html = String::from(el.as_str());
 
-							html_generator.parse_html_for_line_which_includes_newline(line)?;
-							highlighted_lines.push(html_generator.finalize());
+						if let Some(syntax) = ss.find_syntax_by_extension(&language) {
+							for line in LinesWithEndings::from(inner_html.trim()) {
+								let mut html_generator = ClassedHTMLGenerator::new_with_class_style(
+									syntax,
+									&ss,
+									ClassStyle::Spaced,
+								);
+
+								html_generator.parse_html_for_line_which_includes_newline(line)?;
+								highlighted_lines.push(html_generator.finalize());
+							}
+						} else {
+							for line in inner_html.trim().lines() {
+								highlighted_lines.push(format!("<span>{}</span>", line));
+							}
 						}
-					} else {
-						for line in inner_html.trim().lines() {
-							highlighted_lines.push(format!("<span>{}</span>", line));
-						}
+
+						let ctx = context! {
+							language => language.clone(),
+							first_line => first_line.clone(),
+							highlighted_lines => highlighted_lines,
+							inner_html => inner_html
+						};
+						let template = template_env.get_template("elements/code-block.jinja")?;
+						let replacement_html = template.render(ctx)?;
+
+						el.replace(replacement_html.as_str(), ContentType::Html);
+						language.clear();
+						first_line_buffer.replace(default_line);
 					}
-
-					let ctx = context! {
-						language => language.clone(),
-						highlighted_lines => highlighted_lines,
-						inner_html => inner_html
-					};
-					let template = template_env.get_template("elements/code-block.jinja")?;
-					let replacement_html = template.render(ctx)?;
-
-					el.replace(replacement_html.as_str(), ContentType::Html);
-
-					language.clear();
 
 					Ok(())
 				}),

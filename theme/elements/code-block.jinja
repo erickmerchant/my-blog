@@ -1,11 +1,11 @@
-{% macro code_block(language, highlighted_lines) %}
+{% macro code_block(language, highlighted_lines, first_line) %}
 <code-block language="{{language}}">
 	<template shadowrootmode="open">
 		<link rel="stylesheet" href="/elements/code-block.css">
 		<figure>
 			<pre><code>
 				{% for line in highlighted_lines %}
-				<span class="line-number" aria-hidden="true">{{loop.index}}</span> {{line}}
+				<span class="line-number" aria-hidden="true">{{loop.index0 + (first_line | default(1))}}</span> {{line}}
 				{% endfor %}
 			</code></pre>
 		</figure>
@@ -16,6 +16,6 @@
 </code-block>
 {% endmacro %}
 
-{% call code_block(language, highlighted_lines) %}
+{% call code_block(language, highlighted_lines, first_line) %}
 {{inner_html}}
 {% endcall %}
