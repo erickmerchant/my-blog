@@ -51,11 +51,10 @@ pub fn parse_content(contents: String) -> Result<(Option<Frontmatter>, Vec<u8>, 
 				}),
 				text!("code-block[language]", |el| {
 					let mut language = language_buffer.borrow_mut();
+					let mut highlighted_lines = Vec::<String>::new();
+					let inner_html = String::from(el.as_str());
 
 					if let Some(syntax) = ss.find_syntax_by_extension(&language) {
-						let inner_html = String::from(el.as_str());
-						let mut highlighted_lines = Vec::<String>::new();
-
 						for line in LinesWithEndings::from(inner_html.trim()) {
 							let mut html_generator = ClassedHTMLGenerator::new_with_class_style(
 								syntax,
@@ -66,17 +65,21 @@ pub fn parse_content(contents: String) -> Result<(Option<Frontmatter>, Vec<u8>, 
 							html_generator.parse_html_for_line_which_includes_newline(line)?;
 							highlighted_lines.push(html_generator.finalize());
 						}
-
-						let ctx = context! {
-							language => language.clone(),
-							highlighted_lines => highlighted_lines,
-							inner_html => inner_html
-						};
-						let template = template_env.get_template("elements/code-block.jinja")?;
-						let replacement_html = template.render(ctx)?;
-
-						el.replace(replacement_html.as_str(), ContentType::Html);
+					} else {
+						for line in inner_html.trim().lines() {
+							highlighted_lines.push(format!("<span>{}</span>", line));
+						}
 					}
+
+					let ctx = context! {
+						language => language.clone(),
+						highlighted_lines => highlighted_lines,
+						inner_html => inner_html
+					};
+					let template = template_env.get_template("elements/code-block.jinja")?;
+					let replacement_html = template.render(ctx)?;
+
+					el.replace(replacement_html.as_str(), ContentType::Html);
 
 					language.clear();
 
