@@ -3,26 +3,28 @@ export class Element extends HTMLElement {
 		return Object.keys(this.observedAttributeDefaults ?? {});
 	}
 
-	#observed = {};
-	#reads = {};
 	#current;
 
-	watch(object, set, defaults = object) {
+	watch(object, defaults = object, set = () => {}) {
+		let values = {};
+		let reads = {};
+
 		for (let [k, initial] of Object.entries(defaults)) {
+			reads[k] = [];
+
 			Object.defineProperty(object, k, {
 				get: () => {
 					if (this.#current) {
-						this.#reads[k] ??= [];
-						this.#reads[k].push(this.#current);
+						reads[k].push(this.#current);
 					}
 
-					return this.#observed[k];
+					return values[k];
 				},
 				set: (v) => {
-					if (this.#observed[k] !== v) {
-						this.#observed[k] = v;
+					if (values[k] !== v) {
+						values[k] = v;
 						set?.(k, v);
-						this.#update(new Set(this.#reads[k]?.splice(0, Infinity)));
+						this.#update(new Set(reads[k]?.splice(0, Infinity)));
 					}
 				},
 			});
@@ -49,12 +51,12 @@ export class Element extends HTMLElement {
 
 		this.watch(
 			this,
-			(name, v) => {
+			this.constructor?.observedAttributeDefaults ?? {},
+			(k, v) => {
 				typeof v === "boolean"
-					? this.toggleAttribute(name, v)
-					: this.setAttribute(name, v);
-			},
-			this.constructor?.observedAttributeDefaults ?? {}
+					? this.toggleAttribute(k, v)
+					: this.setAttribute(k, v);
+			}
 		);
 
 		let firstChild = this.firstElementChild;
