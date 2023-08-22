@@ -5,7 +5,7 @@
 		<figure>
 			<pre><code>
 				{% for line in highlighted_lines %}
-				<span class="line-number" aria-hidden="true">{{loop.index0 + (first_line | default(1))}}</span> {{line}}
+				<span data-line="{{loop.index0 + (first_line | default(1))}}"></span> {{line}}
 				{% endfor %}
 			</code></pre>
 		</figure>

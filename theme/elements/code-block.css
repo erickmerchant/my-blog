@@ -41,7 +41,6 @@ pre {
 code {
 	padding-inline: 0.5em;
 	padding-block: 1em;
-	counter-reset: lines;
 	display: grid;
 	grid-template-columns: auto 1fr;
 	gap: 0.25em 1em;
@@ -50,10 +49,9 @@ code {
 	word-break: break-word;
 }
 
-.line-number {
+[data-line]::before {
 	color: var(--code-4);
-	counter-increment: lines;
-	content: counter(lines);
+	content: attr(data-line);
 	display: grid;
 	justify-content: end;
 }
