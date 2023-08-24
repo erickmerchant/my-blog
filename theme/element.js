@@ -3,28 +3,52 @@ export class Element extends HTMLElement {
 		return Object.keys(this.observedAttributeDefaults ?? {});
 	}
 
-	#current;
+	static #current;
+	static #queue = [];
+
+	static #update(updates) {
+		let length = this.#queue.length;
+
+		this.#queue.push(...updates);
+
+		if (length === 0) {
+			setTimeout(() => {
+				let prev = this.#current;
+
+				for (let u of this.#queue.splice(0, Infinity)) {
+					this.#current = u;
+					u();
+				}
+
+				this.#current = prev;
+			}, 0);
+		}
+	}
+
+	#values = {};
+	#reads = {};
 
 	watch(object, defaults = object, set = () => {}) {
-		let values = {};
-		let reads = {};
-
 		for (let [k, initial] of Object.entries(defaults)) {
-			reads[k] = [];
+			let symbol = Symbol(k);
+
+			this.#reads[symbol] = [];
 
 			Object.defineProperty(object, k, {
 				get: () => {
-					if (this.#current) {
-						reads[k].push(this.#current);
+					if (Element.#current) {
+						this.#reads[symbol].push(Element.#current);
 					}
 
-					return values[k];
+					return this.#values[symbol];
 				},
 				set: (v) => {
-					if (values[k] !== v) {
-						values[k] = v;
+					if (this.#values[symbol] !== v) {
+						this.#values[symbol] = v;
 						set?.(k, v);
-						this.#update(new Set(reads[k]?.splice(0, Infinity)));
+						Element.#update([
+							...new Set(this.#reads[symbol]?.splice(0, Infinity)),
+						]);
 					}
 				},
 			});
@@ -33,17 +57,6 @@ export class Element extends HTMLElement {
 		}
 
 		return object;
-	}
-
-	#update(updates) {
-		let prev = this.#current;
-
-		for (let u of updates) {
-			this.#current = u;
-			u();
-		}
-
-		this.#current = prev;
 	}
 
 	constructor() {
@@ -75,7 +88,7 @@ export class Element extends HTMLElement {
 	}
 
 	connectedCallback() {
-		this.#update(this.setupCallback?.() ?? []);
+		Element.#update(this.setupCallback?.() ?? []);
 	}
 
 	disconnectedCallback() {
