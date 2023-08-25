@@ -2,10 +2,8 @@
 	font: inherit;
 	color: inherit;
 	max-inline-size: 100%;
-	padding-block: 0;
-	padding-inline: 0;
-	margin-block: 0;
-	margin-inline: 0;
+	padding: 0;
+	margin: 0;
 	box-sizing: border-box;
 	-webkit-text-size-adjust: none;
 }
@@ -54,8 +52,7 @@ svg {
 	overflow: visible;
 	grid-template-rows: min-content 0fr;
 	align-content: start;
-	padding-block: 1em;
-	padding-inline: 1em;
+	padding: 1em;
 	color: var(--ink-1);
 	--list-visibility: visible;
 }

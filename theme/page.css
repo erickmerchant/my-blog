@@ -3,10 +3,8 @@
 	font: inherit;
 	color: inherit;
 	max-inline-size: 100%;
-	padding-block: 0;
-	padding-inline: 0;
-	margin-block: 0;
-	margin-inline: 0;
+	padding: 0;
+	margin: 0;
 	box-sizing: border-box;
 	-webkit-text-size-adjust: none;
 }
@@ -242,8 +240,7 @@ code {
 		var(--paper-1) 0.05em 0.2em
 	);
 	border-radius: var(--border-radius);
-	padding-block: 1em;
-	padding-inline: 1em;
+	padding: 1em;
 	max-inline-size: calc(var(--max-inline-size) - 2em);
 }
 
@@ -278,8 +275,7 @@ code {
 	fill: currentColor;
 	background-color: var(--paper-0);
 	border-radius: var(--border-radius);
-	padding-block: 0.125em;
-	padding-inline: 0.125em;
+	padding: 0.125em;
 	inline-size: 1.5em;
 	block-size: 1.5em;
 }
