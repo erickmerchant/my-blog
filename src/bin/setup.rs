@@ -1,5 +1,5 @@
 use anyhow::Result;
-use app::{setup::create_schema::*, setup::import_content::*};
+use app::setup::{create_schema::*, import_content::*};
 use sea_orm::Database;
 use std::fs;
 
