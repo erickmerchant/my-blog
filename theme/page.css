@@ -124,6 +124,14 @@ strong {
 	font-style: normal;
 }
 
+blockquote {
+	background-color: var(--paper-1);
+	padding: 1em;
+	border-start-end-radius: var(--border-radius);
+	border-end-end-radius: var(--border-radius);
+	border-inline-start: 0.25em solid var(--ink-1);
+}
+
 :is(ul, ol):where(:not([class])) {
 	display: grid;
 	grid-auto-columns: 100%;
