@@ -32,10 +32,10 @@
 <p>With element.js I have a <code>watch</code> method.</p>
 
 <code-block language="js">
-import {Element} from "./element.js";
+import {Element, watch} from "./element.js";
 
 class ExampleElement extends Element {
-	#state = this.watch({count: 0});
+	#state = watch({count: 0});
 
 	*setupCallback() {
 		this.shadowRoot.getElementById("button")
