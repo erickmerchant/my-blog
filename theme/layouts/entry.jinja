@@ -2,16 +2,16 @@
 
 {% macro sub_heading(entry, tags) %}
 {% if entry.date or tags %}
-<div class="sub-heading">
+<div class="subHeading">
 	{% if entry.date %}
-	<p class="published">
+	<p class="published chip">
 		<time>{{entry.date | format_date("%B %e, %Y")}}</time>
 	</p>
 	{% endif %}
 	{% if tags %}
 	<ul class="tags">
 		{% for t in tags %}
-		<li><a href="/tags/{{t.slug}}/">{{t.slug}}</a></li>
+		<li class="chip"><a href="/tags/{{t.slug}}/">{{t.slug}}</a></li>
 		{% endfor %}
 	</ul>
 	{% endif %}
@@ -58,7 +58,7 @@
 	{% endfor %}
 </ol>
 <p>
-	<a class="rss-link" href="/{{entry.category}}/{{entry.slug}}/feed.rss">
+	<a class="rssLink" href="/{{entry.category}}/{{entry.slug}}/feed.rss">
 		<svg viewBox="0 0 8 8">
 			<circle cx="2" cy="6" r="1" />
 			<path d="m 1,4 a 3,3 0 0 1 3,3 h 1 a 4,4 0 0 0 -4,-4 z" />

@@ -2,9 +2,11 @@
 * {
 	font: inherit;
 	color: inherit;
-	max-width: 100%;
-	padding: 0;
-	margin: 0;
+	max-inline-size: 100%;
+	padding-block: 0;
+	padding-inline: 0;
+	margin-block: 0;
+	margin-inline: 0;
 	box-sizing: border-box;
 	-webkit-text-size-adjust: none;
 }
@@ -15,19 +17,19 @@
 	border-radius: var(--border-radius);
 	overflow-x: auto;
 	tab-size: 2;
-	--max-width: 42rem;
+	--max-inline-size: 42rem;
 	--padding-inline: 0.5em;
 	--white-space: pre-wrap;
 }
 
-@container (width <= 42rem) {
+@container (inline-size <= 42rem) {
 	:host {
 		--padding-inline: 0.5em;
 		--border-radius: 0;
 	}
 }
 
-@container (width <= 30rem) {
+@container (inline-size <= 30rem) {
 	:host {
 		--white-space: pre;
 	}

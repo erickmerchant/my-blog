@@ -1,9 +1,11 @@
 * {
 	font: inherit;
 	color: inherit;
-	max-width: 100%;
-	padding: 0;
-	margin: 0;
+	max-inline-size: 100%;
+	padding-block: 0;
+	padding-inline: 0;
+	margin-block: 0;
+	margin-inline: 0;
 	box-sizing: border-box;
 	-webkit-text-size-adjust: none;
 }
@@ -16,8 +18,8 @@ svg {
 
 :host {
 	position: sticky;
-	top: calc(var(--scrolling-down, 0) * -3.5em);
-	transition: top 0.125s var(--easing);
+	inset-block-start: calc(var(--scrolling-down, 0) * -3.5em);
+	transition: inset-block-start 0.125s var(--easing);
 	overflow: hidden;
 	display: block;
 	background-image: repeating-radial-gradient(
@@ -34,7 +36,7 @@ svg {
 	--scrolling-down: 1;
 }
 
-@container (width <= 20rem) {
+@container (inline-size <= 20rem) {
 	:host([expanded]) {
 		--scrolling-down: 0;
 	}
@@ -52,12 +54,13 @@ svg {
 	overflow: visible;
 	grid-template-rows: min-content 0fr;
 	align-content: start;
-	padding: 1em;
+	padding-block: 1em;
+	padding-inline: 1em;
 	color: var(--ink-1);
 	--list-visibility: visible;
 }
 
-@container (width <= 20rem) {
+@container (inline-size <= 20rem) {
 	.nav {
 		gap: 1em;
 		padding-block-end: 0em;
@@ -82,8 +85,8 @@ svg {
 	position: relative;
 	appearance: none;
 	display: none;
-	width: 2em;
-	height: 2em;
+	inline-size: 2em;
+	block-size: 2em;
 	border: 0;
 	background-color: hsl(0 0% 0% / 0);
 	place-content: center;
@@ -104,19 +107,19 @@ svg {
 	list-style: none;
 	white-space: nowrap;
 	gap: 0.5em 1em;
-	min-height: 0;
+	min-block-size: 0;
 	visibility: var(--list-visibility);
 }
 
-@container (width > 20rem) {
+@container (inline-size > 20rem) {
 	::slotted(*) {
 		display: flex;
-		height: 2em;
+		block-size: 2em;
 		align-items: center;
 	}
 }
 
-@container (width <= 20rem) {
+@container (inline-size <= 20rem) {
 	::slotted(*) {
 		flex-direction: column;
 	}
