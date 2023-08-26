@@ -59,7 +59,17 @@ export class Element extends HTMLElement {
 	constructor() {
 		super();
 
-		watch(this, this.constructor?.observedAttributeDefaults ?? {}, (k, v) => {
+		let defaults = this.constructor.observedAttributeDefaults ?? {};
+
+		for (let [k, v] of Object.entries(defaults)) {
+			if (typeof v === "boolean") {
+				defaults[k] = this.hasAttribute(k);
+			} else {
+				defaults[k] = this.getAttribute(k) ?? v;
+			}
+		}
+
+		watch(this, defaults, (k, v) => {
 			typeof v === "boolean"
 				? this.toggleAttribute(k, v)
 				: this.setAttribute(k, v);
