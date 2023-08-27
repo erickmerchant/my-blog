@@ -127,9 +127,25 @@ strong {
 blockquote {
 	background-color: var(--paper-1);
 	padding: 1em;
-	border-start-end-radius: var(--border-radius);
-	border-end-end-radius: var(--border-radius);
-	border-inline-start: 0.25em solid var(--ink-1);
+	border-radius: var(--border-radius);
+}
+
+blockquote :where(footer) {
+	margin-block-start: 1em;
+}
+
+blockquote::before {
+	display: grid;
+	height: 100%;
+	padding-block: 0;
+	padding-inline: 0 0.333333em;
+	content: "“";
+	font-family: "Iowan Old Style", "Palatino Linotype", "URW Palladio L", P052,
+		serif;
+	float: left;
+	color: var(--ink-1);
+	font-size: 3em;
+	line-height: 1;
 }
 
 :is(ul, ol):where(:not([class])) {
