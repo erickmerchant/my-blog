@@ -25,7 +25,7 @@ pub async fn fallback_handler(
 		.await?;
 
 	if !results.is_empty() {
-		return entry_view(app_state, results, None, content_type, false).await;
+		return entry_view(app_state, results.get(0), None, content_type, false).await;
 	}
 
 	let uri = Utf8Path::new("theme").join(uri.path().trim_start_matches('/'));

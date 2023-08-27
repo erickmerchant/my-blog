@@ -26,5 +26,5 @@ pub async fn entry_handler(
 		.all(&app_state.database)
 		.await?;
 
-	entry_view(app_state, results, None, content_type, true).await
+	entry_view(app_state, results.get(0), None, content_type, true).await
 }

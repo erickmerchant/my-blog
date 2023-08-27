@@ -14,12 +14,12 @@ use std::sync::Arc;
 
 pub async fn entry_view(
 	app_state: Arc<AppState>,
-	results: Vec<(entry::Model, Vec<tag::Model>)>,
+	results: Option<&(entry::Model, Vec<tag::Model>)>,
 	template_override: Option<String>,
 	content_type: String,
 	may_redirect: bool,
 ) -> anyhow::Result<Response, AppError> {
-	if let Some((entry, entry_tags)) = results.get(0) {
+	if let Some((entry, entry_tags)) = results {
 		let permalink = if !may_redirect {
 			None
 		} else {
