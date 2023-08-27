@@ -125,27 +125,36 @@ strong {
 }
 
 blockquote {
+	display: grid;
+	gap: 0.5em;
 	background-color: var(--paper-1);
 	padding: 1em;
 	border-radius: var(--border-radius);
-}
-
-blockquote :where(footer) {
-	margin-block-start: 1em;
-}
-
-blockquote::before {
-	display: grid;
-	height: 100%;
-	padding-block: 0;
-	padding-inline: 0 0.333333em;
-	content: "“";
 	font-family: "Iowan Old Style", "Palatino Linotype", "URW Palladio L", P052,
 		serif;
-	float: left;
-	color: var(--ink-1);
+}
+
+blockquote > :where(:not(:first-child)) {
+	margin-inline-start: 2em;
+}
+
+blockquote > *:where(:first-child) {
+	display: grid;
+	grid-template-columns: 2em auto;
+}
+
+blockquote > *:where(:first-child)::before {
+	display: block;
+	content: "“";
+
 	font-size: 3em;
 	line-height: 1;
+	color: var(--ink-1);
+}
+
+blockquote *:where(cite) {
+	display: flex;
+	gap: 0.5em;
 }
 
 :is(ul, ol):where(:not([class])) {
