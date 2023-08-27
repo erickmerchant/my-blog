@@ -55,26 +55,28 @@ svg {
 	padding: 1em;
 	color: var(--ink-1);
 	--list-visibility: visible;
-}
 
-@container (inline-size <= 20rem) {
-	.nav {
+	@container (inline-size <= 20rem) {
 		gap: 1em;
 		padding-block-end: 0em;
 	}
+}
 
-	:host([transitioning]) :where(.nav) {
-		transition: grid-template-rows 0.125s var(--easing),
-			padding 0.125s var(--easing);
-	}
+@container (inline-size <= 20rem) {
+	:where(.nav) {
+		:host([transitioning]) & {
+			transition: grid-template-rows 0.125s var(--easing),
+				padding 0.125s var(--easing);
+		}
 
-	:host([expanded]) :where(.nav) {
-		grid-template-rows: min-content 1fr;
-		padding-block-end: 1.5em;
-	}
+		:host([expanded]) & {
+			grid-template-rows: min-content 1fr;
+			padding-block-end: 1.5em;
+		}
 
-	:host(:not(:defined)) :where(.nav) {
-		grid-template-rows: min-content 1fr;
+		:host(:not(:defined)) & {
+			grid-template-rows: min-content 1fr;
+		}
 	}
 }
 
@@ -92,10 +94,10 @@ svg {
 	transition: box-shadow 0.125s;
 	box-shadow: 0 0 0 0.125em hsl(0 0% 0% / 0);
 	margin-inline-start: -0.25em;
-}
 
-.toggle:focus-visible {
-	box-shadow: 0 0 0 0.125em currentColor;
+	&:focus-visible {
+		box-shadow: 0 0 0 0.125em currentColor;
+	}
 }
 
 ::slotted(*) {

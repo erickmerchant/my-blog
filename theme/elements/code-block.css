@@ -16,13 +16,12 @@
 	overflow-x: auto;
 	tab-size: 2;
 	--max-inline-size: 42rem;
-	--padding-inline: 0.5em;
+	--padding-inline: 0;
 	--white-space: pre-wrap;
 }
 
 @container (inline-size <= 42rem) {
 	:host {
-		--padding-inline: 0.5em;
 		--border-radius: 0;
 	}
 }
@@ -33,27 +32,50 @@
 	}
 }
 
+figure {
+	display: grid;
+}
+
 pre {
 	font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas,
 		"DejaVu Sans Mono", monospace;
 }
 
 code {
-	padding-inline: 0.5em;
-	padding-block: 1em;
 	display: grid;
 	grid-template-columns: auto 1fr;
-	gap: 0.25em 1em;
+	gap: 0 1em;
 	white-space: var(--white-space);
 	color: var(--code-3);
 	word-break: break-word;
+	position: relative;
+	padding-inline-end: 1em;
+
+	> * {
+		padding: 0.125em;
+	}
+
+	> :where(:nth-child(-n + 2)) {
+		padding-block-start: 1em;
+	}
+
+	> :where(:nth-last-child(-n + 2)) {
+		padding-block-end: 1em;
+	}
 }
 
-[data-line]::before {
-	color: var(--code-4);
-	content: attr(data-line);
-	display: grid;
-	justify-content: end;
+[data-line] {
+	position: sticky;
+	inset-inline-start: 0;
+	background-color: var(--paper-0);
+	padding-inline: 1em;
+
+	&::before {
+		color: var(--code-4);
+		content: attr(data-line);
+		display: grid;
+		justify-content: end;
+	}
 }
 
 .function {

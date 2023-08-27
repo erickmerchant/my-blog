@@ -44,10 +44,8 @@ body {
 	overscroll-behavior: none;
 	--border-radius: 0.25em;
 	--easing: ease-in-out;
-}
 
-@media (prefers-color-scheme: light) {
-	body {
+	@media (prefers-color-scheme: light) {
 		--ink-0: hsl(90 15% 5%);
 		--ink-1: hsl(90 35% 25%);
 		--ink-2: hsl(90 70% 15%);
@@ -61,10 +59,8 @@ body {
 		--code-3: hsl(90 20% 25%);
 		--code-4: hsl(90 0% 35%);
 	}
-}
 
-@media (prefers-color-scheme: dark) {
-	body {
+	@media (prefers-color-scheme: dark) {
 		--ink-0: hsl(90 15% 95%);
 		--ink-1: hsl(90 35% 75%);
 		--ink-2: hsl(90 70% 85%);
@@ -84,12 +80,12 @@ a {
 	color: var(--ink-1);
 	text-decoration-thickness: 0.1em;
 	text-underline-offset: 0.1em;
-}
 
-a:hover,
-a:focus-visible {
-	text-decoration-thickness: 0.2em;
-	text-decoration-skip-ink: none;
+	&:hover,
+	&:focus-visible {
+		text-decoration-thickness: 0.2em;
+		text-decoration-skip-ink: none;
+	}
 }
 
 @container (inline-size <= 20rem) {
@@ -124,46 +120,18 @@ strong {
 	font-style: normal;
 }
 
-blockquote {
-	display: grid;
-	gap: 0.5em;
-	background-color: var(--paper-1);
-	padding: 1em;
-	border-radius: var(--border-radius);
-	font-family: "Iowan Old Style", "Palatino Linotype", "URW Palladio L", P052,
-		serif;
-}
-
-blockquote > :where(:not(:first-child)) {
-	margin-inline-start: 2em;
-}
-
-blockquote > *:where(:first-child) {
-	display: grid;
-	grid-template-columns: 2em auto;
-}
-
-blockquote > *:where(:first-child)::before {
-	display: block;
-	content: "“";
-
-	font-size: 3em;
-	line-height: 1;
-	color: var(--ink-1);
-}
-
-blockquote *:where(cite) {
-	display: flex;
-	gap: 0.5em;
-}
-
 :is(ul, ol):where(:not([class])) {
 	display: grid;
 	gap: 0.25em;
-}
 
-:is(ul, ol):where(:not([class])) > * {
-	margin-inline-start: max(var(--list-indent), 1.25em);
+	> * {
+		margin-inline-start: max(var(--list-indent), 1.25em);
+	}
+
+	::marker {
+		content: "▪︎ ";
+		color: var(--ink-2);
+	}
 }
 
 code {
@@ -192,17 +160,15 @@ code {
 	--max-inline-size: 40rem;
 	--list-indent: 3cqi;
 	--padding-inline: 2.25cqi;
-}
 
-.section > * {
-	max-inline-size: var(--max-inline-size);
-	inline-size: 100%;
-	margin-inline: auto;
-	padding-inline: var(--padding-inline);
-}
+	> * {
+		max-inline-size: var(--max-inline-size);
+		inline-size: 100%;
+		margin-inline: auto;
+		padding-inline: var(--padding-inline);
+	}
 
-@container (inline-size <= 30rem) {
-	.section {
+	@container (inline-size <= 30rem) {
 		font-size: 0.8em;
 	}
 }
@@ -224,11 +190,11 @@ code {
 	position: sticky;
 	inset-block-end: 0;
 	z-index: 0;
-}
 
-@container (inline-size <= 30rem) {
-	.footer > * {
-		font-size: 0.8em;
+	@container (inline-size <= 30rem) {
+		> * {
+			font-size: 0.8em;
+		}
 	}
 }
 
@@ -262,8 +228,7 @@ code {
 	list-style: none;
 }
 
-.annotation {
-	font-style: italic;
+.interstitial {
 	background-color: var(--paper-1);
 	background-size: 0.2em 0.2em;
 	background-image: radial-gradient(
@@ -272,13 +237,41 @@ code {
 	);
 	border-radius: var(--border-radius);
 	padding: 1em;
+	display: grid;
+	gap: 0.5em;
 	max-inline-size: calc(var(--max-inline-size) - 2em);
-}
 
-@container (inline-size <= 38.5rem) {
-	.annotation {
+	@container (inline-size <= 38.5rem) {
 		max-inline-size: 100%;
 		--border-radius: 0;
+	}
+
+	&:where(blockquote) {
+		font-family: "Iowan Old Style", "Palatino Linotype", "URW Palladio L", P052,
+			serif;
+
+		> :where(:not(:first-child)) {
+			margin-inline-start: 2em;
+		}
+
+		> *:where(:first-child) {
+			display: grid;
+			grid-template-columns: 2em auto;
+
+			&::before {
+				display: block;
+				content: "“";
+
+				font-size: 3em;
+				line-height: 1;
+				color: var(--ink-1);
+			}
+		}
+
+		:where(cite) {
+			display: flex;
+			gap: 0.5em;
+		}
 	}
 }
 
@@ -287,11 +280,11 @@ code {
 	display: grid;
 	gap: 1em;
 	--list-indent: 0;
-}
 
-.index > * {
-	display: grid;
-	gap: 0.5em;
+	> * {
+		display: grid;
+		gap: 0.5em;
+	}
 }
 
 .rssLink {
@@ -299,14 +292,14 @@ code {
 	align-items: center;
 	gap: 0.5em;
 	padding-block-start: 2em;
-}
 
-.rssLink :where(svg) {
-	display: block;
-	fill: currentColor;
-	background-color: var(--paper-0);
-	border-radius: var(--border-radius);
-	padding: 0.125em;
-	inline-size: 1.5em;
-	block-size: 1.5em;
+	:where(svg) {
+		display: block;
+		fill: currentColor;
+		background-color: var(--paper-0);
+		border-radius: var(--border-radius);
+		padding: 0.125em;
+		inline-size: 1.5em;
+		block-size: 1.5em;
+	}
 }
