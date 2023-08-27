@@ -16,8 +16,8 @@ svg {
 
 :host {
 	position: sticky;
-	inset-block-start: calc(var(--scrolling-down, 0) * -3.5em);
-	transition: inset-block-start 0.125s var(--easing);
+	inset-block-start: calc(var(--scrolling-down, 0) * -4em);
+	transition: inset-block-start 0.25s var(--easing);
 	overflow: hidden;
 	display: block;
 	background-image: repeating-radial-gradient(

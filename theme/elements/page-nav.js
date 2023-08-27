@@ -23,10 +23,6 @@ export class PageNav extends Element {
 	*setupCallback() {
 		document.body.addEventListener("scroll", this.#handleScroll);
 
-		this.addEventListener("mouseenter", () => {
-			this.minimized = false;
-		});
-
 		this.#nav?.addEventListener("transitionend", (e) => {
 			if (e.target === this.#nav) {
 				this.transitioning = false;
