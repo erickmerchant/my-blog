@@ -88,7 +88,7 @@ a {
 
 a:hover,
 a:focus-visible {
-	text-decoration-thickness: 0.15em;
+	text-decoration-thickness: 0.2em;
 	text-decoration-skip-ink: none;
 }
 
@@ -134,12 +134,11 @@ blockquote {
 
 :is(ul, ol):where(:not([class])) {
 	display: grid;
-	grid-auto-columns: 100%;
 	gap: 0.25em;
 }
 
 :is(ul, ol):where(:not([class])) > * {
-	margin-inline-start: var(--list-indent);
+	margin-inline-start: max(var(--list-indent), 1.25em);
 }
 
 code {
@@ -163,7 +162,6 @@ code {
 
 .section {
 	display: grid;
-	grid-auto-columns: 100%;
 	gap: 1em;
 	align-content: start;
 	--max-inline-size: 40rem;
@@ -268,7 +266,6 @@ code {
 
 .index > * {
 	display: grid;
-	grid-auto-columns: 100%;
 	gap: 0.5em;
 }
 
@@ -280,6 +277,7 @@ code {
 }
 
 .rssLink :where(svg) {
+	display: block;
 	fill: currentColor;
 	background-color: var(--paper-0);
 	border-radius: var(--border-radius);

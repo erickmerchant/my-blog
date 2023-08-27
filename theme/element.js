@@ -51,6 +51,8 @@ export let watch = (object, defaults = object, set = () => {}) => {
 	return object;
 };
 
+let isBoolean = (v) => typeof v === "boolean";
+
 export class Element extends HTMLElement {
 	static get observedAttributes() {
 		return Object.keys(this.observedAttributeDefaults ?? {});
@@ -62,17 +64,13 @@ export class Element extends HTMLElement {
 		let defaults = this.constructor.observedAttributeDefaults ?? {};
 
 		for (let [k, v] of Object.entries(defaults)) {
-			if (typeof v === "boolean") {
-				defaults[k] = this.hasAttribute(k);
-			} else {
-				defaults[k] = this.getAttribute(k) ?? v;
-			}
+			defaults[k] = isBoolean(v)
+				? this.hasAttribute(k)
+				: this.getAttribute(k) ?? v;
 		}
 
 		watch(this, defaults, (k, v) => {
-			typeof v === "boolean"
-				? this.toggleAttribute(k, v)
-				: this.setAttribute(k, v);
+			isBoolean(v) ? this.toggleAttribute(k, v) : this.setAttribute(k, v);
 		});
 
 		let firstChild = this.firstElementChild;
@@ -86,7 +84,7 @@ export class Element extends HTMLElement {
 
 	attributeChangedCallback(k, oldValue, newValue) {
 		if (oldValue !== newValue) {
-			this[k] = typeof this[k] === "boolean" ? newValue === "" : newValue;
+			this[k] = isBoolean(this[k]) ? newValue === "" : newValue;
 		}
 	}
 

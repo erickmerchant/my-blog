@@ -110,7 +110,6 @@ svg {
 
 @container (inline-size > 20rem) {
 	::slotted(*) {
-		display: flex;
 		block-size: 2em;
 		align-items: center;
 	}
