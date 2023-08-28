@@ -80,28 +80,28 @@ if (!this.shadowRoot && firstChild?.nodeName === "TEMPLATE" && mode) {
 <p>This last one is probably the one that you could take or leave. It's nice to have attributes behave like any other watched state, but also have your base element handle updating attributes when that state is changed by you.</p>
 
 <code-block language="js">
-	import {Element} from "./element.js";
+import {Element} from "./element.js";
 
-	class ExampleElement extends Element {
-		static get observedAttributeDefaults() {
-			return {count: 0};
-		}
-
-		*setupCallback() {
-			this.shadowRoot.getElementById("button")
-				?.addEventListener("click", () => {
-					this.count++;
-				});
-
-			yield () => {
-				this.shadowRoot.getElementById("output")
-					?.innerHTML = this.count;
-			}
-		}
+class ExampleElement extends Element {
+	static get observedAttributeDefaults() {
+		return {count: 0};
 	}
 
-	customElements.define("example-element", ExampleElement);
-	</code-block>
+	*setupCallback() {
+		this.shadowRoot.getElementById("button")
+			?.addEventListener("click", () => {
+				this.count++;
+			});
+
+		yield () => {
+			this.shadowRoot.getElementById("output")
+				?.innerHTML = this.count;
+		}
+	}
+}
+
+customElements.define("example-element", ExampleElement);
+</code-block>
 
 <p>Here I've converted the state to use <code>observedAttributeDefaults</code>, which internally calls <code>watch</code> and populates <code>observedAttributes</code> for us. Now when we increment count, an attribute called count on our <code>&lt;example-element></code> will update, and if we change that attribute externally the innerHTML of our output element in our shadow tree will update.</p>
 
