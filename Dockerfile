@@ -5,10 +5,10 @@ WORKDIR deploy
 RUN mkdir -p src
 RUN echo "fn main() {}" > src/main.rs
 COPY Cargo.toml Cargo.lock .
-RUN cargo build --release --no-default-features --locked
+RUN cargo build --bin app --release --no-default-features --locked
 # build app
 COPY . .
-RUN cargo build --release --no-default-features --locked
+RUN cargo build --bin serve --release --no-default-features --locked
 RUN mv ./target/release/serve ./serve
 # clean up
 RUN rm -rf target src Cargo.lock Cargo.toml
