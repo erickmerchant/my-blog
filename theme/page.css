@@ -83,7 +83,7 @@ a {
 
 	&:hover,
 	&:focus-visible {
-		text-decoration-thickness: 0.2em;
+		text-decoration-thickness: 0.15em;
 		text-decoration-skip-ink: none;
 	}
 }
@@ -207,25 +207,25 @@ code {
 	gap: 1em;
 }
 
-.subHeading {
+.chips {
+	list-style: none;
 	display: flex;
 	flex-wrap: wrap;
 	gap: 0.75em;
 	align-items: center;
 	font-size: 0.8em;
 	font-weight: 700;
-}
 
-.chip {
-	padding-block: 0.0625em;
-	padding-inline: 0.5em;
-	background-color: var(--paper-0);
-	border-radius: var(--border-radius);
-}
+	> * {
+		display: contents;
 
-.tags {
-	display: contents;
-	list-style: none;
+		> * {
+			padding-block: 0.0625em;
+			padding-inline: 0.5em;
+			background-color: var(--paper-0);
+			border-radius: var(--border-radius);
+		}
+	}
 }
 
 .interstitial {
@@ -247,9 +247,6 @@ code {
 	}
 
 	&:where(blockquote) {
-		font-family: "Iowan Old Style", "Palatino Linotype", "URW Palladio L", P052,
-			serif;
-
 		> :where(:not(:first-child)) {
 			margin-inline-start: 2em;
 		}
@@ -259,6 +256,8 @@ code {
 			grid-template-columns: 2em auto;
 
 			&::before {
+				font-family: "Iowan Old Style", "Palatino Linotype", "URW Palladio L",
+					P052, serif;
 				display: block;
 				content: "“";
 
@@ -271,6 +270,10 @@ code {
 		:where(cite) {
 			display: inline flex;
 			gap: 0.5em;
+
+			&::before {
+				content: "—";
+			}
 		}
 	}
 }

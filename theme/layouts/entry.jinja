@@ -1,71 +1,70 @@
 {% extends "layouts/base.jinja" %}
 
 {% macro sub_heading(entry, tags) %}
-{% if entry.date or tags %}
-<div class="subHeading">
-	{% if entry.date %}
-	<p class="published chip">
-		<time>{{entry.date | format_date("%B %e, %Y")}}</time>
-	</p>
+	{% if entry.date or tags %}
+		<ul class="chips">
+			{% if entry.date %}
+				<li>
+					<time class="published">{{entry.date | format_date("%B %e, %Y")}}</time>
+				</li>
+			{% endif %}
+			{% if tags %}
+				{% for t in tags %}
+					<li><a href="/tags/{{t.slug}}/" class="tag">{{t.slug}}</a></li>
+				{% endfor %}
+			{% endif %}
+		</ul>
 	{% endif %}
-	{% if tags %}
-	<ul class="tags">
-		{% for t in tags %}
-		<li class="chip"><a href="/tags/{{t.slug}}/">{{t.slug}}</a></li>
-		{% endfor %}
-	</ul>
-	{% endif %}
-</div>
-{% endif %}
 {% endmacro %}
 
 {% block title %}
-{{site.title}} {% if entry.title %}— {{entry.title}}{% else %}Untitled{% endif %}
+	{{site.title}} {% if entry.title %}— {{entry.title}}{% else %}Untitled{% endif %}
 {% endblock %}
 
 {% block modules %}
-{% for k in entry.elements %}
-<script type="module" src="{{ '/elements/' + k + '.js' }}"></script>
-{% endfor %}
+	{% for k in entry.elements %}
+		<script type="module" src="{{ '/elements/' + k + '.js' }}"></script>
+	{% endfor %}
 {% endblock %}
 
 {% block stylesheets %}
-{% for k in entry.elements %}
-<link rel="preload" href="{{ '/elements/' + k + '.css' }}" as="style">
-{% endfor %}
+	{% for k in entry.elements %}
+		<link rel="preload" href="{{ '/elements/' + k + '.css' }}" as="style">
+	{% endfor %}
 {% endblock %}
 
 {% block main %}
-<header class="heading">
-	<h1>{% if entry.title %}{{entry.title}}{% else %}Untitled{% endif %}</h1>
-	{{sub_heading(entry, entry_tags)}}
-</header>
+	<header class="heading">
+		<h1>{% if entry.title %}{{entry.title}}{% else %}Untitled{% endif %}</h1>
+		{{sub_heading(entry, entry_tags)}}
+	</header>
 
-{{entry.content}}
+	{{entry.content}}
 
-{% if feed %}
-<ol class="index">
-	{% for (e, tags) in feed %}
-	<li>
-		<header class="heading">
-			<h2><a href="/{{e.category}}/{{e.slug}}/">{% if e.title %}{{e.title}}{% else %}Untitled{% endif %}</a></h2>
-			{{sub_heading(e, tags)}}
-		</header>
-		{% if e.description %}
-		<p>{{e.description}}</p>
-		{% endif %}
-	</li>
-	{% endfor %}
-</ol>
-<p>
-	<a class="rssLink" href="/{{entry.category}}/{{entry.slug}}/feed.rss">
-		<svg viewBox="0 0 8 8">
-			<circle cx="2" cy="6" r="1" />
-			<path d="m 1,4 a 3,3 0 0 1 3,3 h 1 a 4,4 0 0 0 -4,-4 z" />
-			<path d="m 1,2 a 5,5 0 0 1 5,5 h 1 a 6,6 0 0 0 -6,-6 z" />
-		</svg>
-		RSS for this page
-	</a>
-</p>
-{% endif %}
+	{% if feed %}
+		<ol class="index">
+			{% for (e, tags) in feed %}
+				<li>
+					<header class="heading">
+						<h2><a href="/{{e.category}}/{{e.slug}}/">{% if e.title %}{{e.title}}{% else %}Untitled{% endif %}</a></h2>
+						{{sub_heading(e, tags)}}
+					</header>
+					{% if e.description %}
+						<p>{{e.description}}</p>
+					{% endif %}
+				</li>
+			{% endfor %}
+		</ol>
+
+		<p>
+			<a class="rssLink" href="/{{entry.category}}/{{entry.slug}}/feed.rss">
+				<svg viewBox="0 0 8 8">
+					<circle cx="2" cy="6" r="1" />
+					<path d="m 1,4 a 3,3 0 0 1 3,3 h 1 a 4,4 0 0 0 -4,-4 z" />
+					<path d="m 1,2 a 5,5 0 0 1 5,5 h 1 a 6,6 0 0 0 -6,-6 z" />
+				</svg>
+				RSS for this page
+			</a>
+		</p>
+	{% endif %}
 {% endblock %}

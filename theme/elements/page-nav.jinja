@@ -1,36 +1,36 @@
 {% macro page_nav(expanded, minimized) %}
-<page-nav {{ "expanded" if expanded }} {{ "minimized" if minimized }}>
-	<template shadowrootmode="open">
-		<link rel="stylesheet" href="/elements/page-nav.css">
-		<style media="not all" onload="this.media = 'all'">
-			@container (width <=20rem) {
-				:host(:not([expanded]):not([transitioning])) ::slotted(*) {
-					display: none;
+	<page-nav {{ "expanded" if expanded }} {{ "minimized" if minimized }}>
+		<template shadowrootmode="open">
+			<link rel="stylesheet" href="/elements/page-nav.css">
+			<style media="not all" onload="this.media = 'all'">
+				@container (width <=20rem) {
+					:host(:not([expanded]):not([transitioning])) ::slotted(*) {
+						display: none;
+					}
+
+					.toggle {
+						display: grid;
+					}
 				}
 
-				.toggle {
-					display: grid;
+				.toggleIcon {
+					height: 1.5em;
 				}
-			}
-
-			.toggleIcon {
-				height: 1.5em;
-			}
-		</style>
-		<nav class="nav" id="nav">
-			<button class="toggle" id="toggle" aria-pressed="false" aria-label="Toggle Nav List">
-				<svg class="toggleIcon" viewBox="0 0 16 16">
-					<path id="icon" d="M0 0 z">
-					</path>
-				</svg>
-			</button>
-			<slot></slot>
-		</nav>
-	</template>
-	{{caller()}}
-</page-nav>
+			</style>
+			<nav class="nav" id="nav">
+				<button class="toggle" id="toggle" aria-pressed="false" aria-label="Toggle Nav List">
+					<svg class="toggleIcon" viewBox="0 0 16 16">
+						<path id="icon" d="M0 0 z">
+						</path>
+					</svg>
+				</button>
+				<slot></slot>
+			</nav>
+		</template>
+		{{caller()}}
+	</page-nav>
 {% endmacro %}
 
 {% call page_nav(expanded|default(false), minimized|default(false)) %}
-{{inner_html}}
+	{{inner_html}}
 {% endcall %}

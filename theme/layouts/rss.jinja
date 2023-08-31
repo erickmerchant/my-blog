@@ -7,14 +7,14 @@
 		<link>{{site.host + "/" + entry.category + "/" + entry.slug + "/feed.rss"}}</link>
 		<copyright>© {{year()}} {{site.author}}</copyright>
 		{% for (e, tags) in feed %}
-		<item>
-			<title>{% if e.title %}{{e.title}}{% else %}Untitled{% endif %}</title>
-			<link>{{site.host + "/" + e.category + "/" + e.slug + "/"}}</link>
-			<pubDate>{{e.date | format_date("%a, %d %h %Y")}} 00:00:00 +0000</pubDate>
-			<description>
-				<![CDATA[{{e.description}}]]>
-			</description>
-		</item>
+			<item>
+				<title>{% if e.title %}{{e.title}}{% else %}Untitled{% endif %}</title>
+				<link>{{site.host + "/" + e.category + "/" + e.slug + "/"}}</link>
+				<pubDate>{{e.date | format_date("%a, %d %h %Y")}} 00:00:00 +0000</pubDate>
+				<description>
+					<![CDATA[{{e.description}}]]>
+				</description>
+			</item>
 		{% endfor %}
 	</channel>
 </rss>
