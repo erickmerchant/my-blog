@@ -6,9 +6,7 @@ args = [
 	"-i",
 	"*.css",
 	"-x",
-	"r --bin setup",
-	"-s",
-	"cargo run --bin serve --no-default-features -- --no-cache --listen 3000",
+	"r --no-default-features -- --no-cache --listen 3000",
 ]
 
 [tasks."watch:style"]

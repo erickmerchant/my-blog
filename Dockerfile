@@ -9,7 +9,6 @@ RUN cargo build --release --no-default-features --locked
 # build app
 COPY . .
 RUN cargo build --release --no-default-features --locked
-RUN ./target/release/setup
 RUN mv ./target/release/serve ./serve
 # clean up
 RUN rm -rf target src Cargo.lock Cargo.toml

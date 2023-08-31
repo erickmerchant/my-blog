@@ -1,34 +1,46 @@
-use app::{
-	args::Args,
-	middleware::cache::*,
-	routes::{entry::*, fallback::*, rss::*},
-	state::AppState,
-	templates,
-};
+use anyhow::Result;
+use app::{args, middleware, routes, setup, state, templates};
+use args::Args;
 use axum::{
 	http::Request, middleware::from_fn_with_state, response::Response, routing::get, Router, Server,
 };
 use clap::Parser;
+use middleware::cache::*;
+use routes::{entry::*, fallback::*, rss::*};
 use sea_orm::Database;
-use std::{io, net::SocketAddr, sync::Arc, time::Duration};
+use setup::{create_schema::*, import_content::*};
+use state::AppState;
+use std::{fs, net::SocketAddr, sync::Arc, time::Duration};
 use tower_http::{
 	classify::ServerErrorsFailureClass, compression::CompressionLayer, trace::TraceLayer,
 };
 
+static DATABASE_URL: &str = "sqlite://./storage/content.db";
+
 #[tokio::main]
-async fn main() -> io::Result<()> {
+async fn main() -> Result<()> {
+	// setup
+	fs::remove_dir_all("storage").ok();
+	fs::create_dir_all("storage")?;
+
+	let database = Database::connect(format!("{}?mode=rwc", DATABASE_URL)).await?;
+
+	create_schema(&database).await?;
+	import_content(&database).await?;
+
+	database.close().await?;
+	// end setup
+
 	let args = Args::parse();
+	let port = args.listen;
 
 	tracing_subscriber::fmt()
 		.compact()
 		.with_env_filter(tracing_subscriber::EnvFilter::from_default_env())
 		.init();
 
-	let port = args.listen;
+	let database = Database::connect(DATABASE_URL.to_string()).await?;
 	let templates = templates::get_env();
-	let database = Database::connect("sqlite://./storage/content.db")
-		.await
-		.expect("database should connect");
 	let app_state = Arc::new(AppState {
 		templates,
 		database,
