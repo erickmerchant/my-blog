@@ -1,15 +1,18 @@
 use anyhow::Result;
-use app::{args, middleware, routes, setup, state, templates};
-use args::Args;
+use app::{
+	args::*,
+	middleware::cache::*,
+	routes::{entry::*, fallback::*, rss::*},
+	setup,
+	state::*,
+	templates,
+};
 use axum::{
 	http::Request, middleware::from_fn_with_state, response::Response, routing::get, Router, Server,
 };
 use clap::Parser;
-use middleware::cache::*;
-use routes::{entry::*, fallback::*, rss::*};
 use sea_orm::Database;
 use setup::{create_schema::*, import_content::*};
-use state::AppState;
 use std::{fs, net::SocketAddr, sync::Arc, time::Duration};
 use tower_http::{
 	classify::ServerErrorsFailureClass, compression::CompressionLayer, trace::TraceLayer,
