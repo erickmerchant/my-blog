@@ -1,17 +1,24 @@
+pub mod args;
+pub mod error;
+pub mod middleware;
+pub mod models;
+pub mod routes;
+pub mod setup;
+pub mod state;
+pub mod templates;
+pub mod views;
+
 use anyhow::Result;
-use app::{
-	args::Args,
-	middleware::cache::cache_layer,
-	routes::{entry::entry_handler, fallback::fallback_handler, rss::rss_handler},
-	setup::{content::import_content, schema::create_schema},
-	state::AppState,
-	templates,
-};
+use args::Args;
 use axum::{
 	http::Request, middleware::from_fn_with_state, response::Response, routing::get, Router, Server,
 };
 use clap::Parser;
+use middleware::cache::cache_layer;
+use routes::{entry::entry_handler, fallback::fallback_handler, rss::rss_handler};
 use sea_orm::Database;
+use setup::{content::import_content, schema::create_schema};
+use state::AppState;
 use std::{fs, net::SocketAddr, sync::Arc, time::Duration};
 use tower_http::{
 	classify::ServerErrorsFailureClass, compression::CompressionLayer, trace::TraceLayer,
