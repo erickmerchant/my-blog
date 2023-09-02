@@ -3,7 +3,7 @@ use app::{
 	args::*,
 	middleware::cache::*,
 	routes::{entry::*, fallback::*, rss::*},
-	setup,
+	setup::{create_schema::*, import_content::*},
 	state::*,
 	templates,
 };
@@ -12,7 +12,6 @@ use axum::{
 };
 use clap::Parser;
 use sea_orm::Database;
-use setup::{create_schema::*, import_content::*};
 use std::{fs, net::SocketAddr, sync::Arc, time::Duration};
 use tower_http::{
 	classify::ServerErrorsFailureClass, compression::CompressionLayer, trace::TraceLayer,
