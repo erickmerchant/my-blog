@@ -1,12 +1,12 @@
-pub mod args;
-pub mod error;
-pub mod middleware;
-pub mod models;
-pub mod routes;
-pub mod setup;
-pub mod state;
-pub mod templates;
-pub mod views;
+mod args;
+mod error;
+mod middleware;
+mod models;
+mod routes;
+mod setup;
+mod state;
+mod templates;
+mod views;
 
 use anyhow::Result;
 use args::Args;
