@@ -2,7 +2,7 @@ use crate::{
 	error::AppError,
 	models::{entry, tag},
 	state::AppState,
-	views::{entry::*, not_found::*},
+	views::{entry::entry_view, not_found::not_found_view},
 };
 use axum::{
 	extract::State,
@@ -10,7 +10,7 @@ use axum::{
 	response::{IntoResponse, Response},
 };
 use camino::Utf8Path;
-use sea_orm::{entity::prelude::*, query::*};
+use sea_orm::{entity::prelude::*, query::Condition};
 use std::{fs, sync::Arc};
 
 pub async fn fallback_handler(

@@ -1,4 +1,3 @@
-pub mod create_schema;
+pub mod content;
 pub mod frontmatter;
-pub mod import_content;
-pub mod parse_content;
+pub mod schema;

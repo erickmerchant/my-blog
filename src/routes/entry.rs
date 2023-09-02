@@ -2,13 +2,13 @@ use crate::{
 	error::AppError,
 	models::{entry, tag},
 	state::AppState,
-	views::entry::*,
+	views::entry::entry_view,
 };
 use axum::{
 	extract::{Path, State},
 	response::Response,
 };
-use sea_orm::{entity::prelude::*, query::*};
+use sea_orm::{entity::prelude::*, query::Condition};
 use std::sync::Arc;
 
 pub async fn entry_handler(

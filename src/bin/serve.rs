@@ -1,10 +1,10 @@
 use anyhow::Result;
 use app::{
-	args::*,
-	middleware::cache::*,
-	routes::{entry::*, fallback::*, rss::*},
-	setup::{create_schema::*, import_content::*},
-	state::*,
+	args::Args,
+	middleware::cache::cache_layer,
+	routes::{entry::entry_handler, fallback::fallback_handler, rss::rss_handler},
+	setup::{content::import_content, schema::create_schema},
+	state::AppState,
 	templates,
 };
 use axum::{

@@ -1,4 +1,4 @@
-use super::import_map::*;
+use super::import_map::ImportMap;
 use camino::Utf8Path;
 use hyper::body::Bytes;
 use lol_html::{element, html_content::ContentType, text, HtmlRewriter, Settings};

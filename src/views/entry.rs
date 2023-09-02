@@ -1,4 +1,4 @@
-use super::not_found::*;
+use super::not_found::not_found_view;
 use crate::{
 	error::AppError,
 	models::{entry, entry_tag, tag},
@@ -9,7 +9,11 @@ use axum::{
 	response::{IntoResponse, Response},
 };
 use minijinja::context;
-use sea_orm::{entity::prelude::*, query::*, sea_query::Query};
+use sea_orm::{
+	entity::prelude::*,
+	query::{Order, QueryOrder},
+	sea_query::Query,
+};
 use std::sync::Arc;
 
 pub async fn entry_view(

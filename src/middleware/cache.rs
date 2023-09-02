@@ -1,8 +1,9 @@
+mod assets;
 mod headers;
 mod import_map;
-mod rewrite_assets;
 
 use crate::{error::AppError, models::cache, state::AppState};
+use assets::rewrite_assets;
 use axum::{
 	extract::State,
 	http::{Request, StatusCode},
@@ -10,9 +11,8 @@ use axum::{
 	response::{IntoResponse, Response},
 };
 use etag::EntityTag;
-use headers::*;
+use headers::{add_cache_headers, get_header};
 use hyper::{body::to_bytes, Body, HeaderMap};
-use rewrite_assets::*;
 use sea_orm::{entity::prelude::*, ActiveValue::Set};
 use std::sync::Arc;
 
