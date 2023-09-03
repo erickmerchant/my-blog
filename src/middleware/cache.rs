@@ -54,7 +54,7 @@ pub async fn cache_layer<B>(
 	let res = next.run(req).await;
 
 	if res.status() == StatusCode::OK {
-		let (parts, body) = res.into_parts();
+		let (mut parts, body) = res.into_parts();
 		let bytes = to_bytes(body).await?;
 		let mut output = Vec::new();
 
@@ -87,7 +87,7 @@ pub async fn cache_layer<B>(
 				return Ok(StatusCode::NOT_MODIFIED.into_response());
 			}
 
-			add_cache_headers(parts.headers.clone(), content_type, etag);
+			parts.headers = add_cache_headers(parts.headers.clone(), content_type, etag);
 		} else {
 			output = bytes.to_vec();
 		};
