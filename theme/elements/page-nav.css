@@ -20,14 +20,10 @@ svg {
 	transition: inset-block-start 0.25s var(--easing);
 	overflow: hidden;
 	display: block;
-	background-image: repeating-radial-gradient(
-		circle at 50% 2em,
-		var(--paper-1) 0 0.075em,
-		var(--paper-0) 0.075em 0.3em
-	);
+	background-color: var(--paper-1);
 	color: var(--ink-1);
 	z-index: 2;
-	box-shadow: 0 0.1em 0.1em var(--paper-0);
+	box-shadow: 0 0 0 0.125em var(--paper-0);
 }
 
 :host([minimized]) {
@@ -87,12 +83,12 @@ svg {
 	inline-size: 2em;
 	block-size: 2em;
 	border: 0;
-	background-color: hsl(0 0% 0% / 0);
+	background-color: #00000000;
 	place-content: center;
 	border-radius: var(--border-radius);
 	cursor: pointer;
 	transition: box-shadow 0.125s;
-	box-shadow: 0 0 0 0.125em hsl(0 0% 0% / 0);
+	box-shadow: 0 0 0 0.125em #00000000;
 	margin-inline-start: -0.25em;
 
 	&:focus-visible {

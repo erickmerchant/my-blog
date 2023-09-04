@@ -1,8 +1,16 @@
 <?xml version="1.0" standalone="yes"?>
 <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
 	<style>
-		rect {
-			fill: hsl(90 35% 50%);
+		@media (prefers-color-scheme: light) {
+			rect {
+				fill: oklch(40% 0.37 140);
+			}
+		}
+
+		@media (prefers-color-scheme: dark) {
+			rect {
+				fill: oklch(70% 0.37 140);
+			}
 		}
 	</style>
 	<rect width="70" height="70" x="15" y="15" rx="5"></rect>
