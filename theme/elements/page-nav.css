@@ -20,7 +20,7 @@ svg {
 	transition: inset-block-start 0.25s var(--easing);
 	overflow: hidden;
 	display: block;
-	background-color: var(--paper-1);
+	background-color: var(--paper-2);
 	color: var(--ink-1);
 	z-index: 2;
 	box-shadow: 0 0 0 0.125em var(--paper-0);

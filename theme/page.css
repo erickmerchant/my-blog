@@ -46,25 +46,27 @@ body {
 	--easing: ease-in-out;
 
 	@media (prefers-color-scheme: light) {
-		--ink-0: oklch(15% 0.01 140);
-		--ink-1: oklch(40% 0.37 140);
-		--paper-0: oklch(95% 0.01 140);
-		--paper-1: oklch(90% 0.015 140);
-		--code-0: oklch(40% 0.37 110);
-		--code-1: oklch(40% 0.37 120);
-		--code-2: oklch(40% 0.37 130);
-		--code-3: oklch(40% 0.01 140);
+		--ink-0: oklch(25% 0.01 150);
+		--ink-1: oklch(50% 0.37 150);
+		--paper-0: oklch(95% 0.01 150);
+		--paper-1: oklch(90% 0.015 150);
+		--paper-2: oklch(85% 0.02 150);
+		--code-0: oklch(50% 0.37 50);
+		--code-1: oklch(50% 0.37 100);
+		--code-2: oklch(50% 0.37 150);
+		--code-3: oklch(50% 0.01 150);
 	}
 
 	@media (prefers-color-scheme: dark) {
-		--ink-0: oklch(95% 0.01 140);
-		--ink-1: oklch(70% 0.37 140);
-		--paper-0: oklch(15% 0.01 140);
-		--paper-1: oklch(20% 0.015 140);
-		--code-0: oklch(70% 0.37 110);
-		--code-1: oklch(70% 0.37 120);
-		--code-2: oklch(70% 0.37 130);
-		--code-3: oklch(70% 0.01 140);
+		--ink-0: oklch(95% 0.01 150);
+		--ink-1: oklch(70% 0.37 150);
+		--paper-0: oklch(25% 0.01 150);
+		--paper-1: oklch(30% 0.015 150);
+		--paper-2: oklch(35% 0.02 150);
+		--code-0: oklch(70% 0.37 50);
+		--code-1: oklch(70% 0.37 100);
+		--code-2: oklch(70% 0.37 150);
+		--code-3: oklch(70% 0.01 150);
 	}
 }
 
@@ -127,7 +129,7 @@ strong {
 code {
 	font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas,
 		"DejaVu Sans Mono", monospace;
-	color: var(--code-3);
+	color: var(--code-2);
 	background-color: var(--paper-1);
 	border-radius: var(--border-radius);
 	padding-inline: 0.25em;
@@ -207,7 +209,7 @@ code {
 		> * {
 			padding-block: 0.0625em;
 			padding-inline: 0.5em;
-			background-color: var(--paper-1);
+			background-color: var(--paper-2);
 			border-radius: var(--border-radius);
 		}
 	}

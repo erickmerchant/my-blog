@@ -46,7 +46,6 @@ code {
 	grid-template-columns: auto 1fr;
 	gap: 0 1em;
 	white-space: var(--white-space);
-	color: var(--code-3);
 	word-break: break-word;
 	position: relative;
 	padding-inline-end: 1em;
@@ -67,10 +66,10 @@ code {
 [data-line] {
 	position: sticky;
 	inset-inline-start: 0;
-	background-color: var(--paper-1);
+	background-color: var(--paper-2);
 	border-inline-end: 0.075em solid var(--paper-0);
 	padding-inline: 1em;
-	color: var(--ink-0);
+	color: var(--code-3);
 
 	&::before {
 		content: attr(data-line);
@@ -79,13 +78,13 @@ code {
 	}
 }
 
-.function {
+.keyword,
+.storage {
 	color: var(--code-1);
 }
 
-.keyword,
-.storage {
-	color: var(--code-0);
+.function {
+	color: var(--code-2);
 }
 
 .string,
@@ -93,17 +92,19 @@ code {
 .boolean,
 .null,
 .undefined,
-.constant,
-.path {
-	color: var(--code-2);
+.type {
+	color: var(--code-0);
 }
 
 .punctuation,
-.parameter,
-.spread {
+.comment {
 	color: var(--code-3);
 }
 
 .comment {
 	font-style: italic;
+}
+
+.parameters {
+	color: var(--ink-0);
 }
