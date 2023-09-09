@@ -87,12 +87,12 @@ svg {
 	inline-size: 2em;
 	block-size: 2em;
 	border: 0;
-	background-color: hsl(0 0% 0% / 0);
+	background-color: oklch(0 0 0 / 0);
 	place-content: center;
 	border-radius: var(--border-radius);
 	cursor: pointer;
 	transition: box-shadow 0.125s;
-	box-shadow: 0 0 0 0.125em hsl(0 0% 0% / 0);
+	box-shadow: 0 0 0 0.125em oklch(0 0 0 / 0);
 	margin-inline-start: -0.25em;
 
 	&:focus-visible {
