@@ -71,7 +71,7 @@ code {
 	padding-inline: 1em;
 
 	&::before {
-		color: var(--code-4);
+		color: var(--code-3);
 		content: attr(data-line);
 		display: grid;
 		justify-content: end;

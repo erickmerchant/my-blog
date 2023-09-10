@@ -34,7 +34,7 @@ svg {
 	--scrolling-down: 1;
 }
 
-@container (inline-size <= 20rem) {
+@container (inline-size <= 22.5rem) {
 	:host([expanded]) {
 		--scrolling-down: 0;
 	}
@@ -56,13 +56,13 @@ svg {
 	color: var(--ink-1);
 	--list-visibility: visible;
 
-	@container (inline-size <= 20rem) {
+	@container (inline-size <= 22.5rem) {
 		gap: 1em;
 		padding-block-end: 0em;
 	}
 }
 
-@container (inline-size <= 20rem) {
+@container (inline-size <= 22.5rem) {
 	:where(.nav) {
 		:host([transitioning]) & {
 			transition: grid-template-rows 0.125s var(--easing),
@@ -110,14 +110,14 @@ svg {
 	visibility: var(--list-visibility);
 }
 
-@container (inline-size > 20rem) {
+@container (inline-size > 22.5rem) {
 	::slotted(*) {
 		block-size: 2em;
 		align-items: center;
 	}
 }
 
-@container (inline-size <= 20rem) {
+@container (inline-size <= 22.5rem) {
 	::slotted(*) {
 		flex-direction: column;
 	}
