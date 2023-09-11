@@ -67,11 +67,11 @@ code {
 [data-line] {
 	position: sticky;
 	inset-inline-start: 0;
-	background-color: var(--paper-0);
+	color: var(--code-3);
+	border-inline-end: 0.0625em solid var(--paper-2);
 	padding-inline: 1em;
 
 	&::before {
-		color: var(--code-3);
 		content: attr(data-line);
 		display: grid;
 		justify-content: end;
