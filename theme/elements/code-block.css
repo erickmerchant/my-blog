@@ -39,6 +39,7 @@ figure {
 pre {
 	font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas,
 		"DejaVu Sans Mono", monospace;
+	font-weight: 500;
 }
 
 code {
@@ -69,6 +70,7 @@ code {
 	inset-inline-start: 0;
 	color: var(--code-3);
 	border-inline-end: 0.0625em solid var(--paper-2);
+	background-color: var(--paper-1);
 	padding-inline: 1em;
 
 	&::before {
