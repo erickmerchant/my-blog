@@ -29,10 +29,9 @@ pub fn rewrite_assets(bytes: Bytes, mut output: Vec<u8>) -> anyhow::Result<Vec<u
 					if let Ok(mut import_map) = json::from_str::<ImportMap>(el.as_str()) {
 						import_map.map(asset_url);
 
-						el.replace(
-							json::to_string(&import_map).unwrap().as_str(),
-							ContentType::Text,
-						);
+						if let Ok(map) = json::to_string(&import_map) {
+							el.replace(map.as_str(), ContentType::Text);
+						}
 					}
 
 					Ok(())
