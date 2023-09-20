@@ -1,5 +1,6 @@
 *,
-* {
+::before,
+::after {
 	font: inherit;
 	color: inherit;
 	max-inline-size: 100%;
@@ -69,7 +70,7 @@ code {
 	position: sticky;
 	inset-inline-start: 0;
 	color: var(--code-3);
-	border-inline-end: 0.0625em solid var(--paper-2);
+	border-inline-end: 0.125em solid var(--paper-2);
 	background-color: var(--paper-1);
 	padding-inline: 1em;
 
