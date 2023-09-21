@@ -35,12 +35,12 @@ html {
 
 body {
 	block-size: 100%;
-	overflow-x: auto;
 	color: var(--ink-0);
 	background-color: var(--paper-2);
 	display: grid;
 	grid-template-rows: min-content auto min-content;
 	container-type: inline-size;
+	overflow-x: auto;
 	scrollbar-gutter: stable;
 	overscroll-behavior: none;
 	--border-radius: 0.25em;
