@@ -1,9 +1,9 @@
-mod assets;
-mod headers;
-mod import_map;
-
-use crate::{error::AppError, models::cache, state::AppState};
-use assets::rewrite_assets;
+use super::{
+	assets::rewrite_assets,
+	headers::{add_cache_headers, etag_matches, get_header},
+	model,
+};
+use crate::{error::AppError, state::AppState};
 use axum::{
 	extract::State,
 	http::{Request, StatusCode},
@@ -11,7 +11,6 @@ use axum::{
 	response::{IntoResponse, Response},
 };
 use etag::EntityTag;
-use headers::{add_cache_headers, get_header};
 use hyper::{body::to_bytes, Body, HeaderMap};
 use sea_orm::{entity::prelude::*, ActiveValue::Set};
 use std::sync::Arc;
@@ -27,14 +26,14 @@ pub async fn cache_layer<B>(
 	next: Next<B>,
 ) -> Result<Response, AppError> {
 	let uri = req.uri().to_string();
-	let cache_result = cache::Entity::find()
-		.filter(cache::Column::Path.eq(&uri))
+	let cache_result = model::Entity::find()
+		.filter(model::Column::Path.eq(&uri))
 		.one(&app_state.database)
 		.await?;
 	let req_headers = req.headers().clone();
 
 	if let Some(cache_result) = cache_result {
-		let etag_matches = headers::etag_matches(cache_result.etag.clone(), req_headers);
+		let etag_matches = etag_matches(cache_result.etag.clone(), req_headers);
 
 		if etag_matches {
 			return Ok(StatusCode::NOT_MODIFIED.into_response());
@@ -71,7 +70,7 @@ pub async fn cache_layer<B>(
 				output = bytes.to_vec();
 			};
 
-			let cache_model = cache::ActiveModel {
+			let cache_model = model::ActiveModel {
 				path: Set(uri),
 				content_type: Set(content_type.clone()),
 				etag: Set(etag.clone()),
@@ -81,7 +80,7 @@ pub async fn cache_layer<B>(
 
 			cache_model.insert(&app_state.database).await.ok();
 
-			let etag_matches = headers::etag_matches(etag.clone(), req_headers);
+			let etag_matches = etag_matches(etag.clone(), req_headers);
 
 			if etag_matches {
 				return Ok(StatusCode::NOT_MODIFIED.into_response());

@@ -1,21 +1,19 @@
 mod args;
+mod cache;
+mod entry;
 mod error;
-mod middleware;
-mod models;
-mod routes;
 mod setup;
 mod state;
 mod templates;
-mod views;
 
 use anyhow::Result;
 use args::Args;
 use axum::{
 	http::Request, middleware::from_fn_with_state, response::Response, routing::get, Router, Server,
 };
+use cache::middleware::cache_layer;
 use clap::Parser;
-use middleware::cache::cache_layer;
-use routes::{entry::entry_handler, fallback::fallback_handler, rss::rss_handler};
+use entry::routes::{entry::entry_handler, fallback::fallback_handler, rss::rss_handler};
 use sea_orm::Database;
 use setup::{content::import_content, schema::create_schema};
 use state::AppState;

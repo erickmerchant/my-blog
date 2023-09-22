@@ -1,9 +1,8 @@
-use crate::{
-	error::AppError,
+use super::super::{
 	models::{entry, tag},
-	state::AppState,
 	views::entry::entry_view,
 };
+use crate::{error::AppError, state::AppState};
 use axum::{
 	extract::{Path, State},
 	response::Response,
