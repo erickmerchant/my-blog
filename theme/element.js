@@ -1,7 +1,5 @@
 let current;
 let queue = [];
-let values = {};
-let reads = {};
 
 export let update = (updates) => {
 	let length = queue.length;
@@ -22,56 +20,36 @@ export let update = (updates) => {
 	}
 };
 
-export let watch = (object, defaults = object, set = () => {}) => {
-	for (let [k, initial] of Object.entries(defaults)) {
-		let symbol = Symbol(k);
+export let watch = (object) => {
+	let reads = {};
 
-		reads[symbol] = [];
-
-		Object.defineProperty(object, k, {
-			get: () => {
-				if (current) {
-					reads[symbol].push(current);
-				}
-
-				return values[symbol];
-			},
-			set: (v) => {
-				if (values[symbol] !== v) {
-					values[symbol] = v;
-					set?.(k, v);
-					update([...new Set(reads[symbol].splice(0, Infinity))]);
-				}
-			},
-		});
-
-		object[k] = initial;
+	for (let key of Object.keys(object)) {
+		reads[key] = [];
 	}
 
-	return object;
+	return new Proxy(object, {
+		get: (target, key) => {
+			if (current) {
+				reads[key].push(current);
+			}
+
+			return target[key];
+		},
+		set: (target, key, value) => {
+			if (target[key] !== value) {
+				target[key] = value;
+
+				update([...new Set(reads[key].splice(0, Infinity))]);
+			}
+
+			return true;
+		},
+	});
 };
 
-let isBoolean = (v) => typeof v === "boolean";
-
 export class Element extends HTMLElement {
-	static get observedAttributes() {
-		return Object.keys(this.observedAttributeDefaults ?? {});
-	}
-
 	constructor() {
 		super();
-
-		let defaults = this.constructor.observedAttributeDefaults ?? {};
-
-		for (let [k, v] of Object.entries(defaults)) {
-			defaults[k] = isBoolean(v)
-				? this.hasAttribute(k)
-				: this.getAttribute(k) ?? v;
-		}
-
-		watch(this, defaults, (k, v) => {
-			isBoolean(v) ? this.toggleAttribute(k, v) : this.setAttribute(k, v);
-		});
 
 		let firstChild = this.firstElementChild;
 		let mode = firstChild?.getAttribute("shadowrootmode");
@@ -79,12 +57,6 @@ export class Element extends HTMLElement {
 		if (!this.shadowRoot && firstChild?.nodeName === "TEMPLATE" && mode) {
 			this.attachShadow({mode}).appendChild(firstChild.content.cloneNode(true));
 			firstChild.remove();
-		}
-	}
-
-	attributeChangedCallback(k, oldValue, newValue) {
-		if (oldValue !== newValue) {
-			this[k] = isBoolean(this[k]) ? newValue === "" : newValue;
 		}
 	}
 
