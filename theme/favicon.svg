@@ -2,16 +2,16 @@
 <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
 	<style>
 		@media (prefers-color-scheme: light) {
-			rect {
-				fill: oklch(0.3 0.4 150);
+			path {
+				fill: oklch(0.4 0.4 150);
 			}
 		}
 
 		@media (prefers-color-scheme: dark) {
-			rect {
-				fill: oklch(0.7 0.4 150);
+			path {
+				fill: oklch(0.6 0.4 150);
 			}
 		}
 	</style>
-	<rect width="70" height="70" x="15" y="15" rx="5"></rect>
+	<path d="M15 15 l70 0 l0 70 l-70 0z"></path>
 </svg>
