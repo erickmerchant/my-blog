@@ -1,14 +1,10 @@
-import {Element, watch} from "element";
+import {Element} from "element";
 
 export class PageNav extends Element {
-	static get observedAttributes() {
-		return ["expanded", "minimized", "transitioning"];
-	}
-
-	#state = watch({
-		expanded: this.hasAttribute("expanded"),
-		minimized: this.hasAttribute("minimized"),
-		transitioning: this.hasAttribute("transitioning"),
+	#state = this.watchAttributes({
+		expanded: false,
+		minimized: false,
+		transitioning: false,
 	});
 	#nav = this.shadowRoot?.getElementById("nav");
 	#toggle = this.shadowRoot?.getElementById("toggle");
@@ -27,18 +23,6 @@ export class PageNav extends Element {
 
 	*setupCallback() {
 		document.body.addEventListener("scroll", this.#handleScroll);
-
-		yield () => {
-			this.toggleAttribute("expanded", this.#state.expanded);
-		};
-
-		yield () => {
-			this.toggleAttribute("minimized", this.#state.minimized);
-		};
-
-		yield () => {
-			this.toggleAttribute("transitioning", this.#state.transitioning);
-		};
 
 		this.#nav?.addEventListener("transitionend", (e) => {
 			if (e.target === this.#nav) {
@@ -68,12 +52,6 @@ export class PageNav extends Element {
 
 	teardownCallback() {
 		document.body.removeEventListener("scroll", this.#handleScroll);
-	}
-
-	attributeChangedCallback(k, previous, current) {
-		if (previous !== current) {
-			this.#state[k] = current != null;
-		}
 	}
 }
 

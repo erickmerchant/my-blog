@@ -28,26 +28,24 @@ export let watch = (object) => {
 	}
 
 	return new Proxy(object, {
-		get: (target, key) => {
+		get: (target, key, r) => {
 			if (current) {
 				reads[key].push(current);
 			}
 
-			return target[key];
+			return Reflect.get(target, key, r);
 		},
-		set: (target, key, value) => {
-			if (target[key] !== value) {
-				target[key] = value;
+		set: (target, key, value, r) => {
+			update([...new Set(reads[key].splice(0, Infinity))]);
 
-				update([...new Set(reads[key].splice(0, Infinity))]);
-			}
-
-			return true;
+			return Reflect.set(target, key, value, r);
 		},
 	});
 };
 
 export class Element extends HTMLElement {
+	#observer;
+
 	constructor() {
 		super();
 
@@ -66,5 +64,52 @@ export class Element extends HTMLElement {
 
 	disconnectedCallback() {
 		this.teardownCallback?.();
+
+		this.#observer?.disconnect();
+	}
+
+	watchAttributes(object) {
+		let config = {
+			attributes: true,
+			childList: false,
+			subtree: false,
+		};
+		let paused = false;
+
+		let proxied = new Proxy(watch(object), {
+			set: (target, key, value, r) => {
+				paused = true;
+
+				if (typeof value === "boolean") {
+					this.toggleAttribute(key, value);
+				} else {
+					this.setAttribute(key, value);
+				}
+
+				paused = false;
+
+				return Reflect.set(target, key, value, r);
+			},
+		});
+
+		let callback = (mutationList) => {
+			if (!paused) {
+				for (let m of mutationList) {
+					let key = m.attributeName;
+					let value = object[key];
+
+					proxied[key] =
+						typeof value === "boolean"
+							? this.hasAttribute(key)
+							: this.getAttribute(key);
+				}
+			}
+		};
+
+		this.#observer = new MutationObserver(callback);
+
+		this.#observer.observe(this, config);
+
+		return proxied;
 	}
 }
