@@ -44,8 +44,6 @@ export let watch = (object) => {
 };
 
 export class Element extends HTMLElement {
-	#observer;
-
 	constructor() {
 		super();
 
@@ -63,22 +61,18 @@ export class Element extends HTMLElement {
 	}
 
 	disconnectedCallback() {
-		this.teardownCallback?.();
+		this.#watcher?.disconnect();
 
-		this.#observer?.disconnect();
+		this.teardownCallback?.();
 	}
 
-	watchAttributes(object) {
-		let config = {
-			attributes: true,
-			childList: false,
-			subtree: false,
-		};
-		let paused = false;
+	#watchPaused = false;
+	#watcher;
 
+	watchAttributes(object) {
 		let proxied = new Proxy(watch(object), {
 			set: (target, key, value, r) => {
-				paused = true;
+				this.#watchPaused = true;
 
 				if (typeof value === "boolean") {
 					this.toggleAttribute(key, value);
@@ -86,29 +80,30 @@ export class Element extends HTMLElement {
 					this.setAttribute(key, value);
 				}
 
-				paused = false;
+				this.#watchPaused = false;
 
 				return Reflect.set(target, key, value, r);
 			},
 		});
 
-		let callback = (mutationList) => {
-			if (!paused) {
+		this.#watcher ??= new MutationObserver((mutationList) => {
+			if (!this.#watchPaused) {
 				for (let m of mutationList) {
 					let key = m.attributeName;
-					let value = object[key];
 
 					proxied[key] =
-						typeof value === "boolean"
+						typeof object[key] === "boolean"
 							? this.hasAttribute(key)
 							: this.getAttribute(key);
 				}
 			}
-		};
+		});
 
-		this.#observer = new MutationObserver(callback);
-
-		this.#observer.observe(this, config);
+		this.#watcher.observe(this, {
+			attributes: true,
+			childList: false,
+			subtree: false,
+		});
 
 		return proxied;
 	}
