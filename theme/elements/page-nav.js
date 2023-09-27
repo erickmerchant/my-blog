@@ -6,9 +6,6 @@ export class PageNav extends Element {
 		minimized: false,
 		transitioning: false,
 	});
-	#nav = this.shadowRoot?.getElementById("nav");
-	#toggle = this.shadowRoot?.getElementById("toggle");
-	#icon = this.shadowRoot?.getElementById("icon");
 	#scrollTop = 0;
 
 	#handleScroll = () => {
@@ -24,28 +21,32 @@ export class PageNav extends Element {
 	*setupCallback() {
 		document.body.addEventListener("scroll", this.#handleScroll);
 
-		this.#nav?.addEventListener("transitionend", (e) => {
-			if (e.target === this.#nav) {
+		let nav = this.shadowRoot?.querySelector("nav");
+
+		nav?.addEventListener("transitionend", (e) => {
+			if (e.target === nav) {
 				this.#state.transitioning = false;
 			}
 		});
 
-		this.#toggle?.addEventListener("click", () => {
+		let toggle = this.shadowRoot?.querySelector("button");
+
+		toggle?.addEventListener("click", () => {
 			this.#state.minimized = false;
 			this.#state.expanded = !this.#state.expanded;
 			this.#state.transitioning = true;
 		});
 
 		yield () => {
-			this.#toggle?.setAttribute("aria-pressed", `${this.#state.expanded}`);
+			toggle?.setAttribute("aria-pressed", `${this.#state.expanded}`);
 		};
 
+		let icon = this.shadowRoot?.querySelector("svg");
+
 		yield () => {
-			this.#icon?.setAttribute(
-				"d",
-				this.#state.expanded
-					? "M1 4 l3 -3 l11 11 l-3 3 z m11 -3 l3 3 l-11 11 l-3 -3 z"
-					: "M1 1 l14 0 l0 3.5 l-14 0 z m0 5.25 l14 0 l0 3.5 l-14 0 z m0 5.25 l14 0 l0 3.5 l-14 0 z"
+			icon?.setAttribute(
+				"viewBox",
+				`${this.#state.expanded ? "0" : "16"} 0 16 16`
 			);
 		};
 	}
