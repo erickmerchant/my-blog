@@ -46,27 +46,29 @@ body {
 	--easing: ease-in-out;
 
 	@media (prefers-color-scheme: light) {
-		--ink-0: oklch(0.15 0.0125 150);
-		--ink-1: oklch(0.3 0.4 150);
-		--paper-0: oklch(0.8 0.025 150);
-		--paper-1: oklch(0.95 0.025 150);
-		--paper-2: oklch(1 0.025 150);
-		--code-0: oklch(0.4 0.1 150);
-		--code-1: oklch(0.4 0.2 150);
-		--code-2: oklch(0.4 0.4 150);
-		--code-3: oklch(0.4 0.05 150);
+		--ink-0: oklch(0.15 0.0125 200);
+		--ink-1: oklch(0.3 0.4 200);
+		--ink-2: oklch(0.8 0.3 200);
+		--paper-0: oklch(0.925 0.025 200);
+		--paper-1: oklch(0.975 0.025 200);
+		--paper-2: oklch(1 0.025 200);
+		--code-0: oklch(0.4 0.1 200);
+		--code-1: oklch(0.4 0.2 200);
+		--code-2: oklch(0.4 0.4 200);
+		--code-3: oklch(0.4 0.05 200);
 	}
 
 	@media (prefers-color-scheme: dark) {
-		--ink-0: oklch(0.85 0.0125 150);
-		--ink-1: oklch(0.7 0.4 150);
-		--paper-0: oklch(0.2 0.025 150);
-		--paper-1: oklch(0.05 0.025 150);
-		--paper-2: oklch(0 0.025 150);
-		--code-0: oklch(0.6 0.1 150);
-		--code-1: oklch(0.6 0.2 150);
-		--code-2: oklch(0.6 0.4 150);
-		--code-3: oklch(0.6 0.05 150);
+		--ink-0: oklch(0.85 0.0125 200);
+		--ink-1: oklch(0.7 0.4 200);
+		--ink-2: oklch(0.2 0.3 200);
+		--paper-0: oklch(0.075 0.025 200);
+		--paper-1: oklch(0.025 0.025 200);
+		--paper-2: oklch(0 0.025 200);
+		--code-0: oklch(0.6 0.1 200);
+		--code-1: oklch(0.6 0.2 200);
+		--code-2: oklch(0.6 0.4 200);
+		--code-3: oklch(0.6 0.05 200);
 	}
 }
 
@@ -169,7 +171,7 @@ code {
 
 .main {
 	background-color: var(--paper-2);
-	border-block-end: 0.125em solid var(--paper-1);
+	border-block-end: 0.0125em solid var(--ink-2);
 	padding-block: 1em 3em;
 	z-index: 1;
 }
@@ -214,6 +216,7 @@ code {
 			padding-inline: 0.5em;
 			background-color: var(--paper-0);
 			border-radius: var(--border-radius);
+			border: 0.0125em solid var(--ink-2);
 		}
 	}
 }
@@ -221,6 +224,7 @@ code {
 .interstitial {
 	background-color: var(--paper-1);
 	border-radius: var(--border-radius);
+	border: 0.0125em solid var(--ink-2);
 	padding: 1em;
 	display: grid;
 	gap: 0.5em;
@@ -230,6 +234,7 @@ code {
 
 	@container (inline-size <= 38.5rem) {
 		max-inline-size: 100%;
+		border-inline: 0;
 		--border-radius: 0;
 	}
 

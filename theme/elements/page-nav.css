@@ -21,7 +21,7 @@ svg {
 	overflow: hidden;
 	display: block;
 	background-color: var(--paper-0);
-	border-block-end: 0.125em solid var(--paper-2);
+	border-block-end: 0.0125em solid var(--ink-2);
 	color: var(--ink-1);
 	z-index: 2;
 }
