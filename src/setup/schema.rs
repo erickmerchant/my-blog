@@ -1,7 +1,4 @@
-use crate::{
-	cache,
-	entry::models::{entry, entry_tag, tag},
-};
+use crate::models::{cache, entry, entry_tag, tag};
 use anyhow::Result;
 use sea_orm::{sea_query::Index, ConnectionTrait, DatabaseConnection, Schema};
 use tokio::try_join;
@@ -40,7 +37,7 @@ pub async fn create_schema(connection: &DatabaseConnection) -> Result<()> {
 		),
 		connection.execute(
 			backend
-				.build(&schema.create_table_from_entity(cache::model::Entity))
+				.build(&schema.create_table_from_entity(cache::Entity))
 				.to_owned(),
 		),
 	)?;

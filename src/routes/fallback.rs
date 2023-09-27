@@ -1,8 +1,9 @@
-use super::super::{
+use crate::{
+	error::AppError,
 	models::{entry, tag},
+	state::AppState,
 	views::{entry::entry_view, not_found::not_found_view},
 };
-use crate::{error::AppError, state::AppState};
 use axum::{
 	extract::State,
 	http::{header, StatusCode, Uri},

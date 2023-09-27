@@ -1,8 +1,9 @@
-use super::{
-	super::models::{entry, entry_tag, tag},
-	not_found::not_found_view,
+use super::not_found::not_found_view;
+use crate::{
+	error::AppError,
+	models::{entry, entry_tag, tag},
+	state::AppState,
 };
-use crate::{error::AppError, state::AppState};
 use axum::{
 	http::{header, StatusCode},
 	response::{IntoResponse, Response},

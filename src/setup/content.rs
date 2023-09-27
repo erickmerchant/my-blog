@@ -1,6 +1,6 @@
 use super::frontmatter::Frontmatter;
 use crate::{
-	entry::models::{entry, entry_tag, tag},
+	models::{entry, entry_tag, tag},
 	templates::get_env,
 };
 use anyhow::Result;
