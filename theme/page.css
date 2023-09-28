@@ -52,9 +52,9 @@ body {
 		--paper-0: oklch(0.925 0.025 200);
 		--paper-1: oklch(0.975 0.025 200);
 		--paper-2: oklch(1 0.025 200);
-		--code-0: oklch(0.4 0.1 200);
+		--code-0: oklch(0.4 0.1 180);
 		--code-1: oklch(0.4 0.2 200);
-		--code-2: oklch(0.4 0.4 200);
+		--code-2: oklch(0.4 0.4 220);
 		--code-3: oklch(0.4 0.05 200);
 	}
 
@@ -65,9 +65,9 @@ body {
 		--paper-0: oklch(0.075 0.025 200);
 		--paper-1: oklch(0.025 0.025 200);
 		--paper-2: oklch(0 0.025 200);
-		--code-0: oklch(0.6 0.1 200);
+		--code-0: oklch(0.6 0.1 180);
 		--code-1: oklch(0.6 0.2 200);
-		--code-2: oklch(0.6 0.4 200);
+		--code-2: oklch(0.6 0.4 220);
 		--code-3: oklch(0.6 0.05 200);
 	}
 }
