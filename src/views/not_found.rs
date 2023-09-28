@@ -1,4 +1,3 @@
-use crate::{error::AppError, state::AppState};
 use axum::{
 	http::StatusCode,
 	response::{Html, IntoResponse, Response},
@@ -6,7 +5,7 @@ use axum::{
 use minijinja::context;
 use std::sync::Arc;
 
-pub fn not_found_view(app_state: Arc<AppState>) -> Result<Response, AppError> {
+pub fn not_found_view(app_state: Arc<crate::State>) -> Result<Response, crate::Error> {
 	let ctx = context! {};
 	let template = app_state
 		.templates

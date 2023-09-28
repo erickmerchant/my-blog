@@ -1,7 +1,5 @@
 use crate::{
-	error::AppError,
 	models::{entry, tag},
-	state::AppState,
 	views::entry::entry_view,
 };
 use axum::{
@@ -12,9 +10,9 @@ use sea_orm::{entity::prelude::*, query::Condition};
 use std::sync::Arc;
 
 pub async fn rss_handler(
-	State(app_state): State<Arc<AppState>>,
+	State(app_state): State<Arc<crate::State>>,
 	Path((category, slug)): Path<(String, String)>,
-) -> Result<Response, AppError> {
+) -> Result<Response, crate::Error> {
 	let content_type = "application/rss+xml; charset=utf-8".to_string();
 	let results = entry::Entity::find()
 		.filter(

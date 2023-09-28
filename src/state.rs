@@ -1,5 +1,5 @@
 #[derive(Debug, Clone)]
-pub struct AppState {
+pub struct State {
 	pub templates: minijinja::Environment<'static>,
 	pub database: sea_orm::DatabaseConnection,
 }

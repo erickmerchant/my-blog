@@ -2,7 +2,7 @@ mod assets;
 mod headers;
 mod import_map;
 
-use crate::{error::AppError, models::cache, state::AppState};
+use crate::models::cache;
 use assets::rewrite_assets;
 use axum::{
 	extract::State,
@@ -22,10 +22,10 @@ pub const ETAGABLE_TYPES: &[&str] = &[
 ];
 
 pub async fn cache_layer<B>(
-	State(app_state): State<Arc<AppState>>,
+	State(app_state): State<Arc<crate::State>>,
 	req: Request<B>,
 	next: Next<B>,
-) -> Result<Response, AppError> {
+) -> Result<Response, crate::Error> {
 	let uri = req.uri().to_string();
 	let cache_result = cache::Entity::find()
 		.filter(cache::Column::Path.eq(&uri))

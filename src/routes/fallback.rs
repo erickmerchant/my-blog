@@ -1,7 +1,5 @@
 use crate::{
-	error::AppError,
 	models::{entry, tag},
-	state::AppState,
 	views::{entry::entry_view, not_found::not_found_view},
 };
 use axum::{
@@ -14,9 +12,9 @@ use sea_orm::{entity::prelude::*, query::Condition};
 use std::{fs, sync::Arc};
 
 pub async fn fallback_handler(
-	State(app_state): State<Arc<AppState>>,
+	State(app_state): State<Arc<crate::State>>,
 	uri: Uri,
-) -> Result<Response, AppError> {
+) -> Result<Response, crate::Error> {
 	let content_type = "text/html; charset=utf-8".to_string();
 	let results = entry::Entity::find()
 		.filter(Condition::all().add(entry::Column::Permalink.eq(uri.path())))

@@ -15,10 +15,11 @@ use axum::{
 };
 use cache::cache_layer;
 use clap::Parser;
+use error::Error;
 use routes::{entry::entry_handler, fallback::fallback_handler, rss::rss_handler};
 use sea_orm::Database;
 use setup::{content::import_content, schema::create_schema};
-use state::AppState;
+use state::State;
 use std::{fs, net::SocketAddr, sync::Arc, time::Duration};
 use tower_http::{
 	classify::ServerErrorsFailureClass, compression::CompressionLayer, trace::TraceLayer,
@@ -50,7 +51,7 @@ async fn main() -> Result<()> {
 
 	let database = Database::connect(DATABASE_URL.to_string()).await?;
 	let templates = templates::get_env();
-	let app_state = Arc::new(AppState {
+	let app_state = Arc::new(State {
 		templates,
 		database,
 	});
