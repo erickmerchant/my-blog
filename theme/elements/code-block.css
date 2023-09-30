@@ -12,22 +12,11 @@
 
 :host {
 	display: block;
-	background-color: var(--paper-1);
-	border-radius: var(--border-radius);
-	border: 0.0125em solid var(--ink-2);
 	overflow-x: auto;
 	overscroll-behavior-x: none;
 	tab-size: 2;
-	--max-inline-size: 42rem;
 	--padding-inline: 0;
 	--white-space: pre-wrap;
-}
-
-@container (inline-size <= 42rem) {
-	:host {
-		border-inline: 0;
-		--border-radius: 0;
-	}
 }
 
 @container (inline-size <= 30rem) {
@@ -51,7 +40,7 @@ code {
 	grid-template-columns: auto 1fr;
 	gap: 0 1em;
 	white-space: var(--white-space);
-	color: var(--code-3);
+	color: var(--gray);
 	word-break: break-word;
 	position: relative;
 	padding-inline-end: 1em;
@@ -72,10 +61,10 @@ code {
 [data-line] {
 	position: sticky;
 	inset-inline-start: 0;
-	color: var(--code-3);
-	border-inline-end: 0.0125em solid var(--ink-2);
-	background-color: var(--paper-1);
-	padding-inline: 1em;
+	color: var(--gray);
+	border-inline-end: var(--border);
+	background-color: var(--paper);
+	padding-inline: var(--padding-base);
 
 	&::before {
 		content: attr(data-line);
@@ -84,29 +73,28 @@ code {
 	}
 }
 
-.function {
-	color: var(--code-1);
+.function,
+.path {
+	color: var(--blue);
 }
 
 .keyword,
-.storage {
-	color: var(--code-0);
-}
-
-.string,
-.numeric,
+.storage,
+.constant,
 .boolean,
 .null,
 .undefined,
-.constant,
-.path {
-	color: var(--code-2);
+.this {
+	color: var(--purple);
 }
 
-.punctuation,
-.parameter,
-.spread {
-	color: var(--code-3);
+.string,
+.numeric {
+	color: var(--red);
+}
+
+.punctuation {
+	color: var(--gray);
 }
 
 .comment {

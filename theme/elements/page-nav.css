@@ -16,13 +16,13 @@ svg {
 
 :host {
 	position: sticky;
-	inset-block-start: calc(var(--scrolling-down, 0) * -4em);
+	inset-block-start: calc(var(--scrolling-down, 0) * -4.125em);
 	transition: inset-block-start 0.25s var(--easing);
+	background-color: var(--paper);
 	overflow: hidden;
 	display: block;
-	background-color: var(--paper-0);
-	border-block-end: 0.0125em solid var(--ink-2);
-	color: var(--ink-1);
+	border-block-end: var(--border);
+	color: var(--blue);
 	z-index: 2;
 }
 
@@ -36,12 +36,6 @@ svg {
 	}
 }
 
-@supports selector(:focus-visible) {
-	:focus {
-		outline: none;
-	}
-}
-
 .nav {
 	display: grid;
 	transition: none;
@@ -49,7 +43,7 @@ svg {
 	grid-template-rows: min-content 0fr;
 	align-content: start;
 	padding: 1em;
-	color: var(--ink-1);
+	color: var(--blue);
 	--list-visibility: visible;
 
 	@container (inline-size <= 22.5rem) {
@@ -87,12 +81,11 @@ svg {
 	place-content: center;
 	border-radius: var(--border-radius);
 	cursor: pointer;
-	transition: box-shadow 0.125s;
-	box-shadow: 0 0 0 0.125em oklch(0 0 0 / 0);
+	outline: 0.2em solid oklch(0 0 0 / 0);
 	margin-inline-start: -0.25em;
 
 	&:focus-visible {
-		box-shadow: 0 0 0 0.125em currentColor;
+		outline-color: currentColor;
 	}
 }
 
