@@ -49,19 +49,19 @@ body {
 	@media (prefers-color-scheme: light) {
 		--ink: oklch(0.01 0 0);
 		--paper: oklch(0.99 0 0);
-		--gray: oklch(0.4 0 0);
-		--red: oklch(0.4 0.4 80);
-		--blue: oklch(0.4 0.4 200);
-		--purple: oklch(0.4 0.4 320);
+		--gray: oklch(0.3 0 0);
+		--red: oklch(0.3 0.4 80);
+		--blue: oklch(0.3 0.4 200);
+		--purple: oklch(0.3 0.4 320);
 	}
 
 	@media (prefers-color-scheme: dark) {
 		--ink: oklch(0.99 0 0);
 		--paper: oklch(0.01 0 0);
-		--gray: oklch(0.6 0 0);
-		--red: oklch(0.6 0.4 80);
-		--blue: oklch(0.6 0.4 200);
-		--purple: oklch(0.6 0.4 320);
+		--gray: oklch(0.7 0 0);
+		--red: oklch(0.7 0.4 80);
+		--blue: oklch(0.7 0.4 200);
+		--purple: oklch(0.7 0.4 320);
 	}
 }
 
