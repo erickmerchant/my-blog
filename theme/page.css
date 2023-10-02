@@ -16,7 +16,7 @@
 }
 
 ::-webkit-scrollbar-thumb {
-	background-color: var(--blue);
+	background-color: var(--link-color);
 }
 
 ::-webkit-scrollbar-track {
@@ -29,7 +29,7 @@ html {
 	font-weight: 400;
 	line-height: 1.5;
 	block-size: 100%;
-	scrollbar-color: var(--blue) var(--paper);
+	scrollbar-color: var(--link-color) var(--paper);
 }
 
 body {
@@ -47,26 +47,22 @@ body {
 	--easing: ease-in-out;
 
 	@media (prefers-color-scheme: light) {
-		--ink: oklch(0.02 0 0);
-		--paper: oklch(0.98 0 0);
-		--gray: oklch(0.2 0 0);
-		--red: oklch(0.4 0.4 80);
-		--blue: oklch(0.4 0.4 200);
-		--purple: oklch(0.4 0.4 320);
+		--ink: oklab(10% 0 0);
+		--paper: oklab(99% 0 0);
+		--link-color: oklab(30% -0.4 0);
+		--code-color: oklab(30% -0.025 0);
 	}
 
 	@media (prefers-color-scheme: dark) {
-		--ink: oklch(0.98 0 0);
-		--paper: oklch(0.02 0 0);
-		--gray: oklch(0.8 0 0);
-		--red: oklch(0.6 0.4 80);
-		--blue: oklch(0.6 0.4 200);
-		--purple: oklch(0.6 0.4 320);
+		--ink: oklab(90% 0 0);
+		--paper: oklab(1% 0 0);
+		--link-color: oklab(70% -0.4 0);
+		--code-color: oklab(70% -0.025 0);
 	}
 }
 
 a {
-	color: var(--blue);
+	color: var(--link-color);
 	text-decoration-thickness: 0.1em;
 	text-underline-offset: 0.1em;
 
@@ -120,7 +116,7 @@ strong {
 code {
 	font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas,
 		"DejaVu Sans Mono", monospace;
-	color: var(--gray);
+	color: var(--code-color);
 	padding-inline: 0.25em;
 }
 

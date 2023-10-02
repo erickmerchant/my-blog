@@ -3,13 +3,13 @@
 	<style>
 		@media (prefers-color-scheme: light) {
 			path {
-				fill: oklch(0.4 0.4 200);
+				fill: oklab(40% -0.4 0);
 			}
 		}
 
 		@media (prefers-color-scheme: dark) {
 			path {
-				fill: oklch(0.6 0.4 200);
+				fill: oklab(60% -0.4 0);
 			}
 		}
 	</style>

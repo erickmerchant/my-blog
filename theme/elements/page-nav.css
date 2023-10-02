@@ -1,113 +1,115 @@
-* {
-	font: inherit;
-	color: inherit;
-	max-inline-size: 100%;
-	padding: 0;
-	margin: 0;
-	box-sizing: border-box;
-	-webkit-text-size-adjust: none;
-}
-
-svg {
-	aspect-ratio: 1 / 1;
-	fill: currentColor;
-	display: block;
-}
-
-:host {
-	position: sticky;
-	inset-block-start: calc(var(--scrolling-down, 0) * -4.125em);
-	transition: inset-block-start 0.25s var(--easing);
-	background-color: var(--paper);
-	overflow: hidden;
-	display: block;
-	border-block-end: var(--border);
-	color: var(--blue);
-	z-index: 2;
-}
-
-:host([minimized]) {
-	--scrolling-down: 1;
-}
-
-@container (inline-size <= 22.5rem) {
-	:host([expanded]) {
-		--scrolling-down: 0;
+@layer element {
+	* {
+		font: inherit;
+		color: inherit;
+		max-inline-size: 100%;
+		padding: 0;
+		margin: 0;
+		box-sizing: border-box;
+		-webkit-text-size-adjust: none;
 	}
-}
 
-.nav {
-	display: grid;
-	transition: none;
-	overflow: visible;
-	grid-template-rows: min-content 0fr;
-	align-content: start;
-	padding: 1em;
-	color: var(--blue);
-	--list-visibility: visible;
+	svg {
+		aspect-ratio: 1 / 1;
+		fill: currentColor;
+		display: block;
+	}
+
+	:host {
+		position: sticky;
+		inset-block-start: calc(var(--scrolling-down, 0) * -4.125em);
+		transition: inset-block-start 0.25s var(--easing);
+		background-color: var(--paper);
+		overflow: hidden;
+		display: block;
+		border-block-end: var(--border);
+		color: var(--link-color);
+		z-index: 2;
+	}
+
+	:host([minimized]) {
+		--scrolling-down: 1;
+	}
 
 	@container (inline-size <= 22.5rem) {
-		gap: 1em;
-		padding-block-end: 0em;
-	}
-}
-
-@container (inline-size <= 22.5rem) {
-	:where(.nav) {
-		:host([transitioning]) & {
-			transition: grid-template-rows 0.125s var(--easing),
-				padding 0.125s var(--easing);
-		}
-
-		:host([expanded]) & {
-			grid-template-rows: min-content 1fr;
-			padding-block-end: 1.5em;
-		}
-
-		:host(:not(:defined)) & {
-			grid-template-rows: min-content 1fr;
+		:host([expanded]) {
+			--scrolling-down: 0;
 		}
 	}
-}
 
-.toggle {
-	position: relative;
-	appearance: none;
-	display: none;
-	inline-size: 2em;
-	block-size: 2em;
-	border: 0;
-	background-color: oklch(0 0 0 / 0);
-	place-content: center;
-	border-radius: var(--border-radius);
-	cursor: pointer;
-	outline: 0.2em solid oklch(0 0 0 / 0);
-	margin-inline-start: -0.25em;
+	.nav {
+		display: grid;
+		transition: none;
+		overflow: visible;
+		grid-template-rows: min-content 0fr;
+		align-content: start;
+		padding: 1em;
+		color: var(--link-color);
+		--list-visibility: visible;
 
-	&:focus-visible {
-		outline-color: currentColor;
+		@container (inline-size <= 22.5rem) {
+			gap: 1em;
+			padding-block-end: 0em;
+		}
 	}
-}
 
-::slotted(*) {
-	display: flex;
-	flex-direction: row;
-	list-style: none;
-	white-space: nowrap;
-	gap: 0.5em 1em;
-	min-block-size: 0;
-	visibility: var(--list-visibility);
-}
+	@container (inline-size <= 22.5rem) {
+		:where(.nav) {
+			:host([transitioning]) & {
+				transition: grid-template-rows 0.125s var(--easing),
+					padding 0.125s var(--easing);
+			}
 
-@container (inline-size > 22.5rem) {
-	::slotted(*) {
+			:host([expanded]) & {
+				grid-template-rows: min-content 1fr;
+				padding-block-end: 1.5em;
+			}
+
+			:host(:not(:defined)) & {
+				grid-template-rows: min-content 1fr;
+			}
+		}
+	}
+
+	.toggle {
+		position: relative;
+		appearance: none;
+		display: none;
+		inline-size: 2em;
 		block-size: 2em;
-		align-items: center;
-	}
-}
+		border: 0;
+		background-color: #0000;
+		place-content: center;
+		border-radius: var(--border-radius);
+		cursor: pointer;
+		outline: 0.2em solid #0000;
+		margin-inline-start: -0.25em;
 
-@container (inline-size <= 22.5rem) {
+		&:focus-visible {
+			outline-color: currentColor;
+		}
+	}
+
 	::slotted(*) {
-		flex-direction: column;
+		display: flex;
+		flex-direction: row;
+		list-style: none;
+		white-space: nowrap;
+		gap: 0.5em 1em;
+		min-block-size: 0;
+		visibility: var(--list-visibility);
+	}
+
+	@container (inline-size > 22.5rem) {
+		::slotted(*) {
+			block-size: 2em;
+			align-items: center;
+		}
+	}
+
+	@container (inline-size <= 22.5rem) {
+		::slotted(*) {
+			flex-direction: column;
+		}
 	}
 }
