@@ -81,7 +81,7 @@
 		inset-inline-start: 0;
 		color: var(--code-color-0);
 		border-inline-end: var(--border);
-		background-color: var(--paper);
+		background-color: var(--background-color);
 		padding-inline: var(--padding-base);
 
 		&::before {

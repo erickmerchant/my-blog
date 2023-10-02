@@ -20,7 +20,7 @@
 }
 
 ::-webkit-scrollbar-track {
-	background-color: var(--paper);
+	background-color: var(--background-color);
 }
 
 html {
@@ -29,13 +29,13 @@ html {
 	font-weight: 400;
 	line-height: 1.5;
 	block-size: 100%;
-	scrollbar-color: var(--link-color) var(--paper);
+	scrollbar-color: var(--link-color) var(--background-color);
 }
 
 body {
 	block-size: 100%;
-	color: var(--ink);
-	background-color: var(--paper);
+	color: var(--text-color);
+	background-color: var(--background-color);
 	display: grid;
 	grid-template-rows: min-content auto min-content;
 	container-type: inline-size;
@@ -47,15 +47,15 @@ body {
 	--easing: ease-in-out;
 
 	@media (prefers-color-scheme: light) {
-		--ink: oklab(10% 0 0);
-		--paper: oklab(99% 0 0);
+		--text-color: oklab(10% 0 0);
+		--background-color: oklab(99% 0 0);
 		--link-color: oklab(30% -0.4 0);
 		--code-color: oklab(30% -0.025 0);
 	}
 
 	@media (prefers-color-scheme: dark) {
-		--ink: oklab(90% 0 0);
-		--paper: oklab(1% 0 0);
+		--text-color: oklab(90% 0 0);
+		--background-color: oklab(1% 0 0);
 		--link-color: oklab(70% -0.4 0);
 		--code-color: oklab(70% -0.025 0);
 	}
@@ -152,7 +152,7 @@ code {
 }
 
 .main {
-	background-color: var(--paper);
+	background-color: var(--background-color);
 	border-block-end: var(--border);
 	padding-block: 1em 3em;
 	z-index: 1;
