@@ -203,7 +203,7 @@ code {
 	);
 
 	@container (inline-size <= 38.5rem) {
-		max-inline-size: 100%;
+		max-inline-size: calc(100% - var(--padding-inline));
 		margin-inline-start: var(--padding-inline);
 	}
 
