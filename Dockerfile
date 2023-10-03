@@ -1,19 +1,18 @@
 FROM rust:1.72-alpine as build
 RUN apk add build-base
-WORKDIR deploy
+WORKDIR build
 # cache deps
 RUN mkdir -p src/bin
 RUN echo "fn main() {}" > src/bin/dummy.rs
 COPY Cargo.toml Cargo.lock .
 RUN cargo build --bin dummy --release --no-default-features --locked
 # build app
-COPY . .
+COPY src src
 RUN cargo build --release --no-default-features --locked
-RUN mv ./target/release/app ./app
-# clean up
-RUN rm -rf target src Cargo.lock Cargo.toml
 
 FROM scratch
-WORKDIR /deploy
-COPY --from=build /deploy .
+WORKDIR deploy
+COPY content content
+COPY theme theme
+COPY --from=build /build/target/release/app .
 ENTRYPOINT ["./app"]
