@@ -23,17 +23,17 @@
 
 	@media (prefers-color-scheme: light) {
 		:host {
-			--code-color-1: oklab(30% -0.4 0);
-			--code-color-2: oklab(30% -0.3 -0.2);
-			--code-color-3: oklab(30% 0.2 0.05);
+			--code-color-1: oklab(0.3 -0.3 0.3);
+			--code-color-2: oklab(0.3 -0.3 -0.3);
+			--code-color-3: oklab(0.3 0.3 0.3);
 		}
 	}
 
 	@media (prefers-color-scheme: dark) {
 		:host {
-			--code-color-1: oklab(70% -0.4 0);
-			--code-color-2: oklab(70% -0.3 -0.2);
-			--code-color-3: oklab(70% 0.2 0.05);
+			--code-color-1: oklab(0.7 -0.3 0.3);
+			--code-color-2: oklab(0.7 -0.3 -0.3);
+			--code-color-3: oklab(0.7 0.3 0.3);
 		}
 	}
 

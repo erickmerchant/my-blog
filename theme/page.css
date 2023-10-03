@@ -47,17 +47,17 @@ body {
 	--easing: ease-in-out;
 
 	@media (prefers-color-scheme: light) {
-		--text-color: oklab(10% 0 0);
-		--background-color: oklab(99% 0 0);
-		--link-color: oklab(30% -0.4 0);
-		--code-color: oklab(30% -0.025 0);
+		--text-color: oklab(0.1 0 0);
+		--background-color: oklab(0.99 0 0);
+		--link-color: oklab(0.3 -0.3 0.3);
+		--code-color: oklab(0.3 0 0);
 	}
 
 	@media (prefers-color-scheme: dark) {
-		--text-color: oklab(90% 0 0);
-		--background-color: oklab(1% 0 0);
-		--link-color: oklab(70% -0.4 0);
-		--code-color: oklab(70% -0.025 0);
+		--text-color: oklab(0.9 0 0);
+		--background-color: oklab(0.01 0 0);
+		--link-color: oklab(0.7 -0.3 0.3);
+		--code-color: oklab(0.7 0 0);
 	}
 }
 
