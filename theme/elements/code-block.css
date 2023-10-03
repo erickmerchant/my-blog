@@ -23,17 +23,17 @@
 
 	@media (prefers-color-scheme: light) {
 		:host {
-			--code-color-1: oklab(0.3 -0.3 0.3);
-			--code-color-2: oklab(0.3 -0.3 -0.3);
-			--code-color-3: oklab(0.3 0.3 0.3);
+			--code-color-1: oklab(0.4 -0.3 0.3);
+			--code-color-2: oklab(0.4 -0.3 -0.3);
+			--code-color-3: oklab(0.4 0.3 0.3);
 		}
 	}
 
 	@media (prefers-color-scheme: dark) {
 		:host {
-			--code-color-1: oklab(0.7 -0.3 0.3);
-			--code-color-2: oklab(0.7 -0.3 -0.3);
-			--code-color-3: oklab(0.7 0.3 0.3);
+			--code-color-1: oklab(0.8 -0.3 0.3);
+			--code-color-2: oklab(0.8 -0.3 -0.3);
+			--code-color-3: oklab(0.8 0.3 0.3);
 		}
 	}
 
@@ -95,6 +95,10 @@
 		color: var(--code-color-1);
 	}
 
+	.parameters {
+		color: var(--code-color-0);
+	}
+
 	.keyword,
 	.storage,
 	.this {
@@ -105,7 +109,8 @@
 	.numeric,
 	.boolean,
 	.null,
-	.undefined {
+	.undefined,
+	.placeholder {
 		color: var(--code-color-3);
 	}
 

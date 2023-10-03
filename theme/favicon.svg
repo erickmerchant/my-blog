@@ -9,7 +9,7 @@
 
 		@media (prefers-color-scheme: dark) {
 			path {
-				fill: oklab(0.6 -0.3 0.3);
+				fill: oklab(0.8 -0.3 0.3);
 			}
 		}
 	</style>

@@ -49,15 +49,15 @@ body {
 	@media (prefers-color-scheme: light) {
 		--text-color: oklab(0.1 0 0);
 		--background-color: oklab(0.99 0 0);
-		--link-color: oklab(0.3 -0.3 0.3);
-		--code-color: oklab(0.3 0 0);
+		--link-color: oklab(0.4 -0.3 0.3);
+		--code-color: oklab(0.4 0 0);
 	}
 
 	@media (prefers-color-scheme: dark) {
 		--text-color: oklab(0.9 0 0);
 		--background-color: oklab(0.01 0 0);
-		--link-color: oklab(0.7 -0.3 0.3);
-		--code-color: oklab(0.7 0 0);
+		--link-color: oklab(0.8 -0.3 0.3);
+		--code-color: oklab(0.8 0 0);
 	}
 }
 
