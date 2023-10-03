@@ -105,6 +105,7 @@ strong {
 }
 
 :is(ul, ol):where(:not([class])) {
+	list-style: inside "▪︎ ";
 	display: grid;
 	gap: 0.25em;
 
@@ -135,7 +136,6 @@ code {
 	gap: 1em;
 	align-content: start;
 	--max-inline-size: 40rem;
-	--list-indent: 3cqi;
 	--padding-base: 2.25cqi;
 	--padding-inline: var(--padding-base);
 
@@ -181,16 +181,13 @@ code {
 }
 
 .chips {
+	list-style: none;
 	display: flex;
 	flex-wrap: wrap;
 	gap: 1.5em;
 	align-items: center;
 	font-size: 0.8em;
 	font-weight: 700;
-
-	> *:where(:first-child)::marker {
-		content: "";
-	}
 }
 
 .interstitial {
@@ -221,7 +218,6 @@ code {
 	list-style: none;
 	display: grid;
 	gap: 1em;
-	--list-indent: 0;
 
 	> * {
 		display: grid;
