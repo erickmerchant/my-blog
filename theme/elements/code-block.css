@@ -16,6 +16,7 @@
 		overflow-x: auto;
 		overscroll-behavior-x: none;
 		tab-size: 2;
+		border-radius: var(--border-radius);
 		--padding-inline: 0;
 		--white-space: pre-wrap;
 		--code-color-0: var(--code-color);
@@ -23,22 +24,23 @@
 
 	@media (prefers-color-scheme: light) {
 		:host {
-			--code-color-1: oklab(0.4 -0.3 0.3);
-			--code-color-2: oklab(0.4 -0.3 -0.3);
-			--code-color-3: oklab(0.4 0.3 0.3);
+			--code-color-1: oklab(0.4 0.3 -0.2);
+			--code-color-2: oklab(0.4 -0.2 -0.2);
+			--code-color-3: oklab(0.4 0.4 0);
 		}
 	}
 
 	@media (prefers-color-scheme: dark) {
 		:host {
-			--code-color-1: oklab(0.8 -0.3 0.3);
-			--code-color-2: oklab(0.8 -0.3 -0.3);
-			--code-color-3: oklab(0.8 0.3 0.3);
+			--code-color-1: oklab(0.8 -0.1 0.4);
+			--code-color-2: oklab(0.8 0.1 0.3);
+			--code-color-3: oklab(0.8 0.4 0.2);
 		}
 	}
 
 	@container (inline-size <= 30rem) {
 		:host {
+			border-radius: 0;
 			--white-space: pre;
 		}
 	}
@@ -62,6 +64,7 @@
 		word-break: break-word;
 		position: relative;
 		padding-inline-end: 1em;
+		background-color: var(--alt-background);
 
 		> * {
 			padding: 0.125em;
@@ -80,9 +83,9 @@
 		position: sticky;
 		inset-inline-start: 0;
 		color: var(--code-color-0);
-		border-inline-end: var(--border);
-		background-color: var(--background-color);
+		background-color: var(--alt-background);
 		padding-inline: var(--padding-base);
+		border-inline-end: var(--border);
 
 		&::before {
 			content: attr(data-line);
@@ -92,7 +95,7 @@
 	}
 
 	.function {
-		color: var(--code-color-1);
+		color: var(--code-color-2);
 	}
 
 	.parameters {
@@ -102,7 +105,7 @@
 	.keyword,
 	.storage,
 	.this {
-		color: var(--code-color-2);
+		color: var(--code-color-1);
 	}
 
 	.string,

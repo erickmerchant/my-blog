@@ -20,7 +20,7 @@
 }
 
 ::-webkit-scrollbar-track {
-	background-color: var(--background-color);
+	background-color: var(--main-background);
 }
 
 html {
@@ -29,13 +29,13 @@ html {
 	font-weight: 400;
 	line-height: 1.5;
 	block-size: 100%;
-	scrollbar-color: var(--link-color) var(--background-color);
+	scrollbar-color: var(--link-color) var(--main-background);
 }
 
 body {
 	block-size: 100%;
 	color: var(--text-color);
-	background-color: var(--background-color);
+	background-color: var(--main-background);
 	display: grid;
 	grid-template-rows: min-content auto min-content;
 	container-type: inline-size;
@@ -43,21 +43,27 @@ body {
 	scrollbar-gutter: stable;
 	overscroll-behavior: none;
 	--border-radius: 0.125em;
-	--border: 0.0625em solid currentColor;
+	--border: 0.25em solid var(--main-background);
 	--easing: ease-in-out;
 
 	@media (prefers-color-scheme: light) {
 		--text-color: oklab(0.1 0 0);
-		--background-color: oklab(0.99 0 0);
-		--link-color: oklab(0.4 -0.3 0.3);
-		--code-color: oklab(0.4 0 0);
+		--nav-background: oklab(0.95 -0.01 0.01);
+		--alt-background: oklab(0.975 -0.005 0.005);
+		--main-background: oklab(0.99 0 0);
+		--heading-color: oklab(0.2 -0.4 0.4);
+		--link-color: oklab(0.4 -0.4 0.4);
+		--code-color: oklab(0.4 -0.025 0.025);
 	}
 
 	@media (prefers-color-scheme: dark) {
 		--text-color: oklab(0.9 0 0);
-		--background-color: oklab(0.01 0 0);
-		--link-color: oklab(0.8 -0.3 0.3);
-		--code-color: oklab(0.8 0 0);
+		--nav-background: oklab(0.175 -0.3 0.3);
+		--alt-background: oklab(0.125 -0.2 0.2);
+		--main-background: oklab(0.1 0 0);
+		--heading-color: oklab(0.9 -0.05 0.05);
+		--link-color: oklab(0.8 -0.4 0.4);
+		--code-color: oklab(0.8 -0.025 0.025);
 	}
 }
 
@@ -82,6 +88,7 @@ a {
 h1,
 h2,
 h3 {
+	color: var(--heading-color);
 	line-height: 1.125;
 	font-weight: 900;
 	text-wrap: balance;
@@ -119,6 +126,7 @@ code {
 		"DejaVu Sans Mono", monospace;
 	color: var(--code-color);
 	padding-inline: 0.25em;
+	background-color: var(--alt-background);
 }
 
 @supports selector(:focus-visible) {
@@ -152,13 +160,14 @@ code {
 }
 
 .main {
-	background-color: var(--background-color);
+	background-color: var(--main-background);
 	border-block-end: var(--border);
 	padding-block: 1em 3em;
 	z-index: 1;
 }
 
 .footer {
+	background-color: var(--alt-background);
 	padding-block: 1.5em;
 	position: sticky;
 	inset-block-end: 0;
@@ -184,20 +193,29 @@ code {
 	list-style: none;
 	display: flex;
 	flex-wrap: wrap;
-	gap: 1.5em;
+	gap: 0.5em;
 	align-items: center;
 	font-size: 0.8em;
 	font-weight: 700;
+
+	> * {
+		background-color: var(--nav-background);
+		border-radius: var(--border-radius);
+		padding-inline: 0.5em;
+		padding-block: 0.125em;
+	}
 }
 
 .interstitial {
-	border-inline-start: var(--border);
-	padding: 1em;
+	padding-inline: 2em;
+	padding-block: 1em;
 	display: grid;
 	gap: 0.5em;
 	max-inline-size: calc(
 		var(--max-inline-size) - calc(var(--padding-inline) * 2)
 	);
+	background-color: var(--alt-background);
+	border-radius: var(--border-radius);
 
 	@container (inline-size <= 38.5rem) {
 		max-inline-size: calc(100% - var(--padding-inline));
