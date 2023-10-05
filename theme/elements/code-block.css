@@ -19,13 +19,13 @@
 		border-radius: var(--border-radius);
 		--padding-inline: 0;
 		--white-space: pre-wrap;
-		--code-color-0: var(--code-color);
+		--code-color-0: var(--color);
 	}
 
 	@media (prefers-color-scheme: light) {
 		:host {
-			--code-color-1: oklab(0.4 0.3 -0.2);
-			--code-color-2: oklab(0.4 -0.2 -0.2);
+			--code-color-1: oklab(0.4 -0.2 -0.2);
+			--code-color-2: oklab(0.4 0.1 -0.1);
 			--code-color-3: oklab(0.4 0.4 0);
 		}
 	}
@@ -34,7 +34,7 @@
 		:host {
 			--code-color-1: oklab(0.8 -0.1 0.4);
 			--code-color-2: oklab(0.8 0.1 0.3);
-			--code-color-3: oklab(0.8 0.4 0.2);
+			--code-color-3: oklab(0.8 0.3 0.2);
 		}
 	}
 
@@ -64,7 +64,7 @@
 		word-break: break-word;
 		position: relative;
 		padding-inline-end: 1em;
-		background-color: var(--alt-background);
+		background-color: var(--background);
 
 		> * {
 			padding: 0.125em;
@@ -83,8 +83,8 @@
 		position: sticky;
 		inset-inline-start: 0;
 		color: var(--code-color-0);
-		background-color: var(--alt-background);
-		padding-inline: var(--padding-base);
+		background-color: var(--background);
+		padding-inline: 1em;
 		border-inline-end: var(--border);
 
 		&::before {

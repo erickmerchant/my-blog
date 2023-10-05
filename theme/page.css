@@ -51,7 +51,6 @@ body {
 		--nav-background: oklab(0.95 -0.01 0.01);
 		--alt-background: oklab(0.975 -0.005 0.005);
 		--main-background: oklab(0.99 0 0);
-		--heading-color: oklab(0.2 -0.4 0.4);
 		--link-color: oklab(0.4 -0.4 0.4);
 		--code-color: oklab(0.4 -0.025 0.025);
 	}
@@ -61,7 +60,6 @@ body {
 		--nav-background: oklab(0.175 -0.3 0.3);
 		--alt-background: oklab(0.125 -0.2 0.2);
 		--main-background: oklab(0.1 0 0);
-		--heading-color: oklab(0.9 -0.05 0.05);
 		--link-color: oklab(0.8 -0.4 0.4);
 		--code-color: oklab(0.8 -0.025 0.025);
 	}
@@ -88,7 +86,6 @@ a {
 h1,
 h2,
 h3 {
-	color: var(--heading-color);
 	line-height: 1.125;
 	font-weight: 900;
 	text-wrap: balance;
@@ -121,12 +118,21 @@ strong {
 	}
 }
 
+code-block {
+	--background: var(--alt-background);
+	--color: var(--code-color);
+}
+
 code {
 	font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas,
 		"DejaVu Sans Mono", monospace;
 	color: var(--code-color);
 	padding-inline: 0.25em;
 	background-color: var(--alt-background);
+}
+
+page-nav {
+	--background: var(--nav-background);
 }
 
 @supports selector(:focus-visible) {
@@ -161,7 +167,6 @@ code {
 
 .main {
 	background-color: var(--main-background);
-	border-block-end: var(--border);
 	padding-block: 1em 3em;
 	z-index: 1;
 }
