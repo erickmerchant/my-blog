@@ -260,5 +260,7 @@ page-nav {
 		padding: 0.25em;
 		inline-size: 1.5em;
 		block-size: 1.5em;
+		border-radius: var(--border-radius);
+		background-color: var(--nav-background);
 	}
 }
