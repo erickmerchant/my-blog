@@ -40,7 +40,7 @@
 		{% block main %}{% endblock %}
 	</main>
 	<footer class="footer section">
-		<p class="copyright">&copy; {{year()}} {{site.author}}</p>
+		<p class="copyright">&copy; {{current_date() | format_date("%Y")}} {{site.author}}</p>
 	</footer>
 </body>
 

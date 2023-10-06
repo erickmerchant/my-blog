@@ -5,7 +5,7 @@
 	<channel>
 		<title>{{entry.title}}</title>
 		<link>{{site.host + "/" + entry.category + "/" + entry.slug + "/feed.rss"}}</link>
-		<copyright>© {{year()}} {{site.author}}</copyright>
+		<copyright>© {{current_date() | format_date("%Y")}} {{site.author}}</copyright>
 		{% for (e, tags) in feed %}
 			<item>
 				<title>{% if e.title %}{{e.title}}{% else %}Untitled{% endif %}</title>
