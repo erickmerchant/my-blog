@@ -141,6 +141,10 @@ page-nav {
 	}
 }
 
+.logo {
+	font-weight: 900;
+}
+
 .navList {
 	font-weight: 700;
 }
@@ -183,6 +187,15 @@ page-nav {
 			font-size: 0.8em;
 		}
 	}
+}
+
+.meta {
+	list-style: none;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 2em;
+	align-items: center;
+	font-size: 0.8em;
 }
 
 .copyright {

@@ -33,14 +33,17 @@
 	{% call page_nav() %}
 		<ul class="navList">
 			<li><a href="/">Posts</a></li>
-			<li><a href="https://github.com/erickmerchant/my-blog">View Source</a></li>
 		</ul>
+		<figure slot="brand" class="logo">ErickMerchant.com</figure>
 	{% endcall %}
 	<main class="main section">
 		{% block main %}{% endblock %}
 	</main>
 	<footer class="footer section">
-		<p class="copyright">&copy; {{current_date() | format_date("%Y")}} {{site.author}}</p>
+		<ul class="meta">
+			<li class="copyright">&copy; {{current_date() | format_date("%Y")}} {{site.author}}</li>
+			<li><a href="https://github.com/erickmerchant/my-blog">View Source</a></li>
+		</ul>
 	</footer>
 </body>
 
