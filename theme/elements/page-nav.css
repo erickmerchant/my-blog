@@ -1,115 +1,81 @@
-@layer element {
-	* {
-		font: inherit;
-		color: inherit;
-		max-inline-size: 100%;
-		padding: 0;
-		margin: 0;
-		box-sizing: border-box;
-		-webkit-text-size-adjust: none;
+* {
+	font: inherit;
+	color: inherit;
+	max-inline-size: 100%;
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+	-webkit-text-size-adjust: none;
+}
+
+:host {
+	position: sticky;
+	inset-block-start: calc(var(--scrolling-down, 0) * -4.125em);
+	transition: inset-block-start 0.25s var(--easing);
+	background-color: var(--background);
+	overflow: hidden;
+	display: block;
+	border-block-end: var(--border);
+	color: var(--link-color);
+	z-index: 2;
+}
+
+:host([minimized]) {
+	--scrolling-down: 1;
+}
+
+.nav {
+	display: grid;
+	transition: none;
+	overflow: visible;
+	grid-template-columns: max-content 1fr;
+	grid-template-rows: min-content 0fr;
+	gap: 0 1em;
+	align-content: start;
+	padding: 1em;
+	color: var(--link-color);
+	--list-visibility: visible;
+
+	:host(:not(:defined)) & {
+		align-items: center;
 	}
 
-	svg {
-		aspect-ratio: 1 / 1;
-		fill: currentColor;
-		display: block;
-	}
-
-	:host {
-		position: sticky;
-		inset-block-start: calc(var(--scrolling-down, 0) * -4.125em);
-		transition: inset-block-start 0.25s var(--easing);
-		background-color: var(--background);
-		overflow: hidden;
-		display: block;
-		border-block-end: var(--border);
-		color: var(--link-color);
-		z-index: 2;
-	}
-
-	:host([minimized]) {
-		--scrolling-down: 1;
-	}
-
-	@container (inline-size <= 22.5rem) {
-		:host([expanded]) {
-			--scrolling-down: 0;
-		}
-	}
-
-	.nav {
-		display: grid;
-		transition: none;
-		overflow: visible;
-		grid-template-rows: min-content 0fr;
-		align-content: start;
-		padding: 1em;
-		color: var(--link-color);
-		--list-visibility: visible;
-
-		@container (inline-size <= 22.5rem) {
-			gap: 1em;
-			padding-block-end: 0em;
-		}
+	@container (inline-size > 22.5rem) {
+		align-items: center;
 	}
 
 	@container (inline-size <= 22.5rem) {
-		:where(.nav) {
-			:host([transitioning]) & {
-				transition: grid-template-rows 0.125s var(--easing),
-					padding 0.125s var(--easing);
-			}
-
-			:host([expanded]) & {
-				grid-template-rows: min-content 1fr;
-				padding-block-end: 1.5em;
-			}
-
-			:host(:not(:defined)) & {
-				grid-template-rows: min-content 1fr;
-			}
-		}
+		grid-template-rows: min-content 1fr;
 	}
+}
 
-	.toggle {
-		position: relative;
-		appearance: none;
-		display: none;
-		inline-size: 2em;
-		block-size: 2em;
-		border: 0;
-		background-color: #0000;
-		place-content: center;
-		border-radius: var(--border-radius);
-		cursor: pointer;
-		outline: 0.2em solid #0000;
-		margin-inline-start: -0.25em;
+slot:not([name]) {
+	display: block;
+	grid-column: 1;
+	grid-row: 1;
 
-		&:focus-visible {
-			outline-color: currentColor;
-		}
-	}
-
-	::slotted(*) {
+	&::slotted(*) {
 		display: flex;
 		flex-direction: row;
 		list-style: none;
 		white-space: nowrap;
 		gap: 0.5em 1em;
-		min-block-size: 0;
 		visibility: var(--list-visibility);
+		align-self: center;
+		align-items: center;
+		block-size: 2em;
 	}
+}
 
-	@container (inline-size > 22.5rem) {
-		::slotted(*) {
-			block-size: 2em;
-			align-items: center;
-		}
-	}
+slot[name="brand"] {
+	display: block;
+	grid-row: 1;
+	grid-column: 2;
 
-	@container (inline-size <= 22.5rem) {
-		::slotted(*) {
-			flex-direction: column;
-		}
+	&::slotted(*) {
+		block-size: 2em;
+		display: grid;
+		align-items: center;
+		justify-content: end;
 	}
 }
