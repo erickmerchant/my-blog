@@ -3,7 +3,6 @@ import {Element} from "element";
 export class PageNav extends Element {
 	#state = this.watchAttributes({
 		minimized: false,
-		transitioning: false,
 	});
 	#scrollTop = 0;
 
@@ -19,14 +18,6 @@ export class PageNav extends Element {
 
 	*setupCallback() {
 		document.body.addEventListener("scroll", this.#handleScroll);
-
-		let nav = this.shadowRoot?.querySelector("nav");
-
-		nav?.addEventListener("transitionend", (e) => {
-			if (e.target === nav) {
-				this.#state.transitioning = false;
-			}
-		});
 	}
 
 	teardownCallback() {
