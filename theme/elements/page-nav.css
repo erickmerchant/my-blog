@@ -1,153 +1,81 @@
-@layer element {
-	* {
-		font: inherit;
-		color: inherit;
-		max-inline-size: 100%;
-		padding: 0;
-		margin: 0;
-		box-sizing: border-box;
-		-webkit-text-size-adjust: none;
+* {
+	font: inherit;
+	color: inherit;
+	max-inline-size: 100%;
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+	-webkit-text-size-adjust: none;
+}
+
+:host {
+	position: sticky;
+	inset-block-start: calc(var(--scrolling-down, 0) * -4.125em);
+	transition: inset-block-start 0.25s var(--easing);
+	background-color: var(--background);
+	overflow: hidden;
+	display: block;
+	border-block-end: var(--border);
+	color: var(--link-color);
+	z-index: 2;
+}
+
+:host([minimized]) {
+	--scrolling-down: 1;
+}
+
+.nav {
+	display: grid;
+	transition: none;
+	overflow: visible;
+	grid-template-columns: max-content 1fr;
+	grid-template-rows: min-content 0fr;
+	gap: 0 1em;
+	align-content: start;
+	padding: 1em;
+	color: var(--link-color);
+	--list-visibility: visible;
+
+	:host(:not(:defined)) & {
+		align-items: center;
 	}
 
-	svg {
-		aspect-ratio: 1 / 1;
-		fill: currentColor;
-		display: block;
-	}
-
-	:host {
-		position: sticky;
-		inset-block-start: calc(var(--scrolling-down, 0) * -4.125em);
-		transition: inset-block-start 0.25s var(--easing);
-		background-color: var(--background);
-		overflow: hidden;
-		display: block;
-		border-block-end: var(--border);
-		color: var(--link-color);
-		z-index: 2;
-	}
-
-	:host([minimized]) {
-		--scrolling-down: 1;
+	@container (inline-size > 22.5rem) {
+		align-items: center;
 	}
 
 	@container (inline-size <= 22.5rem) {
-		:host([expanded]) {
-			--scrolling-down: 0;
-		}
+		grid-template-rows: min-content 1fr;
 	}
+}
 
-	.nav {
-		display: grid;
-		transition: none;
-		overflow: visible;
-		grid-template-columns: max-content 1fr;
-		grid-template-rows: min-content 0fr;
-		gap: 0 1em;
-		align-content: start;
-		padding: 1em;
-		color: var(--link-color);
-		--list-visibility: visible;
+slot:not([name]) {
+	display: block;
+	grid-column: 1;
+	grid-row: 1;
 
-		:host(:not(:defined)) & {
-			align-items: center;
-		}
-
-		@container (inline-size > 22.5rem) {
-			:host & {
-				align-items: center;
-			}
-		}
-
-		@container (inline-size <= 22.5rem) {
-			:host([transitioning][collapsible]:defined) & {
-				transition: grid-template-rows 0.25s var(--easing),
-					padding 0.25s var(--easing);
-			}
-
-			:host([expanded][collapsible]:defined) & {
-				grid-template-rows: min-content 1fr;
-				padding-block-end: 1.5em;
-			}
-
-			:host([collapsible]:defined) & {
-				gap: 1em;
-				padding-block-end: 0em;
-			}
-
-			:host([collapsible]:not(:defined)) & {
-				grid-template-rows: min-content 1fr;
-			}
-		}
-	}
-
-	.toggle {
-		position: relative;
-		appearance: none;
-		display: none;
-		inline-size: 2em;
+	&::slotted(*) {
+		display: flex;
+		flex-direction: row;
+		list-style: none;
+		white-space: nowrap;
+		gap: 0.5em 1em;
+		visibility: var(--list-visibility);
+		align-self: center;
+		align-items: center;
 		block-size: 2em;
-		border: 0;
-		background-color: #0000;
-		place-content: center;
-		border-radius: var(--border-radius);
-		cursor: pointer;
-		outline: 0.2em solid #0000;
-		margin-inline-start: -0.25em;
-		grid-row: 1;
-		grid-column: 1;
-
-		&:focus-visible {
-			outline-color: currentColor;
-		}
 	}
+}
 
-	slot:not([name]) {
-		display: block;
-		grid-column: 1;
-		grid-row: 1;
+slot[name="brand"] {
+	display: block;
+	grid-row: 1;
+	grid-column: 2;
 
-		@container (width <=22.5rem) {
-			:host([collapsible]:defined) & {
-				grid-column: 1 / span 2;
-				grid-row: 2;
-				min-block-size: 0;
-			}
-
-			:host([collapsible]:defined:not([expanded]):not([transitioning])) & {
-				display: none;
-			}
-		}
-
-		&::slotted(*) {
-			display: flex;
-			flex-direction: row;
-			list-style: none;
-			white-space: nowrap;
-			gap: 0.5em 1em;
-			visibility: var(--list-visibility);
-			align-self: center;
-			align-items: center;
-			block-size: 2em;
-
-			@container (inline-size <= 22.5rem) {
-				:host([collapsible]:defined) & {
-					flex-direction: column;
-				}
-			}
-		}
-	}
-
-	slot[name="brand"] {
-		display: block;
-		grid-row: 1;
-		grid-column: 2;
-
-		&::slotted(*) {
-			block-size: 2em;
-			display: grid;
-			align-items: center;
-			justify-content: end;
-		}
+	&::slotted(*) {
+		block-size: 2em;
+		display: grid;
+		align-items: center;
+		justify-content: end;
 	}
 }

@@ -1,34 +1,8 @@
-{% macro page_nav(collapsible, expanded, minimized) %}
-	<page-nav {{ "expanded" if expanded }} {{ "minimized" if minimized }} {{ "collapsible" if collapsible }}>
+{% macro page_nav(minimized) %}
+	<page-nav {{ "minimized" if minimized }}>
 		<template shadowrootmode="open">
 			<link rel="stylesheet" href="/elements/page-nav.css">
-			<style media="not all" onload="this.media = 'all'">
-				@layer element, only-if-js;
-
-				@layer only-if-js {
-					@container (width <=22.5rem) {
-						:host([collapsible]:defined:not([expanded]):not([transitioning])) slot:not([name]) {
-							display: none;
-						}
-
-						:host([collapsible]:defined) .toggle {
-							display: grid;
-						}
-					}
-
-					:host([collapsible]:defined) .icon {
-						block-size: 1.5em;
-					}
-				}
-
-			</style>
 			<nav class="nav">
-				<button class="toggle" aria-pressed="false" aria-label="Toggle Nav List">
-					<svg class="icon" viewBox="0 0 16 16">
-						<path d="M1 4 l3 -3 l11 11 l-3 3 z m11 -3 l3 3 l-11 11 l-3 -3 z M17 1 l14 0 l0 3.5 l-14 0 z m0 5.25 l14 0 l0 3.5 l-14 0 z m0 5.25 l14 0 l0 3.5 l-14 0 z">
-						</path>
-					</svg>
-				</button>
 				<slot></slot>
 				<slot name="brand"></slot>
 			</nav>
@@ -37,6 +11,6 @@
 	</page-nav>
 {% endmacro %}
 
-{% call page_nav(collapsible|default(false), expanded|default(false), minimized|default(false)) %}
+{% call page_nav(minimized|default(false)) %}
 	{{inner_html}}
 {% endcall %}
