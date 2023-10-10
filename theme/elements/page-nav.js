@@ -1,26 +1,36 @@
 import {Element} from "element";
 
 export class PageNav extends Element {
-	#state = this.watchAttributes({
-		minimized: false,
-	});
 	#scrollTop = 0;
+	#sheet;
 
 	#handleScroll = () => {
 		let scrollTop = document.body.scrollTop;
 
 		if (scrollTop !== this.#scrollTop) {
-			this.#state.minimized = scrollTop >= this.#scrollTop;
+			let scrollingDown = scrollTop >= this.#scrollTop;
+
+			this.#sheet.replaceSync(
+				`:host { --scrolling-down: ${scrollingDown ? 1 : 0}; }`
+			);
 		}
 
 		this.#scrollTop = scrollTop;
 	};
 
-	*setupCallback() {
+	connectedCallback() {
 		document.body.addEventListener("scroll", this.#handleScroll);
+
+		let root = this.shadowRoot.getRootNode();
+
+		this.#sheet = new CSSStyleSheet({});
+
+		this.#sheet.replaceSync("");
+
+		root.adoptedStyleSheets = [...root.adoptedStyleSheets, this.#sheet];
 	}
 
-	teardownCallback() {
+	disconnectedCallback() {
 		document.body.removeEventListener("scroll", this.#handleScroll);
 	}
 }

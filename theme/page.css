@@ -131,21 +131,21 @@ code {
 	background-color: var(--alt-background);
 }
 
-page-nav {
-	--background: var(--nav-background);
-}
-
 @supports selector(:focus-visible) {
 	:focus {
 		outline: none;
 	}
 }
 
-.logo {
+.page-nav {
+	--background: var(--nav-background);
+}
+
+.home-link {
 	font-weight: 900;
 }
 
-.navList {
+.nav-list {
 	font-weight: 700;
 }
 
@@ -261,7 +261,7 @@ page-nav {
 	}
 }
 
-.rssLink {
+.rss-link {
 	display: inline flex;
 	align-items: center;
 	gap: 0.5em;

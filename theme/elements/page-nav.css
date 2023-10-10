@@ -20,57 +20,25 @@
 	z-index: 2;
 }
 
-:host([minimized]) {
-	--scrolling-down: 1;
-}
-
 .nav {
 	display: grid;
 	transition: none;
 	overflow: visible;
-	grid-template-columns: max-content 1fr;
-	grid-template-rows: min-content 0fr;
+	grid-template-columns: min-content auto min-content;
 	gap: 0 1em;
 	align-content: start;
+	align-items: center;
 	padding: 1em;
 	color: var(--link-color);
-	--list-visibility: visible;
 
 	:host(:not(:defined)) & {
 		align-items: center;
 	}
-
-	@container (inline-size > 22.5rem) {
-		align-items: center;
-	}
-
-	@container (inline-size <= 22.5rem) {
-		grid-template-rows: min-content 1fr;
-	}
 }
 
-slot:not([name]) {
-	display: block;
-	grid-column: 1;
-	grid-row: 1;
-
-	&::slotted(*) {
-		display: flex;
-		flex-direction: row;
-		list-style: none;
-		white-space: nowrap;
-		gap: 0.5em 1em;
-		visibility: var(--list-visibility);
-		align-self: center;
-		align-items: center;
-		block-size: 2em;
-	}
-}
-
-slot[name="brand"] {
+:where(slot) {
 	display: block;
 	grid-row: 1;
-	grid-column: 2;
 
 	&::slotted(*) {
 		block-size: 2em;

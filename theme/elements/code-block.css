@@ -1,127 +1,125 @@
-@layer element {
-	*,
-	::before,
-	::after {
-		font: inherit;
-		color: inherit;
-		max-inline-size: 100%;
-		padding: 0;
-		margin: 0;
-		box-sizing: border-box;
-		-webkit-text-size-adjust: none;
-	}
+*,
+::before,
+::after {
+	font: inherit;
+	color: inherit;
+	max-inline-size: 100%;
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+	-webkit-text-size-adjust: none;
+}
 
+:host {
+	display: block;
+	overflow-x: auto;
+	overscroll-behavior-x: none;
+	tab-size: 2;
+	border-radius: var(--border-radius);
+	--padding-inline: 0;
+	--white-space: pre-wrap;
+	--code-color-0: var(--color);
+}
+
+@media (prefers-color-scheme: light) {
 	:host {
-		display: block;
-		overflow-x: auto;
-		overscroll-behavior-x: none;
-		tab-size: 2;
-		border-radius: var(--border-radius);
-		--padding-inline: 0;
-		--white-space: pre-wrap;
-		--code-color-0: var(--color);
+		--code-color-1: oklab(0.4 -0.2 -0.2);
+		--code-color-2: oklab(0.4 0.4 -0.4);
+		--code-color-3: oklab(0.4 0.4 0);
+	}
+}
+
+@media (prefers-color-scheme: dark) {
+	:host {
+		--code-color-1: oklab(0.8 0 0.4);
+		--code-color-2: oklab(0.8 0.2 0.2);
+		--code-color-3: oklab(0.8 0.4 0.4);
+	}
+}
+
+@container (inline-size <= 30rem) {
+	:host {
+		border-radius: 0;
+		--white-space: pre;
+	}
+}
+
+figure {
+	display: grid;
+}
+
+pre {
+	font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas,
+		"DejaVu Sans Mono", monospace;
+	font-weight: 500;
+}
+
+code {
+	display: grid;
+	grid-template-columns: auto 1fr;
+	gap: 0 1em;
+	white-space: var(--white-space);
+	color: var(--code-color-0);
+	word-break: break-word;
+	position: relative;
+	padding-inline-end: 1em;
+	background-color: var(--background);
+
+	> * {
+		padding: 0.125em;
 	}
 
-	@media (prefers-color-scheme: light) {
-		:host {
-			--code-color-1: oklab(0.4 -0.2 -0.2);
-			--code-color-2: oklab(0.4 0.1 -0.1);
-			--code-color-3: oklab(0.4 0.4 0);
-		}
+	> :where(:nth-child(-n + 2)) {
+		padding-block-start: 1em;
 	}
 
-	@media (prefers-color-scheme: dark) {
-		:host {
-			--code-color-1: oklab(0.8 -0.1 0.4);
-			--code-color-2: oklab(0.8 0.1 0.3);
-			--code-color-3: oklab(0.8 0.3 0.2);
-		}
+	> :where(:nth-last-child(-n + 2)) {
+		padding-block-end: 1em;
 	}
+}
 
-	@container (inline-size <= 30rem) {
-		:host {
-			border-radius: 0;
-			--white-space: pre;
-		}
-	}
+[data-line] {
+	position: sticky;
+	inset-inline-start: 0;
+	color: var(--code-color-0);
+	background-color: var(--background);
+	padding-inline: 1em;
+	border-inline-end: var(--border);
 
-	figure {
+	&::before {
+		content: attr(data-line);
 		display: grid;
+		justify-content: end;
 	}
+}
 
-	pre {
-		font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo,
-			Consolas, "DejaVu Sans Mono", monospace;
-		font-weight: 500;
-	}
+.function {
+	color: var(--code-color-2);
+}
 
-	code {
-		display: grid;
-		grid-template-columns: auto 1fr;
-		gap: 0 1em;
-		white-space: var(--white-space);
-		color: var(--code-color-0);
-		word-break: break-word;
-		position: relative;
-		padding-inline-end: 1em;
-		background-color: var(--background);
+.parameters {
+	color: var(--code-color-0);
+}
 
-		> * {
-			padding: 0.125em;
-		}
+.keyword,
+.storage,
+.this {
+	color: var(--code-color-1);
+}
 
-		> :where(:nth-child(-n + 2)) {
-			padding-block-start: 1em;
-		}
+.string,
+.numeric,
+.boolean,
+.null,
+.undefined,
+.placeholder {
+	color: var(--code-color-3);
+}
 
-		> :where(:nth-last-child(-n + 2)) {
-			padding-block-end: 1em;
-		}
-	}
+.punctuation {
+	color: var(--code-color-0);
+}
 
-	[data-line] {
-		position: sticky;
-		inset-inline-start: 0;
-		color: var(--code-color-0);
-		background-color: var(--background);
-		padding-inline: 1em;
-		border-inline-end: var(--border);
-
-		&::before {
-			content: attr(data-line);
-			display: grid;
-			justify-content: end;
-		}
-	}
-
-	.function {
-		color: var(--code-color-2);
-	}
-
-	.parameters {
-		color: var(--code-color-0);
-	}
-
-	.keyword,
-	.storage,
-	.this {
-		color: var(--code-color-1);
-	}
-
-	.string,
-	.numeric,
-	.boolean,
-	.null,
-	.undefined,
-	.placeholder {
-		color: var(--code-color-3);
-	}
-
-	.punctuation {
-		color: var(--code-color-0);
-	}
-
-	.comment {
-		font-style: italic;
-	}
+.comment {
+	font-style: italic;
 }

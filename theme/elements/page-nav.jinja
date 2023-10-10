@@ -1,16 +1,15 @@
-{% macro page_nav(minimized) %}
-	<page-nav {{ "minimized" if minimized }}>
+{% macro page_nav() %}
+	<page-nav class="page-nav">
 		<template shadowrootmode="open">
 			<link rel="stylesheet" href="/elements/page-nav.css">
 			<nav class="nav">
 				<slot></slot>
-				<slot name="brand"></slot>
 			</nav>
 		</template>
 		{{caller()}}
 	</page-nav>
 {% endmacro %}
 
-{% call page_nav(minimized|default(false)) %}
+{% call page_nav() %}
 	{{inner_html}}
 {% endcall %}
