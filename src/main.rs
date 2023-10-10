@@ -50,7 +50,7 @@ async fn main() -> Result<()> {
 		.init();
 
 	let database = Database::connect(DATABASE_URL.to_string()).await?;
-	let templates = templates::get_env();
+	let templates = templates::Engine::new();
 	let app_state = Arc::new(State {
 		templates,
 		database,

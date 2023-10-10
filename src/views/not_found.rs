@@ -7,10 +7,9 @@ use std::sync::Arc;
 
 pub fn not_found_view(app_state: Arc<crate::State>) -> Result<Response, crate::Error> {
 	let ctx = context! {};
-	let template = app_state
+	let body = app_state
 		.templates
-		.get_template("layouts/not-found.jinja")?;
-	let body = template.render(ctx)?;
+		.render("layouts/not-found.jinja".to_string(), ctx)?;
 
 	Ok((StatusCode::NOT_FOUND, Html(body)).into_response())
 }

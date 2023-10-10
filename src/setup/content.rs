@@ -1,7 +1,7 @@
 use super::frontmatter::Frontmatter;
 use crate::{
 	models::{entry, entry_tag, tag},
-	templates::get_env,
+	templates,
 };
 use anyhow::Result;
 use camino::Utf8Path;
@@ -21,7 +21,7 @@ use syntect::{
 pub fn parse_content(contents: String) -> Result<(Option<Frontmatter>, Vec<u8>, entry::Elements)> {
 	let data: Rc<RefCell<Option<Frontmatter>>> = Rc::new(RefCell::new(None));
 	let mut elements = HashSet::<String>::new();
-	let template_env = get_env();
+	let template_env = templates::Engine::new();
 	let ss = SyntaxSet::load_defaults_newlines();
 	let mut content = Vec::new();
 	let language_buffer = Rc::new(RefCell::new(String::new()));
@@ -90,11 +90,11 @@ pub fn parse_content(contents: String) -> Result<(Option<Frontmatter>, Vec<u8>, 
 						let ctx = context! {
 							language => language.clone(),
 							first_line => first_line.clone(),
-							highlighted_lines => highlighted_lines,
-							inner_html => inner_html
+							highlighted_lines,
+							inner_html
 						};
-						let template = template_env.get_template("elements/code-block.jinja")?;
-						let replacement_html = template.render(ctx)?;
+						let replacement_html =
+							template_env.render("elements/code-block.jinja".to_string(), ctx)?;
 
 						el.replace(replacement_html.as_str(), ContentType::Html);
 						language.clear();

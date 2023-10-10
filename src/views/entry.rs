@@ -72,16 +72,14 @@ pub async fn entry_view(
 				.template
 				.unwrap_or("layouts/entry.jinja".to_string()),
 		);
-		let html = app_state
-			.templates
-			.get_template(template.as_str())
-			.and_then(|template| {
-				template.render(context! {
-					entry => entry,
-					feed => feed,
-					entry_tags => entry_tags,
-				})
-			})?;
+		let html = app_state.templates.render(
+			template,
+			context! {
+				entry,
+				feed,
+				entry_tags,
+			},
+		)?;
 		let body = html.as_bytes().to_vec();
 
 		return Ok(([(header::CONTENT_TYPE, content_type)], body).into_response());
