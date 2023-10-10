@@ -181,12 +181,6 @@ code {
 	position: sticky;
 	inset-block-end: 0;
 	z-index: 0;
-
-	@container (inline-size <= 30rem) {
-		> * {
-			font-size: 0.8em;
-		}
-	}
 }
 
 .meta {
