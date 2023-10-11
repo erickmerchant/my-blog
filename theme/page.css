@@ -43,7 +43,6 @@ body {
 	scrollbar-gutter: stable;
 	overscroll-behavior: none;
 	--border-radius: 0.125em;
-	--border: 0.25em solid var(--main-background);
 	--easing: ease-in-out;
 
 	@media (prefers-color-scheme: light) {
@@ -139,6 +138,7 @@ code {
 
 .page-nav {
 	--background: var(--nav-background);
+	--border: 0.25em solid var(--main-background);
 }
 
 .home-link {
@@ -151,17 +151,27 @@ code {
 
 .section {
 	display: grid;
-	gap: 1em;
+	gap: 1em 0;
+	grid-template-columns: var(--side-column-base) minmax(auto, 40rem) var(
+			--side-column-base
+		);
+	justify-content: center;
 	align-content: start;
-	--max-inline-size: 40rem;
-	--padding-base: 2.25cqi;
-	--padding-inline: var(--padding-base);
+	transition: grid-template-columns 0.25s var(--easing);
+	--side-column-base: 3.5em;
 
 	> * {
-		max-inline-size: var(--max-inline-size);
 		inline-size: 100%;
 		margin-inline: auto;
-		padding-inline: var(--padding-inline);
+		grid-column: 2;
+	}
+
+	> code-block {
+		grid-column: 1 / -1;
+	}
+
+	@container (inline-size <= 50rem) {
+		--side-column-base: 2.5cqi;
 	}
 
 	@container (inline-size <= 30rem) {
@@ -187,9 +197,8 @@ code {
 	list-style: none;
 	display: flex;
 	flex-wrap: wrap;
-	gap: 2em;
+	gap: 0.5em 2em;
 	align-items: center;
-	font-size: 0.8em;
 }
 
 .copyright {
@@ -223,16 +232,8 @@ code {
 	padding-block: 1em;
 	display: grid;
 	gap: 0.5em;
-	max-inline-size: calc(
-		var(--max-inline-size) - calc(var(--padding-inline) * 2)
-	);
 	background-color: var(--alt-background);
 	border-radius: var(--border-radius);
-
-	@container (inline-size <= 38.5rem) {
-		max-inline-size: calc(100% - var(--padding-inline));
-		margin-inline-start: var(--padding-inline);
-	}
 
 	:where(cite) {
 		display: inline flex;
