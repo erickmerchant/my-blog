@@ -37,7 +37,6 @@ async fn main() -> Result<()> {
 
 	create_schema(&database).await?;
 	import_content(&database).await?;
-
 	database.close().await?;
 	// end setup
 

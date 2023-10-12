@@ -19,8 +19,10 @@ impl ImportMap {
 		}
 
 		let mut new_scopes = Scopes::new();
+
 		for (scope_key, old_map) in self.scopes.clone() {
 			let mut new_map = Imports::new();
+
 			for (key, value) in old_map {
 				new_map.insert(key, map(value));
 			}
