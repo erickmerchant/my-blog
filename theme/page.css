@@ -11,8 +11,8 @@
 }
 
 ::-webkit-scrollbar {
-	inline-size: 0.5em;
-	block-size: 0.5em;
+	inline-size: 0.5rem;
+	block-size: 0.5rem;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -112,7 +112,7 @@ strong {
 	gap: 0.25em;
 
 	> * {
-		margin-inline-start: max(var(--list-indent), 1.25em);
+		margin-inline-start: 0.25em;
 	}
 }
 
@@ -139,7 +139,7 @@ code {
 	z-index: 2;
 	padding: 1.5em clamp(var(--side-column-min-and-preferred), 3rem);
 	--background: var(--nav-background);
-	--border: 0.25em solid var(--main-background);
+	--border: 0.25rem solid var(--main-background);
 }
 
 .home-link {

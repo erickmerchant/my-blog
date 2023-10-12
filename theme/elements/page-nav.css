@@ -10,7 +10,7 @@
 
 :host {
 	position: sticky;
-	inset-block-start: calc(var(--scrolling-down, 0) * -4.125em);
+	inset-block-start: calc(var(--scrolling-down, 0) * -4.5em);
 	transition: inset-block-start 0.25s var(--easing);
 	background-color: var(--background);
 	overflow: hidden;
