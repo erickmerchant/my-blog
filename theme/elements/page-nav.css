@@ -17,18 +17,14 @@
 	display: block;
 	border-block-end: var(--border);
 	color: var(--link-color);
-	z-index: 2;
 }
 
 .nav {
 	display: grid;
 	transition: none;
 	overflow: visible;
-	grid-template-columns: min-content auto min-content;
-	gap: 0 1em;
 	align-content: start;
 	align-items: center;
-	padding: 1em;
 	color: var(--link-color);
 
 	:host(:not(:defined)) & {
@@ -38,12 +34,4 @@
 
 :where(slot) {
 	display: block;
-	grid-row: 1;
-
-	&::slotted(*) {
-		block-size: 2em;
-		display: grid;
-		align-items: center;
-		justify-content: end;
-	}
 }

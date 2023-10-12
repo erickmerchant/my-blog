@@ -42,8 +42,9 @@ body {
 	overflow-x: auto;
 	scrollbar-gutter: stable;
 	overscroll-behavior: none;
-	--border-radius: 0.125em;
+	--border-radius: 0.25em;
 	--easing: ease-in-out;
+	--side-column-min-and-preferred: 0.5em, 6cqi;
 
 	@media (prefers-color-scheme: light) {
 		--text-color: oklab(0.1 0 0);
@@ -76,10 +77,8 @@ a {
 	}
 }
 
-@container (inline-size <= 20rem) {
-	p {
-		hyphens: auto;
-	}
+p {
+	hyphens: auto;
 }
 
 h1,
@@ -137,6 +136,8 @@ code {
 }
 
 .page-nav {
+	z-index: 2;
+	padding: 1.5em clamp(var(--side-column-min-and-preferred), 3rem);
 	--background: var(--nav-background);
 	--border: 0.25em solid var(--main-background);
 }
@@ -152,13 +153,12 @@ code {
 .section {
 	display: grid;
 	gap: 1em 0;
-	grid-template-columns: var(--side-column-base) minmax(auto, 40rem) var(
-			--side-column-base
-		);
+	grid-template-columns:
+		var(--side-column) minmax(auto, 40rem)
+		var(--side-column);
 	justify-content: center;
 	align-content: start;
-	transition: grid-template-columns 0.25s var(--easing);
-	--side-column-base: 3.5em;
+	--side-column: clamp(var(--side-column-min-and-preferred), 3.5em);
 
 	> * {
 		inline-size: 100%;
@@ -170,11 +170,7 @@ code {
 		grid-column: 1 / -1;
 	}
 
-	@container (inline-size <= 50rem) {
-		--side-column-base: 2.5cqi;
-	}
-
-	@container (inline-size <= 30rem) {
+	@container (inline-size <= 46rem) {
 		font-size: 0.8em;
 	}
 }
