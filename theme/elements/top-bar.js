@@ -1,6 +1,6 @@
 import {Element} from "element";
 
-export class PageNav extends Element {
+export class TopBar extends Element {
 	#scrollTop = 0;
 	#sheet;
 
@@ -35,4 +35,4 @@ export class PageNav extends Element {
 	}
 }
 
-customElements.define("page-nav", PageNav);
+customElements.define("top-bar", TopBar);

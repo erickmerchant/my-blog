@@ -10,28 +10,12 @@
 
 :host {
 	position: sticky;
-	inset-block-start: calc(var(--scrolling-down, 0) * -4.5em);
+	inset-block-start: calc(
+		var(--scrolling-down, 0) * calc(-1 * var(--block-height))
+	);
 	transition: inset-block-start 0.25s var(--easing);
 	background-color: var(--background);
-	overflow: hidden;
 	display: block;
 	border-block-end: var(--border);
 	color: var(--link-color);
-}
-
-.nav {
-	display: grid;
-	transition: none;
-	overflow: visible;
-	align-content: start;
-	align-items: center;
-	color: var(--link-color);
-
-	:host(:not(:defined)) & {
-		align-items: center;
-	}
-}
-
-:where(slot) {
-	display: block;
 }

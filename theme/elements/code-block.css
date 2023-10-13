@@ -16,7 +16,6 @@
 	overscroll-behavior-x: none;
 	tab-size: 2;
 	border-radius: var(--border-radius);
-	--white-space: pre-wrap;
 	--code-color-0: var(--color);
 }
 
@@ -33,13 +32,6 @@
 		--code-color-1: oklab(0.8 -0.1 -0.1);
 		--code-color-2: oklab(0.8 0.1 -0.05);
 		--code-color-3: oklab(0.8 0.2 0.1);
-	}
-}
-
-@container (inline-size <= 46rem) {
-	:host {
-		border-radius: 0;
-		--white-space: pre;
 	}
 }
 

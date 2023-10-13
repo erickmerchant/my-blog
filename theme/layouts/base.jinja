@@ -1,13 +1,11 @@
-{%- from "/elements/page-nav.jinja" import page_nav -%}
+{%- from "/elements/top-bar.jinja" import top_bar -%}
 
 <!DOCTYPE html>
 <html lang="en-US">
 
 <head>
 	<meta charset="utf-8">
-	{#
 	<meta name="view-transition" content="same-origin">
-	#}
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="{{site.description}}">
 	<title>{% block title %}{{site.title}}{% endblock %}</title>
@@ -19,24 +17,26 @@
 		}
 	</script>
 	<script type="module" src="/element.js"></script>
-	<script type="module" src="/elements/page-nav.js"></script>
+	<script type="module" src="/elements/top-bar.js"></script>
 	{% block modules %}{% endblock %}
 	<link rel="stylesheet" href="/page.css">
-	<link rel="preload" href="/elements/page-nav.css" as="style">
+	<link rel="preload" href="/elements/top-bar.css" as="style">
 	{% block stylesheets %}{% endblock %}
 	<link rel="icon" href="/favicon.svg" type="image/svg+xml">
 </head>
 
-<body>
-	{% call page_nav() %}
-		<a class="home-link" href="/">{{site.title}}</a>
+<body class="page">
+	{% call top_bar("page-nav") %}
+		<nav>
+			<a href="/">{{site.title}}</a>
+		</nav>
 	{% endcall %}
-	<main class="main section">
+	<main class="main">
 		{% block main %}{% endblock %}
 	</main>
-	<footer class="footer section">
-		<ul class="meta">
-			<li class="copyright">&copy; {{current_date() | format_date("%Y")}} {{site.author}}</li>
+	<footer class="footer">
+		<ul>
+			<li>&copy; {{current_date() | format_date("%Y")}} {{site.author}}</li>
 			<li><a href="https://github.com/erickmerchant/my-blog">View Source</a></li>
 		</ul>
 	</footer>
