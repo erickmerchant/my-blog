@@ -34,11 +34,14 @@ html {
 a {
 	color: var(--link-color);
 	text-decoration-thickness: 0.1em;
-	text-underline-offset: 0.1em;
+	text-underline-offset: 0.2em;
+	transition: text-decoration-thickness 0.125s var(--easing);
 
 	&:hover,
-	&:focus-visible {
-		text-decoration-thickness: 0.2em;
+	&:focus-visible,
+	&:active {
+		text-decoration-thickness: 0.25em;
+		text-underline-offset: 0.125em;
 		text-decoration-skip-ink: none;
 	}
 }
@@ -104,8 +107,8 @@ code {
 	grid-template-rows: min-content auto min-content;
 	grid-template-columns:
 		auto
-		[a] var(--side-col) [b] minmax(auto, 40em) [c]
-		var(--side-col) [d] auto;
+		[side-start] var(--side-col) [center-start] minmax(auto, 40em) [center-end]
+		var(--side-col) [side-end] auto;
 	justify-content: center;
 	container-type: inline-size;
 	overflow-x: auto;
@@ -142,7 +145,6 @@ code {
 .page-nav {
 	z-index: 2;
 	padding-block: 1.5em;
-	font-weight: 700;
 	display: grid;
 	gap: 1em 0;
 	grid-template-columns: subgrid;
@@ -152,7 +154,7 @@ code {
 	--block-height: 4.5em;
 
 	> :where(nav) {
-		grid-column: b / c;
+		grid-column: center-start / center-end;
 	}
 }
 
@@ -168,7 +170,7 @@ code {
 	> * {
 		inline-size: 100%;
 		margin-inline: auto;
-		grid-column: b / c;
+		grid-column: center-start / center-end;
 	}
 
 	@container (inline-size <= 47rem) {
@@ -177,13 +179,13 @@ code {
 }
 
 .code-block {
-	max-width: 47em;
-	grid-column: a / d;
+	max-width: 47rem;
+	grid-column: side-start / side-end;
 	--background: var(--alt-background);
 	--color: var(--code-color);
 	--white-space: pre-wrap;
 
-	@container (inline-size <= 38rem) {
+	@container (inline-size <= 47rem) {
 		& {
 			border-radius: 0;
 			--white-space: pre;
@@ -213,7 +215,7 @@ code {
 		flex-wrap: wrap;
 		gap: 0.5em 2em;
 		align-items: center;
-		grid-column: b / c;
+		grid-column: center-start / center-end;
 	}
 }
 
@@ -269,6 +271,7 @@ code {
 }
 
 .rss-link {
+	font-weight: 500;
 	display: inline flex;
 	align-items: center;
 	gap: 0.5em;
