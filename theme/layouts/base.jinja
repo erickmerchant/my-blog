@@ -21,8 +21,9 @@
 	{% block modules %}{% endblock %}
 	<link rel="stylesheet" href="/page.css">
 	<link rel="preload" href="/elements/top-bar.css" as="style">
-	{% block stylesheets %}{% endblock %}
+	{% block css_preloads %}{% endblock %}
 	<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+	{% block rss_alternates %}{% endblock %}
 </head>
 
 <body class="page">

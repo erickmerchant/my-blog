@@ -2,15 +2,15 @@
 <rss version="2.0">
 	<channel>
 		<title>{{entry.title}}</title>
-		<link>{{site.host + "/" + entry.category + "/" + entry.slug + "/feed.rss"}}</link>
+		<link>{{site.host}}/{{entry.category}}/{{entry.slug}}/feed.rss</link>
 		<copyright>© {{current_date() | format_date("%Y")}} {{site.author}}</copyright>
 		{% for (e, tags) in feed %}
 			<item>
 				<title>{% if e.title %}{{e.title}}{% else %}Untitled{% endif %}</title>
-				<link>{{site.host + "/" + e.category + "/" + e.slug + "/"}}</link>
+				<link>{{site.host}}/{{e.category}}/{{e.slug}}/</link>
 				<pubDate>{{e.date | format_date("%a, %d %h %Y")}} 00:00:00 +0000</pubDate>
 				<description>
-					<![CDATA[{{e.description}}]]>
+					<![CDATA[{{e.content | replace("]]>", "]]]]><![CDATA[[>")}}]]>
 				</description>
 			</item>
 		{% endfor %}
