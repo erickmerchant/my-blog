@@ -183,6 +183,7 @@ code {
 	grid-column: side-start / side-end;
 	--background: var(--alt-background);
 	--color: var(--code-color);
+	--border-color: var(--main-background);
 	--white-space: pre-wrap;
 
 	@container (inline-size <= 47rem) {
