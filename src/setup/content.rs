@@ -136,7 +136,6 @@ pub async fn import_content(connection: &DatabaseConnection) -> Result<()> {
 
 			if let Some(data) = data.clone() {
 				entry.title = Set(data.title);
-				entry.description = Set(data.description);
 				entry.permalink = Set(data.permalink);
 				entry.template = Set(data.template);
 				entry.date = Set(data.date);

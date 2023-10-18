@@ -19,9 +19,6 @@ pub struct Model {
 	#[serde(default)]
 	pub date: Option<NaiveDate>,
 
-	#[serde(default)]
-	pub description: Option<String>,
-
 	#[serde(skip_deserializing, default)]
 	pub content: String,
 

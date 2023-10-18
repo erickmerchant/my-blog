@@ -8,9 +8,6 @@ pub struct Frontmatter {
 	pub title: Option<String>,
 
 	#[serde(default)]
-	pub description: Option<String>,
-
-	#[serde(default)]
 	pub permalink: Option<String>,
 
 	#[serde(default)]

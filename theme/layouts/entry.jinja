@@ -49,21 +49,23 @@
 						<h2><a href="/{{e.category}}/{{e.slug}}/">{% if e.title %}{{e.title}}{% else %}Untitled{% endif %}</a></h2>
 						{{sub_heading(e, tags)}}
 					</header>
-					{% if e.description %}
+					{# {% if e.description %}
 						<p>{{e.description}}</p>
-					{% endif %}
+					{% endif %} #}
 				</li>
 			{% endfor %}
 		</ol>
+	{% endif %}
+{% endblock %}
 
-		<p>
-			<a class="rss-link" href="/{{entry.category}}/{{entry.slug}}/feed.rss">
+{% block rss_link %}
+	{% if feed %}
+		<a class="rss-link" href="/{{entry.category}}/{{entry.slug}}/feed.rss">
 				<svg viewBox="0 0 6 6">
 					<path d="M2 5 a1 1 0 1 0 -2 0 a1 1 0 10 2 0 M0 3 a3 3 0 0 1 3 3 h1 a4 4 0 0 0 -4 -4z M0 1 a5 5 0 0 1 5 5 h1 a6 6 0 0 0 -6 -6z" />
 				</svg>
 				RSS for this page
 			</a>
-		</p>
 	{% endif %}
 {% endblock %}
 

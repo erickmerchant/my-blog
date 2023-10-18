@@ -36,9 +36,10 @@
 		{% block main %}{% endblock %}
 	</main>
 	<footer class="footer">
-		<ul>
+		<ul class="footer-links">
 			<li>&copy; {{current_date() | format_date("%Y")}} {{site.author}}</li>
 			<li><a href="https://github.com/erickmerchant/my-blog">View Source</a></li>
+			<li>{% block rss_link %}{% endblock %}</li>
 		</ul>
 	</footer>
 </body>

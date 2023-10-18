@@ -34,14 +34,14 @@ html {
 a {
 	color: var(--link-color);
 	text-decoration-thickness: 0.1em;
-	text-underline-offset: 0.2em;
+	text-underline-offset: 0.1em;
 	transition: text-decoration-thickness 0.125s var(--easing);
 
 	&:hover,
 	&:focus-visible,
 	&:active {
-		text-decoration-thickness: 0.25em;
-		text-underline-offset: 0.125em;
+		text-decoration-thickness: 0.2em;
+		text-underline-offset: 0.2em;
 		text-decoration-skip-ink: none;
 	}
 }
@@ -54,20 +54,17 @@ h1,
 h2,
 h3 {
 	line-height: 1.125;
-	font-weight: 900;
 	text-wrap: balance;
+	font-weight: max(calc(var(--has-scaled-headings, 0) * 900), 700);
+	font-size: max(var(--scaled-font-size), 1em);
 }
 
 h1 {
-	font-size: 2em;
+	--scaled-font-size: calc(var(--has-scaled-headings, 0) * 1.5em);
 }
 
 h2 {
-	font-size: 1.5em;
-}
-
-h3 {
-	font-size: 1em;
+	--scaled-font-size: calc(var(--has-scaled-headings, 0) * 1.25em);
 }
 
 strong {
@@ -75,13 +72,17 @@ strong {
 	font-style: normal;
 }
 
-:is(ul, ol):where(:not([class])) {
-	list-style: inside "▪︎ ";
-	display: grid;
-	gap: 0.25em;
+:is(ul, ol) {
+	--has-scaled-headings: 0;
 
-	> * {
-		margin-inline-start: 0.25em;
+	&:where(:not([class])) {
+		list-style: inside "▪︎ ";
+		display: grid;
+		gap: 0.25em;
+
+		> * {
+			margin-inline-start: 0.25em;
+		}
 	}
 }
 
@@ -121,6 +122,10 @@ code {
 
 	> * {
 		grid-column: 1 / -1;
+
+		@container (inline-size <= 47rem) {
+			font-size: 0.8em;
+		}
 	}
 
 	@media (prefers-color-scheme: light) {
@@ -165,57 +170,12 @@ code {
 	display: grid;
 	gap: 1em 0;
 	grid-template-columns: subgrid;
-	align-content: center;
+	align-content: start;
+	--has-scaled-headings: 1;
 
 	> * {
 		inline-size: 100%;
 		margin-inline: auto;
-		grid-column: center-start / center-end;
-	}
-
-	@container (inline-size <= 47rem) {
-		font-size: 0.8em;
-	}
-}
-
-.code-block {
-	max-width: 47rem;
-	grid-column: side-start / side-end;
-	--background: var(--alt-background);
-	--color: var(--code-color);
-	--border-color: var(--main-background);
-	--white-space: pre-wrap;
-
-	@container (inline-size <= 47rem) {
-		& {
-			border-radius: 0;
-			--white-space: pre;
-		}
-	}
-}
-
-.footer {
-	background-color: var(--alt-background);
-	padding-block: 1.5em;
-	position: sticky;
-	inset-block-end: 0;
-	z-index: 0;
-	display: grid;
-	grid-template-columns: subgrid;
-	justify-content: center;
-	align-content: center;
-	font-weight: 500;
-
-	@container (inline-size <= 47rem) {
-		font-size: 0.8em;
-	}
-
-	> * {
-		list-style: none;
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.5em 2em;
-		align-items: center;
 		grid-column: center-start / center-end;
 	}
 }
@@ -260,6 +220,66 @@ code {
 	}
 }
 
+.code-block {
+	max-width: 47rem;
+	grid-column: side-start / side-end;
+	--background: var(--alt-background);
+	--color: var(--code-color);
+	--border-color: var(--main-background);
+	--white-space: pre-wrap;
+
+	@container (inline-size <= 47rem) {
+		& {
+			border-radius: 0;
+			--white-space: pre;
+		}
+	}
+}
+
+.footer {
+	background-color: var(--alt-background);
+	padding-block: 1.5em;
+	position: sticky;
+	inset-block-end: 0;
+	z-index: 0;
+	display: grid;
+	grid-template-columns: subgrid;
+	justify-content: center;
+	align-content: center;
+	font-weight: 500;
+
+	> * {
+		list-style: none;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5em 2em;
+		align-items: center;
+		justify-content: center;
+		grid-column: center-start / center-end;
+
+		> * {
+			display: inline flex;
+			align-items: center;
+		}
+	}
+}
+
+.rss-link {
+	display: inline flex;
+	align-items: center;
+	gap: 0.5em;
+
+	:where(svg) {
+		display: block;
+		fill: var(--alt-background);
+		padding: 0.25em;
+		inline-size: 1.5em;
+		block-size: 1.5em;
+		border-radius: var(--border-radius);
+		background-color: var(--link-color);
+	}
+}
+
 .index {
 	list-style: none;
 	display: grid;
@@ -268,23 +288,5 @@ code {
 	> * {
 		display: grid;
 		gap: 0.5em;
-	}
-}
-
-.rss-link {
-	font-weight: 500;
-	display: inline flex;
-	align-items: center;
-	gap: 0.5em;
-	margin-block-start: 2em;
-
-	:where(svg) {
-		display: block;
-		fill: currentColor;
-		padding: 0.25em;
-		inline-size: 1.5em;
-		block-size: 1.5em;
-		border-radius: var(--border-radius);
-		background-color: var(--top-background);
 	}
 }
