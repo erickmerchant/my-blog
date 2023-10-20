@@ -53,18 +53,17 @@ p {
 h1,
 h2,
 h3 {
-	line-height: 1.125;
 	text-wrap: balance;
-	font-weight: max(calc(var(--has-scaled-headings, 0) * 900), 700);
-	font-size: max(var(--scaled-font-size), 1em);
+	font-weight: 900;
+	line-height: 1.25;
 }
 
 h1 {
-	--scaled-font-size: calc(var(--has-scaled-headings, 0) * 1.5em);
+	font-size: 1.5em;
 }
 
 h2 {
-	--scaled-font-size: calc(var(--has-scaled-headings, 0) * 1.25em);
+	font-size: 1.25em;
 }
 
 strong {
@@ -73,8 +72,6 @@ strong {
 }
 
 :is(ul, ol) {
-	--has-scaled-headings: 0;
-
 	&:where(:not([class])) {
 		list-style: inside "▪︎ ";
 		display: grid;
@@ -139,8 +136,8 @@ code {
 
 	@media (prefers-color-scheme: dark) {
 		--text-color: oklab(0.9 0 0);
-		--top-background: oklab(0.175 -0.3 0.3);
-		--alt-background: oklab(0.125 -0.2 0.2);
+		--top-background: oklab(0.2 -0.3 0.3);
+		--alt-background: oklab(0.15 -0.2 0.2);
 		--main-background: oklab(0.1 0 0);
 		--link-color: oklab(0.8 -0.4 0.4);
 		--code-color: oklab(0.8 -0.025 0.025);
@@ -171,7 +168,6 @@ code {
 	gap: 1em 0;
 	grid-template-columns: subgrid;
 	align-content: start;
-	--has-scaled-headings: 1;
 
 	> * {
 		inline-size: 100%;
@@ -195,7 +191,7 @@ code {
 	font-weight: 700;
 
 	> * {
-		background-color: var(--top-background);
+		background-color: var(--alt-background);
 		border-radius: var(--border-radius);
 		padding-inline: 0.5em;
 		padding-block: 0.125em;
