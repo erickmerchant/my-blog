@@ -55,6 +55,10 @@ h2,
 h3 {
 	text-wrap: balance;
 	font-weight: 900;
+}
+
+h1,
+h2 {
 	line-height: 1.25;
 }
 
@@ -178,7 +182,7 @@ code {
 
 .heading {
 	display: grid;
-	gap: 1em;
+	gap: inherit;
 }
 
 .chips {
@@ -279,10 +283,10 @@ code {
 .index {
 	list-style: none;
 	display: grid;
-	gap: 1em;
+	gap: 1.25em;
 
 	> * {
 		display: grid;
-		gap: 0.5em;
+		gap: 0.75em;
 	}
 }
