@@ -131,18 +131,18 @@ code {
 
 	@media (prefers-color-scheme: light) {
 		--text-color: oklab(0.1 0 0);
-		--top-background: oklab(0.95 -0.01 0.01);
-		--alt-background: oklab(0.975 -0.005 0.005);
-		--main-background: oklab(0.99 0 0);
+		--top-background: oklab(0.95 -0.025 0.025);
+		--alt-background: oklab(0.975 -0.0125 0.0125);
+		--main-background: oklab(1 -0.0125 0.0125);
 		--link-color: oklab(0.4 -0.4 0.4);
 		--code-color: oklab(0.4 -0.025 0.025);
 	}
 
 	@media (prefers-color-scheme: dark) {
 		--text-color: oklab(0.9 0 0);
-		--top-background: oklab(0.2 -0.3 0.3);
-		--alt-background: oklab(0.15 -0.2 0.2);
-		--main-background: oklab(0.1 0 0);
+		--top-background: oklab(0.3 -0.025 0.025);
+		--alt-background: oklab(0.2 -0.0125 0.0125);
+		--main-background: oklab(0.1 -0.0125 0.0125);
 		--link-color: oklab(0.8 -0.4 0.4);
 		--code-color: oklab(0.8 -0.025 0.025);
 	}
