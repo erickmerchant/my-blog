@@ -33,7 +33,7 @@ pub struct Model {
 	pub template: Option<String>,
 
 	#[serde(default)]
-	pub feed: Option<Feed>,
+	pub feed_type: Option<FeedType>,
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
@@ -57,7 +57,7 @@ pub struct Elements(pub Vec<String>);
 #[derive(EnumIter, DeriveActiveEnum)]
 #[sea_orm(rs_type = "String", db_type = "Text")]
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize, Eq)]
-pub enum Feed {
+pub enum FeedType {
 	#[sea_orm(string_value = "Category")]
 	Category,
 	#[sea_orm(string_value = "Tag")]

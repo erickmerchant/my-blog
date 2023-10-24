@@ -20,5 +20,5 @@ pub struct Frontmatter {
 	pub tags: Option<Vec<String>>,
 
 	#[serde(default)]
-	pub feed: Option<entry::Feed>,
+	pub feed_type: Option<entry::FeedType>,
 }

@@ -34,8 +34,8 @@ pub async fn entry_view(
 				.into_response());
 		}
 
-		let feed = match entry.feed {
-			Some(entry::Feed::Category) => Some(
+		let feed = match entry.feed_type {
+			Some(entry::FeedType::Category) => Some(
 				entry::Entity::find()
 					.filter(entry::Column::Category.eq(entry.slug.clone()))
 					.order_by(entry::Column::Date, Order::Desc)
@@ -43,7 +43,7 @@ pub async fn entry_view(
 					.all(&app_state.database)
 					.await?,
 			),
-			Some(entry::Feed::Tag) => Some(
+			Some(entry::FeedType::Tag) => Some(
 				entry::Entity::find()
 					.filter(
 						entry::Column::Id.in_subquery(

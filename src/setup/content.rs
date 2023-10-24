@@ -139,7 +139,7 @@ pub async fn import_content(connection: &DatabaseConnection) -> Result<()> {
 				entry.permalink = Set(data.permalink);
 				entry.template = Set(data.template);
 				entry.date = Set(data.date);
-				entry.feed = Set(data.feed);
+				entry.feed_type = Set(data.feed_type);
 			}
 
 			entry.content = Set(String::from_utf8(content)?);
