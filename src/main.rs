@@ -1,4 +1,5 @@
 mod args;
+mod assets;
 mod cache;
 mod error;
 mod models;
@@ -10,13 +11,18 @@ mod views;
 
 use anyhow::Result;
 use args::Args;
+use assets::assets_layer;
 use axum::{
-	http::Request, middleware::from_fn_with_state, response::Response, routing::get, Router, Server,
+	http::Request,
+	middleware::{from_fn, from_fn_with_state},
+	response::Response,
+	routing::get,
+	Router, Server,
 };
 use cache::cache_layer;
 use clap::Parser;
 use error::Error;
-use routes::{entry::entry_handler, fallback::fallback_handler, rss::rss_handler};
+use routes::{entry::entry_handler, permalink::permalink_handler, rss::rss_handler};
 use sea_orm::Database;
 use setup::{content::import_content, schema::create_schema};
 use state::State;
@@ -57,7 +63,8 @@ async fn main() -> Result<()> {
 	let mut app = Router::new()
 		.route("/:category/:slug/", get(entry_handler))
 		.route("/:category/:slug/feed.rss", get(rss_handler))
-		.fallback(fallback_handler);
+		.fallback(permalink_handler)
+		.layer(from_fn(assets_layer));
 
 	if !args.no_cache {
 		app = app.layer(from_fn_with_state(app_state.clone(), cache_layer));

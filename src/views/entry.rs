@@ -18,7 +18,7 @@ pub async fn entry_view(
 	template_override: Option<String>,
 	content_type: String,
 	may_redirect: bool,
-) -> anyhow::Result<Response, crate::Error> {
+) -> Result<Response, crate::Error> {
 	if let Some((entry, entry_tags)) = results {
 		let permalink = if !may_redirect {
 			None
@@ -86,7 +86,7 @@ pub async fn entry_view(
 	}
 
 	if content_type == *"text/html; charset=utf-8" {
-		not_found_view(app_state)
+		not_found_view(app_state).await
 	} else {
 		Ok(StatusCode::NOT_FOUND.into_response())
 	}
