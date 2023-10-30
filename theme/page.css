@@ -131,7 +131,7 @@ code {
 
 	@media (prefers-color-scheme: light) {
 		--text-color: oklab(0.1 0 0);
-		--top-background: oklab(0.95 -0.025 0.025);
+		--top-background: oklab(0.95 -0.0125 0.0125);
 		--alt-background: oklab(0.975 -0.0125 0.0125);
 		--main-background: oklab(1 -0.0125 0.0125);
 		--link-color: oklab(0.4 -0.4 0.4);
@@ -140,7 +140,7 @@ code {
 
 	@media (prefers-color-scheme: dark) {
 		--text-color: oklab(0.9 0 0);
-		--top-background: oklab(0.3 -0.025 0.025);
+		--top-background: oklab(0.3 -0.0125 0.0125);
 		--alt-background: oklab(0.2 -0.0125 0.0125);
 		--main-background: oklab(0.1 -0.0125 0.0125);
 		--link-color: oklab(0.8 -0.4 0.4);
