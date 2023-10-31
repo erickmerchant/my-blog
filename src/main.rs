@@ -1,7 +1,6 @@
 mod args;
-mod assets;
-mod cache;
 mod error;
+mod layers;
 mod models;
 mod routes;
 mod setup;
@@ -11,7 +10,6 @@ mod views;
 
 use anyhow::Result;
 use args::Args;
-use assets::assets_layer;
 use axum::{
 	http::Request,
 	middleware::{from_fn, from_fn_with_state},
@@ -19,9 +17,9 @@ use axum::{
 	routing::get,
 	Router, Server,
 };
-use cache::cache_layer;
 use clap::Parser;
 use error::Error;
+use layers::{assets::assets_layer, cache::cache_layer};
 use routes::{entry::entry_handler, permalink::permalink_handler, rss::rss_handler};
 use sea_orm::Database;
 use setup::{content::import_content, schema::create_schema};
