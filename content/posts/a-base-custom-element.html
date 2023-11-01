@@ -16,7 +16,7 @@
 
 <p>It does pose a problem though. If you need JS, how do you use a web framework. You will likely end up shipping instructions on generating the same markup you already have in your HTML, likely via JSX.</p>
 
-<p>This is where a base Custom Element for Declarative Shadow Dom comes in. I'm going to use my own <a href="/element.js">element.js</a> used on this site as an example, but this is more a list of features I think you want in such a Custom Element. Also to be clear when I say base element I mean a class that all your other Custom Elements would extend.</p>
+<p>This is where a base Custom Element for Declarative Shadow Dom comes in. I'm going to use my own <a href="/elements/element.js">element.js</a> used on this site as an example, but this is more a list of features I think you want in such a Custom Element. Also to be clear when I say base element I mean a class that all your other Custom Elements would extend.</p>
 
 <h2>The features</h2>
 
@@ -31,7 +31,7 @@
 <p>With element.js I have a <code>watch</code> method.</p>
 
 <code-block language="js">
-import {Element, watch} from "./element.js";
+import {Element, watch} from "element";
 
 class ExampleElement extends Element {
 	#state = watch({count: 0});
@@ -79,7 +79,7 @@ if (!this.shadowRoot && firstChild?.nodeName === "TEMPLATE" && mode) {
 <p>This last one is probably the one that you could take or leave. It's nice to have attributes behave like any other watched state, but also have your base element handle updating attributes when that state is changed by you.</p>
 
 <code-block language="js">
-import {Element} from "./element.js";
+import {Element} from "element";
 
 class ExampleElement extends Element {
 	static get observedAttributeDefaults() {
@@ -115,4 +115,4 @@ customElements.define("example-element", ExampleElement);
 	<li>Two way data binding to attributes</li>
 </ul>
 
-<p>I'll likely be packaging up <a href="/element.js">element.js</a> and shipping it to a place where others can use it. I'll update this post if I do.</p>
+<p>I'll likely be packaging up <a href="/elements/element.js">element.js</a> and shipping it to a place where others can use it. I'll update this post if I do.</p>

@@ -12,14 +12,14 @@
 	<script type="importmap">
 		{
 			"imports": {
-				"element": "/element.js"
+				"element": "/elements/element.js"
 			}
 		}
 	</script>
-	<script type="module" src="/element.js"></script>
+	<script type="module" src="/elements/element.js"></script>
 	<script type="module" src="/elements/top-bar.js"></script>
 	{% block modules %}{% endblock %}
-	<link rel="stylesheet" href="/page.css">
+	<link rel="stylesheet" href="/styles/page.css">
 	<link rel="preload" href="/elements/top-bar.css" as="style">
 	{% block css_preloads %}{% endblock %}
 	<link rel="icon" href="/favicon.svg" type="image/svg+xml">

@@ -13,7 +13,7 @@ pub async fn permalink_handler(
 ) -> Result<Response, crate::Error> {
 	let content_type = "text/html; charset=utf-8".to_string();
 	let results = entry::Entity::find()
-		.filter(Condition::all().add(entry::Column::Permalink.eq(uri.path())))
+		.filter(Condition::all().add(entry::Column::Permalink.eq(uri.path().trim_matches('/'))))
 		.find_with_related(tag::Entity)
 		.all(&app_state.database)
 		.await?;
