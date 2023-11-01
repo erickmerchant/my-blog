@@ -94,7 +94,7 @@ pub fn parse_content(contents: String) -> Result<(Option<Frontmatter>, Vec<u8>, 
 							inner_html
 						};
 						let replacement_html =
-							template_env.render("elements/code-block.jinja".to_string(), ctx)?;
+							template_env.render("elements/code-block".to_string(), ctx)?;
 
 						el.replace(replacement_html.as_str(), ContentType::Html);
 						language.clear();

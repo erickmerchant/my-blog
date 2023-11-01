@@ -117,7 +117,7 @@ code {
 	scrollbar-gutter: stable;
 	scrollbar-color: var(--link-color) var(--top-background);
 	overscroll-behavior: none;
-	--border-radius: 0.25em;
+	--border-radius: 0.125em;
 	--easing: ease-in-out;
 	--side-col: minmax(0.5rem, 1fr);
 
@@ -272,9 +272,9 @@ code {
 	:where(svg) {
 		display: block;
 		fill: var(--alt-background);
-		padding: 0.25em;
-		inline-size: 1.5em;
-		block-size: 1.5em;
+		padding: 0.125em;
+		inline-size: 1.125em;
+		block-size: 1.125em;
 		border-radius: var(--border-radius);
 		background-color: var(--link-color);
 	}

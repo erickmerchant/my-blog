@@ -1,3 +1,4 @@
+use camino::Utf8Path;
 use chrono::{NaiveDate, Utc};
 use minijinja::{context, path_loader, Environment, Value};
 use std::fs;
@@ -26,7 +27,11 @@ impl Engine {
 
 		Ok(self
 			.env
-			.get_template(template.as_str())
+			.get_template(
+				Utf8Path::new(template.as_str())
+					.with_extension("jinja")
+					.as_str(),
+			)
 			.and_then(|template| template.render(context! { site, ..ctx }))?)
 	}
 }

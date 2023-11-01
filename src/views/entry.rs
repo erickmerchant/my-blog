@@ -70,7 +70,7 @@ pub async fn entry_view(
 			entry
 				.clone()
 				.template
-				.unwrap_or("layouts/entry.jinja".to_string()),
+				.unwrap_or("layouts/entry".to_string()),
 		);
 		let html = app_state.templates.render(
 			template,

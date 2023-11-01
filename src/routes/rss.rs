@@ -27,7 +27,7 @@ pub async fn rss_handler(
 	entry_view(
 		app_state,
 		results.get(0),
-		Some("layouts/rss.jinja".to_string()),
+		Some("layouts/rss".to_string()),
 		content_type,
 		false,
 	)
