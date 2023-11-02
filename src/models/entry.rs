@@ -1,5 +1,5 @@
 use chrono::NaiveDate;
-use sea_orm::{entity::prelude::*, FromJsonQueryResult};
+use sea_orm::entity::prelude::*;
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq, Serialize, Deserialize)]
@@ -21,9 +21,6 @@ pub struct Model {
 
 	#[serde(skip_deserializing, default)]
 	pub content: String,
-
-	#[sea_orm(default_value = "[]")]
-	pub elements: Elements,
 
 	#[sea_orm(unique)]
 	#[serde(default)]
@@ -50,9 +47,6 @@ impl Related<super::tag::Entity> for Entity {
 		Some(super::entry_tag::Relation::Entry.def().rev())
 	}
 }
-
-#[derive(Clone, Debug, Default, PartialEq, Eq, Serialize, Deserialize, FromJsonQueryResult)]
-pub struct Elements(pub Vec<String>);
 
 #[derive(EnumIter, DeriveActiveEnum)]
 #[sea_orm(rs_type = "String", db_type = "Text")]

@@ -1,7 +1,7 @@
-<front-matter>
+===
 {
 	"title": "Posts",
 	"permalink": "",
 	"feed_type": "Category"
 }
-</front-matter>
+===

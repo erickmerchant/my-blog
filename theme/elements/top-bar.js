@@ -1,8 +1,5 @@
-import {Element} from "element";
-
-export class TopBar extends Element {
+export class TopBar extends HTMLElement {
 	#scrollTop = 0;
-	#sheet;
 
 	#handleScroll = () => {
 		let scrollTop = document.body.scrollTop;
@@ -10,9 +7,7 @@ export class TopBar extends Element {
 		if (scrollTop !== this.#scrollTop) {
 			let scrollingDown = scrollTop >= this.#scrollTop;
 
-			this.#sheet.replaceSync(
-				`:host { --scrolling-down: ${scrollingDown ? 1 : 0}; }`
-			);
+			this.style.setProperty("--scrolling-down", scrollingDown ? 1 : 0);
 		}
 
 		this.#scrollTop = scrollTop;
@@ -20,14 +15,6 @@ export class TopBar extends Element {
 
 	connectedCallback() {
 		document.body.addEventListener("scroll", this.#handleScroll);
-
-		let root = this.shadowRoot.getRootNode();
-
-		this.#sheet = new CSSStyleSheet({});
-
-		this.#sheet.replaceSync("");
-
-		root.adoptedStyleSheets = [...root.adoptedStyleSheets, this.#sheet];
 	}
 
 	disconnectedCallback() {

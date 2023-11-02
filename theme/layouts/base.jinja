@@ -1,5 +1,3 @@
-{%- from "/elements/top-bar.jinja" import top_bar -%}
-
 <!DOCTYPE html>
 <html lang="en-US">
 
@@ -9,29 +7,18 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="{{site.description}}">
 	<title>{% block title %}{{site.title}}{% endblock %}</title>
-	<script type="importmap">
-		{
-			"imports": {
-				"element": "/elements/element.js"
-			}
-		}
-	</script>
-	<script type="module" src="/elements/element.js"></script>
 	<script type="module" src="/elements/top-bar.js"></script>
-	{% block modules %}{% endblock %}
 	<link rel="stylesheet" href="/styles/page.css">
-	<link rel="preload" href="/elements/top-bar.css" as="style">
-	{% block css_preloads %}{% endblock %}
 	<link rel="icon" href="/favicon.svg" type="image/svg+xml">
 	{% block rss_alternates %}{% endblock %}
 </head>
 
 <body class="page">
-	{% call top_bar("page-nav") %}
+	<top-bar class="page-nav">
 		<nav>
 			<a href="/">{{site.title}}</a>
 		</nav>
-	{% endcall %}
+	</top-bar>
 	<main class="main">
 		{% block main %}{% endblock %}
 	</main>

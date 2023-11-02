@@ -19,6 +19,7 @@ lol_html = "1.0.0"
 mime_guess = "2.0.4"
 minijinja = { version = "1.0.0", features = ["loader"] }
 pathdiff = { version = "0.2.1", features = ["camino"] }
+pulldown-cmark = "0.9.3"
 sea-orm = { version = "0.12.1", features = [
 	"sqlx-sqlite",
 	"runtime-tokio-rustls",

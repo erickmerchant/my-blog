@@ -1,125 +1,103 @@
 use super::frontmatter::Frontmatter;
-use crate::{
-	models::{entry, entry_tag, tag},
-	templates,
-};
+use crate::models::{entry, entry_tag, tag};
 use anyhow::Result;
 use camino::Utf8Path;
 use glob::glob;
-use lol_html::{element, html_content::ContentType, text, HtmlRewriter, Settings};
-use minijinja::context;
 use pathdiff::diff_utf8_paths;
+use pulldown_cmark::{html, CodeBlockKind, CowStr, Event, Tag};
 use sea_orm::{prelude::*, ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityTrait};
 use serde_json as json;
-use std::{cell::RefCell, collections::HashSet, fs, rc::Rc};
+use std::fs;
 use syntect::{
 	html::{ClassStyle, ClassedHTMLGenerator},
 	parsing::SyntaxSet,
 	util::LinesWithEndings,
 };
 
-pub fn parse_content(contents: String) -> Result<(Option<Frontmatter>, Vec<u8>, entry::Elements)> {
-	let data: Rc<RefCell<Option<Frontmatter>>> = Rc::new(RefCell::new(None));
-	let mut elements = HashSet::<String>::new();
-	let template_env = templates::Engine::new();
+pub fn parse_content(contents: String) -> Result<(Option<Frontmatter>, Vec<u8>)> {
+	let parts = contents.splitn(3, "===");
 	let ss = SyntaxSet::load_defaults_newlines();
-	let mut content = Vec::new();
-	let language_buffer = Rc::new(RefCell::new(String::new()));
-	let default_line: u32 = 1;
-	let first_line_buffer = Rc::new(RefCell::new(default_line));
-	let mut rewriter = HtmlRewriter::new(
-		Settings {
-			element_content_handlers: vec![
-				element!("front-matter", |el| {
-					el.remove();
 
-					Ok(())
-				}),
-				text!("front-matter", |el| {
-					if let Ok(d) = json::from_str::<Frontmatter>(el.as_str()) {
-						data.borrow_mut().replace(d);
-					}
+	let (data, markdown) = match parts.collect::<Vec<&str>>().as_slice() {
+		[_, frontmatter, markdown] => {
+			let data = json::from_str::<Frontmatter>(frontmatter).ok();
 
-					Ok(())
-				}),
-				element!("*", |el| {
-					if el.tag_name().contains('-') && el.tag_name() != "front-matter" {
-						elements.insert(el.tag_name().to_string());
-					}
+			(data, markdown.to_string())
+		}
+		_ => (None, contents),
+	};
 
-					Ok(())
-				}),
-				element!("code-block[language]", |el| {
-					if let Some(language) = el.get_attribute("language") {
-						language_buffer.borrow_mut().push_str(&language);
-					}
+	let parser = pulldown_cmark::Parser::new(markdown.as_str());
+	let mut events = Vec::new();
+	let mut to_highlight = String::new();
+	let mut code_block_lang: Option<String> = None;
 
-					if let Some(first_line) = el.get_attribute("first-line") {
-						first_line_buffer.replace(first_line.parse::<u32>().unwrap_or(1));
-					}
+	for event in parser {
+		match event {
+			Event::Start(Tag::CodeBlock(lang)) => {
+				code_block_lang = match lang {
+					CodeBlockKind::Fenced(lang) => Some(lang.into_string()),
+					_ => None,
+				};
+			}
+			Event::End(Tag::CodeBlock(_)) => {
+				if let Some(lang) = code_block_lang.clone() {
+					let mut highlighted_lines = Vec::<String>::new();
+					let inner_html = to_highlight.clone();
 
-					el.remove_and_keep_content();
+					if let Some(syntax) = ss.find_syntax_by_extension(&lang) {
+						for line in LinesWithEndings::from(inner_html.trim()) {
+							let mut html_generator = ClassedHTMLGenerator::new_with_class_style(
+								syntax,
+								&ss,
+								ClassStyle::Spaced,
+							);
 
-					Ok(())
-				}),
-				text!("code-block[language]", |el| {
-					let mut language = language_buffer.borrow_mut();
-					let first_line = first_line_buffer.as_ref();
-
-					if !language.is_empty() {
-						let mut highlighted_lines = Vec::<String>::new();
-						let inner_html = String::from(el.as_str());
-
-						if let Some(syntax) = ss.find_syntax_by_extension(&language) {
-							for line in LinesWithEndings::from(inner_html.trim()) {
-								let mut html_generator = ClassedHTMLGenerator::new_with_class_style(
-									syntax,
-									&ss,
-									ClassStyle::Spaced,
-								);
-
-								html_generator.parse_html_for_line_which_includes_newline(line)?;
-								highlighted_lines.push(html_generator.finalize());
-							}
-						} else {
-							for line in inner_html.trim().lines() {
-								highlighted_lines.push(format!("<span>{}</span>", line));
-							}
+							html_generator.parse_html_for_line_which_includes_newline(line)?;
+							highlighted_lines.push(format!(
+								"<span></span><span>{}</span>",
+								html_generator.finalize()
+							));
 						}
-
-						let ctx = context! {
-							language => language.clone(),
-							first_line => first_line.clone(),
-							highlighted_lines,
-							inner_html
-						};
-						let replacement_html =
-							template_env.render("elements/code-block".to_string(), ctx)?;
-
-						el.replace(replacement_html.as_str(), ContentType::Html);
-						language.clear();
-						first_line_buffer.replace(default_line);
+					} else {
+						for line in inner_html.trim().lines() {
+							highlighted_lines.push(format!("<span></span><span>{}</span>", line));
+						}
 					}
+					let hightlighted_html = format!(
+						r#"<figure class="code-block"><pre><code>{}</code></pre></figure>"#,
+						highlighted_lines.join("\n")
+					);
+					events.push(Event::Html(CowStr::Boxed(
+						hightlighted_html.into_boxed_str(),
+					)));
+					to_highlight = String::new();
+					code_block_lang = None;
+				}
+			}
+			Event::Text(t) => {
+				if let Some(_lang) = code_block_lang.clone() {
+					// If we're in a code block, build up the string of text
+					to_highlight.push_str(&t);
+				} else {
+					events.push(Event::Text(t))
+				}
+			}
+			e => {
+				events.push(e);
+			}
+		}
+	}
 
-					Ok(())
-				}),
-			],
-			..Default::default()
-		},
-		|c: &[u8]| content.extend_from_slice(c),
-	);
+	let mut html_output = String::new();
 
-	rewriter.write(contents.as_bytes())?;
-	rewriter.end()?;
+	html::push_html(&mut html_output, events.into_iter());
 
-	let elements = entry::Elements(elements.into_iter().collect::<Vec<String>>());
-	let data = data.take();
-
-	Ok((data, content, elements))
+	Ok((data, html_output.as_bytes().to_vec()))
 }
 
 pub async fn import_content(connection: &DatabaseConnection) -> Result<()> {
-	let paths = glob("content/*/*.html".to_string().as_str())?;
+	let paths = glob("content/*/*.md".to_string().as_str())?;
 	let connection = connection.clone();
 
 	for path in paths.flatten() {
@@ -132,7 +110,7 @@ pub async fn import_content(connection: &DatabaseConnection) -> Result<()> {
 			let slug = diff.file_stem().expect("file stem should exist");
 			let category = diff.parent().expect("parent should exist");
 			let contents = fs::read_to_string(path)?;
-			let (data, content, elements) = parse_content(contents)?;
+			let (data, content) = parse_content(contents)?;
 
 			if let Some(data) = data.clone() {
 				entry.title = Set(data.title);
@@ -143,7 +121,6 @@ pub async fn import_content(connection: &DatabaseConnection) -> Result<()> {
 			}
 
 			entry.content = Set(String::from_utf8(content)?);
-			entry.elements = Set(elements);
 			entry.slug = Set(slug.to_string());
 			entry.category = Set(category.to_string());
 
