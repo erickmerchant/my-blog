@@ -52,7 +52,7 @@ async fn main() -> Result<()> {
 		.with_env_filter(tracing_subscriber::EnvFilter::from_default_env())
 		.init();
 
-	let database = Database::connect(DATABASE_URL.to_string()).await?;
+	let database = Database::connect(DATABASE_URL).await?;
 	let templates = templates::Engine::new();
 	let app_state = Arc::new(State {
 		templates,

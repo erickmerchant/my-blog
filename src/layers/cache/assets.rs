@@ -11,16 +11,14 @@ pub fn rewrite_assets(bytes: Bytes, mut output: Vec<u8>) -> anyhow::Result<Vec<u
 			element_content_handlers: vec![
 				element!("link[href]", |el| {
 					if let Some(href) = el.get_attribute("href") {
-						el.set_attribute("href", asset_url(href.to_string()).as_str())
-							.ok();
+						el.set_attribute("href", asset_url(href).as_str()).ok();
 					}
 
 					Ok(())
 				}),
 				element!("script[src]", |el| {
 					if let Some(src) = el.get_attribute("src") {
-						el.set_attribute("src", asset_url(src.to_string()).as_str())
-							.ok();
+						el.set_attribute("src", asset_url(src).as_str()).ok();
 					}
 
 					Ok(())
