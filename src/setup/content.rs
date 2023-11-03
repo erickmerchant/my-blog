@@ -97,20 +97,31 @@ pub fn parse_content(contents: String) -> Result<(Option<Frontmatter>, Vec<u8>)>
 }
 
 pub async fn import_content(connection: &DatabaseConnection) -> Result<()> {
-	let paths = glob("content/*/*.md".to_string().as_str())?;
+	let paths = glob("content/*/*.md")?
+		.chain(glob("content/*/*.json")?)
+		.flatten();
 	let connection = connection.clone();
 
-	for path in paths.flatten() {
+	for path in paths {
 		if let Some(path) = Utf8Path::from_path(&path) {
 			let diff = diff_utf8_paths(path, Utf8Path::new("content/"))
 				.expect("path should be diffable with content");
 			let mut entry = entry::ActiveModel {
 				..Default::default()
 			};
+			let ext = diff.extension().expect("extension should exist");
 			let slug = diff.file_stem().expect("file stem should exist");
 			let category = diff.parent().expect("parent should exist");
 			let contents = fs::read_to_string(path)?;
-			let (data, content) = parse_content(contents)?;
+
+			let (data, content) = match ext {
+				"md" => parse_content(contents)?,
+				"json" => (
+					json::from_str::<Frontmatter>(contents.as_str()).ok(),
+					"".as_bytes().to_vec(),
+				),
+				_ => panic!("unknown file type"),
+			};
 
 			if let Some(data) = data.clone() {
 				entry.title = Set(data.title);
