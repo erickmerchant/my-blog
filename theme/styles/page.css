@@ -243,15 +243,15 @@ code {
 	}
 
 	@media (prefers-color-scheme: light) {
-		--code-color-1: oklab(0.4 -0.2 -0.2);
-		--code-color-2: oklab(0.4 0.2 -0.1);
-		--code-color-3: oklab(0.4 0.3 0.3);
+		--code-color-1: oklab(0.4 -0.4 0.2);
+		--code-color-2: oklab(0.4 -0.2 0.1);
+		--code-color-3: oklab(0.4 -0.1 0);
 	}
 
 	@media (prefers-color-scheme: dark) {
-		--code-color-1: oklab(0.8 -0.15 -0.15);
-		--code-color-2: oklab(0.8 0.15 -0.075);
-		--code-color-3: oklab(0.8 0.225 0.225);
+		--code-color-1: oklab(0.8 -0.4 0.2);
+		--code-color-2: oklab(0.8 -0.2 0.1);
+		--code-color-3: oklab(0.8 -0.1 0);
 	}
 
 	:where(pre) {
