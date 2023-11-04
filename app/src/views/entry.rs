@@ -1,5 +1,9 @@
 use super::not_found::not_found_view;
-use crate::models::{entry, entry_tag, tag};
+use crate::{
+	error,
+	models::{entry, entry_tag, tag},
+	state,
+};
 use axum::{
 	http::{header, StatusCode},
 	response::{IntoResponse, Response},
@@ -13,12 +17,12 @@ use sea_orm::{
 use std::sync::Arc;
 
 pub async fn entry_view(
-	app_state: Arc<crate::State>,
+	app_state: Arc<state::State>,
 	results: Option<&(entry::Model, Vec<tag::Model>)>,
 	template_override: Option<String>,
 	content_type: String,
 	may_redirect: bool,
-) -> Result<Response, crate::Error> {
+) -> Result<Response, error::Error> {
 	if let Some((entry, entry_tags)) = results {
 		let permalink = if !may_redirect {
 			None
@@ -66,12 +70,8 @@ pub async fn entry_view(
 			),
 			None => None,
 		};
-		let template = template_override.unwrap_or(
-			entry
-				.clone()
-				.template
-				.unwrap_or("layouts/entry".to_string()),
-		);
+		let template =
+			template_override.unwrap_or(entry.clone().template.unwrap_or("entry".to_string()));
 		let html = app_state.templates.render(
 			template,
 			context! {

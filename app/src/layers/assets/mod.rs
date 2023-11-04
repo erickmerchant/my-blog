@@ -1,3 +1,4 @@
+use crate::error;
 use axum::{
 	http::{header, Request, StatusCode},
 	middleware::Next,
@@ -6,7 +7,7 @@ use axum::{
 use camino::Utf8Path;
 use std::fs;
 
-pub async fn assets_layer<B>(req: Request<B>, next: Next<B>) -> Result<Response, crate::Error> {
+pub async fn assets_layer<B>(req: Request<B>, next: Next<B>) -> Result<Response, error::Error> {
 	let req_path = &req
 		.uri()
 		.path()
@@ -17,7 +18,7 @@ pub async fn assets_layer<B>(req: Request<B>, next: Next<B>) -> Result<Response,
 	let res = next.run(req).await;
 
 	if res.status() == StatusCode::NOT_FOUND {
-		let uri = Utf8Path::new("theme").join(req_path);
+		let uri = Utf8Path::new("public").join(req_path);
 
 		if let Some(ext) = uri.extension() {
 			let uri = uri.with_extension("").with_extension(ext);

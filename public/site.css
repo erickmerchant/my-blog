@@ -75,15 +75,13 @@ strong {
 	font-style: normal;
 }
 
-:is(ul, ol) {
-	&:where(:not([class])) {
-		list-style: inside "▪︎ ";
-		display: grid;
-		gap: 0.25em;
+:is(ul, ol):where(:not([class])) {
+	list-style: inside "▪︎ ";
+	display: grid;
+	gap: 0.25em;
 
-		> * {
-			margin-inline-start: 0.25em;
-		}
+	> * {
+		margin-inline-start: 0.25em;
 	}
 }
 
@@ -136,6 +134,9 @@ code {
 		--main-background: oklab(1 -0.0125 0.0125);
 		--link-color: oklab(0.4 -0.4 0.4);
 		--code-color-0: oklab(0.4 -0.025 0.025);
+		--code-color-1: oklab(0.4 -0.4 0.2);
+		--code-color-2: oklab(0.4 -0.2 0.1);
+		--code-color-3: oklab(0.4 -0.1 0);
 	}
 
 	@media (prefers-color-scheme: dark) {
@@ -145,6 +146,9 @@ code {
 		--main-background: oklab(0.1 -0.0125 0.0125);
 		--link-color: oklab(0.8 -0.4 0.4);
 		--code-color-0: oklab(0.8 -0.025 0.025);
+		--code-color-1: oklab(0.8 -0.4 0.2);
+		--code-color-2: oklab(0.8 -0.2 0.1);
+		--code-color-3: oklab(0.8 -0.1 0);
 	}
 }
 
@@ -240,18 +244,6 @@ code {
 	@container (inline-size <= 47rem) {
 		border-radius: 0;
 		--white-space: pre;
-	}
-
-	@media (prefers-color-scheme: light) {
-		--code-color-1: oklab(0.4 -0.4 0.2);
-		--code-color-2: oklab(0.4 -0.2 0.1);
-		--code-color-3: oklab(0.4 -0.1 0);
-	}
-
-	@media (prefers-color-scheme: dark) {
-		--code-color-1: oklab(0.8 -0.4 0.2);
-		--code-color-2: oklab(0.8 -0.2 0.1);
-		--code-color-3: oklab(0.8 -0.1 0);
 	}
 
 	:where(pre) {

@@ -6,12 +6,13 @@ args = [
 	"-i",
 	"*.css",
 	"-x",
-	"r --no-default-features -- --no-cache --listen 3000",
+	"r --bin setup --no-default-features",
+	"-x",
+	"r --bin app --no-default-features -- --no-cache --listen 3000",
 ]
 
 [tasks."watch:style"]
 command = "coolstyleserver"
-args = ["--watch", "theme"]
 
 [tasks."docker:build"]
 command = "docker"

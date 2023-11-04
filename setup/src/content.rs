@@ -1,6 +1,6 @@
 use super::frontmatter::Frontmatter;
-use crate::models::{entry, entry_tag, tag};
 use anyhow::Result;
+use app::models::{entry, entry_tag, tag};
 use camino::Utf8Path;
 use glob::glob;
 use pathdiff::diff_utf8_paths;

@@ -1,4 +1,4 @@
-use crate::models::entry;
+use app::models::entry;
 use chrono::NaiveDate;
 use serde::{Deserialize, Serialize};
 

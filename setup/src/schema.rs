@@ -1,5 +1,5 @@
-use crate::models::{cache, entry, entry_tag, tag};
 use anyhow::Result;
+use app::models::{cache, entry, entry_tag, tag};
 use sea_orm::{sea_query::Index, ConnectionTrait, DatabaseConnection, Schema};
 use tokio::try_join;
 

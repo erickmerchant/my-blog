@@ -1,5 +1,7 @@
 use crate::{
+	error,
 	models::{entry, tag},
+	state,
 	views::{entry::entry_view, not_found::not_found_view},
 };
 use axum::{extract::State, http::Uri, response::Response};
@@ -8,9 +10,9 @@ use sea_orm::{entity::prelude::*, query::Condition};
 use std::sync::Arc;
 
 pub async fn permalink_handler(
-	State(app_state): State<Arc<crate::State>>,
+	State(app_state): State<Arc<state::State>>,
 	uri: Uri,
-) -> Result<Response, crate::Error> {
+) -> Result<Response, error::Error> {
 	let content_type = "text/html; charset=utf-8".to_string();
 	let results = entry::Entity::find()
 		.filter(Condition::all().add(entry::Column::Permalink.eq(uri.path().trim_matches('/'))))

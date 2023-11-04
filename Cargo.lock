@@ -145,18 +145,15 @@ dependencies = [
  "chrono",
  "clap",
  "etag",
- "glob",
  "hyper",
+ "lazy_static",
  "log",
  "lol_html",
  "mime_guess",
  "minijinja",
- "pathdiff",
- "pulldown-cmark",
  "sea-orm",
  "serde",
  "serde_json",
- "syntect",
  "tokio",
  "tower-http",
  "tracing",
@@ -2408,6 +2405,24 @@ dependencies = [
 ]
 
 [[package]]
+name = "setup"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "app",
+ "camino",
+ "chrono",
+ "glob",
+ "pathdiff",
+ "pulldown-cmark",
+ "sea-orm",
+ "serde",
+ "serde_json",
+ "syntect",
+ "tokio",
+]
+
+[[package]]
 name = "sha1"
 version = "0.10.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3458,18 +3473,18 @@ dependencies = [
 
 [[package]]
 name = "zerocopy"
-version = "0.7.23"
+version = "0.7.25"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e50cbb27c30666a6108abd6bc7577556265b44f243e2be89a8bc4e07a528c107"
+checksum = "8cd369a67c0edfef15010f980c3cbe45d7f651deac2cd67ce097cd801de16557"
 dependencies = [
  "zerocopy-derive",
 ]
 
 [[package]]
 name = "zerocopy-derive"
-version = "0.7.23"
+version = "0.7.25"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a25f293fe55f0a48e7010d65552bb63704f6ceb55a1a385da10d41d8f78e4a3d"
+checksum = "c2f140bda219a26ccc0cdb03dba58af72590c53b22642577d88a927bc5c87d6b"
 dependencies = [
  "proc-macro2",
  "quote",

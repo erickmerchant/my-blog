@@ -1,14 +1,5 @@
-mod args;
-mod error;
-mod layers;
-mod models;
-mod routes;
-mod setup;
-mod state;
-mod templates;
-mod views;
-
 use anyhow::Result;
+use app::{args, layers, routes, state, templates, DATABASE_URL};
 use args::Args;
 use axum::{
 	http::Request,
@@ -18,32 +9,17 @@ use axum::{
 	Router, Server,
 };
 use clap::Parser;
-use error::Error;
 use layers::{assets::assets_layer, cache::cache_layer};
 use routes::{entry::entry_handler, permalink::permalink_handler, rss::rss_handler};
 use sea_orm::Database;
-use setup::{content::import_content, schema::create_schema};
 use state::State;
-use std::{fs, net::SocketAddr, sync::Arc, time::Duration};
+use std::{net::SocketAddr, sync::Arc, time::Duration};
 use tower_http::{
 	classify::ServerErrorsFailureClass, compression::CompressionLayer, trace::TraceLayer,
 };
 
-static DATABASE_URL: &str = "sqlite://./storage/content.db";
-
 #[tokio::main]
 async fn main() -> Result<()> {
-	// setup
-	fs::remove_dir_all("storage").ok();
-	fs::create_dir_all("storage")?;
-
-	let database = Database::connect(format!("{}?mode=rwc", DATABASE_URL)).await?;
-
-	create_schema(&database).await?;
-	import_content(&database).await?;
-	database.close().await?;
-	// end setup
-
 	let args = Args::parse();
 	let port = args.listen;
 
