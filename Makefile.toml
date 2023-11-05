@@ -1,3 +1,7 @@
+[tasks."run:setup"]
+command = "cargo"
+args = ["run", "--bin", "setup", "--no-default-features", "--features=setup"]
+
 [tasks."watch:app"]
 env = { RUST_LOG = "serve=debug", RUST_BACKTRACE = 1 }
 command = "cargo"
@@ -6,13 +10,16 @@ args = [
 	"-i",
 	"*.css",
 	"-x",
-	"r --bin setup --no-default-features",
+	"r --bin setup --no-default-features --features=setup",
 	"-x",
 	"r --bin app --no-default-features -- --no-cache --listen 3000",
 ]
 
 [tasks."watch:style"]
 command = "coolstyleserver"
+
+[tasks.watch]
+run_task = { name = ["watch:style", "watch:app"], parallel = true }
 
 [tasks."docker:build"]
 command = "docker"
@@ -26,5 +33,16 @@ args = ["run", "-p", "3000:8080", "--name", "my-blog", "my-blog"]
 command = "docker"
 args = ["rm", "-f", "my-blog"]
 
-[tasks.watch]
-run_task = { name = ["watch:style", "watch:app"], parallel = true }
+[tasks.docker]
+run_task = { name = [
+	"run:setup",
+	"docker:build",
+	"docker:start",
+], parallel = false }
+
+[tasks."deploy:app"]
+command = "flyctl"
+args = ["deploy", "--remote-only"]
+
+[tasks.deploy]
+run_task = { name = ["run:setup", "deploy:app"], parallel = true }

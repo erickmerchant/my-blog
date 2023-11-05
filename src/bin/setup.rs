@@ -1,13 +1,10 @@
-mod content;
-mod frontmatter;
-mod schema;
+mod util;
 
 use anyhow::Result;
 use app::DATABASE_URL;
-use content::import_content;
-use schema::create_schema;
 use sea_orm::Database;
 use std::fs;
+use util::{content::import_content, schema::create_schema};
 
 #[tokio::main]
 async fn main() -> Result<()> {

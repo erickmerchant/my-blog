@@ -8,7 +8,7 @@ static FORMAT: &str = "%Y-%m-%d";
 
 lazy_static! {
 	static ref SITE: Site = {
-		let json_string = include_str!("../../content/site.json").to_string();
+		let json_string = include_str!("../content/site.json").to_string();
 		let site: Site = serde_json::from_str(&json_string).unwrap();
 		site
 	};
