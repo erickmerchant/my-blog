@@ -1,4 +1,4 @@
-{% extends "layouts/base.jinja" %}
+{% extends "base.jinja" %}
 
 {% macro sub_heading(entry, tags) %}
 	{% if entry.date or tags %}
@@ -27,7 +27,7 @@
 		{{sub_heading(entry, entry_tags)}}
 	</header>
 
-	{{entry.content}}
+	<div class="content">{{entry.content}}</div>
 
 	{% if feed %}
 		<ol class="index">

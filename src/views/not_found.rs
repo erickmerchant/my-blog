@@ -9,7 +9,7 @@ pub async fn not_found_view(app_state: Arc<crate::State>) -> Result<Response, cr
 	let ctx = context! {};
 	let body = app_state
 		.templates
-		.render("layouts/not-found".to_string(), ctx)?;
+		.render("not-found.jinja".to_string(), ctx)?;
 
 	Ok((StatusCode::NOT_FOUND, Html(body)).into_response())
 }

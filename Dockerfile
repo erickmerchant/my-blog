@@ -13,6 +13,7 @@ RUN cargo build --release --no-default-features --locked
 FROM scratch
 WORKDIR deploy
 COPY content content
-COPY theme theme
+COPY public public
+COPY templates templates
 COPY --from=build /build/target/release/app .
 ENTRYPOINT ["./app"]

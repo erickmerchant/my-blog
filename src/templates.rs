@@ -1,4 +1,3 @@
-use camino::Utf8Path;
 use chrono::{NaiveDate, Utc};
 use minijinja::{context, path_loader, Environment, Value};
 use std::fs;
@@ -14,7 +13,7 @@ impl Engine {
 	pub fn new() -> Self {
 		let mut env = Environment::new();
 
-		env.set_loader(path_loader("theme"));
+		env.set_loader(path_loader("templates"));
 		env.add_filter("format_date", format_date);
 		env.add_function("current_date", current_date);
 
@@ -27,11 +26,7 @@ impl Engine {
 
 		Ok(self
 			.env
-			.get_template(
-				Utf8Path::new(template.as_str())
-					.with_extension("jinja")
-					.as_str(),
-			)
+			.get_template(template.as_str())
 			.and_then(|template| template.render(context! { site, ..ctx }))?)
 	}
 }

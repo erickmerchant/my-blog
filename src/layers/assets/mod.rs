@@ -17,7 +17,7 @@ pub async fn assets_layer<B>(req: Request<B>, next: Next<B>) -> Result<Response,
 	let res = next.run(req).await;
 
 	if res.status() == StatusCode::NOT_FOUND {
-		let uri = Utf8Path::new("theme").join(req_path);
+		let uri = Utf8Path::new("public").join(req_path);
 
 		if let Some(ext) = uri.extension() {
 			let uri = uri.with_extension("").with_extension(ext);

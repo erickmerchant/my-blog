@@ -75,18 +75,6 @@ strong {
 	font-style: normal;
 }
 
-:is(ul, ol) {
-	&:where(:not([class])) {
-		list-style: inside "▪︎ ";
-		display: grid;
-		gap: 0.25em;
-
-		> * {
-			margin-inline-start: 0.25em;
-		}
-	}
-}
-
 code {
 	font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas,
 		"DejaVu Sans Mono", monospace;
@@ -205,6 +193,20 @@ code {
 		border-radius: var(--border-radius);
 		padding-inline: 0.5em;
 		padding-block: 0.125em;
+	}
+}
+
+.content {
+	display: grid;
+	grid-template-columns: subgrid;
+	gap: 1em 0;
+
+	> * {
+		grid-column: center-start / center-end;
+	}
+
+	:where(ul, ol) {
+		padding-inline-start: 1em;
 	}
 }
 
