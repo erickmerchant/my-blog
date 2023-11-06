@@ -27,7 +27,9 @@
 		{{sub_heading(entry, entry_tags)}}
 	</header>
 
-	<div class="content">{{entry.content}}</div>
+	{% if entry.content %}
+		<div class="content">{{entry.content}}</div>
+	{% endif %}
 
 	{% if feed %}
 		<ol class="index">
