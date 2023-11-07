@@ -97,9 +97,12 @@ code {
 	grid-template-rows: min-content auto min-content;
 	grid-template-columns:
 		auto
-		[side-start] var(--side-col) [center-start] minmax(auto, 40em) [center-end]
-		var(--side-col) [side-end] auto;
-	justify-content: center;
+		[side-start]
+		minmax(auto, 2rem)
+		[center-start] minmax(auto, 40em) [center-end]
+		minmax(auto, 2rem)
+		[side-end]
+		auto;
 	container-type: inline-size;
 	overflow-x: auto;
 	scrollbar-gutter: stable;
@@ -107,7 +110,6 @@ code {
 	overscroll-behavior: none;
 	--border-radius: 0.125em;
 	--easing: ease-in-out;
-	--side-col: minmax(0.5rem, 1fr);
 
 	> * {
 		grid-column: 1 / -1;
@@ -198,6 +200,7 @@ code {
 
 .content {
 	display: grid;
+	grid-column: 1 / -1;
 	grid-template-columns: subgrid;
 	gap: 1em 0;
 
@@ -229,7 +232,6 @@ code {
 }
 
 .code-block {
-	max-width: 47rem;
 	grid-column: side-start / side-end;
 	display: grid;
 	overflow-x: auto;
