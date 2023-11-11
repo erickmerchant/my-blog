@@ -98,9 +98,9 @@ code {
 	grid-template-columns:
 		auto
 		[side-start]
-		minmax(auto, 2rem)
-		[center-start] minmax(auto, 40em) [center-end]
-		minmax(auto, 2rem)
+		minmax(0, 3.5rem)
+		[center-start] min(100% - 2em, 40rem) [center-end]
+		minmax(0, 3.5rem)
 		[side-end]
 		auto;
 	container-type: inline-size;
@@ -147,13 +147,13 @@ code {
 	font-weight: 900;
 	position: sticky;
 	inset-block-start: calc(
-		var(--scrolling-down, 0) * calc(-1 * var(--block-height))
+		var(--scrolling-down, 0) * calc(-1 * var(--block-size))
 	);
 	transition: inset-block-start 0.25s var(--easing);
 	background-color: var(--top-background);
 	border-block-end: 0.25rem solid var(--main-background);
 	color: var(--link-color);
-	--block-height: 4.5em;
+	--block-size: 4.5em;
 
 	> :where(nav) {
 		grid-column: center-start / center-end;
@@ -274,7 +274,6 @@ code {
 
 		> * {
 			padding-block: 0.125em;
-			padding-inline: 0.5em;
 			background-color: var(--alt-background);
 		}
 
@@ -286,14 +285,22 @@ code {
 			padding-block-end: 1em;
 		}
 
+		> :where(:nth-child(even)) {
+			padding-inline: 1em;
+		}
+
 		> :where(:nth-child(odd)) {
 			counter-increment: lines 1;
 			position: sticky;
-			inset-inline-start: 0;
 			color: var(--code-color-0);
 			background-color: var(--alt-background);
 			border-inline-end: 0.25em solid var(--main-background);
 			padding-inline: 1em;
+
+			/* tmp until I figure out why the inset-inline-start is necessary */
+			inset-inline-start: 0.25em;
+			box-shadow: -1em 0 0 0 var(--main-background);
+			/* end tmp */
 
 			&::before {
 				content: counter(lines, decimal);
