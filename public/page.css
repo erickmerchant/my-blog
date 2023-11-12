@@ -121,20 +121,20 @@ code {
 
 	@media (prefers-color-scheme: light) {
 		--text-color: oklab(0.1 0 0);
-		--top-background: oklab(0.95 -0.0125 0.0125);
-		--alt-background: oklab(0.975 -0.0125 0.0125);
-		--main-background: oklab(1 -0.0125 0.0125);
-		--link-color: oklab(0.4 -0.4 0.4);
-		--code-color-0: oklab(0.4 -0.025 0.025);
+		--top-background: oklab(0.95 -0.01 0.005);
+		--alt-background: oklab(0.975 -0.01 0.005);
+		--main-background: oklab(1 -0.01 0.005);
+		--link-color: oklab(0.4 -0.4 0.2);
+		--code-color-0: oklab(0.4 -0.025 0.0125);
 	}
 
 	@media (prefers-color-scheme: dark) {
 		--text-color: oklab(0.9 0 0);
-		--top-background: oklab(0.3 -0.0125 0.0125);
-		--alt-background: oklab(0.2 -0.0125 0.0125);
-		--main-background: oklab(0.1 -0.0125 0.0125);
-		--link-color: oklab(0.8 -0.4 0.4);
-		--code-color-0: oklab(0.8 -0.025 0.025);
+		--top-background: oklab(0.3 -0.01 0.005);
+		--alt-background: oklab(0.2 -0.01 0.005);
+		--main-background: oklab(0.1 -0.01 0.005);
+		--link-color: oklab(0.8 -0.4 0.2);
+		--code-color-0: oklab(0.8 -0.025 0.0125);
 	}
 }
 
@@ -247,15 +247,15 @@ code {
 	}
 
 	@media (prefers-color-scheme: light) {
-		--code-color-1: oklab(0.4 -0.4 0.2);
-		--code-color-2: oklab(0.4 -0.2 0.1);
-		--code-color-3: oklab(0.4 -0.1 0);
+		--code-color-1: oklab(0.4 0.4 0.2);
+		--code-color-2: oklab(0.4 -0.4 -0.2);
+		--code-color-3: oklab(0.4 -0.4 0.2);
 	}
 
 	@media (prefers-color-scheme: dark) {
-		--code-color-1: oklab(0.8 -0.4 0.2);
-		--code-color-2: oklab(0.8 -0.2 0.1);
-		--code-color-3: oklab(0.8 -0.1 0);
+		--code-color-1: oklab(0.8 0.2 0.1);
+		--code-color-2: oklab(0.8 -0.2 -0.1);
+		--code-color-3: oklab(0.8 -0.2 0.1);
 	}
 
 	:where(pre) {
