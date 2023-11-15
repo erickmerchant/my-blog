@@ -1,12 +1,12 @@
 *,
 ::before,
 ::after {
-	font: inherit;
-	color: inherit;
+	box-sizing: border-box;
 	max-inline-size: 100%;
 	padding: 0;
 	margin: 0;
-	box-sizing: border-box;
+	color: inherit;
+	font: inherit;
 	-webkit-text-size-adjust: none;
 }
 
@@ -24,11 +24,11 @@
 }
 
 html {
-	font-size: 125%;
+	block-size: 100%;
 	font-family: system-ui, sans-serif;
+	font-size: 125%;
 	font-weight: 400;
 	line-height: 1.5;
-	block-size: 100%;
 }
 
 a {
@@ -40,9 +40,9 @@ a {
 	&:hover,
 	&:focus-visible,
 	&:active {
+		text-decoration-skip-ink: none;
 		text-decoration-thickness: 0.2em;
 		text-underline-offset: 0.2em;
-		text-decoration-skip-ink: none;
 	}
 }
 
@@ -53,8 +53,8 @@ p {
 h1,
 h2,
 h3 {
-	text-wrap: balance;
 	font-weight: 900;
+	text-wrap: balance;
 }
 
 h1,
@@ -71,16 +71,16 @@ h2 {
 }
 
 strong {
-	font-weight: 700;
 	font-style: normal;
+	font-weight: 700;
 }
 
 code {
+	background-color: var(--alt-background);
+	padding-inline: 0.25em;
+	color: var(--code-color-0);
 	font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas,
 		"DejaVu Sans Mono", monospace;
-	color: var(--code-color-0);
-	padding-inline: 0.25em;
-	background-color: var(--alt-background);
 }
 
 @supports selector(:focus-visible) {
@@ -90,10 +90,10 @@ code {
 }
 
 .page {
-	block-size: 100%;
-	color: var(--text-color);
-	background-color: var(--main-background);
 	display: grid;
+	container-type: inline-size;
+	block-size: 100%;
+	background-color: var(--main-background);
 	grid-template-rows: min-content auto min-content;
 	grid-template-columns:
 		auto
@@ -103,11 +103,11 @@ code {
 		minmax(0, 3.5rem)
 		[side-end]
 		auto;
-	container-type: inline-size;
+	color: var(--text-color);
 	overflow-x: auto;
-	scrollbar-gutter: stable;
-	scrollbar-color: var(--link-color) var(--top-background);
 	overscroll-behavior: none;
+	scrollbar-color: var(--link-color) var(--top-background);
+	scrollbar-gutter: stable;
 	--border-radius: 0.125em;
 	--easing: ease-in-out;
 
@@ -139,20 +139,20 @@ code {
 }
 
 .page-nav {
-	z-index: 2;
-	padding-block: 1.5em;
-	display: grid;
-	gap: 1em 0;
-	grid-template-columns: subgrid;
-	font-weight: 900;
 	position: sticky;
+	z-index: 2;
 	inset-block-start: calc(
 		var(--scrolling-down, 0) * calc(-1 * var(--block-size))
 	);
-	transition: inset-block-start 0.25s var(--easing);
+	display: grid;
 	background-color: var(--top-background);
+	padding-block: 1.5em;
 	border-block-end: 0.25rem solid var(--main-background);
+	grid-template-columns: subgrid;
+	gap: 1em 0;
 	color: var(--link-color);
+	font-weight: 900;
+	transition: inset-block-start 0.25s var(--easing);
 	--block-size: 4.5em;
 
 	> :where(nav) {
@@ -161,18 +161,18 @@ code {
 }
 
 .main {
-	background-color: var(--main-background);
-	padding-block: 1em 3em;
 	z-index: 1;
 	display: grid;
-	gap: 1em 0;
+	background-color: var(--main-background);
+	padding-block: 1em 3em;
 	grid-template-columns: subgrid;
+	gap: 1em 0;
 	align-content: start;
 
 	> * {
+		grid-column: center-start / center-end;
 		inline-size: 100%;
 		margin-inline: auto;
-		grid-column: center-start / center-end;
 	}
 }
 
@@ -182,25 +182,25 @@ code {
 }
 
 .chips {
-	list-style: none;
 	display: flex;
 	flex-wrap: wrap;
 	gap: 0.5em;
 	align-items: center;
 	font-size: 0.8em;
 	font-weight: 700;
+	list-style: none;
 
 	> * {
 		background-color: var(--alt-background);
-		border-radius: var(--border-radius);
-		padding-inline: 0.5em;
 		padding-block: 0.125em;
+		padding-inline: 0.5em;
+		border-radius: var(--border-radius);
 	}
 }
 
 .content {
-	display: grid;
 	grid-column: 1 / -1;
+	display: grid;
 	grid-template-columns: subgrid;
 	gap: 1em 0;
 
@@ -214,12 +214,12 @@ code {
 }
 
 .interstitial {
-	padding-inline: 2em;
-	padding-block: 1em;
 	display: grid;
-	gap: 0.5em;
 	background-color: var(--alt-background);
+	padding-block: 1em;
+	padding-inline: 2em;
 	border-radius: var(--border-radius);
+	gap: 0.5em;
 
 	:where(cite) {
 		display: inline flex;
@@ -234,29 +234,12 @@ code {
 .code-block {
 	grid-column: side-start / side-end;
 	display: grid;
-	overflow-x: auto;
-	overscroll-behavior-x: none;
-	tab-size: 2;
 	border-radius: var(--border-radius);
+	tab-size: 2;
+	overflow-x: auto;
 	counter-reset: lines 0;
+	overscroll-behavior-x: none;
 	--white-space: pre-wrap;
-
-	@container (inline-size <= 47rem) {
-		border-radius: 0;
-		--white-space: pre;
-	}
-
-	@media (prefers-color-scheme: light) {
-		--code-color-1: oklab(0.4 0.4 0.2);
-		--code-color-2: oklab(0.4 -0.4 -0.2);
-		--code-color-3: oklab(0.4 -0.4 0.2);
-	}
-
-	@media (prefers-color-scheme: dark) {
-		--code-color-1: oklab(0.8 0.2 0.1);
-		--code-color-2: oklab(0.8 -0.2 -0.1);
-		--code-color-3: oklab(0.8 -0.2 0.1);
-	}
 
 	:where(pre) {
 		font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo,
@@ -265,16 +248,16 @@ code {
 	}
 
 	:where(code) {
+		position: relative;
 		display: grid;
 		grid-template-columns: auto 1fr;
-		white-space: var(--white-space);
 		color: var(--code-color-0);
 		word-break: break-word;
-		position: relative;
+		white-space: var(--white-space);
 
 		> * {
-			padding-block: 0.125em;
 			background-color: var(--alt-background);
+			padding-block: 0.125em;
 		}
 
 		> :where(:nth-child(-n + 2)) {
@@ -290,22 +273,22 @@ code {
 		}
 
 		> :where(:nth-child(odd)) {
-			counter-increment: lines 1;
 			position: sticky;
-			color: var(--code-color-0);
-			background-color: var(--alt-background);
-			border-inline-end: 0.25em solid var(--main-background);
-			padding-inline: 1em;
 
 			/* tmp until I figure out why the inset-inline-start is necessary */
 			inset-inline-start: 0.25em;
+			background-color: var(--alt-background);
+			padding-inline: 1em;
+			border-inline-end: 0.25em solid var(--main-background);
 			box-shadow: -1em 0 0 0 var(--main-background);
+			color: var(--code-color-0);
+			counter-increment: lines 1;
 			/* end tmp */
 
 			&::before {
-				content: counter(lines, decimal);
 				display: grid;
 				justify-content: end;
+				content: counter(lines, decimal);
 			}
 		}
 	}
@@ -333,28 +316,45 @@ code {
 	:where(.comment) {
 		font-style: italic;
 	}
+
+	@container (inline-size <= 47rem) {
+		border-radius: 0;
+		--white-space: pre;
+	}
+
+	@media (prefers-color-scheme: light) {
+		--code-color-1: oklab(0.4 0.4 0.2);
+		--code-color-2: oklab(0.4 -0.4 -0.2);
+		--code-color-3: oklab(0.4 -0.4 0.2);
+	}
+
+	@media (prefers-color-scheme: dark) {
+		--code-color-1: oklab(0.8 0.2 0.1);
+		--code-color-2: oklab(0.8 -0.2 -0.1);
+		--code-color-3: oklab(0.8 -0.2 0.1);
+	}
 }
 
 .footer {
+	position: sticky;
+	z-index: 0;
+	inset-block-end: 0;
+	display: grid;
 	background-color: var(--alt-background);
 	padding-block: 1.5em;
-	position: sticky;
-	inset-block-end: 0;
-	z-index: 0;
-	display: grid;
 	grid-template-columns: subgrid;
-	justify-content: center;
 	align-content: center;
+	justify-content: center;
 	font-weight: 500;
 
 	> * {
-		list-style: none;
+		grid-column: center-start / center-end;
 		display: flex;
 		flex-wrap: wrap;
 		gap: 0.5em 2em;
 		align-items: center;
 		justify-content: center;
-		grid-column: center-start / center-end;
+		list-style: none;
 
 		> * {
 			display: inline flex;
@@ -365,24 +365,24 @@ code {
 
 .rss-link {
 	display: inline flex;
-	align-items: center;
 	gap: 0.5em;
+	align-items: center;
 
 	:where(svg) {
 		display: block;
-		fill: var(--alt-background);
-		padding: 0.125em;
 		inline-size: 1.125em;
 		block-size: 1.125em;
-		border-radius: var(--border-radius);
 		background-color: var(--link-color);
+		padding: 0.125em;
+		border-radius: var(--border-radius);
+		fill: var(--alt-background);
 	}
 }
 
 .index {
-	list-style: none;
 	display: grid;
 	gap: 1.25em;
+	list-style: none;
 
 	> * {
 		display: grid;
