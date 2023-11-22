@@ -61,8 +61,8 @@
 
 {% block rss_alternates %}
 	{% if feed %}
-		<link rel="alternate" type="application/rss+xml" title="{% if entry.title %}{{entry.title}}{% else %}Untitled{% endif %}" href="{{site.host}}/{{entry.category}}/{{entry.slug}}/feed.rss">
+		<link rel="alternate" type="application/rss+xml" title="{% if entry.title %}{{entry.title}}{% else %}Untitled{% endif %}" href="{{site.host}}/{{entry.category}}/{{entry.slug}}/feed.rss" />
 	{% else %}
-		<link rel="alternate" type="application/rss+xml" title="Posts" href="{{site.host}}/categories/posts/feed.rss">
+		<link rel="alternate" type="application/rss+xml" title="Posts" href="{{site.host}}/categories/posts/feed.rss" />
 	{% endif %}
 {% endblock %}
