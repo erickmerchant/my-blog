@@ -6,14 +6,15 @@ edition = "2021"
 
 [dependencies]
 anyhow = { version = "1.0.70", features = ["backtrace"] }
-axum = "0.6.15"
+axum = "0.7.1"
 base62 = "2.0.2"
 camino = "1.1.4"
 chrono = "0.4.23"
 clap = { version = "4.3.17", features = ["derive"] }
 etag = "4.0.0"
 glob = "0.3.0"
-hyper = "0.14.27"
+http-body-util = "0.1.0"
+hyper = "1.0.1"
 log = "0.4.17"
 lol_html = "1.0.0"
 mime_guess = "2.0.4"
@@ -28,7 +29,7 @@ serde = "1.0.185"
 serde_json = "1.0"
 syntect = "5.0.0"
 tokio = { version = "1.27.0", features = ["macros", "rt-multi-thread"] }
-tower-http = { version = "0.4.2", features = [
+tower-http = { version = "0.5.0", features = [
 	"set-header",
 	"compression-gzip",
 	"trace",

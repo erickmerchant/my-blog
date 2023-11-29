@@ -1,4 +1,5 @@
 use axum::{
+	body::Body,
 	http::{header, Request, StatusCode},
 	middleware::Next,
 	response::{IntoResponse, Response},
@@ -6,7 +7,7 @@ use axum::{
 use camino::Utf8Path;
 use std::fs;
 
-pub async fn assets_layer<B>(req: Request<B>, next: Next<B>) -> Result<Response, crate::Error> {
+pub async fn assets_layer(req: Request<Body>, next: Next) -> Result<Response, crate::Error> {
 	let req_path = &req
 		.uri()
 		.path()

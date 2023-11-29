@@ -15,7 +15,7 @@ use axum::{
 	middleware::{from_fn, from_fn_with_state},
 	response::Response,
 	routing::get,
-	Router, Server,
+	serve, Router,
 };
 use clap::Parser;
 use error::Error;
@@ -24,7 +24,8 @@ use routes::{entry::entry_handler, permalink::permalink_handler, rss::rss_handle
 use sea_orm::Database;
 use setup::{content::import_content, schema::create_schema};
 use state::State;
-use std::{fs, net::SocketAddr, sync::Arc, time::Duration};
+use std::{fs, sync::Arc, time::Duration};
+use tokio::net::TcpListener;
 use tower_http::{
 	classify::ServerErrorsFailureClass, compression::CompressionLayer, trace::TraceLayer,
 };
@@ -93,14 +94,15 @@ async fn main() -> Result<()> {
 				),
 		)
 		.with_state(app_state);
-	let addr = SocketAddr::from(([0, 0, 0, 0], port));
+	let listener = TcpListener::bind(("0.0.0.0", port))
+		.await
+		.expect("should listen");
 
-	Server::bind(&addr)
-		.serve(app.into_make_service())
+	serve(listener, app.into_make_service())
 		.await
 		.expect("server should start");
 
-	tracing::debug!("listening on {addr}");
+	tracing::debug!("listening on port {port}");
 
 	Ok(())
 }
