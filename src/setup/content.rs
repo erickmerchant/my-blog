@@ -61,7 +61,7 @@ pub fn parse_content(contents: String) -> Result<(Option<Frontmatter>, Vec<u8>)>
 						}
 					} else {
 						for line in inner_html.trim().lines() {
-							highlighted_lines.push(format!("<span></span><span>{}</span>", line));
+							highlighted_lines.push(format!("<span></span><span>{line}</span>"));
 						}
 					}
 					let hightlighted_html = format!(

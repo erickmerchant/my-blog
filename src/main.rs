@@ -38,7 +38,7 @@ async fn main() -> Result<()> {
 	fs::remove_dir_all("storage").ok();
 	fs::create_dir_all("storage")?;
 
-	let database = Database::connect(format!("{}?mode=rwc", DATABASE_URL)).await?;
+	let database = Database::connect(format!("{DATABASE_URL}?mode=rwc")).await?;
 
 	create_schema(&database).await?;
 	import_content(&database).await?;
