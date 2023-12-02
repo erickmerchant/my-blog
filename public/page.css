@@ -294,7 +294,7 @@ code {
 	}
 
 	:where(.function) {
-		color: var(--code-color-2);
+		color: var(--code-color-1);
 	}
 
 	:where(.parameters) {
@@ -306,7 +306,7 @@ code {
 	}
 
 	:where(.string, .numeric, .boolean, .null, .undefined, .placeholder) {
-		color: var(--code-color-1);
+		color: var(--code-color-2);
 	}
 
 	:where(.punctuation) {
@@ -323,13 +323,13 @@ code {
 	}
 
 	@media (prefers-color-scheme: light) {
-		--code-color-1: oklch(0.4 0.2 270);
-		--code-color-2: oklch(0.4 0.4 300);
-		--code-color-3: oklch(0.4 0.2 330);
+		--code-color-1: oklch(0.4 0.3 0);
+		--code-color-2: oklch(0.4 0.4 45);
+		--code-color-3: oklch(0.4 0.2 90);
 	}
 
 	@media (prefers-color-scheme: dark) {
-		--code-color-1: oklch(0.8 0.2 30);
+		--code-color-1: oklch(0.8 0.3 30);
 		--code-color-2: oklch(0.8 0.4 60);
 		--code-color-3: oklch(0.8 0.2 90);
 	}
