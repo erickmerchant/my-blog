@@ -17,7 +17,6 @@ use syntect::{
 pub fn parse_content(contents: String) -> Result<(Option<Frontmatter>, Vec<u8>)> {
 	let parts = contents.splitn(3, "===");
 	let ss = SyntaxSet::load_defaults_newlines();
-
 	let (data, markdown) = match parts.collect::<Vec<&str>>().as_slice() {
 		[_, frontmatter, markdown] => {
 			let data = json::from_str::<Frontmatter>(frontmatter).ok();
@@ -26,7 +25,6 @@ pub fn parse_content(contents: String) -> Result<(Option<Frontmatter>, Vec<u8>)>
 		}
 		_ => (None, contents),
 	};
-
 	let parser = pulldown_cmark::Parser::new(markdown.as_str());
 	let mut events = Vec::new();
 	let mut to_highlight = String::new();
@@ -113,7 +111,6 @@ pub async fn import_content(connection: &DatabaseConnection) -> Result<()> {
 			let slug = diff.file_stem().expect("file stem should exist");
 			let category = diff.parent().expect("parent should exist");
 			let contents = fs::read_to_string(path)?;
-
 			let (data, content) = match ext {
 				"md" => parse_content(contents)?,
 				"json" => (
@@ -154,7 +151,6 @@ pub async fn import_content(connection: &DatabaseConnection) -> Result<()> {
 							tag.slug = Set(slug);
 							tag.insert(&connection).await?
 						};
-
 						let mut entry_tag = entry_tag::ActiveModel {
 							..Default::default()
 						};

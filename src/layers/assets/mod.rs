@@ -14,7 +14,6 @@ pub async fn assets_layer(req: Request<Body>, next: Next) -> Result<Response, cr
 		.to_string()
 		.trim_start_matches('/')
 		.to_string();
-
 	let res = next.run(req).await;
 
 	if res.status() == StatusCode::NOT_FOUND {
