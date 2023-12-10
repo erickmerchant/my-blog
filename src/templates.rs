@@ -22,7 +22,7 @@ impl Engine {
 
 	pub fn render(&self, template: String, ctx: Value) -> Result<String, anyhow::Error> {
 		let json = fs::read_to_string("content/site.json")?;
-		let site: serde_json::Value = serde_json::from_str(&json)?;
+		let site = serde_json::from_str::<serde_json::Value>(&json)?;
 
 		Ok(self
 			.env

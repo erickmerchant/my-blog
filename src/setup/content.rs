@@ -40,7 +40,7 @@ pub fn parse_content(contents: String) -> Result<(Option<Frontmatter>, Vec<u8>)>
 			}
 			Event::End(Tag::CodeBlock(_)) => {
 				if let Some(lang) = code_block_lang.clone() {
-					let mut highlighted_lines = Vec::<String>::new();
+					let mut highlighted_lines: Vec<String> = Default::default();
 					let inner_html = to_highlight.clone();
 
 					if let Some(syntax) = ss.find_syntax_by_extension(&lang) {
