@@ -2,7 +2,7 @@ use chrono::{NaiveDate, Utc};
 use minijinja::{context, path_loader, Environment, Value};
 use std::fs;
 
-static FORMAT: &str = "%Y-%m-%d";
+const FORMAT: &str = "%Y-%m-%d";
 
 #[derive(Debug, Clone)]
 pub struct Engine {

@@ -28,7 +28,7 @@ pub fn parse_content(contents: String) -> Result<(Option<Frontmatter>, Vec<u8>)>
 	let parser = pulldown_cmark::Parser::new(markdown.as_str());
 	let mut events = Vec::new();
 	let mut to_highlight = String::new();
-	let mut code_block_lang: Option<String> = None;
+	let mut code_block_lang = None;
 
 	for event in parser {
 		match event {
@@ -40,7 +40,7 @@ pub fn parse_content(contents: String) -> Result<(Option<Frontmatter>, Vec<u8>)>
 			}
 			Event::End(Tag::CodeBlock(_)) => {
 				if let Some(lang) = code_block_lang.clone() {
-					let mut highlighted_lines: Vec<String> = Default::default();
+					let mut highlighted_lines = Vec::new();
 					let inner_html = to_highlight.clone();
 
 					if let Some(syntax) = ss.find_syntax_by_extension(&lang) {

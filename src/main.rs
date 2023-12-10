@@ -30,7 +30,7 @@ use tower_http::{
 	classify::ServerErrorsFailureClass, compression::CompressionLayer, trace::TraceLayer,
 };
 
-static DATABASE_URL: &str = "sqlite://./storage/content.db";
+const DATABASE_URL: &str = "sqlite://./storage/content.db";
 
 #[tokio::main]
 async fn main() -> Result<()> {

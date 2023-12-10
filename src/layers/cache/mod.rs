@@ -18,7 +18,7 @@ use hyper::HeaderMap;
 use sea_orm::{entity::prelude::*, ActiveValue::Set};
 use std::sync::Arc;
 
-pub const ETAGABLE_TYPES: &[&str] = &[
+const ETAGABLE_TYPES: &[&str] = &[
 	"text/html; charset=utf-8",
 	"application/rss+xml; charset=utf-8",
 ];
