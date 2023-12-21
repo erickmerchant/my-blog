@@ -64,7 +64,7 @@ pub async fn cache_layer(
 			let mut etag = None;
 
 			if ETAGABLE_TYPES.contains(&content_type.as_str()) {
-				output = rewrite_assets(bytes.to_owned(), output.to_owned())?;
+				output = rewrite_assets(bytes, output)?;
 
 				let etag_string = EntityTag::from_data(&output).to_string();
 

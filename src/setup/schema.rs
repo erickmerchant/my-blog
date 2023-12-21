@@ -8,38 +8,20 @@ pub async fn create_schema(connection: &DatabaseConnection) -> Result<()> {
 	let schema = Schema::new(backend);
 
 	try_join!(
+		connection.execute(backend.build(&schema.create_table_from_entity(entry::Entity))),
+		connection.execute(backend.build(&schema.create_table_from_entity(tag::Entity))),
+		connection.execute(backend.build(&schema.create_table_from_entity(entry_tag::Entity))),
 		connection.execute(
-			backend
-				.build(&schema.create_table_from_entity(entry::Entity))
-				.to_owned(),
+			backend.build(
+				Index::create()
+					.name("entry-slug-category-unique")
+					.table(entry::Entity)
+					.col(entry::Column::Slug)
+					.col(entry::Column::Category)
+					.unique()
+			)
 		),
-		connection.execute(
-			backend
-				.build(&schema.create_table_from_entity(tag::Entity))
-				.to_owned(),
-		),
-		connection.execute(
-			backend
-				.build(&schema.create_table_from_entity(entry_tag::Entity))
-				.to_owned(),
-		),
-		connection.execute(
-			backend
-				.build(
-					Index::create()
-						.name("entry-slug-category-unique")
-						.table(entry::Entity)
-						.col(entry::Column::Slug)
-						.col(entry::Column::Category)
-						.unique()
-				)
-				.to_owned(),
-		),
-		connection.execute(
-			backend
-				.build(&schema.create_table_from_entity(cache::Entity))
-				.to_owned(),
-		),
+		connection.execute(backend.build(&schema.create_table_from_entity(cache::Entity))),
 	)?;
 
 	Ok(())
