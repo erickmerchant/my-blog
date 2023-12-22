@@ -16,7 +16,7 @@ However for a long time the only way to use Shadow DOM was through JS. With Decl
 
 It does pose a problem though. If you need JS, how do you use a web framework. You will likely end up shipping instructions on generating the same markup you already have in your HTML, likely via JSX.
 
-This is where a base Custom Element for Declarative Shadow Dom comes in. I'm going to use my own [element.js](/elements/element.js) used on this site as an example, but this is more a list of features I think you want in such a Custom Element. Also to be clear when I say base element I mean a class that all your other Custom Elements would extend.
+This is where a base Custom Element for Declarative Shadow Dom comes in. I'm going to use my own [element.js](/element.js) used on this site as an example, but this is more a list of features I think you want in such a Custom Element. Also to be clear when I say base element I mean a class that all your other Custom Elements would extend.
 
 ## The features
 
@@ -113,4 +113,4 @@ So four features I think a base element for Declarative Shadow DOM should have.
 - Polyfill Declarative Shadow DOM
 - Two way data binding to attributes
 
-I'll likely be packaging up [element.js](/elements/element.js) and shipping it to a place where others can use it. I'll update this post if I do.
+I'll likely be packaging up [element.js](/element.js) and shipping it to a place where others can use it. I'll update this post if I do.

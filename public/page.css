@@ -122,7 +122,7 @@ code {
 	@media (prefers-color-scheme: light) {
 		--text-color: oklch(0.1 0 0);
 		--top-background: oklch(0.95 0.015 150);
-		--alt-background: oklch(0.975 0.01 150);
+		--alt-background: oklch(0.975 0 150);
 		--main-background: oklch(1 0.01 150);
 		--link-color: oklch(0.4 0.4 150);
 		--code-color-0: oklch(0.4 0.01 150);
@@ -131,7 +131,7 @@ code {
 	@media (prefers-color-scheme: dark) {
 		--text-color: oklch(0.9 0 0);
 		--top-background: oklch(0.3 0.015 150);
-		--alt-background: oklch(0.2 0.01 150);
+		--alt-background: oklch(0.2 0 150);
 		--main-background: oklch(0.1 0.01 150);
 		--link-color: oklch(0.8 0.4 150);
 		--code-color-0: oklch(0.8 0.01 150);
@@ -191,7 +191,7 @@ code {
 	list-style: none;
 
 	> * {
-		background-color: var(--alt-background);
+		background-color: var(--top-background);
 		padding-block: 0.125em;
 		padding-inline: 0.5em;
 		border-radius: var(--border-radius);
@@ -294,7 +294,7 @@ code {
 	}
 
 	:where(.function) {
-		color: var(--code-color-1);
+		color: var(--code-color-2);
 	}
 
 	:where(.parameters) {
@@ -302,11 +302,11 @@ code {
 	}
 
 	:where(.keyword, .storage, .this) {
-		color: var(--code-color-3);
+		color: var(--code-color-1);
 	}
 
 	:where(.string, .numeric, .boolean, .null, .undefined, .placeholder) {
-		color: var(--code-color-2);
+		color: var(--code-color-3);
 	}
 
 	:where(.punctuation) {
@@ -323,15 +323,15 @@ code {
 	}
 
 	@media (prefers-color-scheme: light) {
-		--code-color-1: oklch(0.4 0.35 30);
-		--code-color-2: oklch(0.4 0.3 60);
-		--code-color-3: oklch(0.4 0.2 90);
+		--code-color-1: oklch(0.3 0.1 0);
+		--code-color-2: oklch(0.4 0.25 30);
+		--code-color-3: oklch(0.5 0.4 90);
 	}
 
 	@media (prefers-color-scheme: dark) {
-		--code-color-1: oklch(0.8 0.35 30);
-		--code-color-2: oklch(0.8 0.3 60);
-		--code-color-3: oklch(0.8 0.2 90);
+		--code-color-1: oklch(0.7 0.1 0);
+		--code-color-2: oklch(0.8 0.25 30);
+		--code-color-3: oklch(0.9 0.4 90);
 	}
 }
 
