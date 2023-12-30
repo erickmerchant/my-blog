@@ -19,7 +19,7 @@ pub async fn permalink_handler(
 		.await?;
 
 	if !results.is_empty() {
-		entry_view(app_state, results.get(0), None, content_type, false).await
+		entry_view(app_state, results.first(), None, content_type, false).await
 	} else {
 		not_found_view(app_state).await
 	}
