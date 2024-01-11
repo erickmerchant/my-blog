@@ -70,11 +70,11 @@ pub async fn entry_view(
 			.unwrap_or(entry.clone().template.unwrap_or("entry.jinja".to_string()));
 		let html = app_state.templates.render(
 			template,
-			context! {
+			Some(context! {
 				entry,
 				feed,
 				entry_tags,
-			},
+			}),
 		)?;
 		let body = html.as_bytes().to_vec();
 
