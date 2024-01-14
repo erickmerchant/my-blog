@@ -1,14 +1,6 @@
 {% extends "base.jinja" %}
 
-{% block title %}
-	{{site.title}} - Posts
-{% endblock %}
-
-{% block main %}
-	<header class="heading">
-		<h1>Posts{% if tag %} &mdash; tagged {{tag}}{% endif %}</h1>
-	</header>
-
+{% macro list(entry_list) %}
 	<ol class="index">
 		{% for entry in entry_list %}
 			<li>
@@ -19,4 +11,16 @@
 			</li>
 		{% endfor %}
 	</ol>
+{% endmacro %}
+
+{% block title %}
+	{{site.title}}
+{% endblock %}
+
+{% block main %}
+	<header class="heading">
+		<h1>Posts</h1>
+	</header>
+
+	{{list(entry_list)}}
 {% endblock %}

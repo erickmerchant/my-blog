@@ -1,6 +1,6 @@
 use crate::models::entry;
 use axum::{
-	extract::State,
+	extract::{Path, State},
 	http::header,
 	http::StatusCode,
 	response::{Html, IntoResponse, Response},
@@ -12,10 +12,12 @@ use sea_orm::{
 };
 use std::sync::Arc;
 
-pub async fn list_handler(
+pub async fn tag_handler(
 	State(app_state): State<Arc<crate::State>>,
+	Path(tag): Path<String>,
 ) -> Result<Response, crate::Error> {
 	let entry_list = entry::Entity::find()
+		.filter(entry::Column::Tags.contains(tag.clone()))
 		.order_by(entry::Column::Date, Order::Desc)
 		.all(&app_state.database)
 		.await?;
@@ -29,8 +31,9 @@ pub async fn list_handler(
 	}
 
 	let html = app_state.templates.render(
-		"list.jinja".to_string(),
+		"tag.jinja".to_string(),
 		Some(context! {
+			tag,
 			entry_list,
 		}),
 	)?;

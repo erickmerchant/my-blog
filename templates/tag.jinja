@@ -1,0 +1,13 @@
+{% extends "list.jinja" %}
+
+{% block title %}
+	{{site.title}} - {{tag}}
+{% endblock %}
+
+{% block main %}
+	<header class="heading">
+		<h1>Tag: {{tag}}</h1>
+	</header>
+
+	{{list(entry_list)}}
+{% endblock %}
