@@ -2,7 +2,8 @@ use crate::models::entry;
 use axum::{
 	extract::{Query, State},
 	http::header,
-	response::{IntoResponse, Response},
+	http::StatusCode,
+	response::{Html, IntoResponse, Response},
 };
 use minijinja::context;
 use sea_orm::{
@@ -33,6 +34,15 @@ pub async fn list_handler(
 		.order_by(entry::Column::Date, Order::Desc)
 		.all(&app_state.database)
 		.await?;
+
+	if entry_list.is_empty() {
+		let body = app_state
+			.templates
+			.render("not-found.jinja".to_string(), None)?;
+
+		return Ok((StatusCode::NOT_FOUND, Html(body)).into_response());
+	}
+
 	let html = app_state.templates.render(
 		"list.jinja".to_string(),
 		Some(context! {
