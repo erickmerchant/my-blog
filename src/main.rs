@@ -6,7 +6,6 @@ mod routes;
 mod setup;
 mod state;
 mod templates;
-mod views;
 
 use anyhow::Result;
 use args::Args;
@@ -20,7 +19,7 @@ use axum::{
 use clap::Parser;
 use error::Error;
 use layers::{assets::assets_layer, cache::cache_layer};
-use routes::{entry::entry_handler, permalink::permalink_handler, rss::rss_handler};
+use routes::{entry::entry_handler, list::list_handler, rss::rss_handler};
 use sea_orm::Database;
 use setup::{content::import_content, schema::create_schema};
 use state::State;
@@ -60,9 +59,9 @@ async fn main() -> Result<()> {
 		database,
 	});
 	let mut app = Router::new()
-		.route("/:category/:slug/", get(entry_handler))
-		.route("/:category/:slug/feed.rss", get(rss_handler))
-		.fallback(permalink_handler)
+		.route("/", get(list_handler))
+		.route("/posts/:slug/", get(entry_handler))
+		.route("/posts.rss", get(rss_handler))
 		.layer(from_fn(assets_layer));
 
 	if !args.no_cache {

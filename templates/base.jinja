@@ -1,3 +1,20 @@
+{% macro sub_heading(entry) %}
+	{% if entry.date or entry.tags %}
+		<ul class="chips">
+			{% if entry.date %}
+				<li>
+					<time>{{entry.date | format_date("%B %e, %Y")}}</time>
+				</li>
+			{% endif %}
+			{% if entry.tags %}
+				{% for tag in entry.tags %}
+					<li><a href="/?tag={{tag}}">{{tag}}</a></li>
+				{% endfor %}
+			{% endif %}
+		</ul>
+	{% endif %}
+{% endmacro %}
+
 <!DOCTYPE html>
 <html lang="en-US">
 
@@ -6,11 +23,18 @@
 	<meta name="view-transition" content="same-origin" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<meta name="description" content="{{site.description}}" />
+	{# <script type="importmap">
+		{
+			"imports": {
+				"element": "/element.js"
+			}
+		}
+	</script> #}
 	<title>{% block title %}{{site.title}}{% endblock %}</title>
 	<script type="module" src="/top-bar.js"></script>
 	<link rel="stylesheet" href="/page.css" />
 	<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-	{% block rss_alternates %}{% endblock %}
+	<link rel="alternate" type="application/rss+xml" title="Posts" href="{{site.host}}/posts.rss" />
 </head>
 
 <body class="page">
@@ -26,7 +50,14 @@
 		<ul class="footer-links">
 			<li>&copy; {{site.author}}</li>
 			<li><a href="https://github.com/erickmerchant/my-blog">View Source</a></li>
-			<li>{% block rss_link %}{% endblock %}</li>
+			<li>
+				<a class="rss-link" href="/posts.rss">
+					<svg viewBox="0 0 6 6">
+						<path d="M2 5 a1 1 0 1 0 -2 0 a1 1 0 10 2 0 M0 3 a3 3 0 0 1 3 3 h1 a4 4 0 0 0 -4 -4z M0 1 a5 5 0 0 1 5 5 h1 a6 6 0 0 0 -6 -6z" />
+					</svg>
+					RSS
+				</a>
+			</li>
 		</ul>
 	</footer>
 </body>

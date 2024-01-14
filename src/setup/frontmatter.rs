@@ -1,4 +1,3 @@
-use crate::models::entry;
 use chrono::NaiveDate;
 use serde::{Deserialize, Serialize};
 
@@ -8,9 +7,6 @@ pub struct Frontmatter {
 	pub title: Option<String>,
 
 	#[serde(default)]
-	pub permalink: Option<String>,
-
-	#[serde(default)]
 	pub template: Option<String>,
 
 	#[serde(default)]
@@ -18,7 +14,4 @@ pub struct Frontmatter {
 
 	#[serde(default)]
 	pub tags: Option<Vec<String>>,
-
-	#[serde(default)]
-	pub feed_type: Option<entry::FeedType>,
 }

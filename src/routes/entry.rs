@@ -1,28 +1,41 @@
-use crate::{
-	models::{entry, tag},
-	views::entry::entry_view,
-};
+use crate::models::entry;
 use axum::{
 	extract::{Path, State},
-	response::Response,
+	http::{header, StatusCode},
+	response::{Html, IntoResponse, Response},
 };
-use sea_orm::{entity::prelude::*, query::Condition};
+use minijinja::context;
+use sea_orm::entity::prelude::*;
 use std::sync::Arc;
 
 pub async fn entry_handler(
 	State(app_state): State<Arc<crate::State>>,
-	Path((category, slug)): Path<(String, String)>,
+	Path(slug): Path<String>,
 ) -> Result<Response, crate::Error> {
-	let content_type = "text/html; charset=utf-8".to_string();
 	let results = entry::Entity::find()
-		.filter(
-			Condition::all()
-				.add(entry::Column::Slug.eq(slug))
-				.add(entry::Column::Category.eq(category)),
-		)
-		.find_with_related(tag::Entity)
+		.filter(entry::Column::Slug.eq(slug))
 		.all(&app_state.database)
 		.await?;
 
-	entry_view(app_state, results.first(), None, content_type, true).await
+	if let Some(entry) = results.first() {
+		let html = app_state.templates.render(
+			"entry.jinja".to_string(),
+			Some(context! {
+				entry,
+			}),
+		)?;
+		let body = html.as_bytes().to_vec();
+
+		return Ok((
+			[(header::CONTENT_TYPE, "text/html; charset=utf-8".to_string())],
+			body,
+		)
+			.into_response());
+	}
+
+	let body = app_state
+		.templates
+		.render("not-found.jinja".to_string(), None)?;
+
+	Ok((StatusCode::NOT_FOUND, Html(body)).into_response())
 }

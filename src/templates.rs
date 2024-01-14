@@ -1,4 +1,4 @@
-use chrono::{NaiveDate, Utc};
+use chrono::NaiveDate;
 use minijinja::{context, path_loader, Environment, Value};
 use std::fs;
 
@@ -15,7 +15,6 @@ impl Engine {
 
 		env.set_loader(path_loader("templates"));
 		env.add_filter("format_date", format_date);
-		env.add_function("current_date", current_date);
 
 		Self { env }
 	}
@@ -38,10 +37,4 @@ fn format_date(value: String, fmt: String) -> String {
 	} else {
 		value
 	}
-}
-
-fn current_date() -> String {
-	let current_date = Utc::now();
-
-	current_date.format(FORMAT).to_string()
 }

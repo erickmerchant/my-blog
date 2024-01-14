@@ -1,65 +1,16 @@
 {% extends "base.jinja" %}
 
-{% macro sub_heading(entry, tags) %}
-	{% if entry.date or tags %}
-		<ul class="chips">
-			{% if entry.date %}
-				<li>
-					<time class="published">{{entry.date | format_date("%B %e, %Y")}}</time>
-				</li>
-			{% endif %}
-			{% if tags %}
-				{% for t in tags %}
-					<li><a href="/tags/{{t.slug}}/">{{t.slug}}</a></li>
-				{% endfor %}
-			{% endif %}
-		</ul>
-	{% endif %}
-{% endmacro %}
-
 {% block title %}
 	{{site.title}} {% if entry.title %}— {{entry.title}}{% else %}Untitled{% endif %}
 {% endblock %}
 
 {% block main %}
 	<header class="heading">
-		<h1>{% if entry.title %}{{entry.title}}{% else %}Untitled{% endif %}</h1>
-		{{sub_heading(entry, entry_tags)}}
+		<h1>{{entry.title}}</h1>
+		{{sub_heading(entry)}}
 	</header>
 
 	{% if entry.content %}
 		<div class="content">{{entry.content}}</div>
-	{% endif %}
-
-	{% if feed %}
-		<ol class="index">
-			{% for (e, tags) in feed %}
-				<li>
-					<header class="heading">
-						<h2><a href="/{{e.category}}/{{e.slug}}/">{% if e.title %}{{e.title}}{% else %}Untitled{% endif %}</a></h2>
-						{{sub_heading(e, tags)}}
-					</header>
-				</li>
-			{% endfor %}
-		</ol>
-	{% endif %}
-{% endblock %}
-
-{% block rss_link %}
-	{% if feed %}
-		<a class="rss-link" href="/{{entry.category}}/{{entry.slug}}/feed.rss">
-				<svg viewBox="0 0 6 6">
-					<path d="M2 5 a1 1 0 1 0 -2 0 a1 1 0 10 2 0 M0 3 a3 3 0 0 1 3 3 h1 a4 4 0 0 0 -4 -4z M0 1 a5 5 0 0 1 5 5 h1 a6 6 0 0 0 -6 -6z" />
-				</svg>
-				RSS for this page
-			</a>
-	{% endif %}
-{% endblock %}
-
-{% block rss_alternates %}
-	{% if feed %}
-		<link rel="alternate" type="application/rss+xml" title="{% if entry.title %}{{entry.title}}{% else %}Untitled{% endif %}" href="{{site.host}}/{{entry.category}}/{{entry.slug}}/feed.rss" />
-	{% else %}
-		<link rel="alternate" type="application/rss+xml" title="Posts" href="{{site.host}}/categories/posts/feed.rss" />
 	{% endif %}
 {% endblock %}

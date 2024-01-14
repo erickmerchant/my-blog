@@ -1,3 +1,3 @@
 pub mod entry;
-pub mod permalink;
+pub mod list;
 pub mod rss;

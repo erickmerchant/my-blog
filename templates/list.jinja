@@ -1,0 +1,22 @@
+{% extends "base.jinja" %}
+
+{% block title %}
+	{{site.title}} - Posts
+{% endblock %}
+
+{% block main %}
+	<header class="heading">
+		<h1>Posts{% if tag %} &mdash; tagged {{tag}}{% endif %}</h1>
+	</header>
+
+	<ol class="index">
+		{% for entry in entry_list %}
+			<li>
+				<header class="heading">
+					<h2><a href="/posts/{{entry.slug}}/">{{entry.title}}</a></h2>
+					{{sub_heading(entry)}}
+				</header>
+			</li>
+		{% endfor %}
+	</ol>
+{% endblock %}
