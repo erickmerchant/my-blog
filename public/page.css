@@ -139,6 +139,7 @@ code {
 }
 
 .page-nav {
+	view-transition-name: top-bar;
 	position: sticky;
 	z-index: 2;
 	inset-block-start: calc(
