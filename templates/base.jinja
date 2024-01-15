@@ -1,14 +1,14 @@
-{% macro sub_heading(entry) %}
-	{% if entry.date or entry.tags %}
+{% macro sub_heading(tagged_entry) %}
+	{% if tagged_entry.date or tagged_entry.tags %}
 		<ul class="chips">
-			{% if entry.date %}
+			{% if tagged_entry.date %}
 				<li>
-					<time>{{entry.date | format_date("%B %e, %Y")}}</time>
+					<time>{{tagged_entry.date | format_date("%B %e, %Y")}}</time>
 				</li>
 			{% endif %}
-			{% if entry.tags %}
-				{% for tag in entry.tags %}
-					<li><a href="/tags/{{tag}}/">{{tag}}</a></li>
+			{% if tagged_entry.tags %}
+				{% for tag in tagged_entry.tags %}
+					<li><a href="/tags/{{tag.slug}}/">{{tag.slug}}</a></li>
 				{% endfor %}
 			{% endif %}
 		</ul>

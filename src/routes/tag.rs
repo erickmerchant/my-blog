@@ -1,4 +1,4 @@
-use crate::models::entry;
+use crate::models::{entry, tag};
 use axum::{
 	extract::{Path, State},
 	http::header,
@@ -16,13 +16,26 @@ pub async fn tag_handler(
 	State(app_state): State<Arc<crate::State>>,
 	Path(tag): Path<String>,
 ) -> Result<Response, crate::Error> {
-	let entry_list = entry::Entity::find()
-		.filter(entry::Column::Tags.contains(tag.clone()))
+	let tagged_entry_list = entry::Entity::find()
 		.order_by(entry::Column::Date, Order::Desc)
+		.find_with_related(tag::Entity)
+		.filter(tag::Column::Slug.eq(tag.clone()))
 		.all(&app_state.database)
 		.await?;
 
-	if entry_list.is_empty() {
+	let tagged_entry_list = tagged_entry_list
+		.iter()
+		.map(|(entry, tags)| entry::TaggedEntry {
+			id: entry.id,
+			slug: entry.slug.to_owned(),
+			title: entry.title.to_owned(),
+			date: entry.date.to_owned(),
+			content: entry.content.to_owned(),
+			tags: tags.to_owned(),
+		})
+		.collect::<Vec<_>>();
+
+	if tagged_entry_list.is_empty() {
 		let body = app_state
 			.templates
 			.render("not-found.jinja".to_string(), None)?;
@@ -34,7 +47,7 @@ pub async fn tag_handler(
 		"tag.jinja".to_string(),
 		Some(context! {
 			tag,
-			entry_list,
+			tagged_entry_list,
 		}),
 	)?;
 	let body = html.as_bytes().to_vec();

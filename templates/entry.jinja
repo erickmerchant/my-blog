@@ -1,16 +1,16 @@
 {% extends "base.jinja" %}
 
 {% block title %}
-	{{site.title}} {% if entry.title %}— {{entry.title}}{% else %}Untitled{% endif %}
+	{{site.title}} {% if tagged_entry.title %}— {{tagged_entry.title}}{% else %}Untitled{% endif %}
 {% endblock %}
 
 {% block main %}
 	<header class="heading">
-		<h1>{{entry.title}}</h1>
-		{{sub_heading(entry)}}
+		<h1>{{tagged_entry.title}}</h1>
+		{{sub_heading(tagged_entry)}}
 	</header>
 
-	{% if entry.content %}
-		<div class="content">{{entry.content}}</div>
+	{% if tagged_entry.content %}
+		<div class="content">{{tagged_entry.content}}</div>
 	{% endif %}
 {% endblock %}

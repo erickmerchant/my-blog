@@ -1,12 +1,12 @@
 {% extends "base.jinja" %}
 
-{% macro list(entry_list) %}
+{% macro list(tagged_entry_list) %}
 	<ol class="index">
-		{% for entry in entry_list %}
+		{% for tagged_entry in tagged_entry_list %}
 			<li>
 				<header class="heading">
-					<h2><a href="/posts/{{entry.slug}}/">{{entry.title}}</a></h2>
-					{{sub_heading(entry)}}
+					<h2><a href="/posts/{{tagged_entry.slug}}/">{{tagged_entry.title}}</a></h2>
+					{{sub_heading(tagged_entry)}}
 				</header>
 			</li>
 		{% endfor %}
@@ -22,5 +22,5 @@
 		<h1>Posts</h1>
 	</header>
 
-	{{list(entry_list)}}
+	{{list(tagged_entry_list)}}
 {% endblock %}

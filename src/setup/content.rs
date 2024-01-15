@@ -1,11 +1,11 @@
 use super::frontmatter::Frontmatter;
-use crate::models::entry;
+use crate::models::{entry, entry_tag, tag};
 use anyhow::Result;
 use camino::Utf8Path;
 use glob::glob;
 use pathdiff::diff_utf8_paths;
 use pulldown_cmark::{html, CodeBlockKind, CowStr, Event, Tag};
-use sea_orm::{ActiveModelTrait, ActiveValue::Set, DatabaseConnection};
+use sea_orm::{prelude::*, ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityTrait};
 use serde_json as json;
 use std::fs;
 use syntect::{
@@ -114,16 +114,40 @@ pub async fn import_content(connection: &DatabaseConnection) -> Result<()> {
 			if let Some(data) = data.clone() {
 				entry.title = Set(data.title);
 				entry.date = Set(data.date);
-
-				if let Some(tags) = data.tags {
-					entry.tags = Set(Some(entry::Tags(tags)));
-				}
 			}
 
 			entry.content = Set(String::from_utf8(content)?);
 			entry.slug = Set(slug.to_string());
 
-			entry.insert(&connection).await?;
+			let entry = entry.insert(&connection).await?;
+
+			if let Some(data) = data {
+				if let Some(tags) = data.tags {
+					for slug in tags {
+						let tag = if let Some(tag) = tag::Entity::find()
+							.filter(tag::Column::Slug.eq(slug.clone()))
+							.one(&connection)
+							.await?
+						{
+							tag
+						} else {
+							let mut tag = tag::ActiveModel {
+								..Default::default()
+							};
+
+							tag.slug = Set(slug);
+							tag.insert(&connection).await?
+						};
+						let mut entry_tag = entry_tag::ActiveModel {
+							..Default::default()
+						};
+
+						entry_tag.entry_id = Set(entry.id);
+						entry_tag.tag_id = Set(tag.id);
+						entry_tag.insert(&connection).await?;
+					}
+				}
+			}
 		}
 	}
 
