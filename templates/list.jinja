@@ -19,8 +19,13 @@
 
 {% block main %}
 	<header class="heading">
-		<h1>Posts</h1>
+		{% if tag_filter %}
+			<h1>Tag: {{tag_filter}}</h1>
+		{% else %}
+			<h1>Posts</h1>
+		{% endif %}
 	</header>
+
 
 	{{list(tagged_entry_list)}}
 {% endblock %}

@@ -1,7 +1,7 @@
 use super::not_found::not_found_handler;
-use crate::models::{entry, tag};
+use crate::models::{entry, entry_tag, tag};
 use axum::{
-	extract::State,
+	extract::{Path, State},
 	http::header,
 	response::{IntoResponse, Response},
 };
@@ -9,15 +9,41 @@ use minijinja::context;
 use sea_orm::{
 	entity::prelude::*,
 	query::{Order, QueryOrder},
+	sea_query::Query,
 };
 use std::sync::Arc;
 
 pub async fn list_handler(
 	State(app_state): State<Arc<crate::State>>,
+	tag: Option<Path<String>>,
 ) -> Result<Response, crate::Error> {
 	let tagged_entry_list = entry::Entity::find()
 		.order_by(entry::Column::Date, Order::Desc)
-		.find_with_related(tag::Entity)
+		.find_with_related(tag::Entity);
+	let mut tag_filter = None;
+
+	let tagged_entry_list = if let Some(Path(tag)) = tag {
+		tag_filter = Some(tag.clone());
+
+		tagged_entry_list.filter(
+			entry::Column::Id.in_subquery(
+				Query::select()
+					.from(entry_tag::Entity)
+					.left_join(
+						tag::Entity,
+						Expr::col((tag::Entity, tag::Column::Id))
+							.equals((entry_tag::Entity, entry_tag::Column::TagId)),
+					)
+					.column(entry_tag::Column::EntryId)
+					.and_where(tag::Column::Slug.eq(tag.clone()))
+					.to_owned(),
+			),
+		)
+	} else {
+		tagged_entry_list
+	};
+
+	let tagged_entry_list = tagged_entry_list
 		.all(&app_state.database)
 		.await?
 		.into_iter()
@@ -31,6 +57,7 @@ pub async fn list_handler(
 	let html = app_state.templates.render(
 		"list.jinja".to_string(),
 		Some(context! {
+			tag_filter,
 			tagged_entry_list,
 		}),
 	)?;
