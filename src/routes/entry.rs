@@ -1,8 +1,9 @@
+use super::not_found::not_found_handler;
 use crate::models::{entry, tag};
 use axum::{
 	extract::{Path, State},
-	http::{header, StatusCode},
-	response::{Html, IntoResponse, Response},
+	http::header,
+	response::{IntoResponse, Response},
 };
 use minijinja::context;
 use sea_orm::entity::prelude::*;
@@ -16,28 +17,15 @@ pub async fn entry_handler(
 		.filter(entry::Column::Slug.eq(slug))
 		.find_with_related(tag::Entity)
 		.all(&app_state.database)
-		.await?;
-
-	let tagged_entry_list = tagged_entry_list
-		.iter()
-		.map(|(entry, tags)| entry::TaggedEntry {
-			id: entry.id,
-			slug: entry.slug.to_owned(),
-			title: entry.title.to_owned(),
-			date: entry.date.to_owned(),
-			content: entry.content.to_owned(),
-			tags: tags.to_owned(),
-		})
+		.await?
+		.into_iter()
+		.map(entry::TaggedEntry::from)
 		.collect::<Vec<_>>();
 
 	let tagged_entry = tagged_entry_list.first();
 
 	if tagged_entry.is_none() {
-		let body = app_state
-			.templates
-			.render("not-found.jinja".to_string(), None)?;
-
-		return Ok((StatusCode::NOT_FOUND, Html(body)).into_response());
+		return not_found_handler(State(app_state)).await;
 	}
 
 	let html = app_state.templates.render(
