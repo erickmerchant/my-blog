@@ -1,5 +1,5 @@
 use super::not_found::not_found_handler;
-use crate::models::{entry, entry_tag, tag};
+use crate::models::{entry, entry_tag, tag, TaggedEntry};
 use axum::{
 	extract::{Path, State},
 	http::header,
@@ -21,7 +21,6 @@ pub async fn list_handler(
 		.order_by(entry::Column::Date, Order::Desc)
 		.find_with_related(tag::Entity);
 	let mut tag_filter = None;
-
 	let tagged_entry_list = if let Some(Path(tag)) = tag {
 		tag_filter = Some(tag.clone());
 
@@ -42,12 +41,11 @@ pub async fn list_handler(
 	} else {
 		tagged_entry_list
 	};
-
 	let tagged_entry_list = tagged_entry_list
 		.all(&app_state.database)
 		.await?
 		.into_iter()
-		.map(entry::TaggedEntry::from)
+		.map(TaggedEntry::from)
 		.collect::<Vec<_>>();
 
 	if tagged_entry_list.is_empty() {

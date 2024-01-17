@@ -1,6 +1,18 @@
 {% extends "base.jinja" %}
 
-{% macro list(tagged_entry_list) %}
+{% block title %}
+	{{site.title}}
+{% endblock %}
+
+{% block main_header %}
+	{% if tag_filter %}
+		<h1>Tag: {{tag_filter}}</h1>
+	{% else %}
+		<h1>Posts</h1>
+	{% endif %}
+{% endblock %}
+
+{% block main %}
 	<ol class="index">
 		{% for tagged_entry in tagged_entry_list %}
 			<li>
@@ -11,21 +23,4 @@
 			</li>
 		{% endfor %}
 	</ol>
-{% endmacro %}
-
-{% block title %}
-	{{site.title}}
-{% endblock %}
-
-{% block main %}
-	<header class="heading">
-		{% if tag_filter %}
-			<h1>Tag: {{tag_filter}}</h1>
-		{% else %}
-			<h1>Posts</h1>
-		{% endif %}
-	</header>
-
-
-	{{list(tagged_entry_list)}}
 {% endblock %}

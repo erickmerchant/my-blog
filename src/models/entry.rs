@@ -1,31 +1,6 @@
-use super::tag;
 use chrono::NaiveDate;
 use sea_orm::entity::prelude::*;
 use serde::{Deserialize, Serialize};
-use std::convert::From;
-
-#[derive(Clone, Debug, Serialize, Deserialize)]
-pub struct TaggedEntry {
-	pub id: i32,
-	pub slug: String,
-	pub title: Option<String>,
-	pub date: Option<NaiveDate>,
-	pub content: String,
-	pub tags: Vec<tag::Model>,
-}
-
-impl From<(Model, Vec<tag::Model>)> for TaggedEntry {
-	fn from((entry, tag_list): (Model, Vec<tag::Model>)) -> Self {
-		Self {
-			id: entry.id,
-			slug: entry.slug.to_owned(),
-			title: entry.title.to_owned(),
-			date: entry.date.to_owned(),
-			content: entry.content.to_owned(),
-			tags: tag_list.to_owned(),
-		}
-	}
-}
 
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq, Serialize, Deserialize)]
 #[sea_orm(table_name = "entry")]

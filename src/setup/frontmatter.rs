@@ -7,9 +7,6 @@ pub struct Frontmatter {
 	pub title: Option<String>,
 
 	#[serde(default)]
-	pub template: Option<String>,
-
-	#[serde(default)]
 	pub date: Option<NaiveDate>,
 
 	#[serde(default)]

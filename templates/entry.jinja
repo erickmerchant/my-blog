@@ -4,12 +4,12 @@
 	{{site.title}} {% if tagged_entry.title %}— {{tagged_entry.title}}{% else %}Untitled{% endif %}
 {% endblock %}
 
-{% block main %}
-	<header class="heading">
-		<h1>{{tagged_entry.title}}</h1>
-		{{sub_heading(tagged_entry)}}
-	</header>
+{% block main_header %}
+	<h1>{{tagged_entry.title}}</h1>
+	{{sub_heading(tagged_entry)}}
+{% endblock %}
 
+{% block main %}
 	{% if tagged_entry.content %}
 		<div class="content">{{tagged_entry.content}}</div>
 	{% endif %}

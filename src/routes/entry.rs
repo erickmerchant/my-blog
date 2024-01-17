@@ -1,5 +1,5 @@
 use super::not_found::not_found_handler;
-use crate::models::{entry, tag};
+use crate::models::{entry, tag, TaggedEntry};
 use axum::{
 	extract::{Path, State},
 	http::header,
@@ -19,9 +19,8 @@ pub async fn entry_handler(
 		.all(&app_state.database)
 		.await?
 		.into_iter()
-		.map(entry::TaggedEntry::from)
+		.map(TaggedEntry::from)
 		.collect::<Vec<_>>();
-
 	let tagged_entry = tagged_entry_list.first();
 
 	if tagged_entry.is_none() {

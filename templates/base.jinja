@@ -44,6 +44,10 @@
 		</nav>
 	</top-bar>
 	<main class="main">
+		<header class="heading">
+			{% block main_header %}{% endblock %}
+		</header>
+
 		{% block main %}{% endblock %}
 	</main>
 	<footer class="footer">
