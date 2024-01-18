@@ -6,7 +6,7 @@
 
 {% block main_header %}
 	{% if tag_filter %}
-		<h1>Tag: {{tag_filter}}</h1>
+		<h1>Tag: {{tag_filter.title}}</h1>
 	{% else %}
 		<h1>Posts</h1>
 	{% endif %}

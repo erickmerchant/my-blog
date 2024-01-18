@@ -3,7 +3,6 @@ use crate::models::{entry, entry_tag, tag};
 use anyhow::Result;
 use camino::Utf8Path;
 use glob::glob;
-use pathdiff::diff_utf8_paths;
 use pulldown_cmark::{html, CodeBlockKind, CowStr, Event, Tag};
 use sea_orm::{prelude::*, ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityTrait};
 use serde_json as json;
@@ -95,19 +94,37 @@ pub fn parse_content(contents: String) -> Result<(Option<Frontmatter>, Vec<u8>)>
 }
 
 pub async fn import_content(connection: &DatabaseConnection) -> Result<()> {
-	let paths = glob("content/*/*.md")?
-		.chain(glob("content/*/*.json")?)
-		.flatten();
+	let paths = glob("content/tags/*.json")?.flatten();
 	let connection = connection.clone();
 
 	for path in paths {
 		if let Some(path) = Utf8Path::from_path(&path) {
-			let diff = diff_utf8_paths(path, Utf8Path::new("content/"))
-				.expect("path should be diffable with content");
+			let mut tag = tag::ActiveModel {
+				..Default::default()
+			};
+			let slug = path.file_stem().expect("file stem should exist");
+			let contents = fs::read_to_string(path)?;
+			let data = json::from_str::<Frontmatter>(contents.as_str()).ok();
+
+			if let Some(data) = data.clone() {
+				tag.title = Set(data.title);
+			}
+
+			tag.slug = Set(slug.to_string());
+
+			tag.insert(&connection).await?;
+		}
+	}
+
+	let paths = glob("content/posts/*.md")?.flatten();
+	let connection = connection.clone();
+
+	for path in paths {
+		if let Some(path) = Utf8Path::from_path(&path) {
 			let mut entry = entry::ActiveModel {
 				..Default::default()
 			};
-			let slug = diff.file_stem().expect("file stem should exist");
+			let slug = path.file_stem().expect("file stem should exist");
 			let contents = fs::read_to_string(path)?;
 			let (data, content) = parse_content(contents)?;
 

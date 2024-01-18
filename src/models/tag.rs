@@ -8,6 +8,9 @@ pub struct Model {
 	#[serde(skip_deserializing)]
 	pub id: i32,
 
+	#[serde(default)]
+	pub title: Option<String>,
+
 	#[sea_orm(unique)]
 	pub slug: String,
 }

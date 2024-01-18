@@ -15,14 +15,17 @@ use std::sync::Arc;
 
 pub async fn list_handler(
 	State(app_state): State<Arc<crate::State>>,
-	tag: Option<Path<String>>,
+	tag_slug: Option<Path<String>>,
 ) -> Result<Response, crate::Error> {
 	let tagged_entry_list = entry::Entity::find()
 		.order_by(entry::Column::Date, Order::Desc)
 		.find_with_related(tag::Entity);
 	let mut tag_filter = None;
-	let tagged_entry_list = if let Some(Path(tag)) = tag {
-		tag_filter = Some(tag.clone());
+	let tagged_entry_list = if let Some(Path(tag)) = tag_slug {
+		tag_filter = tag::Entity::find()
+			.filter(tag::Column::Slug.eq(tag.clone()))
+			.one(&app_state.database)
+			.await?;
 
 		tagged_entry_list.filter(
 			entry::Column::Id.in_subquery(
