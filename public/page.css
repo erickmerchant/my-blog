@@ -198,7 +198,7 @@ code {
 	}
 
 	> :where(.active) {
-		outline: 0.075em solid var(--link-color);
+		background-color: color-mix(in lch, var(--top-background), var(--link-color) 20%);
 	}
 }
 

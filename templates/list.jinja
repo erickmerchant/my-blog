@@ -7,6 +7,7 @@
 {% block main_header %}
 	<h1>Posts</h1>
 	<ul class="chips">
+		<li{% if not active_tag %} class="active"{% endif %}><a href="/">All</a></li>
 		{% for tag in tag_list %}
 			<li{% if active_tag and active_tag.slug == tag.slug %} class="active"{% endif %}><a href="/tags/{{tag.slug}}/">{{tag.title}}</a></li>
 		{% endfor %}
