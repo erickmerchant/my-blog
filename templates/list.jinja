@@ -5,17 +5,18 @@
 {% endblock %}
 
 {% block main_header %}
-	{% if tag_filter %}
-		<h1>Tag: {{tag_filter.title}}</h1>
-	{% else %}
-		<h1>Posts</h1>
-	{% endif %}
+	<h1>Posts</h1>
+	<ul class="chips">
+		{% for tag in tag_list %}
+			<li{% if active_tag and active_tag.slug == tag.slug %} class="active"{% endif %}><a href="/tags/{{tag.slug}}/">{{tag.title}}</a></li>
+		{% endfor %}
+	</ul>
 {% endblock %}
 
 {% block main %}
 	<ol class="index">
 		{% for tagged_entry in tagged_entry_list %}
-			<li>
+			<li style="view-transition-name: entry-list-item--{{tagged_entry.slug}};">
 				<header class="heading">
 					<h2><a href="/posts/{{tagged_entry.slug}}/">{{tagged_entry.title}}</a></h2>
 					{{sub_heading(tagged_entry)}}

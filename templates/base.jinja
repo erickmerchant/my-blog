@@ -8,7 +8,7 @@
 			{% endif %}
 			{% if tagged_entry.tags %}
 				{% for tag in tagged_entry.tags %}
-					<li><a href="/tags/{{tag.slug}}/">{{tag.title}}</a></li>
+					<li{% if active_tag and active_tag.slug == tag.slug %} class="active"{% endif %}><a href="/tags/{{tag.slug}}/">{{tag.title}}</a></li>
 				{% endfor %}
 			{% endif %}
 		</ul>

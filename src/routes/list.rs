@@ -20,9 +20,9 @@ pub async fn list_handler(
 	let tagged_entry_list = entry::Entity::find()
 		.order_by(entry::Column::Date, Order::Desc)
 		.find_with_related(tag::Entity);
-	let mut tag_filter = None;
+	let mut active_tag = None;
 	let tagged_entry_list = if let Some(Path(tag)) = tag_slug {
-		tag_filter = tag::Entity::find()
+		active_tag = tag::Entity::find()
 			.filter(tag::Column::Slug.eq(tag.clone()))
 			.one(&app_state.database)
 			.await?;
@@ -50,6 +50,10 @@ pub async fn list_handler(
 		.into_iter()
 		.map(TaggedEntry::from)
 		.collect::<Vec<_>>();
+	let tag_list = tag::Entity::find()
+		.order_by(tag::Column::Title, Order::Asc)
+		.all(&app_state.database)
+		.await?;
 
 	if tagged_entry_list.is_empty() {
 		return not_found_handler(State(app_state)).await;
@@ -58,7 +62,8 @@ pub async fn list_handler(
 	let html = app_state.templates.render(
 		"list.jinja".to_string(),
 		Some(context! {
-			tag_filter,
+			active_tag,
+			tag_list,
 			tagged_entry_list,
 		}),
 	)?;
