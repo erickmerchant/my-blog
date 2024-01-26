@@ -38,9 +38,9 @@ pub fn parse_content(contents: String) -> Result<(Option<Frontmatter>, Vec<u8>)>
 				};
 			}
 			Event::End(Tag::CodeBlock(_)) => {
-				if let Some(lang) = code_block_lang.clone() {
+				if let Some(lang) = code_block_lang {
 					let mut highlighted_lines = Vec::new();
-					let inner_html = to_highlight.clone();
+					let inner_html = to_highlight;
 
 					if let Some(syntax) = ss.find_syntax_by_extension(&lang) {
 						for line in LinesWithEndings::from(inner_html.trim()) {
@@ -74,7 +74,6 @@ pub fn parse_content(contents: String) -> Result<(Option<Frontmatter>, Vec<u8>)>
 			}
 			Event::Text(t) => {
 				if let Some(_lang) = code_block_lang.clone() {
-					// If we're in a code block, build up the string of text
 					to_highlight.push_str(&t);
 				} else {
 					events.push(Event::Text(t))
@@ -95,7 +94,6 @@ pub fn parse_content(contents: String) -> Result<(Option<Frontmatter>, Vec<u8>)>
 
 pub async fn import_content(connection: &DatabaseConnection) -> Result<()> {
 	let paths = glob("content/tags/*.json")?.flatten();
-	let connection = connection.clone();
 
 	for path in paths {
 		if let Some(path) = Utf8Path::from_path(&path) {
@@ -106,18 +104,17 @@ pub async fn import_content(connection: &DatabaseConnection) -> Result<()> {
 			let contents = fs::read_to_string(path)?;
 			let data = json::from_str::<Frontmatter>(contents.as_str()).ok();
 
-			if let Some(data) = data.clone() {
+			if let Some(data) = data {
 				tag.title = Set(data.title);
 			}
 
 			tag.slug = Set(slug.to_string());
 
-			tag.insert(&connection).await?;
+			tag.insert(connection).await?;
 		}
 	}
 
 	let paths = glob("content/posts/*.md")?.flatten();
-	let connection = connection.clone();
 
 	for path in paths {
 		if let Some(path) = Utf8Path::from_path(&path) {
@@ -136,16 +133,16 @@ pub async fn import_content(connection: &DatabaseConnection) -> Result<()> {
 			entry.content = Set(String::from_utf8(content)?);
 			entry.slug = Set(slug.to_string());
 
-			let entry = entry.insert(&connection).await?;
+			let entry = entry.insert(connection).await?;
 
 			if let Some(data) = data {
 				if let Some(tags) = data.tags {
 					for slug in tags {
-						let tag = if let Some(tag) = tag::Entity::find()
+						let tag_result = tag::Entity::find()
 							.filter(tag::Column::Slug.eq(slug.clone()))
-							.one(&connection)
-							.await?
-						{
+							.one(connection)
+							.await?;
+						let tag = if let Some(tag) = tag_result {
 							tag
 						} else {
 							let mut tag = tag::ActiveModel {
@@ -153,7 +150,7 @@ pub async fn import_content(connection: &DatabaseConnection) -> Result<()> {
 							};
 
 							tag.slug = Set(slug);
-							tag.insert(&connection).await?
+							tag.insert(connection).await?
 						};
 						let mut entry_tag = entry_tag::ActiveModel {
 							..Default::default()
@@ -161,7 +158,7 @@ pub async fn import_content(connection: &DatabaseConnection) -> Result<()> {
 
 						entry_tag.entry_id = Set(entry.id);
 						entry_tag.tag_id = Set(tag.id);
-						entry_tag.insert(&connection).await?;
+						entry_tag.insert(connection).await?;
 					}
 				}
 			}

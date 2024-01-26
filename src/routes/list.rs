@@ -23,7 +23,7 @@ pub async fn list_handler(
 	let mut active_tag = None;
 	let tagged_entry_list = if let Some(Path(tag)) = tag_slug {
 		active_tag = tag::Entity::find()
-			.filter(tag::Column::Slug.eq(tag.clone()))
+			.filter(tag::Column::Slug.eq(&tag))
 			.one(&app_state.database)
 			.await?;
 
@@ -37,7 +37,7 @@ pub async fn list_handler(
 							.equals((entry_tag::Entity, entry_tag::Column::TagId)),
 					)
 					.column(entry_tag::Column::EntryId)
-					.and_where(tag::Column::Slug.eq(tag.clone()))
+					.and_where(tag::Column::Slug.eq(&tag))
 					.to_owned(),
 			),
 		)

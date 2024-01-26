@@ -36,21 +36,17 @@ pub async fn cache_layer(
 	let req_headers = req.headers().clone();
 
 	if let Some(cache_result) = cache_result {
-		let etag_matches = etag_matches(cache_result.etag.clone(), req_headers);
+		let etag_matches = etag_matches(&cache_result.etag, &req_headers);
 
 		if etag_matches {
 			return Ok(StatusCode::NOT_MODIFIED.into_response());
 		}
 
-		return Ok((
-			add_cache_headers(
-				HeaderMap::new(),
-				cache_result.content_type,
-				cache_result.etag,
-			),
-			cache_result.body,
-		)
-			.into_response());
+		let mut headers = HeaderMap::new();
+
+		add_cache_headers(&mut headers, cache_result.content_type, cache_result.etag);
+
+		return Ok((headers, cache_result.body).into_response());
 	}
 
 	let res = next.run(req).await;
@@ -60,7 +56,7 @@ pub async fn cache_layer(
 		let bytes = BodyExt::collect(body).await?.to_bytes();
 		let mut output = Vec::new();
 
-		if let Some(content_type) = get_header(parts.headers.clone(), "content-type".to_string()) {
+		if let Some(content_type) = get_header(&parts.headers, "content-type".to_string()) {
 			let mut etag = None;
 
 			if ETAGABLE_TYPES.contains(&content_type.as_str()) {
@@ -83,13 +79,13 @@ pub async fn cache_layer(
 
 			cache_model.insert(&app_state.database).await.ok();
 
-			let etag_matches = etag_matches(etag.clone(), req_headers);
+			let etag_matches = etag_matches(&etag, &req_headers);
 
 			if etag_matches {
 				return Ok(StatusCode::NOT_MODIFIED.into_response());
 			}
 
-			parts.headers = add_cache_headers(parts.headers.clone(), content_type, etag);
+			add_cache_headers(&mut parts.headers, content_type, etag);
 		} else {
 			output = bytes.to_vec();
 		};
