@@ -298,7 +298,7 @@ code {
 	}
 
 	:where(.function) {
-		color: var(--code-color-2);
+		color: var(--code-color-3);
 	}
 
 	:where(.parameters) {
@@ -306,11 +306,11 @@ code {
 	}
 
 	:where(.keyword, .storage, .this) {
-		color: var(--code-color-1);
+		color: var(--code-color-2);
 	}
 
 	:where(.string, .numeric, .boolean, .null, .undefined, .placeholder) {
-		color: var(--code-color-3);
+		color: var(--code-color-1);
 	}
 
 	:where(.punctuation) {
@@ -327,15 +327,15 @@ code {
 	}
 
 	@media (prefers-color-scheme: light) {
-		--code-color-1: oklch(0.4 0.3 330);
-		--code-color-2: oklch(0.4 0.3 60);
-		--code-color-3: oklch(0.4 0.4 135);
+		--code-color-1: oklch(0.4 0.25 30);
+		--code-color-2: oklch(0.4 0.2 230);
+		--code-color-3: oklch(0.4 0.2 310);
 	}
 
 	@media (prefers-color-scheme: dark) {
-		--code-color-1: oklch(0.8 0.1 30);
-		--code-color-2: oklch(0.8 0.1 90);
-		--code-color-3: oklch(0.8 0.2 135);
+		--code-color-1: oklch(0.8 0.15 30);
+		--code-color-2: oklch(0.8 0.1 230);
+		--code-color-3: oklch(0.8 0.1 310);
 	}
 }
 
