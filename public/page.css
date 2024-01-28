@@ -299,7 +299,7 @@ code {
 		}
 	}
 
-	:where(.function) {
+	:where(.attribute-name, .function) {
 		color: var(--code-color-3);
 	}
 
@@ -307,7 +307,7 @@ code {
 		color: var(--code-color-0);
 	}
 
-	:where(.keyword, .storage, .this) {
+	:where(.tag, .keyword, .storage, .this) {
 		color: var(--code-color-2);
 	}
 
