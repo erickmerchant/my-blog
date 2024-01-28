@@ -21,7 +21,7 @@ console.log(styles.fontSize) // 1rem;
 const fontSizeInPx = CSS.px(styles.fontSize) // 16px
 ```
 
-I didn't really get involved in the conversation, but immediately thought of `@property` and how that might be able to help. The next morning I opened up CodePen and tried to get a rough idea working of a function that would convert between units. A perfect activity after dropping my daughter off at daycare and drinking my morning coffee. This is the <a href="https://codepen.io/erickmerchant/pen/RwdjbeQ?editors=0010">result</a>, a function I call `getPropertyValueInUnits` which you pass an element, a property you want the value of, and the units you want the value in. Also there is an optional namespace.
+I didn't really get involved in the conversation, but immediately thought of `@property` and how that might be able to help. The next morning I opened up CodePen and tried to get a rough idea working of a function that would convert between units. A perfect activity after dropping my daughter off at daycare, to do while I drank my morning coffee. This is the <a href="https://codepen.io/erickmerchant/pen/RwdjbeQ?editors=0010">result</a>, a function I call `getPropertyValueInUnits` which you pass an element, a property you want the value of, and the units you want the value in. Also there is an optional namespace.
 
 ```js
 function getPropertyValueInUnits(el, prop, units, ns = "units") {
@@ -58,5 +58,6 @@ But here is the trick, before doing any of this you need to call `window.CSS.reg
 ## Some caveats
 
 - It's wrapped in a try catch so that you can call this multiple times with the same units. There is no way currently to get a list of properties defined this way.
-- Ironically the units + property that people talked about the most, ems + font-size won't really work, because font-size in ems will always be 1 with this function, but you can look at the immediate parent element, get the value of font-size there in pixels and compare it the font-size in pixels on the element you care about. Perhaps this is another function and the start of a CSS utility library. Call it C$$ perhaps.
+- There should probably be validation of some sort.
+- Ironically the property in units that people talked about the most, font-size in ems won't really work, because font-size in ems will always be 1 with this function, but you can look at the immediate parent element, get the value of font-size there in pixels and compare it to the font-size in pixels on the element you care about.
 - Also sadly this doesn't work in Firefox at the moment, but it <a href="https://caniuse.com/?search=registerProperty">soon probably will</a>.

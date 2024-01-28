@@ -134,7 +134,9 @@ a {
 }
 
 p {
-	hyphens: auto;
+	@container (inline-size <= 47rem) {
+		hyphens: auto;
+	}
 }
 
 h1,
