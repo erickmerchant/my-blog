@@ -31,6 +31,94 @@ html {
 	line-height: 1.5;
 }
 
+body {
+	display: grid;
+	container-type: inline-size;
+	block-size: 100%;
+	background-color: var(--main-background);
+	grid-template-rows: min-content auto min-content;
+	grid-template-columns:
+		auto
+		[side-start]
+		minmax(0, 3.5rem)
+		[center-start] min(100% - 2em, 40rem) [center-end]
+		minmax(0, 3.5rem)
+		[side-end]
+		auto;
+	color: var(--text-color);
+	overflow-x: auto;
+	overscroll-behavior: none;
+	scrollbar-color: var(--link-color) var(--top-background);
+	scrollbar-gutter: stable;
+	--border-radius: 0.125em;
+	--easing: ease-in-out;
+
+	> * {
+		grid-column: 1 / -1;
+
+		@container (inline-size <= 47rem) {
+			font-size: 0.8em;
+		}
+	}
+
+	@media (prefers-color-scheme: light) {
+		--text-color: oklch(0.1 0 0);
+		--top-background: oklch(0.95 0.01 150);
+		--alt-background: oklch(0.975 0 0);
+		--main-background: oklch(1 0 0);
+		--link-color: oklch(0.4 0.4 150);
+		--code-color-0: oklch(0.4 0 0);
+	}
+
+	@media (prefers-color-scheme: dark) {
+		--text-color: oklch(0.9 0 0);
+		--top-background: oklch(0.3 0.01 150);
+		--alt-background: oklch(0.2 0 0);
+		--main-background: oklch(0.1 0 0);
+		--link-color: oklch(0.8 0.4 150);
+		--code-color-0: oklch(0.8 0 0);
+	}
+}
+
+top-bar {
+	position: sticky;
+	z-index: 2;
+	inset-block-start: calc(
+		var(--scrolling-down, 0) * calc(-1 * var(--block-size))
+	);
+	display: grid;
+	background-color: var(--top-background);
+	padding-block: 1.5em;
+	border-block-end: 0.25rem solid var(--main-background);
+	grid-template-columns: subgrid;
+	gap: 1em 0;
+	color: var(--link-color);
+	font-weight: 900;
+	transition: inset-block-start 0.25s var(--easing);
+	view-transition-name: top-bar;
+	--block-size: 4.5em;
+
+	> :where(nav) {
+		grid-column: center-start / center-end;
+	}
+}
+
+main {
+	z-index: 1;
+	display: grid;
+	background-color: var(--main-background);
+	padding-block: 1em 3em;
+	grid-template-columns: subgrid;
+	gap: 1em 0;
+	align-content: start;
+
+	> * {
+		grid-column: center-start / center-end;
+		inline-size: 100%;
+		margin-inline: auto;
+	}
+}
+
 a {
 	color: var(--link-color);
 	text-decoration-thickness: 0.1em;
@@ -85,94 +173,6 @@ code {
 @supports selector(:focus-visible) {
 	:focus {
 		outline: none;
-	}
-}
-
-.page {
-	display: grid;
-	container-type: inline-size;
-	block-size: 100%;
-	background-color: var(--main-background);
-	grid-template-rows: min-content auto min-content;
-	grid-template-columns:
-		auto
-		[side-start]
-		minmax(0, 3.5rem)
-		[center-start] min(100% - 2em, 40rem) [center-end]
-		minmax(0, 3.5rem)
-		[side-end]
-		auto;
-	color: var(--text-color);
-	overflow-x: auto;
-	overscroll-behavior: none;
-	scrollbar-color: var(--link-color) var(--top-background);
-	scrollbar-gutter: stable;
-	--border-radius: 0.125em;
-	--easing: ease-in-out;
-
-	> * {
-		grid-column: 1 / -1;
-
-		@container (inline-size <= 47rem) {
-			font-size: 0.8em;
-		}
-	}
-
-	@media (prefers-color-scheme: light) {
-		--text-color: oklch(0.1 0 0);
-		--top-background: oklch(0.95 0.01 150);
-		--alt-background: oklch(0.975 0 0);
-		--main-background: oklch(1 0 0);
-		--link-color: oklch(0.4 0.4 150);
-		--code-color-0: oklch(0.4 0 0);
-	}
-
-	@media (prefers-color-scheme: dark) {
-		--text-color: oklch(0.9 0 0);
-		--top-background: oklch(0.3 0.01 150);
-		--alt-background: oklch(0.2 0 0);
-		--main-background: oklch(0.1 0 0);
-		--link-color: oklch(0.8 0.4 150);
-		--code-color-0: oklch(0.8 0 0);
-	}
-}
-
-.page-nav {
-	position: sticky;
-	z-index: 2;
-	inset-block-start: calc(
-		var(--scrolling-down, 0) * calc(-1 * var(--block-size))
-	);
-	display: grid;
-	background-color: var(--top-background);
-	padding-block: 1.5em;
-	border-block-end: 0.25rem solid var(--main-background);
-	grid-template-columns: subgrid;
-	gap: 1em 0;
-	color: var(--link-color);
-	font-weight: 900;
-	transition: inset-block-start 0.25s var(--easing);
-	view-transition-name: top-bar;
-	--block-size: 4.5em;
-
-	> :where(nav) {
-		grid-column: center-start / center-end;
-	}
-}
-
-.main {
-	z-index: 1;
-	display: grid;
-	background-color: var(--main-background);
-	padding-block: 1em 3em;
-	grid-template-columns: subgrid;
-	gap: 1em 0;
-	align-content: start;
-
-	> * {
-		grid-column: center-start / center-end;
-		inline-size: 100%;
-		margin-inline: auto;
 	}
 }
 
