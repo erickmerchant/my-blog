@@ -51,7 +51,7 @@ function getPropertyValueInUnits(el, prop, units, ns = "units") {
 }
 ```
 
-The basic idea is that you set a custom property to 1 of the unit you want, by which you get the base. Then you get the value of the property. Divide that value by the base and you get the result in the desired units. You need to remove "px" from the end of both first too, before doing the division because `getPropertyValue` gives you a string with the units at the end.
+The basic idea is that you set a custom property to 1 of the unit you want, by which you get the base. Then you get the value of the property. Divide that value by the base and you get the result in the desired units. You need to remove "px" from the end of both first too before doing the division, because `getPropertyValue` gives you a string with the units at the end.
 
 But here is the trick, before doing any of this you need to call `window.CSS.registerProperty` and register the custom property that gives you the base. See alone a custom property will return as sort of unevaluated or as authored, but define it first and it will return in px like any other length property.
 
