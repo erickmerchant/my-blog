@@ -1,10 +1,8 @@
-===
-{
-	"title": "A base Custom Element for Declarative Shadow Dom",
-	"date": "2023-06-04",
-	"tags": ["web-components", "javascript"]
-}
-===
++++
+title = "A base Custom Element for Declarative Shadow Dom"
+date = "2023-06-04"
+tags = ["web-components", "javascript"]
++++
 
 ## Declarative Shadow DOM
 

@@ -38,13 +38,11 @@ body {
 	background-color: var(--main-background);
 	grid-template-rows: min-content auto min-content;
 	grid-template-columns:
-		auto
 		[side-start]
-		minmax(0, 3.5rem)
+		auto
 		[center-start] min(100% - 2em, 40rem) [center-end]
-		minmax(0, 3.5rem)
-		[side-end]
-		auto;
+		auto
+		[side-end];
 	color: var(--text-color);
 	overflow-x: auto;
 	overscroll-behavior: none;
@@ -56,7 +54,7 @@ body {
 	> * {
 		grid-column: 1 / -1;
 
-		@container (inline-size <= 47rem) {
+		@container (inline-size <= 42rem) {
 			font-size: 0.8em;
 		}
 	}
@@ -67,7 +65,7 @@ body {
 		--alt-background: oklch(0.975 0 0);
 		--main-background: oklch(1 0 0);
 		--link-color: oklch(0.4 0.4 150);
-		--code-color-0: oklch(0.4 0 0);
+		--code-color: oklch(0.4 0.1 150);
 	}
 
 	@media (prefers-color-scheme: dark) {
@@ -76,7 +74,7 @@ body {
 		--alt-background: oklch(0.2 0 0);
 		--main-background: oklch(0.1 0 0);
 		--link-color: oklch(0.8 0.4 150);
-		--code-color-0: oklch(0.8 0 0);
+		--code-color: oklch(0.8 0.1 150);
 	}
 }
 
@@ -134,7 +132,7 @@ a {
 }
 
 p {
-	@container (inline-size <= 47rem) {
+	@container (inline-size <= 42rem) {
 		hyphens: auto;
 	}
 }
@@ -160,16 +158,20 @@ h2 {
 }
 
 strong {
-	font-style: normal;
 	font-weight: 700;
+}
+
+em {
+	font-family: Charter, 'Bitstream Charter', 'Sitka Text', Cambria, serif;
+	font-style: italic;
 }
 
 code {
 	background-color: var(--alt-background);
 	padding-inline: 0.25em;
 	color: var(--code-color-0);
-	font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas,
-		"DejaVu Sans Mono", monospace;
+	font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace;
+	font-weight: normal;
 }
 
 @supports selector(:focus-visible) {
@@ -200,7 +202,11 @@ code {
 	}
 
 	> :where(.active) {
-		background-color: color-mix(in lch, var(--top-background), var(--link-color) 20%);
+		background-color: color-mix(
+			in lch,
+			var(--top-background),
+			var(--link-color) 20%
+		);
 	}
 }
 
@@ -238,7 +244,6 @@ code {
 }
 
 .code-block {
-	grid-column: side-start / side-end;
 	display: grid;
 	border-radius: var(--border-radius);
 	tab-size: 2;
@@ -247,23 +252,18 @@ code {
 	overscroll-behavior-x: none;
 	--white-space: pre-wrap;
 
-	:where(pre) {
-		font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo,
-			Consolas, "DejaVu Sans Mono", monospace;
-		font-weight: 500;
-	}
-
 	:where(code) {
 		position: relative;
 		display: grid;
-		grid-template-columns: auto 1fr;
-		color: var(--code-color-0);
+		grid-template-columns: max-content auto;
+		color: var(--code-color);
 		word-break: break-word;
 		white-space: var(--white-space);
 
 		> * {
 			background-color: var(--alt-background);
 			padding-block: 0.125em;
+			padding-inline: 1em;
 		}
 
 		> :where(:nth-child(-n + 2)) {
@@ -274,22 +274,15 @@ code {
 			padding-block-end: 1em;
 		}
 
-		> :where(:nth-child(even)) {
-			padding-inline: 1em;
-		}
-
 		> :where(:nth-child(odd)) {
 			position: sticky;
-
-			/* tmp until I figure out why the inset-inline-start is necessary */
 			inset-inline-start: 0.25em;
+			box-shadow: -1em 0 0 0 var(--alt-background);
 			background-color: var(--alt-background);
 			padding-inline: 1em;
 			border-inline-end: 0.25em solid var(--main-background);
-			box-shadow: -1em 0 0 0 var(--main-background);
-			color: var(--code-color-0);
+			color: var(--text-color);
 			counter-increment: lines 1;
-			/* end tmp */
 
 			&::before {
 				display: grid;
@@ -299,45 +292,10 @@ code {
 		}
 	}
 
-	:where(.attribute-name, .function) {
-		color: var(--code-color-3);
-	}
-
-	:where(.parameters) {
-		color: var(--code-color-0);
-	}
-
-	:where(.tag, .keyword, .storage, .this) {
-		color: var(--code-color-2);
-	}
-
-	:where(.string, .numeric, .boolean, .null, .undefined, .placeholder) {
-		color: var(--code-color-1);
-	}
-
-	:where(.punctuation) {
-		color: var(--code-color-0);
-	}
-
-	:where(.comment) {
-		font-style: italic;
-	}
-
-	@container (inline-size <= 47rem) {
+	@container (inline-size <= 42rem) {
 		border-radius: 0;
+		grid-column: side-start / side-end;
 		--white-space: pre;
-	}
-
-	@media (prefers-color-scheme: light) {
-		--code-color-1: oklch(0.4 0.25 30);
-		--code-color-2: oklch(0.4 0.2 230);
-		--code-color-3: oklch(0.4 0.2 310);
-	}
-
-	@media (prefers-color-scheme: dark) {
-		--code-color-1: oklch(0.8 0.15 30);
-		--code-color-2: oklch(0.8 0.1 230);
-		--code-color-3: oklch(0.8 0.1 310);
 	}
 }
 

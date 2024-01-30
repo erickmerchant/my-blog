@@ -1,10 +1,8 @@
-===
-{
-	"title": "JSX in Web Components",
-	"date": "2022-08-06",
-	"tags": ["web-components", "javascript"]
-}
-===
++++
+title = "JSX in Web Components"
+date = "2022-08-06"
+tags = ["web-components", "javascript"]
++++
 
 <div class="interstitial">
 	<strong>Note:</strong> I no longer do this. I've switch back to using Declarative Shadow DOM, and a base Custom Element that adds reactivity. <a href="/posts/a-base-custom-element/">Read about it here.</a>

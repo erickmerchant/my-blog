@@ -1,10 +1,8 @@
-===
-{
-	"title": "Rust note #3: return early sometimes",
-	"date": "2023-08-24",
-	"tags": ["rust"]
-}
-===
++++
+title = "Rust note #3: return early sometimes"
+date = "2023-08-24"
+tags = ["rust"]
++++
 
 <blockquote class="interstitial">
 	The final expression in the function will be used as return value. Alternatively, the return statement can be used to return a value earlier from within the function, even from inside loops or if statements.

@@ -20,8 +20,8 @@ impl Engine {
 	}
 
 	pub fn render(&self, template: String, ctx: Option<Value>) -> Result<String, anyhow::Error> {
-		let json = fs::read_to_string("content/site.json")?;
-		let site = serde_json::from_str::<serde_json::Value>(&json)?;
+		let toml = fs::read_to_string("content/site.toml")?;
+		let site = toml::from_str::<toml::Value>(&toml)?;
 		let ctx = ctx.unwrap_or(context! {});
 
 		Ok(self

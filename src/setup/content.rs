@@ -5,20 +5,13 @@ use camino::Utf8Path;
 use glob::glob;
 use pulldown_cmark::{html, CodeBlockKind, CowStr, Event, Tag};
 use sea_orm::{prelude::*, ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityTrait};
-use serde_json as json;
 use std::fs;
-use syntect::{
-	html::{ClassStyle, ClassedHTMLGenerator},
-	parsing::SyntaxSet,
-	util::LinesWithEndings,
-};
 
 pub fn parse_content(contents: String) -> Result<(Option<Frontmatter>, Vec<u8>)> {
-	let parts = contents.splitn(3, "===");
-	let ss = SyntaxSet::load_defaults_newlines();
+	let parts = contents.splitn(3, "+++");
 	let (data, markdown) = match parts.collect::<Vec<&str>>().as_slice() {
 		[_, frontmatter, markdown] => {
-			let data = json::from_str::<Frontmatter>(frontmatter).ok();
+			let data = toml::from_str::<Frontmatter>(frontmatter).ok();
 
 			(data, markdown.to_string())
 		}
@@ -42,27 +35,16 @@ pub fn parse_content(contents: String) -> Result<(Option<Frontmatter>, Vec<u8>)>
 					let mut highlighted_lines = Vec::new();
 					let inner_html = to_highlight;
 
-					if let Some(syntax) = ss.find_syntax_by_extension(&lang) {
-						for line in LinesWithEndings::from(inner_html.trim()) {
-							let mut html_generator = ClassedHTMLGenerator::new_with_class_style(
-								syntax,
-								&ss,
-								ClassStyle::Spaced,
-							);
-
-							html_generator.parse_html_for_line_which_includes_newline(line)?;
-							highlighted_lines.push(format!(
-								"<span></span><span>{}</span>",
-								html_generator.finalize()
-							));
-						}
-					} else {
-						for line in inner_html.trim().lines() {
-							highlighted_lines.push(format!("<span></span><span>{line}</span>"));
-						}
+					for line in inner_html.trim().lines() {
+						highlighted_lines.push(format!(
+							"<span></span><span>{}</span>",
+							html_escape::encode_text(line)
+						));
 					}
+
 					let hightlighted_html = format!(
-						r#"<figure class="code-block"><pre><code>{}</code></pre></figure>"#,
+						r#"<figure class="code-block" data-language="{}"><pre><code>{}</code></pre></figure>"#,
+						lang,
 						highlighted_lines.join("\n")
 					);
 					events.push(Event::Html(CowStr::Boxed(
@@ -93,7 +75,7 @@ pub fn parse_content(contents: String) -> Result<(Option<Frontmatter>, Vec<u8>)>
 }
 
 pub async fn import_content(connection: &DatabaseConnection) -> Result<()> {
-	let paths = glob("content/tags/*.json")?.flatten();
+	let paths = glob("content/tags/*.toml")?.flatten();
 
 	for path in paths {
 		if let Some(path) = Utf8Path::from_path(&path) {
@@ -102,7 +84,7 @@ pub async fn import_content(connection: &DatabaseConnection) -> Result<()> {
 			};
 			let slug = path.file_stem().expect("file stem should exist");
 			let contents = fs::read_to_string(path)?;
-			let data = json::from_str::<Frontmatter>(contents.as_str()).ok();
+			let data = toml::from_str::<Frontmatter>(contents.as_str()).ok();
 
 			if let Some(data) = data {
 				tag.title = Set(data.title);

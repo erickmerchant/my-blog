@@ -1,10 +1,8 @@
-===
-{
-	"title": "Rust rewrite",
-	"date": "2022-03-07",
-	"tags": ["rust"]
-}
-===
++++
+title = "Rust rewrite"
+date = "2022-03-07"
+tags = ["rust"]
++++
 
 ## Why Rust
 

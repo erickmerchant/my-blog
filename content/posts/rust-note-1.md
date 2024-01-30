@@ -1,10 +1,8 @@
-===
-{
-	"title": "Rust note #1: use Clippy",
-	"date": "2022-05-25",
-	"tags": ["rust"]
-}
-===
++++
+title = "Rust note #1: use Clippy"
+date = "2022-05-25"
+tags = ["rust"]
++++
 
 In the future there should be more of these notes, but this is the first. It's just a thing I have learned about Rust in the past 2 years of using it.
 

@@ -1,10 +1,8 @@
-===
-{
-	"title": "Getting a CSS property's value in any units",
-	"date": "2024-01-27",
-	"tags": ["javascript", "css"]
-}
-===
++++
+title = "Getting a CSS property's value in any units"
+date = "2024-01-27"
+tags = ["javascript", "css"]
++++
 
 <blockquote class="interstitial">
 	<p>Is there a way to convert between units in CSS using browser js <em>stuffs</em>?</p>

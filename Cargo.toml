@@ -13,6 +13,7 @@ chrono = "0.4.23"
 clap = { version = "4.3.17", features = ["derive"] }
 etag = "4.0.0"
 glob = "0.3.0"
+html-escape = "0.2.13"
 http-body-util = "0.1.0"
 hyper = "1.0.1"
 log = "0.4.17"
@@ -27,8 +28,8 @@ sea-orm = { version = "0.12.1", features = [
 ] }
 serde = "1.0.185"
 serde_json = "1.0"
-syntect = "5.0.0"
 tokio = { version = "1.27.0", features = ["macros", "rt-multi-thread"] }
+toml = "0.8.8"
 tower-http = { version = "0.5.0", features = [
 	"set-header",
 	"compression-gzip",
