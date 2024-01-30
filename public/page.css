@@ -162,7 +162,7 @@ strong {
 }
 
 em {
-	font-family: Charter, 'Bitstream Charter', 'Sitka Text', Cambria, serif;
+	font-family: Charter, "Bitstream Charter", "Sitka Text", Cambria, serif;
 	font-style: italic;
 }
 
@@ -170,7 +170,8 @@ code {
 	background-color: var(--alt-background);
 	padding-inline: 0.25em;
 	color: var(--code-color-0);
-	font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace;
+	font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas,
+		"DejaVu Sans Mono", monospace;
 	font-weight: normal;
 }
 
@@ -277,10 +278,10 @@ code {
 		> :where(:nth-child(odd)) {
 			position: sticky;
 			inset-inline-start: 0.25em;
-			box-shadow: -1em 0 0 0 var(--alt-background);
 			background-color: var(--alt-background);
 			padding-inline: 1em;
 			border-inline-end: 0.25em solid var(--main-background);
+			box-shadow: -1em 0 0 0 var(--alt-background);
 			color: var(--text-color);
 			counter-increment: lines 1;
 
@@ -293,8 +294,8 @@ code {
 	}
 
 	@container (inline-size <= 42rem) {
-		border-radius: 0;
 		grid-column: side-start / side-end;
+		border-radius: 0;
 		--white-space: pre;
 	}
 }
