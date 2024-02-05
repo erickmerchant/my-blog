@@ -3,7 +3,7 @@ use crate::models::{entry, entry_tag, tag};
 use anyhow::Result;
 use camino::Utf8Path;
 use glob::glob;
-use pulldown_cmark::{html, CodeBlockKind, CowStr, Event, Tag};
+use pulldown_cmark::{html, CodeBlockKind, CowStr, Event, Tag, TagEnd};
 use sea_orm::{prelude::*, ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityTrait};
 use std::fs;
 
@@ -30,7 +30,7 @@ pub fn parse_content(contents: String) -> Result<(Option<Frontmatter>, Vec<u8>)>
 					_ => None,
 				};
 			}
-			Event::End(Tag::CodeBlock(_)) => {
+			Event::End(TagEnd::CodeBlock) => {
 				if let Some(lang) = code_block_lang {
 					let mut highlighted_lines = Vec::new();
 					let inner_html = to_highlight;
