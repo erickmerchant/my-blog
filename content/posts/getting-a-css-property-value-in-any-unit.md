@@ -1,7 +1,6 @@
 +++
 title = "Getting a CSS property's value in any units"
 date = "2024-01-27"
-tags = ["javascript", "css"]
 +++
 
 <blockquote class="interstitial">

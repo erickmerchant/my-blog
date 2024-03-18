@@ -1,7 +1,6 @@
 +++
 title = "Using container queries as mixins"
 date = "2024-01-28"
-tags = ["css"]
 +++
 
 <a href="https://sass-lang.com/documentation/at-rules/mixin/">Mixins</a> are a thing that's kind of missing from CSS. What if I told you that mixins can be accomplished with container queries? That sounds like a hack and it's probably pretty ugly you'd say. Yes, but it's sort of interesting.

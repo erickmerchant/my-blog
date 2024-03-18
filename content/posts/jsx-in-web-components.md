@@ -1,7 +1,6 @@
 +++
 title = "JSX in Web Components"
 date = "2022-08-06"
-tags = ["web-components", "javascript"]
 +++
 
 <div class="interstitial">

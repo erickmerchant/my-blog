@@ -183,32 +183,17 @@ code {
 
 .heading {
 	display: grid;
-	gap: inherit;
+	gap: 0.25em;
 }
 
-.chips {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 0.5em;
-	align-items: center;
+.date {
+	display: inline flex;
 	font-size: 0.8em;
 	font-weight: 700;
-	list-style: none;
-
-	> * {
-		background-color: var(--top-background);
-		padding-block: 0.125em;
-		padding-inline: 0.5em;
-		border-radius: var(--border-radius);
-	}
-
-	> :where(.active) {
-		background-color: color-mix(
-			in lch,
-			var(--top-background),
-			var(--link-color) 5%
-		);
-	}
+	background-color: var(--top-background);
+	padding-block: 0.125em;
+	padding-inline: 0.5em;
+	border-radius: var(--border-radius);
 }
 
 .content {
@@ -348,9 +333,10 @@ code {
 	display: grid;
 	gap: 1.25em;
 	list-style: none;
+	font-weight: 700;
 
 	> * {
 		display: grid;
-		gap: 0.75em;
+		gap: 0.25em;
 	}
 }

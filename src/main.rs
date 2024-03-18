@@ -60,7 +60,6 @@ async fn main() -> Result<()> {
 	});
 	let mut app = Router::new()
 		.route("/", get(list_handler))
-		.route("/tags/:tag/", get(list_handler))
 		.route("/posts/:slug/", get(entry_handler))
 		.route("/posts.rss", get(rss_handler))
 		.layer(from_fn(assets_layer));

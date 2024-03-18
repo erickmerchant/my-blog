@@ -1,7 +1,6 @@
 +++
 title = "Rust note #3: return early sometimes"
 date = "2023-08-24"
-tags = ["rust"]
 +++
 
 <blockquote class="interstitial">

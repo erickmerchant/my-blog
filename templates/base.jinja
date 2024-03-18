@@ -1,20 +1,3 @@
-{% macro sub_heading(tagged_entry) %}
-	{% if tagged_entry.date or tagged_entry.tags %}
-		<ul class="chips">
-			{% if tagged_entry.date %}
-				<li>
-					<time>{{tagged_entry.date | format_date("%B %e, %Y")}}</time>
-				</li>
-			{% endif %}
-			{% if tagged_entry.tags %}
-				{% for tag in tagged_entry.tags %}
-					<li{% if active_tag and active_tag.slug == tag.slug %} class="active"{% endif %}><a href="/tags/{{tag.slug}}/">{{tag.title}}</a></li>
-				{% endfor %}
-			{% endif %}
-		</ul>
-	{% endif %}
-{% endmacro %}
-
 <!DOCTYPE html>
 <html lang="en-US">
 

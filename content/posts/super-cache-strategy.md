@@ -1,7 +1,6 @@
 +++
 title = "Super cache strategy"
 date = "2023-08-01"
-tags = ["http"]
 +++
 
 For a long time etags were the beginning and end of cache headers that I would set when writing a server. It's sibling, `cache-control`, sort of eluded me. I knew about using it with cache busting techniques, but I never did it. Recently it finally dawned on me how to combine `etag` with `cache-control` headers and cache busting.

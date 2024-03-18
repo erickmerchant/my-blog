@@ -1,7 +1,6 @@
 +++
 title = "Fairly small rust + docker"
 date = "2023-08-20"
-tags = ["rust", "docker"]
 +++
 
 Like me you may be sort of obsessed with getting the smallest docker image for your Rust server. This is the best way I've found. The following is an example Dockerfile, slightly simplified from the one I actually use

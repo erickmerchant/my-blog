@@ -25,23 +25,3 @@ pub struct Model {
 pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}
-
-impl Related<super::tag::Entity> for Entity {
-	fn to() -> RelationDef {
-		super::entry_tag::Relation::Tag.def()
-	}
-
-	fn via() -> Option<RelationDef> {
-		Some(super::entry_tag::Relation::Entry.def().rev())
-	}
-}
-
-#[derive(EnumIter, DeriveActiveEnum)]
-#[sea_orm(rs_type = "String", db_type = "Text")]
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, Eq)]
-pub enum FeedType {
-	#[sea_orm(string_value = "Category")]
-	Category,
-	#[sea_orm(string_value = "Tag")]
-	Tag,
-}

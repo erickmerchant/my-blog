@@ -1,10 +1,10 @@
 use super::frontmatter::Frontmatter;
-use crate::models::{entry, entry_tag, tag};
+use crate::models::entry;
 use anyhow::Result;
 use camino::Utf8Path;
 use glob::glob;
 use pulldown_cmark::{html, CodeBlockKind, CowStr, Event, Tag, TagEnd};
-use sea_orm::{prelude::*, ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityTrait};
+use sea_orm::{ActiveModelTrait, ActiveValue::Set, DatabaseConnection};
 use std::fs;
 
 pub fn parse_content(contents: String) -> Result<(Option<Frontmatter>, Vec<u8>)> {
@@ -75,27 +75,6 @@ pub fn parse_content(contents: String) -> Result<(Option<Frontmatter>, Vec<u8>)>
 }
 
 pub async fn import_content(connection: &DatabaseConnection) -> Result<()> {
-	let paths = glob("content/tags/*.toml")?.flatten();
-
-	for path in paths {
-		if let Some(path) = Utf8Path::from_path(&path) {
-			let mut tag = tag::ActiveModel {
-				..Default::default()
-			};
-			let slug = path.file_stem().expect("file stem should exist");
-			let contents = fs::read_to_string(path)?;
-			let data = toml::from_str::<Frontmatter>(contents.as_str()).ok();
-
-			if let Some(data) = data {
-				tag.title = Set(data.title);
-			}
-
-			tag.slug = Set(slug.to_string());
-
-			tag.insert(connection).await?;
-		}
-	}
-
 	let paths = glob("content/posts/*.md")?.flatten();
 
 	for path in paths {
@@ -115,35 +94,7 @@ pub async fn import_content(connection: &DatabaseConnection) -> Result<()> {
 			entry.content = Set(String::from_utf8(content)?);
 			entry.slug = Set(slug.to_string());
 
-			let entry = entry.insert(connection).await?;
-
-			if let Some(data) = data {
-				if let Some(tags) = data.tags {
-					for slug in tags {
-						let tag_result = tag::Entity::find()
-							.filter(tag::Column::Slug.eq(slug.clone()))
-							.one(connection)
-							.await?;
-						let tag = if let Some(tag) = tag_result {
-							tag
-						} else {
-							let mut tag = tag::ActiveModel {
-								..Default::default()
-							};
-
-							tag.slug = Set(slug);
-							tag.insert(connection).await?
-						};
-						let mut entry_tag = entry_tag::ActiveModel {
-							..Default::default()
-						};
-
-						entry_tag.entry_id = Set(entry.id);
-						entry_tag.tag_id = Set(tag.id);
-						entry_tag.insert(connection).await?;
-					}
-				}
-			}
+			entry.insert(connection).await?;
 		}
 	}
 

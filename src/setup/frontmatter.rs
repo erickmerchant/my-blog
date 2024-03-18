@@ -8,7 +8,4 @@ pub struct Frontmatter {
 
 	#[serde(default)]
 	pub date: Option<NaiveDate>,
-
-	#[serde(default)]
-	pub tags: Option<Vec<String>>,
 }
