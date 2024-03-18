@@ -1,16 +1,8 @@
 <?xml version="1.0" standalone="yes"?>
 <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
 	<style>
-		@media (prefers-color-scheme: light) {
-			path {
-				fill: oklch(0.5 0.4 145);
-			}
-		}
-
-		@media (prefers-color-scheme: dark) {
-			path {
-				fill: oklch(0.7 0.4 145);
-			}
+		path {
+			fill: oklch(0.6 0.4 200);
 		}
 	</style>
 	<path d="M15 15 l70 0 l0 70 l-70 0z" />
