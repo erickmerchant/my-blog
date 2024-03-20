@@ -125,6 +125,7 @@ a {
 
 	&:focus-visible,
 	&:active {
+		outline: none;
 		text-decoration-skip-ink: none;
 		text-decoration-thickness: 0.2em;
 		text-underline-offset: 0.2em;
@@ -173,12 +174,6 @@ code {
 	font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas,
 		"DejaVu Sans Mono", monospace;
 	font-weight: normal;
-}
-
-@supports selector(:focus-visible) {
-	:focus {
-		outline: none;
-	}
 }
 
 .heading {
