@@ -2,17 +2,17 @@
 ::before,
 ::after {
 	box-sizing: border-box;
-	max-inline-size: 100%;
-	padding: 0;
-	margin: 0;
 	color: inherit;
 	font: inherit;
+	margin: 0;
+	max-inline-size: 100%;
+	padding: 0;
 	-webkit-text-size-adjust: none;
 }
 
 ::-webkit-scrollbar {
-	inline-size: 0.5rem;
 	block-size: 0.5rem;
+	inline-size: 0.5rem;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -32,18 +32,18 @@ html {
 }
 
 body {
-	display: grid;
-	container-type: inline-size;
-	block-size: 100%;
 	background-color: var(--main-background);
-	grid-template-rows: min-content auto min-content;
+	block-size: 100%;
+	color: var(--text-color);
+	container-type: inline-size;
+	display: grid;
 	grid-template-columns:
 		[side-start]
 		auto
 		[center-start] min(100% - 2em, 40rem) [center-end]
 		auto
 		[side-end];
-	color: var(--text-color);
+	grid-template-rows: min-content auto min-content;
 	overflow-x: auto;
 	overscroll-behavior: none;
 	scrollbar-color: var(--link-color) var(--top-background);
@@ -79,21 +79,21 @@ body {
 }
 
 top-bar {
-	position: sticky;
-	z-index: 2;
+	background-color: var(--top-background);
+	border-block-end: 0.25rem solid var(--main-background);
+	color: var(--link-color);
+	display: grid;
+	font-weight: 900;
+	gap: 1em 0;
+	grid-template-columns: subgrid;
 	inset-block-start: calc(
 		var(--scrolling-down, 0) * calc(-1 * var(--block-size))
 	);
-	display: grid;
-	background-color: var(--top-background);
 	padding-block: 1.5em;
-	border-block-end: 0.25rem solid var(--main-background);
-	grid-template-columns: subgrid;
-	gap: 1em 0;
-	color: var(--link-color);
-	font-weight: 900;
+	position: sticky;
 	transition: inset-block-start 0.25s var(--easing);
 	view-transition-name: top-bar;
+	z-index: 2;
 	--block-size: 4.5em;
 
 	> :where(nav) {
@@ -102,13 +102,13 @@ top-bar {
 }
 
 main {
-	z-index: 1;
-	display: grid;
-	background-color: var(--main-background);
-	padding-block: 1em 3em;
-	grid-template-columns: subgrid;
-	gap: 1em 0;
 	align-content: start;
+	background-color: var(--main-background);
+	display: grid;
+	gap: 1em 0;
+	grid-template-columns: subgrid;
+	padding-block: 1em 3em;
+	z-index: 1;
 
 	> * {
 		grid-column: center-start / center-end;
@@ -169,11 +169,11 @@ em {
 
 code {
 	background-color: var(--alt-background);
-	padding-inline: 0.25em;
 	color: var(--code-color-0);
 	font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas,
 		"DejaVu Sans Mono", monospace;
 	font-weight: normal;
+	padding-inline: 0.25em;
 }
 
 .heading {
@@ -182,20 +182,20 @@ code {
 }
 
 .date {
+	background-color: var(--top-background);
+	border-radius: var(--border-radius);
 	display: inline flex;
 	font-size: 0.8em;
 	font-weight: 700;
-	background-color: var(--top-background);
 	padding-block: 0.125em;
 	padding-inline: 0.5em;
-	border-radius: var(--border-radius);
 }
 
 .content {
-	grid-column: 1 / -1;
 	display: grid;
-	grid-template-columns: subgrid;
 	gap: 1em 0;
+	grid-column: 1 / -1;
+	grid-template-columns: subgrid;
 
 	> * {
 		grid-column: center-start / center-end;
@@ -207,12 +207,12 @@ code {
 }
 
 .interstitial {
-	display: grid;
 	background-color: var(--alt-background);
+	border-radius: var(--border-radius);
+	display: grid;
+	gap: 0.5em;
 	padding-block: 1em;
 	padding-inline: 1em;
-	border-radius: var(--border-radius);
-	gap: 0.5em;
 
 	:where(cite) {
 		display: inline flex;
@@ -225,21 +225,21 @@ code {
 }
 
 .code-block {
-	display: grid;
 	border-radius: var(--border-radius);
-	tab-size: 2;
-	overflow-x: auto;
 	counter-reset: lines 0;
+	display: grid;
+	overflow-x: auto;
 	overscroll-behavior-x: none;
+	tab-size: 2;
 	--white-space: pre-wrap;
 
 	:where(code) {
-		position: relative;
+		color: var(--code-color);
 		display: grid;
 		grid-template-columns: max-content auto;
-		color: var(--code-color);
-		word-break: break-word;
+		position: relative;
 		white-space: var(--white-space);
+		word-break: break-word;
 
 		> * {
 			background-color: var(--alt-background);
@@ -256,79 +256,79 @@ code {
 		}
 
 		> :where(:nth-child(odd)) {
-			position: sticky;
-			inset-inline-start: 0.25em;
 			background-color: var(--alt-background);
-			padding-inline: 1em;
 			border-inline-end: 0.25em solid var(--main-background);
 			box-shadow: -1em 0 0 0 var(--alt-background);
 			color: var(--text-color);
 			counter-increment: lines 1;
+			inset-inline-start: 0.25em;
+			padding-inline: 1em;
+			position: sticky;
 
 			&::before {
+				content: counter(lines, decimal);
 				display: grid;
 				justify-content: end;
-				content: counter(lines, decimal);
 			}
 		}
 	}
 
 	@container (inline-size <= 42rem) {
-		grid-column: side-start / side-end;
 		border-radius: 0;
+		grid-column: side-start / side-end;
 		--white-space: pre;
 	}
 }
 
 .footer {
+	align-content: center;
+	background-color: var(--alt-background);
+	display: grid;
+	font-weight: 500;
+	grid-template-columns: subgrid;
+	inset-block-end: 0;
+	justify-content: center;
+	padding-block: 1.5em;
 	position: sticky;
 	z-index: 0;
-	inset-block-end: 0;
-	display: grid;
-	background-color: var(--alt-background);
-	padding-block: 1.5em;
-	grid-template-columns: subgrid;
-	align-content: center;
-	justify-content: center;
-	font-weight: 500;
 
 	> * {
-		grid-column: center-start / center-end;
+		align-items: center;
 		display: flex;
 		flex-wrap: wrap;
 		gap: 0.5em 2em;
-		align-items: center;
+		grid-column: center-start / center-end;
 		justify-content: center;
 		list-style: none;
 
 		> * {
-			display: inline flex;
 			align-items: center;
+			display: inline flex;
 		}
 	}
 }
 
 .rss-link {
+	align-items: center;
 	display: inline flex;
 	gap: 0.5em;
-	align-items: center;
 
 	:where(svg) {
-		display: block;
-		inline-size: 1.125em;
-		block-size: 1.125em;
 		background-color: var(--link-color);
-		padding: 0.125em;
+		block-size: 1.125em;
 		border-radius: var(--border-radius);
+		display: block;
 		fill: var(--alt-background);
+		inline-size: 1.125em;
+		padding: 0.125em;
 	}
 }
 
 .index {
 	display: grid;
+	font-weight: 700;
 	gap: 1.25em;
 	list-style: none;
-	font-weight: 700;
 
 	> * {
 		display: grid;
