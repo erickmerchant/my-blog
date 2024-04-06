@@ -13,7 +13,7 @@ However for a long time the only way to use Shadow DOM was through JS. With Decl
 
 It does pose a problem though. If you need JS, how do you use a web framework. You will likely end up shipping instructions on generating the same markup you already have in your HTML, likely via JSX.
 
-This is where a base Custom Element for Declarative Shadow Dom comes in. I'm going to use my own [element.js](/element.js) used on this site as an example, but this is more a list of features I think you want in such a Custom Element. Also to be clear when I say base element I mean a class that all your other Custom Elements would extend.
+This is where a base Custom Element for Declarative Shadow Dom comes in. I'm going to use my own element.js used on this site as an example, but this is more a list of features I think you want in such a Custom Element. Also to be clear when I say base element I mean a class that all your other Custom Elements would extend.
 
 ## The features
 
@@ -27,7 +27,7 @@ We need reactive state. When the state changes, the UI updates without having to
 
 With element.js I have a `watch` method.
 
-``` js
+```js
 import {Element, watch} from "element";
 
 class ExampleElement extends Element {
@@ -59,13 +59,12 @@ Declarative Shadow DOM isn't supported in Firefox at the time of writing, so if 
 
 In element.js I have the following.
 
-``` js
+```js
 let firstChild = this.firstElementChild;
 let mode = firstChild?.getAttribute("shadowrootmode");
 
 if (!this.shadowRoot && firstChild?.nodeName === "TEMPLATE" && mode) {
-	this.attachShadow({mode})
-		.appendChild(firstChild.content.cloneNode(true));
+	this.attachShadow({mode}).appendChild(firstChild.content.cloneNode(true));
 
 	firstChild.remove();
 }
@@ -75,7 +74,7 @@ if (!this.shadowRoot && firstChild?.nodeName === "TEMPLATE" && mode) {
 
 This last one is probably the one that you could take or leave. It's nice to have attributes behave like any other watched state, but also have your base element handle updating attributes when that state is changed by you.
 
-``` js
+```js
 import {Element} from "element";
 
 class ExampleElement extends Element {
@@ -110,4 +109,4 @@ So four features I think a base element for Declarative Shadow DOM should have.
 - Polyfill Declarative Shadow DOM
 - Two way data binding to attributes
 
-I'll likely be packaging up [element.js](/element.js) and shipping it to a place where others can use it. I'll update this post if I do.
+I'll likely be packaging up element.js and shipping it to a place where others can use it. I'll update this post if I do.
