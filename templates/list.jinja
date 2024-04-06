@@ -11,8 +11,8 @@
 {% block main %}
 	<ol class="index">
 		{% for entry in entry_list %}
-			<li style="view-transition-name: entry-list-item--{{entry.slug}};">
-				<a href="/posts/{{entry.slug}}/">{{entry.title}}</a> <span><time class="date">{{entry.date | format_date("%B %e, %Y")}}</time></span>
+			<li>
+				<a href="/posts/{{entry.slug}}/" style="view-transition-name: entry-list-item--{{entry.slug}}--title;">{{entry.title}}</a> <span style="view-transition-name: entry-list-item--{{entry.slug}}--date;"><time class="date">{{entry.date | format_date("%B %e, %Y")}}</time></span>
 			</li>
 		{% endfor %}
 	</ol>

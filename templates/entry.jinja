@@ -5,9 +5,9 @@
 {% endblock %}
 
 {% block main_header %}
-	<h1>{{entry.title}}</h1>
+	<h1 style="view-transition-name: entry-list-item--{{entry.slug}}--title;">{{entry.title}}</h1>
 	{% if entry.date %}
-			<span><time class="date">{{entry.date | format_date("%B %e, %Y")}}</time></span>
+			<span style="view-transition-name: entry-list-item--{{entry.slug}}--date;"><time class="date">{{entry.date | format_date("%B %e, %Y")}}</time></span>
 	{% endif %}
 {% endblock %}
 
