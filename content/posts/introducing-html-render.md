@@ -9,7 +9,7 @@ Most places where a primitive would be accepted, a function is also accepted tha
 
 I don't expect the world to suddenly switch from the likes of React and Vue to this. However jQuery is still massively used, and also I'm sure there are others out there like me that always felt quite a bit more productive using it. The goal here is to give a similar API, but eliminate the source of truth problem by using a similar reactive API to Vue's.
 
-It is published to JSR so you could use it with a bundler, or you could grab it from [Github via jsDelivr](https://cdn.jsdelivr.net/gh/erickmerchant/html-render@~0.12.0/lib.min.js) and add it to an import map. I prefer the latter because it doesn't require a build step. If you do use a bundler though it's potentially less code, because it is fully tree shakeable.
+It is published to JSR so you could use it with a bundler, or you could grab it from [Github via jsDelivr](https://cdn.jsdelivr.net/gh/erickmerchant/html-render@~0.12.0/lib.min.js) and add it to an import map. I prefer the latter because it doesn't require a build step. If you do use a bundler though it's potentially less code, because it is fully tree-shakeable.
 
 Finally I will point out that this is alpha or maybe beta. Either way don't use it in production yet. It doesn't even have tests yet, and there is a lot that I need to analyze related to memory and cpu usage. Preliminary analysis look good though. But disclaimer aside, I have a few examples that I've developed and used (find them in the [examples directory](https://github.com/erickmerchant/html-render/tree/main/examples)), and it does work.
 
