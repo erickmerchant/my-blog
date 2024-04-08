@@ -16,9 +16,9 @@ Finally I will point out that this is alpha or maybe beta. Either way don't use 
 ## Some features I have planned
 
 - Rename to something else. I've been kicking around declare-observe-mutate or D.O.M.
-- **Tests** using Deno DOM.
+- Tests using Deno DOM.
 - Cross publish to NPM.
 - Provide a module that has `mixin` called already with everything. Perhaps also all html/svg tags exported.
 - I want a `text` method and had it, but removed it because I couldn't decide what it should do if there are already children. I still can't decide, but having `text` makes the three projects I already have more readable.
-- **Hydration**. This should be easy but complicated. Essentially build queries instead of elements, and then delay all chained method work. Revert to building when the DOM doesn't match so this will also involve reconciliation. It will be a separate module, and the complication mostly is how to tap into the main module.
-- **Types**. This will likely never be rewritten to TypeScript, but it should have types for IDE's.
+- Hydration. This should be easy but complicated. Essentially build queries instead of elements, and then delay all chained method work. Revert to building when the DOM doesn't match so this will also involve reconciliation. It will be a separate module, and the complication mostly is how to tap into the main module.
+- Types. This will likely never be rewritten to TypeScript, but it should have types for IDE's.
