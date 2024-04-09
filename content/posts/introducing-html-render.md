@@ -42,7 +42,7 @@ It is published to JSR so you could use it with a bundler, or you could grab it 
 
 It is designed to be sprinkled as well. Where as most libraries or frameworks want to control everything, html-render comes with a `$` method that you typically would call append from to mount your app into the body or a div, but you could also just make some classes on a website reactive. It would be great to just do those little things with js that need to be done for accessibility.
 
-One of the main goals of html-render is to be used in web components. Especially light dom only web components. In this use case you could tree shake to get only the methods you need and if you end up with some repeated code it would be very minimal. Large applications though you'd want to avoid any duplication and bundle. Both use cases are catered to.
+One of the main goals of html-render is to be used in web components. Especially light DOM only web components. In this use case you could tree shake to get only the methods you need and if you end up with some repeated code it would be very minimal. Large applications though you'd want to avoid any duplication and bundle. Both use cases are catered to.
 
 Don't use it in production quite yet. It doesn't even have tests, and there is a lot that I need to analyze related to memory and cpu usage. Preliminary analysis looks good though. But disclaimer aside, I have a few examples that I've developed and used — find them in the [examples directory](https://github.com/erickmerchant/html-render/tree/main/examples) — and it does work.
 
