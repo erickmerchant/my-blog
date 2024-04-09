@@ -11,7 +11,7 @@ I don't expect the world to suddenly switch from the likes of React and Vue to t
 
 It is published to JSR so you could use it with a bundler, or you could grab it from [Github via jsDelivr](https://cdn.jsdelivr.net/gh/erickmerchant/html-render@~0.13.0/lib.min.js) and add it to an import map. I prefer the latter because it doesn't require a build step. If you do use a bundler though it's potentially less code, because it is fully tree-shakeable. For instance if you don't use the `map` and `data` methods those could be tree shaken out.
 
-It is designed to be _sprinkable_ as well. Where as most libraries or frameworks want to control everything, html-render comes with a `$` method that you typically would call append from to mount your app into the body or a div, but you could also just make some classes on a website reactive. It would be great to just do those little things with js that need to be done for accessibility.
+It is designed to be sprinkled as well. Where as most libraries or frameworks want to control everything, html-render comes with a `$` method that you typically would call append from to mount your app into the body or a div, but you could also just make some classes on a website reactive. It would be great to just do those little things with js that need to be done for accessibility.
 
 One of the main goals of html-render is to be used in web components. Especially light dom only web components. In this use case you could tree shake to get only the methods you need and if you end up with some repeated code it would be very minimal. Large applications though you'd want to avoid any duplication and bundle. Both use cases are catered to.
 
