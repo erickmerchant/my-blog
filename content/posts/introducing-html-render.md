@@ -3,6 +3,21 @@ title = "@erickmerchant/html-render: a tiny lib for declarative ui"
 date = "2024-04-08"
 +++
 
+```javascript
+let state = watch({count: 0});
+
+button()
+	.classes("counter-button", {
+		"not-clicked": () => state.count === 0,
+		"clicked-some": () => state.count > 0,
+		"clicked-too-much": () => state.count > 100,
+	})
+	.on("click", () => {
+		state.count += 1;
+	})
+	.text("clicked ", () => state.count, " times");
+```
+
 I'd like to introduce [@erickmerchant/html-render](https://jsr.io/@erickmerchant/html-render) (or html-render). It is a tiny — ~1.5 kb minified and compressed — lib for creating UI in HTML. It uses a fluent interface that for anyone who has used jQuery will seem familiar. The difference is that with html-render you are not querying the DOM, you are creating it. You indicate places that will need to update when state changes through the use of plain functions. These become effects. Instead of modifying the DOM in event handlers you modify state. Then any effects that read that state get rerun. Standard stuff these days.
 
 Most places where a primitive would be accepted, a function is also accepted that returns the value. Then the setting of an attribute, rendering of a child, et cetera, become effects that will be called again when needed. I've created [a CodePen](https://codepen.io/erickmerchant/pen/KKYoyKK?editors=0010) with an example so you can see what I'm talking about. There are only a few reactive points, but you should get the idea.
@@ -20,8 +35,7 @@ Don't use it in production quite yet. It doesn't even have tests, and there is a
 ## Some things I have planned
 
 - Rename to something else. I've been kicking around declare-observe-mutate or D.O.M.
-- Tests using Deno DOM.
-- Cross publish to NPM.
+- Version 1.0.0 will depend on tests using Deno DOM and being cross-publish to NPM.
 - Provide a module that has `mixin` called already with everything. Perhaps also all html/svg tags exported. This will primarily be used to get started and will be named "demo" so that that point is not forgotten.
 - Hydration. This should be easy but complicated. Essentially build queries instead of elements, and then delay all chained method work. Revert to building when the DOM doesn't match so this will also involve reconciliation. It will be a separate module, and the complication mostly is how to tap into the main module.
 - Types. This will likely never be rewritten to TypeScript, because I'm committed to keeping it small, but it should have types for IDE's.
