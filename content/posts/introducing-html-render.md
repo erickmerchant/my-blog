@@ -44,7 +44,7 @@ It is designed to be sprinkled as well. Where as most libraries or frameworks wa
 
 One of the main goals of html-render is to be used in web components. Especially light DOM only web components. In this use case you could tree shake to get only the methods you need and if you end up with some repeated code it would be very minimal. Large applications though you'd want to avoid any duplication and bundle. Both use cases are catered to.
 
-Don't use it in production quite yet. It doesn't even have tests, and there is a lot that I need to analyze related to memory and cpu usage. Preliminary analysis looks good though. But disclaimer aside, I have a few examples that I've developed and used — find them in the [examples directory](https://github.com/erickmerchant/html-render/tree/main/examples) — and it does work.
+Don't use it in production quite yet. It doesn't even have tests, and there is a lot that I need to analyze related to memory and CPU usage. Preliminary analysis looks good though. But disclaimer aside, I have a few examples that I've developed and used — find them in the [examples directory](https://github.com/erickmerchant/html-render/tree/main/examples) — and it does work.
 
 ## Some things I have planned
 
@@ -54,3 +54,4 @@ Don't use it in production quite yet. It doesn't even have tests, and there is a
 - Hydration. This should be easy but complicated. Essentially build queries instead of elements, and then delay all chained method work. Revert to building when the DOM doesn't match so this will also involve reconciliation. It will be a separate module, and the complication mostly is how to tap into the main module.
 - Types. This will likely never be rewritten to TypeScript, because I'm committed to keeping it small, but it should have types for IDE's.
 - Allow string selectors in `$`
+- Document how to add your own methods. AKA plugins.
