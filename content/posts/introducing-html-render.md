@@ -13,7 +13,7 @@ import {
 	on,
 	text,
 	$,
-} from "@erickmerchant/html-render";
+} from "https://cdn.jsdelivr.net/gh/erickmerchant/html-render@~0.13.0/lib.min.js";
 
 let {button} = html;
 let target = document.getElementById("app");
@@ -30,7 +30,9 @@ $(target).append(
 		.on("click", () => {
 			state.count += 1;
 		})
-		.text("clicked ", () => state.count, " times")
+		.text(
+			() => `clicked ${state.count} ${state.count === 1 ? " time" : " times"}`
+		)
 );
 ```
 
