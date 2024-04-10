@@ -25,8 +25,10 @@
 
 html {
 	block-size: 100%;
-	font-family: system-ui, sans-serif;
+	font-family: Inter, Roboto, "Helvetica Neue", "Arial Nova", "Nimbus Sans",
+		Arial, sans-serif;
 	font-size: 125%;
+	font-weight: normal;
 	font-weight: 400;
 	line-height: 1.5;
 }
@@ -60,21 +62,21 @@ body {
 	}
 
 	@media (prefers-color-scheme: light) {
-		--text-color: oklch(0.1 0 0);
-		--top-background: oklch(0.95 0.01 150);
-		--alt-background: oklch(0.975 0 0);
-		--main-background: oklch(1 0 0);
-		--link-color: oklch(0.4 0.4 150);
-		--code-color: oklch(0.4 0.2 150);
+		--text-color: oklch(0.1 0.01 90);
+		--top-background: oklch(0.95 0.01 90);
+		--alt-background: oklch(0.975 0.01 90);
+		--main-background: oklch(0.99 0.01 90);
+		--link-color: oklch(0.45 0.4 150);
+		--code-color: oklch(0.45 0.2 150);
 	}
 
 	@media (prefers-color-scheme: dark) {
-		--text-color: oklch(0.9 0 0);
-		--top-background: oklch(0.3 0.01 150);
-		--alt-background: oklch(0.2 0 0);
-		--main-background: oklch(0.1 0 0);
+		--text-color: oklch(0.9 0.01 90);
+		--top-background: oklch(0.3 0.01 90);
+		--alt-background: oklch(0.2 0.01 90);
+		--main-background: oklch(0.1 0.01 90);
 		--link-color: oklch(0.8 0.4 150);
-		--code-color: oklch(0.8 0.2 150);
+		--code-color: oklch(0.8 0.1 150);
 	}
 }
 
@@ -169,16 +171,14 @@ strong {
 }
 
 em {
-	/* font-family: Charter, "Bitstream Charter", "Sitka Text", Cambria, serif; */
 	font-style: italic;
 }
 
 code {
 	background-color: var(--alt-background);
 	color: var(--code-color);
-	font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas,
-		"DejaVu Sans Mono", monospace;
-	font-weight: normal;
+	font-family: "JetBrains Mono", monospace;
+	font-weight: 400;
 	padding-inline: 0.25em;
 }
 
@@ -234,7 +234,6 @@ code {
 	border-radius: var(--border-radius);
 	counter-reset: lines 0;
 	display: grid;
-	font-size: 0.8em;
 	overflow-x: auto;
 	overscroll-behavior-x: none;
 	tab-size: 2;

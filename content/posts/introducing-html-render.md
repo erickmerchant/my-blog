@@ -53,7 +53,7 @@ Don't use it in production quite yet. It doesn't even have tests, and there is a
 - Rename to something else. I've been kicking around declare-observe-mutate or D.O.M.
 - Version 1.0.0 will depend on tests using Deno DOM and being cross-publish to NPM.
 - Provide a module that has `mixin` called already with everything. Perhaps also all html/svg tags exported. This will primarily be used to get started and will be named "demo" so that that point is not forgotten.
-- Hydration. This should be easy but complicated. Essentially build queries instead of elements, and then delay all chained method work. Revert to building when the DOM doesn't match so this will also involve reconciliation. It will be a separate module, and the complication mostly is how to tap into the main module.
+- Hydration. I feel like the parts are there. I just need to put them together.
 - Types. This will likely never be rewritten to TypeScript, because I'm committed to keeping it small, but it should have types for IDE's.
 - Allow string selectors in `$`
 - Document how to add your own methods. AKA plugins.
