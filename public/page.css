@@ -96,8 +96,14 @@ top-bar {
 	z-index: 2;
 	--block-size: 4.5em;
 
-	> :where(nav) {
+	:where(nav) {
 		grid-column: center-start / center-end;
+	}
+
+	:where(ul) {
+		display: flex;
+		justify-content: space-between;
+		list-style: none;
 	}
 }
 

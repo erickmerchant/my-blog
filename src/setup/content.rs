@@ -19,7 +19,7 @@ pub fn parse_content(contents: String) -> Result<(Option<Frontmatter>, Vec<u8>)>
 	};
 	let parser = pulldown_cmark::Parser::new(markdown.as_str());
 	let mut events = Vec::new();
-	let mut to_highlight = String::new();
+	let mut code_block_text = String::new();
 	let mut code_block_lang = None;
 
 	for event in parser {
@@ -32,11 +32,11 @@ pub fn parse_content(contents: String) -> Result<(Option<Frontmatter>, Vec<u8>)>
 			}
 			Event::End(TagEnd::CodeBlock) => {
 				if let Some(lang) = code_block_lang {
-					let mut highlighted_lines = Vec::new();
-					let inner_html = to_highlight;
+					let mut lines = Vec::new();
+					let inner_html = code_block_text;
 
 					for line in inner_html.trim().lines() {
-						highlighted_lines.push(format!(
+						lines.push(format!(
 							"<span></span><span>{}</span>",
 							html_escape::encode_text(line)
 						));
@@ -45,18 +45,18 @@ pub fn parse_content(contents: String) -> Result<(Option<Frontmatter>, Vec<u8>)>
 					let hightlighted_html = format!(
 						r#"<figure class="code-block" data-language="{}"><pre><code>{}</code></pre></figure>"#,
 						lang,
-						highlighted_lines.join("\n")
+						lines.join("\n")
 					);
 					events.push(Event::Html(CowStr::Boxed(
 						hightlighted_html.into_boxed_str(),
 					)));
-					to_highlight = String::new();
+					code_block_text = String::new();
 					code_block_lang = None;
 				}
 			}
 			Event::Text(t) => {
 				if let Some(_lang) = code_block_lang.clone() {
-					to_highlight.push_str(&t);
+					code_block_text.push_str(&t);
 				} else {
 					events.push(Event::Text(t))
 				}
