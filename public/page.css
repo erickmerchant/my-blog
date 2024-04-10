@@ -175,7 +175,7 @@ em {
 
 code {
 	background-color: var(--alt-background);
-	color: var(--code-color-0);
+	color: var(--code-color);
 	font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas,
 		"DejaVu Sans Mono", monospace;
 	font-weight: normal;
