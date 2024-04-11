@@ -62,21 +62,21 @@ body {
 	}
 
 	@media (prefers-color-scheme: light) {
-		--text-color: oklch(0.1 0.01 150);
-		--top-background: oklch(0.95 0.01 150);
-		--alt-background: oklch(0.975 0.01 150);
-		--main-background: oklch(0.99 0.01 150);
-		--link-color: oklch(0.45 0.4 150);
-		--code-color: oklch(0.45 0.2 150);
+		--top-background: oklch(0.95 0.01 100);
+		--alt-background: oklch(0.975 0.01 100);
+		--main-background: oklch(0.99 0.01 100);
+		--text-color: oklch(0.1 0.01 200);
+		--link-color: oklch(0.45 0.4 200);
+		--code-color: oklch(0.45 0.2 200);
 	}
 
 	@media (prefers-color-scheme: dark) {
-		--text-color: oklch(0.9 0.01 150);
-		--top-background: oklch(0.3 0.01 150);
-		--alt-background: oklch(0.2 0.01 150);
-		--main-background: oklch(0.1 0.01 150);
-		--link-color: oklch(0.8 0.4 150);
-		--code-color: oklch(0.8 0.1 150);
+		--top-background: oklch(0.3 0.01 100);
+		--alt-background: oklch(0.2 0.01 100);
+		--main-background: oklch(0.1 0.01 100);
+		--text-color: oklch(0.9 0.01 200);
+		--link-color: oklch(0.8 0.4 200);
+		--code-color: oklch(0.8 0.1 200);
 	}
 }
 
@@ -174,7 +174,7 @@ em {
 	font-style: italic;
 }
 
-code {
+:where(:not(pre)) > code {
 	background-color: var(--alt-background);
 	color: var(--code-color);
 	font-family: "JetBrains Mono", monospace;
@@ -240,41 +240,49 @@ code {
 	--white-space: pre-wrap;
 
 	:where(code) {
+		background-color: var(--alt-background);
 		color: var(--code-color);
 		display: grid;
+		font-family: "JetBrains Mono", monospace;
+		font-weight: 400;
 		grid-template-columns: max-content auto;
 		position: relative;
 		white-space: var(--white-space);
 		word-break: break-word;
 
 		> * {
-			background-color: var(--alt-background);
-			padding-block: 0.125em;
-			padding-inline: 1em;
-		}
-
-		> :where(:nth-child(-n + 2)) {
-			padding-block-start: 1em;
-		}
-
-		> :where(:nth-last-child(-n + 2)) {
-			padding-block-end: 1em;
-		}
-
-		> :where(:nth-child(odd)) {
-			background-color: var(--alt-background);
-			border-inline-end: 0.25em solid var(--main-background);
-			box-shadow: -1em 0 0 0 var(--alt-background);
-			color: var(--text-color);
-			counter-increment: lines 1;
-			inset-inline-start: 0.25em;
-			padding-inline: 1em;
-			position: sticky;
+			display: grid;
+			gap: 0.25em 1em;
+			grid-column: 1 / -1;
+			grid-template-columns: subgrid;
 
 			&::before {
+				background-color: var(--alt-background);
+				border-inline-end: 0.25em solid var(--main-background);
+				/* box-shadow: -1em 0 0 0 var(--alt-background); */
+				color: var(--text-color);
 				content: counter(lines, decimal);
+				counter-increment: lines 1;
 				display: grid;
-				justify-content: end;
+				inset-inline-start: 0;
+				padding-inline: 1em;
+				position: sticky;
+			}
+
+			&:where(:first-child) {
+				align-items: end;
+
+				&::before {
+					padding-block-start: 1em;
+				}
+			}
+
+			&:where(:last-child) {
+				align-items: start;
+
+				&::before {
+					padding-block-end: 1em;
+				}
 			}
 		}
 	}

@@ -36,10 +36,7 @@ pub fn parse_content(contents: String) -> Result<(Option<Frontmatter>, Vec<u8>)>
 					let inner_html = code_block_text;
 
 					for line in inner_html.trim().lines() {
-						lines.push(format!(
-							"<span></span><span>{}</span>",
-							html_escape::encode_text(line)
-						));
+						lines.push(format!("<span>{}</span>", html_escape::encode_text(line)));
 					}
 
 					let hightlighted_html = format!(
