@@ -1,5 +1,5 @@
 +++
-title = "@erickmerchant/html-render: a tiny lib for declarative ui"
+title = "@erickmerchant/html-render: imperative + reactive ui"
 date = "2024-04-08"
 +++
 
@@ -13,7 +13,7 @@ import {
 	on,
 	text,
 	$,
-} from "https://cdn.jsdelivr.net/gh/erickmerchant/html-render@~0.13.0/lib.min.js";
+} from "https://cdn.jsdelivr.net/gh/erickmerchant/html-render@~0.13.3/lib.min.js";
 
 let {button} = html;
 let target = document.getElementById("app");
@@ -40,7 +40,7 @@ I'd like to introduce [@erickmerchant/html-render](https://jsr.io/@erickmerchant
 
 Most places where a primitive would be accepted, a function is also accepted that returns the value. Then the setting of an attribute, rendering of a child, and so on, become effects that will be called again when needed. I've created [a CodePen](https://codepen.io/erickmerchant/pen/mdgLMxJ?editors=0010) with an example so you can see what I'm talking about. There are only a few reactive points, but you should get the idea.
 
-It is published to JSR so you could use it with a bundler, or you could grab it from [Github via jsDelivr](https://cdn.jsdelivr.net/gh/erickmerchant/html-render@~0.13.0/lib.min.js) and add it to an import map. I prefer the latter because it doesn't require a build step. If you do use a bundler though it's potentially less code, because it is fully tree-shakeable. For instance if you don't use the `map` and `data` methods those could be tree shaken out.
+It is published to JSR so you could use it with a bundler, or you could grab it from [Github via jsDelivr](https://cdn.jsdelivr.net/gh/erickmerchant/html-render@~0.13.3/lib.min.js) and add it to an import map. I prefer the latter because it doesn't require a build step. If you do use a bundler though it's potentially less code, because it is fully tree-shakeable. For instance if you don't use the `map` and `data` methods those could be tree shaken out.
 
 It is designed to be sprinkled as well. Where as most libraries or frameworks want to control everything, html-render comes with a `$` method that you typically would call append from to mount your app into the body or a div, but you could also just make some classes on a website reactive. It would be great to just do those little things with js that need to be done for accessibility.
 
@@ -50,9 +50,9 @@ Don't use it in production quite yet. It doesn't even have tests, and there is a
 
 ## Some things I have planned
 
-- Rename to something else. I've been kicking around declare-observe-mutate or D.O.M.
+- Rename to something else.
 - Version 1.0.0 will depend on tests using Deno DOM and being cross-publish to NPM.
-- Provide a module that has `mixin` called already with everything. Perhaps also all html/svg tags exported. This will primarily be used to get started and will be named "demo" so that that point is not forgotten.
+- Provide a module that has `mixin` called already with everything. This will primarily be used to get started and will be named "demo" so that that point is not forgotten.
 - Hydration. I feel like the parts are there. I just need to put them together.
 - Types. This will likely never be rewritten to TypeScript, because I'm committed to keeping it small, but it should have types for IDE's.
 - Allow string selectors in `$`
