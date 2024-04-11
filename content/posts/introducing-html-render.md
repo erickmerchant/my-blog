@@ -51,8 +51,8 @@ Don't use it in production quite yet. It doesn't even have tests, and there is a
 ## Some things I have planned
 
 - Rename to something else.
-- Version 1.0.0 will depend on tests using Deno DOM and being cross-publish to NPM.
-- Provide a module that has `mixin` called already with everything. This will primarily be used to get started and will be named "demo" so that that point is not forgotten.
+- Version 1.0.0 will depend on tests using Deno DOM and being cross-published to NPM.
+- Provide a module that has `mixin` called already with everything. This will primarily be used to get started and will be named "demo" so that point is not forgotten.
 - Hydration. I feel like the parts are there. I just need to put them together.
 - Types. This will likely never be rewritten to TypeScript, because I'm committed to keeping it small, but it should have types for IDE's.
 - Allow string selectors in `$`
