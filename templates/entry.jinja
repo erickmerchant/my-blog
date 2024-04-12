@@ -1,18 +1,14 @@
 {% extends "base.jinja" %}
 
 {% block title %}
-	{{site.title}} {% if entry.title %}— {{entry.title}}{% else %}Untitled{% endif %}
+	{{site.title}} — {{entry.title}}
 {% endblock %}
 
 {% block main_header %}
 	<h1>{{entry.title}}</h1>
-	{% if entry.date %}
-			<span><time class="date">{{entry.date | format_date("%B %e, %Y")}}</time></span>
-	{% endif %}
+	{{ tags(entry) }}
 {% endblock %}
 
 {% block main %}
-	{% if entry.content %}
-		<div class="content">{{entry.content}}</div>
-	{% endif %}
+	<div class="content">{{entry.content}}</div>
 {% endblock %}

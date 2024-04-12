@@ -12,7 +12,8 @@
 	<ol class="index">
 		{% for entry in entry_list %}
 			<li>
-				<a href="/posts/{{entry.slug}}/">{{entry.title}}</a> <span><time class="date">{{entry.date | format_date("%B %e, %Y")}}</time></span>
+				{{ tags(entry) }}
+				<a href="/posts/{{entry.slug}}/">{{entry.title}}</a>
 			</li>
 		{% endfor %}
 	</ol>

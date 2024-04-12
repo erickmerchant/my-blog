@@ -11,11 +11,12 @@ pub struct Model {
 
 	pub slug: String,
 
-	#[serde(default)]
-	pub title: Option<String>,
+	pub title: String,
+
+	pub date: NaiveDate,
 
 	#[serde(default)]
-	pub date: Option<NaiveDate>,
+	pub pinned: bool,
 
 	#[serde(skip_deserializing, default)]
 	pub content: String,

@@ -16,6 +16,7 @@ pub async fn list_handler(
 	State(app_state): State<Arc<crate::State>>,
 ) -> Result<Response, crate::Error> {
 	let entry_list = entry::Entity::find()
+		.order_by(entry::Column::Pinned, Order::Desc)
 		.order_by(entry::Column::Date, Order::Desc)
 		.all(&app_state.database)
 		.await?;

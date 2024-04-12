@@ -50,7 +50,7 @@ body {
 	overscroll-behavior: none;
 	scrollbar-color: var(--link-color) var(--top-background);
 	scrollbar-gutter: stable;
-	--border-radius: 0.125em;
+	--border-radius: 0.25em;
 	--easing: ease-in-out;
 
 	> * {
@@ -62,21 +62,23 @@ body {
 	}
 
 	@media (prefers-color-scheme: light) {
-		--top-background: oklch(0.95 0.01 100);
-		--alt-background: oklch(0.975 0.01 100);
-		--main-background: oklch(0.99 0.01 100);
-		--text-color: oklch(0.1 0.01 200);
-		--link-color: oklch(0.45 0.4 200);
-		--code-color: oklch(0.45 0.2 200);
+		--top-background: oklch(0.95 0.015 100);
+		--alt-background: oklch(0.975 0.015 100);
+		--main-background: oklch(0.99 0.015 100);
+		--text-color: oklch(0.1 0.015 100);
+		--link-color: oklch(0.4 0.4 200);
+		--code-color: oklch(0.4 0.4 150);
+		/* --rss-color: oklch(0.6 0.4 100); */
 	}
 
 	@media (prefers-color-scheme: dark) {
-		--top-background: oklch(0.3 0.01 100);
-		--alt-background: oklch(0.2 0.01 100);
-		--main-background: oklch(0.1 0.01 100);
-		--text-color: oklch(0.9 0.01 200);
+		--top-background: oklch(0.3 0.015 100);
+		--alt-background: oklch(0.2 0.015 100);
+		--main-background: oklch(0.1 0.015 100);
+		--text-color: oklch(0.9 0.015 100);
 		--link-color: oklch(0.8 0.4 200);
-		--code-color: oklch(0.8 0.1 200);
+		--code-color: oklch(0.8 0.4 150);
+		/* --rss-color: oklch(0.7 0.4 100); */
 	}
 }
 
@@ -187,14 +189,22 @@ em {
 	gap: 0.25em;
 }
 
-.date {
+.tag {
+	align-items: center;
 	background-color: var(--top-background);
 	border-radius: var(--border-radius);
 	display: inline flex;
 	font-size: 0.8em;
 	font-weight: 700;
+	gap: 0.25em;
 	padding-block: 0.125em;
 	padding-inline: 0.5em;
+
+	:where(svg) {
+		block-size: 1.125em;
+		fill: currentColor;
+		padding: 0.125em;
+	}
 }
 
 .content {
@@ -324,13 +334,14 @@ em {
 
 .rss-link {
 	align-items: center;
+	/* color: var(--rss-color); */
 	display: inline flex;
 	gap: 0.5em;
 
 	:where(svg) {
-		background-color: var(--link-color);
-		block-size: 1.125em;
-		border-radius: var(--border-radius);
+		aspect-ratio: 1;
+		background-color: currentColor;
+		border-radius: 10%;
 		display: block;
 		fill: var(--alt-background);
 		inline-size: 1.125em;
@@ -342,14 +353,13 @@ em {
 	display: grid;
 	font-weight: 700;
 	gap: 1.25em;
+	grid-template-columns: max-content auto;
 	list-style: none;
-
-	:where(.date) {
-		font-size: 0.64em;
-	}
 
 	> * {
 		display: grid;
-		gap: 0.25em;
+		gap: 0.25em 2em;
+		grid-column: 1 / -1;
+		grid-template-columns: subgrid;
 	}
 }

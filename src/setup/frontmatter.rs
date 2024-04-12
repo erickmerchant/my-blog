@@ -3,9 +3,10 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct Frontmatter {
-	#[serde(default)]
-	pub title: Option<String>,
+	pub title: String,
+
+	pub date: NaiveDate,
 
 	#[serde(default)]
-	pub date: Option<NaiveDate>,
+	pub pinned: bool,
 }

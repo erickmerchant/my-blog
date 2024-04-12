@@ -86,6 +86,7 @@ pub async fn import_content(connection: &DatabaseConnection) -> Result<()> {
 			if let Some(data) = data.clone() {
 				entry.title = Set(data.title);
 				entry.date = Set(data.date);
+				entry.pinned = Set(data.pinned);
 			}
 
 			entry.content = Set(String::from_utf8(content)?);
