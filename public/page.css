@@ -42,22 +42,22 @@ body {
 	grid-template-columns:
 		[side-start]
 		auto
-		[center-start] min(100% - 2em, 40rem) [center-end]
+		[center-start] min(100% - 2rem, 40rem) [center-end]
 		auto
 		[side-end];
 	grid-template-rows: min-content auto min-content;
 	overflow-x: auto;
 	overscroll-behavior: none;
-	scrollbar-color: var(--link-color) var(--top-background);
+	scrollbar-color: var(--link-color) var(--main-background);
 	scrollbar-gutter: stable;
-	--border-radius: 0.25em;
+	--border-radius: 0.125rem;
 	--easing: ease-in-out;
 
 	> * {
 		grid-column: 1 / -1;
 
 		@container (inline-size <= 42rem) {
-			font-size: 0.8em;
+			font-size: 0.8rem;
 		}
 	}
 
@@ -88,17 +88,17 @@ top-bar {
 	color: var(--link-color);
 	display: grid;
 	font-weight: 900;
-	gap: 1em 0;
+	gap: 1rem 0;
 	grid-template-columns: subgrid;
 	inset-block-start: calc(
 		var(--scrolling-down, 0) * calc(-1 * var(--block-size))
 	);
-	padding-block: 1.5em;
+	padding-block: 1.5rem;
 	position: sticky;
 	transition: inset-block-start 0.25s var(--easing);
 	view-transition-name: top-bar;
 	z-index: 2;
-	--block-size: 4.5em;
+	--block-size: 4.5rem;
 
 	:where(nav) {
 		grid-column: center-start / center-end;
@@ -115,9 +115,11 @@ main {
 	align-content: start;
 	background-color: var(--main-background);
 	display: grid;
-	gap: 1em 0;
+	gap: 1rem 0;
 	grid-template-columns: subgrid;
-	padding-block: 1em 3em;
+	hyphens: auto;
+	overflow-wrap: break-word;
+	padding-block: 1rem 3rem;
 	z-index: 1;
 
 	> * {
@@ -161,11 +163,11 @@ h2 {
 }
 
 h1 {
-	font-size: 1.5625em;
+	font-size: 1.5625rem;
 }
 
 h2 {
-	font-size: 1.25em;
+	font-size: 1.25rem;
 }
 
 strong {
@@ -181,35 +183,35 @@ em {
 	color: var(--code-color);
 	font-family: "JetBrains Mono", monospace;
 	font-weight: 400;
-	padding-inline: 0.25em;
+	padding-inline: 0.25rem;
 }
 
 .heading {
 	display: grid;
-	gap: 0.25em;
+	gap: 0.25rem;
 }
 
 .tag {
 	align-items: center;
-	background-color: var(--top-background);
+	background-color: var(--alt-background);
 	border-radius: var(--border-radius);
 	display: inline flex;
-	font-size: 0.8em;
+	font-size: 0.8rem;
 	font-weight: 700;
-	gap: 0.25em;
-	padding-block: 0.125em;
-	padding-inline: 0.5em;
+	gap: 0.25rem;
+	padding-block: 0.125rem;
+	padding-inline: 0.5rem;
 
 	:where(svg) {
 		block-size: 1.125em;
 		fill: currentColor;
-		padding: 0.125em;
+		padding: 0.125rem;
 	}
 }
 
 .content {
 	display: grid;
-	gap: 1em 0;
+	gap: 1rem 0;
 	grid-column: 1 / -1;
 	grid-template-columns: subgrid;
 
@@ -218,7 +220,7 @@ em {
 	}
 
 	:where(ul, ol) {
-		padding-inline-start: 1em;
+		padding-inline-start: 1rem;
 	}
 }
 
@@ -226,13 +228,13 @@ em {
 	background-color: var(--alt-background);
 	border-radius: var(--border-radius);
 	display: grid;
-	gap: 0.5em;
-	padding-block: 1em;
-	padding-inline: 1em;
+	gap: 0.5rem;
+	padding-block: 1rem;
+	padding-inline: 1rem;
 
 	:where(cite) {
 		display: inline flex;
-		gap: 0.5em;
+		gap: 0.5rem;
 
 		&::before {
 			content: "—";
@@ -262,36 +264,38 @@ em {
 
 		> * {
 			display: grid;
-			gap: 0.25em 1em;
+			gap: 0.25rem 1rem;
 			grid-column: 1 / -1;
 			grid-template-columns: subgrid;
 
 			&::before {
 				background-color: var(--alt-background);
-				border-inline-end: 0.25em solid var(--main-background);
-				/* box-shadow: -1em 0 0 0 var(--alt-background); */
+				border-inline-end: 0.25rem solid var(--main-background);
+				box-shadow: -1rem 0 0 0 var(--alt-background);
 				color: var(--text-color);
 				content: counter(lines, decimal);
 				counter-increment: lines 1;
 				display: grid;
 				inset-inline-start: 0;
-				padding-inline: 1em;
+				padding-inline: 1rem;
 				position: sticky;
 			}
 
 			&:where(:first-child) {
-				align-items: end;
+				padding-block-start: 1rem;
 
 				&::before {
-					padding-block-start: 1em;
+					margin-block-start: -1rem;
+					padding-block-start: 1rem;
 				}
 			}
 
 			&:where(:last-child) {
-				align-items: start;
+				padding-block-end: 1rem;
 
 				&::before {
-					padding-block-end: 1em;
+					margin-block-end: -1rem;
+					padding-block-end: 1rem;
 				}
 			}
 		}
@@ -312,7 +316,7 @@ em {
 	grid-template-columns: subgrid;
 	inset-block-end: 0;
 	justify-content: center;
-	padding-block: 1.5em;
+	padding-block: 1.5rem;
 	position: sticky;
 	z-index: 0;
 
@@ -320,7 +324,7 @@ em {
 		align-items: center;
 		display: flex;
 		flex-wrap: wrap;
-		gap: 0.5em 2em;
+		gap: 1rem 2rem;
 		grid-column: center-start / center-end;
 		justify-content: center;
 		list-style: none;
@@ -336,30 +340,49 @@ em {
 	align-items: center;
 	/* color: var(--rss-color); */
 	display: inline flex;
-	gap: 0.5em;
+	gap: 0.5rem;
 
 	:where(svg) {
 		aspect-ratio: 1;
 		background-color: currentColor;
-		border-radius: 10%;
+		block-size: 1.125em;
 		display: block;
 		fill: var(--alt-background);
-		inline-size: 1.125em;
-		padding: 0.125em;
+		padding: 0.125rem;
 	}
 }
 
 .index {
 	display: grid;
 	font-weight: 700;
-	gap: 1.25em;
+	gap: 1.25rem;
 	grid-template-columns: max-content auto;
 	list-style: none;
 
+	&,
+	> * {
+		@container (inline-size <= 42rem) {
+			display: flex;
+			flex-direction: column;
+		}
+	}
+
 	> * {
 		display: grid;
-		gap: 0.25em 2em;
+		gap: 0.25rem 2rem;
 		grid-column: 1 / -1;
 		grid-template-columns: subgrid;
+	}
+
+	> *:has(.pinned) {
+		background-color: var(--alt-background);
+		font-size: 1.15rem;
+		padding: 1.25rem 1rem;
+
+		:where(.tag) {
+			background-color: none;
+			font-size: inherit;
+			padding: 0;
+		}
 	}
 }

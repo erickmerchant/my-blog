@@ -13,7 +13,7 @@ import {
 	on,
 	text,
 	$,
-} from "https://cdn.jsdelivr.net/gh/erickmerchant/html-render@~0.13.3/lib.min.js";
+} from "@erickmerchant/html-render";
 
 let {button} = html;
 let target = document.getElementById("app");
