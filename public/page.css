@@ -372,6 +372,10 @@ em {
 		gap: 0.25rem 2rem;
 		grid-column: 1 / -1;
 		grid-template-columns: subgrid;
+
+		> * {
+			display: inline flex;
+		}
 	}
 
 	> *:has(.pinned) {
