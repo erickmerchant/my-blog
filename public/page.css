@@ -62,28 +62,24 @@ body {
 	}
 
 	@media (prefers-color-scheme: light) {
-		--top-background: oklch(0.95 0.015 100);
 		--alt-background: oklch(0.975 0.015 100);
 		--main-background: oklch(0.99 0.015 100);
 		--text-color: oklch(0.1 0.015 100);
 		--link-color: oklch(0.4 0.4 200);
 		--code-color: oklch(0.4 0.4 150);
-		/* --rss-color: oklch(0.6 0.4 100); */
 	}
 
 	@media (prefers-color-scheme: dark) {
-		--top-background: oklch(0.3 0.015 100);
-		--alt-background: oklch(0.2 0.015 100);
+		--alt-background: oklch(0.225 0.015 100);
 		--main-background: oklch(0.1 0.015 100);
 		--text-color: oklch(0.9 0.015 100);
 		--link-color: oklch(0.8 0.4 200);
 		--code-color: oklch(0.8 0.4 150);
-		/* --rss-color: oklch(0.7 0.4 100); */
 	}
 }
 
 top-bar {
-	background-color: var(--top-background);
+	background-color: var(--alt-background);
 	border-block-end: 0.25rem solid var(--main-background);
 	color: var(--link-color);
 	display: grid;
@@ -227,7 +223,7 @@ em {
 .interstitial {
 	background-color: var(--alt-background);
 	border-radius: var(--border-radius);
-	display: grid;
+	display: block;
 	gap: 0.5rem;
 	padding-block: 1rem;
 	padding-inline: 1rem;
@@ -338,7 +334,6 @@ em {
 
 .rss-link {
 	align-items: center;
-	/* color: var(--rss-color); */
 	display: inline flex;
 	gap: 0.5rem;
 

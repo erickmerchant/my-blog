@@ -3,6 +3,10 @@ title = "@erickmerchant/html-render: imperative + reactive ui"
 date = "2024-04-08"
 +++
 
+<div class="interstitial">
+	<strong>Disclaimer:</strong> This was written as an <strong>experiment</strong>, and even I probably won't use it much.
+</div>
+
 ```javascript
 import {
 	html,
