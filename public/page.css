@@ -25,8 +25,7 @@
 
 html {
 	block-size: 100%;
-	font-family: Inter, Roboto, "Helvetica Neue", "Arial Nova", "Nimbus Sans",
-		Arial, sans-serif;
+	font-family: system-ui, sans-serif;
 	font-size: 125%;
 	font-weight: normal;
 	font-weight: 400;
@@ -275,6 +274,7 @@ em {
 				inset-inline-start: 0;
 				padding-inline: 1rem;
 				position: sticky;
+				text-align: right;
 			}
 
 			&:where(:first-child) {
@@ -341,6 +341,7 @@ em {
 		aspect-ratio: 1;
 		background-color: currentColor;
 		block-size: 1.125em;
+		border-radius: var(--border-radius);
 		display: block;
 		fill: var(--alt-background);
 		padding: 0.125rem;
