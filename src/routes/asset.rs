@@ -1,6 +1,6 @@
 use super::not_found::not_found_handler;
 use axum::{
-	extract::{Path, State},
+	extract::{Request, State},
 	http::header,
 	response::{IntoResponse, Response},
 };
@@ -9,9 +9,11 @@ use std::{fs, sync::Arc};
 
 pub async fn asset_handler(
 	State(templates): State<Arc<crate::templates::Engine>>,
-	Path(path): Path<String>,
+	request: Request,
 ) -> Result<Response, crate::Error> {
+	let path = request.uri().path().trim_start_matches('/');
 	let path = Utf8Path::new("public").join(path);
+
 	if let Some(ext) = path.extension() {
 		let path = path.with_extension("").with_extension(ext);
 		let asset = mime_guess::from_ext(ext)

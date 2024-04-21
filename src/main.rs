@@ -11,10 +11,7 @@ use axum::{http::Request, middleware::from_fn, response::Response, routing::get,
 use clap::Parser;
 use error::Error;
 use layers::cache::cache_layer;
-use routes::{
-	asset::asset_handler, entry::entry_handler, list::list_handler, not_found::not_found_handler,
-	rss::rss_handler,
-};
+use routes::{asset::asset_handler, entry::entry_handler, list::list_handler, rss::rss_handler};
 use std::{fs, sync::Arc, time::Duration};
 use tokio::net::TcpListener;
 use tower_http::{
@@ -40,8 +37,7 @@ async fn main() -> Result<()> {
 		.route("/", get(list_handler))
 		.route("/posts/:slug/", get(entry_handler))
 		.route("/posts.rss", get(rss_handler))
-		.route("/*path", get(asset_handler))
-		.fallback(not_found_handler);
+		.fallback(asset_handler);
 
 	if !args.no_cache {
 		app = app.layer(from_fn(cache_layer));
