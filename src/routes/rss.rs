@@ -1,37 +1,29 @@
-use crate::models::entry;
+use crate::models::entry::Model;
 use axum::{
 	extract::State,
 	http::header,
 	response::{IntoResponse, Response},
 };
 use minijinja::context;
-use sea_orm::{
-	entity::prelude::*,
-	query::{Order, QueryOrder},
-};
 use std::sync::Arc;
 
 pub async fn rss_handler(
-	State(app_state): State<Arc<crate::State>>,
+	State(templates): State<Arc<crate::templates::Engine>>,
 ) -> Result<Response, crate::Error> {
-	let entry_list = entry::Entity::find()
-		.order_by(entry::Column::Date, Order::Desc)
-		.all(&app_state.database)
-		.await?;
-	let html = app_state.templates.render(
+	let entry_list: Vec<Model> = Model::find_all_frontmatter();
+	let html = templates.render(
 		"rss.jinja".to_string(),
 		Some(context! {
 			entry_list,
 		}),
 	)?;
-	let body = html.as_bytes().to_vec();
 
 	Ok((
 		[(
 			header::CONTENT_TYPE,
 			"application/rss+xml; charset=utf-8".to_string(),
 		)],
-		body,
+		html,
 	)
 		.into_response())
 }

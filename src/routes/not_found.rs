@@ -6,11 +6,9 @@ use axum::{
 use std::sync::Arc;
 
 pub async fn not_found_handler(
-	State(app_state): State<Arc<crate::State>>,
+	State(templates): State<Arc<crate::templates::Engine>>,
 ) -> Result<Response, crate::Error> {
-	let body = app_state
-		.templates
-		.render("not-found.jinja".to_string(), None)?;
+	let body = templates.render("not-found.jinja".to_string(), None)?;
 
 	Ok((StatusCode::NOT_FOUND, Html(body)).into_response())
 }

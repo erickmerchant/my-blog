@@ -2,11 +2,10 @@ mod assets;
 mod headers;
 mod import_map;
 
-use crate::models::cache;
+use crate::models::cache::Model;
 use assets::rewrite_assets;
 use axum::{
 	body::Body,
-	extract::State,
 	http::{Request, StatusCode},
 	middleware::Next,
 	response::{IntoResponse, Response},
@@ -15,27 +14,30 @@ use etag::EntityTag;
 use headers::{add_cache_headers, etag_matches, get_header};
 use http_body_util::BodyExt;
 use hyper::HeaderMap;
-use sea_orm::{entity::prelude::*, ActiveValue::Set};
-use std::sync::Arc;
+use std::{
+	fs::{create_dir_all, read_to_string, write},
+	path::Path,
+};
 
 const ETAGABLE_TYPES: &[&str] = &[
 	"text/html; charset=utf-8",
 	"application/rss+xml; charset=utf-8",
 ];
 
-pub async fn cache_layer(
-	State(app_state): State<Arc<crate::State>>,
-	req: Request<Body>,
-	next: Next,
-) -> Result<Response, crate::Error> {
-	let uri = req.uri().to_string();
-	let cache_result = cache::Entity::find()
-		.filter(cache::Column::Path.eq(&uri))
-		.one(&app_state.database)
-		.await?;
+pub async fn cache_layer(req: Request<Body>, next: Next) -> Result<Response, crate::Error> {
+	let uri_path = req.uri().path().to_string();
+	let mut cache_path = Path::new("storage").join(uri_path.trim_start_matches("/"));
+
+	if cache_path.to_string_lossy().to_string().ends_with("/") {
+		cache_path = cache_path.join("index");
+	}
+
+	let cache_result = read_to_string(&cache_path)
+		.map(|contents| toml::from_str::<Model>(&contents))
+		.ok();
 	let req_headers = req.headers().clone();
 
-	if let Some(cache_result) = cache_result {
+	if let Some(Ok(cache_result)) = cache_result {
 		let etag_matches = etag_matches(&cache_result.etag, &req_headers);
 
 		if etag_matches {
@@ -65,25 +67,28 @@ pub async fn cache_layer(
 				let etag_string = EntityTag::from_data(&output).to_string();
 
 				etag = Some(etag_string.clone());
+
+				let cache_model = Model {
+					content_type: content_type.clone(),
+					etag: etag.clone(),
+					body: output.clone(),
+				};
+
+				create_dir_all(&cache_path.with_file_name(""))?;
+
+				write(
+					cache_path,
+					toml::to_string(&cache_model).expect("should serialize toml"),
+				)?;
+
+				let etag_matches = etag_matches(&etag, &req_headers);
+
+				if etag_matches {
+					return Ok(StatusCode::NOT_MODIFIED.into_response());
+				}
 			} else {
 				output = bytes.to_vec();
 			};
-
-			let cache_model = cache::ActiveModel {
-				path: Set(uri),
-				content_type: Set(content_type.clone()),
-				etag: Set(etag.clone()),
-				body: Set(output.clone()),
-				..Default::default()
-			};
-
-			cache_model.insert(&app_state.database).await.ok();
-
-			let etag_matches = etag_matches(&etag, &req_headers);
-
-			if etag_matches {
-				return Ok(StatusCode::NOT_MODIFIED.into_response());
-			}
 
 			add_cache_headers(&mut parts.headers, content_type, etag);
 		} else {
