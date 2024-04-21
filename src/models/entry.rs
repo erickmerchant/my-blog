@@ -27,7 +27,7 @@ impl Model {
 
 		if let Some(paths) = results {
 			for path in paths.flatten() {
-				if let Some(content) = fs::read_to_string(&path).ok() {
+				if let Ok(content) = fs::read_to_string(&path) {
 					if let Ok((frontmatter, _)) = parse_frontmatter_and_body(content) {
 						let model = Model {
 							slug: path
@@ -61,8 +61,7 @@ impl Model {
 	}
 
 	pub fn find_by_slug(slug: &str) -> Option<Model> {
-		if let Some(content) =
-			fs::read_to_string(Path::new("content/posts").join(slug).with_extension("md")).ok()
+		if let Ok(content) = fs::read_to_string(Path::new("content/posts").join(slug).with_extension("md"))
 		{
 			if let Ok((frontmatter, content)) = parse_frontmatter_and_body(content) {
 				return Some(Model {
