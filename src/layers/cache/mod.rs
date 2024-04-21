@@ -9,15 +9,12 @@ use axum::{
 	middleware::Next,
 	response::{IntoResponse, Response},
 };
+use camino::Utf8Path;
 use etag::EntityTag;
 use headers::{add_cache_headers, etag_matches, get_header};
 use http_body_util::BodyExt;
 use hyper::HeaderMap;
-use std::{
-	fs::{create_dir_all, read_to_string, File},
-	io::Write,
-	path::Path,
-};
+use std::{fs, io::Write};
 
 const ETAGABLE_TYPES: &[&str] = &[
 	"text/html; charset=utf-8",
@@ -26,23 +23,23 @@ const ETAGABLE_TYPES: &[&str] = &[
 
 pub async fn cache_layer(req: Request<Body>, next: Next) -> Result<Response, crate::Error> {
 	let uri_path = req.uri().path().to_string();
-	let mut cache_path = Path::new("storage").join(uri_path.trim_start_matches('/'));
+	let mut cache_path = Utf8Path::new("storage").join(uri_path.trim_start_matches('/'));
 
-	if cache_path.to_string_lossy().to_string().ends_with('/') {
-		cache_path = cache_path.join("index");
+	if cache_path.to_string().ends_with('/') {
+		cache_path = cache_path.join("index.html");
 	}
 
-	let cache_result = read_to_string(&cache_path).map(|contents| {
-		let parts = contents
-			.splitn(3, '\n')
-			.map(|part| part.to_string())
-			.collect::<Vec<_>>();
-
-		(parts[0].clone(), parts[1].clone(), parts[2].clone())
+	let cache_result = fs::read_to_string(&cache_path).map(|contents| {
+		match contents.splitn(3, '\n').collect::<Vec<&str>>().as_slice() {
+			[etag, content_type, body] => {
+				Some((etag.to_string(), content_type.to_string(), body.to_string()))
+			}
+			_ => None,
+		}
 	});
 	let req_headers = req.headers().clone();
 
-	if let Ok((etag, content_type, body)) = cache_result {
+	if let Ok(Some((etag, content_type, body))) = cache_result {
 		let etag_matches = etag_matches(&Some(etag.clone()), &req_headers);
 
 		if etag_matches {
@@ -71,9 +68,9 @@ pub async fn cache_layer(req: Request<Body>, next: Next) -> Result<Response, cra
 
 				let etag = EntityTag::from_data(&output).to_string();
 
-				create_dir_all(cache_path.with_file_name(""))?;
+				fs::create_dir_all(cache_path.with_file_name(""))?;
 
-				let mut file = File::create(&cache_path)?;
+				let mut file = fs::File::create(&cache_path)?;
 
 				file.write_all(etag.as_bytes())?;
 				file.write_all("\n".as_bytes())?;

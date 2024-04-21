@@ -10,8 +10,11 @@ use args::Args;
 use axum::{http::Request, middleware::from_fn, response::Response, routing::get, serve, Router};
 use clap::Parser;
 use error::Error;
-use layers::{assets::assets_layer, cache::cache_layer};
-use routes::{entry::entry_handler, list::list_handler, rss::rss_handler};
+use layers::cache::cache_layer;
+use routes::{
+	asset::asset_handler, entry::entry_handler, list::list_handler, not_found::not_found_handler,
+	rss::rss_handler,
+};
 use std::{fs, sync::Arc, time::Duration};
 use tokio::net::TcpListener;
 use tower_http::{
@@ -32,12 +35,13 @@ async fn main() -> Result<()> {
 		.init();
 
 	let templates = templates::Engine::new();
-	let app_state = Arc::new(templates);
+	let templates = Arc::new(templates);
 	let mut app = Router::new()
 		.route("/", get(list_handler))
 		.route("/posts/:slug/", get(entry_handler))
 		.route("/posts.rss", get(rss_handler))
-		.layer(from_fn(assets_layer));
+		.route("/*path", get(asset_handler))
+		.fallback(not_found_handler);
 
 	if !args.no_cache {
 		app = app.layer(from_fn(cache_layer));
@@ -67,7 +71,7 @@ async fn main() -> Result<()> {
 					},
 				),
 		)
-		.with_state(app_state);
+		.with_state(templates);
 	let listener = TcpListener::bind(("0.0.0.0", port))
 		.await
 		.expect("should listen");
