@@ -1,8 +1,6 @@
 {% extends "base.jinja" %}
 
-{% block title %}
-	{{site.title}} — {{entry.title}}
-{% endblock %}
+{% block title %}{{super()}} — {{entry.title}}{% endblock %}
 
 {% block main_header %}
 	<h1>{{entry.title}}</h1>
