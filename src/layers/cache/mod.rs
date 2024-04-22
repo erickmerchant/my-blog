@@ -1,101 +1,34 @@
 mod assets;
-mod headers;
 mod import_map;
 
 use assets::rewrite_assets;
 use axum::{
 	body::Body,
-	http::{header, Request, StatusCode},
+	http::Request,
 	middleware::Next,
 	response::{IntoResponse, Response},
 };
-use camino::Utf8Path;
-use etag::EntityTag;
-use headers::{add_cache_headers, etag_matches, get_header};
 use http_body_util::BodyExt;
-use std::{fs, io::Write};
-
-const ETAGABLE_TYPES: &[&str] = &[
-	"text/html; charset=utf-8",
-	"application/rss+xml; charset=utf-8",
-];
+use hyper::header::HeaderValue;
 
 pub async fn cache_layer(req: Request<Body>, next: Next) -> Result<Response, crate::Error> {
-	let uri_path = req.uri().path().to_string();
-	let mut cache_path = Utf8Path::new("storage").join(uri_path.trim_start_matches('/'));
-
-	if cache_path.to_string().ends_with('/') {
-		cache_path = cache_path.join("index.html");
-	}
-
-	let cache_result = fs::read_to_string(&cache_path).map(|contents| {
-		match contents.splitn(3, '\n').collect::<Vec<&str>>().as_slice() {
-			[etag, content_type, body] => {
-				Some((etag.to_string(), content_type.to_string(), body.to_string()))
-			}
-			_ => None,
-		}
-	});
-	let req_headers = req.headers().clone();
-
-	if let Ok(Some((etag, content_type, body))) = cache_result {
-		let etag_matches = etag_matches(&Some(etag.clone()), &req_headers);
-
-		if etag_matches {
-			return Ok(StatusCode::NOT_MODIFIED.into_response());
-		}
-
-		return Ok((
-			[
-				(header::CONTENT_TYPE, content_type.to_string()),
-				(header::ETAG, etag.to_string()),
-			],
-			body,
-		)
-			.into_response());
-	}
-
 	let res = next.run(req).await;
 
-	if res.status() == StatusCode::OK {
-		let (mut parts, body) = res.into_parts();
-		let bytes = BodyExt::collect(body).await?.to_bytes();
-		let mut output = Vec::new();
+	let (mut parts, mut body) = res.into_parts();
 
-		if let Some(content_type) = get_header(&parts.headers, "content-type".to_string()) {
-			let etag = None;
+	if let Some(content_type) = &parts.headers.get("content-type") {
+		if *content_type == "text/html; charset=utf-8" {
+			let bytes = BodyExt::collect(body).await?.to_bytes();
+			let output = Vec::new();
 
-			if ETAGABLE_TYPES.contains(&content_type.as_str()) {
-				output = rewrite_assets(bytes, output)?;
-
-				let etag = EntityTag::from_data(&output).to_string();
-
-				fs::create_dir_all(cache_path.with_file_name(""))?;
-
-				let mut file = fs::File::create(&cache_path)?;
-
-				file.write_all(etag.as_bytes())?;
-				file.write_all("\n".as_bytes())?;
-				file.write_all(content_type.as_bytes())?;
-				file.write_all("\n".as_bytes())?;
-				file.write_all(&output)?;
-
-				let etag_matches = etag_matches(&Some(etag), &req_headers);
-
-				if etag_matches {
-					return Ok(StatusCode::NOT_MODIFIED.into_response());
-				}
-			} else {
-				output = bytes.to_vec();
-			};
-
-			add_cache_headers(&mut parts.headers, content_type, etag);
-		} else {
-			output = bytes.to_vec();
+			body = Body::from(rewrite_assets(bytes, output)?);
+		} else if *content_type != "application/rss+xml; charset=utf-8" {
+			parts.headers.insert(
+				"cache-control",
+				HeaderValue::from_static("public, max-age=31536000, immutable"),
+			);
 		};
+	};
 
-		return Ok(Response::from_parts(parts, Body::from(output)).into_response());
-	}
-
-	Ok(res)
+	Ok(Response::from_parts(parts, body).into_response())
 }

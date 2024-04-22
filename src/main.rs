@@ -12,15 +12,12 @@ use clap::Parser;
 use error::Error;
 use layers::cache::cache_layer;
 use routes::{asset::asset_handler, entry::entry_handler, list::list_handler, rss::rss_handler};
-use std::{fs, sync::Arc};
+use std::sync::Arc;
 use tokio::net::TcpListener;
 use tower_http::{compression::CompressionLayer, trace::TraceLayer};
 
 #[tokio::main]
 async fn main() -> Result<()> {
-	fs::remove_dir_all("storage").ok();
-	fs::create_dir_all("storage")?;
-
 	let args = Args::parse();
 	let port = args.listen;
 
