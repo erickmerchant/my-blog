@@ -5,7 +5,7 @@ mod import_map;
 use assets::rewrite_assets;
 use axum::{
 	body::Body,
-	http::{Request, StatusCode},
+	http::{header, Request, StatusCode},
 	middleware::Next,
 	response::{IntoResponse, Response},
 };
@@ -13,7 +13,6 @@ use camino::Utf8Path;
 use etag::EntityTag;
 use headers::{add_cache_headers, etag_matches, get_header};
 use http_body_util::BodyExt;
-use hyper::HeaderMap;
 use std::{fs, io::Write};
 
 const ETAGABLE_TYPES: &[&str] = &[
@@ -46,11 +45,14 @@ pub async fn cache_layer(req: Request<Body>, next: Next) -> Result<Response, cra
 			return Ok(StatusCode::NOT_MODIFIED.into_response());
 		}
 
-		let mut headers = HeaderMap::new();
-
-		add_cache_headers(&mut headers, content_type, Some(etag));
-
-		return Ok((headers, body).into_response());
+		return Ok((
+			[
+				(header::CONTENT_TYPE, content_type.to_string()),
+				(header::ETAG, etag.to_string()),
+			],
+			body,
+		)
+			.into_response());
 	}
 
 	let res = next.run(req).await;

@@ -7,16 +7,14 @@ mod templates;
 
 use anyhow::Result;
 use args::Args;
-use axum::{http::Request, middleware::from_fn, response::Response, routing::get, serve, Router};
+use axum::{middleware::from_fn, routing::get, serve, Router};
 use clap::Parser;
 use error::Error;
 use layers::cache::cache_layer;
 use routes::{asset::asset_handler, entry::entry_handler, list::list_handler, rss::rss_handler};
-use std::{fs, sync::Arc, time::Duration};
+use std::{fs, sync::Arc};
 use tokio::net::TcpListener;
-use tower_http::{
-	classify::ServerErrorsFailureClass, compression::CompressionLayer, trace::TraceLayer,
-};
+use tower_http::{compression::CompressionLayer, trace::TraceLayer};
 
 #[tokio::main]
 async fn main() -> Result<()> {
@@ -45,28 +43,7 @@ async fn main() -> Result<()> {
 
 	let app = app
 		.layer(CompressionLayer::new())
-		.layer(
-			TraceLayer::new_for_http()
-				.make_span_with(|request: &Request<_>| {
-					tracing::info_span!(
-						"main",
-						status = tracing::field::Empty,
-						method = ?request.method(),
-						uri = ?request.uri()
-					)
-				})
-				.on_response(
-					|response: &Response<_>, latency: Duration, span: &tracing::Span| {
-						span.record("status", response.status().as_u16());
-						tracing::info!("response in {latency:?}")
-					},
-				)
-				.on_failure(
-					|error: ServerErrorsFailureClass, _latency: Duration, _span: &tracing::Span| {
-						tracing::error!("{error}")
-					},
-				),
-		)
+		.layer(TraceLayer::new_for_http())
 		.with_state(templates);
 	let listener = TcpListener::bind(("0.0.0.0", port))
 		.await
