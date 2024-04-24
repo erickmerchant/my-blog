@@ -4,7 +4,7 @@ date = "2024-04-08"
 +++
 
 <div class="interstitial">
-	<strong>Disclaimer:</strong> This was written as an <strong>experiment</strong>, and even I probably won't use it much.
+	<strong>Disclaimer:</strong> This was written as an <strong>experiment</strong>, and even I probably won't use it much. Also due to a lack of interest I've ceased publishing to JSR.
 </div>
 
 ```javascript
