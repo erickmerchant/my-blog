@@ -1,3 +1,21 @@
+@font-face {
+	font-display: swap;
+	font-family: "Inter";
+	font-style: normal;
+	font-weight: 100 900;
+	src: url(/Inter-VariableFont_slnt,wght-subset.woff2) format("woff2");
+	unicode-range: U+20-7E, U+00A9, U+2014, U+00E9;
+}
+
+@font-face {
+	font-display: swap;
+	font-family: "JetBrains Mono";
+	font-style: normal;
+	font-weight: 400;
+	src: url(/JetBrainsMono-Regular-subset.woff2) format("woff2");
+	unicode-range: U+20-7E;
+}
+
 *,
 ::before,
 ::after {
@@ -25,9 +43,8 @@
 
 html {
 	block-size: 100%;
-	font-family: system-ui, sans-serif;
+	font-family: "Inter", system-ui, sans-serif;
 	font-size: 125%;
-	font-weight: normal;
 	font-weight: 400;
 	line-height: 1.5;
 }
@@ -360,6 +377,12 @@ em {
 		@container (inline-size <= 42rem) {
 			display: flex;
 			flex-direction: column;
+
+			:where(.tag) {
+				background-color: none;
+				font-size: inherit;
+				padding: 0;
+			}
 		}
 	}
 
