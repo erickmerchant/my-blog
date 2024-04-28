@@ -5,6 +5,4 @@ use clap::Parser;
 pub struct Args {
 	#[arg(long, default_value_t = 8080)]
 	pub listen: u16,
-	#[arg(long)]
-	pub no_cache: bool,
 }

@@ -19,10 +19,7 @@ pub async fn rss_handler(
 	)?;
 
 	Ok((
-		[(
-			header::CONTENT_TYPE,
-			"application/rss+xml; charset=utf-8".to_string(),
-		)],
+		[(header::CONTENT_TYPE, "application/rss+xml; charset=utf-8")],
 		html,
 	)
 		.into_response())

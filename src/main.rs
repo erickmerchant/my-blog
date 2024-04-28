@@ -30,17 +30,12 @@ async fn main() -> Result<()> {
 
 	let templates = templates::Engine::new();
 	let templates = Arc::new(templates);
-	let mut app = Router::new()
+	let app = Router::new()
 		.route("/", get(list_handler))
 		.route("/posts/:slug/", get(entry_handler))
 		.route("/posts.rss", get(rss_handler))
-		.fallback(asset_handler);
-
-	if !args.no_cache {
-		app = app.layer(from_fn(cache_layer));
-	}
-
-	let app = app
+		.fallback(asset_handler)
+		.layer(from_fn(cache_layer))
 		.layer(CompressionLayer::new())
 		.layer(TraceLayer::new_for_http())
 		.with_state(templates);

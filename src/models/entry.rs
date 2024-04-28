@@ -27,13 +27,14 @@ impl Model {
 
 		if let Some(paths) = results {
 			for path in paths.flatten() {
-				if let Ok(content) = fs::read_to_string(&path) {
+				let path = Utf8Path::from_path(&path).expect("should be a utf path");
+
+				if let Ok(content) = fs::read_to_string(path) {
 					let (frontmatter, content) = parse_content(content, false);
 					let model = Model {
 						slug: path
 							.file_stem()
 							.expect("should have a file stem")
-							.to_string_lossy()
 							.to_string(),
 						title: frontmatter.title.clone(),
 						date: frontmatter.date,
@@ -141,7 +142,7 @@ fn parse_content(contents: String, include_body: bool) -> (frontmatter::Model, O
 
 				html::push_html(&mut markdown, events.into_iter());
 
-				Some(markdown.to_string())
+				Some(markdown)
 			} else {
 				None
 			};

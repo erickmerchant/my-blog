@@ -45,7 +45,7 @@ pub async fn cache_layer(req: Request<Body>, next: Next) -> Result<Response, cra
 
 					return Ok((
 						StatusCode::OK,
-						[(header::CONTENT_TYPE, content_type.to_string())],
+						[(header::CONTENT_TYPE, content_type)],
 						cached_body,
 					)
 						.into_response());
