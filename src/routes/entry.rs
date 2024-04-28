@@ -25,9 +25,5 @@ pub async fn entry_handler(
 		}),
 	)?;
 
-	Ok((
-		[(header::CONTENT_TYPE, "text/html; charset=utf-8".to_string())],
-		html,
-	)
-		.into_response())
+	Ok(([(header::CONTENT_TYPE, "text/html; charset=utf-8")], html).into_response())
 }

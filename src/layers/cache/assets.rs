@@ -5,7 +5,8 @@ use lol_html::{element, html_content::ContentType, text, HtmlRewriter, Settings}
 use serde_json as json;
 use std::{fs, time::UNIX_EPOCH};
 
-pub fn rewrite_assets(bytes: Bytes, mut output: Vec<u8>) -> anyhow::Result<Vec<u8>> {
+pub fn rewrite_assets(bytes: Bytes) -> anyhow::Result<Vec<u8>> {
+	let mut output = Vec::<u8>::new();
 	let mut rewriter = HtmlRewriter::new(
 		Settings {
 			element_content_handlers: vec![

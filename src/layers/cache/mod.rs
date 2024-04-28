@@ -1,5 +1,4 @@
 mod assets;
-mod headers;
 mod import_map;
 
 use assets::rewrite_assets;
@@ -11,91 +10,85 @@ use axum::{
 };
 use camino::Utf8Path;
 use etag::EntityTag;
-use headers::{add_cache_headers, etag_matches, get_header};
 use http_body_util::BodyExt;
-use std::{fs, io::Write};
+use hyper::header::HeaderValue;
+use std::fs;
 
-const ETAGABLE_TYPES: &[&str] = &[
-	"text/html; charset=utf-8",
-	"application/rss+xml; charset=utf-8",
-];
+const HTML_TYPE: &str = "text/html; charset=utf-8";
+const ETAGABLE_TYPES: &[&str] = &[HTML_TYPE, "application/rss+xml; charset=utf-8"];
 
 pub async fn cache_layer(req: Request<Body>, next: Next) -> Result<Response, crate::Error> {
-	let uri_path = req.uri().path().to_string();
-	let mut cache_path = Utf8Path::new("storage").join(uri_path.trim_start_matches('/'));
+	let (req_parts, req_body) = req.into_parts();
+	let mut cache_path = req_parts.uri.path().to_string();
 
-	if cache_path.to_string().ends_with('/') {
-		cache_path = cache_path.join("index.html");
+	if cache_path.ends_with('/') {
+		cache_path.push_str("index.html");
 	}
 
-	let cache_result = fs::read_to_string(&cache_path).map(|contents| {
-		match contents.splitn(3, '\n').collect::<Vec<&str>>().as_slice() {
-			[etag, content_type, body] => {
-				Some((etag.to_string(), content_type.to_string(), body.to_string()))
-			}
-			_ => None,
-		}
-	});
-	let req_headers = req.headers().clone();
+	cache_path.insert_str(0, "storage");
 
-	if let Ok(Some((etag, content_type, body))) = cache_result {
-		let etag_matches = etag_matches(&Some(etag.clone()), &req_headers);
+	let cache_path = Utf8Path::new(&cache_path);
 
-		if etag_matches {
-			return Ok(StatusCode::NOT_MODIFIED.into_response());
-		}
-
-		return Ok((
-			[
-				(header::CONTENT_TYPE, content_type.to_string()),
-				(header::ETAG, etag.to_string()),
-			],
-			body,
-		)
-			.into_response());
-	}
-
-	let res = next.run(req).await;
-
-	if res.status() == StatusCode::OK {
-		let (mut parts, body) = res.into_parts();
-		let bytes = BodyExt::collect(body).await?.to_bytes();
-		let mut output = Vec::new();
-
-		if let Some(content_type) = get_header(&parts.headers, "content-type".to_string()) {
-			let etag = None;
+	if let Some(ext) = &cache_path.extension() {
+		if let Some(content_type) = mime_guess::from_ext(ext).first() {
+			let content_type = format!("{}; charset=utf-8", content_type);
 
 			if ETAGABLE_TYPES.contains(&content_type.as_str()) {
-				output = rewrite_assets(bytes, output)?;
+				if let Ok(cached_body) = fs::read_to_string(cache_path) {
+					if let Some(if_none_match) = req_parts.headers.get("if-none-match") {
+						let etag = EntityTag::from_data(cached_body.as_bytes()).to_string();
 
-				let etag = EntityTag::from_data(&output).to_string();
+						if etag == *if_none_match {
+							return Ok((StatusCode::NOT_MODIFIED).into_response());
+						}
+					}
 
-				fs::create_dir_all(cache_path.with_file_name(""))?;
-
-				let mut file = fs::File::create(&cache_path)?;
-
-				file.write_all(etag.as_bytes())?;
-				file.write_all("\n".as_bytes())?;
-				file.write_all(content_type.as_bytes())?;
-				file.write_all("\n".as_bytes())?;
-				file.write_all(&output)?;
-
-				let etag_matches = etag_matches(&Some(etag), &req_headers);
-
-				if etag_matches {
-					return Ok(StatusCode::NOT_MODIFIED.into_response());
+					return Ok((
+						StatusCode::OK,
+						[(header::CONTENT_TYPE, content_type)],
+						cached_body,
+					)
+						.into_response());
 				}
-			} else {
-				output = bytes.to_vec();
-			};
-
-			add_cache_headers(&mut parts.headers, content_type, etag);
-		} else {
-			output = bytes.to_vec();
-		};
-
-		return Ok(Response::from_parts(parts, Body::from(output)).into_response());
+			}
+		}
 	}
 
-	Ok(res)
+	let res = next
+		.run(Request::from_parts(req_parts.clone(), req_body))
+		.await;
+
+	let (mut parts, body) = res.into_parts();
+
+	if let Some(content_type) = &parts.headers.get("content-type") {
+		if ETAGABLE_TYPES.contains(&content_type.to_str().expect("should be a valid string")) {
+			let new_body = body.collect().await?;
+			let rewritten_body = rewrite_assets(new_body.to_bytes().clone())?;
+
+			let etag = EntityTag::from_data(&rewritten_body).to_string();
+
+			fs::create_dir_all(cache_path.with_file_name("")).ok();
+			fs::write(cache_path, &rewritten_body).ok();
+
+			if let Some(if_none_match) = req_parts.headers.get("if-none-match") {
+				if etag == *if_none_match {
+					return Ok((StatusCode::NOT_MODIFIED).into_response());
+				}
+			}
+
+			let body = Body::from(rewritten_body);
+			parts.headers.insert("etag", HeaderValue::from_str(&etag)?);
+
+			return Ok(Response::from_parts(parts, body).into_response());
+		} else {
+			parts.headers.insert(
+				"cache-control",
+				HeaderValue::from_static("public, max-age=31536000, immutable"),
+			);
+
+			return Ok(Response::from_parts(parts, body).into_response());
+		}
+	};
+
+	Ok(Response::from_parts(parts, body).into_response())
 }
