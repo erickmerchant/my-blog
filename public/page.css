@@ -213,6 +213,7 @@ em {
 	gap: 0.25rem;
 	padding-block: 0.125rem;
 	padding-inline: 0.5rem;
+	white-space: nowrap;
 
 	:where(svg) {
 		block-size: 1.125em;
@@ -259,6 +260,7 @@ em {
 	counter-reset: lines 0;
 	display: grid;
 	overflow-x: auto;
+	overflow-y: hidden;
 	overscroll-behavior-x: none;
 	tab-size: 2;
 	--white-space: pre-wrap;
@@ -377,12 +379,6 @@ em {
 		@container (inline-size <= 42rem) {
 			display: flex;
 			flex-direction: column;
-
-			:where(.tag) {
-				background-color: none;
-				font-size: inherit;
-				padding: 0;
-			}
 		}
 	}
 
