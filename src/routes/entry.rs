@@ -1,4 +1,4 @@
-use super::not_found::not_found_handler;
+use super::not_found;
 use crate::{
 	filters,
 	models::{entry, site},
@@ -17,7 +17,7 @@ struct View {
 	pub entry: entry::Model,
 }
 
-pub async fn entry_handler(Path(slug): Path<String>) -> Result<Response, crate::Error> {
+pub async fn handler(Path(slug): Path<String>) -> Result<Response, crate::Error> {
 	let entry: Option<entry::Model> = entry::Model::find_by_slug(&slug);
 
 	if let Some(entry) = entry {
@@ -26,6 +26,6 @@ pub async fn entry_handler(Path(slug): Path<String>) -> Result<Response, crate::
 
 		Ok(([(header::CONTENT_TYPE, "text/html; charset=utf-8")], html).into_response())
 	} else {
-		not_found_handler().await
+		not_found::handler().await
 	}
 }

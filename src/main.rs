@@ -10,8 +10,8 @@ use args::Args;
 use axum::{middleware::from_fn, routing::get, serve, Router};
 use clap::Parser;
 use error::Error;
-use layers::cache::cache_layer;
-use routes::{asset::asset_handler, entry::entry_handler, list::list_handler, rss::rss_handler};
+use layers::cache;
+use routes::{asset, entry, list, rss};
 use std::fs;
 use tokio::net::TcpListener;
 use tower_http::{compression::CompressionLayer, trace::TraceLayer};
@@ -29,11 +29,11 @@ async fn main() -> Result<()> {
 		.init();
 
 	let app = Router::new()
-		.route("/", get(list_handler))
-		.route("/posts/:slug/", get(entry_handler))
-		.route("/posts.rss", get(rss_handler))
-		.fallback(asset_handler)
-		.layer(from_fn(cache_layer))
+		.route("/", get(list::handler))
+		.route("/posts/:slug/", get(entry::handler))
+		.route("/posts.rss", get(rss::handler))
+		.fallback(asset::handler)
+		.layer(from_fn(cache::layer))
 		.layer(CompressionLayer::new())
 		.layer(TraceLayer::new_for_http());
 	let listener = TcpListener::bind(("0.0.0.0", port))

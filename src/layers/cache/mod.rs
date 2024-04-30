@@ -17,7 +17,7 @@ use std::fs;
 const HTML_TYPE: &str = "text/html; charset=utf-8";
 const ETAGABLE_TYPES: &[&str] = &[HTML_TYPE, "application/rss+xml; charset=utf-8"];
 
-pub async fn cache_layer(req: Request<Body>, next: Next) -> Result<Response, crate::Error> {
+pub async fn layer(req: Request<Body>, next: Next) -> Result<Response, crate::Error> {
 	let (req_parts, req_body) = req.into_parts();
 	let mut cache_path = req_parts.uri.path().to_string();
 

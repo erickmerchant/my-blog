@@ -11,7 +11,7 @@ pub struct View {
 	pub site: site::Model,
 }
 
-pub async fn not_found_handler() -> Result<Response, crate::Error> {
+pub async fn handler() -> Result<Response, crate::Error> {
 	let site = site::Model::load()?;
 	let body = View { site }.render()?;
 
