@@ -1,6 +1,6 @@
 mod args;
 mod error;
-pub mod filters;
+mod filters;
 mod layers;
 mod models;
 mod routes;
