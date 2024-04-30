@@ -1,9 +1,9 @@
 mod args;
 mod error;
+pub mod filters;
 mod layers;
 mod models;
 mod routes;
-mod templates;
 
 use anyhow::Result;
 use args::Args;
@@ -12,7 +12,7 @@ use clap::Parser;
 use error::Error;
 use layers::cache::cache_layer;
 use routes::{asset::asset_handler, entry::entry_handler, list::list_handler, rss::rss_handler};
-use std::{fs, sync::Arc};
+use std::fs;
 use tokio::net::TcpListener;
 use tower_http::{compression::CompressionLayer, trace::TraceLayer};
 
@@ -28,8 +28,6 @@ async fn main() -> Result<()> {
 		.with_env_filter(tracing_subscriber::EnvFilter::from_default_env())
 		.init();
 
-	let templates = templates::Engine::new();
-	let templates = Arc::new(templates);
 	let app = Router::new()
 		.route("/", get(list_handler))
 		.route("/posts/:slug/", get(entry_handler))
@@ -37,8 +35,7 @@ async fn main() -> Result<()> {
 		.fallback(asset_handler)
 		.layer(from_fn(cache_layer))
 		.layer(CompressionLayer::new())
-		.layer(TraceLayer::new_for_http())
-		.with_state(templates);
+		.layer(TraceLayer::new_for_http());
 	let listener = TcpListener::bind(("0.0.0.0", port))
 		.await
 		.expect("should listen");

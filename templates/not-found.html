@@ -1,6 +1,6 @@
-{% extends "base.jinja" %}
+{% extends "base.html" %}
 
-{% block title %}{{super()}} - Page Not Found{% endblock %}
+{% block title %}{% call super() %} - Page Not Found{% endblock %}
 
 {% block main_header %}
 	<h1>Page Not Found</h1>

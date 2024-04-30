@@ -1,28 +1,30 @@
 use super::not_found::not_found_handler;
-use crate::models::entry::Model;
+use crate::{
+	filters,
+	models::{entry, site},
+};
+use askama::Template;
 use axum::{
-	extract::State,
 	http::header,
 	response::{IntoResponse, Response},
 };
-use minijinja::context;
-use std::sync::Arc;
 
-pub async fn list_handler(
-	State(templates): State<Arc<crate::templates::Engine>>,
-) -> Result<Response, crate::Error> {
-	let entry_list: Vec<Model> = Model::find_all_frontmatter();
+#[derive(Template)]
+#[template(path = "list.html")]
+struct View {
+	pub site: site::Model,
+	pub entry_list: Vec<entry::Model>,
+}
+
+pub async fn list_handler() -> Result<Response, crate::Error> {
+	let entry_list: Vec<entry::Model> = entry::Model::find_all_frontmatter();
 
 	if entry_list.is_empty() {
-		return not_found_handler(State(templates)).await;
+		return not_found_handler().await;
 	}
 
-	let html = templates.render(
-		"list.jinja".to_string(),
-		Some(context! {
-			entry_list,
-		}),
-	)?;
+	let site = site::Model::load()?;
+	let html = View { site, entry_list }.render()?;
 
 	Ok(([(header::CONTENT_TYPE, "text/html; charset=utf-8")], html).into_response())
 }

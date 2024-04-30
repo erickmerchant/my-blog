@@ -1,29 +1,31 @@
 use super::not_found::not_found_handler;
-use crate::models::entry::Model;
+use crate::{
+	filters,
+	models::{entry, site},
+};
+use askama::Template;
 use axum::{
-	extract::{Path, State},
+	extract::Path,
 	http::header,
 	response::{IntoResponse, Response},
 };
-use minijinja::context;
-use std::sync::Arc;
 
-pub async fn entry_handler(
-	State(templates): State<Arc<crate::templates::Engine>>,
-	Path(slug): Path<String>,
-) -> Result<Response, crate::Error> {
-	let entry: Option<Model> = Model::find_by_slug(&slug);
+#[derive(Template)]
+#[template(path = "entry.html")]
+struct View {
+	pub site: site::Model,
+	pub entry: entry::Model,
+}
 
-	if entry.is_none() {
-		return not_found_handler(State(templates)).await;
+pub async fn entry_handler(Path(slug): Path<String>) -> Result<Response, crate::Error> {
+	let entry: Option<entry::Model> = entry::Model::find_by_slug(&slug);
+
+	if let Some(entry) = entry {
+		let site = site::Model::load()?;
+		let html = View { site, entry }.render()?;
+
+		Ok(([(header::CONTENT_TYPE, "text/html; charset=utf-8")], html).into_response())
+	} else {
+		not_found_handler().await
 	}
-
-	let html = templates.render(
-		"entry.jinja".to_string(),
-		Some(context! {
-			entry,
-		}),
-	)?;
-
-	Ok(([(header::CONTENT_TYPE, "text/html; charset=utf-8")], html).into_response())
 }

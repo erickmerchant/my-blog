@@ -5,6 +5,7 @@ WORKDIR build
 RUN mkdir -p src/bin
 RUN echo "fn main() {}" > src/bin/dummy.rs
 COPY Cargo.toml Cargo.lock .
+COPY templates templates
 RUN cargo build --bin dummy --release --no-default-features --locked
 # build app
 COPY src src
@@ -14,6 +15,5 @@ FROM scratch
 WORKDIR deploy
 COPY content content
 COPY public public
-COPY templates templates
 COPY --from=build /build/target/release/app .
 ENTRYPOINT ["./app"]

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% import "base.html" as base %}
+
+{% block title %}{% call super() %} — {{entry.title}}{% endblock %}
+
+{% block main_header %}
+	<h1>{{entry.title}}</h1>
+	{% call base::tags(entry) %}
+{% endblock %}
+
+{% block main %}
+	<div class="content">
+		{% if let Some(content) = entry.content %}
+			{{content|safe}}
+		{% endif %}
+	</div>
+{% endblock %}

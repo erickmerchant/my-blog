@@ -1,14 +1,19 @@
+use crate::models::site;
+use askama::Template;
 use axum::{
-	extract::State,
 	http::StatusCode,
 	response::{Html, IntoResponse, Response},
 };
-use std::sync::Arc;
 
-pub async fn not_found_handler(
-	State(templates): State<Arc<crate::templates::Engine>>,
-) -> Result<Response, crate::Error> {
-	let body = templates.render("not-found.jinja".to_string(), None)?;
+#[derive(Template)]
+#[template(path = "not-found.html")]
+pub struct View {
+	pub site: site::Model,
+}
+
+pub async fn not_found_handler() -> Result<Response, crate::Error> {
+	let site = site::Model::load()?;
+	let body = View { site }.render()?;
 
 	Ok((StatusCode::NOT_FOUND, Html(body)).into_response())
 }

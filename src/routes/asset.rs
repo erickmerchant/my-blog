@@ -1,16 +1,13 @@
 use super::not_found::not_found_handler;
 use axum::{
-	extract::{Request, State},
+	extract::Request,
 	http::header,
 	response::{IntoResponse, Response},
 };
 use camino::Utf8Path;
-use std::{fs, sync::Arc};
+use std::fs;
 
-pub async fn asset_handler(
-	State(templates): State<Arc<crate::templates::Engine>>,
-	request: Request,
-) -> Result<Response, crate::Error> {
+pub async fn asset_handler(request: Request) -> Result<Response, crate::Error> {
 	let path = request.uri().path().trim_start_matches('/');
 	let path = Utf8Path::new("public").join(path);
 
@@ -25,5 +22,5 @@ pub async fn asset_handler(
 		}
 	}
 
-	not_found_handler(State(templates)).await
+	not_found_handler().await
 }
