@@ -80,10 +80,16 @@ impl Model {
 }
 
 fn parse_content(contents: String, include_body: bool) -> (frontmatter::Model, Option<String>) {
-	let parts = contents.splitn(3, "+++");
+	let parts = if contents.starts_with("+++") {
+		let parts = contents.splitn(3, "+++").collect::<Vec<&str>>();
 
-	match parts.collect::<Vec<&str>>().as_slice() {
-		[_, frontmatter, contents] => {
+		Some(parts)
+	} else {
+		None
+	};
+
+	match parts.as_deref() {
+		Some([_, frontmatter, contents]) => {
 			let frontmatter = toml::from_str::<frontmatter::Model>(frontmatter).unwrap_or_default();
 			let body = if include_body {
 				let parser = pulldown_cmark::Parser::new(contents);
