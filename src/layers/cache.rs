@@ -11,13 +11,11 @@ use std::fs;
 
 pub async fn layer(req: Request<Body>, next: Next) -> Result<Response, crate::Error> {
 	let (req_parts, req_body) = req.into_parts();
-	let mut cache_path = req_parts.uri.path().to_string();
+	let mut cache_path = format!("storage{}", req_parts.uri.path().to_string());
 
 	if cache_path.ends_with('/') {
-		cache_path.push_str("index.html");
+		cache_path = format!("{cache_path}index.html");
 	}
-
-	cache_path.insert_str(0, "storage");
 
 	let cache_path = Utf8Path::new(&cache_path);
 	let content_type = mime_guess::from_path(cache_path)
