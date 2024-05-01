@@ -6,7 +6,7 @@ use crate::{
 use askama::Template;
 use axum::{
 	extract::Path,
-	http::header,
+	http::{header, StatusCode},
 	response::{IntoResponse, Response},
 };
 
@@ -24,8 +24,13 @@ pub async fn handler(Path(slug): Path<String>) -> Result<Response, crate::Error>
 		let site = site::Model::load()?;
 		let html = View { site, entry }.render()?;
 
-		Ok(([(header::CONTENT_TYPE, "text/html; charset=utf-8")], html).into_response())
-	} else {
-		not_found::handler().await
+		return Ok((
+			StatusCode::OK,
+			[(header::CONTENT_TYPE, "text/html; charset=utf-8")],
+			html,
+		)
+			.into_response());
 	}
+
+	not_found::handler().await
 }

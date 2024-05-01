@@ -4,7 +4,7 @@ use crate::{
 };
 use askama::Template;
 use axum::{
-	http::header,
+	http::{header, StatusCode},
 	response::{IntoResponse, Response},
 };
 
@@ -21,6 +21,7 @@ pub async fn handler() -> Result<Response, crate::Error> {
 	let html = View { site, entry_list }.render()?;
 
 	Ok((
+		StatusCode::OK,
 		[(header::CONTENT_TYPE, "application/rss+xml; charset=utf-8")],
 		html,
 	)

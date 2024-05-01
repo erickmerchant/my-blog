@@ -1,7 +1,7 @@
 use super::not_found;
 use axum::{
 	extract::Request,
-	http::header,
+	http::{header, StatusCode},
 	response::{IntoResponse, Response},
 };
 use camino::Utf8Path;
@@ -12,13 +12,26 @@ pub async fn handler(request: Request) -> Result<Response, crate::Error> {
 	let path = Utf8Path::new("public").join(path);
 
 	if let Some(ext) = path.extension() {
-		let path = path.with_extension("").with_extension(ext);
-		let asset = mime_guess::from_ext(ext)
-			.first()
-			.map(|content_type| (content_type, fs::read(path)));
+		let new_path = path.with_extension("").with_extension(ext);
+		let cache_control = if path == new_path {
+			"public, max-age=0, must-revalidate"
+		} else {
+			"public, max-age=31536000, immutable"
+		};
+		let content_type = mime_guess::from_ext(ext).first();
 
-		if let Some((content_type, Ok(body))) = asset {
-			return Ok(([(header::CONTENT_TYPE, content_type.to_string())], body).into_response());
+		if let Some(content_type) = content_type {
+			if let Ok(body) = fs::read(new_path) {
+				return Ok((
+					StatusCode::OK,
+					[
+						(header::CONTENT_TYPE, content_type.to_string()),
+						(header::CACHE_CONTROL, cache_control.to_string()),
+					],
+					body,
+				)
+					.into_response());
+			}
 		}
 	}
 

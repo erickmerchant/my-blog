@@ -5,7 +5,7 @@ use crate::{
 };
 use askama::Template;
 use axum::{
-	http::header,
+	http::{header, StatusCode},
 	response::{IntoResponse, Response},
 };
 
@@ -19,12 +19,17 @@ struct View {
 pub async fn handler() -> Result<Response, crate::Error> {
 	let entry_list: Vec<entry::Model> = entry::Model::find_all_frontmatter();
 
-	if entry_list.is_empty() {
-		return not_found::handler().await;
+	if !entry_list.is_empty() {
+		let site = site::Model::load()?;
+		let html = View { site, entry_list }.render()?;
+
+		return Ok((
+			StatusCode::OK,
+			[(header::CONTENT_TYPE, "text/html; charset=utf-8")],
+			html,
+		)
+			.into_response());
 	}
 
-	let site = site::Model::load()?;
-	let html = View { site, entry_list }.render()?;
-
-	Ok(([(header::CONTENT_TYPE, "text/html; charset=utf-8")], html).into_response())
+	not_found::handler().await
 }

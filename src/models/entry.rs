@@ -9,9 +9,7 @@ use std::{cmp::Ordering, fs};
 #[derive(Debug, Deserialize, Serialize)]
 pub struct Model {
 	pub slug: String,
-
 	pub title: String,
-
 	pub date: NaiveDate,
 
 	#[serde(default)]
@@ -61,23 +59,23 @@ impl Model {
 	}
 
 	pub fn find_by_slug(slug: &str) -> Option<Model> {
-		if let Ok(content) = fs::read_to_string(
+		fs::read_to_string(
 			Utf8Path::new("content/posts")
 				.join(slug)
 				.with_extension("md"),
-		) {
+		)
+		.ok()
+		.map(|content| {
 			let (frontmatter, content) = parse_content(content, true);
 
-			return Some(Model {
+			Model {
 				slug: slug.to_string(),
 				title: frontmatter.title.clone(),
 				date: frontmatter.date,
 				pinned: frontmatter.pinned,
 				content,
-			});
-		};
-
-		None
+			}
+		})
 	}
 }
 
@@ -118,6 +116,7 @@ fn parse_content(contents: String, include_body: bool) -> (frontmatter::Model, O
 									lang,
 									lines.join("\n")
 								);
+
 								events.push(Event::Html(CowStr::Boxed(
 									hightlighted_html.into_boxed_str(),
 								)));
