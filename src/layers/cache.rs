@@ -11,7 +11,7 @@ use std::fs;
 
 pub async fn layer(req: Request<Body>, next: Next) -> Result<Response, crate::Error> {
 	let (req_parts, req_body) = req.into_parts();
-	let mut cache_path = format!("storage{}", req_parts.uri.path().to_string());
+	let mut cache_path = format!("storage{}", req_parts.uri.path());
 
 	if cache_path.ends_with('/') {
 		cache_path = format!("{cache_path}index.html");
