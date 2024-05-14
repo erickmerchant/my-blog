@@ -1,4 +1,4 @@
-{% macro tags(entry) %}
+{%- macro tags(entry) %}
 	{% if entry.pinned %}
 		<span>
 			<span class="pinned tag">
@@ -20,7 +20,7 @@
 			</time>
 		</span>
 	{% endif %}
-{% endmacro %}
+{% endmacro -%}
 
 <!DOCTYPE html>
 <html lang="en-US">
