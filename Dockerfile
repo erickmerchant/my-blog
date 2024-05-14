@@ -5,10 +5,10 @@ WORKDIR build
 RUN mkdir -p src/bin
 RUN echo "fn main() {}" > src/bin/dummy.rs
 COPY Cargo.toml Cargo.lock .
-COPY templates templates
 RUN cargo build --bin dummy --release --no-default-features --locked
 # build app
 COPY src src
+COPY templates templates
 RUN cargo build --release --no-default-features --locked
 
 FROM scratch
