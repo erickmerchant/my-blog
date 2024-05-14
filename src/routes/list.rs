@@ -13,11 +13,11 @@ use axum::{
 #[template(path = "list.html")]
 struct View {
 	pub site: site::Model,
-	pub entry_list: Vec<entry::Model>,
+	pub entry_list: entry::ModelList,
 }
 
 pub async fn handler() -> Result<Response, crate::Error> {
-	let entry_list: Vec<entry::Model> = entry::Model::find_all();
+	let entry_list = entry::Model::find_all();
 
 	if !entry_list.is_empty() {
 		let site = site::Model::load()?;

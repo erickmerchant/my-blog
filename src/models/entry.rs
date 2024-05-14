@@ -18,8 +18,10 @@ pub struct Model {
 	pub content: Option<String>,
 }
 
+pub type ModelList = Vec<Model>;
+
 impl Model {
-	pub fn find_all() -> Vec<Model> {
+	pub fn find_all() -> ModelList {
 		let mut all = vec![];
 		let results = glob("content/posts/*.md").ok();
 

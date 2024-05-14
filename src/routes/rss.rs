@@ -12,11 +12,11 @@ use axum::{
 #[template(path = "rss.xml")]
 pub struct View {
 	pub site: site::Model,
-	pub entry_list: Vec<entry::Model>,
+	pub entry_list: entry::ModelList,
 }
 
 pub async fn handler() -> Result<Response, crate::Error> {
-	let entry_list: Vec<entry::Model> = entry::Model::find_all();
+	let entry_list = entry::Model::find_all();
 	let site = site::Model::load()?;
 	let html = View { site, entry_list }.render()?;
 
