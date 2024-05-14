@@ -16,7 +16,7 @@ pub struct View {
 }
 
 pub async fn handler() -> Result<Response, crate::Error> {
-	let entry_list: Vec<entry::Model> = entry::Model::find_all_frontmatter();
+	let entry_list: Vec<entry::Model> = entry::Model::find_all();
 	let site = site::Model::load()?;
 	let html = View { site, entry_list }.render()?;
 

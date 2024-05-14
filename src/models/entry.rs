@@ -19,7 +19,7 @@ pub struct Model {
 }
 
 impl Model {
-	pub fn find_all_frontmatter() -> Vec<Model> {
+	pub fn find_all() -> Vec<Model> {
 		let mut all = vec![];
 		let results = glob("content/posts/*.md").ok();
 
