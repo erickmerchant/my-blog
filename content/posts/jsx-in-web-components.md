@@ -3,10 +3,6 @@ title = "JSX in Web Components"
 date = "2022-08-06"
 +++
 
-<div class="interstitial">
-	<strong>Note:</strong> I no longer do this. I've switch back to using Declarative Shadow DOM, and a base Custom Element that adds reactivity. <a href="/posts/a-base-custom-element/">Read about it here.</a>
-</div>
-
 ## How'd I get there
 
 So as part of the recent rewrite of this site I decided to experiment with Web Components. Or custom elements specifically. I had used Web Components at a previous job, so they were not new to me, but I had not used them much personally.
@@ -23,15 +19,15 @@ So eventually I settled on the idea of using JSX. I should say right up front th
 
 OK so how do we use JSX with Web Components? There are really just two steps with an optional third.
 
-1) Enable JSX compiling in whatever you are using. Babel, etc.
-2) Define an `h` function.
-3) Define a `Fragment` function if you use fragments.
+1. Enable JSX compiling in whatever you are using. Babel, etc.
+2. Define an `h` function.
+3. Define a `Fragment` function if you use fragments.
 
 For step 1, if you are using Babel you can use their [JSX plugin](https://babeljs.io/docs/en/babel-plugin-transform-react-jsx) along with setting runtime to `classic` and pragma to `h` and pragmaFrag to `Fragment`.
 
 And here is an example of `h` and `Fragment`. You just need to be sure to import them or make sure they are defined wherever you use JSX.
 
-``` js
+```js
 function h(tag, props, ...children) {
 	children = children.flat(Infinity);
 
@@ -43,7 +39,7 @@ function h(tag, props, ...children) {
 		if (key.startsWith("on")) {
 			node.addEventListener(key.substring(2).toLowerCase(), ...[].concat(val));
 		} else {
-			node[key] = val
+			node[key] = val;
 		}
 	}
 
