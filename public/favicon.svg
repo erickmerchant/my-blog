@@ -1,9 +1,9 @@
 <?xml version="1.0" standalone="yes"?>
-<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+<svg viewBox="0 0 8 8" xmlns="http://www.w3.org/2000/svg">
 	<style>
 		path {
-			fill: oklch(0.6 0.4 200);
+			fill: oklch(0.6 0.4 150);
 		}
 	</style>
-	<path d="M15 15 l70 0 l0 70 l-70 0z"></path>
+	<path d="M2 0 V2 H0 Z M2.5 0 H5.5 V2 H2.5 Z M6 0 V2 H8 Z M0 2.5 H2 V5.5 H0 Z M2.5 2.5 H5.5 V5.5 H2.5 Z M6 2.5 H8 V5.5 H6 Z M0 6 H2 V8 Z M2.5 6 H5.5 V8 H2.5 Z M8 6 H6 V8 Z"></path>
 </svg>
