@@ -5,5 +5,5 @@
 			fill: oklch(0.6 0.4 200);
 		}
 	</style>
-	<path d="M15 15 l70 0 l0 70 l-70 0z" />
+	<path d="M15 15 l70 0 l0 70 l-70 0z"></path>
 </svg>
