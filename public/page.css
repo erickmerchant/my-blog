@@ -190,8 +190,7 @@ em {
 	background-color: var(--alt-background);
 	border-radius: var(--border-radius);
 	display: inline flex;
-	font-size: 0.8rem;
-	font-weight: 700;
+	font-weight: 600;
 	gap: 0.25rem;
 	padding-block: 0.125rem;
 	padding-inline: 0.5rem;
@@ -351,7 +350,7 @@ em {
 
 .index {
 	display: grid;
-	font-weight: 700;
+	font-weight: 800;
 	gap: 1.25rem;
 	grid-template-columns: max-content auto;
 	list-style: none;
@@ -377,12 +376,10 @@ em {
 
 	> *:has(.pinned) {
 		background-color: var(--alt-background);
-		font-size: 1.15rem;
 		padding: 1.25rem 1rem;
 
 		:where(.tag) {
 			background-color: none;
-			font-size: inherit;
 			padding: 0;
 		}
 	}
