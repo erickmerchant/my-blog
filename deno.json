@@ -1,8 +1,0 @@
-{
-	"tasks": {
-		"watch": "RUST_LOG=tower_http=trace cargo watch -x 'r --no-default-features -- --listen 3000'",
-		"docker:build": "docker build . -t my-blog",
-		"docker:start": "docker run -p 3000:8080 --name my-blog my-blog",
-		"docker:stop": "docker rm -f my-blog"
-	}
-}
