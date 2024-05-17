@@ -53,14 +53,10 @@ body {
 
 	> * {
 		grid-column: 1 / -1;
-
-		@container (inline-size <= 42rem) {
-			font-size: 0.8rem;
-		}
 	}
 
 	@media (prefers-color-scheme: light) {
-		--alt-background: oklch(0.975 0 150);
+		--alt-background: oklch(0.95 0 150);
 		--main-background: oklch(0.99 0 150);
 		--text-color: oklch(0.1 0 150);
 		--link-color: oklch(0.4 0.4 150);
@@ -68,7 +64,7 @@ body {
 	}
 
 	@media (prefers-color-scheme: dark) {
-		--alt-background: oklch(0.225 0 150);
+		--alt-background: oklch(0.25 0 150);
 		--main-background: oklch(0.1 0 150);
 		--text-color: oklch(0.9 0 150);
 		--link-color: oklch(0.8 0.4 150);
@@ -187,13 +183,9 @@ em {
 
 .tag {
 	align-items: center;
-	background-color: var(--alt-background);
-	border-radius: var(--border-radius);
 	display: inline flex;
 	font-weight: 600;
 	gap: 0.25rem;
-	padding-block: 0.125rem;
-	padding-inline: 0.5rem;
 	white-space: nowrap;
 
 	:where(svg) {
@@ -310,24 +302,31 @@ em {
 	display: grid;
 	font-weight: 500;
 	grid-template-columns: subgrid;
-	inset-block-end: 0;
 	justify-content: center;
 	padding-block: 1.5rem;
-	position: sticky;
 	z-index: 0;
 
 	> * {
-		align-items: center;
-		display: flex;
-		flex-wrap: wrap;
-		gap: 1rem 2rem;
 		grid-column: center-start / center-end;
-		justify-content: center;
 		list-style: none;
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 1rem 2rem;
 
 		> * {
-			align-items: center;
-			display: inline flex;
+			grid-column: 1;
+		}
+
+		> :where(:last-child) {
+			grid-column: 2;
+			grid-row: 1;
+		}
+
+		@container (inline-size <= 42rem) {
+			align-items: start;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
 		}
 	}
 }
@@ -371,16 +370,6 @@ em {
 
 		> * {
 			display: inline flex;
-		}
-	}
-
-	> *:has(.pinned) {
-		background-color: var(--alt-background);
-		padding: 1.25rem 1rem;
-
-		:where(.tag) {
-			background-color: none;
-			padding: 0;
 		}
 	}
 }
