@@ -1,9 +1,27 @@
 <?xml version="1.0" standalone="yes"?>
-<svg viewBox="0 0 6 6" xmlns="http://www.w3.org/2000/svg">
+<svg viewBox="0 0 21 21" xmlns="http://www.w3.org/2000/svg">
 	<style>
-		path {
-			fill: oklch(0.6 0.4 150);
+		@media (prefers-color-scheme: light), screen {
+			:root {
+				background: oklch(0.99 0 150);
+			}
+
+			path {
+				fill: oklch(0.4 0.4 150);
+			}
 		}
+
+		@media (prefers-color-scheme: dark) {
+			:root {
+				background: oklch(0.1 0 150);
+			}
+
+			path {
+				fill: oklch(0.8 0.4 150);
+			}
+		}
+
+
 	</style>
-	<path d="M2 1 H4 Q5 1 5 2 V4 Q5 5 4 5 H2 Q1 5 1 4 V2 Q1 1 2 1 Z"></path>
+	<path d="M2 2 h1 v17 h-1 z M6 2 h1 v17 h-1 z M10 2 h1 v17 h-1 z M14 2 h1 v17 h-1 z M18 2 h1 v17 h-1 z M2 2 h17 v1 h-17 z M2 6 h17 v1 h-17 z M2 10 h17 v1 h-17 z M2 14 h17 v1 h-17 z M2 18 h17 v1 h-17 z"></path>
 </svg>
