@@ -123,15 +123,6 @@ a {
 	color: var(--link-color);
 	text-decoration-thickness: 0.1em;
 	text-underline-offset: 0.1em;
-	transition: text-decoration-thickness 0.125s var(--easing);
-
-	&:focus-visible,
-	&:active {
-		outline: none;
-		text-decoration-skip-ink: none;
-		text-decoration-thickness: 0.2em;
-		text-underline-offset: 0.2em;
-	}
 }
 
 p {
