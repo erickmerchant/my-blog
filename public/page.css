@@ -309,11 +309,11 @@ em {
 	z-index: 0;
 
 	> * {
-		grid-column: center-start / center-end;
-		list-style: none;
 		display: grid;
-		grid-template-columns: 1fr 1fr;
 		gap: 1rem 2rem;
+		grid-column: center-start / center-end;
+		grid-template-columns: 1fr 1fr;
+		list-style: none;
 
 		> * {
 			grid-column: 1;
