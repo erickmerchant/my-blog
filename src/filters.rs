@@ -15,7 +15,7 @@ pub fn format_date<T: std::fmt::Display>(value: T, fmt: &str) -> ::askama::Resul
 }
 
 pub fn asset_url<T: std::fmt::Display>(url: T) -> ::askama::Result<String> {
-	let url = url.to_string();
+	let mut url = url.to_string();
 
 	if url.starts_with('/') {
 		if let Some(bare_url) = url.strip_prefix('/') {
@@ -30,9 +30,9 @@ pub fn asset_url<T: std::fmt::Display>(url: T) -> ::askama::Result<String> {
 				let path = Utf8Path::new(&url);
 				let ext = path.extension().unwrap_or_default();
 
-				return Ok(path
+				url = path
 					.with_extension(format!("{cache_key}.{ext}"))
-					.to_string());
+					.to_string();
 			}
 		}
 	};
