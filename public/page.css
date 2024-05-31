@@ -101,24 +101,6 @@ top-bar {
 	}
 }
 
-main {
-	align-content: start;
-	background-color: var(--main-background);
-	display: grid;
-	gap: 1rem 0;
-	grid-template-columns: subgrid;
-	hyphens: auto;
-	overflow-wrap: break-word;
-	padding-block: 1rem 3rem;
-	z-index: 1;
-
-	> * {
-		grid-column: center-start / center-end;
-		inline-size: 100%;
-		margin-inline: auto;
-	}
-}
-
 a {
 	color: var(--link-color);
 	text-decoration-thickness: 0.1em;
@@ -170,17 +152,35 @@ em {
 	font-style: italic;
 }
 
+main {
+	align-content: start;
+	background-color: var(--main-background);
+	display: grid;
+	gap: 1rem 0;
+	grid-template-columns: subgrid;
+	hyphens: auto;
+	overflow-wrap: break-word;
+	padding-block: 1rem 3rem;
+	z-index: 1;
+
+	> * {
+		grid-column: center-start / center-end;
+		inline-size: 100%;
+		margin-inline: auto;
+	}
+
+	> :where(header) {
+		display: grid;
+		gap: 0.25rem;
+	}
+}
+
 :where(:not(pre)) > code {
 	background-color: var(--alt-background);
 	color: var(--code-color);
 	font-family: "JetBrains Mono", monospace;
 	font-weight: 400;
 	padding-inline: 0.25rem;
-}
-
-.heading {
-	display: grid;
-	gap: 0.25rem;
 }
 
 .tag {
@@ -210,6 +210,74 @@ em {
 	:where(ul, ol) {
 		padding-inline-start: 1rem;
 	}
+
+	:where(figure:has(pre)) {
+		border-radius: var(--border-radius);
+		counter-reset: lines 0;
+		display: grid;
+		overflow-x: auto;
+		overflow-y: hidden;
+		overscroll-behavior-x: none;
+		tab-size: 2;
+		--white-space: pre-wrap;
+
+		:where(code) {
+			background-color: var(--alt-background);
+			color: var(--code-color);
+			display: grid;
+			font-family: "JetBrains Mono", monospace;
+			font-weight: 400;
+			grid-template-columns: max-content auto;
+			position: relative;
+			white-space: var(--white-space);
+			word-break: break-word;
+
+			> * {
+				display: grid;
+				gap: 0.25rem 1rem;
+				grid-column: 1 / -1;
+				grid-template-columns: subgrid;
+
+				&::before {
+					background-color: var(--alt-background);
+					border-inline-end: 0.25rem solid var(--main-background);
+					box-shadow: -1rem 0 0 0 var(--alt-background);
+					color: var(--text-color);
+					content: counter(lines, decimal);
+					counter-increment: lines 1;
+					display: grid;
+					inset-inline-start: 0;
+					padding-inline: 1rem;
+					position: sticky;
+					text-align: right;
+				}
+
+				&:where(:first-child) {
+					padding-block-start: 1rem;
+
+					&::before {
+						margin-block-start: -1rem;
+						padding-block-start: 1rem;
+					}
+				}
+
+				&:where(:last-child) {
+					padding-block-end: 1rem;
+
+					&::before {
+						margin-block-end: -1rem;
+						padding-block-end: 1rem;
+					}
+				}
+			}
+		}
+
+		@container (inline-size <= 42rem) {
+			border-radius: 0;
+			grid-column: side-start / side-end;
+			--white-space: pre;
+		}
+	}
 }
 
 .interstitial {
@@ -227,74 +295,6 @@ em {
 		&::before {
 			content: "—";
 		}
-	}
-}
-
-.code-block {
-	border-radius: var(--border-radius);
-	counter-reset: lines 0;
-	display: grid;
-	overflow-x: auto;
-	overflow-y: hidden;
-	overscroll-behavior-x: none;
-	tab-size: 2;
-	--white-space: pre-wrap;
-
-	:where(code) {
-		background-color: var(--alt-background);
-		color: var(--code-color);
-		display: grid;
-		font-family: "JetBrains Mono", monospace;
-		font-weight: 400;
-		grid-template-columns: max-content auto;
-		position: relative;
-		white-space: var(--white-space);
-		word-break: break-word;
-
-		> * {
-			display: grid;
-			gap: 0.25rem 1rem;
-			grid-column: 1 / -1;
-			grid-template-columns: subgrid;
-
-			&::before {
-				background-color: var(--alt-background);
-				border-inline-end: 0.25rem solid var(--main-background);
-				box-shadow: -1rem 0 0 0 var(--alt-background);
-				color: var(--text-color);
-				content: counter(lines, decimal);
-				counter-increment: lines 1;
-				display: grid;
-				inset-inline-start: 0;
-				padding-inline: 1rem;
-				position: sticky;
-				text-align: right;
-			}
-
-			&:where(:first-child) {
-				padding-block-start: 1rem;
-
-				&::before {
-					margin-block-start: -1rem;
-					padding-block-start: 1rem;
-				}
-			}
-
-			&:where(:last-child) {
-				padding-block-end: 1rem;
-
-				&::before {
-					margin-block-end: -1rem;
-					padding-block-end: 1rem;
-				}
-			}
-		}
-	}
-
-	@container (inline-size <= 42rem) {
-		border-radius: 0;
-		grid-column: side-start / side-end;
-		--white-space: pre;
 	}
 }
 

@@ -96,21 +96,20 @@ fn parse_content(contents: String, include_body: bool) -> (frontmatter::Model, O
 			let body = if include_body {
 				let parser = pulldown_cmark::Parser::new(contents);
 				let mut events = Vec::new();
-				let mut code_block_text = String::new();
-				let mut code_block_lang = None;
+				let mut code_block_text = None;
 
 				for event in parser {
 					match event {
 						Event::Start(Tag::CodeBlock(lang)) => {
-							code_block_lang = match lang {
-								CodeBlockKind::Fenced(lang) => Some(lang.into_string()),
+							code_block_text = match lang {
+								CodeBlockKind::Fenced(_) => Some(String::new()),
 								_ => None,
 							};
 						}
 						Event::End(TagEnd::CodeBlock) => {
-							if let Some(lang) = code_block_lang {
+							if let Some(text) = &code_block_text {
 								let mut lines = Vec::new();
-								let inner_html = code_block_text;
+								let inner_html = text;
 
 								for line in inner_html.trim().lines() {
 									lines.push(format!(
@@ -120,21 +119,19 @@ fn parse_content(contents: String, include_body: bool) -> (frontmatter::Model, O
 								}
 
 								let hightlighted_html = format!(
-									r#"<figure class="code-block" data-language="{}"><pre><code>{}</code></pre></figure>"#,
-									lang,
+									r#"<figure><pre><code>{}</code></pre></figure>"#,
 									lines.join("\n")
 								);
 
 								events.push(Event::Html(CowStr::Boxed(
 									hightlighted_html.into_boxed_str(),
 								)));
-								code_block_text = String::new();
-								code_block_lang = None;
+								code_block_text = None;
 							}
 						}
 						Event::Text(t) => {
-							if let Some(_lang) = code_block_lang.clone() {
-								code_block_text.push_str(&t);
+							if let Some(text) = code_block_text.as_mut() {
+								text.push_str(&t);
 							} else {
 								events.push(Event::Text(t))
 							}
