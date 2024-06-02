@@ -20,7 +20,7 @@
 }
 
 ::-webkit-scrollbar-track {
-	background-color: var(--main-background);
+	background-color: var(--alt-background);
 }
 
 html {
@@ -48,7 +48,7 @@ body {
 	overscroll-behavior: none;
 	scrollbar-color: var(--link-color) var(--main-background);
 	scrollbar-gutter: stable;
-	--border-radius: 0.125rem;
+	--border-radius: 0.25rem;
 	--easing: ease-in-out;
 
 	> * {
@@ -56,25 +56,27 @@ body {
 	}
 
 	@media (prefers-color-scheme: light) {
-		--alt-background: oklch(0.95 0 150);
-		--main-background: oklch(0.99 0 150);
-		--text-color: oklch(0.1 0 150);
-		--link-color: oklch(0.4 0.4 150);
-		--code-color: oklch(0.4 0.1 150);
+		--main-background: oklch(0.99 0.02 90);
+		--alt-background: oklch(0.97 0.02 90);
+		--text-color: oklch(0 0 0);
+		--link-color: oklch(0.25 0.4 90);
+		--code-color: oklch(0.25 0.2 90);
+		--border-color: oklch(0.25 0.1 90);
 	}
 
 	@media (prefers-color-scheme: dark) {
-		--alt-background: oklch(0.25 0 150);
-		--main-background: oklch(0.1 0 150);
-		--text-color: oklch(0.9 0 150);
-		--link-color: oklch(0.8 0.4 150);
-		--code-color: oklch(0.8 0.1 150);
+		--main-background: oklch(0.01 0.02 150);
+		--alt-background: oklch(0.03 0.02 150);
+		--text-color: oklch(1 0 0);
+		--link-color: oklch(0.75 0.4 150);
+		--code-color: oklch(0.75 0.2 150);
+		--border-color: oklch(0.75 0.1 150);
 	}
 }
 
 top-bar {
 	background-color: var(--alt-background);
-	border-block-end: 0.25rem solid var(--main-background);
+	border-block-end: 0.0625rem solid var(--border-color);
 	color: var(--link-color);
 	display: grid;
 	font-weight: 900;
@@ -152,6 +154,12 @@ em {
 	font-style: italic;
 }
 
+svg {
+	display: block;
+	block-size: 1em;
+	fill: currentColor;
+}
+
 main {
 	align-content: start;
 	background-color: var(--main-background);
@@ -176,7 +184,6 @@ main {
 }
 
 :where(:not(pre)) > code {
-	background-color: var(--alt-background);
 	color: var(--code-color);
 	font-family: "JetBrains Mono", monospace;
 	font-weight: 400;
@@ -187,14 +194,8 @@ main {
 	align-items: center;
 	display: inline flex;
 	font-weight: 600;
-	gap: 0.25rem;
+	gap: 0.5rem;
 	white-space: nowrap;
-
-	:where(svg) {
-		block-size: 1.125em;
-		fill: currentColor;
-		padding: 0.125rem;
-	}
 }
 
 .content {
@@ -212,6 +213,7 @@ main {
 	}
 
 	:where(figure:has(pre)) {
+		border: 0.0625rem solid var(--border-color);
 		border-radius: var(--border-radius);
 		counter-reset: lines 0;
 		display: grid;
@@ -222,7 +224,6 @@ main {
 		--white-space: pre-wrap;
 
 		:where(code) {
-			background-color: var(--alt-background);
 			color: var(--code-color);
 			display: grid;
 			font-family: "JetBrains Mono", monospace;
@@ -240,8 +241,7 @@ main {
 
 				&::before {
 					background-color: var(--alt-background);
-					border-inline-end: 0.25rem solid var(--main-background);
-					box-shadow: -1rem 0 0 0 var(--alt-background);
+					border-inline-end: 0.0625rem solid var(--border-color);
 					color: var(--text-color);
 					content: counter(lines, decimal);
 					counter-increment: lines 1;
@@ -273,6 +273,7 @@ main {
 		}
 
 		@container (inline-size <= 42rem) {
+			border-inline: none;
 			border-radius: 0;
 			grid-column: side-start / side-end;
 			--white-space: pre;
@@ -281,7 +282,7 @@ main {
 }
 
 .interstitial {
-	background-color: var(--alt-background);
+	border-inline-start: 0.0625rem solid var(--border-color);
 	border-radius: var(--border-radius);
 	display: block;
 	gap: 0.5rem;
@@ -301,6 +302,7 @@ main {
 .footer {
 	align-content: center;
 	background-color: var(--alt-background);
+	border-block-start: 0.0625rem solid var(--border-color);
 	display: grid;
 	font-weight: 500;
 	grid-template-columns: subgrid;
@@ -337,16 +339,6 @@ main {
 	align-items: center;
 	display: inline flex;
 	gap: 0.5rem;
-
-	:where(svg) {
-		aspect-ratio: 1;
-		background-color: currentColor;
-		block-size: 1.125em;
-		border-radius: var(--border-radius);
-		display: block;
-		fill: var(--alt-background);
-		padding: 0.125rem;
-	}
 }
 
 .index {
