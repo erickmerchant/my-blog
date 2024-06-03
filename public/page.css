@@ -16,7 +16,7 @@
 }
 
 ::-webkit-scrollbar-thumb {
-	background-color: var(--link-color);
+	background-color: var(--highlight-color);
 }
 
 ::-webkit-scrollbar-track {
@@ -46,9 +46,10 @@ body {
 	grid-template-rows: min-content auto min-content;
 	overflow-x: auto;
 	overscroll-behavior: none;
-	scrollbar-color: var(--link-color) var(--main-background);
+	scrollbar-color: var(--highlight-color) var(--main-background);
 	scrollbar-gutter: stable;
 	--border-radius: 0.25rem;
+	--border-width: 0.0625rem;
 	--easing: ease-in-out;
 
 	> * {
@@ -56,28 +57,24 @@ body {
 	}
 
 	@media (prefers-color-scheme: light) {
-		--main-background: oklch(0.99 0.02 90);
-		--alt-background: oklch(0.97 0.02 90);
-		--text-color: oklch(0 0 0);
-		--link-color: oklch(0.25 0.4 90);
-		--code-color: oklch(0.25 0.2 90);
-		--border-color: oklch(0.25 0.1 90);
+		--main-background: oklch(0.88 0.03 90);
+		--alt-background: oklch(0.85 0.03 90);
+		--text-color: oklch(0.1 0.0125 90);
+		--highlight-color: oklch(0.1 0.4 90);
 	}
 
 	@media (prefers-color-scheme: dark) {
-		--main-background: oklch(0.01 0.02 150);
-		--alt-background: oklch(0.03 0.02 150);
-		--text-color: oklch(1 0 0);
-		--link-color: oklch(0.75 0.4 150);
-		--code-color: oklch(0.75 0.2 150);
-		--border-color: oklch(0.75 0.1 150);
+		--main-background: oklch(0.12 0.03 150);
+		--alt-background: oklch(0.15 0.03 150);
+		--text-color: oklch(0.9 0.0125 150);
+		--highlight-color: oklch(0.9 0.4 150);
 	}
 }
 
 top-bar {
 	background-color: var(--alt-background);
-	border-block-end: 0.0625rem solid var(--border-color);
-	color: var(--link-color);
+	border-block-end: var(--border-width) solid var(--text-color);
+	color: var(--highlight-color);
 	display: grid;
 	font-weight: 900;
 	gap: 1rem 0;
@@ -90,7 +87,7 @@ top-bar {
 	transition: inset-block-start 0.25s var(--easing);
 	view-transition-name: top-bar;
 	z-index: 2;
-	--block-size: 4.5rem;
+	--block-size: calc(4.5rem + var(--border-width));
 
 	:where(nav) {
 		grid-column: center-start / center-end;
@@ -104,7 +101,7 @@ top-bar {
 }
 
 a {
-	color: var(--link-color);
+	color: var(--highlight-color);
 	text-decoration-thickness: 0.1em;
 	text-underline-offset: 0.1em;
 	transition: text-underline-offset 0.25s 0.25s;
@@ -155,8 +152,8 @@ em {
 }
 
 svg {
-	display: block;
 	block-size: 1em;
+	display: block;
 	fill: currentColor;
 }
 
@@ -184,7 +181,7 @@ main {
 }
 
 :where(:not(pre)) > code {
-	color: var(--code-color);
+	color: var(--highlight-color);
 	font-family: "JetBrains Mono", monospace;
 	font-weight: 400;
 	padding-inline: 0.25rem;
@@ -213,7 +210,7 @@ main {
 	}
 
 	:where(figure:has(pre)) {
-		border: 0.0625rem solid var(--border-color);
+		border: var(--border-width) solid var(--text-color);
 		border-radius: var(--border-radius);
 		counter-reset: lines 0;
 		display: grid;
@@ -224,7 +221,7 @@ main {
 		--white-space: pre-wrap;
 
 		:where(code) {
-			color: var(--code-color);
+			color: var(--highlight-color);
 			display: grid;
 			font-family: "JetBrains Mono", monospace;
 			font-weight: 400;
@@ -241,7 +238,7 @@ main {
 
 				&::before {
 					background-color: var(--alt-background);
-					border-inline-end: 0.0625rem solid var(--border-color);
+					border-inline-end: var(--border-width) solid var(--text-color);
 					color: var(--text-color);
 					content: counter(lines, decimal);
 					counter-increment: lines 1;
@@ -282,7 +279,7 @@ main {
 }
 
 .interstitial {
-	border-inline-start: 0.0625rem solid var(--border-color);
+	border-inline-start: var(--border-width) solid var(--highlight-color);
 	border-radius: var(--border-radius);
 	display: block;
 	gap: 0.5rem;
@@ -302,7 +299,7 @@ main {
 .footer {
 	align-content: center;
 	background-color: var(--alt-background);
-	border-block-start: 0.0625rem solid var(--border-color);
+	border-block-start: var(--border-width) solid var(--text-color);
 	display: grid;
 	font-weight: 500;
 	grid-template-columns: subgrid;

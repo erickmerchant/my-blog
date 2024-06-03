@@ -3,11 +3,11 @@
 	<style>
 		@media (prefers-color-scheme: light), screen {
 			:root {
-				background: oklch(0.4 0.4 150);
+				background: oklch(0.4 0.4 90);
 			}
 
 			path {
-				fill: oklch(0.99 0 150);
+				fill: oklch(0.99 0 90);
 			}
 		}
 
