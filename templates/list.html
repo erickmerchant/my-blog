@@ -10,7 +10,7 @@
 		{% for entry in entry_list %}
 			<li>
 				{% call base::tags(entry) %}
-				<a href="/posts/{{entry.slug}}/">{{entry.title}}</a>
+				<span><a href="/posts/{{entry.slug}}/">{{entry.title}}</a></span>
 			</li>
 		{% endfor %}
 	</ol>

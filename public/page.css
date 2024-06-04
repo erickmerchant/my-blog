@@ -16,15 +16,16 @@
 }
 
 ::-webkit-scrollbar-thumb {
-	background-color: var(--highlight-color);
+	background-color: var(--text-color);
 }
 
 ::-webkit-scrollbar-track {
-	background-color: var(--alt-background);
+	background-color: var(--main-background);
 }
 
 html {
 	block-size: 100%;
+	color-scheme: light dark;
 	font-family: "Inter", system-ui, sans-serif;
 	font-size: 125%;
 	font-weight: 400;
@@ -46,35 +47,33 @@ body {
 	grid-template-rows: min-content auto min-content;
 	overflow-x: auto;
 	overscroll-behavior: none;
-	scrollbar-color: var(--highlight-color) var(--main-background);
+	scrollbar-color: var(--text-color) var(--main-background);
 	scrollbar-gutter: stable;
 	--border-radius: 0.25rem;
 	--border-width: 0.0625rem;
 	--easing: ease-in-out;
+	--main-background: light-dark(oklch(0.95 0.025 100), oklch(0.25 0.1 150));
+	--text-color: light-dark(oklch(0.35 0.025 100), oklch(0.975 0.025 150));
+	--link-color: light-dark(oklch(0.35 0.4 100), oklch(0.9 0.4 150));
+	--code-color: light-dark(oklch(0.35 0.1 100), oklch(0.9 0.1 150));
+	--sticky-gradient: repeating-linear-gradient(
+		135deg,
+		oklch(0 0 0 / 0),
+		oklch(0 0 0 / 0) 0.125rem,
+		color-mix(in oklch, var(--main-background), var(--text-color) 7.5%) 0.125rem,
+		color-mix(in oklch, var(--main-background), var(--text-color) 7.5%) 0.25rem
+	);
 
 	> * {
 		grid-column: 1 / -1;
 	}
-
-	@media (prefers-color-scheme: light) {
-		--main-background: oklch(0.88 0.03 90);
-		--alt-background: oklch(0.85 0.03 90);
-		--text-color: oklch(0.1 0.0125 90);
-		--highlight-color: oklch(0.1 0.4 90);
-	}
-
-	@media (prefers-color-scheme: dark) {
-		--main-background: oklch(0.12 0.03 150);
-		--alt-background: oklch(0.15 0.03 150);
-		--text-color: oklch(0.9 0.0125 150);
-		--highlight-color: oklch(0.9 0.4 150);
-	}
 }
 
 top-bar {
-	background-color: var(--alt-background);
+	background-attachment: fixed;
+	background-color: var(--main-background);
+	background-image: var(--sticky-gradient);
 	border-block-end: var(--border-width) solid var(--text-color);
-	color: var(--highlight-color);
 	display: grid;
 	font-weight: 900;
 	gap: 1rem 0;
@@ -101,7 +100,7 @@ top-bar {
 }
 
 a {
-	color: var(--highlight-color);
+	color: var(--link-color);
 	text-decoration-thickness: 0.1em;
 	text-underline-offset: 0.1em;
 	transition: text-underline-offset 0.25s 0.25s;
@@ -159,7 +158,6 @@ svg {
 
 main {
 	align-content: start;
-	background-color: var(--main-background);
 	display: grid;
 	gap: 1rem 0;
 	grid-template-columns: subgrid;
@@ -181,7 +179,7 @@ main {
 }
 
 :where(:not(pre)) > code {
-	color: var(--highlight-color);
+	color: var(--code-color);
 	font-family: "JetBrains Mono", monospace;
 	font-weight: 400;
 	padding-inline: 0.25rem;
@@ -221,7 +219,7 @@ main {
 		--white-space: pre-wrap;
 
 		:where(code) {
-			color: var(--highlight-color);
+			color: var(--code-color);
 			display: grid;
 			font-family: "JetBrains Mono", monospace;
 			font-weight: 400;
@@ -237,7 +235,9 @@ main {
 				grid-template-columns: subgrid;
 
 				&::before {
-					background-color: var(--alt-background);
+					background-attachment: fixed;
+					background-color: var(--main-background);
+					background-image: var(--sticky-gradient);
 					border-inline-end: var(--border-width) solid var(--text-color);
 					color: var(--text-color);
 					content: counter(lines, decimal);
@@ -279,8 +279,8 @@ main {
 }
 
 .interstitial {
-	border-inline-start: var(--border-width) solid var(--highlight-color);
-	border-radius: var(--border-radius);
+	border-inline-start: var(--border-width) solid var(--text-color);
+	border-radius: 0;
 	display: block;
 	gap: 0.5rem;
 	padding-block: 1rem;
@@ -298,7 +298,11 @@ main {
 
 .footer {
 	align-content: center;
-	background-color: var(--alt-background);
+	background-color: color-mix(
+		in oklch,
+		var(--main-background),
+		oklch(0.5 0 0) 10%
+	);
 	border-block-start: var(--border-width) solid var(--text-color);
 	display: grid;
 	font-weight: 500;
