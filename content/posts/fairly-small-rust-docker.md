@@ -3,46 +3,29 @@ title = "Fairly small rust + docker"
 date = "2023-08-20"
 +++
 
-Like me you may be sort of obsessed with getting the smallest docker image for your Rust server. This is the best way I've found. The following is an example Dockerfile, slightly simplified from the one I actually use
+Like me you may be sort of obsessed with getting the smallest docker image for your Rust server. This is the best way I've found. The following is an example Dockerfile, slightly simplified from the one I actually use. The key is to use [https://hub.docker.com/\_/scratch](https://hub.docker.com/_/scratch) for the final layer.
 
-Use Alpine as a your base to build your binary.
-
-``` dockerfile
-# build step
-FROM rust:1.71-alpine as build
+```dockerfile
+# Use Alpine as a your base to build your binary
+FROM rust:1.78-alpine as build
 RUN apk add build-base
-WORKDIR deploy
-```
+WORKDIR build
 
-Cache dependencies. This is not strictly related to a small build, but helps if you have to push front end changes and don't want to wait for a full rebuild.
-
-``` dockerfile
-RUN mkdir -p src
-RUN echo "fn main() {}" > src/main.rs
+# Cache dependencies
+# This is not strictly related to a small build, but helps if you have to push front end changes and don't want to wait for a full rebuild.
+RUN mkdir -p src/bin
+RUN echo "fn main() {}" > src/bin/dummy.rs
 COPY Cargo.toml Cargo.lock .
+RUN cargo build --bin dummy --release --no-default-features --locked
+
+# Build the application
+COPY src src
 RUN cargo build --release --no-default-features --locked
-```
 
-Build the application.
-
-``` dockerfile
-COPY . .
-RUN cargo build --release --no-default-features --locked
-RUN mv ./target/release/your-app ./your-app
-```
-
-Clean up build artifacts.
-
-``` dockerfile
-RUN rm -rf target src Cargo.lock Cargo.toml
-```
-
-Use scratch as your base to run your binary. [https://hub.docker.com/_/scratch](https://hub.docker.com/_/scratch)
-
-``` dockerfile
-# run step
+# Use scratch as your base to run your binary
 FROM scratch
-WORKDIR /deploy
-COPY --from=build /deploy .
-ENTRYPOINT ["./your-app"]
+WORKDIR deploy
+COPY public public
+COPY --from=build /build/target/release/app .
+ENTRYPOINT ["./app"]
 ```

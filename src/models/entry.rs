@@ -113,15 +113,13 @@ fn parse_content(contents: String, include_body: bool) -> (frontmatter::Model, O
 
 								for line in inner_html.trim().lines() {
 									lines.push(format!(
-										"<span>{}</span>",
+										"<code>{}</code>",
 										html_escape::encode_text(line)
 									));
 								}
 
-								let hightlighted_html = format!(
-									r#"<figure><pre><code>{}</code></pre></figure>"#,
-									lines.join("\n")
-								);
+								let hightlighted_html =
+									format!(r#"<figure><pre>{}</pre></figure>"#, lines.join("\n"));
 
 								events.push(Event::Html(CowStr::Boxed(
 									hightlighted_html.into_boxed_str(),

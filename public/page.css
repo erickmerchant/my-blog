@@ -52,9 +52,9 @@ body {
 	--border-radius: 0.25rem;
 	--border-width: 0.0625rem;
 	--easing: ease-in-out;
-	--header-background: light-dark(oklch(0.99 0.04 100), oklch(0.3 0.04 145));
-	--main-background: light-dark(oklch(0.97 0.04 100), oklch(0.25 0.04 145));
-	--footer-background: light-dark(oklch(0.95 0.04 100), oklch(0.2 0.04 145));
+	--header-background: light-dark(oklch(0.99 0.03 100), oklch(0.3 0.03 145));
+	--main-background: light-dark(oklch(0.97 0.03 100), oklch(0.25 0.03 145));
+	--footer-background: light-dark(oklch(0.95 0.03 100), oklch(0.2 0.03 145));
 	--text-color: light-dark(oklch(0.4 0.04 100), oklch(0.99 0.04 145));
 	--link-color: light-dark(oklch(0.4 0.4 100), oklch(0.99 0.4 145));
 	--code-color: light-dark(oklch(0.4 0.2 100), oklch(0.99 0.2 145));
@@ -211,7 +211,7 @@ main {
 		tab-size: 2;
 		--white-space: pre-wrap;
 
-		:where(code) {
+		:where(pre) {
 			color: var(--code-color);
 			display: grid;
 			font-family: "JetBrains Mono", monospace;

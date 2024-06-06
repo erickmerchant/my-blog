@@ -39,19 +39,21 @@ pub async fn layer(req: Request<Body>, next: Next) -> Result<Response, crate::Er
 	};
 	let etag = EntityTag::from_data(&body).to_string();
 
-	if let Some(if_none_match) = req_parts.headers.get("if-none-match") {
-		if etag == *if_none_match {
-			return Ok((StatusCode::NOT_MODIFIED).into_response());
-		}
+	if req_parts
+		.headers
+		.get("if-none-match")
+		.map_or(false, |if_none_match| etag == *if_none_match)
+	{
+		Ok((StatusCode::NOT_MODIFIED).into_response())
+	} else {
+		Ok((
+			StatusCode::OK,
+			[
+				(header::CONTENT_TYPE, content_type.to_string()),
+				(header::ETAG, etag),
+			],
+			body,
+		)
+			.into_response())
 	}
-
-	Ok((
-		StatusCode::OK,
-		[
-			(header::CONTENT_TYPE, content_type.to_string()),
-			(header::ETAG, etag),
-		],
-		body,
-	)
-		.into_response())
 }
