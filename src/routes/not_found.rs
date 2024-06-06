@@ -6,7 +6,7 @@ use axum::{
 };
 
 #[derive(Template)]
-#[template(path = "not-found.html")]
+#[template(path = "not_found.html")]
 pub struct View {
 	pub site: site::Model,
 }
