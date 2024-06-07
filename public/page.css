@@ -175,7 +175,6 @@ main {
 	color: var(--code-color);
 	font-family: "JetBrains Mono", monospace;
 	font-weight: 400;
-	padding-inline: 0.25rem;
 }
 
 .tag {
