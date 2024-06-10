@@ -52,9 +52,8 @@ body {
 	--border-radius: 0.25rem;
 	--border-width: 0.0625rem;
 	--easing: ease-in-out;
-	--header-background: light-dark(oklch(0.99 0.03 100), oklch(0.3 0.03 145));
-	--main-background: light-dark(oklch(0.97 0.03 100), oklch(0.25 0.03 145));
-	--footer-background: light-dark(oklch(0.95 0.03 100), oklch(0.2 0.03 145));
+	--header-background: light-dark(oklch(0.99 0.03 100), oklch(0.3 0.05 145));
+	--main-background: light-dark(oklch(0.97 0.03 100), oklch(0.25 0.05 145));
 	--text-color: light-dark(oklch(0.4 0.04 100), oklch(0.99 0.04 145));
 	--link-color: light-dark(oklch(0.4 0.4 100), oklch(0.99 0.4 145));
 	--code-color: light-dark(oklch(0.4 0.2 100), oklch(0.99 0.2 145));
@@ -269,7 +268,7 @@ main {
 }
 
 .interstitial {
-	border-inline-start: var(--border-width) solid var(--text-color);
+	border-inline-start: calc(var(--border-width) * 2) solid var(--code-color);
 	border-radius: 0;
 	display: block;
 	gap: 0.5rem;
@@ -288,7 +287,6 @@ main {
 
 .footer {
 	align-content: center;
-	background-color: var(--footer-background);
 	border-block-start: var(--border-width) solid var(--text-color);
 	display: grid;
 	font-weight: 500;
