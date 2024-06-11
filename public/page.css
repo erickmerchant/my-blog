@@ -76,7 +76,7 @@ top-bar {
 	padding-block: 1.5rem;
 	position: sticky;
 	transition: inset-block-start 0.25s var(--easing);
-	view-transition-name: top-bar;
+	/* view-transition-name: top-bar; */
 	z-index: 2;
 	--block-size: calc(4.5rem + var(--border-width));
 
