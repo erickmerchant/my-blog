@@ -117,12 +117,7 @@ p {
 h1,
 h2,
 h3 {
-	font-weight: 900;
 	text-wrap: balance;
-}
-
-h1,
-h2 {
 	line-height: 1.25;
 }
 
@@ -131,9 +126,15 @@ h1 {
 }
 
 h2 {
-	font-size: 1.25rem;
+	font-size: 1.125rem;
 }
 
+h1,
+h2 {
+	font-weight: 900;
+}
+
+h3,
 strong {
 	font-weight: 700;
 }
@@ -162,24 +163,26 @@ main {
 		grid-column: center-start / center-end;
 		inline-size: 100%;
 		margin-inline: auto;
-	}
 
-	> :where(header) {
-		display: grid;
-		gap: 0.25rem;
+		&:where(header) {
+			display: grid;
+			gap: 0.25rem;
+		}
 	}
 }
 
-:where(:not(pre)) > code {
-	color: var(--code-color);
-	font-family: "JetBrains Mono", monospace;
-	font-weight: 400;
+:where(:not(pre)) {
+	> code {
+		color: var(--code-color);
+		font-family: "JetBrains Mono", monospace;
+		font-weight: 400;
+	}
 }
 
 .tag {
 	align-items: center;
 	display: inline flex;
-	font-weight: 600;
+	font-weight: 700;
 	gap: 0.5rem;
 	white-space: nowrap;
 }
@@ -218,42 +221,42 @@ main {
 			position: relative;
 			white-space: var(--white-space);
 			word-break: break-word;
+		}
 
-			> * {
+		:where(code) {
+			display: grid;
+			gap: 0.25rem 1rem;
+			grid-column: 1 / -1;
+			grid-template-columns: subgrid;
+
+			&::before {
+				background-color: var(--header-background);
+				border-inline-end: var(--border-width) solid var(--text-color);
+				color: var(--text-color);
+				content: counter(lines, decimal);
+				counter-increment: lines 1;
 				display: grid;
-				gap: 0.25rem 1rem;
-				grid-column: 1 / -1;
-				grid-template-columns: subgrid;
+				inset-inline-start: 0;
+				padding-inline: 1rem;
+				position: sticky;
+				text-align: right;
+			}
+
+			&:where(:first-child) {
+				padding-block-start: 1rem;
 
 				&::before {
-					background-color: var(--header-background);
-					border-inline-end: var(--border-width) solid var(--text-color);
-					color: var(--text-color);
-					content: counter(lines, decimal);
-					counter-increment: lines 1;
-					display: grid;
-					inset-inline-start: 0;
-					padding-inline: 1rem;
-					position: sticky;
-					text-align: right;
-				}
-
-				&:where(:first-child) {
+					margin-block-start: -1rem;
 					padding-block-start: 1rem;
-
-					&::before {
-						margin-block-start: -1rem;
-						padding-block-start: 1rem;
-					}
 				}
+			}
 
-				&:where(:last-child) {
+			&:where(:last-child) {
+				padding-block-end: 1rem;
+
+				&::before {
+					margin-block-end: -1rem;
 					padding-block-end: 1rem;
-
-					&::before {
-						margin-block-end: -1rem;
-						padding-block-end: 1rem;
-					}
 				}
 			}
 		}
@@ -295,27 +298,27 @@ main {
 	padding-block: 1.5rem;
 	z-index: 0;
 
-	> * {
+	:where(ul) {
 		display: grid;
 		gap: 1rem 2rem;
 		grid-column: center-start / center-end;
 		grid-template-columns: 1fr 1fr;
 		list-style: none;
 
-		> * {
-			grid-column: 1;
-		}
-
-		> :where(:last-child) {
-			grid-column: 2;
-			grid-row: 1;
-		}
-
 		@container (inline-size <= 42rem) {
 			align-items: start;
 			display: flex;
 			flex-direction: column;
 			justify-content: center;
+		}
+	}
+
+	:where(li) {
+		grid-column: 1;
+
+		&:where(:last-child) {
+			grid-column: 2;
+			grid-row: 1;
 		}
 	}
 }
@@ -334,14 +337,14 @@ main {
 	list-style: none;
 
 	&,
-	> * {
+	:where(li) {
 		@container (inline-size <= 42rem) {
 			display: flex;
 			flex-direction: column;
 		}
 	}
 
-	> * {
+	:where(li) {
 		display: grid;
 		gap: 0.25rem 2rem;
 		grid-column: 1 / -1;
