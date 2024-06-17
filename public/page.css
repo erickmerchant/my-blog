@@ -179,6 +179,16 @@ main {
 	}
 }
 
+/* Arc iOS bug fix */
+code {
+	:where(a) {
+		color: inherit;
+		text-decoration: none;
+		pointer-events: none;
+		display: contents;
+	}
+}
+
 .tag {
 	align-items: center;
 	display: inline flex;
