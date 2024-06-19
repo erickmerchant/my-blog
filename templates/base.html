@@ -1,15 +1,18 @@
 {%- macro tags(entry) %}
 	{% if entry.pinned %}
-		<span class="pinned tag">
-			<svg viewBox="0 0 10 14">
+		<span class="tag">
+			<svg viewBox="0 0 20 28">
 				<title>Pinned</title>
-				<path d="M0 0 H10 V1 L8.5 2.5 Q8 3 8 3.5 V5.5 Q8 6 8.5 6.5 L10 8 V9 H0 V8 L1.5 6.5 Q2 6 2 5.5 V3.5 Q2 3 1.5 2.5 L0 1 V1 Z M3.5 10 V13 L5 14 L6.5 13 V10 Z"></path>
+				<path d="M2 1 Q2 0 3 0 H17 Q18 0 18 1 V2 L15 5 V13 L20 16 V17 Q20 18 19 18 H1 Q0 18 0 17 V16 L5 13 V5 L2 2 V2 Z M7 20 V24 L10 28 L13 24 V20 Z"></path>
 			</svg>
 			Pinned
 		</span>
 	{% else %}
 		<time class="tag">
-			<svg viewBox="0 0 14 14"><title>Date</title><path d="M1 0 H13 Q14 0 14 1 V4 H0 V1 Q0 0 1 0 Z M0 5 H14 V13 Q14 14 13 14 H1 Q0 14 0 13 H0 Z M2.5 7 Q2 7 2 7.5 V10 Q2 10.5 2.5 10.5 H5 Q5.5 10.5 5.5 10 V7.5 Q5.5 7 5 7 Z"></path></svg>
+			<svg viewBox="0 0 28 28">
+				<title>Date</title>
+				<path d="M2 0 H26 Q28 0 28 2 V8 H0 V2 Q0 0 2 0 Z M0 10 H28 V26 Q28 28 26 28 H2 Q0 28 0 26 H0 Z M4 14 V21 H11 V14 Z"></path>
+			</svg>
 			{{entry.date|format_date("%B %e, %Y")}}
 		</time>
 	{% endif %}
@@ -68,7 +71,10 @@
 			<li><a href="https://github.com/erickmerchant/my-blog">View Source</a></li>
 			<li>
 				<a class="rss-link" href="/posts.rss">
-					<svg viewBox="0 0 14 14"><title>RSS</title><path d="M0 12 a2 2 0 1 1 4 0 a2 2 0 1 1 -4 0 Z M1 7.5 Q0 7.5 0 6.5 V6 Q0 5 1 5 Q9 5 9 13 Q9 14 8 14 H7.5 Q6.5 14 6.5 13 Q6.5 7.5 1 7.5 Z M1 2.5 Q0 2.5 0 1.5 V1 Q0 0 1 0 Q14 0 14 13 Q14 14 13 14 H12.5 Q11.5 14 11.5 13 Q11.5 2.5 1 2.5 Z"></path></svg>
+					<svg viewBox="0 0 28 28">
+						<title>RSS</title>
+						<path d="M0 24 A4 4 0 1 1 8 24 A4 4 0 1 1 0 24 Z M2 15 Q0 15 0 13 V12 Q0 10 2 10 Q18 10 18 26 Q18 28 16 28 H15 Q13 28 13 26 Q13 15 2 15 Z M2 5 Q0 5 0 3 V2 Q0 0 2 0 Q28 0 28 26 Q28 28 26 28 H25 Q23 28 23 26 Q23 5 2 5 Z"></path>
+					</svg>
 					RSS
 				</a>
 			</li>

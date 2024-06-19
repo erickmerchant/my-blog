@@ -194,7 +194,6 @@ code {
 	display: inline flex;
 	font-weight: 700;
 	gap: 0.5rem;
-	white-space: nowrap;
 }
 
 .content {
