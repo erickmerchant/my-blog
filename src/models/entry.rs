@@ -21,7 +21,7 @@ pub struct Model {
 pub type ModelList = Vec<Model>;
 
 impl Model {
-	pub fn find_all() -> ModelList {
+	pub fn load_all() -> ModelList {
 		let mut all = vec![];
 		let results = glob("content/posts/*.md").ok();
 
@@ -60,7 +60,7 @@ impl Model {
 		all
 	}
 
-	pub fn find_by_slug(slug: &str) -> Option<Model> {
+	pub fn load_by_slug(slug: &str) -> Option<Model> {
 		fs::read_to_string(
 			Utf8Path::new("content/posts")
 				.join(slug)

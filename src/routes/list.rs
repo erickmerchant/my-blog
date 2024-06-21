@@ -17,7 +17,7 @@ struct View {
 }
 
 pub async fn handler() -> Result<Response, crate::Error> {
-	let entry_list = entry::Model::find_all();
+	let entry_list = entry::Model::load_all();
 
 	if !entry_list.is_empty() {
 		let site = site::Model::load()?;
