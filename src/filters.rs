@@ -4,7 +4,7 @@ use std::{fs, time::UNIX_EPOCH};
 
 const FORMAT: &str = "%Y-%m-%d";
 
-pub fn format_date<T: std::fmt::Display>(value: T, fmt: &str) -> ::askama::Result<String> {
+pub fn format_date<T: std::fmt::Display>(value: T, fmt: &str) -> askama::Result<String> {
 	Ok(
 		if let Ok(parsed) = NaiveDate::parse_from_str(&value.to_string(), FORMAT) {
 			parsed.format(fmt).to_string()
@@ -14,7 +14,7 @@ pub fn format_date<T: std::fmt::Display>(value: T, fmt: &str) -> ::askama::Resul
 	)
 }
 
-pub fn asset_url<T: std::fmt::Display>(url: T) -> ::askama::Result<String> {
+pub fn asset_url<T: std::fmt::Display>(url: T) -> askama::Result<String> {
 	let mut url = url.to_string();
 
 	if url.starts_with('/') {
