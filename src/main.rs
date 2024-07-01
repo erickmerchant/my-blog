@@ -40,11 +40,11 @@ async fn main() -> Result<()> {
 		.await
 		.expect("should listen");
 
+	tracing::debug!("listening on port {port}");
+
 	serve(listener, app.into_make_service())
 		.await
 		.expect("server should start");
-
-	tracing::debug!("listening on port {port}");
 
 	Ok(())
 }
