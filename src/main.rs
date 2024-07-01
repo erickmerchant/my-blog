@@ -21,7 +21,7 @@ async fn main() -> Result<()> {
 	fs::remove_dir_all("storage").ok();
 
 	let args = Args::parse();
-	let port = args.listen;
+	let port = args.port;
 
 	tracing_subscriber::fmt()
 		.compact()

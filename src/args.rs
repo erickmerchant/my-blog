@@ -4,5 +4,5 @@ use clap::Parser;
 #[command(author, version, about, long_about = None)]
 pub struct Args {
 	#[arg(long, default_value_t = 8080)]
-	pub listen: u16,
+	pub port: u16,
 }
