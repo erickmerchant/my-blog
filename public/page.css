@@ -49,14 +49,13 @@ body {
 	overscroll-behavior: none;
 	scrollbar-color: var(--text-color) var(--main-background);
 	scrollbar-gutter: stable;
-	--border-radius: 0.25rem;
-	--border-width: 0.0625rem;
+	--border-radius: 0.125rem;
+	--border-width: 0.09375rem;
 	--easing: ease-in-out;
-	--header-background: light-dark(oklch(0.99 0.03 100), oklch(0.3 0.05 145));
-	--main-background: light-dark(oklch(0.97 0.03 100), oklch(0.25 0.05 145));
-	--text-color: light-dark(oklch(0.45 0.04 100), oklch(0.99 0.04 145));
-	--link-color: light-dark(oklch(0.5 0.4 100), oklch(0.99 0.4 145));
-	--code-color: light-dark(oklch(0.5 0.3 100), oklch(0.99 0.2 145));
+	--main-background: light-dark(oklch(0.999 0.001 145), oklch(0.2 0.001 145));
+	--text-color: light-dark(oklch(0.45 0.05 145), oklch(1 0.05 145));
+	--link-color: light-dark(oklch(0.45 0.4 145), oklch(1 0.4 145));
+	--code-color: light-dark(oklch(0.45 0.2 145), oklch(1 0.2 145));
 
 	> * {
 		grid-column: 1 / -1;
@@ -64,7 +63,7 @@ body {
 }
 
 top-bar {
-	background-color: var(--header-background);
+	background-color: var(--main-background);
 	border-block-end: var(--border-width) solid var(--text-color);
 	display: grid;
 	font-weight: 900;
@@ -76,7 +75,6 @@ top-bar {
 	padding-block: 1.5rem;
 	position: sticky;
 	transition: inset-block-start 0.25s var(--easing);
-	/* view-transition-name: top-bar; */
 	z-index: 2;
 	--block-size: calc(4.5rem + var(--border-width));
 
@@ -239,7 +237,7 @@ code {
 			grid-template-columns: subgrid;
 
 			&::before {
-				background-color: var(--header-background);
+				background-color: var(--main-background);
 				border-inline-end: var(--border-width) solid var(--text-color);
 				color: var(--text-color);
 				content: counter(lines, decimal);
