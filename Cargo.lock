@@ -119,7 +119,6 @@ dependencies = [
  "mime_guess",
  "pulldown-cmark",
  "serde",
- "serde_json",
  "tokio",
  "toml",
  "tower-http",
