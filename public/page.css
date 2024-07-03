@@ -50,7 +50,7 @@ body {
 	scrollbar-color: var(--text-color) var(--main-background);
 	scrollbar-gutter: stable;
 	--border-radius: 0.125rem;
-	--border-width: 0.09375rem;
+	--border-width: 0.03125rem;
 	--easing: ease-in-out;
 	--main-background: light-dark(oklch(0.999 0.001 145), oklch(0.2 0.001 145));
 	--text-color: light-dark(oklch(0.45 0.05 145), oklch(1 0.05 145));
