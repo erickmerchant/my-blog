@@ -1,14 +1,14 @@
 {% extends "base.html" %}
-{% import "base.html" as base %}
+{% import "macros.html" as macros %}
 
 {% block title %}{% call super() %} — {{entry.title}}{% endblock %}
 
-{% block main_header %}
-	<h1>{{entry.title}}</h1>
-	{% call base::tags(entry) %}
-{% endblock %}
-
 {% block main %}
+	<header>
+		<h1>{{entry.title}}</h1>
+		{% call macros::tags(entry) %}
+	</header>
+
 	<div class="content">
 		{% if let Some(content) = entry.content %}
 			{{content|safe}}

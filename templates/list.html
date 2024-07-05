@@ -1,16 +1,13 @@
 {% extends "base.html" %}
-{% import "base.html" as base %}
-
-{% block main_header %}
-	<h1>Posts</h1>
-{% endblock %}
+{% import "macros.html" as macros %}
 
 {% block main %}
+	<h1>Posts</h1>
 	<ol class="index">
-		{% for entry in entry_list %}
+		{% for e in entry_list %}
 			<li>
-				{% call base::tags(entry) %}
-				<span><a href="/posts/{{entry.slug}}/">{{entry.title}}</a></span>
+				{% call macros::tags(e) %}
+				<span><a href="/posts/{{e.slug}}/">{{e.title}}</a></span>
 			</li>
 		{% endfor %}
 	</ol>

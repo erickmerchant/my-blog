@@ -87,8 +87,8 @@ top-bar {
 
 a {
 	color: var(--foreground);
-	text-decoration-thickness: 0.1em;
-	text-underline-offset: 0.1em;
+	text-decoration-thickness: var(--border-width);
+	text-underline-offset: 0.15em;
 	transition: text-underline-offset 0.25s 0.25s;
 
 	&:hover,
