@@ -39,11 +39,9 @@ body {
 	container-type: inline-size;
 	display: grid;
 	grid-template-columns:
-		[side-start]
 		auto
-		[center-start] min(100% - 2rem, 40rem) [center-end]
-		auto
-		[side-end];
+		min(100% - 2rem, 40rem)
+		auto;
 	grid-template-rows: min-content auto min-content;
 	overflow-x: auto;
 	overscroll-behavior: none;
@@ -77,7 +75,7 @@ top-bar {
 	--block-size: calc(4.5rem + var(--border-width));
 
 	:where(nav) {
-		grid-column: center-start / center-end;
+		grid-column: 2;
 	}
 
 	:where(ul) {
@@ -156,7 +154,7 @@ main {
 	z-index: 1;
 
 	> * {
-		grid-column: center-start / center-end;
+		grid-column: 2;
 		inline-size: 100%;
 		margin-inline: auto;
 
@@ -199,7 +197,7 @@ code {
 	grid-template-columns: subgrid;
 
 	> * {
-		grid-column: center-start / center-end;
+		grid-column: 2;
 	}
 
 	:where(ul, ol) {
@@ -269,7 +267,7 @@ code {
 		@container (inline-size <= 42rem) {
 			border-inline: none;
 			border-radius: 0;
-			grid-column: side-start / side-end;
+			grid-column: 1 / -1;
 			--white-space: pre;
 		}
 	}
@@ -306,7 +304,7 @@ code {
 	:where(ul) {
 		display: grid;
 		gap: 1rem 2rem;
-		grid-column: center-start / center-end;
+		grid-column: 2;
 		grid-template-columns: 1fr 1fr;
 		list-style: none;
 
