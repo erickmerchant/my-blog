@@ -16,11 +16,11 @@
 }
 
 ::-webkit-scrollbar-thumb {
-	background-color: var(--text-color);
+	background-color: var(--foreground);
 }
 
 ::-webkit-scrollbar-track {
-	background-color: var(--main-background);
+	background-color: var(--background);
 }
 
 html {
@@ -33,9 +33,9 @@ html {
 }
 
 body {
-	background-color: var(--main-background);
+	background-color: var(--background);
 	block-size: 100%;
-	color: var(--text-color);
+	color: var(--foreground);
 	container-type: inline-size;
 	display: grid;
 	grid-template-columns:
@@ -47,13 +47,13 @@ body {
 	grid-template-rows: min-content auto min-content;
 	overflow-x: auto;
 	overscroll-behavior: none;
-	scrollbar-color: var(--text-color) var(--main-background);
+	scrollbar-color: var(--foreground) var(--background);
 	scrollbar-gutter: stable;
 	--border-radius: 0.125rem;
 	--border-width: 0.125rem;
 	--easing: ease-in-out;
-	--main-background: light-dark(oklch(95% 0.05 205), oklch(30% 0.05 205));
-	--text-color: light-dark(oklch(20% 0.4 205), oklch(85% 0.4 205));
+	--background: light-dark(oklch(95% 0.05 205), oklch(20% 0.05 205));
+	--foreground: light-dark(oklch(20% 0.4 205), oklch(95% 0.4 205));
 
 	> * {
 		grid-column: 1 / -1;
@@ -61,8 +61,8 @@ body {
 }
 
 top-bar {
-	background-color: var(--main-background);
-	border-block-end: var(--border-width) solid var(--text-color);
+	background-color: var(--background);
+	border-block-end: var(--border-width) solid var(--foreground);
 	display: grid;
 	font-weight: 900;
 	gap: 1rem 0;
@@ -88,7 +88,7 @@ top-bar {
 }
 
 a {
-	color: var(--text-color);
+	color: var(--foreground);
 	text-decoration-thickness: 0.1em;
 	text-underline-offset: 0.1em;
 	transition: text-underline-offset 0.25s 0.25s;
@@ -169,7 +169,7 @@ main {
 
 :where(:not(pre)) {
 	> code {
-		color: var(--text-color);
+		color: var(--foreground);
 		font-family: "JetBrains Mono", monospace;
 		font-weight: 400;
 	}
@@ -207,7 +207,7 @@ code {
 	}
 
 	:where(figure:has(pre)) {
-		border: var(--border-width) solid var(--text-color);
+		border: var(--border-width) solid var(--foreground);
 		border-radius: var(--border-radius);
 		counter-reset: lines 0;
 		display: grid;
@@ -218,7 +218,7 @@ code {
 		--white-space: pre-wrap;
 
 		:where(pre) {
-			color: var(--text-color);
+			color: var(--foreground);
 			display: grid;
 			font-family: "JetBrains Mono", monospace;
 			font-weight: 400;
@@ -235,9 +235,9 @@ code {
 			grid-template-columns: subgrid;
 
 			&::before {
-				background-color: var(--main-background);
-				border-inline-end: var(--border-width) solid var(--text-color);
-				color: var(--text-color);
+				background-color: var(--background);
+				border-inline-end: var(--border-width) solid var(--foreground);
+				color: var(--foreground);
 				content: counter(lines, decimal);
 				counter-increment: lines 1;
 				display: grid;
@@ -276,7 +276,7 @@ code {
 }
 
 .interstitial {
-	border-inline-start: var(--border-width) solid var(--text-color);
+	border-inline-start: var(--border-width) solid var(--foreground);
 	border-radius: 0;
 	display: block;
 	gap: 0.5rem;
@@ -295,7 +295,7 @@ code {
 
 .footer {
 	align-content: center;
-	border-block-start: var(--border-width) solid var(--text-color);
+	border-block-start: var(--border-width) solid var(--foreground);
 	display: grid;
 	font-weight: 500;
 	grid-template-columns: subgrid;

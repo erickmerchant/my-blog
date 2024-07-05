@@ -3,11 +3,11 @@
 	<style>
 		:root {
 			color-scheme: light dark;
-			background: light-dark(oklch(0.45 0.4 145), oklch(1 0.4 145));
+			background: light-dark(oklch(95% 0.05 205), oklch(20% 0.05 205));
 		}
 
 		path {
-			fill: light-dark(oklch(0.999 0.001 145), oklch(0.2 0.001 145));
+			fill: light-dark(oklch(20% 0.4 205), oklch(95% 0.4 205));
 		}
 	</style>
 	<path d="M23 5 Q22 4 21 5 L17 9 L27 19 L31 15 Q32 14 31 13 Z M15 11 L4 22 V32 H14 L25 21 Z"></path>
