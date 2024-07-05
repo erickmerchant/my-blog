@@ -50,8 +50,8 @@ body {
 	--border-radius: 0.125rem;
 	--border-width: 0.125rem;
 	--easing: ease-in-out;
-	--background: light-dark(oklch(95% 0.05 205), oklch(20% 0.05 205));
-	--foreground: light-dark(oklch(20% 0.4 205), oklch(95% 0.4 205));
+	--background: light-dark(oklch(98% 0 0), oklch(25% 0 0));
+	--foreground: light-dark(oklch(25% 0.4 200), oklch(98% 0.4 200));
 
 	> * {
 		grid-column: 1 / -1;
