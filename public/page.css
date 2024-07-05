@@ -50,12 +50,10 @@ body {
 	scrollbar-color: var(--text-color) var(--main-background);
 	scrollbar-gutter: stable;
 	--border-radius: 0.125rem;
-	--border-width: 0.03125rem;
+	--border-width: 0.125rem;
 	--easing: ease-in-out;
-	--main-background: light-dark(oklch(0.999 0.001 145), oklch(0.2 0.001 145));
-	--text-color: light-dark(oklch(0.45 0.05 145), oklch(1 0.05 145));
-	--link-color: light-dark(oklch(0.45 0.4 145), oklch(1 0.4 145));
-	--code-color: light-dark(oklch(0.45 0.2 145), oklch(1 0.2 145));
+	--main-background: light-dark(oklch(95% 0.05 205), oklch(30% 0.05 205));
+	--text-color: light-dark(oklch(20% 0.4 205), oklch(85% 0.4 205));
 
 	> * {
 		grid-column: 1 / -1;
@@ -90,7 +88,7 @@ top-bar {
 }
 
 a {
-	color: var(--link-color);
+	color: var(--text-color);
 	text-decoration-thickness: 0.1em;
 	text-underline-offset: 0.1em;
 	transition: text-underline-offset 0.25s 0.25s;
@@ -171,7 +169,7 @@ main {
 
 :where(:not(pre)) {
 	> code {
-		color: var(--code-color);
+		color: var(--text-color);
 		font-family: "JetBrains Mono", monospace;
 		font-weight: 400;
 	}
@@ -220,7 +218,7 @@ code {
 		--white-space: pre-wrap;
 
 		:where(pre) {
-			color: var(--code-color);
+			color: var(--text-color);
 			display: grid;
 			font-family: "JetBrains Mono", monospace;
 			font-weight: 400;
@@ -278,7 +276,7 @@ code {
 }
 
 .interstitial {
-	border-inline-start: calc(var(--border-width) * 2) solid var(--code-color);
+	border-inline-start: var(--border-width) solid var(--text-color);
 	border-radius: 0;
 	display: block;
 	gap: 0.5rem;
