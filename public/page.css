@@ -47,11 +47,11 @@ body {
 	overscroll-behavior: none;
 	scrollbar-color: var(--foreground) var(--background);
 	scrollbar-gutter: stable;
-	--border-radius: 0.125rem;
+	--border-radius: 0.25rem;
 	--border-width: 0.125rem;
 	--easing: ease-in-out;
-	--background: light-dark(oklch(98% 0 0), oklch(25% 0 0));
-	--foreground: light-dark(oklch(25% 0.4 200), oklch(98% 0.4 200));
+	--background: light-dark(oklab(98% 0 0), oklab(5% 0 0));
+	--foreground: light-dark(oklab(5% -0.4 -0.4), oklab(99% -0.4 -0.4));
 
 	> * {
 		grid-column: 1 / -1;
@@ -275,7 +275,6 @@ code {
 
 .interstitial {
 	border-inline-start: var(--border-width) solid var(--foreground);
-	border-radius: 0;
 	display: block;
 	gap: 0.5rem;
 	padding-block: 1rem;
