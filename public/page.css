@@ -10,19 +10,6 @@
 	-webkit-text-size-adjust: none;
 }
 
-::-webkit-scrollbar {
-	block-size: 0.5rem;
-	inline-size: 0.5rem;
-}
-
-::-webkit-scrollbar-thumb {
-	background-color: var(--foreground);
-}
-
-::-webkit-scrollbar-track {
-	background-color: var(--background);
-}
-
 html {
 	block-size: 100%;
 	color-scheme: light dark;
