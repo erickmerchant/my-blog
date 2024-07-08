@@ -20,7 +20,8 @@ $(target).children(
 			state.count += 1;
 		})
 		.children(
-			() => `clicked ${state.count} ${state.count === 1 ? " time" : " times"}`
+			() =>
+				`clicked ${state.count} ${state.count === 1 ? " time" : " times"}`
 		)
 );
 ```

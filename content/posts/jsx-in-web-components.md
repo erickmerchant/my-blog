@@ -37,7 +37,10 @@ function h(tag, props, ...children) {
 
 	for (let [key, val] of Object.entries(props ?? {})) {
 		if (key.startsWith("on")) {
-			node.addEventListener(key.substring(2).toLowerCase(), ...[].concat(val));
+			node.addEventListener(
+				key.substring(2).toLowerCase(),
+				...[].concat(val)
+			);
 		} else {
 			node[key] = val;
 		}

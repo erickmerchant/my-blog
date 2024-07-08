@@ -12,7 +12,9 @@ RUN apk add build-base
 WORKDIR build
 
 # Cache dependencies
-# This is not strictly related to a small build, but helps if you have to push front end changes and don't want to wait for a full rebuild.
+# This is not strictly related to a small build,
+# but helps if you have to push front end changes
+# and don't want to wait for a full rebuild.
 RUN mkdir -p src/bin
 RUN echo "fn main() {}" > src/bin/dummy.rs
 COPY Cargo.toml Cargo.lock .

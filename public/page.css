@@ -156,7 +156,6 @@ main {
 	> code {
 		color: var(--foreground);
 		font-family: "JetBrains Mono", monospace;
-		font-weight: 400;
 	}
 }
 
