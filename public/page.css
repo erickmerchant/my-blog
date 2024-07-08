@@ -175,6 +175,10 @@ code {
 	display: inline flex;
 	font-weight: 700;
 	gap: 0.5rem;
+
+	> * {
+		flex-shrink: 0;
+	}
 }
 
 .content {
@@ -200,6 +204,7 @@ code {
 		overflow-y: hidden;
 		overscroll-behavior-x: none;
 		tab-size: 2;
+		font-size: 0.8em;
 		--white-space: pre-wrap;
 
 		:where(pre) {
@@ -314,7 +319,7 @@ code {
 
 .rss-link {
 	align-items: center;
-	display: inline flex;
+	display: flex;
 	gap: 0.5rem;
 }
 
