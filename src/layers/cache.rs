@@ -20,7 +20,7 @@ pub async fn layer(req: Request<Body>, next: Next) -> Result<Response, crate::Er
 	let (req_parts, req_body) = req.into_parts();
 	let content_type = mime_guess::from_path(cache_path.clone())
 		.first()
-		.map(|content_type| format!("{}; charset=utf-8", content_type))
+		.map(|content_type| format!("{content_type}; charset=utf-8"))
 		.unwrap_or("text/html; charset=utf-8".to_string());
 	let body = if let Ok(cached_body) = fs::read_to_string(cache_path.clone()) {
 		cached_body.as_bytes().to_vec()
