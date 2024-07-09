@@ -13,7 +13,8 @@
 html {
 	block-size: 100%;
 	color-scheme: light dark;
-	font-family: "Inter", system-ui, sans-serif;
+	font-family: Inter, Roboto, "Helvetica Neue", "Arial Nova", "Nimbus Sans",
+		Arial, sans-serif;
 	font-size: 125%;
 	font-weight: 400;
 	line-height: 1.5;
@@ -25,10 +26,7 @@ body {
 	color: var(--foreground);
 	container-type: inline-size;
 	display: grid;
-	grid-template-columns:
-		auto
-		min(100% - 2rem, 40rem)
-		auto;
+	grid-template-columns: auto min(100% - 2rem, 40rem) auto;
 	grid-template-rows: min-content auto min-content;
 	overflow-x: auto;
 	overscroll-behavior: none;
@@ -90,7 +88,7 @@ a {
 }
 
 p {
-	@container (inline-size <= 42rem) {
+	@container (inline-size <=42rem) {
 		hyphens: auto;
 	}
 }
@@ -155,7 +153,8 @@ main {
 :where(:not(pre)) {
 	> code {
 		color: var(--foreground);
-		font-family: "JetBrains Mono", monospace;
+		font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo,
+			Consolas, "DejaVu Sans Mono", monospace;
 	}
 }
 
@@ -209,7 +208,8 @@ code {
 		:where(pre) {
 			color: var(--foreground);
 			display: grid;
-			font-family: "JetBrains Mono", monospace;
+			font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo,
+				Consolas, "DejaVu Sans Mono", monospace;
 			font-weight: 400;
 			grid-template-columns: max-content auto;
 			position: relative;
@@ -255,7 +255,7 @@ code {
 			}
 		}
 
-		@container (inline-size <= 42rem) {
+		@container (inline-size <=42rem) {
 			border-inline: none;
 			border-radius: 0;
 			grid-column: 1 / -1;
@@ -298,7 +298,7 @@ code {
 		grid-template-columns: 1fr 1fr;
 		list-style: none;
 
-		@container (inline-size <= 42rem) {
+		@container (inline-size <=42rem) {
 			align-items: start;
 			display: flex;
 			flex-direction: column;
@@ -331,7 +331,7 @@ code {
 
 	&,
 	:where(li) {
-		@container (inline-size <= 42rem) {
+		@container (inline-size <=42rem) {
 			display: flex;
 			flex-direction: column;
 		}
