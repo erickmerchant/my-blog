@@ -1,7 +1,4 @@
-use crate::{
-	filters,
-	models::{entry, site},
-};
+use crate::models::{entry, site};
 use askama::Template;
 use axum::{
 	http::{header, StatusCode},

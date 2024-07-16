@@ -8,7 +8,7 @@
 			<item>
 				<title>{{entry.title}}</title>
 				<link>{{site.host}}/posts/{{entry.slug}}/</link>
-				<pubDate>{{entry.date|format_date("%a, %d %h %Y")}} 00:00:00 +0000</pubDate>
+				<pubDate>{{entry.date.format("%a, %d %h %Y")}} 00:00:00 +0000</pubDate>
 			</item>
 		{% endfor %}
 	</channel>
