@@ -289,7 +289,6 @@ code {
 	grid-template-columns: subgrid;
 	justify-content: center;
 	padding-block: 1.5rem;
-	z-index: 0;
 
 	:where(ul) {
 		display: grid;
@@ -326,7 +325,7 @@ code {
 	display: grid;
 	font-weight: 800;
 	gap: 1.25rem;
-	grid-template-columns: max-content auto;
+	grid-template-columns: max-content max-content auto;
 	list-style: none;
 
 	&,
@@ -346,5 +345,11 @@ code {
 		> * {
 			display: inline flex;
 		}
+	}
+
+	:where(.tag) {
+		display: grid;
+		grid-column: 1 / span 2;
+		grid-template-columns: subgrid;
 	}
 }
