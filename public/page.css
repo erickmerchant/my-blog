@@ -346,10 +346,4 @@ code {
 			display: inline flex;
 		}
 	}
-
-	:where(.tag) {
-		display: grid;
-		grid-column: 1 / span 2;
-		grid-template-columns: subgrid;
-	}
 }
