@@ -1,6 +1,6 @@
 +++
 title = "Rust note #3: return early sometimes"
-date = "2023-08-24"
+state = { published = "2023-08-24" }
 +++
 
 <blockquote class="interstitial">

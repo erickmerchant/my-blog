@@ -1,7 +1,6 @@
 +++
 title = "Three reasons you should hire me"
-date = "2024-04-11"
-pinned = true
+state = "pinned"
 +++
 
 I got laid off from my most recent role of senior software engineer in early March. I have been putting this blog on some applications, cover letters, and profiles, so I thought I should have something here about why you should hire me as your senior fullstack or front-end engineer. So here you go: three reasons you should hire me.

@@ -1,6 +1,6 @@
 +++
 title = "Rust note #1: use Clippy"
-date = "2022-05-25"
+state = { published = "2022-05-25" }
 +++
 
 In the future there should be more of these notes, but this is the first. It's just a thing I have learned about Rust in the past 2 years of using it.

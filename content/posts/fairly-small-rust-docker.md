@@ -1,6 +1,6 @@
 +++
 title = "Fairly small rust + docker"
-date = "2023-08-20"
+state = { published = "2023-08-20" }
 +++
 
 Like me you may be sort of obsessed with getting the smallest docker image for your Rust server. This is the best way I've found. The following is an example Dockerfile, slightly simplified from the one I actually use. The key is to use [https://hub.docker.com/\_/scratch](https://hub.docker.com/_/scratch) for the final layer.

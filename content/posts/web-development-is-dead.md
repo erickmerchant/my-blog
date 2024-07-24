@@ -1,0 +1,10 @@
++++
+title = "Web Development is dead"
+state = "draft"
++++
+
+This is just an observation that's come from my 5 month long job search that still isn't over. It's all anecdotal, so please take this with a grain of salt. From what I can tell web developer as a title is gone. There is still the web and people do develop things to put on the web, but it's not called web development anymore. You may be a web developer, and I just want you to consider that you may be one of the last to hold that title.
+
+I was a web developer or senior web developer for 13 years. Since I have been a software engineer. From what I can tell software engineering has replaced web development. So what's the big deal. Honestly I didn't really think about it much at first until losing my job. I remember gladly taking the title of software engineer, because I really considered it interchangeable with web developer. After all I've been developing software forever. It happened to go on the web, but I could do other programming too. But here is the thing about these software engineer jobs. They're harder to get. The salary is higher. They often ask where you got your computer science degree, which I do not have by the way. And they don't really ask for things that are core to the web usually like accessibility, CSS, or semantic HTML. I'm still going to try to get a software engineering job, but it sure is different from where I started.
+
+A nice thought to end this negative post — Web development may be dead, but I can still **do** web development even if I am not employed. People often conflate a job with a skill or activity. I do web development. I just happen to have gotten paid for it for a really long time. And I consider myself lucky in that regard. Even if everyone starts making websites using a stack I hate, I can still make a website that's mostly CSS, a little JS, and semantic HTML. I just won't get paid to do that. And hopefully sometime soon I will get paid to do web development again using a stack that I don't hate.

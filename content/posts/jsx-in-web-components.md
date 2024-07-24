@@ -1,6 +1,6 @@
 +++
 title = "JSX in Web Components"
-date = "2022-08-06"
+state = { published = "2022-08-06" }
 +++
 
 ## How'd I get there

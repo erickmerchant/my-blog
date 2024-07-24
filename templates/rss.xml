@@ -8,7 +8,9 @@
 			<item>
 				<title>{{entry.title}}</title>
 				<link>{{site.host}}/posts/{{entry.slug}}/</link>
-				<pubDate>{{entry.date.format("%a, %d %h %Y")}} 00:00:00 +0000</pubDate>
+				{% if let State::Published(date) = entry.state %}
+					<pubDate>{{date.format("%a, %d %h %Y")}} 00:00:00 +0000</pubDate>
+				{% endif %}
 			</item>
 		{% endfor %}
 	</channel>

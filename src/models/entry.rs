@@ -1,20 +1,15 @@
-use super::frontmatter;
+use super::{frontmatter, state};
 use camino::Utf8Path;
-use chrono::NaiveDate;
 use glob::glob;
 use pulldown_cmark::{html, CodeBlockKind, CowStr, Event, Tag, TagEnd};
 use serde::{Deserialize, Serialize};
-use std::{cmp::Ordering, fs};
+use std::fs;
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct Model {
 	pub slug: String,
 	pub title: String,
-	pub date: NaiveDate,
-
-	#[serde(default)]
-	pub pinned: bool,
-
+	pub state: state::State,
 	pub content: Option<String>,
 }
 
@@ -37,8 +32,7 @@ impl Model {
 							.expect("should have a file stem")
 							.to_string(),
 						title: frontmatter.title.clone(),
-						date: frontmatter.date,
-						pinned: frontmatter.pinned,
+						state: frontmatter.state,
 						content,
 					};
 
@@ -47,11 +41,17 @@ impl Model {
 			}
 		}
 
-		all.sort_by(|a, b| {
-			let cmp = b.pinned.cmp(&a.pinned);
+		let mut all: ModelList = all
+			.iter()
+			.filter(|e| e.state != state::State::Draft)
+			.map(|e| e.to_owned())
+			.collect();
 
-			if cmp == Ordering::Equal {
-				b.date.cmp(&a.date)
+		all.sort_by(|a, b| {
+			let cmp = b.state.cmp(&a.state);
+
+			if let (state::State::Published(a), state::State::Published(b)) = (&a.state, &b.state) {
+				b.cmp(&a)
 			} else {
 				cmp
 			}
@@ -73,8 +73,7 @@ impl Model {
 			Model {
 				slug: slug.to_string(),
 				title: frontmatter.title.clone(),
-				date: frontmatter.date,
-				pinned: frontmatter.pinned,
+				state: frontmatter.state,
 				content,
 			}
 		})

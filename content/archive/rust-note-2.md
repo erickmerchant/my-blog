@@ -1,6 +1,6 @@
 +++
 title = "Rust note #2: use truncate with File::options"
-date = "2023-04-05"
+state = { published = "2023-04-05" }
 +++
 
 While running [coolstyleserver](https://github.com/erickmerchant/coolstyleserver/) and working on the CSS for this site I came across a strange issue. I'd save a CSS file and occasionally — but not always! — my changes would result in a broken file. I would get a console error about a missing bracket or some other strange thing.
