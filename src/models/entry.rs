@@ -51,7 +51,7 @@ impl Model {
 			let cmp = b.state.cmp(&a.state);
 
 			if let (state::State::Published(a), state::State::Published(b)) = (&a.state, &b.state) {
-				b.cmp(&a)
+				b.cmp(a)
 			} else {
 				cmp
 			}
