@@ -1,7 +1,7 @@
-{%- macro tag(entry) %}
+{%- macro state(entry) %}
 	{% match entry.state %}
 		{% when State::Pinned %}
-			<span class="tag">
+			<span class="state">
 				<svg viewBox="0 0 20 24">
 					<title>Pinned</title>
 					<path d="M2 1 Q2 0 3 0 H17 Q18 0 18 1 V2 L15 5 V9 L20 12 V13 Q20 14 19 14 H1 Q0 14 0 13 V12 L5 9 V5 L2 2 V2 Z M7 16 V20 L10 24 L13 20 V16 Z"></path>
@@ -9,7 +9,7 @@
 				Pinned
 			</span>
 		{% when State::Draft %}
-			<span class="tag">
+			<span class="state">
 				<svg viewBox="0 0 28 28">
 					<title>Edit</title>
 					<path d="M9 1 Q10 0 11 1 L15 5 L5 15 L1 11 Q0 10 1 9 Z M17 7 L28 18 V28 H18 L7 17 Z"></path>
@@ -17,7 +17,7 @@
 				Draft
 			</span>
 		{% when State::Published with (date) %}
-			<time class="tag">
+			<time class="state">
 				<svg viewBox="0 0 20 24">
 					<title>Date</title>
 					<path d="M0 6 Q0 4 2 4 H3 V2 Q3 0 5 0 T7 2 V4 H13 V2 Q13 0 15 0 T17 2 V4 H18 Q20 4 20 6 V10 V22 Q20 24 18 24 H2 Q0 24 0 22 V21 H17 V11 H3 V21 H0 Z"></path>

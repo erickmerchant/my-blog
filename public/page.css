@@ -16,7 +16,7 @@ html {
 	font-family: Inter, Roboto, "Helvetica Neue", "Arial Nova", "Nimbus Sans",
 		Arial, sans-serif;
 	font-size: 125%;
-	font-weight: 400;
+	font-weight: 500;
 	line-height: 1.5;
 }
 
@@ -168,7 +168,7 @@ code {
 	}
 }
 
-.tag {
+.state {
 	align-items: center;
 	display: inline flex;
 	font-weight: 700;
@@ -210,7 +210,7 @@ code {
 			display: grid;
 			font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo,
 				Consolas, "DejaVu Sans Mono", monospace;
-			font-weight: 400;
+			font-weight: 500;
 			grid-template-columns: max-content auto;
 			position: relative;
 			white-space: var(--white-space);
@@ -323,7 +323,7 @@ code {
 
 .index {
 	display: grid;
-	font-weight: 800;
+	font-weight: 500;
 	gap: 1.25rem;
 	grid-template-columns: max-content max-content auto;
 	list-style: none;

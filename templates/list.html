@@ -6,7 +6,7 @@
 	<ol class="index">
 		{% for e in entry_list %}
 			<li>
-				{% call macros::tag(e) %}
+				{% call macros::state(e) %}
 				<span><a href="/posts/{{e.slug}}/">{{e.title}}</a></span>
 			</li>
 		{% endfor %}
