@@ -1,6 +1,6 @@
 [submodule "public/icons"]
-	path = public/icons
+	path = public/projects/icons
 	url = git@github.com:erickmerchant/icons.git
 [submodule "public/arc-clock"]
-	path = public/arc-clock
+	path = public/projects/arc-clock
 	url = git@github.com:erickmerchant/arc-clock.git
