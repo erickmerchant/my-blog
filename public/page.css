@@ -34,7 +34,7 @@ body {
 	scrollbar-gutter: stable;
 	--weight: 4;
 	--border-radius: 0.25rem;
-	--base-border-width: 0.125rem;
+	--base-border-width: 0.175rem;
 	--easing: ease-in-out;
 	--background: light-dark(oklab(98% 0 0), oklab(5% 0 0));
 	--foreground: light-dark(oklab(5% -0.4 -0.4), oklab(99% -0.4 -0.4));
@@ -329,6 +329,7 @@ code {
 	:where(svg) {
 		flex-shrink: 0;
 		block-size: 1.25em;
+		inline-size: 1.25em;
 		padding: 0.125em;
 		border: 0.125em solid currentColor;
 		border-radius: var(--border-radius);
