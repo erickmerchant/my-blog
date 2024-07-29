@@ -1,4 +1,3 @@
-mod args;
 mod error;
 mod filters;
 mod layers;
@@ -6,12 +5,11 @@ mod models;
 mod routes;
 
 use anyhow::Result;
-use args::Args;
 use axum::{middleware::from_fn, routing::get, serve, Router};
-use clap::Parser;
 use error::Error;
 use layers::cache;
 use routes::{asset, entry, list, rss};
+use std::env;
 use std::fs;
 use tokio::net::TcpListener;
 use tower_http::{compression::CompressionLayer, trace::TraceLayer};
@@ -20,8 +18,11 @@ use tower_http::{compression::CompressionLayer, trace::TraceLayer};
 async fn main() -> Result<()> {
 	fs::remove_dir_all("storage").ok();
 
-	let args = Args::parse();
-	let port = args.port;
+	let mut port: u16 = 8080;
+
+	if let Ok(Ok(p)) = env::var("PORT").map(|p| p.parse::<u16>()) {
+		port = p;
+	}
 
 	tracing_subscriber::fmt()
 		.compact()
