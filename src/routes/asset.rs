@@ -9,7 +9,12 @@ use std::fs;
 
 pub async fn handler(request: Request) -> Result<Response, crate::Error> {
 	let path = request.uri().path().trim_start_matches('/');
-	let path = Utf8Path::new("public").join(path);
+	let mut path = Utf8Path::new("public").join(path);
+	let is_index = path.to_string().ends_with('/');
+
+	if is_index {
+		path.push("index.html");
+	}
 
 	if let Some(ext) = path.clone().extension() {
 		let new_path = path.with_extension("").with_extension(ext);
