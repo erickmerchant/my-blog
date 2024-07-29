@@ -9,9 +9,7 @@
 		{% call macros::state(entry) %}
 	</header>
 
-	<div class="content">
-		{% if let Some(content) = entry.content %}
-			{{content|safe}}
-		{% endif %}
-	</div>
+	{% if let Some(content) = entry.content %}
+		{{content|safe}}
+	{% endif %}
 {% endblock %}

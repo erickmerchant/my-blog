@@ -44,34 +44,6 @@ body {
 	}
 }
 
-top-bar {
-	background-color: var(--background);
-	border-block-end: var(--border-width) solid var(--foreground);
-	display: grid;
-	gap: 1rem 0;
-	grid-template-columns: subgrid;
-	inset-block-start: calc(
-		var(--scrolling-down, 0) * calc(-1 * var(--block-size))
-	);
-	padding-block: 1.5rem;
-	position: sticky;
-	transition: inset-block-start 0.25s var(--easing);
-	z-index: 2;
-	--border-width: calc(calc(var(--base-border-width) / 9) * var(--weight));
-	--block-size: calc(4.5rem + var(--border-width));
-	--weight: 7;
-
-	:where(nav) {
-		grid-column: 2;
-	}
-
-	:where(ul) {
-		display: flex;
-		justify-content: space-between;
-		list-style: none;
-	}
-}
-
 a {
 	color: var(--foreground);
 	text-decoration-thickness: calc(
@@ -132,28 +104,6 @@ svg {
 	fill: currentColor;
 }
 
-main {
-	align-content: start;
-	display: grid;
-	gap: 1rem 0;
-	grid-template-columns: subgrid;
-	hyphens: auto;
-	overflow-wrap: break-word;
-	padding-block: 1rem 3rem;
-	z-index: 1;
-
-	> * {
-		grid-column: 2;
-		inline-size: 100%;
-		margin-inline: auto;
-
-		&:where(header) {
-			display: grid;
-			gap: 0.25rem;
-		}
-	}
-}
-
 :where(:not(pre)) {
 	> code {
 		color: var(--foreground);
@@ -172,25 +122,53 @@ code {
 	}
 }
 
-.state {
-	align-items: center;
-	display: inline flex;
-	gap: 0.5rem;
+.top-bar {
+	background-color: var(--background);
+	border-block-end: var(--border-width) solid var(--foreground);
+	display: grid;
+	gap: 1rem 0;
+	grid-template-columns: subgrid;
+	inset-block-start: calc(
+		var(--scrolling-down, 0) * calc(-1 * var(--block-size))
+	);
+	padding-block: 1.5rem;
+	position: sticky;
+	transition: inset-block-start 0.25s var(--easing);
+	z-index: 2;
+	--border-width: calc(calc(var(--base-border-width) / 9) * var(--weight));
+	--block-size: calc(4.5rem + var(--border-width));
 	--weight: 7;
 
-	> * {
-		flex-shrink: 0;
+	:where(nav) {
+		grid-column: 2;
+	}
+
+	:where(ul) {
+		display: flex;
+		justify-content: space-between;
+		list-style: none;
 	}
 }
 
-.content {
+.main {
+	align-content: start;
 	display: grid;
 	gap: 1rem 0;
-	grid-column: 1 / -1;
 	grid-template-columns: subgrid;
+	hyphens: auto;
+	overflow-wrap: break-word;
+	padding-block: 1rem 3rem;
+	z-index: 1;
 
 	> * {
 		grid-column: 2;
+		inline-size: 100%;
+		margin-inline: auto;
+
+		&:where(header) {
+			display: grid;
+			gap: 0.25rem;
+		}
 	}
 
 	:where(ul, ol) {
@@ -268,6 +246,17 @@ code {
 	}
 }
 
+.state {
+	align-items: center;
+	display: inline flex;
+	gap: 0.5rem;
+	--weight: 7;
+
+	> * {
+		flex-shrink: 0;
+	}
+}
+
 .interstitial {
 	border-inline-start: calc(calc(var(--base-border-width) / 9) * var(--weight))
 		solid var(--foreground);
@@ -341,6 +330,7 @@ code {
 	gap: 1.25rem;
 	grid-template-columns: max-content max-content auto;
 	list-style: none;
+	padding-inline-start: 0;
 	--weight: 5;
 
 	&,
