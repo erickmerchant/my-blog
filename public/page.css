@@ -8,6 +8,7 @@
 	max-inline-size: 100%;
 	padding: 0;
 	-webkit-text-size-adjust: none;
+	font-weight: calc(100 * var(--weight));
 }
 
 html {
@@ -16,7 +17,6 @@ html {
 	font-family: Inter, Roboto, "Helvetica Neue", "Arial Nova", "Nimbus Sans",
 		Arial, sans-serif;
 	font-size: 125%;
-	font-weight: 500;
 	line-height: 1.5;
 }
 
@@ -32,8 +32,9 @@ body {
 	overscroll-behavior: none;
 	scrollbar-color: var(--foreground) var(--background);
 	scrollbar-gutter: stable;
+	--weight: 4;
 	--border-radius: 0.25rem;
-	--border-width: 0.125rem;
+	--base-border-width: 0.125rem;
 	--easing: ease-in-out;
 	--background: light-dark(oklab(98% 0 0), oklab(5% 0 0));
 	--foreground: light-dark(oklab(5% -0.4 -0.4), oklab(99% -0.4 -0.4));
@@ -47,7 +48,6 @@ top-bar {
 	background-color: var(--background);
 	border-block-end: var(--border-width) solid var(--foreground);
 	display: grid;
-	font-weight: 900;
 	gap: 1rem 0;
 	grid-template-columns: subgrid;
 	inset-block-start: calc(
@@ -57,7 +57,9 @@ top-bar {
 	position: sticky;
 	transition: inset-block-start 0.25s var(--easing);
 	z-index: 2;
+	--border-width: calc(calc(var(--base-border-width) / 9) * var(--weight));
 	--block-size: calc(4.5rem + var(--border-width));
+	--weight: 7;
 
 	:where(nav) {
 		grid-column: 2;
@@ -72,7 +74,9 @@ top-bar {
 
 a {
 	color: var(--foreground);
-	text-decoration-thickness: var(--border-width);
+	text-decoration-thickness: calc(
+		calc(calc(var(--base-border-width) / 9) * var(--weight))
+	);
 	text-underline-offset: 0.15em;
 	transition: text-underline-offset 0.25s 0.25s;
 
@@ -110,12 +114,12 @@ h2 {
 
 h1,
 h2 {
-	font-weight: 900;
+	--weight: 9;
 }
 
 h3,
 strong {
-	font-weight: 700;
+	--weight: 7;
 }
 
 em {
@@ -171,8 +175,8 @@ code {
 .state {
 	align-items: center;
 	display: inline flex;
-	font-weight: 700;
 	gap: 0.5rem;
+	--weight: 7;
 
 	> * {
 		flex-shrink: 0;
@@ -204,13 +208,13 @@ code {
 		tab-size: 2;
 		font-size: 0.8em;
 		--white-space: pre-wrap;
+		--border-width: calc(calc(var(--base-border-width) / 9) * var(--weight));
 
 		:where(pre) {
 			color: var(--foreground);
 			display: grid;
 			font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo,
 				Consolas, "DejaVu Sans Mono", monospace;
-			font-weight: 500;
 			grid-template-columns: max-content auto;
 			position: relative;
 			white-space: var(--white-space);
@@ -265,7 +269,8 @@ code {
 }
 
 .interstitial {
-	border-inline-start: var(--border-width) solid var(--foreground);
+	border-inline-start: calc(calc(var(--base-border-width) / 9) * var(--weight))
+		solid var(--foreground);
 	display: block;
 	gap: 0.5rem;
 	padding-block: 1rem;
@@ -283,12 +288,13 @@ code {
 
 .footer {
 	align-content: center;
-	border-block-start: var(--border-width) solid var(--foreground);
+	border-block-start: calc(calc(var(--base-border-width) / 9) * var(--weight))
+		solid var(--foreground);
 	display: grid;
-	font-weight: 500;
 	grid-template-columns: subgrid;
 	justify-content: center;
 	padding-block: 1.5rem;
+	--weight: 5;
 
 	:where(ul) {
 		display: grid;
@@ -319,14 +325,22 @@ code {
 	align-items: center;
 	display: flex;
 	gap: 0.5rem;
+
+	:where(svg) {
+		flex-shrink: 0;
+		block-size: 1.25em;
+		padding: 0.125em;
+		border: 0.125em solid currentColor;
+		border-radius: var(--border-radius);
+	}
 }
 
 .index {
 	display: grid;
-	font-weight: 500;
 	gap: 1.25rem;
 	grid-template-columns: max-content max-content auto;
 	list-style: none;
+	--weight: 5;
 
 	&,
 	:where(li) {
