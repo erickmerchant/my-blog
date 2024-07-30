@@ -3,12 +3,16 @@
 
 {% block main %}
 	<h1>Posts</h1>
-	<ol class="index">
-		{% for e in entry_list %}
-			<li>
-				{% call macros::state(e) %}
-				<span><a href="/posts/{{e.slug}}/">{{e.title}}</a></span>
-			</li>
-		{% endfor %}
-	</ol>
+	{% if entry_list.is_empty() %}
+		<p>There are no posts yet. Check back again soon.</p>
+	{% else %}
+		<ol class="index">
+			{% for e in entry_list %}
+				<li>
+					{% call macros::state(e) %}
+					<span><a href="/posts/{{e.slug}}/">{{e.title}}</a></span>
+				</li>
+			{% endfor %}
+		</ol>
+	{% endif %}
 {% endblock %}
