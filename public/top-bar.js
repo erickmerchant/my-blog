@@ -1,7 +1,7 @@
 export class TopBar extends HTMLElement {
 	#scrollTop = 0;
 
-	#handleScroll = () => {
+	#onScroll = () => {
 		let scrollTop = document.body.scrollTop;
 
 		if (scrollTop !== this.#scrollTop) {
@@ -14,11 +14,11 @@ export class TopBar extends HTMLElement {
 	};
 
 	connectedCallback() {
-		document.body.addEventListener("scroll", this.#handleScroll);
+		document.body.addEventListener("scroll", this.#onScroll);
 	}
 
 	disconnectedCallback() {
-		document.body.removeEventListener("scroll", this.#handleScroll);
+		document.body.removeEventListener("scroll", this.#onScroll);
 	}
 }
 
