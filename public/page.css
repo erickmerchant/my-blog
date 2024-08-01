@@ -36,8 +36,8 @@ body {
 	--border-radius: 0.25rem;
 	--base-border-width: 0.175rem;
 	--easing: ease-in-out;
-	--background: light-dark(oklab(98% 0 0), oklab(5% 0 0));
-	--foreground: light-dark(oklab(5% -0.4 -0.4), oklab(99% -0.4 -0.4));
+	--background: light-dark(oklab(99% 0.025 0.025), oklab(1% -0.2 -0.2));
+	--foreground: light-dark(oklab(1% 0.4 0.4), oklab(99% -0.05 -0.05));
 
 	> * {
 		grid-column: 1 / -1;
