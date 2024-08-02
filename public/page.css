@@ -30,7 +30,7 @@ body {
 	grid-template-rows: min-content auto min-content;
 	overflow-x: auto;
 	overscroll-behavior: none;
-	scrollbar-color: var(--foreground) var(--background);
+	scrollbar-color: currentColor var(--background);
 	scrollbar-gutter: stable;
 	--weight: 4;
 	--border-radius: 0.25rem;
@@ -45,7 +45,6 @@ body {
 }
 
 a {
-	color: var(--foreground);
 	text-decoration-thickness: calc(
 		calc(calc(var(--base-border-width) / 9) * var(--weight))
 	);
@@ -106,7 +105,6 @@ svg {
 
 :where(:not(pre)) {
 	> code {
-		color: var(--foreground);
 		font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo,
 			Consolas, "DejaVu Sans Mono", monospace;
 	}
@@ -123,8 +121,7 @@ code {
 }
 
 .top-bar {
-	background-color: var(--background);
-	border-block-end: var(--border-width) solid var(--foreground);
+	border-block-end: var(--border-width) solid currentColor;
 	display: grid;
 	gap: 1rem 0;
 	grid-template-columns: subgrid;
@@ -176,7 +173,7 @@ code {
 	}
 
 	:where(figure:has(pre)) {
-		border: var(--border-width) solid var(--foreground);
+		border: var(--border-width) solid currentColor;
 		border-radius: var(--border-radius);
 		counter-reset: lines 0;
 		display: grid;
@@ -189,7 +186,6 @@ code {
 		--border-width: calc(calc(var(--base-border-width) / 9) * var(--weight));
 
 		:where(pre) {
-			color: var(--foreground);
 			display: grid;
 			font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo,
 				Consolas, "DejaVu Sans Mono", monospace;
@@ -206,9 +202,7 @@ code {
 			grid-template-columns: subgrid;
 
 			&::before {
-				background-color: var(--background);
-				border-inline-end: var(--border-width) solid var(--foreground);
-				color: var(--foreground);
+				border-inline-end: var(--border-width) solid currentColor;
 				content: counter(lines, decimal);
 				counter-increment: lines 1;
 				display: grid;
@@ -259,7 +253,7 @@ code {
 
 .interstitial {
 	border-inline-start: calc(calc(var(--base-border-width) / 9) * var(--weight))
-		solid var(--foreground);
+		solid currentColor;
 	display: block;
 	gap: 0.5rem;
 	padding-block: 1rem;
@@ -278,7 +272,7 @@ code {
 .footer {
 	align-content: center;
 	border-block-start: calc(calc(var(--base-border-width) / 9) * var(--weight))
-		solid var(--foreground);
+		solid currentColor;
 	display: grid;
 	grid-template-columns: subgrid;
 	justify-content: center;
