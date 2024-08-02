@@ -18,11 +18,11 @@ use tower_http::{compression::CompressionLayer, trace::TraceLayer};
 async fn main() -> Result<()> {
 	fs::remove_dir_all("storage").ok();
 
-	let mut port: u16 = 8080;
-
-	if let Ok(Ok(p)) = env::var("PORT").map(|p| p.parse::<u16>()) {
-		port = p;
-	}
+	let port: u16 = if let Ok(Ok(p)) = env::var("PORT").map(|p| p.parse::<u16>()) {
+		p
+	} else {
+		8080
+	};
 
 	tracing_subscriber::fmt()
 		.compact()

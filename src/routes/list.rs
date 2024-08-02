@@ -17,7 +17,6 @@ struct View {
 
 pub async fn handler() -> Result<Response, crate::Error> {
 	let entry_list = entry::Model::load_all();
-
 	let site = site::Model::load()?;
 	let html = View { site, entry_list }.render()?;
 
