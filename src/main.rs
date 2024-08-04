@@ -1,5 +1,4 @@
 mod error;
-mod filters;
 mod layers;
 mod models;
 mod routes;
@@ -33,8 +32,8 @@ async fn main() -> Result<()> {
 		.route("/", get(list::handler))
 		.route("/posts/:slug/", get(entry::handler))
 		.route("/posts.rss", get(rss::handler))
-		.route_layer(from_fn(cache::layer))
 		.fallback(asset::handler)
+		.layer(from_fn(cache::layer))
 		.layer(CompressionLayer::new())
 		.layer(TraceLayer::new_for_http());
 	let listener = TcpListener::bind(("0.0.0.0", port))

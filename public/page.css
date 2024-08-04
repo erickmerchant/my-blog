@@ -37,7 +37,7 @@ body {
 	--base-border-width: 0.175rem;
 	--easing: ease-in-out;
 	--background: light-dark(oklab(99% 0.025 0.025), oklab(1% -0.2 -0.2));
-	--foreground: light-dark(oklab(1% 0 0), oklab(99% 0 0));
+	--foreground: light-dark(oklab(1% 0.00625 0.00625), oklab(99% -0.05 -0.05));
 
 	> * {
 		grid-column: 1 / -1;
@@ -130,6 +130,7 @@ code {
 	);
 	padding-block: 1.5rem;
 	position: sticky;
+	background-color: var(--background);
 	transition: inset-block-start 0.25s var(--easing);
 	z-index: 2;
 	--border-width: calc(calc(var(--base-border-width) / 9) * var(--weight));
@@ -209,6 +210,7 @@ code {
 				inset-inline-start: 0;
 				padding-inline: 1rem;
 				position: sticky;
+				background-color: var(--background);
 				text-align: right;
 			}
 
