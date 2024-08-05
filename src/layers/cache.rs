@@ -17,7 +17,7 @@ use url::Url;
 pub async fn layer(req: Request<Body>, next: Next) -> Result<Response, crate::Error> {
 	let (req_parts, req_body) = req.into_parts();
 	let uri = req_parts.uri.clone();
-	let mut path = uri.path().to_string();
+	let mut path = uri.path().trim_start_matches("/").to_string();
 
 	if path.is_empty() || path.ends_with('/') {
 		path.push_str("index.html");
@@ -27,8 +27,8 @@ pub async fn layer(req: Request<Body>, next: Next) -> Result<Response, crate::Er
 	let ext = path.extension().unwrap_or_default();
 	let new_path = path.with_extension("").with_extension(ext);
 	let has_cache_buster = path != new_path;
-	let cache_path = Utf8Path::new("storage").join(path);
-	let content_type = mime_guess::from_path(cache_path.clone())
+	let cache_path = Utf8Path::new("./storage").join(&new_path);
+	let content_type = mime_guess::from_path(new_path.clone())
 		.first()
 		.map(|content_type| format!("{content_type}; charset=utf-8"))
 		.unwrap_or("text/html; charset=utf-8".to_string());
@@ -37,11 +37,7 @@ pub async fn layer(req: Request<Body>, next: Next) -> Result<Response, crate::Er
 	} else {
 		let mut new_req = Request::from_parts(req_parts.clone(), req_body);
 
-		*new_req.uri_mut() = path
-			.with_extension("")
-			.with_extension(ext)
-			.to_string()
-			.parse()?;
+		*new_req.uri_mut() = format!("/{}", new_path).parse()?;
 
 		let res = next.run(new_req).await;
 		let body = res.into_body();
@@ -181,12 +177,11 @@ pub fn rewrite_assets(bytes: Bytes, base: &Url) -> anyhow::Result<Vec<u8>> {
 
 fn asset_url(url: &str, base: &Url) -> String {
 	if let Ok(full_url) = base.join(url) {
-		let path = full_url.path();
-		let file_path = format!("./public{}", path);
-		let file_path = Utf8Path::new(file_path.as_str());
+		let full_url_path = full_url.path();
+		let file_path = format!("./public{}", full_url_path);
 
 		if let Ok(time) = fs::metadata(file_path).and_then(|meta| meta.modified()) {
-			let path = Utf8Path::new(path);
+			let path = Utf8Path::new(full_url_path);
 			let version_time = time
 				.duration_since(UNIX_EPOCH)
 				.map(|d| d.as_secs())
