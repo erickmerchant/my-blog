@@ -16,16 +16,14 @@ pub async fn handler(request: Request) -> Result<Response, crate::Error> {
 		path.push("index.html");
 	}
 
-	if let Some(ext) = path.clone().extension() {
-		if let Some(content_type) = mime_guess::from_ext(ext).first() {
-			if let Ok(body) = fs::read(path) {
-				return Ok((
-					StatusCode::OK,
-					[(header::CONTENT_TYPE, content_type.to_string())],
-					body,
-				)
-					.into_response());
-			}
+	if let Some(content_type) = mime_guess::from_path(&path).first() {
+		if let Ok(body) = fs::read(path) {
+			return Ok((
+				StatusCode::OK,
+				[(header::CONTENT_TYPE, content_type.to_string())],
+				body,
+			)
+				.into_response());
 		}
 	}
 
