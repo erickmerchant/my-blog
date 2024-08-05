@@ -17,7 +17,7 @@ use url::Url;
 pub async fn layer(req: Request<Body>, next: Next) -> Result<Response, crate::Error> {
 	let (req_parts, req_body) = req.into_parts();
 	let uri = req_parts.uri.clone();
-	let mut path = uri.path().trim_start_matches("/").to_string();
+	let mut path = uri.path().to_string();
 
 	if path.is_empty() || path.ends_with('/') {
 		path.push_str("index.html");
@@ -27,7 +27,7 @@ pub async fn layer(req: Request<Body>, next: Next) -> Result<Response, crate::Er
 	let ext = path.extension().unwrap_or_default();
 	let new_path = path.with_extension("").with_extension(ext);
 	let has_cache_buster = path != new_path;
-	let cache_path = Utf8Path::new("./storage").join(&new_path);
+	let cache_path = Utf8Path::new("./storage").join(new_path.to_string().trim_start_matches("/"));
 	let content_type = mime_guess::from_path(new_path.clone())
 		.first()
 		.map(|content_type| format!("{content_type}; charset=utf-8"))
@@ -37,7 +37,7 @@ pub async fn layer(req: Request<Body>, next: Next) -> Result<Response, crate::Er
 	} else {
 		let mut new_req = Request::from_parts(req_parts.clone(), req_body);
 
-		*new_req.uri_mut() = format!("/{}", new_path).parse()?;
+		*new_req.uri_mut() = new_path.to_string().parse()?;
 
 		let res = next.run(new_req).await;
 		let body = res.into_body();
@@ -46,7 +46,7 @@ pub async fn layer(req: Request<Body>, next: Next) -> Result<Response, crate::Er
 		let body = if content_type == *"text/html; charset=utf-8" {
 			rewrite_assets(
 				body,
-				&Url::parse("http://example.com/")?.join(uri.to_string().as_str())?,
+				&Url::parse("https://erickmerchant.com/")?.join(uri.to_string().as_str())?,
 			)?
 		} else {
 			body.to_vec()
@@ -178,7 +178,7 @@ pub fn rewrite_assets(bytes: Bytes, base: &Url) -> anyhow::Result<Vec<u8>> {
 fn asset_url(url: &str, base: &Url) -> String {
 	if let Ok(full_url) = base.join(url) {
 		let full_url_path = full_url.path();
-		let file_path = format!("./public{}", full_url_path);
+		let file_path = Utf8Path::new("./public/").join(full_url_path.trim_start_matches("/"));
 
 		if let Ok(time) = fs::metadata(file_path).and_then(|meta| meta.modified()) {
 			let path = Utf8Path::new(full_url_path);

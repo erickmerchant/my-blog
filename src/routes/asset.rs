@@ -8,19 +8,17 @@ use camino::Utf8Path;
 use std::fs;
 
 pub async fn handler(request: Request) -> Result<Response, crate::Error> {
-	let path = request.uri().path().trim_start_matches('/');
+	let path = request.uri().path().trim_start_matches('/').to_string();
+	let is_index = path.ends_with('/');
 	let mut path = Utf8Path::new("public").join(path);
-	let is_index = path.to_string().ends_with('/');
 
 	if is_index {
 		path.push("index.html");
 	}
 
 	if let Some(ext) = path.clone().extension() {
-		let new_path = path.with_extension("").with_extension(ext);
-
 		if let Some(content_type) = mime_guess::from_ext(ext).first() {
-			if let Ok(body) = fs::read(new_path) {
+			if let Ok(body) = fs::read(path) {
 				return Ok((
 					StatusCode::OK,
 					[(header::CONTENT_TYPE, content_type.to_string())],
