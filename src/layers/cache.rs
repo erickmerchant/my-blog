@@ -28,10 +28,7 @@ pub async fn layer(req: Request<Body>, next: Next) -> Result<Response, crate::Er
 	let new_path = path.with_extension("").with_extension(ext);
 	let has_cache_buster = path != new_path;
 	let cache_path = Utf8Path::new("./storage").join(new_path.to_string().trim_start_matches("/"));
-	let content_type = mime_guess::from_path(new_path.clone())
-		.first()
-		.map(|content_type| format!("{content_type}; charset=utf-8"))
-		.unwrap_or("text/html; charset=utf-8".to_string());
+	let content_type = mime_guess::from_path(new_path.clone()).first_or(mime::TEXT_HTML);
 	let body = if let Ok(cached_body) = fs::read_to_string(cache_path.clone()) {
 		cached_body.as_bytes().to_vec()
 	} else {
@@ -43,7 +40,7 @@ pub async fn layer(req: Request<Body>, next: Next) -> Result<Response, crate::Er
 		let body = res.into_body();
 		let body = body.collect().await?;
 		let body = body.to_bytes();
-		let body = if content_type == *"text/html; charset=utf-8" {
+		let body = if content_type == mime::TEXT_HTML {
 			rewrite_assets(
 				body,
 				&Url::parse("https://erickmerchant.com/")?.join(uri.to_string().as_str())?,
@@ -71,7 +68,10 @@ pub async fn layer(req: Request<Body>, next: Next) -> Result<Response, crate::Er
 		return Ok((
 			StatusCode::OK,
 			[
-				(header::CONTENT_TYPE, content_type.to_string()),
+				(
+					header::CONTENT_TYPE,
+					format!("{content_type}; charset=utf-8"),
+				),
 				(
 					header::CACHE_CONTROL,
 					"public, max-age=31536000, immutable".to_string(),
@@ -85,7 +85,10 @@ pub async fn layer(req: Request<Body>, next: Next) -> Result<Response, crate::Er
 	Ok((
 		StatusCode::OK,
 		[
-			(header::CONTENT_TYPE, content_type.to_string()),
+			(
+				header::CONTENT_TYPE,
+				format!("{content_type}; charset=utf-8"),
+			),
 			(header::ETAG, etag),
 		],
 		body,

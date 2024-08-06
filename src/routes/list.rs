@@ -1,8 +1,8 @@
 use crate::models::{entry, site, state::State};
 use askama::Template;
 use axum::{
-	http::{header, StatusCode},
-	response::{IntoResponse, Response},
+	http::StatusCode,
+	response::{Html, IntoResponse, Response},
 };
 
 #[derive(Template)]
@@ -17,10 +17,5 @@ pub async fn handler() -> Result<Response, crate::Error> {
 	let site = site::Model::load()?;
 	let html = View { site, entry_list }.render()?;
 
-	Ok((
-		StatusCode::OK,
-		[(header::CONTENT_TYPE, "text/html; charset=utf-8")],
-		html,
-	)
-		.into_response())
+	Ok((StatusCode::OK, Html(html)).into_response())
 }

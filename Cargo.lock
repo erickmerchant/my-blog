@@ -79,6 +79,7 @@ dependencies = [
  "hyper",
  "log",
  "lol_html",
+ "mime",
  "mime_guess",
  "pulldown-cmark",
  "serde",

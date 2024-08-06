@@ -3,8 +3,8 @@ use crate::models::{entry, site, state::State};
 use askama::Template;
 use axum::{
 	extract::Path,
-	http::{header, StatusCode},
-	response::{IntoResponse, Response},
+	http::StatusCode,
+	response::{Html, IntoResponse, Response},
 };
 
 #[derive(Template)]
@@ -21,12 +21,7 @@ pub async fn handler(Path(slug): Path<String>) -> Result<Response, crate::Error>
 		let site = site::Model::load()?;
 		let html = View { site, entry }.render()?;
 
-		return Ok((
-			StatusCode::OK,
-			[(header::CONTENT_TYPE, "text/html; charset=utf-8")],
-			html,
-		)
-			.into_response());
+		return Ok((StatusCode::OK, Html(html)).into_response());
 	}
 
 	not_found::handler().await
