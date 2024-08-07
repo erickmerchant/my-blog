@@ -1,11 +1,15 @@
-mod error;
 mod layers;
 mod models;
 mod routes;
 
 use anyhow::Result;
-use axum::{middleware::from_fn, routing::get, serve, Router};
-use error::Error;
+use axum::{
+	http::StatusCode,
+	middleware::from_fn,
+	response::{IntoResponse, Response},
+	routing::get,
+	serve, Router,
+};
 use layers::cache;
 use routes::{asset, entry, list, rss};
 use std::env;
@@ -47,4 +51,27 @@ async fn main() -> Result<()> {
 		.expect("server should start");
 
 	Ok(())
+}
+
+pub struct Error(anyhow::Error);
+
+impl IntoResponse for Error {
+	fn into_response(self) -> Response {
+		let Error(err) = self;
+
+		(
+			StatusCode::INTERNAL_SERVER_ERROR,
+			err.backtrace().to_string(),
+		)
+			.into_response()
+	}
+}
+
+impl<E> From<E> for Error
+where
+	E: Into<anyhow::Error>,
+{
+	fn from(err: E) -> Self {
+		Self(err.into())
+	}
 }
