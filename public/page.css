@@ -42,6 +42,17 @@ body {
 
 	> * {
 		grid-column: 1 / -1;
+		display: grid;
+		gap: 1rem 0;
+		grid-template-columns: subgrid;
+
+		> * {
+			grid-column: 3;
+
+			@container (inline-size <=42rem) {
+				grid-column: 2 / -2;
+			}
+		}
 	}
 }
 
@@ -124,58 +135,29 @@ code {
 	}
 }
 
-.top-bar {
+.nav {
 	border-block-end: var(--border-width) solid currentColor;
-	display: grid;
-	gap: 1rem 0;
-	grid-template-columns: subgrid;
-	inset-block-start: calc(
-		var(--scrolling-down, 0) * calc(-1 * var(--block-size))
-	);
 	padding-block: 1.5rem;
-	position: sticky;
-	background-color: var(--background);
-	transition: inset-block-start 0.25s var(--easing);
-	z-index: 2;
 	--border-width: calc(
 		var(--border-base) + calc(var(--border-step) * var(--weight))
 	);
-	--block-size: calc(4.5rem + var(--border-width));
 	--weight: 7;
-
-	:where(nav) {
-		grid-column: 3;
-	}
-
-	:where(ul) {
-		display: flex;
-		justify-content: space-between;
-		list-style: none;
-	}
 }
 
 .main {
 	align-content: start;
-	display: grid;
-	gap: 1rem 0;
-	grid-template-columns: subgrid;
 	hyphens: auto;
 	overflow-wrap: break-word;
 	padding-block: 1rem 3rem;
 	z-index: 1;
 
 	> * {
-		grid-column: 3;
 		inline-size: 100%;
 		margin-inline: auto;
 
 		&:where(header) {
 			display: grid;
 			gap: 0.25rem;
-		}
-
-		@container (inline-size <=42rem) {
-			grid-column: 2 / -2;
 		}
 	}
 
@@ -193,12 +175,12 @@ code {
 		overflow-y: hidden;
 		overscroll-behavior-x: none;
 		tab-size: 2;
-		font-size: 0.8em;
+		font-size: 0.9em;
 		--white-space: pre-wrap;
 		--border-width: calc(
 			var(--border-base) + calc(var(--border-step) * var(--weight))
 		);
-		--weight: 6;
+		/* --weight: 6; */
 
 		:where(pre) {
 			display: grid;
@@ -293,8 +275,6 @@ code {
 			var(--border-base) + calc(var(--border-step) * var(--weight))
 		)
 		solid currentColor;
-	display: grid;
-	grid-template-columns: subgrid;
 	justify-content: center;
 	padding-block: 1.5rem;
 	--weight: 5;
@@ -302,7 +282,6 @@ code {
 	:where(ul) {
 		display: grid;
 		gap: 1rem 2rem;
-		grid-column: 3;
 		grid-template-columns: 1fr 1fr;
 		list-style: none;
 

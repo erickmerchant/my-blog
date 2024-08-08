@@ -6,20 +6,15 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<title>{% block title %}{{site.title}}{% endblock %}</title>
 	<link rel="stylesheet" href="/page.css" />
-	<script type="module" src="/top-bar.js"></script>
 	<meta name="description" content="{{site.description}}" />
 	<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 	<link rel="alternate" type="application/rss+xml" title="Posts" href="{{site.host}}/posts.rss" />
 </head>
 
 <body>
-	<top-bar class="top-bar">
-		<nav>
-			<ul>
-				<li><a href="/">{{site.title}}</a></li>
-			</ul>
-		</nav>
-	</top-bar>
+	<nav class="nav">
+		<a href="/">{{site.title}}</a>
+	</nav>
 	<main class="main">
 		{% block main %}{% endblock %}
 	</main>
