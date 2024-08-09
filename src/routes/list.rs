@@ -9,11 +9,11 @@ use axum::{
 #[template(path = "list.html")]
 struct View {
 	pub site: site::Model,
-	pub entry_list: entry::ModelList,
+	pub entry_list: Vec<entry::Model>,
 }
 
 pub async fn handler() -> Result<Response, crate::Error> {
-	let entry_list = entry::Model::load_all();
+	let entry_list = entry::Model::load_all(false);
 	let site = site::Model::load()?;
 	let html = View { site, entry_list }.render()?;
 

@@ -16,7 +16,7 @@ use url::Url;
 
 pub async fn layer(req: Request<Body>, next: Next) -> Result<Response, crate::Error> {
 	let (req_parts, req_body) = req.into_parts();
-	let uri = req_parts.uri.clone();
+	let uri = &req_parts.uri;
 	let mut path = uri.path().to_string();
 
 	if path.is_empty() || path.ends_with('/') {
@@ -28,8 +28,8 @@ pub async fn layer(req: Request<Body>, next: Next) -> Result<Response, crate::Er
 	let new_path = path.with_extension("").with_extension(ext);
 	let has_cache_buster = path != new_path;
 	let cache_path = Utf8Path::new("./storage").join(new_path.to_string().trim_start_matches("/"));
-	let content_type = mime_guess::from_path(new_path.clone()).first_or(mime::TEXT_HTML);
-	let body = if let Ok(cached_body) = fs::read_to_string(cache_path.clone()) {
+	let content_type = mime_guess::from_path(&new_path).first_or(mime::TEXT_HTML);
+	let body = if let Ok(cached_body) = fs::read_to_string(&cache_path) {
 		cached_body.as_bytes().to_vec()
 	} else {
 		let mut new_req = Request::from_parts(req_parts.clone(), req_body);
@@ -49,8 +49,8 @@ pub async fn layer(req: Request<Body>, next: Next) -> Result<Response, crate::Er
 			body.to_vec()
 		};
 
-		fs::create_dir_all(cache_path.clone().with_file_name("")).ok();
-		fs::write(cache_path.clone(), &body).ok();
+		fs::create_dir_all(cache_path.with_file_name("")).ok();
+		fs::write(cache_path, &body).ok();
 
 		body
 	};
