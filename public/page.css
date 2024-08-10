@@ -38,7 +38,7 @@ body {
 	--border-step: 0.01rem;
 	--easing: ease-in-out;
 	--background: light-dark(oklab(99% 0.0125 0.025), oklab(1% -0.1 -0.2));
-	--foreground: light-dark(oklab(1% 0.003125 0.00625), oklab(99% -0.025 -0.05));
+	--foreground: light-dark(oklab(1% 0.00625 0.0125), oklab(99% -0.05 -0.1));
 
 	> * {
 		grid-column: 1 / -1;
@@ -136,11 +136,7 @@ code {
 }
 
 .nav {
-	border-block-end: var(--border-width) solid currentColor;
 	padding-block: 1.5rem;
-	--border-width: calc(
-		var(--border-base) + calc(var(--border-step) * var(--weight))
-	);
 	--weight: 7;
 }
 
@@ -271,10 +267,6 @@ code {
 
 .footer {
 	align-content: center;
-	border-block-start: calc(
-			var(--border-base) + calc(var(--border-step) * var(--weight))
-		)
-		solid currentColor;
 	justify-content: center;
 	padding-block: 1.5rem;
 	--weight: 5;
