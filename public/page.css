@@ -141,7 +141,7 @@ code {
 	--weight: 9;
 
 	@container (inline-size <=42rem) {
-		font-size: 1.75rem;
+		font-size: 1.5rem;
 	}
 }
 
