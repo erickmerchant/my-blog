@@ -139,6 +139,10 @@ code {
 	font-size: 2rem;
 	padding-block: 1.5rem;
 	--weight: 9;
+
+	@container (inline-size <=42rem) {
+		font-size: 1.75rem;
+	}
 }
 
 .main {
