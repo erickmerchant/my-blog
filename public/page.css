@@ -88,11 +88,11 @@ h3 {
 }
 
 h1 {
-	font-size: 1.5rem;
+	font-size: 1.25rem;
 }
 
 h2 {
-	font-size: 1.25rem;
+	font-size: 1.125rem;
 }
 
 h1 {
@@ -136,13 +136,9 @@ code {
 }
 
 .nav {
-	font-size: 2rem;
-	padding-block: 1.5rem;
+	font-size: clamp(1.25rem, 7cqw, 2.5rem);
+	padding-block: clamp(0.5rem, 3.5cqw, 2.5rem);
 	--weight: 9;
-
-	@container (inline-size <=42rem) {
-		font-size: 1.5rem;
-	}
 }
 
 .main {
