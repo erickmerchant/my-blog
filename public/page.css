@@ -136,8 +136,8 @@ code {
 }
 
 .nav {
-	font-size: clamp(1.25rem, 7cqw, 2.5rem);
-	padding-block: clamp(0.5rem, 3.5cqw, 2.5rem);
+	font-size: clamp(1.25rem, 7cqw, 2rem);
+	padding-block: 1em;
 	--weight: 9;
 }
 
@@ -145,7 +145,7 @@ code {
 	align-content: start;
 	hyphens: auto;
 	overflow-wrap: break-word;
-	padding-block: 1rem 3rem;
+	padding-block: 0 3rem;
 	z-index: 1;
 
 	> * {
