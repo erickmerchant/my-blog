@@ -34,8 +34,8 @@ body {
 	scrollbar-gutter: stable;
 	--weight: 4;
 	--border-radius: 0.25rem;
-	--border-base: 0.07rem;
-	--border-step: 0.01rem;
+	--border-base: 0.07em;
+	--border-step: 0.01em;
 	--easing: ease-in-out;
 	--background: light-dark(oklab(99% 0.0125 0.025), oklab(1% -0.1 -0.2));
 	--foreground: light-dark(oklab(1% 0.00625 0.0125), oklab(99% -0.05 -0.1));
@@ -89,17 +89,11 @@ h3 {
 
 h1 {
 	font-size: 1.25rem;
-}
-
-h2 {
-	font-size: 1.125rem;
-}
-
-h1 {
 	--weight: 9;
 }
 
 h2 {
+	font-size: 1.125rem;
 	--weight: 8;
 }
 
@@ -145,7 +139,7 @@ code {
 	align-content: start;
 	hyphens: auto;
 	overflow-wrap: break-word;
-	padding-block: 0 3rem;
+	padding-block-end: 3rem;
 	z-index: 1;
 
 	> * {
