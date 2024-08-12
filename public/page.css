@@ -20,42 +20,6 @@ html {
 	line-height: 1.5;
 }
 
-body {
-	background-color: var(--background);
-	block-size: 100%;
-	color: var(--foreground);
-	container-type: inline-size;
-	display: grid;
-	grid-template-columns: auto 2rem min(100% - 6rem, 40rem) 2rem auto;
-	grid-template-rows: min-content auto min-content;
-	overflow-x: auto;
-	overscroll-behavior: none;
-	scrollbar-color: currentColor var(--background);
-	scrollbar-gutter: stable;
-	--weight: 4;
-	--border-radius: 0.125rem;
-	--border-base: 0.07em;
-	--border-step: 0.01em;
-	--easing: ease-in-out;
-	--background: light-dark(oklab(99% 0.0125 0.025), oklab(1% -0.1 -0.2));
-	--foreground: light-dark(oklab(1% 0.00625 0.0125), oklab(99% -0.05 -0.1));
-
-	> * {
-		grid-column: 1 / -1;
-		display: grid;
-		gap: 1rem 0;
-		grid-template-columns: subgrid;
-
-		> * {
-			grid-column: 3;
-
-			@container (inline-size <=42rem) {
-				grid-column: 2 / -2;
-			}
-		}
-	}
-}
-
 a {
 	text-decoration-thickness: calc(
 		var(--border-base) + calc(var(--border-step) * var(--weight))
@@ -112,10 +76,79 @@ svg {
 	fill: currentColor;
 }
 
-:where(:not(pre)) {
-	> code {
+:where(:not(pre)) > code {
+	font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas,
+		"DejaVu Sans Mono", monospace;
+}
+
+figure:where(:has(pre)) {
+	border: var(--border-width) solid currentColor;
+	border-radius: var(--border-radius);
+	counter-reset: lines 0;
+	display: grid;
+	overflow-x: auto;
+	overflow-y: hidden;
+	overscroll-behavior-x: none;
+	tab-size: 2;
+	font-size: 0.85em;
+	--column: 2 / -2;
+	--white-space: pre-wrap;
+	--border-width: calc(
+		var(--border-base) + calc(var(--border-step) * var(--weight))
+	);
+
+	:where(pre) {
+		display: grid;
 		font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo,
 			Consolas, "DejaVu Sans Mono", monospace;
+		grid-template-columns: max-content auto;
+		position: relative;
+		white-space: var(--white-space);
+		word-break: break-word;
+	}
+
+	:where(code) {
+		display: grid;
+		gap: 0.25rem 1rem;
+		grid-column: 1 / -1;
+		grid-template-columns: subgrid;
+
+		&::before {
+			border-inline-end: var(--border-width) solid currentColor;
+			content: counter(lines, decimal);
+			counter-increment: lines 1;
+			display: grid;
+			inset-inline-start: 0;
+			padding-inline: 1rem;
+			position: sticky;
+			background-color: var(--background);
+			text-align: right;
+		}
+
+		&:where(:first-child) {
+			padding-block-start: 1rem;
+
+			&::before {
+				margin-block-start: -1rem;
+				padding-block-start: 1rem;
+			}
+		}
+
+		&:where(:last-child) {
+			padding-block-end: 1rem;
+
+			&::before {
+				margin-block-end: -1rem;
+				padding-block-end: 1rem;
+			}
+		}
+	}
+
+	@container (inline-size <=42rem) {
+		border-inline: none;
+		border-radius: 0;
+		--column: 1 / -1;
+		--white-space: pre;
 	}
 }
 
@@ -126,6 +159,43 @@ code {
 		text-decoration: none;
 		pointer-events: none;
 		display: contents;
+	}
+}
+
+.page {
+	background-color: var(--background);
+	block-size: 100%;
+	color: var(--foreground);
+	container-type: inline-size;
+	display: grid;
+	grid-template-columns: auto 2rem min(100% - 6rem, 40rem) 2rem auto;
+	grid-template-rows: min-content auto min-content;
+	overflow-x: auto;
+	overscroll-behavior: none;
+	scrollbar-color: currentColor var(--background);
+	scrollbar-gutter: stable;
+	--weight: 4;
+	--border-radius: 0.125rem;
+	--border-base: 0.07em;
+	--border-step: 0.01em;
+	--easing: ease-in-out;
+	--background: light-dark(oklab(99% 0.0125 0.025), oklab(1% -0.1 -0.2));
+	--foreground: light-dark(oklab(1% 0.00625 0.0125), oklab(99% -0.05 -0.1));
+
+	> * {
+		grid-column: 1 / -1;
+		display: grid;
+		gap: 1rem 0;
+		grid-template-columns: subgrid;
+		--column: 3;
+
+		@container (inline-size <=42rem) {
+			--column: 2 / -2;
+		}
+
+		> * {
+			grid-column: var(--column);
+		}
 	}
 }
 
@@ -154,77 +224,6 @@ code {
 
 	:where(ul, ol) {
 		padding-inline-start: 1rem;
-	}
-
-	:where(figure:has(pre)) {
-		grid-column: 2 / -2;
-		border: var(--border-width) solid currentColor;
-		border-radius: var(--border-radius);
-		counter-reset: lines 0;
-		display: grid;
-		overflow-x: auto;
-		overflow-y: hidden;
-		overscroll-behavior-x: none;
-		tab-size: 2;
-		font-size: 0.85em;
-		--white-space: pre-wrap;
-		--border-width: calc(
-			var(--border-base) + calc(var(--border-step) * var(--weight))
-		);
-
-		:where(pre) {
-			display: grid;
-			font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo,
-				Consolas, "DejaVu Sans Mono", monospace;
-			grid-template-columns: max-content auto;
-			position: relative;
-			white-space: var(--white-space);
-			word-break: break-word;
-		}
-
-		:where(code) {
-			display: grid;
-			gap: 0.25rem 1rem;
-			grid-column: 1 / -1;
-			grid-template-columns: subgrid;
-
-			&::before {
-				border-inline-end: var(--border-width) solid currentColor;
-				content: counter(lines, decimal);
-				counter-increment: lines 1;
-				display: grid;
-				inset-inline-start: 0;
-				padding-inline: 1rem;
-				position: sticky;
-				background-color: var(--background);
-				text-align: right;
-			}
-
-			&:where(:first-child) {
-				padding-block-start: 1rem;
-
-				&::before {
-					margin-block-start: -1rem;
-					padding-block-start: 1rem;
-				}
-			}
-
-			&:where(:last-child) {
-				padding-block-end: 1rem;
-
-				&::before {
-					margin-block-end: -1rem;
-					padding-block-end: 1rem;
-				}
-			}
-		}
-
-		@container (inline-size <=42rem) {
-			border-inline: none;
-			border-radius: 0;
-			grid-column: 1 / -1;
-			--white-space: pre;
-		}
 	}
 }
 
