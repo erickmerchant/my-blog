@@ -33,7 +33,7 @@ body {
 	scrollbar-color: currentColor var(--background);
 	scrollbar-gutter: stable;
 	--weight: 4;
-	--border-radius: 0.25rem;
+	--border-radius: 0.125rem;
 	--border-base: 0.07em;
 	--border-step: 0.01em;
 	--easing: ease-in-out;
@@ -171,7 +171,6 @@ code {
 		--border-width: calc(
 			var(--border-base) + calc(var(--border-step) * var(--weight))
 		);
-		/* --weight: 6; */
 
 		:where(pre) {
 			display: grid;
@@ -287,10 +286,11 @@ code {
 
 	:where(svg) {
 		flex-shrink: 0;
-		block-size: 1.25em;
-		inline-size: 1.25em;
+		block-size: 1.06125em;
+		inline-size: 1.06125em;
+		background: currentColor;
+		fill: var(--background);
 		padding: 0.125em;
-		border: 0.125em solid currentColor;
 		border-radius: var(--border-radius);
 	}
 }
