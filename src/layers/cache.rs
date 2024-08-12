@@ -11,7 +11,8 @@ use hyper::body::Bytes;
 use lol_html::{element, html_content::ContentType, text, HtmlRewriter, Settings};
 use serde::{Deserialize, Serialize};
 use serde_json as json;
-use std::{collections::HashMap, fs, time::UNIX_EPOCH};
+use std::{collections::HashMap, time::UNIX_EPOCH};
+use tokio::fs;
 use url::Url;
 
 pub async fn layer(req: Request<Body>, next: Next) -> Result<Response, crate::Error> {
@@ -28,8 +29,9 @@ pub async fn layer(req: Request<Body>, next: Next) -> Result<Response, crate::Er
 	let new_path = path.with_extension("").with_extension(ext);
 	let has_cache_buster = path != new_path;
 	let cache_path = Utf8Path::new("./storage").join(new_path.to_string().trim_start_matches("/"));
-	let content_type = mime_guess::from_path(&new_path).first_or(mime::TEXT_HTML);
-	let body = if let Ok(cached_body) = fs::read_to_string(&cache_path) {
+	let content_type =
+		mime_guess::from_path(&new_path).first_or("text/html".parse::<mime::Mime>()?);
+	let body = if let Ok(cached_body) = fs::read_to_string(&cache_path).await {
 		cached_body.as_bytes().to_vec()
 	} else {
 		let mut new_req = Request::from_parts(req_parts.clone(), req_body);
@@ -40,7 +42,7 @@ pub async fn layer(req: Request<Body>, next: Next) -> Result<Response, crate::Er
 		let body = res.into_body();
 		let body = body.collect().await?;
 		let body = body.to_bytes();
-		let body = if content_type == mime::TEXT_HTML {
+		let body = if content_type == "text/html" {
 			rewrite_assets(
 				body,
 				&Url::parse("https://erickmerchant.com/")?.join(uri.to_string().as_str())?,
@@ -49,8 +51,8 @@ pub async fn layer(req: Request<Body>, next: Next) -> Result<Response, crate::Er
 			body.to_vec()
 		};
 
-		fs::create_dir_all(cache_path.with_file_name("")).ok();
-		fs::write(cache_path, &body).ok();
+		fs::create_dir_all(cache_path.with_file_name("")).await.ok();
+		fs::write(cache_path, &body).await.ok();
 
 		body
 	};
@@ -183,7 +185,7 @@ fn asset_url(url: &str, base: &Url) -> String {
 		let full_url_path = full_url.path();
 		let file_path = Utf8Path::new("./public/").join(full_url_path.trim_start_matches("/"));
 
-		if let Ok(time) = fs::metadata(file_path).and_then(|meta| meta.modified()) {
+		if let Ok(time) = std::fs::metadata(file_path).and_then(|meta| meta.modified()) {
 			let path = Utf8Path::new(full_url_path);
 			let version_time = time
 				.duration_since(UNIX_EPOCH)

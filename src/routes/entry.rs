@@ -15,10 +15,10 @@ struct View {
 }
 
 pub async fn handler(Path(slug): Path<String>) -> Result<Response, crate::Error> {
-	let entry: Option<entry::Model> = entry::Model::load_by_slug(&slug, true);
+	let entry: Option<entry::Model> = entry::Model::load_by_slug(&slug, true).await;
 
 	if let Some(entry) = entry {
-		let site = site::Model::load()?;
+		let site = site::Model::load().await?;
 		let html = View { site, entry }.render()?;
 
 		return Ok((StatusCode::OK, Html(html)).into_response());

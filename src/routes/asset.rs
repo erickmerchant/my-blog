@@ -5,7 +5,7 @@ use axum::{
 	response::{IntoResponse, Response},
 };
 use camino::Utf8Path;
-use std::fs;
+use tokio::fs;
 
 pub async fn handler(request: Request) -> Result<Response, crate::Error> {
 	let path = request.uri().path().trim_start_matches('/').to_string();
@@ -17,7 +17,7 @@ pub async fn handler(request: Request) -> Result<Response, crate::Error> {
 	}
 
 	if let Some(content_type) = mime_guess::from_path(&path).first() {
-		if let Ok(body) = fs::read(path) {
+		if let Ok(body) = fs::read(path).await {
 			return Ok((
 				StatusCode::OK,
 				[(header::CONTENT_TYPE, content_type.to_string())],

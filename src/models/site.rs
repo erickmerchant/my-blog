@@ -1,6 +1,6 @@
 use anyhow::Result;
 use serde::{Deserialize, Serialize};
-use std::fs;
+use tokio::fs;
 
 #[derive(Clone, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
 pub struct Model {
@@ -11,8 +11,8 @@ pub struct Model {
 }
 
 impl Model {
-	pub fn load() -> Result<Self> {
-		let toml = fs::read_to_string("content/site.toml")?;
+	pub async fn load() -> Result<Self> {
+		let toml = fs::read_to_string("content/site.toml").await?;
 		let site = toml::from_str::<Self>(&toml)?;
 
 		Ok(site)

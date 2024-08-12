@@ -3,7 +3,7 @@ use camino::Utf8Path;
 use glob::glob;
 use pulldown_cmark::{html, CodeBlockKind, CowStr, Event, Tag, TagEnd};
 use serde::{Deserialize, Serialize};
-use std::fs;
+use tokio::fs;
 
 #[derive(Clone, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
 pub struct Model {
@@ -18,14 +18,14 @@ pub struct Model {
 }
 
 impl Model {
-	pub fn load_all(include_content: bool) -> Vec<Self> {
+	pub async fn load_all(include_content: bool) -> Vec<Self> {
 		let mut all = vec![];
 		let results = glob("content/posts/*.md").ok();
 
 		if let Some(paths) = results {
 			for path in paths.flatten() {
 				if let Some(slug) = path.file_stem().and_then(|s| s.to_str()) {
-					if let Some(model) = Self::load_by_slug(slug, include_content) {
+					if let Some(model) = Self::load_by_slug(slug, include_content).await {
 						all.push(model);
 					}
 				}
@@ -51,12 +51,13 @@ impl Model {
 		all
 	}
 
-	pub fn load_by_slug(slug: &str, include_content: bool) -> Option<Self> {
+	pub async fn load_by_slug(slug: &str, include_content: bool) -> Option<Self> {
 		fs::read_to_string(
 			Utf8Path::new("content/posts")
 				.join(slug)
 				.with_extension("md"),
 		)
+		.await
 		.ok()
 		.map(|contents| {
 			let parts = if contents.starts_with("+++") {

@@ -13,13 +13,12 @@ use axum::{
 use layers::cache;
 use routes::{asset, entry, list, rss};
 use std::env;
-use std::fs;
-use tokio::net::TcpListener;
+use tokio::{fs, net::TcpListener};
 use tower_http::{compression::CompressionLayer, trace::TraceLayer};
 
 #[tokio::main]
 async fn main() -> Result<()> {
-	fs::remove_dir_all("storage").ok();
+	fs::remove_dir_all("storage").await.ok();
 
 	let port: u16 = if let Ok(Ok(p)) = env::var("PORT").map(|p| p.parse::<u16>()) {
 		p
