@@ -1,9 +1,12 @@
+:where(:not(svg)) {
+	font: inherit;
+}
+
 *,
 ::before,
 ::after {
 	box-sizing: border-box;
 	color: inherit;
-	font: inherit;
 	margin: 0;
 	max-inline-size: 100%;
 	padding: 0;
@@ -80,7 +83,7 @@ em {
 }
 
 svg {
-	block-size: 1rem;
+	block-size: 1em;
 	display: block;
 	fill: currentColor;
 }
@@ -234,6 +237,7 @@ code {
 .state {
 	align-items: center;
 	display: inline flex;
+	align-items: baseline;
 	gap: 0.5rem;
 	--weight: 7;
 
@@ -283,15 +287,13 @@ code {
 }
 
 .rss-link {
-	align-items: center;
+	align-items: baseline;
 
 	:where(svg) {
 		float: left;
 		margin-inline-end: 0.5rem;
-		margin-block-start: 0.25rem;
+		margin-block-start: 0.14rem;
 		flex-shrink: 0;
-		block-size: 1.06125rem;
-		inline-size: 1.06125rem;
 		background: currentColor;
 		fill: var(--background);
 		padding: 0.125em;
@@ -320,9 +322,5 @@ code {
 		gap: 0.25rem 2rem;
 		grid-column: 1 / -1;
 		grid-template-columns: subgrid;
-
-		> * {
-			display: inline flex;
-		}
 	}
 }
