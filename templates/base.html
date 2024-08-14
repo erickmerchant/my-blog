@@ -18,6 +18,10 @@
 	<main class="main">
 		{% block main %}{% endblock %}
 	</main>
+	<section class="bio">
+		<h4>About</h4>
+		{{site.bio|html|safe}}
+	</section>
 	<footer class="footer">
 		<ul>
 			<li>

@@ -1,7 +1,7 @@
 use chrono::NaiveDate;
-use serde::{Deserialize, Serialize};
+use serde::Deserialize;
 
-#[derive(Clone, Debug, Deserialize, Default, Serialize, PartialOrd, Ord, PartialEq, Eq)]
+#[derive(Clone, Debug, Deserialize, Default, PartialOrd, Ord, PartialEq, Eq)]
 pub enum State {
 	#[serde(rename = "draft")]
 	#[default]

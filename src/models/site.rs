@@ -1,13 +1,22 @@
 use anyhow::Result;
-use serde::{Deserialize, Serialize};
+use serde::Deserialize;
 use tokio::fs;
 
-#[derive(Clone, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Clone, Debug, Default, PartialEq, Eq, Deserialize)]
+pub struct Project {
+	pub href: String,
+	pub title: String,
+	pub description: String,
+}
+
+#[derive(Clone, Debug, Default, PartialEq, Eq, Deserialize)]
 pub struct Model {
 	pub title: String,
 	pub host: String,
 	pub author: String,
 	pub description: String,
+	pub bio: String,
+	pub projects: Vec<Project>,
 }
 
 impl Model {

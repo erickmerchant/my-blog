@@ -3,7 +3,7 @@ title = "Rust note #3: return early sometimes"
 state = { published = "2023-08-24" }
 +++
 
-<blockquote class="interstitial">
+<blockquote class="callout">
 	The final expression in the function will be used as return value. Alternatively, the return statement can be used to return a value earlier from within the function, even from inside loops or if statements.
 	<footer>
 		<cite><a href="https://doc.rust-lang.org/rust-by-example/fn.html">Rust by Example</a></cite>

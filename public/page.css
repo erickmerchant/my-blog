@@ -63,6 +63,11 @@ h3 {
 	line-height: 1.25;
 }
 
+h1,
+h2 {
+	margin-block-start: 0.5rem;
+}
+
 h1 {
 	font-size: 1.25rem;
 	--weight: 9;
@@ -74,6 +79,7 @@ h2 {
 }
 
 h3,
+h4,
 strong {
 	--weight: 7;
 }
@@ -246,7 +252,7 @@ code {
 	}
 }
 
-.interstitial {
+.callout {
 	border-inline-start: calc(
 			var(--border-base) + calc(var(--border-step) * var(--weight))
 		)
@@ -266,7 +272,24 @@ code {
 	}
 }
 
+.bio {
+	display: block;
+	border-inline-start: calc(
+			calc(var(--border-base) + calc(var(--border-step) * var(--weight))) * 1.5
+		)
+		solid currentColor;
+	padding: 0.5rem;
+	font-size: 0.9rem;
+	grid-column: 3;
+	--weight: 4;
+
+	@container (inline-size <=42rem) {
+		grid-column: 2 / -2;
+	}
+}
+
 .footer {
+	font-size: 0.9rem;
 	align-content: center;
 	justify-content: center;
 	padding-block: 1.5rem;
@@ -301,7 +324,7 @@ code {
 	}
 }
 
-.index {
+.entry-list {
 	display: grid;
 	gap: 1.25rem;
 	grid-template-columns: max-content max-content auto;
@@ -320,6 +343,30 @@ code {
 	:where(li) {
 		display: grid;
 		gap: 0.25rem 2rem;
+		grid-column: 1 / -1;
+		grid-template-columns: subgrid;
+	}
+}
+
+.projects-list {
+	display: grid;
+	gap: 1.25rem;
+	grid-template-rows: max-content max-content;
+	list-style: none;
+	padding-inline-start: 0;
+	--weight: 4;
+
+	&,
+	:where(li) {
+		@container (inline-size <=42rem) {
+			display: flex;
+			flex-direction: column;
+		}
+	}
+
+	:where(li) {
+		display: grid;
+		gap: 1rem 2rem;
 		grid-column: 1 / -1;
 		grid-template-columns: subgrid;
 	}

@@ -10,6 +10,6 @@
 	</header>
 
 	{% if let Some(content) = entry.content %}
-		{{content|safe}}
+		{{content|html|safe}}
 	{% endif %}
 {% endblock %}

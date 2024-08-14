@@ -6,11 +6,24 @@
 	{% if entry_list.is_empty() %}
 		<p>There are no posts yet. Check back again soon.</p>
 	{% else %}
-		<ol class="index">
+		<ol class="entry-list">
 			{% for e in entry_list %}
 				<li>
 					{% call macros::state(e) %}
 					<span><a href="/posts/{{e.slug}}/">{{e.title}}</a></span>
+				</li>
+			{% endfor %}
+		</ol>
+	{% endif %}
+
+	<h1>Projects</h1>
+	<p>Fun little things I've made recently.</p>
+	{% if !site.projects.is_empty() %}
+		<ol class="projects-list">
+			{% for p in site.projects %}
+				<li>
+					<h3><a href="{{p.href}}">{{p.title}}</a></h3>
+					{{p.description|html|safe}}
 				</li>
 			{% endfor %}
 		</ol>
