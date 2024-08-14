@@ -2,30 +2,34 @@
 {% import "macros.html" as macros %}
 
 {% block main %}
-	<h1>Posts</h1>
-	{% if entry_list.is_empty() %}
-		<p>There are no posts yet. Check back again soon.</p>
-	{% else %}
-		<ol class="entry-list">
-			{% for e in entry_list %}
-				<li>
-					{% call macros::state(e) %}
-					<span><a href="/posts/{{e.slug}}/">{{e.title}}</a></span>
-				</li>
-			{% endfor %}
-		</ol>
-	{% endif %}
+	<section class="posts">
+		<h1>Posts</h1>
+		{% if entry_list.is_empty() %}
+			<p>There are no posts yet. Check back again soon.</p>
+		{% else %}
+			<ol>
+				{% for e in entry_list %}
+					<li>
+						{% call macros::state(e) %}
+						<span><a href="/posts/{{e.slug}}/">{{e.title}}</a></span>
+					</li>
+				{% endfor %}
+			</ol>
+		{% endif %}
+	</section>
 
-	<h1>Projects</h1>
-	<p>Fun little things I've made recently.</p>
-	{% if !site.projects.is_empty() %}
-		<ol class="projects-list">
-			{% for p in site.projects %}
-				<li>
-					<h3><a href="{{p.href}}">{{p.title}}</a></h3>
-					{{p.description|html|safe}}
-				</li>
-			{% endfor %}
-		</ol>
-	{% endif %}
+	<section class="projects">
+		<h1>Projects</h1>
+		<p>Fun little things I've made recently.</p>
+		{% if !site.projects.is_empty() %}
+			<ul>
+				{% for p in site.projects %}
+					<li>
+						<h3><a href="{{p.href}}">{{p.title}}</a></h3>
+						{{p.description|html|safe}}
+					</li>
+				{% endfor %}
+			</ul>
+		{% endif %}
+	</section>
 {% endblock %}
