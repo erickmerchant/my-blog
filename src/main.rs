@@ -12,7 +12,7 @@ use axum::{
 	serve, Router,
 };
 use layers::cache;
-use routes::{asset, entry, list, rss};
+use routes::{asset, entry, home, rss};
 use std::env;
 use tokio::{fs, net::TcpListener};
 use tower_http::{compression::CompressionLayer, trace::TraceLayer};
@@ -33,7 +33,7 @@ async fn main() -> Result<()> {
 		.init();
 
 	let app = Router::new()
-		.route("/", get(list::handler))
+		.route("/", get(home::handler))
 		.route("/posts/:slug/", get(entry::handler))
 		.route("/posts.rss", get(rss::handler))
 		.fallback(asset::handler)

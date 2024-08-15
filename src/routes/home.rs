@@ -9,7 +9,7 @@ use axum::{
 };
 
 #[derive(Template)]
-#[template(path = "list.html")]
+#[template(path = "home.html")]
 struct View {
 	pub site: site::Model,
 	pub entry_list: Vec<entry::Model>,
