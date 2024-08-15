@@ -4,12 +4,14 @@
 {% block title %}{% call super() %} — {{entry.title}}{% endblock %}
 
 {% block main %}
-	<header>
-		<h1>{{entry.title}}</h1>
-		{% call macros::state(entry) %}
-	</header>
+	<article class="article">
+		<header>
+			<h1>{{entry.title}}</h1>
+			{% call macros::state(entry) %}
+		</header>
 
-	{% if let Some(content) = entry.content %}
-		{{content|html|safe}}
-	{% endif %}
+		{% if let Some(content) = entry.content %}
+			{{content|html|safe}}
+		{% endif %}
+	</article>
 {% endblock %}

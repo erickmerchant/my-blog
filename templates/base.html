@@ -15,13 +15,11 @@
 	<nav class="nav">
 		<a href="/">{{site.title}}</a>
 	</nav>
-	<main class="main">
-		{% block main %}{% endblock %}
-	</main>
-	<section class="bio">
+	{% block main %}{% endblock %}
+	<aside class="bio">
 		<h4>About</h4>
 		{{site.bio|html|safe}}
-	</section>
+	</aside>
 	<footer class="footer">
 		<ul>
 			<li>

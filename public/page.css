@@ -111,6 +111,7 @@ code {
 	display: grid;
 	grid-template-columns: auto 2rem min(100% - 6rem, 40rem) 2rem auto;
 	grid-template-rows: min-content auto min-content;
+	row-gap: 1rem;
 	--weight: 4;
 	--border-radius: 0.125rem;
 	--border-base: 0.07em;
@@ -132,17 +133,16 @@ code {
 	}
 }
 
-.main {
+.article {
 	display: grid;
-	row-gap: 1rem;
 	grid-template-columns: subgrid;
 	align-content: start;
+	row-gap: 1rem;
 	hyphens: auto;
 	overflow-wrap: break-word;
 	padding-block-end: 1.5rem;
 	z-index: 1;
 	grid-column: 1 / -1;
-	margin-block-start: 1rem;
 
 	> * {
 		inline-size: 100%;
@@ -161,6 +161,12 @@ code {
 
 	:where(ul, ol) {
 		padding-inline-start: 1rem;
+	}
+
+	:where(ul) {
+		::marker {
+			content: "- ";
+		}
 	}
 
 	:where(figure:has(pre)) {
@@ -322,7 +328,7 @@ code {
 	:where(svg) {
 		float: left;
 		margin-inline-end: 0.5rem;
-		margin-block-start: 0.3rem;
+		margin-block-start: 0.275rem;
 		flex-shrink: 0;
 		background: currentColor;
 		fill: var(--background);
@@ -335,6 +341,7 @@ code {
 	display: grid;
 	gap: 0.5rem;
 	margin-block-end: 0.5rem;
+	grid-column: 3;
 
 	:where(ol) {
 		display: grid;
@@ -359,11 +366,16 @@ code {
 			grid-template-columns: subgrid;
 		}
 	}
+
+	@container (inline-size <=42rem) {
+		grid-column: 2 / -2;
+	}
 }
 
 .projects {
 	display: grid;
 	gap: 0.5rem;
+	grid-column: 3;
 
 	&::before {
 		display: block;
@@ -405,5 +417,9 @@ code {
 				border-radius: var(--border-radius);
 			}
 		}
+	}
+
+	@container (inline-size <=42rem) {
+		grid-column: 2 / -2;
 	}
 }
