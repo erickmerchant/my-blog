@@ -85,7 +85,7 @@ em {
 
 svg {
 	block-size: 1em;
-	display: block;
+	display: inline grid;
 	fill: currentColor;
 }
 
@@ -322,7 +322,7 @@ code {
 	:where(svg) {
 		float: left;
 		margin-inline-end: 0.5rem;
-		margin-block-start: 0.14rem;
+		margin-block-start: 0.3rem;
 		flex-shrink: 0;
 		background: currentColor;
 		fill: var(--background);
@@ -338,7 +338,7 @@ code {
 
 	:where(ol) {
 		display: grid;
-		gap: 0.5rem;
+		gap: 1rem;
 		grid-template-columns: max-content max-content auto;
 		list-style: none;
 		padding-inline-start: 0;
@@ -378,7 +378,7 @@ code {
 	:where(ul) {
 		display: flex;
 		flex-direction: column;
-		gap: 1.25rem;
+		gap: 1rem;
 		padding-inline-start: 0;
 		--weight: 4;
 
@@ -395,6 +395,15 @@ code {
 			gap: 0.5rem;
 			grid-column: 1 / -1;
 			grid-template-columns: subgrid;
+			align-items: baseline;
+
+			:where(svg) {
+				float: left;
+				margin-inline-end: 0.5rem;
+				margin-block-start: 0.2rem;
+				flex-shrink: 0;
+				border-radius: var(--border-radius);
+			}
 		}
 	}
 }
