@@ -208,14 +208,15 @@ code {
 		margin-inline: auto;
 		grid-column: 3;
 
-		&:where(header) {
-			display: grid;
-			gap: 0.5rem;
-		}
-
 		@container (inline-size <=42rem) {
 			grid-column: 2 / -2;
 		}
+	}
+
+	> :where(header) {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
 	}
 
 	:where(ul, ol) {
@@ -301,7 +302,6 @@ code {
 }
 
 .state {
-	align-items: center;
 	display: inline flex;
 	align-items: baseline;
 	gap: 0.5rem;
@@ -333,7 +333,8 @@ code {
 }
 
 .posts {
-	display: grid;
+	display: flex;
+	flex-direction: column;
 	gap: 0.5rem;
 
 	:where(ol) {
@@ -341,15 +342,14 @@ code {
 		gap: 1rem;
 		grid-template-columns: max-content max-content auto;
 		list-style: none;
-		padding-inline-start: 0;
 		--weight: 5;
+	}
 
-		:where(li) {
-			display: grid;
-			gap: 0.25rem 2rem;
-			grid-column: 1 / -1;
-			grid-template-columns: subgrid;
-		}
+	:where(li) {
+		display: grid;
+		gap: 0.25rem 2rem;
+		grid-column: 1 / -1;
+		grid-template-columns: subgrid;
 	}
 }
 
@@ -363,30 +363,27 @@ code {
 		gap: 1rem;
 		padding-inline-start: 0;
 		--weight: 4;
+	}
 
-		:where(li) {
-			display: grid;
-			gap: 0.5rem;
-			grid-column: 1 / -1;
-			grid-template-columns: subgrid;
-			align-items: baseline;
+	:where(li) {
+		display: grid;
+		gap: 0.5rem;
+		grid-column: 1 / -1;
+		grid-template-columns: subgrid;
+		align-items: baseline;
 
-			:where(svg) {
-				border-radius: var(--border-radius);
-			}
+		:where(svg) {
+			border-radius: var(--border-radius);
 		}
 	}
 }
 
 .posts,
 .projects {
-	:where(ul, ol) {
-		&,
-		:where(li) {
-			@container (inline-size <=42rem) {
-				display: flex;
-				flex-direction: column;
-			}
+	:where(ul, ol, li) {
+		@container (inline-size <=42rem) {
+			display: flex;
+			flex-direction: column;
 		}
 	}
 }
