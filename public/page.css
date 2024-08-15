@@ -87,9 +87,15 @@ svg {
 	block-size: 1em;
 	display: inline grid;
 	fill: currentColor;
+
+	a & {
+		float: left;
+		margin-inline-end: 0.5em;
+		margin-block-start: 0.225em;
+	}
 }
 
-:where(:not(pre)) > code {
+code {
 	font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas,
 		"DejaVu Sans Mono", monospace;
 }
@@ -119,17 +125,70 @@ code {
 	--easing: ease-in-out;
 	--background: light-dark(oklab(99% 0.0125 0.025), oklab(1% -0.1 -0.2));
 	--foreground: light-dark(oklab(1% 0.00625 0.0125), oklab(99% -0.05 -0.1));
+
+	> * {
+		grid-column: 3;
+
+		@container (inline-size <=42rem) {
+			grid-column: 2 / -2;
+		}
+	}
+
+	> :nth-child(1n + 3):nth-last-child(1n + 2) {
+		&::before {
+			display: block;
+			content: "";
+			background-color: currentColor;
+			inline-size: calc(100% - 2rem);
+			block-size: 0.125rem;
+			margin-inline: auto;
+			margin-block-end: 0.5rem;
+		}
+	}
 }
 
 .nav {
 	display: grid;
-	font-size: clamp(1.25rem, 7cqw, 2rem);
-	padding-block: 1rem;
-	grid-column: 3;
+	font-size: clamp(1.25rem, 7cqi, 2rem);
+	padding-block: 1rem 0;
 	--weight: 9;
+}
 
-	@container (inline-size <=42rem) {
-		grid-column: 2 / -2;
+.footer {
+	display: grid;
+	gap: 1.5rem 0;
+	font-size: 0.9rem;
+	align-content: center;
+	padding-block: 1.5rem;
+	--weight: 5;
+
+	:where(ul) {
+		display: grid;
+		gap: 1rem 2rem;
+		grid-template-columns: max-content max-content 1fr;
+		justify-items: end;
+		list-style: none;
+
+		@container (inline-size <=27.5rem) {
+			display: flex;
+			flex-wrap: wrap;
+		}
+	}
+
+	:where(li) {
+		display: grid;
+	}
+}
+
+.rss-link {
+	align-items: baseline;
+	display: block;
+
+	:where(svg) {
+		background: currentColor;
+		fill: var(--background);
+		padding: 0.125em;
+		border-radius: var(--border-radius);
 	}
 }
 
@@ -273,75 +332,9 @@ code {
 	}
 }
 
-.bio {
-	display: grid;
-	gap: 0.5rem;
-	font-size: 0.9rem;
-	grid-column: 3;
-	--weight: 4;
-
-	&::before {
-		display: block;
-		content: "";
-		background-color: currentColor;
-		inline-size: 25cqi;
-		block-size: calc(var(--border-base) + calc(var(--border-step) * 5));
-		margin-inline: auto;
-		margin-block-end: 1rem;
-	}
-
-	@container (inline-size <=42rem) {
-		grid-column: 2 / -2;
-	}
-}
-
-.footer {
-	display: grid;
-	gap: 1.5rem 0;
-	grid-column: 3;
-	font-size: 0.9rem;
-	align-content: center;
-	padding-block: 1.5rem;
-	--weight: 5;
-
-	:where(ul) {
-		display: grid;
-		gap: 1rem 2rem;
-		grid-template-columns: max-content max-content 1fr;
-		justify-items: end;
-		list-style: none;
-
-		@container (inline-size <=27.5rem) {
-			display: flex;
-			flex-wrap: wrap;
-		}
-	}
-
-	@container (inline-size <=42rem) {
-		grid-column: 2 / -2;
-	}
-}
-
-.rss-link {
-	align-items: baseline;
-
-	:where(svg) {
-		float: left;
-		margin-inline-end: 0.5rem;
-		margin-block-start: 0.275rem;
-		flex-shrink: 0;
-		background: currentColor;
-		fill: var(--background);
-		padding: 0.125em;
-		border-radius: var(--border-radius);
-	}
-}
-
 .posts {
 	display: grid;
 	gap: 0.5rem;
-	margin-block-end: 0.5rem;
-	grid-column: 3;
 
 	:where(ol) {
 		display: grid;
@@ -351,14 +344,6 @@ code {
 		padding-inline-start: 0;
 		--weight: 5;
 
-		&,
-		:where(li) {
-			@container (inline-size <=42rem) {
-				display: flex;
-				flex-direction: column;
-			}
-		}
-
 		:where(li) {
 			display: grid;
 			gap: 0.25rem 2rem;
@@ -366,26 +351,11 @@ code {
 			grid-template-columns: subgrid;
 		}
 	}
-
-	@container (inline-size <=42rem) {
-		grid-column: 2 / -2;
-	}
 }
 
 .projects {
 	display: grid;
 	gap: 0.5rem;
-	grid-column: 3;
-
-	&::before {
-		display: block;
-		content: "";
-		background-color: currentColor;
-		inline-size: 25cqi;
-		block-size: calc(var(--border-base) + calc(var(--border-step) * 5));
-		margin-inline: auto;
-		margin-block-end: 0.5rem;
-	}
 
 	:where(ul) {
 		display: flex;
@@ -393,14 +363,6 @@ code {
 		gap: 1rem;
 		padding-inline-start: 0;
 		--weight: 4;
-
-		&,
-		:where(li) {
-			@container (inline-size <=42rem) {
-				display: flex;
-				flex-direction: column;
-			}
-		}
 
 		:where(li) {
 			display: grid;
@@ -410,16 +372,28 @@ code {
 			align-items: baseline;
 
 			:where(svg) {
-				float: left;
-				margin-inline-end: 0.5rem;
-				margin-block-start: 0.2rem;
-				flex-shrink: 0;
 				border-radius: var(--border-radius);
 			}
 		}
 	}
+}
 
-	@container (inline-size <=42rem) {
-		grid-column: 2 / -2;
+.posts,
+.projects {
+	:where(ul, ol) {
+		&,
+		:where(li) {
+			@container (inline-size <=42rem) {
+				display: flex;
+				flex-direction: column;
+			}
+		}
 	}
+}
+
+.bio {
+	display: grid;
+	gap: 0.5rem;
+	font-size: 0.9rem;
+	--weight: 4;
 }

@@ -12,7 +12,7 @@ pub struct View {
 }
 
 pub async fn handler() -> Result<Response, crate::Error> {
-	let site = site::Model::load().await?;
+	let site = site::Model::read().await?;
 	let body = View { site }.render()?;
 
 	Ok((StatusCode::NOT_FOUND, Html(body)).into_response())

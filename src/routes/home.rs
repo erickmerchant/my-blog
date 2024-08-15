@@ -16,8 +16,8 @@ struct View {
 }
 
 pub async fn handler() -> Result<Response, crate::Error> {
-	let entry_list = entry::Model::load_all(false).await;
-	let site = site::Model::load().await?;
+	let entry_list = entry::Model::all(false).await;
+	let site = site::Model::read().await?;
 	let html = View { site, entry_list }.render()?;
 
 	Ok((StatusCode::OK, Html(html)).into_response())

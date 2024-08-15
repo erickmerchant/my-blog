@@ -17,14 +17,14 @@ pub struct Model {
 }
 
 impl Model {
-	pub async fn load_all(include_content: bool) -> Vec<Self> {
+	pub async fn all(include_content: bool) -> Vec<Self> {
 		let mut all = vec![];
 		let results = glob("content/posts/*.md").ok();
 
 		if let Some(paths) = results {
 			for path in paths.flatten() {
 				if let Some(slug) = path.file_stem().and_then(|s| s.to_str()) {
-					if let Some(model) = Self::load_by_slug(slug, include_content).await {
+					if let Some(model) = Self::by_slug(slug, include_content).await {
 						all.push(model);
 					}
 				}
@@ -50,7 +50,7 @@ impl Model {
 		all
 	}
 
-	pub async fn load_by_slug(slug: &str, include_content: bool) -> Option<Self> {
+	pub async fn by_slug(slug: &str, include_content: bool) -> Option<Self> {
 		fs::read_to_string(
 			Utf8Path::new("content/posts")
 				.join(slug)
