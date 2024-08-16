@@ -1,6 +1,6 @@
 +++
-title = "Rust note #3: return early sometimes"
-state = { published = "2023-08-24" }
+title = "Rust note #2: return early sometimes"
+status = { published = "2023-08-24" }
 +++
 
 <blockquote class="callout">

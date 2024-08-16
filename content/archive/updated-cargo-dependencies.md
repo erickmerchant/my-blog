@@ -1,6 +1,6 @@
 +++
 title = "Updated Cargo dependencies"
-state = { published = "2023-05-06" }
+status = { published = "2023-05-06" }
 +++
 
 A while back I wrote about rewriting this blog to use Rust. There have been a lot of changes since then, and I wanted to catalog some the crates that I use now, contrasting some with what I used initially.

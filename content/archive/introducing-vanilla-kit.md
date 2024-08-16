@@ -1,6 +1,6 @@
 +++
 title = "Introducing vanilla-kit"
-state = { published = "2024-07-01" }
+status = { published = "2024-07-01" }
 +++
 
 ```javascript

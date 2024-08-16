@@ -1,6 +1,6 @@
 +++
 title = "Getting a CSS property's value in any units"
-state = { published = "2024-01-27" }
+status = { published = "2024-01-27" }
 +++
 
 <blockquote class="callout">

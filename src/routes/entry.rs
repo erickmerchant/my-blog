@@ -1,7 +1,7 @@
 use super::not_found;
 use crate::{
 	filters,
-	models::{entry, site, state::State},
+	models::{entry, site, status::Status},
 };
 use askama::Template;
 use axum::{

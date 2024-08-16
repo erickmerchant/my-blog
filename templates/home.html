@@ -9,10 +9,12 @@
 		{% else %}
 			<ol>
 				{% for e in entry_list %}
-					<li>
-						{% call macros::state(e) %}
-						<span><a href="/posts/{{e.slug}}/">{{e.title}}</a></span>
-					</li>
+					{% if let Some(slug) = e.slug %}
+						<li>
+							{% call macros::status(e) %}
+							<span><a href="/posts/{{slug}}/">{{e.title}}</a></span>
+						</li>
+					{% endif %}
 				{% endfor %}
 			</ol>
 		{% endif %}

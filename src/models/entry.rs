@@ -1,4 +1,4 @@
-use super::state;
+use super::status::Status;
 use camino::Utf8Path;
 use glob::glob;
 use serde::Deserialize;
@@ -6,13 +6,9 @@ use tokio::fs;
 
 #[derive(Clone, Debug, Default, PartialEq, Eq, Deserialize)]
 pub struct Model {
-	#[serde(default)]
-	pub slug: String,
-
+	pub slug: Option<String>,
 	pub title: String,
-
-	#[serde(default)]
-	pub state: state::State,
+	pub status: Option<Status>,
 	pub content: Option<String>,
 }
 
@@ -33,14 +29,15 @@ impl Model {
 
 		let mut all: Vec<Self> = all
 			.iter()
-			.filter(|e| e.state != state::State::Draft)
+			.filter(|e| e.status != Some(Status::Draft))
 			.map(|e| e.to_owned())
 			.collect();
 
 		all.sort_by(|a, b| {
-			let cmp = b.state.cmp(&a.state);
+			let cmp = b.status.cmp(&a.status);
 
-			if let (state::State::Published(a), state::State::Published(b)) = (&a.state, &b.state) {
+			if let (Some(Status::Published(a)), Some(Status::Published(b))) = (&a.status, &b.status)
+			{
 				b.cmp(a)
 			} else {
 				cmp
@@ -92,7 +89,7 @@ impl Model {
 				}
 			}
 
-			model.slug = slug.to_string();
+			model.slug = Some(slug.to_string());
 
 			model
 		})

@@ -4,14 +4,16 @@
 		<title>Posts</title>
 		<link>{{site.host}}/posts.rss</link>
 		<copyright>{{site.author}}</copyright>
-		{% for entry in entry_list %}
-			<item>
-				<title>{{entry.title}}</title>
-				<link>{{site.host}}/posts/{{entry.slug}}/</link>
-				{% if let State::Published(date) = entry.state %}
-					<pubDate>{{date.format("%a, %d %h %Y")}} 00:00:00 +0000</pubDate>
-				{% endif %}
-			</item>
+		{% for e in entry_list %}
+			{% if let Some(slug) = e.slug %}
+				<item>
+					<title>{{e.title}}</title>
+					<link>{{site.host}}/posts/{{slug}}/</link>
+					{% if let Some(Status::Published(date)) = e.status %}
+						<pubDate>{{date.format("%a, %d %h %Y")}} 00:00:00 +0000</pubDate>
+					{% endif %}
+				</item>
+			{% endif %}
 		{% endfor %}
 	</channel>
 </rss>
