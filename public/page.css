@@ -320,7 +320,6 @@ code {
 	display: block;
 	padding-block: 1rem;
 	padding-inline: 1rem;
-	--weight: 6;
 
 	:where(cite) {
 		display: inline flex;
