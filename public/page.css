@@ -51,6 +51,8 @@ a {
 }
 
 p {
+	text-wrap: pretty;
+
 	@container (inline-size <=42rem) {
 		hyphens: auto;
 	}
@@ -221,7 +223,6 @@ code {
 	grid-template-columns: subgrid;
 	align-content: start;
 	row-gap: 1rem;
-	hyphens: auto;
 	overflow-wrap: break-word;
 	padding-block-end: 1.5rem;
 	z-index: 1;
