@@ -1,9 +1,12 @@
 {% extends "base.html" %}
+
 {% import "macros.html" as macros %}
+
+{% block site_link %}<h1>{% call super() %}</h1>{% endblock %}
 
 {% block main %}
 	<section class="posts">
-		<h1>Posts</h1>
+		<h2>Posts</h2>
 		{% if entry_list.is_empty() %}
 			<p>There are no posts yet. Check back again soon.</p>
 		{% else %}
@@ -11,8 +14,10 @@
 				{% for e in entry_list %}
 					{% if let Some(slug) = e.slug %}
 						<li>
-							{% call macros::status(e) %}
-							<span><a href="/posts/{{slug}}/">{{e.title}}</a></span>
+							<h3>
+								{% call macros::status(e) %}
+								<a href="/posts/{{slug}}/">{{e.title}}</a>
+							</h3>
 						</li>
 					{% endif %}
 				{% endfor %}
@@ -43,7 +48,7 @@
 		</section>
 	{% endif %}
 	<aside class="bio">
-		<h4>About</h4>
+		<h2>About</h2>
 		{{site.bio|html|safe}}
 	</aside>
 {% endblock %}
