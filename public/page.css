@@ -160,7 +160,8 @@ code {
 				currentColor 1rem,
 				transparent 1rem
 			);
-			background-size: 1.25rem;
+			background-size: 1.25rem 100%;
+			background-repeat: repeat-x;
 			inline-size: calc(round(down, 100%, 1.25rem) - 1.25rem);
 			block-size: 0.125rem;
 			margin-inline: auto;
