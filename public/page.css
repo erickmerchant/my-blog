@@ -424,6 +424,10 @@ code {
 			border-radius: var(--border-radius);
 		}
 	}
+
+	:where(a) {
+		--weight: 7;
+	}
 }
 
 .bio {
