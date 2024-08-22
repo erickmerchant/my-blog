@@ -150,23 +150,18 @@ code {
 		}
 	}
 
-	> :where(:nth-child(1n + 3):nth-last-child(1n + 2)) {
-		&::before {
-			display: block;
-			content: "";
-			background-image: linear-gradient(
-				90deg,
-				currentColor,
-				currentColor 1rem,
-				transparent 1rem
-			);
-			background-size: 1.25rem 100%;
-			background-repeat: repeat-x;
-			inline-size: calc(round(down, 100%, 1.25rem) - 1.25rem);
-			block-size: 0.125rem;
-			margin-inline: auto;
-			margin-block-end: 0.5rem;
-		}
+	> :where(:nth-child(1n + 3)) {
+		padding-block-start: 1rem;
+		background-image: repeating-linear-gradient(
+			90deg,
+			currentColor,
+			currentColor 1rem,
+			transparent 1rem,
+			transparent 1.25rem
+		);
+		background-position: center top;
+		background-size: calc(round(down, 100%, 1.25rem) - 1.25rem) 0.125rem;
+		background-repeat: no-repeat;
 	}
 }
 
@@ -186,7 +181,7 @@ code {
 	gap: 1.5rem 0;
 	font-size: 0.9rem;
 	align-content: center;
-	padding-block: 1.5rem;
+	padding-block: 1rem;
 	--weight: 5;
 
 	:where(ul) {
@@ -225,7 +220,6 @@ code {
 	align-content: start;
 	row-gap: 1rem;
 	overflow-wrap: break-word;
-	padding-block-end: 1.5rem;
 	z-index: 1;
 	grid-column: 1 / -1;
 
@@ -297,7 +291,7 @@ code {
 					transparent calc(1lh - 0.5em)
 				);
 				background-position: right calc((100% - 0.5em) / 2);
-				background-size: var(--border-width) 100%;
+				background-size: 0.125em 100%;
 				background-repeat: no-repeat;
 				content: counter(lines, decimal);
 				counter-increment: lines 1;
@@ -332,28 +326,17 @@ code {
 
 .callout {
 	display: block;
-	padding-block: 1rem;
 	padding-inline: 1rem;
-	position: relative;
-
-	&::before {
-		position: absolute;
-		inset-inline-start: 0;
-		inset-block-start: calc((100% - var(--block-size)) / 2);
-		display: block;
-		content: "";
-		background-image: linear-gradient(
-			180deg,
-			currentColor,
-			currentColor 0.5rem,
-			transparent 0.5rem
-		);
-		background-repeat: repeat-y;
-		background-size: 100% 0.75rem;
-		block-size: var(--block-size);
-		inline-size: 0.125rem;
-		--block-size: calc(round(down, 100%, 0.75rem) - 1.5rem);
-	}
+	background-image: repeating-linear-gradient(
+		180deg,
+		currentColor,
+		currentColor 0.5rem,
+		transparent 0.5rem,
+		transparent 0.75rem
+	);
+	background-size: 0.125rem round(down, 100%, 0.75rem);
+	background-repeat: no-repeat;
+	background-position: left center;
 
 	:where(cite) {
 		display: inline flex;
@@ -382,15 +365,12 @@ code {
 	}
 
 	:where(li) {
-		&,
-		& > * {
-			display: grid;
-			gap: 0.25rem 0.5rem;
-			grid-column: 1 / -1;
-			grid-template-columns: subgrid;
-		}
+		display: grid;
+		column-gap: 0.5rem;
+		grid-column: 1 / -1;
+		grid-template-columns: subgrid;
 
-		> *::after {
+		&::after {
 			position: relative;
 			display: inline grid;
 			margin-inline: auto;
@@ -401,14 +381,11 @@ code {
 			background-image: radial-gradient(
 				circle at 50% 0.75em,
 				currentColor,
-				currentColor var(--dot-size),
-				transparent var(--dot-size)
+				currentColor 0.1em,
+				transparent 0.1em
 			);
 			background-size: 1rem 100%;
 			background-repeat: repeat-x;
-			--dot-size: calc(
-				(var(--border-base) + (var(--border-step) * var(--weight))) / 1.5
-			);
 		}
 	}
 
@@ -418,11 +395,8 @@ code {
 
 	@container (inline-size <=30rem) {
 		:where(ol, li) {
-			&,
-			& > * {
-				display: flex;
-				flex-direction: column;
-			}
+			display: flex;
+			flex-direction: column;
 		}
 	}
 }
