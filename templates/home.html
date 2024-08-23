@@ -2,6 +2,10 @@
 
 {% import "macros.html" as macros %}
 
+{% block page_styles %}
+	<link rel="stylesheet" href="/home.css" />
+{% endblock %}
+
 {% block site_link %}<h1>{% call super() %}</h1>{% endblock %}
 
 {% block main %}

@@ -6,6 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<title>{% block title %}{{site.title}}{% endblock %}</title>
 	<link rel="stylesheet" href="/page.css" />
+	{% block page_styles %}{% endblock %}
 	<meta name="description" content="{{site.description}}" />
 	<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 	<link rel="alternate" type="application/rss+xml" title="Posts" href="{{site.host}}/posts.rss" />

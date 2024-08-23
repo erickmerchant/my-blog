@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 {% import "macros.html" as macros %}
 
+{% block page_styles %}
+	<link rel="stylesheet" href="/entry.css" />
+{% endblock %}
+
 {% block title %}{% call super() %} — {{entry.title}}{% endblock %}
 
 {% block main %}
