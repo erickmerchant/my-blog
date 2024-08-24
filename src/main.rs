@@ -11,8 +11,8 @@ use axum::{
 	routing::get,
 	serve, Router,
 };
-use layers::cache;
-use routes::{asset, entry, home, rss};
+use layers::cache::layer as cache_layer;
+use routes::{cache, entry, fallback, home, rss};
 use std::env;
 use tokio::{fs, net::TcpListener};
 use tower_http::{compression::CompressionLayer, trace::TraceLayer};
@@ -36,8 +36,9 @@ async fn main() -> Result<()> {
 		.route("/", get(home::handler))
 		.route("/posts/:slug/", get(entry::handler))
 		.route("/posts.rss", get(rss::handler))
-		.fallback(asset::handler)
-		.layer(from_fn(cache::layer))
+		.route("/cache/:v/*path", get(cache::handler))
+		.fallback(fallback::handler)
+		.layer(from_fn(cache_layer))
 		.layer(CompressionLayer::new())
 		.layer(TraceLayer::new_for_http());
 	let listener = TcpListener::bind(("0.0.0.0", port))

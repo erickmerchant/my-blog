@@ -25,37 +25,36 @@ pub async fn layer(req: Request<Body>, next: Next) -> Result<Response, crate::Er
 	}
 
 	let path = Utf8Path::new(path.as_str());
-	let ext = path.extension().unwrap_or_default();
-	let new_path = path.with_extension("").with_extension(ext);
-	let has_cache_buster = path != new_path;
-	let cache_path = Utf8Path::new("./storage").join(new_path.to_string().trim_start_matches("/"));
-	let content_type =
-		mime_guess::from_path(&new_path).first_or("text/html".parse::<mime::Mime>()?);
+	let content_type = mime_guess::from_path(path).first_or("text/html".parse::<mime::Mime>()?);
+
+	if content_type != "text/html" {
+		let new_req = Request::from_parts(req_parts.clone(), req_body);
+		return Ok(next.run(new_req).await);
+	}
+
+	let cache_path = Utf8Path::new("./storage").join(path.to_string().trim_start_matches("/"));
 	let body = if let Ok(cached_body) = fs::read_to_string(&cache_path).await {
 		cached_body.as_bytes().to_vec()
 	} else {
 		let mut new_req = Request::from_parts(req_parts.clone(), req_body);
 
-		*new_req.uri_mut() = new_path.to_string().parse()?;
+		*new_req.uri_mut() = path.to_string().parse()?;
 
 		let res = next.run(new_req).await;
 		let body = res.into_body();
 		let body = body.collect().await?;
 		let body = body.to_bytes();
-		let body = if content_type == "text/html" {
-			rewrite_assets(
-				body,
-				&Url::parse("https://erickmerchant.com/")?.join(uri.to_string().as_str())?,
-			)?
-		} else {
-			body.to_vec()
-		};
+		let body = rewrite_assets(
+			body,
+			&Url::parse("https://erickmerchant.com/")?.join(uri.to_string().as_str())?,
+		)?;
 
 		fs::create_dir_all(cache_path.with_file_name("")).await.ok();
 		fs::write(cache_path, &body).await.ok();
 
 		body
 	};
+
 	let etag = EntityTag::from_data(&body).to_string();
 
 	if req_parts
@@ -66,31 +65,10 @@ pub async fn layer(req: Request<Body>, next: Next) -> Result<Response, crate::Er
 		return Ok((StatusCode::NOT_MODIFIED).into_response());
 	}
 
-	if has_cache_buster {
-		return Ok((
-			StatusCode::OK,
-			[
-				(
-					header::CONTENT_TYPE,
-					format!("{content_type}; charset=utf-8"),
-				),
-				(
-					header::CACHE_CONTROL,
-					"public, max-age=31536000, immutable".to_string(),
-				),
-			],
-			body,
-		)
-			.into_response());
-	};
-
 	Ok((
 		StatusCode::OK,
 		[
-			(
-				header::CONTENT_TYPE,
-				format!("{content_type}; charset=utf-8"),
-			),
+			(header::CONTENT_TYPE, "text/html; charset=utf-8".to_string()),
 			(header::ETAG, etag),
 		],
 		body,
@@ -194,11 +172,8 @@ fn asset_url(url: &str, base: &Url) -> String {
 				.map(|d| d.as_secs())
 				.expect("time should be a valid time since the unix epoch");
 			let cache_key = base62::encode(version_time);
-			let ext = path.extension().unwrap_or_default();
 
-			return path
-				.with_extension(format!("{cache_key}.{ext}"))
-				.to_string();
+			return format!("/cache/{cache_key}{path}").to_string();
 		}
 	};
 
