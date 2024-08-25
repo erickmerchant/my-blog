@@ -29,7 +29,7 @@ impl Model {
 
 		let mut all: Vec<Self> = all
 			.iter()
-			.filter(|e| e.status != Some(Status::Draft))
+			.filter(|e| e.status.is_some())
 			.map(|e| e.to_owned())
 			.collect();
 

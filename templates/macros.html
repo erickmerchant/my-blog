@@ -8,14 +8,6 @@
 				</svg>
 				Pinned
 			</span>
-		{% when Some with (Status::Draft) %}
-			<span class="status">
-				<svg viewBox="0 0 28 28">
-					<title>Edit</title>
-					<path d="M9 1 Q10 0 11 1 L15 5 L5 15 L1 11 Q0 10 1 9 Z M17 7 L28 18 V28 H18 L7 17 Z"></path>
-				</svg>
-				Draft
-			</span>
 		{% when Some with (Status::Published(date)) %}
 			<time class="status">
 				<svg viewBox="0 0 20 24">
@@ -25,6 +17,12 @@
 				{{date.format("%Y-%m-%d")}}
 			</time>
 	{% else %}
-
+		<span class="status">
+			<svg viewBox="0 0 28 28">
+				<title>Edit</title>
+				<path d="M9 1 Q10 0 11 1 L15 5 L5 15 L1 11 Q0 10 1 9 Z M17 7 L28 18 V28 H18 L7 17 Z"></path>
+			</svg>
+			Draft
+		</span>
 	{% endmatch %}
 {% endmacro -%}

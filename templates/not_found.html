@@ -2,7 +2,13 @@
 
 {% block title %}{% call super() %} - 404 Not Found{% endblock %}
 
+{% block page_styles %}
+	<link rel="stylesheet" href="/entry.css" />
+{% endblock %}
+
 {% block main %}
-	<h1>404 Not Found</h1>
-	<p>The thing you're looking for can not be located.</p>
+	<article class="article">
+		<h1>404 Not Found</h1>
+		<p>The thing you're looking for can not be located.</p>
+	</article>
 {% endblock %}
