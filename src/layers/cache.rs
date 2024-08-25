@@ -7,7 +7,7 @@ use axum::{
 use camino::Utf8Path;
 use etag::EntityTag;
 use http_body_util::BodyExt;
-use hyper::body::Bytes;
+use hyper::{body::Bytes, header::HeaderValue};
 use lol_html::{element, html_content::ContentType, text, HtmlRewriter, Settings};
 use serde::{Deserialize, Serialize};
 use serde_json as json;
@@ -17,6 +17,17 @@ use url::Url;
 
 pub async fn layer(req: Request<Body>, next: Next) -> Result<Response, crate::Error> {
 	let (req_parts, req_body) = req.into_parts();
+	let headers = &req_parts.headers;
+	let cache_control = headers.get("cache-control");
+	let if_none_match = headers.get("if-none-match");
+
+	if cache_control == Some(&HeaderValue::from_str("no-cache")?) {
+		let new_req = Request::from_parts(req_parts.clone(), req_body);
+		let res = next.run(new_req).await;
+
+		return Ok(res);
+	}
+
 	let uri = &req_parts.uri;
 	let mut path = uri.path().to_string();
 
@@ -57,11 +68,7 @@ pub async fn layer(req: Request<Body>, next: Next) -> Result<Response, crate::Er
 
 	let etag = EntityTag::from_data(&body).to_string();
 
-	if req_parts
-		.headers
-		.get("if-none-match")
-		.map_or(false, |if_none_match| etag == *if_none_match)
-	{
+	if if_none_match.map_or(false, |if_none_match| etag == *if_none_match) {
 		return Ok((StatusCode::NOT_MODIFIED).into_response());
 	}
 
