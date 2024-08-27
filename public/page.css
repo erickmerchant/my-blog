@@ -124,8 +124,8 @@ svg {
 	--border-base: 0.1em;
 	--border-step: 0.005em;
 	--easing: ease-in-out;
-	--background: light-dark(oklab(97% 0.0125 0.025), oklab(3% -0.1 -0.2));
-	--foreground: light-dark(oklab(3% 0.0125 0.025), oklab(97% -0.1 -0.2));
+	--background: light-dark(oklab(98% 0.00625 0.0125), oklab(2% -0.125 -0.25));
+	--foreground: light-dark(oklab(2% 0 0), oklab(98% 0 0));
 
 	> * {
 		grid-column: 3;
