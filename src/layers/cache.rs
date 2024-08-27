@@ -18,16 +18,15 @@ use url::Url;
 pub async fn layer(req: Request<Body>, next: Next) -> Result<Response, crate::Error> {
 	let (req_parts, req_body) = req.into_parts();
 	let headers = &req_parts.headers;
-	let cache_control = headers.get("cache-control");
-	let if_none_match = headers.get("if-none-match");
 
-	if cache_control == Some(&HeaderValue::from_str("no-cache")?) {
+	if headers.get(header::CACHE_CONTROL) == Some(&HeaderValue::from_str("no-cache")?) {
 		let new_req = Request::from_parts(req_parts.clone(), req_body);
 		let res = next.run(new_req).await;
 
 		return Ok(res);
 	}
 
+	let if_none_match = headers.get(header::IF_NONE_MATCH);
 	let uri = &req_parts.uri;
 	let mut path = uri.path().to_string();
 
@@ -37,12 +36,6 @@ pub async fn layer(req: Request<Body>, next: Next) -> Result<Response, crate::Er
 
 	let path = Utf8Path::new(path.as_str());
 	let content_type = mime_guess::from_path(path).first_or("text/html".parse::<mime::Mime>()?);
-
-	if content_type != "text/html" {
-		let new_req = Request::from_parts(req_parts.clone(), req_body);
-		return Ok(next.run(new_req).await);
-	}
-
 	let cache_path = Utf8Path::new("./storage").join(path.to_string().trim_start_matches("/"));
 	let body = if let Ok(cached_body) = fs::read_to_string(&cache_path).await {
 		cached_body.as_bytes().to_vec()
@@ -56,14 +49,14 @@ pub async fn layer(req: Request<Body>, next: Next) -> Result<Response, crate::Er
 		let body = body.collect().await?;
 		let body = body.to_bytes();
 		let body = rewrite_assets(
-			body,
-			&Url::parse("https://erickmerchant.com/")?.join(uri.to_string().as_str())?,
+			&body,
+			&Url::parse("https://localhost/")?.join(uri.to_string().as_str())?,
 		)?;
 
 		fs::create_dir_all(cache_path.with_file_name("")).await.ok();
 		fs::write(cache_path, &body).await.ok();
 
-		body
+		body.to_vec()
 	};
 
 	let etag = EntityTag::from_data(&body).to_string();
@@ -75,7 +68,7 @@ pub async fn layer(req: Request<Body>, next: Next) -> Result<Response, crate::Er
 	Ok((
 		StatusCode::OK,
 		[
-			(header::CONTENT_TYPE, "text/html; charset=utf-8".to_string()),
+			(header::CONTENT_TYPE, content_type.to_string()),
 			(header::ETAG, etag),
 		],
 		body,
@@ -120,7 +113,7 @@ impl ImportMap {
 	}
 }
 
-pub fn rewrite_assets(bytes: Bytes, base: &Url) -> anyhow::Result<Vec<u8>> {
+pub fn rewrite_assets(bytes: &Bytes, base: &Url) -> anyhow::Result<Vec<u8>> {
 	let mut output = Vec::<u8>::new();
 	let mut rewriter = HtmlRewriter::new(
 		Settings {
@@ -180,7 +173,7 @@ fn asset_url(url: &str, base: &Url) -> String {
 				.expect("time should be a valid time since the unix epoch");
 			let cache_key = base62::encode(version_time);
 
-			return format!("/cache/{cache_key}{path}").to_string();
+			return format!("{path}?v={cache_key}").to_string();
 		}
 	};
 

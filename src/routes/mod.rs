@@ -1,6 +1,5 @@
-pub mod cache;
+pub mod asset;
 pub mod entry;
-pub mod fallback;
 pub mod home;
 pub mod not_found;
 pub mod rss;

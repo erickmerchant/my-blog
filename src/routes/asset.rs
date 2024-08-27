@@ -1,14 +1,23 @@
 use super::not_found;
 use axum::{
-	extract::Path,
+	extract::{Path, Query},
 	http::{header, StatusCode},
 	response::{IntoResponse, Response},
 };
 use camino::Utf8Path;
+use serde::Deserialize;
 use tokio::fs;
 
-pub async fn handler(Path((_, path)): Path<(String, String)>) -> Result<Response, crate::Error> {
-	let path = path.trim_start_matches('/').to_string();
+#[allow(dead_code)]
+#[derive(Deserialize)]
+pub struct Params {
+	pub v: String,
+}
+
+pub async fn handler(
+	Path(path): Path<String>,
+	params: Option<Query<Params>>,
+) -> Result<Response, crate::Error> {
 	let is_index = path.ends_with('/');
 	let mut path = Utf8Path::new("public").join(path);
 
@@ -24,7 +33,11 @@ pub async fn handler(Path((_, path)): Path<(String, String)>) -> Result<Response
 					(header::CONTENT_TYPE, content_type.to_string()),
 					(
 						header::CACHE_CONTROL,
-						"public, max-age=31536000, immutable".to_string(),
+						if params.is_some() {
+							"public, max-age=31536000, immutable".to_string()
+						} else {
+							"public, max-age=86400".to_string()
+						},
 					),
 				],
 				body,
