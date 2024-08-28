@@ -139,12 +139,9 @@ svg {
 		padding-block-start: 1rem;
 		background-image: repeating-linear-gradient(
 			90deg,
-			transparent,
-			transparent 0.125rem,
-			currentColor 0.125rem,
-			currentColor 1.125rem,
-			transparent 1.125rem,
-			transparent 1.25rem
+			transparent 0 0.125rem,
+			currentColor 0.125rem 1.125rem,
+			transparent 1.125rem 1.25rem
 		);
 		background-position: center top;
 		background-size: calc(round(down, 100%, 1.25rem) - 1.25rem) 0.125rem;

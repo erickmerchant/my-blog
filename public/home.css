@@ -30,8 +30,7 @@
 			inline-size: round(down, 100%, 1rem);
 			background-image: radial-gradient(
 				circle at 50% 0.75em,
-				currentColor,
-				currentColor 0.1em,
+				currentColor 0 0.1em,
 				transparent 0.1em
 			);
 			background-size: 1rem 100%;

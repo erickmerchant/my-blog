@@ -83,8 +83,7 @@ code {
 			&::before {
 				background-image: linear-gradient(
 					0deg,
-					currentColor,
-					currentColor calc(1lh - 0.5em),
+					currentColor 0 calc(1lh - 0.5em),
 					transparent calc(1lh - 0.5em)
 				);
 				background-position: right calc((100% - 0.5em) / 2);
@@ -115,12 +114,9 @@ code {
 	padding-inline: 1rem;
 	background-image: repeating-linear-gradient(
 		180deg,
-		transparent,
-		transparent 0.125rem,
-		currentColor 0.125rem,
-		currentColor 0.625rem,
-		transparent 0.625rem,
-		transparent 0.75rem
+		transparent 0 0.125rem,
+		currentColor 0.125rem 0.625rem,
+		transparent 0.625rem 0.75rem
 	);
 	background-size: 0.125rem round(down, 100%, 0.75rem);
 	background-repeat: no-repeat;
