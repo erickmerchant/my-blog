@@ -1,6 +1,5 @@
 .posts {
-	display: flex;
-	flex-direction: column;
+	display: grid;
 	gap: 0.5rem;
 
 	:where(ol) {
@@ -20,21 +19,23 @@
 		grid-column: 1 / -1;
 		grid-template-columns: subgrid;
 
-		&::after {
-			position: relative;
-			display: inline grid;
-			margin-inline: auto;
-			grid-column: 2;
-			grid-row: 1;
-			content: "";
-			inline-size: round(down, 100%, 1rem);
-			background-image: radial-gradient(
-				circle at 50% 0.75em,
-				currentColor 0 0.1em,
-				transparent 0.1em
-			);
-			background-size: 1rem 100%;
-			background-repeat: repeat-x;
+		@container (inline-size >30rem) {
+			&::after {
+				position: relative;
+				display: inline grid;
+				margin-inline: auto;
+				grid-column: 2;
+				grid-row: 1;
+				content: "";
+				inline-size: round(down, 100%, 1rem);
+				background-image: radial-gradient(
+					circle at 50% 0.75em,
+					currentColor 0 0.1em,
+					transparent 0.1em
+				);
+				background-size: 1rem 100%;
+				background-repeat: repeat-x;
+			}
 		}
 	}
 
@@ -43,9 +44,8 @@
 	}
 
 	@container (inline-size <=30rem) {
-		:where(ol, li) {
-			display: flex;
-			flex-direction: column;
+		:where(ol) {
+			grid-template-columns: 100%;
 		}
 	}
 }
@@ -55,8 +55,7 @@
 	gap: 0.5rem;
 
 	:where(ul) {
-		display: flex;
-		flex-direction: column;
+		display: grid;
 		gap: 1rem;
 		padding-inline-start: 0;
 		--weight: 4;

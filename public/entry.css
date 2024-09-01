@@ -31,8 +31,7 @@ code {
 	}
 
 	> :where(header) {
-		display: flex;
-		flex-direction: column;
+		display: grid;
 		gap: 0.5rem;
 	}
 
