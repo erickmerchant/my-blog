@@ -198,9 +198,6 @@ svg {
 }
 
 .rss-link {
-	align-items: baseline;
-	display: block;
-
 	:where(svg) {
 		background: currentColor;
 		fill: var(--background);

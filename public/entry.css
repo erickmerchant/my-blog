@@ -109,7 +109,6 @@ code {
 }
 
 .callout {
-	display: block;
 	padding-inline: 1rem;
 	background-image: repeating-linear-gradient(
 		180deg,
