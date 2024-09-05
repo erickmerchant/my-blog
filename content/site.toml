@@ -7,15 +7,30 @@ Hey there! I'm Erick. I've been making things for the web for 18 years. I like t
 """
 
 [[projects]]
+href = "/projects/arc-clock/"
+title = "Arc Clock"
+description = """
+A clock I made to explore using custom properties and gradients in CSS. I saw this clock in a video and the person was making it with Rust and I thought it would be fun to make it with CSS.
+"""
+
+[[projects]]
+href = "https://github.com/erickmerchant/coolstyleserver"
+title = "Cool Style Server"
+description = """
+A development server that does hot module replacement of CSS without using a JavaScript bundler. You shouldn't need NPM to design a website.
+"""
+
+[[projects]]
 href = "/projects/icons/"
 title = "Icons"
 description = """
 A collection of icons I hand-code to use on this site and on other projects.
 """
 
+
 [[projects]]
-href = "/projects/arc-clock/"
-title = "Arc Clock"
+href = "https://github.com/erickmerchant/vanilla-kit"
+title = "Vanilla Kit"
 description = """
-A clock I made to explore using custom properties and gradients in CSS. I saw this clock in a video and the person was making it with Rust and I thought it would be fun to make it with CSS.
+Sort of jQuery for the declarative age. It's kind of hyperscript + reactivity with a jQuery inspired API.
 """
