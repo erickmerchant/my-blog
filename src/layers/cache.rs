@@ -1,12 +1,11 @@
 use axum::{
-	body::Body,
+	body::{to_bytes, Body},
 	http::{header, Request, StatusCode},
 	middleware::Next,
 	response::{IntoResponse, Response},
 };
 use camino::Utf8Path;
 use etag::EntityTag;
-use http_body_util::BodyExt;
 use hyper::{body::Bytes, header::HeaderValue};
 use lol_html::{element, html_content::ContentType, text, HtmlRewriter, Settings};
 use serde::{Deserialize, Serialize};
@@ -46,8 +45,7 @@ pub async fn layer(req: Request<Body>, next: Next) -> Result<Response, crate::Er
 
 		let res = next.run(new_req).await;
 		let body = res.into_body();
-		let body = body.collect().await?;
-		let body = body.to_bytes();
+		let body = to_bytes(body, usize::MAX).await?;
 		let body = rewrite_assets(
 			&body,
 			&Url::parse("https://localhost/")?.join(uri.to_string().as_str())?,

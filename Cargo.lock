@@ -81,7 +81,6 @@ dependencies = [
  "etag",
  "glob",
  "html-escape",
- "http-body-util",
  "hyper",
  "log",
  "lol_html",
