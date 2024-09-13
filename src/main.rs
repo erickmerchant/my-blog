@@ -17,7 +17,7 @@ use tower_http::{compression::CompressionLayer, trace::TraceLayer};
 async fn main() -> Result<()> {
 	fs::remove_dir_all("storage").await.ok();
 
-	let port: u16 = if let Ok(Ok(p)) = env::var("PORT").map(|p| p.parse::<u16>()) {
+	let port: u16 = if let Ok(Ok(p)) = env::var("PORT").map(|p| p.parse()) {
 		p
 	} else {
 		8080

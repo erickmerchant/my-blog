@@ -22,7 +22,7 @@ pub struct Model {
 impl Model {
 	pub async fn read() -> Result<Self> {
 		let toml = fs::read_to_string("content/site.toml").await?;
-		let site = toml::from_str::<Self>(&toml)?;
+		let site = toml::from_str(&toml)?;
 
 		Ok(site)
 	}

@@ -57,17 +57,17 @@ impl Model {
 		.ok()
 		.map(|contents| {
 			let parts = if contents.starts_with("+++") {
-				let parts = contents.splitn(3, "+++").collect::<Vec<&str>>();
+				let parts: Vec<_> = contents.splitn(3, "+++").collect();
 
 				Some(parts)
 			} else {
 				None
 			};
 
-			let mut model;
+			let mut model: Self;
 
 			if let Some([_, frontmatter, contents]) = parts.as_deref() {
-				model = toml::from_str::<Self>(frontmatter).unwrap_or_default();
+				model = toml::from_str(frontmatter).unwrap_or_default();
 
 				let content = if include_content {
 					Some(contents.to_string())

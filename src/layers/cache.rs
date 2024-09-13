@@ -34,7 +34,7 @@ pub async fn layer(req: Request<Body>, next: Next) -> Result<Response, crate::Er
 	}
 
 	let path = Utf8Path::new(path.as_str());
-	let content_type = mime_guess::from_path(path).first_or("text/html".parse::<mime::Mime>()?);
+	let content_type = mime_guess::from_path(path).first_or("text/html".parse()?);
 	let cache_path = Utf8Path::new("./storage").join(path.to_string().trim_start_matches("/"));
 	let body = if let Ok(cached_body) = fs::read_to_string(&cache_path).await {
 		cached_body.as_bytes().to_vec()
@@ -112,7 +112,7 @@ impl ImportMap {
 }
 
 pub fn rewrite_assets(bytes: &Bytes, base: &Url) -> anyhow::Result<Vec<u8>> {
-	let mut output = Vec::<u8>::new();
+	let mut output = vec![];
 	let mut rewriter = HtmlRewriter::new(
 		Settings {
 			element_content_handlers: vec![
