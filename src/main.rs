@@ -32,8 +32,8 @@ async fn main() -> Result<()> {
 		.route("/", get(home::handler))
 		.route("/posts/:slug/", get(entry::handler))
 		.route("/posts.rss", get(rss::handler))
-		.layer(from_fn(cache_layer))
 		.route("/*path", get(asset::handler))
+		.layer(from_fn(cache_layer))
 		.layer(CompressionLayer::new())
 		.layer(TraceLayer::new_for_http());
 	let listener = TcpListener::bind(("0.0.0.0", port))

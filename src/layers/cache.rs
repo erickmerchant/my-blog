@@ -17,6 +17,7 @@ use url::Url;
 pub async fn layer(req: Request<Body>, next: Next) -> Result<Response, crate::Error> {
 	let (req_parts, req_body) = req.into_parts();
 	let headers = &req_parts.headers;
+	let params = &req_parts.uri.query(); // todo: actually extract "v" here
 
 	if headers.get(header::CACHE_CONTROL) == Some(&HeaderValue::from_str("no-cache")?) {
 		let new_req = Request::from_parts(req_parts.clone(), req_body);
@@ -46,28 +47,50 @@ pub async fn layer(req: Request<Body>, next: Next) -> Result<Response, crate::Er
 		let res = next.run(new_req).await;
 		let body = res.into_body();
 		let body = to_bytes(body, usize::MAX).await?;
-		let body = rewrite_assets(
-			&body,
-			&Url::parse("https://localhost/")?.join(uri.to_string().as_str())?,
-		)?;
 
-		fs::create_dir_all(cache_path.with_file_name("")).await.ok();
-		fs::write(cache_path, &body).await.ok();
+		if content_type == mime::TEXT_HTML {
+			let body = rewrite_assets(
+				&body,
+				&Url::parse("https://localhost/")?.join(uri.to_string().as_str())?,
+			)?;
+
+			fs::create_dir_all(cache_path.with_file_name("")).await.ok();
+			fs::write(cache_path, &body).await.ok();
+		}
 
 		body.to_vec()
 	};
 
-	let etag = EntityTag::from_data(&body).to_string();
+	if content_type == mime::TEXT_HTML {
+		let etag = EntityTag::from_data(&body).to_string();
 
-	if if_none_match.map_or(false, |if_none_match| etag == *if_none_match) {
-		return Ok((StatusCode::NOT_MODIFIED).into_response());
+		if if_none_match.map_or(false, |if_none_match| etag == *if_none_match) {
+			return Ok((StatusCode::NOT_MODIFIED).into_response());
+		}
+
+		return Ok((
+			StatusCode::OK,
+			[
+				(header::CONTENT_TYPE, content_type.to_string()),
+				(header::ETAG, etag),
+			],
+			body,
+		)
+			.into_response());
 	}
 
 	Ok((
 		StatusCode::OK,
 		[
 			(header::CONTENT_TYPE, content_type.to_string()),
-			(header::ETAG, etag),
+			(
+				header::CACHE_CONTROL,
+				if params.is_some() {
+					"public, max-age=31536000, immutable".to_string()
+				} else {
+					"public, max-age=86400".to_string()
+				},
+			),
 		],
 		body,
 	)
