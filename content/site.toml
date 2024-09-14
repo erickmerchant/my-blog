@@ -33,11 +33,3 @@ title = "Memory"
 description = """
 A game I made for my daughter to play when she wants to see my phone. It's a work in progress.
 """
-
-
-[[projects]]
-href = "https://github.com/erickmerchant/vanilla-kit"
-title = "Vanilla Kit"
-description = """
-Sort of jQuery for the declarative age. It's kind of hyperscript + reactivity with a jQuery inspired API.
-"""
