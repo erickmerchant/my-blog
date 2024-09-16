@@ -15,7 +15,7 @@
 }
 
 html {
-	height: 100%;
+	block-size: 100%;
 	color-scheme: light dark;
 	font-family: Inter, Roboto, "Helvetica Neue", "Arial Nova", "Nimbus Sans",
 		Arial, sans-serif;
@@ -29,7 +29,7 @@ html {
 }
 
 body {
-	min-height: 100%;
+	min-block-size: 100%;
 }
 
 a {
