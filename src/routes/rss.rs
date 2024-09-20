@@ -19,7 +19,7 @@ pub async fn handler() -> Result<Response, crate::Error> {
 
 	Ok((
 		StatusCode::OK,
-		[(header::CONTENT_TYPE, "application/rss+xml; charset=utf-8")],
+		[(header::CONTENT_TYPE, "application/rss+xml")],
 		html,
 	)
 		.into_response())
