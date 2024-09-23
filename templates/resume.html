@@ -1,0 +1,54 @@
+{%- macro timeline(title, items) %}
+<section class="timeline">
+	<h2>{{title}}</h2>
+	<ol>
+		{% for item in items %}
+		<li>
+			<h3>{{item.title}}</h3>
+			{% if let Some(organization) = item.organization %}
+			<div class="organization">{{organization}}</div>
+			{% endif %}
+			<span class="time">{{item.time}}</span>
+			{% if let Some(location) = item.location %}
+			<div class="location">{{location}}</div>
+			{% endif %}
+			{{item.details|html|safe}}
+		</li>
+		{% endfor %}
+	</ol>
+</section>
+{% endmacro -%}
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Résumé</title>
+		<link href="/resume.css" rel="stylesheet" />
+		<meta name="description" content="My résumé" />
+	</head>
+	<body>
+		<article class="layout">
+			<header class="header">
+				<h1>{{resume.name}}</h1>
+				{% if let Some(contacts) = resume.contacts %}
+					<ul class="contacts">
+						{% for contact in contacts %}
+						<li><a href="{{contact.href}}">{{contact.text}}</a></li>
+						{% endfor %}
+					</ul>
+				{% endif %}
+			</header>
+			<section class="skills">
+				<h2>Skills</h2>
+				{{resume.skills|html|safe}}
+			</section>
+			{% call timeline("Employment History", resume.history) %}
+			{% call timeline("Education", resume.education) %}
+			<section class="references">
+				<p>References available upon request</p>
+			</section>
+		</article>
+	</body>
+</html>

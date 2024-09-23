@@ -6,7 +6,7 @@ use axum::{
 };
 use camino::Utf8Path;
 use etag::EntityTag;
-use hyper::{body::Bytes, header::HeaderValue};
+use hyper::body::Bytes;
 use lol_html::{element, html_content::ContentType, text, HtmlRewriter, Settings};
 use serde::{Deserialize, Serialize};
 use serde_json as json;
@@ -18,13 +18,6 @@ pub async fn layer(req: Request<Body>, next: Next) -> Result<Response, crate::Er
 	let (req_parts, req_body) = req.into_parts();
 	let headers = &req_parts.headers;
 	let params = &req_parts.uri.query(); // todo: actually extract "v" here
-
-	if headers.get(header::CACHE_CONTROL) == Some(&HeaderValue::from_str("no-cache")?) {
-		let new_req = Request::from_parts(req_parts.clone(), req_body);
-		let res = next.run(new_req).await;
-
-		return Ok(res);
-	}
 
 	let if_none_match = headers.get(header::IF_NONE_MATCH);
 	let uri = &req_parts.uri;

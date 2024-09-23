@@ -1,0 +1,108 @@
+name = "Erick Merchant"
+skills = """
+- CSS
+- Deno
+- HTML
+- JavaScript
+- Less
+- Node
+- PHP
+- Preact
+- Python
+- React
+- Rust
+- SQL
+- Sass
+- TypeScript
+- Vue
+- Web Components
+"""
+
+[[contacts]]
+href = "mailto:erickmerchant@gmail.com"
+text = "erickmerchant@gmail.com"
+
+[[contacts]]
+href = "https://erickmerchant.com"
+text = "erickmerchant.com"
+
+[[history]]
+title = "Freelancer"
+time = "Mar 2024 - present"
+details = """
+- Web development on a few small projects
+- Blog writing for [CSS-Tricks](https://css-tricks.com/all-about-javascript-loops/)
+- Open source work (see [GitHub](https://github.com/erickmerchant))
+"""
+
+[[history]]
+title = "Senior Software Engineer"
+time = "Oct 2021 — Mar 2024"
+organization = "WorkStep"
+location = "San Francisco, CA"
+details = """
+- Worked with Python and React to add product features
+- Established conventions for more maintainable CSS
+- Improved build process by adopting SWC
+- Worked on an evolving design system in Storybook
+- Introduced and promoted front-end testing
+- Other relevant tech: Figma, GraphQL, TypeScript, Jest, Redux (including Sagas)
+"""
+
+[[history]]
+title = "Senior Software Engineer"
+time = "Aug 2019 — Oct 2021"
+organization = "Brightspot"
+location = "Reston, VA"
+details = """
+- Developed HTML, CSS, and JavaScript for client websites
+- Improved accessibility of several websites
+- Coded reusable web components
+- Worked on [Sotheby's](https://www.sothebys.com/en/), [BCG](https://www.bcg.com/), [Special Olympics](https://www.specialolympics.org/)
+"""
+
+[[history]]
+title = "Senior Developer"
+time = "May 2012 — Jul 2019"
+organization = "Adpearance"
+location = "Portland, OR"
+details = """
+- Created a CLI used for development of client sites
+- Created the editor for their CMS using Vue
+- Drove the adoption of git, gulp, and Sass
+- Led designers and other developers in all things JavaScript
+- Wrote web-scrapers to migrate content
+- Developed websites using open-source CMS's
+- Worked on [Papé](https://www.pape.com/)
+"""
+
+[[history]]
+title = "Developer"
+time = "Jun 2006 — May 2012"
+organization = "NetBiz, Inc."
+location = "Tualatin, OR"
+details = """
+- Used PHP and MySQL to develop features for their CMS
+- Wrote JavaScript to make interactive elements for client sites
+- Developed cross-browser templates
+"""
+
+[[education]]
+title = "A.A.S., Web Design"
+time = "May 2006"
+organization = "Tompkins-Cortland Community College"
+location = "Dryden, NY"
+details = """
+- Graduated with a 4.0 GPA
+- Studied web technologies, and programming
+- Learned design principles, and Adobe Creative Suite
+"""
+
+[[education]]
+title = "B.A., Anthropology"
+time = "May 2002"
+organization = "University at Albany"
+location = "Albany, NY"
+details = """
+- Studied linguistics, archaeology, and cultural anthropology
+"""

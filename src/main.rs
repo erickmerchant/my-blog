@@ -8,7 +8,7 @@ use anyhow::Result;
 use axum::{middleware::from_fn, routing::get, serve, Router};
 use error::Error;
 use layers::cache::layer as cache_layer;
-use routes::{asset, entry, home, rss};
+use routes::{asset, entry, home, resume, rss};
 use std::env;
 use tokio::{fs, net::TcpListener};
 use tower_http::{compression::CompressionLayer, trace::TraceLayer};
@@ -30,6 +30,7 @@ async fn main() -> Result<()> {
 
 	let app = Router::new()
 		.route("/", get(home::handler))
+		.route("/resume/", get(resume::handler))
 		.route("/posts/:slug/", get(entry::handler))
 		.route("/posts.rss", get(rss::handler))
 		.route("/*path", get(asset::handler))
