@@ -738,9 +738,9 @@ checksum = "a7a70ba024b9dc04c27ea2f0c0548feb474ec5c54bba33a7f72f873a39d07b24"
 
 [[package]]
 name = "lol_html"
-version = "1.2.1"
+version = "2.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a4629ff9c2deeb7aad9b2d0f379fc41937a02f3b739f007732c46af40339dee5"
+checksum = "964b47c14635e111f7efddcd8f1f8794195f66225fef19822fa942b217a859cf"
 dependencies = [
  "bitflags 2.6.0",
  "cfg-if",
@@ -1787,9 +1787,9 @@ checksum = "589f6da84c646204747d1270a2a5661ea66ed1cced2631d546fdfb155959f9ec"
 
 [[package]]
 name = "winnow"
-version = "0.6.19"
+version = "0.6.20"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c52ac009d615e79296318c1bcce2d422aaca15ad08515e344feeda07df67a587"
+checksum = "36c1fec1a2bb5866f07c25f68c26e565c4c200aebb96d7e55710c19d3e8ac49b"
 dependencies = [
  "memchr",
 ]
