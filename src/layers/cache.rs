@@ -49,9 +49,11 @@ pub async fn layer(req: Request<Body>, next: Next) -> Result<Response, crate::Er
 
 			fs::create_dir_all(cache_path.with_file_name("")).await.ok();
 			fs::write(cache_path, &body).await.ok();
-		}
 
-		body.to_vec()
+			body
+		} else {
+			body.to_vec()
+		}
 	};
 
 	if content_type == mime::TEXT_HTML {
