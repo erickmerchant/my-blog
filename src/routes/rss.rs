@@ -1,9 +1,9 @@
 use crate::models::{entry, site, status::Status};
-use askama::Template;
 use axum::{
 	http::{header, StatusCode},
 	response::{IntoResponse, Response},
 };
+use rinja::Template;
 
 #[derive(Template)]
 #[template(path = "rss.xml")]

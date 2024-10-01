@@ -2,11 +2,11 @@ use crate::{
 	filters,
 	models::{entry, site, status::Status},
 };
-use askama::Template;
 use axum::{
 	http::StatusCode,
 	response::{Html, IntoResponse, Response},
 };
+use rinja::Template;
 
 #[derive(Template)]
 #[template(path = "home.html")]

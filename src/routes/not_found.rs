@@ -1,9 +1,9 @@
 use crate::models::site;
-use askama::Template;
 use axum::{
 	http::StatusCode,
 	response::{Html, IntoResponse, Response},
 };
+use rinja::Template;
 
 #[derive(Template)]
 #[template(path = "not_found.html")]

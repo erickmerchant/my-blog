@@ -1,6 +1,6 @@
 use pulldown_cmark::{html, CodeBlockKind, CowStr, Event, Tag, TagEnd};
 
-pub fn html<T: std::fmt::Display>(contents: T) -> ::askama::Result<String> {
+pub fn html<T: std::fmt::Display>(contents: T) -> rinja::Result<String> {
 	let contents = format!("{contents}");
 	let parser = pulldown_cmark::Parser::new(contents.as_str());
 	let mut events = Vec::new();

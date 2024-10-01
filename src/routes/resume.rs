@@ -1,9 +1,9 @@
 use crate::{filters, models::resume::Model};
-use askama::Template;
 use axum::{
 	http::StatusCode,
 	response::{Html, IntoResponse, Response},
 };
+use rinja::Template;
 
 #[derive(Template)]
 #[template(path = "resume.html")]

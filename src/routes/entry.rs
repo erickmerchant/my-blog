@@ -3,12 +3,12 @@ use crate::{
 	filters,
 	models::{entry, site, status::Status},
 };
-use askama::Template;
 use axum::{
 	extract::Path,
 	http::StatusCode,
 	response::{Html, IntoResponse, Response},
 };
+use rinja::Template;
 
 #[derive(Template)]
 #[template(path = "entry.html")]
