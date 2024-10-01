@@ -13,7 +13,7 @@ pub struct View {
 }
 
 pub async fn handler() -> Result<Response, crate::Error> {
-	let entry_list = entry::Model::all(false).await;
+	let entry_list = entry::Model::all().await;
 	let site = site::Model::read().await?;
 	let html = View { site, entry_list }.render()?;
 

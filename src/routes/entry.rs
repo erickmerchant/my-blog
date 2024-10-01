@@ -18,7 +18,7 @@ struct View {
 }
 
 pub async fn handler(Path(slug): Path<String>) -> Result<Response, crate::Error> {
-	let entry: Option<entry::Model> = entry::Model::by_slug(&slug, true).await;
+	let entry: Option<entry::Model> = entry::Model::by_slug(&slug).await;
 
 	if let Some(entry) = entry {
 		let site = site::Model::read().await?;

@@ -44,7 +44,7 @@ pub async fn layer(req: Request<Body>, next: Next) -> Result<Response, crate::Er
 		if content_type == mime::TEXT_HTML {
 			let body = rewrite_assets(
 				&body,
-				&Url::parse("https://localhost/")?.join(uri.to_string().as_str())?,
+				&Url::parse("https://0.0.0.0")?.join(uri.to_string().as_str())?,
 			)?;
 
 			fs::create_dir_all(cache_path.with_file_name("")).await.ok();
