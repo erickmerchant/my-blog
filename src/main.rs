@@ -58,7 +58,7 @@ async fn main() -> Result<()> {
 	Ok(())
 }
 
-fn app(state: State) -> Router {
+pub fn app(state: State) -> Router {
 	let state = Arc::new(state);
 
 	Router::new()
@@ -71,4 +71,58 @@ fn app(state: State) -> Router {
 		.layer(from_fn_with_state(state.clone(), cache_layer))
 		.layer(CompressionLayer::new())
 		.layer(TraceLayer::new_for_http())
+}
+
+#[cfg(test)]
+mod tests {
+	use super::{app, FileSystem, State};
+	use axum::{
+		body::Body,
+		http::{header, Request, StatusCode},
+	};
+	// use http_body_util::BodyExt;
+	use tokio::fs;
+	use tower::ServiceExt;
+
+	#[tokio::test]
+	async fn test_home_200_and_304() {
+		fs::remove_dir_all("storage/tmp").await.ok();
+		let state = State {
+			public: FileSystem {
+				directory: "fixtures/public".to_string(),
+			},
+			content: FileSystem {
+				directory: "fixtures/content".to_string(),
+			},
+			storage: FileSystem {
+				directory: "storage/tmp".to_string(),
+			},
+		};
+
+		let app = app(state);
+
+		// `Router` implements `tower::Service<Request<Body>>` so we can
+		// call it like any tower service, no need to run an HTTP server.
+		let response = app
+			.clone()
+			.oneshot(Request::builder().uri("/").body(Body::empty()).unwrap())
+			.await
+			.unwrap();
+
+		assert_eq!(response.status(), StatusCode::OK);
+
+		let etag = response.headers().get(header::ETAG);
+
+		assert!(etag.is_some());
+
+		let etag = etag.unwrap();
+		let mut req = Request::builder().uri("/").body(Body::empty()).unwrap();
+
+		req.headers_mut()
+			.insert(header::IF_NONE_MATCH, etag.to_owned());
+
+		let response = app.oneshot(req).await.unwrap();
+
+		assert_eq!(response.status(), StatusCode::NOT_MODIFIED);
+	}
 }

@@ -1,0 +1,51 @@
+:where(:not(svg)) {
+	font: inherit;
+}
+
+*,
+::before,
+::after {
+	box-sizing: border-box;
+	color: inherit;
+	margin: 0;
+	max-inline-size: 100%;
+	padding: 0;
+	-webkit-text-size-adjust: none;
+	font-weight: calc(100 * var(--weight));
+}
+
+html {
+	block-size: 100%;
+	color-scheme: light dark;
+	font-family: Inter, Roboto, "Helvetica Neue", "Arial Nova", "Nimbus Sans",
+		Arial, sans-serif;
+	font-size: 125%;
+	line-height: 1.5;
+	overflow-y: scroll;
+	overflow-x: auto;
+	scrollbar-gutter: stable;
+	overscroll-behavior: none;
+	scrollbar-color: currentColor var(--background);
+}
+
+body {
+	min-block-size: 100%;
+}
+
+a {
+	text-decoration-thickness: calc(
+		var(--border-base) + (var(--border-step) * var(--weight))
+	);
+	text-underline-offset: 0.15em;
+	transition: text-underline-offset 0.25s 0.25s;
+
+	&:hover,
+	&:focus-visible {
+		outline: none;
+		text-underline-offset: 0.3em;
+	}
+
+	&:focus-visible {
+		transition-delay: 0s;
+	}
+}
