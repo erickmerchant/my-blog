@@ -1,7 +1,6 @@
+use crate::filesystem::FileSystem;
 use anyhow::Result;
 use serde::Deserialize;
-
-use crate::filesystem::FileSystem;
 
 #[derive(Clone, Debug, Default, PartialEq, Eq, Deserialize)]
 pub struct Project {

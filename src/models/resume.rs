@@ -1,7 +1,6 @@
+use crate::filesystem::FileSystem;
 use anyhow::Result;
 use serde::{Deserialize, Serialize};
-
-use crate::filesystem::FileSystem;
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct Entry {
