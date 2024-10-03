@@ -1,15 +1,19 @@
 mod error;
+mod filesystem;
 pub mod filters;
 mod layers;
 mod models;
 mod routes;
+mod state;
 
 use anyhow::Result;
-use axum::{middleware::from_fn, routing::get, serve, Router};
+use axum::{middleware::from_fn_with_state, routing::get, serve, Router};
 use error::Error;
+use filesystem::FileSystem;
 use layers::cache::layer as cache_layer;
-use routes::{asset, entry, home, resume, rss};
-use std::env;
+use routes::{asset, home, post, resume, rss};
+use state::State;
+use std::{env, sync::Arc};
 use tokio::{fs, net::TcpListener};
 use tower_http::{compression::CompressionLayer, trace::TraceLayer};
 
@@ -28,15 +32,19 @@ async fn main() -> Result<()> {
 		.with_env_filter(tracing_subscriber::EnvFilter::from_default_env())
 		.init();
 
-	let app = Router::new()
-		.route("/", get(home::handler))
-		.route("/resume/", get(resume::handler))
-		.route("/posts/:slug/", get(entry::handler))
-		.route("/posts.rss", get(rss::handler))
-		.route("/*path", get(asset::handler))
-		.layer(from_fn(cache_layer))
-		.layer(CompressionLayer::new())
-		.layer(TraceLayer::new_for_http());
+	let state = State {
+		public: FileSystem {
+			directory: "public".to_string(),
+		},
+		content: FileSystem {
+			directory: "content".to_string(),
+		},
+		storage: FileSystem {
+			directory: "storage".to_string(),
+		},
+	};
+
+	let app = app(state);
 	let listener = TcpListener::bind(("0.0.0.0", port))
 		.await
 		.expect("should listen");
@@ -48,4 +56,19 @@ async fn main() -> Result<()> {
 		.expect("server should start");
 
 	Ok(())
+}
+
+fn app(state: State) -> Router {
+	let state = Arc::new(state);
+
+	Router::new()
+		.route("/", get(home::handler))
+		.route("/resume/", get(resume::handler))
+		.route("/posts/:slug/", get(post::handler))
+		.route("/posts.rss", get(rss::handler))
+		.route("/*path", get(asset::handler))
+		.with_state(state.clone())
+		.layer(from_fn_with_state(state.clone(), cache_layer))
+		.layer(CompressionLayer::new())
+		.layer(TraceLayer::new_for_http())
 }

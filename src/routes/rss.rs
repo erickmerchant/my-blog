@@ -1,21 +1,29 @@
-use crate::models::{entry, site, status::Status};
+use crate::models::{post, site, status::Status};
 use axum::{
+	extract::State,
 	http::{header, StatusCode},
 	response::{IntoResponse, Response},
 };
 use rinja::Template;
+use std::sync::Arc;
 
 #[derive(Template)]
 #[template(path = "rss.xml")]
 pub struct View {
-	pub site: site::Model,
-	pub entry_list: Vec<entry::Model>,
+	pub site: site::Entry,
+	pub post_list: Vec<post::Entry>,
 }
 
-pub async fn handler() -> Result<Response, crate::Error> {
-	let entry_list = entry::Model::all().await;
-	let site = site::Model::read().await?;
-	let html = View { site, entry_list }.render()?;
+pub async fn handler(State(state): State<Arc<crate::State>>) -> Result<Response, crate::Error> {
+	let post_model = post::Model {
+		fs: state.content.clone(),
+	};
+	let site_model = site::Model {
+		fs: state.content.clone(),
+	};
+	let post_list = post_model.all().await;
+	let site = site_model.read().await?;
+	let html = View { site, post_list }.render()?;
 
 	Ok((
 		StatusCode::OK,

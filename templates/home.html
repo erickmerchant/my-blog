@@ -11,11 +11,11 @@
 {% block main %}
 	<section class="posts">
 		<h2>Posts</h2>
-		{% if entry_list.is_empty() %}
+		{% if post_list.is_empty() %}
 			<p>There are no posts yet. Check back again soon.</p>
 		{% else %}
 			<ol>
-				{% for e in entry_list %}
+				{% for e in post_list %}
 					{% if let Some(slug) = e.slug %}
 						<li>
 							{% call macros::status(e) %}

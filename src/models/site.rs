@@ -1,6 +1,7 @@
 use anyhow::Result;
 use serde::Deserialize;
-use tokio::fs;
+
+use crate::filesystem::FileSystem;
 
 #[derive(Clone, Debug, Default, PartialEq, Eq, Deserialize)]
 pub struct Project {
@@ -10,7 +11,7 @@ pub struct Project {
 }
 
 #[derive(Clone, Debug, Default, PartialEq, Eq, Deserialize)]
-pub struct Model {
+pub struct Entry {
 	pub title: String,
 	pub host: String,
 	pub author: String,
@@ -19,9 +20,13 @@ pub struct Model {
 	pub projects: Vec<Project>,
 }
 
+pub struct Model {
+	pub fs: FileSystem,
+}
+
 impl Model {
-	pub async fn read() -> Result<Self> {
-		let toml = fs::read_to_string("content/site.toml").await?;
+	pub async fn read(&self) -> Result<Entry> {
+		let toml = self.fs.clone().read("site.toml".to_string()).await?;
 		let site = toml::from_str(&toml)?;
 
 		Ok(site)

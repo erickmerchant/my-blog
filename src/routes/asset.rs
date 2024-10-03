@@ -1,22 +1,24 @@
 use super::not_found;
 use axum::{
-	extract::Path,
+	extract::{Path, State},
 	http::{header, StatusCode},
 	response::{IntoResponse, Response},
 };
-use camino::Utf8Path;
-use tokio::fs;
+use std::sync::Arc;
 
-pub async fn handler(Path(path): Path<String>) -> Result<Response, crate::Error> {
+pub async fn handler(
+	State(state): State<Arc<crate::State>>,
+	Path(path): Path<String>,
+) -> Result<Response, crate::Error> {
 	let is_index = path.ends_with('/');
-	let mut path = Utf8Path::new("public").join(path);
+	let mut path = path;
 
 	if is_index {
-		path.push("index.html");
+		path = format!("{path}index.html");
 	}
 
 	if let Some(content_type) = mime_guess::from_path(&path).first() {
-		if let Ok(body) = fs::read(path).await {
+		if let Ok(body) = state.public.clone().read(path).await {
 			return Ok((
 				StatusCode::OK,
 				[(header::CONTENT_TYPE, content_type.to_string())],
@@ -26,5 +28,5 @@ pub async fn handler(Path(path): Path<String>) -> Result<Response, crate::Error>
 		}
 	}
 
-	not_found::handler().await
+	not_found::handler(State(state)).await
 }

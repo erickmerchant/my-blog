@@ -4,7 +4,7 @@
 		<title>Posts</title>
 		<link>{{site.host}}/posts.rss</link>
 		<copyright>{{site.author}}</copyright>
-		{% for e in entry_list %}
+		{% for e in post_list %}
 			{% if let Some(slug) = e.slug %}
 				<item>
 					<title>{{e.title}}</title>

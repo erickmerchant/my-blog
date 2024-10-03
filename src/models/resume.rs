@@ -1,9 +1,10 @@
 use anyhow::Result;
 use serde::{Deserialize, Serialize};
-use tokio::fs;
+
+use crate::filesystem::FileSystem;
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
-pub struct Model {
+pub struct Entry {
 	pub name: String,
 	pub contacts: Option<ContactList>,
 	pub skills: SkillList,
@@ -31,9 +32,13 @@ pub type SkillList = String;
 pub type TimeLine = Vec<TimeLineItem>;
 pub type DetailList = String;
 
+pub struct Model {
+	pub fs: FileSystem,
+}
+
 impl Model {
-	pub async fn read() -> Result<Self> {
-		let content = fs::read_to_string("content/resume.toml").await?;
+	pub async fn read(&self) -> Result<Entry> {
+		let content = self.fs.clone().read("resume.toml".to_string()).await?;
 
 		let resume = toml::from_str(&content)?;
 

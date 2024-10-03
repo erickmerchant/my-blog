@@ -1,5 +1,5 @@
-{%- macro status(entry) %}
-	{% match entry.status %}
+{%- macro status(post) %}
+	{% match post.status %}
 		{% when Some with (Status::Pinned) %}
 			<span class="status">
 				<svg viewBox="0 0 20 24">
