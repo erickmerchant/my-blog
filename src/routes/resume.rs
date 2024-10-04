@@ -14,10 +14,10 @@ pub struct View {
 }
 
 pub async fn handler(State(state): State<Arc<crate::State>>) -> Result<Response, crate::Error> {
-	let model = resume::Model {
+	let resume_model = resume::Model {
 		fs: state.content.clone(),
 	};
-	let resume = model.read().await?;
+	let resume = resume_model.read().await?;
 	let view = View { resume };
 	let body = view.render()?;
 
