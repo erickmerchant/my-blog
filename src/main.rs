@@ -11,7 +11,7 @@ use axum::{middleware::from_fn_with_state, routing::get, serve, Router};
 use error::Error;
 use filesystem::FileSystem;
 use layers::cache::layer as cache_layer;
-use routes::{asset, home, post, resume, rss};
+use routes::{asset, home, not_found, post, resume, rss};
 use state::State;
 use std::{env, sync::Arc};
 use tokio::{fs, net::TcpListener};
@@ -67,6 +67,7 @@ pub fn app(state: State) -> Router {
 		.route("/posts/:slug/", get(post::handler))
 		.route("/posts.rss", get(rss::handler))
 		.route("/*path", get(asset::handler))
+		.fallback(not_found::handler)
 		.with_state(state.clone())
 		.layer(from_fn_with_state(state.clone(), cache_layer))
 		.layer(CompressionLayer::new())
@@ -78,14 +79,13 @@ mod tests {
 	use super::{app, FileSystem, State};
 	use axum::{
 		body::Body,
-		http::{header, Request, StatusCode},
+		http::{header, header::HeaderValue, Request, StatusCode},
+		Router,
 	};
-	// use http_body_util::BodyExt;
 	use tokio::fs;
 	use tower::ServiceExt;
 
-	#[tokio::test]
-	async fn test_home_200_and_304() {
+	async fn get_test_app() -> Router {
 		fs::remove_dir_all("storage/tmp").await.ok();
 		let state = State {
 			public: FileSystem {
@@ -99,10 +99,12 @@ mod tests {
 			},
 		};
 
-		let app = app(state);
+		app(state)
+	}
 
-		// `Router` implements `tower::Service<Request<Body>>` so we can
-		// call it like any tower service, no need to run an HTTP server.
+	#[tokio::test]
+	async fn test_home_200_and_304() {
+		let app = get_test_app().await;
 		let response = app
 			.clone()
 			.oneshot(Request::builder().uri("/").body(Body::empty()).unwrap())
@@ -124,5 +126,138 @@ mod tests {
 		let response = app.oneshot(req).await.unwrap();
 
 		assert_eq!(response.status(), StatusCode::NOT_MODIFIED);
+	}
+
+	#[tokio::test]
+	async fn test_asset_cache_control() {
+		let app = get_test_app().await;
+		let response = app
+			.clone()
+			.oneshot(
+				Request::builder()
+					.uri("/page.css")
+					.body(Body::empty())
+					.unwrap(),
+			)
+			.await
+			.unwrap();
+
+		assert_eq!(response.status(), StatusCode::OK);
+
+		let cache_control = response.headers().get(header::CACHE_CONTROL);
+
+		assert!(cache_control.is_some());
+
+		let cache_control = cache_control.unwrap();
+
+		assert_eq!(
+			cache_control,
+			&HeaderValue::from_static("public, max-age=86400")
+		);
+
+		let response = app
+			.clone()
+			.oneshot(
+				Request::builder()
+					.uri("/page.css?v=abcxyz")
+					.body(Body::empty())
+					.unwrap(),
+			)
+			.await
+			.unwrap();
+
+		assert_eq!(response.status(), StatusCode::OK);
+
+		let cache_control = response.headers().get(header::CACHE_CONTROL);
+
+		assert!(cache_control.is_some());
+
+		let cache_control = cache_control.unwrap();
+
+		assert_eq!(
+			cache_control,
+			&HeaderValue::from_static("public, max-age=31536000, immutable")
+		);
+	}
+
+	#[tokio::test]
+	async fn test_asset_index() {
+		let app = get_test_app().await;
+		let response = app
+			.clone()
+			.oneshot(
+				Request::builder()
+					.uri("/project/")
+					.body(Body::empty())
+					.unwrap(),
+			)
+			.await
+			.unwrap();
+
+		assert_eq!(response.status(), StatusCode::OK);
+	}
+
+	#[tokio::test]
+	async fn test_post_200() {
+		let app = get_test_app().await;
+		let response = app
+			.clone()
+			.oneshot(
+				Request::builder()
+					.uri("/posts/test-post/")
+					.body(Body::empty())
+					.unwrap(),
+			)
+			.await
+			.unwrap();
+
+		assert_eq!(response.status(), StatusCode::OK);
+	}
+
+	#[tokio::test]
+	async fn test_post_404() {
+		let app = get_test_app().await;
+		let response = app
+			.clone()
+			.oneshot(
+				Request::builder()
+					.uri("/posts/test-post-2/")
+					.body(Body::empty())
+					.unwrap(),
+			)
+			.await
+			.unwrap();
+
+		assert_eq!(response.status(), StatusCode::NOT_FOUND);
+	}
+
+	#[tokio::test]
+	async fn test_404() {
+		let app = get_test_app().await;
+		let response = app
+			.clone()
+			.oneshot(
+				Request::builder()
+					.uri("/posts/test-post")
+					.body(Body::empty())
+					.unwrap(),
+			)
+			.await
+			.unwrap();
+
+		assert_eq!(response.status(), StatusCode::NOT_FOUND);
+
+		let response = app
+			.clone()
+			.oneshot(
+				Request::builder()
+					.uri("/articles/test-post")
+					.body(Body::empty())
+					.unwrap(),
+			)
+			.await
+			.unwrap();
+
+		assert_eq!(response.status(), StatusCode::NOT_FOUND);
 	}
 }

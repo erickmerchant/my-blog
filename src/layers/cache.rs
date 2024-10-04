@@ -43,6 +43,11 @@ pub async fn layer(
 		*new_req.uri_mut() = path.to_string().parse()?;
 
 		let res = next.run(new_req).await;
+
+		if res.status() != StatusCode::OK {
+			return Ok(res);
+		}
+
 		let body = res.into_body();
 		let body = to_bytes(body, usize::MAX).await?;
 
