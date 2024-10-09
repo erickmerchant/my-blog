@@ -1,1 +1,1 @@
-fly deploy --remote-only
+cargo test && fly deploy --remote-only
