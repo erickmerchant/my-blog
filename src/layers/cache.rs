@@ -15,6 +15,12 @@ use serde_json as json;
 use std::{collections::HashMap, sync::Arc, time::UNIX_EPOCH};
 use url::Url;
 
+#[derive(Clone, Debug, Serialize, Deserialize)]
+struct CacheFile {
+	pub etag: String,
+	pub body: String,
+}
+
 pub async fn layer(
 	State(state): State<Arc<crate::State>>,
 	req: Request<Body>,
@@ -22,8 +28,6 @@ pub async fn layer(
 ) -> Result<Response, crate::Error> {
 	let (req_parts, req_body) = req.into_parts();
 	let headers = &req_parts.headers;
-	let params = &req_parts.uri.query(); // todo: actually extract "v" here
-
 	let if_none_match = headers.get(header::IF_NONE_MATCH);
 	let uri = &req_parts.uri;
 	let mut path = uri.path().to_string();
@@ -34,9 +38,18 @@ pub async fn layer(
 
 	let path = Utf8Path::new(path.as_str());
 	let content_type = mime_guess::from_path(path).first_or("text/html".parse()?);
-	let cache_path = path.to_string().trim_start_matches("/").to_string();
-	let body = if let Ok(cached_body) = state.storage.clone().read(cache_path).await {
-		cached_body.as_bytes().to_vec()
+
+	if content_type != mime::TEXT_HTML {
+		let new_req = Request::from_parts(req_parts.clone(), req_body);
+
+		let res = next.run(new_req).await;
+
+		return Ok(res);
+	}
+
+	let cache_path = format!("{}.json", path.to_string().trim_start_matches("/"));
+	let cache = if let Ok(cache) = state.storage.clone().read(cache_path.clone()).await {
+		json::from_str::<CacheFile>(cache.as_str())?
 	} else {
 		let mut new_req = Request::from_parts(req_parts.clone(), req_body);
 
@@ -51,61 +64,39 @@ pub async fn layer(
 		let body = res.into_body();
 		let body = to_bytes(body, usize::MAX).await?;
 
-		if content_type == mime::TEXT_HTML {
-			let body = rewrite_assets(
-				&body,
-				&Url::parse("https://0.0.0.0")?.join(uri.to_string().as_str())?,
-				state.clone(),
-			)?;
+		let body = rewrite_assets(
+			&body,
+			&Url::parse("https://0.0.0.0")?.join(uri.to_string().as_str())?,
+			state.clone(),
+		)?;
 
-			state
-				.storage
-				.clone()
-				.write(
-					path.to_string().trim_start_matches("/").to_string(),
-					String::from_utf8(body.clone())?,
-				)
-				.await
-				.ok();
+		let etag = EntityTag::from_data(&body).to_string();
+		let cache = CacheFile {
+			body: String::from_utf8(body.clone())?,
+			etag,
+		};
 
-			body
-		} else {
-			body.to_vec()
-		}
+		state
+			.storage
+			.clone()
+			.write(cache_path, json::to_string(&cache)?)
+			.await
+			.ok();
+
+		cache
 	};
 
-	if content_type == mime::TEXT_HTML {
-		let etag = EntityTag::from_data(&body).to_string();
-
-		if if_none_match.map_or(false, |if_none_match| etag == *if_none_match) {
-			return Ok((StatusCode::NOT_MODIFIED).into_response());
-		}
-
-		return Ok((
-			StatusCode::OK,
-			[
-				(header::CONTENT_TYPE, content_type.to_string()),
-				(header::ETAG, etag),
-			],
-			body,
-		)
-			.into_response());
+	if if_none_match.map_or(false, |if_none_match| cache.etag == *if_none_match) {
+		return Ok((StatusCode::NOT_MODIFIED).into_response());
 	}
 
 	Ok((
 		StatusCode::OK,
 		[
 			(header::CONTENT_TYPE, content_type.to_string()),
-			(
-				header::CACHE_CONTROL,
-				if params.is_some() {
-					"public, max-age=31536000, immutable".to_string()
-				} else {
-					"public, max-age=86400".to_string()
-				},
-			),
+			(header::ETAG, cache.etag),
 		],
-		body,
+		cache.body,
 	)
 		.into_response())
 }
