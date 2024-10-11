@@ -10,8 +10,8 @@ use anyhow::Result;
 use axum::{middleware::from_fn_with_state, routing::get, serve, Router};
 use error::Error;
 use filesystem::FileSystem;
-use layers::cache::layer as cache_layer;
-use routes::{asset, home, not_found, post, resume, rss};
+use layers::html_cache;
+use routes::{asset, home, not_found, post, project, resume, rss};
 use state::State;
 use std::{env, sync::Arc};
 use tokio::{fs, net::TcpListener};
@@ -44,7 +44,7 @@ async fn main() -> Result<()> {
 		},
 	};
 
-	let app = app(state);
+	let app = get_app(state);
 	let listener = TcpListener::bind(("0.0.0.0", port))
 		.await
 		.expect("should listen");
@@ -58,25 +58,26 @@ async fn main() -> Result<()> {
 	Ok(())
 }
 
-pub fn app(state: State) -> Router {
+pub fn get_app(state: State) -> Router {
 	let state = Arc::new(state);
 
 	Router::new()
 		.route("/", get(home::handler))
 		.route("/resume/", get(resume::handler))
+		.route("/projects/:project/", get(project::handler))
 		.route("/posts/:slug/", get(post::handler))
+		.route_layer(from_fn_with_state(state.clone(), html_cache::layer))
 		.route("/posts.rss", get(rss::handler))
 		.route("/*path", get(asset::handler))
 		.fallback(not_found::handler)
 		.with_state(state.clone())
-		.layer(from_fn_with_state(state.clone(), cache_layer))
 		.layer(CompressionLayer::new())
 		.layer(TraceLayer::new_for_http())
 }
 
 #[cfg(test)]
 mod tests {
-	use super::{app, FileSystem, State};
+	use super::{get_app, FileSystem, State};
 	use axum::{
 		body::Body,
 		http::{header, header::HeaderValue, Request, StatusCode},
@@ -99,7 +100,7 @@ mod tests {
 			},
 		};
 
-		app(state)
+		get_app(state)
 	}
 
 	#[tokio::test]
@@ -187,12 +188,41 @@ mod tests {
 			.clone()
 			.oneshot(
 				Request::builder()
-					.uri("/project/")
+					.uri("/projects/test/")
 					.body(Body::empty())
 					.unwrap(),
 			)
 			.await
 			.unwrap();
+
+		let cache_control = response.headers().get(header::CACHE_CONTROL);
+
+		assert!(cache_control.is_none());
+
+		assert_eq!(response.status(), StatusCode::OK);
+	}
+
+	#[tokio::test]
+	async fn test_rss() {
+		let app = get_test_app().await;
+		let response = app
+			.clone()
+			.oneshot(
+				Request::builder()
+					.uri("/posts.rss")
+					.body(Body::empty())
+					.unwrap(),
+			)
+			.await
+			.unwrap();
+
+		let cache_control = response.headers().get(header::CACHE_CONTROL);
+
+		assert!(cache_control.is_none());
+
+		let etag = response.headers().get(header::ETAG);
+
+		assert!(etag.is_none());
 
 		assert_eq!(response.status(), StatusCode::OK);
 	}

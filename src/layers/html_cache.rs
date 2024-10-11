@@ -37,16 +37,7 @@ pub async fn layer(
 	}
 
 	let path = Utf8Path::new(path.as_str());
-	let content_type = mime_guess::from_path(path).first_or("text/html".parse()?);
-
-	if content_type != mime::TEXT_HTML {
-		let new_req = Request::from_parts(req_parts.clone(), req_body);
-
-		let res = next.run(new_req).await;
-
-		return Ok(res);
-	}
-
+	let content_type = mime::TEXT_HTML;
 	let cache_path = format!("{}.json", path.to_string().trim_start_matches("/"));
 	let cache = if let Ok(cache) = state.storage.clone().read(cache_path.clone()).await {
 		json::from_str::<CacheFile>(cache.as_str())?
