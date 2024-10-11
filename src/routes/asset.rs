@@ -17,13 +17,6 @@ pub async fn handler(
 	Path(path): Path<String>,
 	query: Query<Version>,
 ) -> Result<Response, crate::Error> {
-	let is_index = path.ends_with('/');
-	let mut path = path;
-
-	if is_index {
-		path = format!("{path}index.html");
-	}
-
 	if let Some(content_type) = mime_guess::from_path(&path).first() {
 		if let Ok(body) = state.public.clone().read(path).await {
 			return Ok((

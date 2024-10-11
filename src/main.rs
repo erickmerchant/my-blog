@@ -43,7 +43,6 @@ async fn main() -> Result<()> {
 			directory: "storage".to_string(),
 		},
 	};
-
 	let app = get_app(state);
 	let listener = TcpListener::bind(("0.0.0.0", port))
 		.await
@@ -88,6 +87,7 @@ mod tests {
 
 	async fn get_test_app() -> Router {
 		fs::remove_dir_all("storage/tmp").await.ok();
+
 		let state = State {
 			public: FileSystem {
 				directory: "fixtures/public".to_string(),
@@ -194,7 +194,6 @@ mod tests {
 			)
 			.await
 			.unwrap();
-
 		let cache_control = response.headers().get(header::CACHE_CONTROL);
 
 		assert!(cache_control.is_none());
@@ -215,7 +214,6 @@ mod tests {
 			)
 			.await
 			.unwrap();
-
 		let cache_control = response.headers().get(header::CACHE_CONTROL);
 
 		assert!(cache_control.is_none());

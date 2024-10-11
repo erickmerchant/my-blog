@@ -30,22 +30,20 @@ pub async fn layer(
 	let headers = &req_parts.headers;
 	let if_none_match = headers.get(header::IF_NONE_MATCH);
 	let uri = &req_parts.uri;
-	let mut path = uri.path().to_string();
-
-	if path.is_empty() || path.ends_with('/') {
-		path.push_str("index.html");
-	}
-
-	let path = Utf8Path::new(path.as_str());
-	let content_type = mime::TEXT_HTML;
-	let cache_path = format!("{}.json", path.to_string().trim_start_matches("/"));
+	let path = uri.path().to_string();
+	let path_trimmed = path.trim_matches('/');
+	let cache_path = format!(
+		"{}.json",
+		if !path_trimmed.is_empty() {
+			path_trimmed
+		} else {
+			"home"
+		}
+	);
 	let cache = if let Ok(cache) = state.storage.clone().read(cache_path.clone()).await {
 		json::from_str::<CacheFile>(cache.as_str())?
 	} else {
-		let mut new_req = Request::from_parts(req_parts.clone(), req_body);
-
-		*new_req.uri_mut() = path.to_string().parse()?;
-
+		let new_req = Request::from_parts(req_parts.clone(), req_body);
 		let res = next.run(new_req).await;
 
 		if res.status() != StatusCode::OK {
@@ -84,7 +82,7 @@ pub async fn layer(
 	Ok((
 		StatusCode::OK,
 		[
-			(header::CONTENT_TYPE, content_type.to_string()),
+			(header::CONTENT_TYPE, mime::TEXT_HTML.to_string()),
 			(header::ETAG, cache.etag),
 		],
 		cache.body,
