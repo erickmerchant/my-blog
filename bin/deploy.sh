@@ -1,1 +1,1 @@
-cargo test && fly deploy --remote-only
+cargo test && cargo clippy && cargo +nightly fmt --check && fly deploy --remote-only
