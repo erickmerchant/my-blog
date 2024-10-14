@@ -11,7 +11,6 @@
 	max-inline-size: 100%;
 	padding: 0;
 	-webkit-text-size-adjust: none;
-	font-weight: calc(100 * var(--weight));
 }
 
 html {
@@ -33,9 +32,7 @@ body {
 }
 
 a {
-	text-decoration-thickness: calc(
-		var(--border-base) + (var(--border-step) * var(--weight))
-	);
+	text-decoration-thickness: 0.1em;
 	text-underline-offset: 0.15em;
 	transition: text-underline-offset 0.25s 0.25s;
 
@@ -53,7 +50,7 @@ a {
 p {
 	text-wrap: pretty;
 
-	@container (inline-size <=42rem) {
+	@container (inline-size <= 42rem) {
 		hyphens: auto;
 	}
 }
@@ -70,29 +67,31 @@ h6 {
 h1,
 h2 {
 	line-height: 1.25;
+	font-weight: 900;
+
+	:where(a) {
+		text-decoration-thickness: 0.15em;
+	}
 }
 
 h1 {
 	font-size: 1.25rem;
-	--weight: 9;
 }
 
 h2 {
 	font-size: 1.125rem;
-	--weight: 8;
 }
 
 :where(:has(nav h1)) {
 	h2 {
 		font-size: 1.25rem;
-		--weight: 9;
 	}
 }
 
 h3,
 h4,
 strong {
-	--weight: 7;
+	font-weight: 700;
 }
 
 em {
@@ -119,10 +118,7 @@ svg {
 	grid-template-columns: auto 2rem min(100% - 6rem, 40rem) 2rem auto;
 	grid-template-rows: min-content auto min-content;
 	row-gap: 1rem;
-	--weight: 4;
-	--border-radius: 0.125rem;
-	--border-base: 0.1em;
-	--border-step: 0.005em;
+	font-weight: 400;
 	--easing: ease-in-out;
 	--background: light-dark(oklab(98% 0.00625 0.0125), oklab(2% -0.125 -0.25));
 	--foreground: light-dark(oklab(2% 0 0), oklab(98% 0 0));
@@ -130,7 +126,7 @@ svg {
 	> * {
 		grid-column: 3;
 
-		@container (inline-size <=42rem) {
+		@container (inline-size <= 42rem) {
 			grid-column: 2 / -2;
 		}
 	}
@@ -144,7 +140,7 @@ svg {
 			transparent 1.125rem 1.25rem
 		);
 		background-position: center top;
-		background-size: calc(round(down, 100%, 1.25rem) - 1.25rem) 0.125rem;
+		background-size: calc(round(down, 100%, 1.25rem) - 1.25rem) 0.15rem;
 		background-repeat: no-repeat;
 	}
 }
@@ -156,7 +152,7 @@ svg {
 	> * {
 		line-height: 1.5;
 		font-size: clamp(1.25rem, 7cqi, 2rem);
-		--weight: 9;
+		font-weight: 900;
 	}
 }
 
@@ -164,7 +160,7 @@ svg {
 	display: inline flex;
 	align-items: baseline;
 	gap: 0.5rem;
-	--weight: 7;
+	font-weight: 700;
 
 	> * {
 		flex-shrink: 0;
@@ -174,10 +170,9 @@ svg {
 .footer {
 	display: grid;
 	gap: 1.5rem 0;
-	font-size: 0.9rem;
 	align-content: center;
 	padding-block: 1rem;
-	--weight: 5;
+	font-weight: 700;
 
 	:where(ul) {
 		display: grid;
@@ -186,7 +181,7 @@ svg {
 		justify-items: end;
 		list-style: none;
 
-		@container (inline-size <=27.5rem) {
+		@container (inline-size <= 27.5rem) {
 			display: flex;
 			flex-wrap: wrap;
 		}
@@ -195,6 +190,10 @@ svg {
 	:where(li) {
 		display: grid;
 	}
+
+	:where(a) {
+		text-decoration-thickness: 0.125em;
+	}
 }
 
 .rss-link {
@@ -202,6 +201,6 @@ svg {
 		background: currentColor;
 		fill: var(--background);
 		padding: 0.125em;
-		border-radius: var(--border-radius);
+		border-radius: 0.125rem;
 	}
 }

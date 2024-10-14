@@ -1,9 +1,11 @@
 use super::not_found;
+use crate::filesystem::*;
 use axum::{
 	extract::{Path, Query, State},
 	http::{header, StatusCode},
 	response::{IntoResponse, Response},
 };
+use camino::Utf8Path;
 use serde::Deserialize;
 use std::sync::Arc;
 
@@ -18,7 +20,8 @@ pub async fn handler(
 	query: Query<Version>,
 ) -> Result<Response, crate::Error> {
 	if let Some(content_type) = mime_guess::from_path(&path).first() {
-		if let Ok(body) = state.public.clone().read(path).await {
+		if let Ok(body) = read(Utf8Path::new(&state.base_dir).join(format!("public/{path}"))).await
+		{
 			return Ok((
 				StatusCode::OK,
 				[

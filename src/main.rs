@@ -1,6 +1,6 @@
 mod error;
 mod filesystem;
-pub mod filters;
+mod filters;
 mod layers;
 mod models;
 mod routes;
@@ -9,22 +9,22 @@ mod state;
 use anyhow::Result;
 use axum::{middleware::from_fn_with_state, routing::get, serve, Router};
 use error::Error;
-use filesystem::FileSystem;
-use layers::html_cache;
+use layers::html;
 use routes::{asset, home, not_found, post, project, resume, rss};
 use state::State;
 use std::{env, sync::Arc};
-use tokio::{fs, net::TcpListener};
+use tokio::net::TcpListener;
 use tower_http::{compression::CompressionLayer, trace::TraceLayer};
 
 #[tokio::main]
 async fn main() -> Result<()> {
-	fs::remove_dir_all("storage").await.ok();
-
 	let port: u16 = if let Ok(Ok(p)) = env::var("PORT").map(|p| p.parse()) {
 		p
 	} else {
 		8080
+	};
+	let state = State {
+		base_dir: ".".to_string(),
 	};
 
 	tracing_subscriber::fmt()
@@ -32,18 +32,7 @@ async fn main() -> Result<()> {
 		.with_env_filter(tracing_subscriber::EnvFilter::from_default_env())
 		.init();
 
-	let state = State {
-		public: FileSystem {
-			directory: "public".to_string(),
-		},
-		content: FileSystem {
-			directory: "content".to_string(),
-		},
-		storage: FileSystem {
-			directory: "storage".to_string(),
-		},
-	};
-	let app = get_app(state);
+	let app = get_app(state.clone());
 	let listener = TcpListener::bind(("0.0.0.0", port))
 		.await
 		.expect("should listen");
@@ -57,7 +46,7 @@ async fn main() -> Result<()> {
 	Ok(())
 }
 
-pub fn get_app(state: State) -> Router {
+fn get_app(state: State) -> Router {
 	let state = Arc::new(state);
 
 	Router::new()
@@ -65,7 +54,7 @@ pub fn get_app(state: State) -> Router {
 		.route("/resume/", get(resume::handler))
 		.route("/projects/:project/", get(project::handler))
 		.route("/posts/:slug/", get(post::handler))
-		.route_layer(from_fn_with_state(state.clone(), html_cache::layer))
+		.route_layer(from_fn_with_state(state.clone(), html::layer))
 		.route("/posts.rss", get(rss::handler))
 		.route("/*path", get(asset::handler))
 		.fallback(not_found::handler)
@@ -76,7 +65,7 @@ pub fn get_app(state: State) -> Router {
 
 #[cfg(test)]
 mod tests {
-	use super::{get_app, FileSystem, State};
+	use super::{get_app, State};
 	use axum::{
 		body::Body,
 		http::{header, header::HeaderValue, Request, StatusCode},
@@ -89,15 +78,7 @@ mod tests {
 		fs::remove_dir_all("storage/tmp").await.ok();
 
 		let state = State {
-			public: FileSystem {
-				directory: "fixtures/public".to_string(),
-			},
-			content: FileSystem {
-				directory: "fixtures/content".to_string(),
-			},
-			storage: FileSystem {
-				directory: "storage/tmp".to_string(),
-			},
+			base_dir: "fixtures".to_string(),
 		};
 
 		get_app(state)

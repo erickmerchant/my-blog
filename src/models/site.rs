@@ -1,5 +1,6 @@
-use crate::filesystem::FileSystem;
+use crate::filesystem::*;
 use anyhow::Result;
+use camino::Utf8Path;
 use serde::Deserialize;
 
 #[derive(Clone, Debug, Default, PartialEq, Eq, Deserialize)]
@@ -10,7 +11,7 @@ pub struct Project {
 }
 
 #[derive(Clone, Debug, Default, PartialEq, Eq, Deserialize)]
-pub struct Entry {
+pub struct Model {
 	pub title: String,
 	pub host: String,
 	pub author: String,
@@ -19,13 +20,9 @@ pub struct Entry {
 	pub projects: Vec<Project>,
 }
 
-pub struct Model {
-	pub fs: FileSystem,
-}
-
 impl Model {
-	pub async fn read(&self) -> Result<Entry> {
-		let toml = self.fs.clone().read("site.toml".to_string()).await?;
+	pub async fn read(base_dir: &String) -> Result<Self> {
+		let toml = read(Utf8Path::new(&base_dir).join("content/site.toml")).await?;
 		let site = toml::from_str(&toml)?;
 
 		Ok(site)

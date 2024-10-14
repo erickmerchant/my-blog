@@ -10,7 +10,7 @@
 				max-content
 			);
 		list-style: none;
-		--weight: 5;
+		font-weight: 400;
 	}
 
 	:where(li) {
@@ -19,7 +19,7 @@
 		grid-column: 1 / -1;
 		grid-template-columns: subgrid;
 
-		@container (inline-size >30rem) {
+		@container (inline-size > 30rem) {
 			&::after {
 				position: relative;
 				display: inline grid;
@@ -58,7 +58,7 @@
 		display: grid;
 		gap: 1rem;
 		padding-inline-start: 0;
-		--weight: 4;
+		font-weight: 400;
 	}
 
 	:where(li) {
@@ -69,18 +69,17 @@
 		align-items: baseline;
 
 		:where(svg) {
-			border-radius: var(--border-radius);
+			border-radius: 0.125rem;
 		}
 	}
 
 	:where(a) {
-		--weight: 7;
+		font-weight: 700;
+		text-decoration-thickness: 0.125em;
 	}
 }
 
 .bio {
 	display: grid;
 	gap: 0.5rem;
-	font-size: 0.9rem;
-	--weight: 4;
 }

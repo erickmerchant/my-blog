@@ -1,38 +1,32 @@
 use super::status::Status;
-use crate::FileSystem;
+use crate::filesystem::*;
 use camino::Utf8Path;
 use serde::Deserialize;
 
 #[derive(Clone, Debug, Default, PartialEq, Eq, Deserialize)]
-pub struct Entry {
+pub struct Model {
 	pub slug: Option<String>,
 	pub title: String,
 	pub status: Option<Status>,
 	pub content: Option<String>,
 }
 
-pub struct Model {
-	pub fs: FileSystem,
-}
-
 impl Model {
-	pub async fn all(&self) -> Vec<Entry> {
+	pub async fn all(base_dir: &String) -> Vec<Self> {
 		let mut all = vec![];
-		let paths = self.fs.clone().list("posts".to_string()).await.ok();
+		let slugs = list(Utf8Path::new(&base_dir).join("content/posts"))
+			.await
+			.ok();
 
-		if let Some(paths) = paths {
-			for path in paths {
-				let path = Utf8Path::new(path.as_str());
-
-				if let Some(slug) = path.file_stem() {
-					if let Some(model) = self.by_slug(slug).await {
-						all.push(model);
-					}
+		if let Some(slugs) = slugs {
+			for slug in slugs {
+				if let Some(model) = Self::by_slug(base_dir, slug).await {
+					all.push(model);
 				}
 			}
 		}
 
-		let mut all: Vec<Entry> = all
+		let mut all: Vec<Self> = all
 			.iter()
 			.filter(|e| e.status.is_some())
 			.map(|e| e.to_owned())
@@ -52,10 +46,8 @@ impl Model {
 		all
 	}
 
-	pub async fn by_slug(&self, slug: &str) -> Option<Entry> {
-		self.fs
-			.clone()
-			.read(format!("posts/{slug}.md"))
+	pub async fn by_slug(base_dir: &String, slug: String) -> Option<Self> {
+		read(Utf8Path::new(&base_dir).join(format!("content/posts/{slug}.md")))
 			.await
 			.ok()
 			.map(|contents| {
@@ -67,14 +59,14 @@ impl Model {
 					None
 				};
 
-				let mut model: Entry;
+				let mut model: Self;
 
 				if let Some([_, frontmatter, contents]) = parts.as_deref() {
 					model = toml::from_str(frontmatter).unwrap_or_default();
 
 					model.content = Some(contents.to_string());
 				} else {
-					model = Entry {
+					model = Self {
 						content: Some(contents),
 						..Default::default()
 					}
