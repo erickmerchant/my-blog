@@ -154,6 +154,10 @@ svg {
 		font-size: clamp(1.25rem, 7cqi, 2rem);
 		font-weight: 900;
 	}
+
+	:where(a) {
+		text-decoration-thickness: 0.15em;
+	}
 }
 
 .status {
