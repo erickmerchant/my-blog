@@ -9,7 +9,7 @@
 {% block site_link %}<h1>{% call super() %}</h1>{% endblock %}
 
 {% block main %}
-	<section class="home-section">
+	<section class="section">
 		<h2>Posts</h2>
 		{% if post_list.is_empty() %}
 			<p>There are no posts yet. Check back again soon.</p>
@@ -29,7 +29,7 @@
 	</section>
 
 	{% if !site.projects.is_empty() %}
-		<section class="home-section">
+		<section class="section">
 			<h2>Projects</h2>
 			<p>Fun little things I've made recently.</p>
 				<ul>
@@ -46,7 +46,7 @@
 				</ul>
 		</section>
 	{% endif %}
-	<aside class="home-section">
+	<aside class="section">
 		<h2>About</h2>
 		{{site.bio|html|safe}}
 	</aside>

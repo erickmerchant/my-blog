@@ -16,8 +16,7 @@
 html {
 	block-size: 100%;
 	color-scheme: light dark;
-	font-family: Inter, Roboto, "Helvetica Neue", "Arial Nova", "Nimbus Sans",
-		Arial, sans-serif;
+	font-family: system-ui, sans-serif;
 	font-size: 125%;
 	line-height: 1.5;
 	overflow-y: scroll;
@@ -120,7 +119,7 @@ svg {
 	row-gap: 1rem;
 	font-weight: 400;
 	--easing: ease-in-out;
-	--background: light-dark(oklch(100% 0.05 90), oklch(25% 0.2 200));
+	--background: light-dark(oklch(100% 0.05 100), oklch(25% 0.2 200));
 	--foreground: light-dark(oklch(25% 0 0), oklch(100% 0 0));
 
 	> * {
@@ -165,12 +164,20 @@ svg {
 	grid-template-columns: max-content auto;
 	align-items: baseline;
 	column-gap: 0.5em;
-	row-gap: 0.25em;
+	row-gap: 0.125em;
 	font-weight: 700;
 
 	:where(:nth-child(3)) {
 		grid-column: 2;
-		font-weight: 400;
+
+		&:where(p) {
+			font-weight: 400;
+		}
+
+		&:where(time) {
+			font-style: italic;
+			font-size: 0.8em;
+		}
 	}
 }
 

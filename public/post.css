@@ -32,10 +32,6 @@ code {
 
 	> :where(header) {
 		font-size: 1.125rem;
-
-		:where(:nth-child(3)) {
-			font-size: 1rem;
-		}
 	}
 
 	:where(ul, ol) {
