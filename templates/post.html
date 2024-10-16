@@ -9,9 +9,10 @@
 
 {% block main %}
 	<article class="article">
-		<header>
+		<header class="title-plus">
+			{% call macros::status_icon(post) %}
 			<h1>{{post.title}}</h1>
-			{% call macros::status(post) %}
+			{% call macros::status_text(post) %}
 		</header>
 
 		{% if let Some(content) = post.content %}

@@ -26,16 +26,15 @@ async fn main() -> Result<()> {
 	let state = State {
 		base_dir: ".".to_string(),
 	};
+	let app = get_app(state.clone());
+	let listener = TcpListener::bind(("0.0.0.0", port))
+		.await
+		.expect("should listen");
 
 	tracing_subscriber::fmt()
 		.compact()
 		.with_env_filter(tracing_subscriber::EnvFilter::from_default_env())
 		.init();
-
-	let app = get_app(state.clone());
-	let listener = TcpListener::bind(("0.0.0.0", port))
-		.await
-		.expect("should listen");
 
 	tracing::debug!("listening on port {port}");
 

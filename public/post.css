@@ -25,14 +25,17 @@ code {
 		margin-inline: auto;
 		grid-column: 3;
 
-		@container (inline-size <= 42rem) {
+		@container (inline-size <= 44rem) {
 			grid-column: 2 / -2;
 		}
 	}
 
 	> :where(header) {
-		display: grid;
-		gap: 0.5rem;
+		font-size: 1.125rem;
+
+		:where(:nth-child(3)) {
+			font-size: 1rem;
+		}
 	}
 
 	:where(ul, ol) {
@@ -57,7 +60,6 @@ code {
 		tab-size: 2;
 		font-size: 0.85rem;
 		grid-column: 2 / -2;
-		padding-block: 1rem;
 		--white-space: pre-wrap;
 
 		:where(pre) {
@@ -77,10 +79,7 @@ code {
 			grid-template-columns: subgrid;
 
 			&::before {
-				background-image: linear-gradient(0deg, currentColor 0 1lh);
-				background-position: right 0;
-				background-size: 0.15em 100%;
-				background-repeat: no-repeat;
+				border-inline-end: 0.1em solid currentColor;
 				content: counter(lines, decimal);
 				counter-increment: lines 1;
 				display: grid;
@@ -90,9 +89,29 @@ code {
 				background-color: var(--background);
 				text-align: right;
 			}
+
+			&:where(:first-child) {
+				& {
+					align-items: end;
+				}
+
+				&::before {
+					padding-block-start: 1rem;
+				}
+			}
+
+			&:where(:last-child) {
+				& {
+					align-items: start;
+				}
+
+				&::before {
+					padding-block-end: 1rem;
+				}
+			}
 		}
 
-		@container (inline-size <= 42rem) {
+		@container (inline-size <= 44rem) {
 			border-inline: none;
 			border-radius: 0;
 			grid-column: 1 / -1;
@@ -103,15 +122,9 @@ code {
 
 .callout {
 	padding-inline: 1rem;
-	background-image: repeating-linear-gradient(
-		180deg,
-		transparent 0 0.125rem,
-		currentColor 0.125rem 0.625rem,
-		transparent 0.625rem 0.75rem
-	);
-	background-size: 0.15rem round(down, 100%, 0.75rem);
-	background-repeat: no-repeat;
-	background-position: left center;
+	border: 0.05rem solid currentColor;
+	border-radius: 0.125rem;
+	padding: 1em;
 
 	:where(cite) {
 		display: inline flex;

@@ -9,7 +9,7 @@
 {% block site_link %}<h1>{% call super() %}</h1>{% endblock %}
 
 {% block main %}
-	<section class="posts">
+	<section class="home-section">
 		<h2>Posts</h2>
 		{% if post_list.is_empty() %}
 			<p>There are no posts yet. Check back again soon.</p>
@@ -17,9 +17,10 @@
 			<ol>
 				{% for e in post_list %}
 					{% if let Some(slug) = e.slug %}
-						<li>
-							{% call macros::status(e) %}
+						<li class="title-plus">
+							{% call macros::status_icon(e) %}
 							<a href="/posts/{{slug}}/">{{e.title}}</a>
+							{% call macros::status_text(e) %}
 						</li>
 					{% endif %}
 				{% endfor %}
@@ -28,26 +29,24 @@
 	</section>
 
 	{% if !site.projects.is_empty() %}
-		<section class="projects">
+		<section class="home-section">
 			<h2>Projects</h2>
 			<p>Fun little things I've made recently.</p>
 				<ul>
 					{% for p in site.projects %}
-						<li>
-							<a href="{{p.href}}">
-								<svg viewBox="0 0 28 28">
-									<title>Folder</title>
-									<path d="M0 2 Q0 0 2 0 H9 Q10.5 0 11 0.5 L14 4 H26 Q28 4 28 6 V26 Q28 28 26 28 H2 Q0 28 0 26 V14 H4 V24 H24 V8 H4 V14 H0 Z"></path>
-								</svg>
-								{{p.title}}
-							</a>
+						<li class="title-plus">
+							<svg viewBox="0 0 28 28">
+								<title>Folder</title>
+								<path d="M0 2 Q0 0 2 0 H9 Q10.5 0 11 0.5 L14 4 H26 Q28 4 28 6 V26 Q28 28 26 28 H2 Q0 28 0 26 V14 H4 V24 H24 V8 H4 V14 H0 Z"></path>
+							</svg>
+							<a href="{{p.href}}">{{p.title}}</a>
 							{{p.description|html|safe}}
 						</li>
 					{% endfor %}
 				</ul>
 		</section>
 	{% endif %}
-	<aside class="bio">
+	<aside class="home-section">
 		<h2>About</h2>
 		{{site.bio|html|safe}}
 	</aside>

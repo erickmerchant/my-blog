@@ -1,85 +1,14 @@
-.posts {
+.home-section {
 	display: grid;
 	gap: 0.5rem;
 
-	:where(ol) {
-		display: grid;
-		gap: 1rem;
-		grid-template-columns: max-content minmax(3rem, 1fr) minmax(
-				min-content,
-				max-content
-			);
+	:where(ol, ul) {
 		list-style: none;
-		font-weight: 400;
-	}
-
-	:where(li) {
-		display: grid;
-		column-gap: 0.5rem;
-		grid-column: 1 / -1;
-		grid-template-columns: subgrid;
-
-		@container (inline-size > 30rem) {
-			&::after {
-				position: relative;
-				display: inline grid;
-				margin-inline: auto;
-				grid-column: 2;
-				grid-row: 1;
-				content: "";
-				inline-size: round(down, 100%, 1rem);
-				background-image: radial-gradient(
-					circle at 50% 0.75em,
-					currentColor 0 0.1em,
-					transparent 0.1em
-				);
-				background-size: 1rem 100%;
-				background-repeat: repeat-x;
-			}
-		}
-	}
-
-	:where(a) {
-		grid-column: 3;
-	}
-
-	@container (inline-size <=30rem) {
-		:where(ol) {
-			grid-template-columns: 100%;
-		}
-	}
-}
-
-.projects {
-	display: grid;
-	gap: 0.5rem;
-
-	:where(ul) {
 		display: grid;
 		gap: 1rem;
-		padding-inline-start: 0;
-		font-weight: 400;
-	}
-
-	:where(li) {
-		display: grid;
-		gap: 0.5rem;
-		grid-column: 1 / -1;
-		grid-template-columns: subgrid;
-		align-items: baseline;
-
-		:where(svg) {
-			border-radius: 0.125rem;
-		}
 	}
 
 	:where(a) {
-		font-weight: 700;
 		text-decoration-thickness: 0.125em;
 	}
-}
-
-.bio {
-	display: grid;
-	gap: 0.5rem;
 }
