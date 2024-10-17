@@ -65,11 +65,11 @@ pub struct ImportMap {
 }
 
 impl ImportMap {
-	pub fn map<M: Fn(String) -> String>(&mut self, map: M) -> &Self {
+	pub fn map<M: Fn(&str) -> String>(&mut self, map: M) -> &Self {
 		let mut imports = Imports::new();
 
 		for (key, value) in self.imports.clone().unwrap_or_default() {
-			imports.insert(key, map(value));
+			imports.insert(key, map(&value));
 		}
 
 		self.imports = Some(imports);
@@ -80,7 +80,7 @@ impl ImportMap {
 			let mut new_map = Imports::new();
 
 			for (key, value) in old_map {
-				new_map.insert(key, map(value));
+				new_map.insert(key, map(&value));
 			}
 
 			scopes.insert(scope_key, new_map);
@@ -124,7 +124,7 @@ impl CacheBuster {
 					}),
 					text!("script[type='importmap']", |el| {
 						if let Ok(mut import_map) = json::from_str::<ImportMap>(el.as_str()) {
-							import_map.map(|u| self.get_url(u.as_str()));
+							import_map.map(|u| self.get_url(u));
 
 							if let Ok(map) = json::to_string(&import_map) {
 								el.replace(map.as_str(), ContentType::Text);
