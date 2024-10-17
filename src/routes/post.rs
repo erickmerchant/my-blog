@@ -22,7 +22,7 @@ pub async fn handler(
 	State(state): State<Arc<crate::State>>,
 	Path(slug): Path<String>,
 ) -> Result<Response, crate::Error> {
-	let post: Option<post::Model> = post::Model::by_slug(&state.base_dir, slug.to_string()).await;
+	let post: Option<post::Model> = post::Model::by_slug(&state.base_dir, &slug).await;
 
 	if let Some(post) = post {
 		let site = site::Model::read(&state.base_dir).await?;

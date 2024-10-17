@@ -12,7 +12,7 @@ pub struct Model {
 }
 
 impl Model {
-	pub async fn all(base_dir: &String) -> Vec<Self> {
+	pub async fn all(base_dir: &str) -> Vec<Self> {
 		let mut all = vec![];
 		let slugs = list(Utf8Path::new(&base_dir).join("content/posts"))
 			.await
@@ -20,7 +20,7 @@ impl Model {
 
 		if let Some(slugs) = slugs {
 			for slug in slugs {
-				if let Some(model) = Self::by_slug(base_dir, slug).await {
+				if let Some(model) = Self::by_slug(base_dir, &slug).await {
 					all.push(model);
 				}
 			}
@@ -46,7 +46,7 @@ impl Model {
 		all
 	}
 
-	pub async fn by_slug(base_dir: &String, slug: String) -> Option<Self> {
+	pub async fn by_slug(base_dir: &str, slug: &str) -> Option<Self> {
 		read(Utf8Path::new(&base_dir).join(format!("content/posts/{slug}.md")))
 			.await
 			.ok()
