@@ -1,4 +1,4 @@
-FROM rust:1.81-alpine AS build
+FROM rust:1.82-alpine AS build
 RUN apk add build-base
 WORKDIR /build
 # cache deps
