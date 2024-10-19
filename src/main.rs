@@ -70,12 +70,9 @@ mod tests {
 		http::{header, header::HeaderValue, Request, StatusCode},
 		Router,
 	};
-	use tokio::fs;
 	use tower::ServiceExt;
 
 	async fn get_test_app() -> Router {
-		fs::remove_dir_all("storage/tmp").await.ok();
-
 		let state = State {
 			base_dir: "fixtures".to_string(),
 		};
