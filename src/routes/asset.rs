@@ -1,7 +1,8 @@
 use super::not_found;
-use crate::filesystem::*;
+use crate::{filesystem::*, layers::html::apply};
 use axum::{
-	extract::{Path, Query, State},
+	body::Body,
+	extract::{Path, Query, Request, State},
 	http::{header, StatusCode},
 	response::{IntoResponse, Response},
 };
@@ -18,10 +19,32 @@ pub async fn handler(
 	State(state): State<Arc<crate::State>>,
 	Path(path): Path<String>,
 	query: Query<Version>,
+	req: Request<Body>,
 ) -> Result<Response, crate::Error> {
+	let mut path = path;
+
+	if path.ends_with('/') {
+		path = format!("{path}index.html")
+	}
+
 	if let Some(content_type) = mime_guess::from_path(&path).first() {
 		if let Ok(body) = read(Utf8Path::new(&state.base_dir).join(format!("public/{path}"))).await
 		{
+			if content_type == mime::TEXT_HTML {
+				let (req_parts, _) = req.into_parts();
+				let headers = &req_parts.headers;
+				let if_none_match = headers.get(header::IF_NONE_MATCH);
+				let uri = &req_parts.uri;
+				let res = (
+					StatusCode::OK,
+					[(header::CONTENT_TYPE, content_type.to_string())],
+					body,
+				)
+					.into_response();
+
+				return apply(State(state), if_none_match, uri, res).await;
+			}
+
 			return Ok((
 				StatusCode::OK,
 				[

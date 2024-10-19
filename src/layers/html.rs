@@ -2,31 +2,25 @@ use crate::filesystem::*;
 use axum::{
 	body::{to_bytes, Body},
 	extract::State,
-	http::{header, Request, StatusCode},
+	http::{header, HeaderValue, Request, StatusCode},
 	middleware::Next,
 	response::{IntoResponse, Response},
 };
 use camino::Utf8Path;
 use etag::EntityTag;
-use hyper::body::Bytes;
+use hyper::{body::Bytes, Uri};
 use lol_html::{element, html_content::ContentType, text, HtmlRewriter, Settings};
 use serde::{Deserialize, Serialize};
 use serde_json as json;
 use std::{collections::HashMap, sync::Arc, time::UNIX_EPOCH};
 use url::Url;
 
-pub async fn layer(
+pub async fn apply(
 	State(state): State<Arc<crate::State>>,
-	req: Request<Body>,
-	next: Next,
+	if_none_match: Option<&HeaderValue>,
+	uri: &Uri,
+	res: Response,
 ) -> Result<Response, crate::Error> {
-	let (req_parts, req_body) = req.into_parts();
-	let headers = &req_parts.headers;
-	let if_none_match = headers.get(header::IF_NONE_MATCH);
-	let uri = &req_parts.uri;
-	let new_req = Request::from_parts(req_parts.clone(), req_body);
-	let res = next.run(new_req).await;
-
 	if res.status() != StatusCode::OK {
 		return Ok(res);
 	}
@@ -53,6 +47,20 @@ pub async fn layer(
 		body,
 	)
 		.into_response())
+}
+
+pub async fn layer(
+	State(state): State<Arc<crate::State>>,
+	req: Request<Body>,
+	next: Next,
+) -> Result<Response, crate::Error> {
+	let (req_parts, req_body) = req.into_parts();
+	let new_req = Request::from_parts(req_parts.clone(), req_body);
+	let headers = &req_parts.headers;
+	let if_none_match = headers.get(header::IF_NONE_MATCH);
+	let uri = &req_parts.uri;
+
+	apply(State(state), if_none_match, uri, next.run(new_req).await).await
 }
 
 type Imports = HashMap<String, String>;

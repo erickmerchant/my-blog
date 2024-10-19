@@ -10,7 +10,7 @@ use anyhow::Result;
 use axum::{middleware::from_fn_with_state, routing::get, serve, Router};
 use error::Error;
 use layers::html;
-use routes::{asset, home, not_found, post, project, resume, rss};
+use routes::{asset, home, not_found, post, resume, rss};
 use state::State;
 use std::{env, sync::Arc};
 use tokio::net::TcpListener;
@@ -51,7 +51,6 @@ fn get_app(state: State) -> Router {
 	Router::new()
 		.route("/", get(home::handler))
 		.route("/resume/", get(resume::handler))
-		.route("/projects/:project/", get(project::handler))
 		.route("/posts/:slug/", get(post::handler))
 		.route_layer(from_fn_with_state(state.clone(), html::layer))
 		.route("/posts.rss", get(rss::handler))
@@ -176,6 +175,46 @@ mod tests {
 		assert!(cache_control.is_none());
 
 		assert_eq!(response.status(), StatusCode::OK);
+	}
+
+	#[tokio::test]
+	async fn test_asset_html() {
+		let app = get_test_app().await;
+		let response = app
+			.clone()
+			.oneshot(
+				Request::builder()
+					.uri("/page.html")
+					.body(Body::empty())
+					.unwrap(),
+			)
+			.await
+			.unwrap();
+		let cache_control = response.headers().get(header::CACHE_CONTROL);
+
+		assert!(cache_control.is_none());
+
+		assert_eq!(response.status(), StatusCode::OK);
+
+		let etag = response.headers().get(header::ETAG);
+
+		assert!(etag.is_some());
+
+		let etag = etag.unwrap();
+		let mut req = Request::builder()
+			.uri("/page.html")
+			.body(Body::empty())
+			.unwrap();
+
+		req.headers_mut()
+			.insert(header::IF_NONE_MATCH, etag.to_owned());
+
+		let response = app.oneshot(req).await.unwrap();
+		let cache_control = response.headers().get(header::CACHE_CONTROL);
+
+		assert!(cache_control.is_none());
+
+		assert_eq!(response.status(), StatusCode::NOT_MODIFIED);
 	}
 
 	#[tokio::test]
