@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 
-{% import "macros.html" as macros %}
+{% import "status.html" as status %}
 
-{% block page_styles %}
+{% block head %}
 	<link rel="stylesheet" href="/home.css" />
 {% endblock %}
 
@@ -18,9 +18,9 @@
 				{% for e in post_list %}
 					{% if let Some(slug) = e.slug %}
 						<li class="title-plus">
-							{% call macros::status_icon(e) %}
+							{% call status::icon(e) %}
 							<a href="/posts/{{slug}}/">{{e.title}}</a>
-							{% call macros::status_text(e) %}
+							{% call status::text(e) %}
 						</li>
 					{% endif %}
 				{% endfor %}

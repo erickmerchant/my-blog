@@ -1,18 +1,24 @@
 {% extends "base.html" %}
-{% import "macros.html" as macros %}
+{% import "status.html" as status %}
 
 {% block title %}{% call super() %} — {{post.title}}{% endblock %}
 
-{% block page_styles %}
+{% block head %}
 	<link rel="stylesheet" href="/post.css" />
+	<meta property="og:title" content="{{post.title}}" />
+	<meta property="og:type" content="article" />
+	{% if let Some(slug) = post.slug %}
+		<meta property="og:url" content="{{site.host}}/posts/{{slug}}/" />
+		<meta property="og:image" content="{{site.host}}/posts/{{slug}}/card/" />
+	{% endif %}
 {% endblock %}
 
 {% block main %}
 	<article class="article">
 		<header class="title-plus">
-			{% call macros::status_icon(post) %}
+			{% call status::icon(post) %}
 			<h1>{{post.title}}</h1>
-			{% call macros::status_text(post) %}
+			{% call status::text(post) %}
 		</header>
 
 		{% if let Some(content) = post.content %}

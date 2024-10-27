@@ -1,13 +1,13 @@
-use super::status::Status;
 use crate::filesystem::*;
 use camino::Utf8Path;
+use chrono::NaiveDate;
 use serde::Deserialize;
 
 #[derive(Clone, Debug, Default, PartialEq, Eq, Deserialize)]
 pub struct Model {
 	pub slug: Option<String>,
 	pub title: String,
-	pub status: Option<Status>,
+	pub date_published: Option<NaiveDate>,
 	pub content: Option<String>,
 }
 
@@ -28,15 +28,14 @@ impl Model {
 
 		let mut all: Vec<Self> = all
 			.iter()
-			.filter(|e| e.status.is_some())
+			.filter(|e| e.date_published.is_some())
 			.map(|e| e.to_owned())
 			.collect();
 
 		all.sort_by(|a, b| {
-			let cmp = b.status.cmp(&a.status);
+			let cmp = b.date_published.cmp(&a.date_published);
 
-			if let (Some(Status::Published(a)), Some(Status::Published(b))) = (&a.status, &b.status)
-			{
+			if let (Some(a), Some(b)) = (&a.date_published, &b.date_published) {
 				b.cmp(a)
 			} else {
 				cmp

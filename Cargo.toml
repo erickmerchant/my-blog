@@ -24,6 +24,7 @@ lol_html = "2.0.0"
 mime = "0.3.17"
 mime_guess = "2.0.4"
 pulldown-cmark = "0.12.0"
+resvg = { version = "0.44.0", features = ["text"] }
 rinja = "0.3.4"
 serde = { version = "1.0.185", features = ["derive"] }
 serde_json = "1.0.122"
@@ -43,4 +44,4 @@ url = "2.5.2"
 strip = true
 lto = true
 codegen-units = 1
-# opt-level = "s"
+# opt-level = "z"

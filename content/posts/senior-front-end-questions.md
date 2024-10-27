@@ -1,6 +1,6 @@
 +++
 title = "Questions to ask a senior front-end developer"
-status = { published = "2024-10-23" }
+date_published = "2024-10-23"
 +++
 
 I saw someone ask about interview questions the other day for a senior front-end engineer. I've never interviewed anyone really, but I've thought about this a bit over the years and have a very short list of questions ready to go if I had too. Presumably this would just be the start and there would also be questions about sprints and communication and all that stuff too. These are some question I'd ask really at any level. More senior I'd say almost just assume people know some of these things or can look it up if needed. I've gotten some of them in the past but made most of them up. Also by the way I'm not giving the answer here in every case, but rather just some explaination of why I'd ask it, but maybe I should.

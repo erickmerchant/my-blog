@@ -1,7 +1,7 @@
 use super::not_found;
 use crate::{
 	filters,
-	models::{post, site, status::Status},
+	models::{post, site},
 };
 use axum::{
 	extract::{Path, State},

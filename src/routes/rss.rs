@@ -1,4 +1,4 @@
-use crate::models::{post, site, status::Status};
+use crate::models::{post, site};
 use axum::{
 	extract::State,
 	http::{header, StatusCode},

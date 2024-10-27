@@ -9,7 +9,7 @@
 				<item>
 					<title>{{e.title}}</title>
 					<link>{{site.host}}/posts/{{slug}}/</link>
-					{% if let Some(Status::Published(date)) = e.status %}
+					{% if let Some(date) = e.date_published %}
 						<pubDate>{{date.format("%a, %d %h %Y")}} 00:00:00 +0000</pubDate>
 					{% endif %}
 				</item>

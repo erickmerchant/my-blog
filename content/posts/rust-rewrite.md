@@ -1,6 +1,6 @@
 +++
 title = "Rust rewrite"
-status = { published = "2022-03-07" }
+date_published = "2022-03-07"
 +++
 
 ## Why Rust
