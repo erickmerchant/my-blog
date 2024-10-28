@@ -22,7 +22,7 @@ pub struct Model {
 
 impl Model {
 	pub async fn read(base_dir: &str) -> Result<Self> {
-		let toml = read(Utf8Path::new(&base_dir).join("content/site.toml")).await?;
+		let toml = read_to_string(Utf8Path::new(&base_dir).join("content/site.toml")).await?;
 		let site = toml::from_str(&toml)?;
 
 		Ok(site)

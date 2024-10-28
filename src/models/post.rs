@@ -46,7 +46,7 @@ impl Model {
 	}
 
 	pub async fn by_slug(base_dir: &str, slug: &str) -> Option<Self> {
-		read(Utf8Path::new(&base_dir).join(format!("content/posts/{slug}.md")))
+		read_to_string(Utf8Path::new(&base_dir).join(format!("content/posts/{slug}.md")))
 			.await
 			.ok()
 			.map(|contents| {

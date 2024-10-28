@@ -23,7 +23,11 @@ pub async fn list(path: Utf8PathBuf) -> Result<Vec<String>> {
 	Ok(all)
 }
 
-pub async fn read(path: Utf8PathBuf) -> Result<String> {
+pub async fn read(path: Utf8PathBuf) -> Result<Vec<u8>> {
+	Ok(fs::read(&path).await?)
+}
+
+pub async fn read_to_string(path: Utf8PathBuf) -> Result<String> {
 	Ok(fs::read_to_string(&path).await?)
 }
 

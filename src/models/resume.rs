@@ -34,7 +34,7 @@ pub type DetailList = String;
 
 impl Model {
 	pub async fn read(base_dir: &str) -> Result<Self> {
-		let content = read(Utf8Path::new(&base_dir).join("content/resume.toml")).await?;
+		let content = read_to_string(Utf8Path::new(&base_dir).join("content/resume.toml")).await?;
 		let resume = toml::from_str(&content)?;
 
 		Ok(resume)
