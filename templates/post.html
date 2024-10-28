@@ -5,12 +5,6 @@
 
 {% block head %}
 	<link rel="stylesheet" href="/post.css" />
-	<meta property="og:title" content="{{post.title}}" />
-	<meta property="og:type" content="article" />
-	{% if let Some(slug) = post.slug %}
-		<meta property="og:url" content="{{site.host}}/posts/{{slug}}/" />
-		<meta property="og:image" content="{{site.host}}/posts/{{slug}}/card/" />
-	{% endif %}
 {% endblock %}
 
 {% block main %}

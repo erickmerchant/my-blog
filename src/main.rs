@@ -10,7 +10,7 @@ use anyhow::Result;
 use axum::{middleware::from_fn_with_state, routing::get, serve, Router};
 use error::Error;
 use layers::html;
-use routes::{asset, card, home, not_found, post, resume, rss};
+use routes::{asset, home, not_found, post, resume, rss};
 use state::State;
 use std::{env, sync::Arc};
 use tokio::net::TcpListener;
@@ -53,7 +53,6 @@ fn get_app(state: State) -> Router {
 		.route("/resume/", get(resume::handler))
 		.route("/posts/:slug/", get(post::handler))
 		.route_layer(from_fn_with_state(state.clone(), html::layer))
-		.route("/posts/:slug/card/", get(card::handler))
 		.route("/posts.rss", get(rss::handler))
 		.route("/*path", get(asset::handler))
 		.fallback(not_found::handler)
