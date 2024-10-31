@@ -1,17 +1,10 @@
-mod error;
-mod filesystem;
-mod filters;
-mod layers;
-mod models;
-mod routes;
-mod state;
-
 use anyhow::Result;
+use app::{
+	layers::html,
+	routes::{asset, home, not_found, post, resume, rss},
+	state::State,
+};
 use axum::{middleware::from_fn_with_state, routing::get, serve, Router};
-use error::Error;
-use layers::html;
-use routes::{asset, home, not_found, post, resume, rss};
-use state::State;
 use std::{env, sync::Arc};
 use tokio::net::TcpListener;
 use tower_http::{compression::CompressionLayer, trace::TraceLayer};

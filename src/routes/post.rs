@@ -1,7 +1,8 @@
 use super::not_found;
 use crate::{
-	filters,
+	error, filters,
 	models::{post, site},
+	state,
 };
 use axum::{
 	extract::{Path, State},
@@ -19,9 +20,9 @@ struct View {
 }
 
 pub async fn handler(
-	State(state): State<Arc<crate::State>>,
+	State(state): State<Arc<state::State>>,
 	Path(slug): Path<String>,
-) -> Result<Response, crate::Error> {
+) -> Result<Response, error::Error> {
 	let post: Option<post::Model> = post::Model::by_slug(&state.base_dir, &slug).await;
 
 	if let Some(post) = post {

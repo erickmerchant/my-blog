@@ -1,4 +1,4 @@
-use crate::models::site;
+use crate::{error, models::site, state};
 use axum::{
 	extract::State,
 	http::StatusCode,
@@ -13,7 +13,7 @@ pub struct View {
 	pub site: site::Model,
 }
 
-pub async fn handler(State(state): State<Arc<crate::State>>) -> Result<Response, crate::Error> {
+pub async fn handler(State(state): State<Arc<state::State>>) -> Result<Response, error::Error> {
 	let site = site::Model::read(&state.base_dir).await?;
 	let body = View { site }.render()?;
 

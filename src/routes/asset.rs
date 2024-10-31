@@ -1,5 +1,5 @@
 use super::not_found;
-use crate::{filesystem::*, layers::html::apply};
+use crate::{error, filesystem::*, layers::html::apply, state};
 use axum::{
 	body::Body,
 	extract::{Path, Query, Request, State},
@@ -16,11 +16,11 @@ pub struct Version {
 }
 
 pub async fn handler(
-	State(state): State<Arc<crate::State>>,
+	State(state): State<Arc<state::State>>,
 	Path(path): Path<String>,
 	query: Query<Version>,
 	req: Request<Body>,
-) -> Result<Response, crate::Error> {
+) -> Result<Response, error::Error> {
 	let mut path = path;
 
 	if path.ends_with('/') {

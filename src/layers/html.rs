@@ -1,4 +1,4 @@
-use crate::filesystem::*;
+use crate::{error, filesystem::*, state};
 use axum::{
 	body::{to_bytes, Body},
 	extract::State,
@@ -16,11 +16,11 @@ use std::{collections::HashMap, sync::Arc, time::UNIX_EPOCH};
 use url::Url;
 
 pub async fn apply(
-	State(state): State<Arc<crate::State>>,
+	State(state): State<Arc<state::State>>,
 	if_none_match: Option<&HeaderValue>,
 	uri: &Uri,
 	res: Response,
-) -> Result<Response, crate::Error> {
+) -> Result<Response, error::Error> {
 	if res.status() != StatusCode::OK {
 		return Ok(res);
 	}
@@ -50,10 +50,10 @@ pub async fn apply(
 }
 
 pub async fn layer(
-	State(state): State<Arc<crate::State>>,
+	State(state): State<Arc<state::State>>,
 	req: Request<Body>,
 	next: Next,
-) -> Result<Response, crate::Error> {
+) -> Result<Response, error::Error> {
 	let (req_parts, req_body) = req.into_parts();
 	let new_req = Request::from_parts(req_parts.clone(), req_body);
 	let headers = &req_parts.headers;
