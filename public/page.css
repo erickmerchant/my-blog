@@ -106,7 +106,7 @@ em {
 }
 
 svg {
-	block-size: 1em;
+	block-size: 0.9em;
 	display: inline grid;
 	fill: currentColor;
 
