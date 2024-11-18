@@ -35,7 +35,7 @@ pub async fn apply(
 	let etag = EntityTag::from_data(&body).to_string();
 
 	if if_none_match.map_or(false, |if_none_match| etag == *if_none_match) {
-		return Ok((StatusCode::NOT_MODIFIED).into_response());
+		return Ok(StatusCode::NOT_MODIFIED.into_response());
 	}
 
 	Ok((

@@ -2,6 +2,19 @@
 <html>
 	<head>
 		<title>Project</title>
+		<script type="importmap">
+			{
+				"imports": {
+					"blah": "./blah.js"
+				},
+				"scopes": {
+					"/": {
+						"blah": "./blah.js"
+					}
+				}
+			}
+		</script>
+		<script src="./blah.js"></script>
 	</head>
 	<body>
 		<h1>Project</h1>
