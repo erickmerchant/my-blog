@@ -13,7 +13,9 @@ pub struct View {
 	pub site: site::Model,
 }
 
-pub async fn handler(State(state): State<Arc<state::State>>) -> Result<Response, error::Error> {
+pub async fn not_found_handler(
+	State(state): State<Arc<state::State>>,
+) -> Result<Response, error::Error> {
 	let site = site::Model::read(&state.base_dir).await?;
 	let body = View { site }.render()?;
 

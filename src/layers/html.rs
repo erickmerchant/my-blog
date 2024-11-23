@@ -15,7 +15,7 @@ use serde_json as json;
 use std::{collections::HashMap, sync::Arc, time::UNIX_EPOCH};
 use url::Url;
 
-pub async fn apply(
+pub async fn apply_html_layer(
 	State(state): State<Arc<state::State>>,
 	if_none_match: Option<&HeaderValue>,
 	uri: &Uri,
@@ -49,7 +49,7 @@ pub async fn apply(
 		.into_response())
 }
 
-pub async fn layer(
+pub async fn html_layer(
 	State(state): State<Arc<state::State>>,
 	req: Request<Body>,
 	next: Next,
@@ -60,7 +60,7 @@ pub async fn layer(
 	let if_none_match = headers.get(header::IF_NONE_MATCH);
 	let uri = &req_parts.uri;
 
-	apply(State(state), if_none_match, uri, next.run(new_req).await).await
+	apply_html_layer(State(state), if_none_match, uri, next.run(new_req).await).await
 }
 
 type Imports = HashMap<String, String>;

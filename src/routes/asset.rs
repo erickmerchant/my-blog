@@ -1,5 +1,5 @@
 use super::not_found;
-use crate::{error, filesystem::*, layers::html::apply, state};
+use crate::{error, filesystem::*, layers::html::apply_html_layer, state};
 use axum::{
 	body::Body,
 	extract::{Path, Query, Request, State},
@@ -15,7 +15,7 @@ pub struct Version {
 	pub v: Option<String>,
 }
 
-pub async fn handler(
+pub async fn asset_handler(
 	State(state): State<Arc<state::State>>,
 	Path(path): Path<String>,
 	query: Query<Version>,
@@ -42,7 +42,7 @@ pub async fn handler(
 				)
 					.into_response();
 
-				return apply(State(state), if_none_match, uri, res).await;
+				return apply_html_layer(State(state), if_none_match, uri, res).await;
 			}
 
 			return Ok((
@@ -64,5 +64,5 @@ pub async fn handler(
 		}
 	}
 
-	not_found::handler(State(state)).await
+	not_found::not_found_handler(State(state)).await
 }

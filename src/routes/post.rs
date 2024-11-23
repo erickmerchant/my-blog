@@ -19,7 +19,7 @@ struct View {
 	pub post: post::Model,
 }
 
-pub async fn handler(
+pub async fn post_handler(
 	State(state): State<Arc<state::State>>,
 	Path(slug): Path<String>,
 ) -> Result<Response, error::Error> {
@@ -32,5 +32,5 @@ pub async fn handler(
 		return Ok((StatusCode::OK, Html(html)).into_response());
 	}
 
-	not_found::handler(State(state)).await
+	not_found::not_found_handler(State(state)).await
 }
