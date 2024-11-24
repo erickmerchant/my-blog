@@ -125,9 +125,8 @@ svg {
 	grid-template-columns: auto 3rem min(100% - 8rem, 40rem) 3rem auto;
 	grid-template-rows: min-content auto min-content;
 	row-gap: 1rem;
-	--easing: ease-in-out;
-	--background: light-dark(oklch(100% 0.0375 100), oklch(25% 0.0375 100));
-	--foreground: light-dark(oklch(25% 0.0375 100), oklch(100% 0.0375 100));
+	--background: light-dark(oklch(98% 0.025 100), oklch(35% 0.025 100));
+	--foreground: light-dark(oklch(35% 0.025 100), oklch(98% 0.025 100));
 
 	> * {
 		grid-column: 3;
