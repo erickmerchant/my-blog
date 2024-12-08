@@ -29,7 +29,7 @@ pub async fn apply_html_layer(
 	let body = to_bytes(body, usize::MAX).await?;
 	let cache_buster = CacheBuster {
 		url: Url::parse("https://0.0.0.0")?.join(uri.to_string().as_str())?,
-		base_dir: state.base_dir.clone(),
+		base_dir: state.base_dir.to_owned(),
 	};
 	let body = cache_buster.rewrite_assets(&body)?;
 	let etag = EntityTag::from_data(&body).to_string();
@@ -55,7 +55,7 @@ pub async fn html_layer(
 	next: Next,
 ) -> Result<Response, error::Error> {
 	let (req_parts, req_body) = req.into_parts();
-	let new_req = Request::from_parts(req_parts.clone(), req_body);
+	let new_req = Request::from_parts(req_parts.to_owned(), req_body);
 	let headers = &req_parts.headers;
 	let if_none_match = headers.get(header::IF_NONE_MATCH);
 	let uri = &req_parts.uri;
@@ -76,22 +76,22 @@ impl ImportMap {
 	pub fn map<M: Fn(&str) -> String>(&mut self, map: M) -> &Self {
 		let mut imports = Imports::new();
 
-		for (key, value) in self.imports.clone().unwrap_or_default() {
-			imports.insert(key, map(&value));
+		for (key, value) in self.imports.as_ref().unwrap_or(&Imports::new()) {
+			imports.insert(key.to_owned(), map(value));
 		}
 
 		self.imports = Some(imports);
 
 		let mut scopes = Scopes::new();
 
-		for (scope_key, old_map) in self.scopes.clone().unwrap_or_default() {
+		for (scope_key, old_map) in self.scopes.as_ref().unwrap_or(&Scopes::new()) {
 			let mut new_map = Imports::new();
 
 			for (key, value) in old_map {
-				new_map.insert(key, map(&value));
+				new_map.insert(key.to_owned(), map(value));
 			}
 
-			scopes.insert(scope_key, new_map);
+			scopes.insert(scope_key.to_owned(), new_map);
 		}
 
 		self.scopes = Some(scopes);
