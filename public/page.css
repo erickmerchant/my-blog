@@ -1,8 +1,9 @@
 @font-face {
-	font-family: "Inter";
+	font-family: "Overpass Mono";
 	src:
 		local("Inter"),
-		url("/fonts/Inter/InterVariable-subset.woff2?v=1") format("woff2");
+		url("/fonts/OverpassMono/OverpassMono-VariableFont_wght.ttf-subset.woff2?v=1")
+			format("woff2");
 }
 
 :where(:not(svg)) {
@@ -23,7 +24,7 @@
 html {
 	block-size: 100%;
 	color-scheme: light dark;
-	font-family: "Inter", system-ui, sans-serif;
+	font-family: "Overpass Mono", ui-monospace, monospace;
 	font-weight: 400;
 	font-size: 125%;
 	line-height: 1.5;
@@ -74,7 +75,7 @@ h6 {
 h1,
 h2 {
 	line-height: 1.25;
-	font-weight: 900;
+	font-weight: 700;
 
 	:where(a) {
 		text-decoration-thickness: 0.15em;
@@ -98,7 +99,7 @@ h2 {
 h3,
 h4,
 strong {
-	font-weight: 700;
+	font-weight: 600;
 }
 
 em {
@@ -157,7 +158,7 @@ svg {
 	> * {
 		line-height: 1.5;
 		font-size: clamp(1.25rem, 7cqi, 2rem);
-		font-weight: 900;
+		font-weight: 700;
 	}
 
 	:where(a) {
@@ -171,7 +172,7 @@ svg {
 	align-items: baseline;
 	column-gap: 0.5em;
 	row-gap: 0.125em;
-	font-weight: 700;
+	font-weight: 600;
 
 	:where(:nth-child(3)) {
 		grid-column: 2;
@@ -192,7 +193,7 @@ svg {
 	gap: 1.5rem 0;
 	align-content: center;
 	padding-block: 1rem;
-	font-weight: 700;
+	font-weight: 600;
 
 	:where(ul) {
 		display: grid;

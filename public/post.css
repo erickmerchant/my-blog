@@ -1,6 +1,5 @@
 code {
-	font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas,
-		"DejaVu Sans Mono", monospace;
+	font-family: "Overpass Mono", ui-monospace, monospace;
 
 	/* Arc iOS bug fix */
 	:where(a) {
@@ -41,7 +40,7 @@ code {
 	:where(ul) {
 		::marker {
 			content: "- ";
-			font-weight: 900;
+			font-weight: 700;
 		}
 	}
 
@@ -60,8 +59,7 @@ code {
 
 		:where(pre) {
 			display: grid;
-			font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo,
-				Consolas, "DejaVu Sans Mono", monospace;
+			font-family: "Overpass Mono", ui-monospace, monospace;
 			grid-template-columns: max-content auto;
 			position: relative;
 			white-space: var(--white-space);

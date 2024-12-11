@@ -17,8 +17,7 @@
 html {
 	block-size: 100%;
 	color-scheme: light dark;
-	font-family: Inter, Roboto, "Helvetica Neue", "Arial Nova", "Nimbus Sans",
-		Arial, sans-serif;
+	font-family: "Overpass Mono", ui-monospace, monospace;
 	font-size: 125%;
 	line-height: 1.5;
 	overflow-y: scroll;
