@@ -23,11 +23,11 @@ pub fn html<T: std::fmt::Display>(contents: T) -> rinja::Result<String> {
 						lines.push(format!("<code>{}</code>", html_escape::encode_text(line)));
 					}
 
-					let hightlighted_html =
+					let highlighted_html =
 						format!(r#"<figure><pre>{}</pre></figure>"#, lines.join("\n"));
 
 					events.push(Event::Html(CowStr::Boxed(
-						hightlighted_html.into_boxed_str(),
+						highlighted_html.into_boxed_str(),
 					)));
 					code_block_text = None;
 				}
