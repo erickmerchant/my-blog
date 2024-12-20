@@ -3,7 +3,7 @@ use pulldown_cmark::{html, CodeBlockKind, CowStr, Event, Tag, TagEnd};
 pub fn html<T: std::fmt::Display>(contents: T) -> rinja::Result<String> {
 	let contents = format!("{contents}");
 	let parser = pulldown_cmark::Parser::new(contents.as_str());
-	let mut events = vec![];
+	let mut events = Vec::new();
 	let mut code_block_text = None;
 
 	for event in parser {
@@ -16,7 +16,7 @@ pub fn html<T: std::fmt::Display>(contents: T) -> rinja::Result<String> {
 			}
 			Event::End(TagEnd::CodeBlock) => {
 				if let Some(text) = &code_block_text {
-					let mut lines = vec![];
+					let mut lines = Vec::new();
 					let inner_html = text;
 
 					for line in inner_html.trim().lines() {

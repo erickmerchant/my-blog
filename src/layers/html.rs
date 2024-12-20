@@ -107,10 +107,10 @@ struct CacheBuster {
 
 impl CacheBuster {
 	pub fn rewrite_assets(&self, bytes: &Bytes) -> anyhow::Result<Vec<u8>> {
-		let mut output = vec![];
+		let mut output = Vec::new();
 		let mut rewriter = HtmlRewriter::new(
 			Settings {
-				element_content_handlers: vec![
+				element_content_handlers: [
 					element!(
 						"link[href][rel='stylesheet'], link[href][rel='icon']",
 						|el| {
@@ -141,7 +141,8 @@ impl CacheBuster {
 
 						Ok(())
 					}),
-				],
+				]
+				.into(),
 				..Default::default()
 			},
 			|c: &[u8]| output.extend_from_slice(c),

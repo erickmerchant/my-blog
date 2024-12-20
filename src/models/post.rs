@@ -13,7 +13,7 @@ pub struct Model {
 
 impl Model {
 	pub async fn all(base_dir: &str) -> Vec<Self> {
-		let mut all = vec![];
+		let mut all = Vec::new();
 		let slugs = list(Utf8Path::new(&base_dir).join("content/posts"))
 			.await
 			.ok();

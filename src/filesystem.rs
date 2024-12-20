@@ -4,7 +4,7 @@ use std::time::SystemTime;
 use tokio::fs;
 
 pub async fn list(path: Utf8PathBuf) -> Result<Vec<String>> {
-	let mut all = vec![];
+	let mut all = Vec::new();
 	let results = fs::read_dir(path).await.ok();
 
 	if let Some(paths) = results {
