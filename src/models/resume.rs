@@ -1,7 +1,7 @@
-use crate::filesystem::*;
 use anyhow::Result;
 use camino::Utf8Path;
 use serde::{Deserialize, Serialize};
+use std::fs::read_to_string;
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct Model {
@@ -34,7 +34,7 @@ pub type DetailList = String;
 
 impl Model {
 	pub async fn read(base_dir: &str) -> Result<Self> {
-		let content = read_to_string(Utf8Path::new(&base_dir).join("content/resume.toml")).await?;
+		let content = read_to_string(Utf8Path::new(&base_dir).join("content/resume.toml"))?;
 		let resume = toml::from_str(&content)?;
 
 		Ok(resume)

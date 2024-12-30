@@ -1,7 +1,7 @@
-use crate::filesystem::*;
 use camino::Utf8Path;
 use chrono::NaiveDate;
 use serde::Deserialize;
+use std::fs::{read_dir, read_to_string};
 
 #[derive(Clone, Debug, Default, PartialEq, Eq, Deserialize)]
 pub struct Model {
@@ -14,14 +14,18 @@ pub struct Model {
 impl Model {
 	pub async fn all(base_dir: &str) -> Vec<Self> {
 		let mut all = Vec::new();
-		let slugs = list(Utf8Path::new(&base_dir).join("content/posts"))
-			.await
-			.ok();
+		let results = read_dir(Utf8Path::new(&base_dir).join("content/posts")).ok();
 
-		if let Some(slugs) = slugs {
-			for slug in slugs {
-				if let Some(model) = Self::by_slug(base_dir, &slug).await {
-					all.push(model);
+		if let Some(paths) = results {
+			for path in paths.flatten() {
+				let path = path.path();
+
+				if let Some(path) = Utf8Path::from_path(path.as_path()) {
+					if let Some(slug) = path.file_stem() {
+						if let Some(model) = Self::by_slug(base_dir, slug).await {
+							all.push(model);
+						}
+					}
 				}
 			}
 		}
@@ -47,7 +51,6 @@ impl Model {
 
 	pub async fn by_slug(base_dir: &str, slug: &str) -> Option<Self> {
 		read_to_string(Utf8Path::new(&base_dir).join(format!("content/posts/{slug}.md")))
-			.await
 			.ok()
 			.map(|contents| {
 				let parts = if contents.starts_with("+++") {

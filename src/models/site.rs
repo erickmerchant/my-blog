@@ -1,7 +1,7 @@
-use crate::filesystem::*;
 use anyhow::Result;
 use camino::Utf8Path;
 use serde::Deserialize;
+use std::fs::read_to_string;
 
 #[derive(Clone, Debug, Default, PartialEq, Eq, Deserialize)]
 pub struct Project {
@@ -22,7 +22,7 @@ pub struct Model {
 
 impl Model {
 	pub async fn read(base_dir: &str) -> Result<Self> {
-		let toml = read_to_string(Utf8Path::new(&base_dir).join("content/site.toml")).await?;
+		let toml = read_to_string(Utf8Path::new(&base_dir).join("content/site.toml"))?;
 		let site = toml::from_str(&toml)?;
 
 		Ok(site)

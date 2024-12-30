@@ -1,4 +1,4 @@
-use crate::{error, filesystem::*, state};
+use crate::{error, state};
 use axum::{
 	body::{to_bytes, Body},
 	extract::State,
@@ -12,7 +12,7 @@ use hyper::{body::Bytes, Uri};
 use lol_html::{element, html_content::ContentType, text, HtmlRewriter, Settings};
 use serde::{Deserialize, Serialize};
 use serde_json as json;
-use std::{collections::HashMap, sync::Arc, time::UNIX_EPOCH};
+use std::{collections::HashMap, fs, sync::Arc, time::UNIX_EPOCH};
 use url::Url;
 
 pub async fn apply_html_layer(
@@ -163,7 +163,9 @@ impl CacheBuster {
 				full_url_path.trim_start_matches("/")
 			);
 
-			if let Ok(time) = modified(Utf8Path::new(file_path.as_str()).to_path_buf()) {
+			if let Ok(Ok(time)) = fs::metadata(Utf8Path::new(file_path.as_str()).to_path_buf())
+				.map(|meta| meta.modified())
+			{
 				let path = Utf8Path::new(full_url_path);
 				let version_time = time
 					.duration_since(UNIX_EPOCH)
