@@ -6,7 +6,7 @@ edition = "2021"
 
 [dependencies]
 anyhow = { version = "1.0.70", features = ["backtrace"] }
-axum = { version = "0.7.1", features = [
+axum = { version = "0.8.1", features = [
 	"tokio",
 	"tower-log",
 	"tracing",
