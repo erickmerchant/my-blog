@@ -182,9 +182,12 @@ dependencies = [
 
 [[package]]
 name = "base62"
-version = "2.0.3"
+version = "2.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "48fa474cf7492f9a299ba6019fb99ec673e1739556d48e8a90eabaea282ef0e4"
+checksum = "a0c1ec82797a31deab8e07c995677c89890ef2fb9f663f93d9941e3f802f233e"
+dependencies = [
+ "rustversion",
+]
 
 [[package]]
 name = "basic-toml"
