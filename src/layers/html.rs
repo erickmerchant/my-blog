@@ -34,7 +34,7 @@ pub async fn apply_html_layer(
 	let body = cache_buster.rewrite_assets(&body)?;
 	let etag = EntityTag::from_data(&body).to_string();
 
-	if if_none_match.map_or(false, |if_none_match| etag == *if_none_match) {
+	if if_none_match.is_some_and(|if_none_match| etag == *if_none_match) {
 		return Ok(StatusCode::NOT_MODIFIED.into_response());
 	}
 
