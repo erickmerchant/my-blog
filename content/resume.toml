@@ -27,12 +27,17 @@ href = "https://erickmerchant.com"
 text = "erickmerchant.com"
 
 [[history]]
-title = "Freelancer"
-time = "Mar 2024 - present"
+title = "Unnamed Project"
+time = "Sept 2024 - Jan 2025"
 details = """
-- Web development on a few small projects
-- Blog writing for [CSS-Tricks](https://css-tricks.com/all-about-javascript-loops/)
-- Open source work (see [GitHub](https://github.com/erickmerchant))
+- Worked in Python and Typescript to add features to a stealth product for a music studio.
+"""
+
+[[history]]
+title = "Freelance Writing"
+time = "Sept 2024"
+details = """
+- Blog writing for [CSS-Tricks](https://css-tricks.com/)
 """
 
 [[history]]
