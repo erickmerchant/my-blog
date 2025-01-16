@@ -30,7 +30,8 @@ text = "erickmerchant.com"
 title = "Unnamed Project"
 time = "Sept 2024 - Jan 2025"
 details = """
-- Worked in Python and Typescript to add features to a stealth product for a music studio.
+- A stealth product for a music studio.
+- Python, TypeScript, and React
 """
 
 [[history]]
@@ -51,7 +52,6 @@ details = """
 - Improved build process by adopting SWC
 - Worked on an evolving design system in Storybook
 - Introduced and promoted front-end testing
-- Other relevant tech: Figma, GraphQL, TypeScript, Jest, Redux (including Sagas)
 """
 
 [[history]]
