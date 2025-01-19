@@ -7,3 +7,6 @@
 [submodule "public/projects/memory"]
 	path = public/projects/memory
 	url = git@github.com:erickmerchant/memory.git
+[submodule "public/projects/mine-sweeper"]
+	path = public/projects/mine-sweeper
+	url = git@github.com:erickmerchant/mine-sweeper.git

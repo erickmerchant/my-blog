@@ -33,3 +33,10 @@ title = "Memory"
 description = """
 A game I made for my daughter to play when she wants to see my phone. It's a work in progress. Halloween version [here](/projects/memory/halloween.html)
 """
+
+[[projects]]
+href = "/projects/mine-sweeper/"
+title = "Mine-Sweeper"
+description = """
+A minesweeper clone.
+"""
