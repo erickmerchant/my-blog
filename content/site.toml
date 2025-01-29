@@ -7,13 +7,6 @@ Hey there! I'm Erick. I've been making things for the web for 18 years. I like t
 """
 
 [[projects]]
-href = "/projects/arc-clock/"
-title = "Arc Clock"
-description = """
-A clock I made to explore using custom properties and gradients in CSS. I saw this clock in a video and the person was making it with Rust and I thought it would be fun to make it with CSS.
-"""
-
-[[projects]]
 href = "https://github.com/erickmerchant/coolstyleserver"
 title = "Cool Style Server"
 description = """
