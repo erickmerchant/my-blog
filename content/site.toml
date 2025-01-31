@@ -14,6 +14,13 @@ A development server that does hot module replacement of CSS without using a Jav
 """
 
 [[projects]]
+href = "https://github.com/erickmerchant/handcraft"
+title = "HandCraft"
+description = """
+A front-end framework using a fluent interface for creating reactive UI.
+"""
+
+[[projects]]
 href = "/projects/icons/"
 title = "Icons"
 description = """
