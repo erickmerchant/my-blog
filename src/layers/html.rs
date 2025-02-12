@@ -68,33 +68,39 @@ type Scopes = HashMap<String, Imports>;
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct ImportMap {
+	#[serde(skip_serializing_if = "Option::is_none")]
 	pub imports: Option<Imports>,
+	#[serde(skip_serializing_if = "Option::is_none")]
 	pub scopes: Option<Scopes>,
 }
 
 impl ImportMap {
 	pub fn map<M: Fn(&str) -> String>(&mut self, map: M) -> &Self {
-		let mut imports = Imports::new();
+		if self.imports.is_some() {
+			let mut imports = Imports::new();
 
-		for (key, value) in self.imports.as_ref().unwrap_or(&Imports::new()) {
-			imports.insert(key.to_owned(), map(value));
-		}
-
-		self.imports = Some(imports);
-
-		let mut scopes = Scopes::new();
-
-		for (scope_key, old_map) in self.scopes.as_ref().unwrap_or(&Scopes::new()) {
-			let mut new_map = Imports::new();
-
-			for (key, value) in old_map {
-				new_map.insert(key.to_owned(), map(value));
+			for (key, value) in self.imports.as_ref().unwrap_or(&Imports::new()) {
+				imports.insert(key.to_owned(), map(value));
 			}
 
-			scopes.insert(scope_key.to_owned(), new_map);
+			self.imports = Some(imports);
 		}
 
-		self.scopes = Some(scopes);
+		if self.scopes.is_some() {
+			let mut scopes = Scopes::new();
+
+			for (scope_key, old_map) in self.scopes.as_ref().unwrap_or(&Scopes::new()) {
+				let mut new_map = Imports::new();
+
+				for (key, value) in old_map {
+					new_map.insert(key.to_owned(), map(value));
+				}
+
+				scopes.insert(scope_key.to_owned(), new_map);
+			}
+
+			self.scopes = Some(scopes);
+		}
 
 		self
 	}
