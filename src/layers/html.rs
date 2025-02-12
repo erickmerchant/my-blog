@@ -117,6 +117,14 @@ impl CacheBuster {
 		let mut rewriter = HtmlRewriter::new(
 			Settings {
 				element_content_handlers: [
+					element!("head", |el| {
+						el.append(
+							r#"<link rel="icon" href="/favicon.svg" type="image/svg+xml" />"#,
+							ContentType::Html,
+						);
+
+						Ok(())
+					}),
 					element!(
 						"link[href][rel='stylesheet'], link[href][rel='icon']",
 						|el| {
@@ -182,7 +190,7 @@ impl CacheBuster {
 					.expect("time should be a valid time since the unix epoch");
 				let cache_key = base62::encode(version_time);
 
-				return format!("/cache/{cache_key}/{path}").to_string();
+				return format!("/v/{cache_key}/{path}").to_string();
 			}
 		};
 

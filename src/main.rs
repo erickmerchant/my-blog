@@ -47,10 +47,7 @@ fn get_app(state: State) -> Router {
 		.route("/posts/{slug}/", get(post::post_handler))
 		.route_layer(from_fn_with_state(state.clone(), html::html_layer))
 		.route("/posts.rss", get(rss::rss_handler))
-		.route(
-			"/cache/{v}/{*path}",
-			get(cached_asset::cached_asset_handler),
-		)
+		.route("/v/{v}/{*path}", get(cached_asset::cached_asset_handler))
 		.route("/{*path}", get(asset::asset_handler))
 		.fallback(not_found::not_found_handler)
 		.with_state(state.clone())
@@ -157,7 +154,7 @@ mod tests {
 			.clone()
 			.oneshot(
 				Request::builder()
-					.uri("/cache/abcxyz/page.css")
+					.uri("/v/abcxyz/page.css")
 					.body(Body::empty())
 					.unwrap(),
 			)
