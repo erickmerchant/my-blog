@@ -166,14 +166,17 @@ impl CacheBuster {
 			if let Ok(Ok(time)) = fs::metadata(Utf8Path::new(file_path.as_str()).to_path_buf())
 				.map(|meta| meta.modified())
 			{
-				let path = Utf8Path::new(full_url_path);
+				let path = Utf8Path::new(full_url_path)
+					.to_string()
+					.trim_start_matches("/")
+					.to_string();
 				let version_time = time
 					.duration_since(UNIX_EPOCH)
 					.map(|d| d.as_secs())
 					.expect("time should be a valid time since the unix epoch");
 				let cache_key = base62::encode(version_time);
 
-				return format!("{path}?v={cache_key}").to_string();
+				return format!("/cache/{cache_key}/{path}").to_string();
 			}
 		};
 
