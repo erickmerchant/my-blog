@@ -1,7 +1,7 @@
 use anyhow::Result;
 use app::{
 	layers::html,
-	routes::{asset, cached_asset, home, not_found, post, resume, rss},
+	routes::{asset, home, not_found, post, resume, rss},
 	state::State,
 };
 use axum::{middleware::from_fn_with_state, routing::get, serve, Router};
@@ -47,7 +47,6 @@ fn get_app(state: State) -> Router {
 		.route("/posts/{slug}/", get(post::post_handler))
 		.route_layer(from_fn_with_state(state.clone(), html::html_layer))
 		.route("/posts.rss", get(rss::rss_handler))
-		.route("/v/{v}/{*path}", get(cached_asset::cached_asset_handler))
 		.route("/{*path}", get(asset::asset_handler))
 		.fallback(not_found::not_found_handler)
 		.with_state(state.clone())
@@ -131,30 +130,6 @@ mod tests {
 			.oneshot(
 				Request::builder()
 					.uri("/page.css?v=abcxyz")
-					.body(Body::empty())
-					.unwrap(),
-			)
-			.await
-			.unwrap();
-
-		assert_eq!(response.status(), StatusCode::OK);
-
-		let cache_control = response.headers().get(header::CACHE_CONTROL);
-
-		assert!(cache_control.is_some());
-
-		let cache_control = cache_control.unwrap();
-
-		assert_eq!(
-			cache_control,
-			&HeaderValue::from_static("public, max-age=31536000, immutable")
-		);
-
-		let response = app
-			.clone()
-			.oneshot(
-				Request::builder()
-					.uri("/v/abcxyz/page.css")
 					.body(Body::empty())
 					.unwrap(),
 			)

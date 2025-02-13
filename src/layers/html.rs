@@ -8,11 +8,12 @@ use axum::{
 };
 use camino::Utf8Path;
 use etag::EntityTag;
+use glob::glob;
 use hyper::{body::Bytes, Uri};
 use lol_html::{element, html_content::ContentType, text, HtmlRewriter, Settings};
 use serde::{Deserialize, Serialize};
 use serde_json as json;
-use std::{collections::HashMap, fs, sync::Arc, time::UNIX_EPOCH};
+use std::{collections::HashMap, fs, sync::Arc};
 use url::Url;
 
 pub async fn apply_html_layer(
@@ -75,12 +76,58 @@ pub struct ImportMap {
 }
 
 impl ImportMap {
-	pub fn map<M: Fn(&str) -> String>(&mut self, map: M) -> &Self {
+	pub fn map(&mut self, cache_buster: &CacheBuster) -> &Self {
 		if self.imports.is_some() {
 			let mut imports = Imports::new();
 
 			for (key, value) in self.imports.as_ref().unwrap_or(&Imports::new()) {
-				imports.insert(key.to_owned(), map(value));
+				if value.ends_with("/") {
+					if let Ok(full_url) = cache_buster.url.join(value) {
+						let full_url_path = full_url.path();
+						let results = glob(
+							format!(
+								"{}/public/{}**/*.js",
+								cache_buster.base_dir,
+								full_url_path.trim_start_matches("/")
+							)
+							.as_str(),
+						)
+						.ok();
+
+						if let Some(paths) = results {
+							for path in paths.flatten() {
+								let path = path.to_string_lossy();
+								let relative_key = path.trim_start_matches(
+									format!("{}/public", cache_buster.base_dir)
+										.trim_start_matches("./"),
+								);
+								let relative_path = path.trim_start_matches(
+									format!(
+										"{}/public/{}",
+										cache_buster.base_dir,
+										full_url_path.trim_start_matches("/")
+									)
+									.trim_start_matches("./"),
+								);
+
+								imports.insert(
+									format!("{key}{relative_path}"),
+									cache_buster
+										.get_url(format!("{value}{relative_path}").as_str()),
+								);
+								imports.insert(
+									relative_key.to_string(),
+									cache_buster
+										.get_url(format!("{value}{relative_path}").as_str()),
+								);
+							}
+						}
+					}
+
+					imports.insert(key.to_owned(), value.to_owned());
+				} else {
+					imports.insert(key.to_owned(), cache_buster.get_url(value));
+				}
 			}
 
 			self.imports = Some(imports);
@@ -93,7 +140,7 @@ impl ImportMap {
 				let mut new_map = Imports::new();
 
 				for (key, value) in old_map {
-					new_map.insert(key.to_owned(), map(value));
+					new_map.insert(key.to_owned(), cache_buster.get_url(value));
 				}
 
 				scopes.insert(scope_key.to_owned(), new_map);
@@ -106,7 +153,7 @@ impl ImportMap {
 	}
 }
 
-struct CacheBuster {
+pub struct CacheBuster {
 	base_dir: String,
 	url: Url,
 }
@@ -146,7 +193,7 @@ impl CacheBuster {
 					}),
 					text!("script[type='importmap']", |el| {
 						if let Ok(mut import_map) = json::from_str::<ImportMap>(el.as_str()) {
-							import_map.map(|u| self.get_url(u));
+							import_map.map(self);
 
 							if let Ok(map) = json::to_string(&import_map) {
 								el.replace(map.as_str(), ContentType::Text);
@@ -177,20 +224,15 @@ impl CacheBuster {
 				full_url_path.trim_start_matches("/")
 			);
 
-			if let Ok(Ok(time)) = fs::metadata(Utf8Path::new(file_path.as_str()).to_path_buf())
-				.map(|meta| meta.modified())
-			{
+			if let Ok(body) = fs::read_to_string(Utf8Path::new(file_path.as_str()).to_path_buf()) {
 				let path = Utf8Path::new(full_url_path)
 					.to_string()
 					.trim_start_matches("/")
 					.to_string();
-				let version_time = time
-					.duration_since(UNIX_EPOCH)
-					.map(|d| d.as_secs())
-					.expect("time should be a valid time since the unix epoch");
-				let cache_key = base62::encode(version_time);
+				let etag = EntityTag::from_data(body.as_bytes());
+				let etag = etag.tag();
 
-				return format!("/v/{cache_key}/{path}").to_string();
+				return format!("/{path}?v={etag}").to_string();
 			}
 		};
 
