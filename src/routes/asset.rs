@@ -2,30 +2,41 @@ use super::not_found;
 use crate::{error, layers::html::apply_html_layer, state};
 use axum::{
 	body::Body,
-	extract::{Path, Query, Request, State},
+	extract::{Path, Request, State},
 	http::{header, StatusCode},
 	response::{IntoResponse, Response},
 };
 use camino::Utf8Path;
-use serde::Deserialize;
 use std::{fs, sync::Arc};
-
-#[derive(Deserialize)]
-pub struct Version {
-	pub v: Option<String>,
-}
 
 pub async fn asset_handler(
 	State(state): State<Arc<state::State>>,
 	Path(path): Path<String>,
-	query: Query<Version>,
 	req: Request<Body>,
 ) -> Result<Response, error::Error> {
-	let mut path = path;
+	let is_index = path.ends_with("/");
+	let path = Utf8Path::new(path.as_str());
+	let path = if is_index {
+		path.join("index.html")
+	} else {
+		path.to_path_buf()
+	};
+	let mut has_hash = false;
+	let mut path = path.to_path_buf();
 
-	if path.ends_with('/') {
-		path = format!("{path}index.html")
-	}
+	if let Some(ext) = path.extension() {
+		let p = path.with_extension("");
+
+		if let Some(hash) = p.extension() {
+			let p = p.with_extension("");
+
+			if hash.len() == 10 {
+				has_hash = true;
+
+				path = p.with_extension(ext)
+			}
+		}
+	};
 
 	if let Some(content_type) = mime_guess::from_path(&path).first() {
 		if let Ok(body) = fs::read(Utf8Path::new(&state.base_dir).join(format!("public/{path}"))) {
@@ -50,7 +61,7 @@ pub async fn asset_handler(
 					(header::CONTENT_TYPE, content_type.to_string()),
 					(
 						header::CACHE_CONTROL,
-						if query.v.is_some() {
+						if has_hash {
 							"public, max-age=31536000, immutable".to_string()
 						} else {
 							"public, max-age=86400".to_string()

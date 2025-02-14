@@ -225,14 +225,17 @@ impl CacheBuster {
 			);
 
 			if let Ok(body) = fs::read_to_string(Utf8Path::new(file_path.as_str()).to_path_buf()) {
-				let path = Utf8Path::new(full_url_path)
-					.to_string()
-					.trim_start_matches("/")
-					.to_string();
-				let etag = EntityTag::from_data(body.as_bytes());
-				let etag = etag.tag();
+				let hash = md5::compute(body.as_bytes());
+				let mut new_ext = format!("{hash:?}")[0..10].to_string();
+				let path = Utf8Path::new(full_url_path);
 
-				return format!("/{path}?v={etag}").to_string();
+				if let Some(ext) = path.extension() {
+					new_ext = format!("{new_ext}.{ext}");
+				}
+
+				let path = path.with_extension(new_ext);
+
+				return path.to_string();
 			}
 		};
 

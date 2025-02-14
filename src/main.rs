@@ -129,7 +129,7 @@ mod tests {
 			.clone()
 			.oneshot(
 				Request::builder()
-					.uri("/page.css?v=abcxyz")
+					.uri("/page.abcdefghij.css")
 					.body(Body::empty())
 					.unwrap(),
 			)

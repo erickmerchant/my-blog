@@ -2,7 +2,7 @@
 	font-family: "Inter";
 	src:
 		local("Inter"),
-		url("/fonts/Inter/InterVariable-subset.woff2?v=1") format("woff2");
+		url("/fonts/Inter/InterVariable-subset.aaaaaaaaaa.woff2") format("woff2");
 }
 
 :where(:not(svg)) {
