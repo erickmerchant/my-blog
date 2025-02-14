@@ -13,7 +13,7 @@ use hyper::{body::Bytes, Uri};
 use lol_html::{element, html_content::ContentType, text, HtmlRewriter, Settings};
 use serde::{Deserialize, Serialize};
 use serde_json as json;
-use std::{collections::HashMap, fs, sync::Arc};
+use std::{collections::BTreeMap, fs, sync::Arc};
 use url::Url;
 
 pub async fn apply_html_layer(
@@ -34,6 +34,8 @@ pub async fn apply_html_layer(
 	};
 	let body = cache_buster.rewrite_assets(&body)?;
 	let etag = EntityTag::from_data(&body).to_string();
+
+	println!("{etag:?}");
 
 	if if_none_match.is_some_and(|if_none_match| etag == *if_none_match) {
 		return Ok(StatusCode::NOT_MODIFIED.into_response());
@@ -64,8 +66,8 @@ pub async fn html_layer(
 	apply_html_layer(State(state), if_none_match, uri, next.run(new_req).await).await
 }
 
-type Imports = HashMap<String, String>;
-type Scopes = HashMap<String, Imports>;
+type Imports = BTreeMap<String, String>;
+type Scopes = BTreeMap<String, Imports>;
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct ImportMap {
