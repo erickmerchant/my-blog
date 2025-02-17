@@ -20,11 +20,11 @@ impl Model {
 			for path in paths.flatten() {
 				let path = path.path();
 
-				if let Some(path) = Utf8Path::from_path(path.as_path()) {
-					if let Some(slug) = path.file_stem() {
-						if let Some(model) = Self::by_slug(base_dir, slug).await {
-							all.push(model);
-						}
+				if let Some(Some(slug)) =
+					Utf8Path::from_path(path.as_path()).map(|path| path.file_stem())
+				{
+					if let Some(model) = Self::by_slug(base_dir, slug).await {
+						all.push(model);
 					}
 				}
 			}
