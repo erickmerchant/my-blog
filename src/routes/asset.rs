@@ -23,20 +23,18 @@ pub async fn asset_handler(
 	};
 	let mut has_hash = false;
 	let mut path = path.to_path_buf();
+	let file_name_parts: Vec<&str> = path
+		.file_name()
+		.map(|name| name.split('.').collect::<_>())
+		.unwrap_or_default();
 
-	if let Some(ext) = path.extension() {
-		let p = path.with_extension("");
+	if file_name_parts.len() == 3 && file_name_parts[1].len() == 10 {
+		has_hash = true;
 
-		if let Some(hash) = p.extension() {
-			let p = p.with_extension("");
-
-			if hash.len() == 10 {
-				has_hash = true;
-
-				path = p.with_extension(ext)
-			}
-		}
-	};
+		path = path
+			.with_file_name(file_name_parts[0])
+			.with_extension(file_name_parts[2]);
+	}
 
 	if let (Some(content_type), Ok(body)) = (
 		mime_guess::from_path(&path).first(),
