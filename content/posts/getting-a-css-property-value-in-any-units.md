@@ -14,7 +14,9 @@ The other day ginger in the Shoptalk Show Discord had an interesting question, "
 
 ```js
 const styles = getComputedStyle($0);
+
 console.log(styles.fontSize); // 1rem;
+
 const fontSizeInPx = CSS.px(styles.fontSize); // 16px
 ```
 
@@ -24,19 +26,26 @@ I didn't really get involved in the conversation, but immediately thought of `@p
 function getPropertyValueInUnits(el, prop, units, ns = "units") {
 	if (!el) return;
 
-	try {
+	let name = `--${units}-${ns}`;
+	let one = `1${units}`;
+
+	el.style.setProperty(name, one);
+
+	let computed = window.getComputedStyle(el);
+	let base = computed.getPropertyValue(name);
+
+	if (base === one) {
 		window.CSS.registerProperty({
-			name: `--${units}-${ns}`,
+			name,
 			syntax: "<length>",
 			inherits: false,
 			initialValue: "1px",
 		});
-	} catch (e) {}
 
-	el.style.setProperty(`--${units}-${ns}`, `1${units}`);
+		base = computed.getPropertyValue(name);
+	}
 
-	let computed = window.getComputedStyle(el);
-	let base = computed.getPropertyValue(`--${units}-${ns}`);
+	el.style.removeProperty(name);
 
 	base = base.substring(0, base.length - 2); // remove px from the end
 
@@ -52,11 +61,7 @@ The basic idea is that you set a custom property to 1 of the unit you want, by w
 
 But here is the trick, before doing any of this you need to call `window.CSS.registerProperty` and register the custom property that gives you the base. See alone a custom property will return as sort of unevaluated or as authored, but define it first and it will return in px like any other length property.
 
-## Some caveats / possible improvements
+## Some caveats
 
-- It's wrapped in a try catch so that you can call this multiple times with the same units. There is no way currently to get a list of properties defined this way.
-- There should be clean-up of the `setProperty` perhaps.
-- There should probably be validation of some sort.
 - Ironically the property in units that people talked about the most, font-size in ems won't really work, because font-size in ems will always be 1 with this function, but you can look at the immediate parent element, get the value of font-size there in pixels and compare it to the font-size in pixels on the element you care about.
 - ~~Also sadly this doesn't work in Firefox at the moment, but it [soon probably will](https://caniuse.com/?search=registerProperty)~~. It works in Firefox now.
-
