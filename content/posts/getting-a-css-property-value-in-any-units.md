@@ -18,7 +18,7 @@ console.log(styles.fontSize); // 1rem;
 const fontSizeInPx = CSS.px(styles.fontSize); // 16px
 ```
 
-I didn't really get involved in the conversation, but immediately thought of `@property` and how that might be able to help. The next morning I opened up CodePen and tried to get a rough idea working of a function that would convert between units. A perfect activity after dropping my daughter off at daycare, to do while I drank my morning coffee. This is [the result](https://codepen.io/erickmerchant/pen/RwdjbeQ?editors=0010), a function I call `getPropertyValueInUnits` which you pass an element, a property you want the value of, and the units you want the value in. Also there is an optional namespace.
+I didn't really get involved in the conversation, but immediately thought of `@property` and how that might be able to help. The next morning I opened up CodePen and tried to get a rough idea working of a function that would convert between units. A perfect activity after dropping my daughter off at daycare, to do while I drank my morning coffee. This is the result, a function I call `getPropertyValueInUnits` which you pass an element, a property you want the value of, and the units you want the value in. Also there is an optional namespace.
 
 ```js
 function getPropertyValueInUnits(el, prop, units, ns = "units") {
@@ -52,9 +52,11 @@ The basic idea is that you set a custom property to 1 of the unit you want, by w
 
 But here is the trick, before doing any of this you need to call `window.CSS.registerProperty` and register the custom property that gives you the base. See alone a custom property will return as sort of unevaluated or as authored, but define it first and it will return in px like any other length property.
 
-## Some caveats
+## Some caveats / possible improvements
 
 - It's wrapped in a try catch so that you can call this multiple times with the same units. There is no way currently to get a list of properties defined this way.
+- There should be clean-up of the `setProperty` perhaps.
 - There should probably be validation of some sort.
 - Ironically the property in units that people talked about the most, font-size in ems won't really work, because font-size in ems will always be 1 with this function, but you can look at the immediate parent element, get the value of font-size there in pixels and compare it to the font-size in pixels on the element you care about.
-- Also sadly this doesn't work in Firefox at the moment, but it [soon probably will](https://caniuse.com/?search=registerProperty).
+- ~~Also sadly this doesn't work in Firefox at the moment, but it [soon probably will](https://caniuse.com/?search=registerProperty)~~. It works in Firefox now.
+

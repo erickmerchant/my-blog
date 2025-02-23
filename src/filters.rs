@@ -1,8 +1,12 @@
-use pulldown_cmark::{html, CodeBlockKind, CowStr, Event, Tag, TagEnd};
+use pulldown_cmark::{html, CodeBlockKind, CowStr, Event, Options, Parser, Tag, TagEnd};
 
 pub fn html<T: std::fmt::Display>(contents: T) -> rinja::Result<String> {
 	let contents = format!("{contents}");
-	let parser = pulldown_cmark::Parser::new(contents.as_str());
+	let mut options = Options::empty();
+
+	options.insert(Options::ENABLE_STRIKETHROUGH);
+
+	let parser = Parser::new_ext(contents.as_str(), options);
 	let mut events = Vec::new();
 	let mut code_block_text = None;
 

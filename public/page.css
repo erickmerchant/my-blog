@@ -1,9 +1,8 @@
-@font-face {
+/* @font-face {
 	font-family: "Inter";
-	src:
-		local("Inter"),
+	src: local("Inter"),
 		url("/fonts/Inter/InterVariable-subset.aaaaaaaaaa.woff2") format("woff2");
-}
+} */
 
 :where(:not(svg)) {
 	font: inherit;
@@ -23,7 +22,7 @@
 html {
 	block-size: 100%;
 	color-scheme: light dark;
-	font-family: "Inter", system-ui, sans-serif;
+	font-family: system-ui, sans-serif;
 	font-weight: 400;
 	font-size: 125%;
 	line-height: 1.5;
@@ -102,7 +101,7 @@ strong {
 }
 
 em {
-	font-weight: 300;
+	font-style: italic;
 }
 
 svg {
