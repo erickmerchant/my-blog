@@ -60,8 +60,6 @@ code {
 
 		:where(pre) {
 			display: grid;
-			font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo,
-				Consolas, "DejaVu Sans Mono", monospace;
 			grid-template-columns: max-content auto;
 			position: relative;
 			white-space: var(--white-space);
