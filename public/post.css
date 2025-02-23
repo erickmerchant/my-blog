@@ -1,6 +1,7 @@
 code {
 	font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas,
 		"DejaVu Sans Mono", monospace;
+	font-size: 0.85rem;
 
 	/* Arc iOS bug fix */
 	:where(a) {
@@ -54,7 +55,6 @@ code {
 		overflow-y: hidden;
 		overscroll-behavior-x: none;
 		tab-size: 2;
-		font-size: 0.85rem;
 		grid-column: 2 / -2;
 		--white-space: pre-wrap;
 
