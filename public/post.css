@@ -120,6 +120,10 @@ code {
 	border-radius: 0.125rem;
 	padding: 1em;
 
+	> :where(:not(:last-child)) {
+		margin-block-end: 1em;
+	}
+
 	:where(cite) {
 		display: inline flex;
 		gap: 0.5rem;
