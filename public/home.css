@@ -1,14 +1,16 @@
-.section {
-	display: grid;
-	gap: 0.5rem;
-
-	:where(ol, ul) {
-		list-style: none;
+@layer sub-page {
+	.section {
 		display: grid;
-		gap: 1rem;
-	}
+		gap: 0.5rem;
 
-	:where(a) {
-		text-decoration-thickness: 0.125em;
+		:where(ol, ul) {
+			list-style: none;
+			display: grid;
+			gap: 1rem;
+		}
+
+		:where(a) {
+			text-decoration-thickness: 0.125em;
+		}
 	}
 }
