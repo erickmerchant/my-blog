@@ -31,10 +31,6 @@ code {
 		}
 	}
 
-	> :where(header) {
-		font-size: 1.125rem;
-	}
-
 	:where(ul, ol) {
 		padding-inline-start: 1rem;
 	}
@@ -58,58 +54,58 @@ code {
 		grid-column: 2 / -2;
 		--white-space: pre-wrap;
 
-		:where(pre) {
-			display: grid;
-			grid-template-columns: max-content auto;
-			position: relative;
-			white-space: var(--white-space);
-			word-break: break-word;
-		}
-
-		:where(code) {
-			display: grid;
-			gap: 0.25rem 1rem;
-			grid-column: 1 / -1;
-			grid-template-columns: subgrid;
-
-			&::before {
-				border-inline-end: 0.1em solid currentColor;
-				content: counter(lines, decimal);
-				counter-increment: lines 1;
-				display: grid;
-				inset-inline-start: 0;
-				padding-inline: 1rem;
-				position: sticky;
-				background-color: var(--background);
-				text-align: right;
-			}
-
-			&:where(:first-child) {
-				& {
-					align-items: end;
-				}
-
-				&::before {
-					padding-block-start: 1rem;
-				}
-			}
-
-			&:where(:last-child) {
-				& {
-					align-items: start;
-				}
-
-				&::before {
-					padding-block-end: 1rem;
-				}
-			}
-		}
-
 		@container (inline-size <= 44rem) {
 			border-inline: none;
 			border-radius: 0;
 			grid-column: 1 / -1;
 			--white-space: pre;
+		}
+	}
+
+	:where(figure:has(pre)) :where(pre) {
+		display: grid;
+		grid-template-columns: max-content auto;
+		position: relative;
+		white-space: var(--white-space);
+		word-break: break-word;
+	}
+
+	:where(figure:has(pre)) :where(code) {
+		display: grid;
+		gap: 0.25rem 1rem;
+		grid-column: 1 / -1;
+		grid-template-columns: subgrid;
+
+		&::before {
+			border-inline-end: 0.1em solid currentColor;
+			content: counter(lines, decimal);
+			counter-increment: lines 1;
+			display: grid;
+			inset-inline-start: 0;
+			padding-inline: 1rem;
+			position: sticky;
+			background-color: var(--background);
+			text-align: right;
+		}
+
+		&:where(:first-child) {
+			& {
+				align-items: end;
+			}
+
+			&::before {
+				padding-block-start: 1rem;
+			}
+		}
+
+		&:where(:last-child) {
+			& {
+				align-items: start;
+			}
+
+			&::before {
+				padding-block-end: 1rem;
+			}
 		}
 	}
 }
