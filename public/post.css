@@ -44,7 +44,7 @@
 		}
 
 		:where(figure:has(pre)) {
-			border: 0.15em solid currentColor;
+			border: 0.05rem solid currentColor;
 			border-radius: 0.125rem;
 			counter-reset: lines 0;
 			display: grid;
