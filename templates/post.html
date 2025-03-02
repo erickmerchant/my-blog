@@ -1,7 +1,10 @@
-{% extends "base.html" %}
-{% import "status.html" as status %}
+{% extends "base.html" %} 
 
-{% block title %}{% call super() %} — {{post.title}}{% endblock %}
+{% import "status.html" as status %} 
+
+{% block title%}
+	{% call super() %} — {{post.title}}
+{% endblock %} 
 
 {% block head %}
 	<link rel="stylesheet" href="/post.css" />
@@ -10,13 +13,10 @@
 {% block main %}
 	<article class="article">
 		<header class="title-plus">
-			{% call status::icon(post) %}
 			<h1>{{post.title}}</h1>
 			{% call status::text(post) %}
 		</header>
 
-		{% if let Some(content) = post.content %}
-			{{content|html|safe}}
-		{% endif %}
+		{% if let Some(content) = post.content %} {{content|html|safe}} {% endif %}
 	</article>
 {% endblock %}

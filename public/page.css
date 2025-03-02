@@ -1,10 +1,4 @@
 @layer page {
-	/* @font-face {
-	font-family: "Inter";
-	src: local("Inter"),
-		url("/fonts/Inter/InterVariable-subset.aaaaaaaaaa.woff2") format("woff2");
-} */
-
 	:where(:not(svg)) {
 		font: inherit;
 	}
@@ -41,11 +35,7 @@
 	a {
 		text-decoration-thickness: 0.1em;
 		text-underline-offset: 0.15em;
-		text-decoration-color: color-mix(
-			in lch,
-			var(--foreground),
-			oklch(0% 0 0 / 0) 50%
-		);
+		text-decoration-color: oklch(from currentColor l c h / 0.5);
 		transition: text-underline-offset 0.25s 0.25s;
 
 		&:hover,
@@ -113,23 +103,7 @@
 	del {
 		text-decoration: line-through;
 		text-decoration-thickness: 0.5em;
-		text-decoration-color: color-mix(
-			in lch,
-			var(--foreground),
-			oklch(0% 0 0 / 0) 50%
-		);
-	}
-
-	svg {
-		block-size: 0.9em;
-		display: inline grid;
-		fill: currentColor;
-
-		:where(a) & {
-			float: left;
-			margin-inline-end: 0.5em;
-			margin-block-start: 0.225em;
-		}
+		text-decoration-color: oklch(from currentColor l c h / 0.4);
 	}
 
 	.page {
@@ -137,7 +111,7 @@
 		color: var(--foreground);
 		container-type: inline-size;
 		display: grid;
-		grid-template-columns: auto 3rem min(100% - 8rem, 40rem) 3rem auto;
+		grid-template-columns: auto 0.5rem min(100% - 2rem, 40rem) 0.5rem auto;
 		grid-template-rows: min-content auto min-content;
 		row-gap: 1rem;
 		--background: light-dark(oklch(100% 0.025 100), oklch(30% 0.025 280));
@@ -156,7 +130,7 @@
 			background-image: repeating-linear-gradient(
 				90deg,
 				transparent 0 0.125rem,
-				currentColor 0.125rem 1.125rem,
+				oklch(from currentColor l c h / 0.7) 0.125rem 1.125rem,
 				transparent 1.125rem 1.25rem
 			);
 			background-position: center top;
@@ -176,14 +150,22 @@
 		}
 
 		:where(a) {
-			text-decoration-thickness: 0.15em;
-			text-decoration-color: currentColor;
+			text-decoration-color: oklch(from currentColor l c h / 0.3);
+			text-decoration-thickness: 0.5em;
+			text-underline-offset: -0.25em;
+			text-decoration-skip-ink: none;
+
+			&:hover,
+			&:focus-visible {
+				outline: none;
+				text-underline-offset: -0.25em;
+			}
 		}
 	}
 
 	.title-plus {
-		display: grid;
-		grid-template-columns: 1em auto;
+		display: flex;
+		flex-direction: column;
 		align-items: baseline;
 		column-gap: 0.5em;
 		row-gap: 0.125em;
@@ -210,8 +192,8 @@
 
 		:where(ul) {
 			display: grid;
-			gap: 1rem 2rem;
-			grid-template-columns: max-content max-content 1fr;
+			gap: 1rem 1rem;
+			grid-template-columns: 1.1em max-content 1fr;
 			justify-items: end;
 			list-style: none;
 
@@ -232,10 +214,13 @@
 
 	.rss-link {
 		:where(svg) {
-			background: currentColor;
-			fill: var(--background);
+			block-size: 1.1em;
+			background: oklch(from currentColor l c h / 0.2);
+			box-shadow: 0.0625em 0.0625em 0 oklch(from currentColor l c h / 0.5);
+			fill: var(--foreground);
 			padding: 0.125em;
 			border-radius: 0.125rem;
+			margin-bottom: -0.2em;
 		}
 	}
 }

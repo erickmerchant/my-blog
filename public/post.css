@@ -85,11 +85,7 @@
 				inset-inline-start: 0;
 				padding-inline: 1rem;
 				position: sticky;
-				background-color: color-mix(
-					in lch,
-					var(--foreground),
-					oklch(0% 0 0 / 0) 95%
-				);
+				background-color: oklch(from currentColor l c h / 0.1);
 				text-align: right;
 			}
 
@@ -120,8 +116,7 @@
 		border: 0.05rem solid currentColor;
 		border-radius: 0.125rem;
 		padding: 1em;
-		box-shadow: 0.25em 0.25em 0
-			color-mix(in lch, var(--foreground), oklch(0% 0 0 / 0) 50%);
+		box-shadow: 0.125em 0.125em 0 oklch(from var(--foreground) l c h / 0.5);
 
 		> :where(:not(:last-child)) {
 			margin-block-end: 1em;
