@@ -64,4 +64,4 @@ But here is the trick, before doing any of this you need to call `window.CSS.reg
 ## Some caveats
 
 - Ironically the property in units that people talked about the most, font-size in ems won't really work, because font-size in ems will always be 1 with this function, but you can look at the immediate parent element, get the value of font-size there in pixels and compare it to the font-size in pixels on the element you care about.
-- ~~Also sadly this doesn't work in Firefox at the moment, but it [soon probably will](https://caniuse.com/?search=registerProperty)~~. It works in Firefox now.
+- ~~Also sadly this doesn't work in Firefox at the moment, but it soon probably will.~~ It works in Firefox now.
