@@ -106,7 +106,9 @@
 		text-decoration-color: oklch(from currentColor l c h / 0.4);
 
 		:where(a) {
-			text-decoration: none;
+			text-decoration: line-through;
+			text-decoration-thickness: 0.5em;
+			text-decoration-color: oklch(0% 0 0 / 0);
 		}
 	}
 
