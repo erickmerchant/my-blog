@@ -148,18 +148,18 @@
 			font-size: clamp(1.25rem, 7cqi, 2rem);
 			font-weight: 900;
 		}
+	}
 
-		:where(a) {
-			text-decoration-color: oklch(from currentColor l c h / 0.3);
-			text-decoration-thickness: 0.5em;
+	.nav-link {
+		text-decoration-color: oklch(from currentColor l c h / 0.3);
+		text-decoration-thickness: 0.5em;
+		text-underline-offset: -0.25em;
+		text-decoration-skip-ink: none;
+
+		&:hover,
+		&:focus-visible {
+			outline: none;
 			text-underline-offset: -0.25em;
-			text-decoration-skip-ink: none;
-
-			&:hover,
-			&:focus-visible {
-				outline: none;
-				text-underline-offset: -0.25em;
-			}
 		}
 	}
 
@@ -189,27 +189,27 @@
 		align-content: center;
 		padding-block: 1rem;
 		font-weight: 700;
+	}
 
-		:where(ul) {
-			display: grid;
-			gap: 1rem 1rem;
-			grid-template-columns: 1.1em max-content 1fr;
-			justify-items: end;
-			list-style: none;
+	.footer-list {
+		display: grid;
+		gap: 1rem 1rem;
+		grid-template-columns: 1.1em max-content 1fr;
+		justify-items: end;
+		list-style: none;
 
-			@container (inline-size <= 27.5rem) {
-				display: flex;
-				flex-wrap: wrap;
-			}
+		@container (inline-size <= 27.5rem) {
+			display: flex;
+			flex-wrap: wrap;
 		}
+	}
 
-		:where(li) {
-			display: grid;
-		}
+	.footer-item {
+		display: grid;
+	}
 
-		:where(a) {
-			text-decoration-thickness: 0.125em;
-		}
+	.footer-link {
+		text-decoration-thickness: 0.125em;
 	}
 
 	.rss-link {

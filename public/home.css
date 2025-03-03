@@ -2,40 +2,40 @@
 	.section {
 		display: grid;
 		gap: 0.5rem;
+	}
 
-		:where(ol, ul) {
-			list-style: none;
-			display: grid;
-			gap: 1rem;
-			container-type: inline-size;
+	.section-list {
+		list-style: none;
+		display: grid;
+		gap: 1rem;
+		container-type: inline-size;
+	}
+
+	.section-item {
+		border-radius: 0.25em;
+		padding-inline: 1em;
+		margin-inline: -1rem;
+		inline-size: calc(100cqi + 4rem);
+
+		@container (inline-size <= 25rem) {
+			inline-size: auto;
+			margin-inline: 0;
+			padding-inline: 0;
 		}
+	}
 
-		:where(li) {
-			border-radius: 0.25em;
-			padding-inline: 1em;
-			margin-inline: -1rem;
-			inline-size: calc(100cqi + 4rem);
+	.section-item:where(:nth-child(odd)) {
+		background: var(--background);
+		padding-block: 0.375em;
+		--background: oklch(from var(--foreground) l c h / 0.05);
 
-			@container (inline-size <= 25rem) {
-				inline-size: auto;
-				margin-inline: 0;
-				padding-inline: 0;
-			}
+		@container (inline-size <= 25rem) {
+			border-radius: 0;
+			box-shadow: -50cqi 0 var(--background), 50cqi 0 var(--background);
 		}
+	}
 
-		:where(li:nth-child(odd)) {
-			background: var(--background);
-			padding-block: 0.375em;
-			--background: oklch(from var(--foreground) l c h / 0.05);
-
-			@container (inline-size <= 25rem) {
-				border-radius: 0;
-				box-shadow: -50cqi 0 var(--background), 50cqi 0 var(--background);
-			}
-		}
-
-		:where(a) {
-			text-decoration-thickness: 0.125em;
-		}
+	.section-item :where(a) {
+		text-decoration-thickness: 0.125em;
 	}
 }

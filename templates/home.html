@@ -10,38 +10,37 @@
 {% endblock %} 
 
 {% block main %}
-<section class="section">
-	<h2>Posts</h2>
-	{% if post_list.is_empty() %}
-		<p>There are no posts yet. Check back again soon.</p>
-	{% else %}
-		<ol>
-			{% for e in post_list %} 
-				{% if let Some(slug) = e.slug %}
-					<li class="title-plus">
-						<a href="/posts/{{slug}}/">{{e.title}}</a>
-						{% call status::text(e) %}
-					</li>
-				{% endif %} 
-			{% endfor %}
-		</ol>
+	{% if !post_list.is_empty() %}
+		<section class="section">
+			<h2>Posts</h2>
+			<ol class="section-list">
+				{% for e in post_list %} 
+					{% if let Some(slug) = e.slug %}
+						<li class="title-plus section-item">
+							<a href="/posts/{{slug}}/">{{e.title}}</a>
+							{% call status::text(e) %}
+						</li>
+					{% endif %} 
+				{% endfor %}
+			</ol>
+		</section>
 	{% endif %}
-</section>
 
-{% if !site.projects.is_empty() %}
-	<section class="section">
-		<h2>Projects</h2>
-		<p>Fun little things I've made recently.</p>
-		<ul>
-			{% for p in site.projects %}
-				<li class="title-plus">
-					<a href="{{p.href}}">{{p.title}}</a>
-					{{p.description|html|safe}}
-				</li>
-			{% endfor %}
-		</ul>
-	</section>
-{% endif %}
+	{% if !site.projects.is_empty() %}
+		<section class="section">
+			<h2>Projects</h2>
+			<p>Some open source projects.</p>
+			<ul class="section-list">
+				{% for p in site.projects %}
+					<li class="title-plus section-item">
+						<a href="{{p.href}}">{{p.title}}</a>
+						{{p.description|html|safe}}
+					</li>
+				{% endfor %}
+			</ul>
+		</section>
+	{% endif %}
+
 	<aside class="section">
 		<h2>About</h2>
 		{{site.bio|html|safe}}
