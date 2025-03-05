@@ -111,7 +111,7 @@
 		color: var(--foreground);
 		container-type: inline-size;
 		display: grid;
-		grid-template-columns: auto 0.5rem min(100% - 2rem, 40rem) 0.5rem auto;
+		grid-template-columns: auto 1rem min(100% - 2rem, 40rem) 1rem auto;
 		grid-template-rows: min-content auto min-content;
 		row-gap: 1rem;
 		--background: light-dark(oklch(100% 0.025 100), oklch(30% 0.025 220));
@@ -142,6 +142,7 @@
 	.nav {
 		display: grid;
 		padding-block: 1rem 0;
+		grid-column: 3;
 
 		> * {
 			line-height: 1.5;
@@ -185,6 +186,7 @@
 
 	.footer {
 		display: grid;
+		grid-column: 3;
 		gap: 1.5rem 0;
 		align-content: center;
 		padding-block: 1rem;
