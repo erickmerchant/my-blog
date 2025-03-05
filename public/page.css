@@ -114,8 +114,8 @@
 		grid-template-columns: auto 1rem min(100% - 2rem, 40rem) 1rem auto;
 		grid-template-rows: min-content auto min-content;
 		row-gap: 1rem;
-		--background: light-dark(oklch(100% 0.025 100), oklch(30% 0.025 220));
-		--foreground: light-dark(oklch(30% 0.025 100), oklch(100% 0.025 220));
+		--background: light-dark(oklch(100% 0.025 100), oklch(30% 0.05 220));
+		--foreground: light-dark(oklch(30% 0.025 100), oklch(100% 0.05 220));
 
 		> * {
 			grid-column: 3;
