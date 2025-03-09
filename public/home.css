@@ -15,7 +15,6 @@
 		grid-column: 1 / -1;
 		list-style: none;
 		row-gap: 1rem;
-		container-type: inline-size;
 	}
 
 	.section-item {
@@ -28,9 +27,11 @@
 		padding-block: 0.375em;
 		--background: oklch(from var(--foreground) l c h / 0.05);
 
-		@container (inline-size <= 25rem) {
+		@container (inline-size <= 42rem) {
 			border-radius: 0;
-			box-shadow: -50cqi 0 var(--background), 50cqi 0 var(--background);
+			box-shadow:
+				-50cqi 0 var(--background),
+				50cqi 0 var(--background);
 		}
 	}
 
