@@ -4,6 +4,6 @@ killgroup(){
   kill 0
 }
 
-PORT=3000 RUST_LOG=tower_http=trace cargo watch -x 'r --bin dev --no-default-features' &
+APP_PORT=3000 APP_REWRITE_ASSETS=false RUST_LOG=tower_http=trace cargo watch -x 'r --no-default-features' &
 coolstyleserver proxy public &
 wait

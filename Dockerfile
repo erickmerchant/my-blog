@@ -9,7 +9,7 @@ RUN cargo build --bin dummy --release --no-default-features --locked
 # build app
 COPY src src
 COPY templates templates
-RUN cargo build --bin app --release --no-default-features --locked
+RUN cargo build --release --no-default-features --locked
 
 FROM scratch
 WORKDIR /deploy
