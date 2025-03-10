@@ -73,8 +73,9 @@ pub async fn html_layer(
 	let new_req = Request::from_parts(req_parts.to_owned(), req_body);
 	let headers = &req_parts.headers;
 	let uri = &req_parts.uri;
+	let res = next.run(new_req).await;
 
-	apply_html_layer(State(state), headers, uri, next.run(new_req).await).await
+	apply_html_layer(State(state), headers, uri, res).await
 }
 
 type Imports = BTreeMap<String, String>;
