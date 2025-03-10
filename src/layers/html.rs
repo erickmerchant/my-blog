@@ -27,14 +27,6 @@ pub async fn apply_html_layer(
 	}
 
 	let if_none_match = headers.get(header::IF_NONE_MATCH);
-	let cache_control = headers.get(header::CACHE_CONTROL);
-	let mut no_cache = false;
-
-	if let Some(cache_control) = cache_control {
-		if cache_control == "no-cache" {
-			no_cache = true;
-		}
-	}
 
 	let body = res.into_body();
 	let body = to_bytes(body, usize::MAX).await?;
@@ -42,7 +34,7 @@ pub async fn apply_html_layer(
 		url: Url::parse("https://0.0.0.0")?.join(uri.to_string().as_str())?,
 		base_dir: state.base_dir.to_owned(),
 	};
-	let body = if !no_cache {
+	let body = if state.rewrite_assets {
 		cache_buster.rewrite_assets(&body)?
 	} else {
 		body.to_vec()

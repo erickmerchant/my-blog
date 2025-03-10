@@ -13,12 +13,19 @@ async fn main() -> Result<()> {
 	};
 	let state = State {
 		base_dir: ".".to_string(),
-		rewrite_assets: true,
+		rewrite_assets: false,
 	};
 	let app = get_router(state.clone());
 	let listener = TcpListener::bind(("0.0.0.0", port))
 		.await
 		.expect("should listen");
+
+	tracing_subscriber::fmt()
+		.compact()
+		.with_env_filter(tracing_subscriber::EnvFilter::from_default_env())
+		.init();
+
+	tracing::debug!("listening on port {port}");
 
 	serve(listener, app.into_make_service())
 		.await

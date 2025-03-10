@@ -101,6 +101,7 @@
 	}
 
 	del {
+		color: oklch(from currentColor l c h / 0.6);
 		text-decoration: line-through;
 		text-decoration-thickness: 0.5em;
 		text-decoration-color: oklch(from currentColor l c h / 0.4);
