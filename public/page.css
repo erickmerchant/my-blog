@@ -153,15 +153,21 @@
 	}
 
 	.nav-link {
-		text-decoration-color: oklch(from currentColor l c h / 0.3);
-		text-decoration-thickness: 0.5em;
-		text-underline-offset: -0.25em;
-		text-decoration-skip-ink: none;
+		display: inline-block;
+		padding-inline-end: 0.5em;
+		text-decoration: none;
+		position: relative;
 
-		&:hover,
-		&:focus-visible {
-			outline: none;
-			text-underline-offset: -0.25em;
+		&:before {
+			position: absolute;
+			inset-block-end: 0.15em;
+			inset-inline-start: -0.25em;
+			inset-inline-end: -0.25em;
+			content: "";
+			display: block;
+			block-size: 0.5em;
+			background-color: oklch(from currentColor l c h / 0.2);
+			transition: inset-block-end 0.25s 0.25s;
 		}
 	}
 

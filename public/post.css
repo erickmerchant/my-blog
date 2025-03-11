@@ -1,7 +1,8 @@
 @layer sub-page {
 	code {
-		font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo,
-			Consolas, "DejaVu Sans Mono", monospace;
+		font-family:
+			ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas,
+			"DejaVu Sans Mono", monospace;
 		font-size: 0.85rem;
 
 		/* Arc iOS bug fix */
@@ -47,8 +48,14 @@
 			}
 		}
 
+		:where(:not(pre)) > :where(code) {
+			background-color: oklch(from currentColor l c h / 0.05);
+			padding: 0.075rem 0.25rem;
+			border-radius: 0.125rem;
+		}
+
 		:where(figure:has(pre)) {
-			border: 0.05rem solid currentColor;
+			border: 0.0625em solid oklch(from var(--foreground) l c h / 0.2);
 			border-radius: 0.125rem;
 			counter-reset: lines 0;
 			display: grid;
@@ -80,16 +87,16 @@
 			gap: 0.25rem 1rem;
 			grid-column: 1 / -1;
 			grid-template-columns: subgrid;
+			background-color: oklch(from currentColor l c h / 0.025);
 
 			&::before {
-				/* border-inline-end: 0.1em solid currentColor; */
+				background-color: oklch(from currentColor l c h / 0.05);
 				content: counter(lines, decimal);
 				counter-increment: lines 1;
 				display: grid;
 				inset-inline-start: 0;
 				padding-inline: 1rem;
 				position: sticky;
-				background-color: oklch(from currentColor l c h / 0.1);
 				text-align: right;
 			}
 
@@ -117,10 +124,10 @@
 
 	.callout {
 		padding-inline: 1rem;
-		border: 0.05rem solid currentColor;
 		border-radius: 0.125rem;
 		padding: 1em;
-		box-shadow: 0.125em 0.125em 0 oklch(from var(--foreground) l c h / 0.5);
+		border: 0.0625em solid oklch(from var(--foreground) l c h / 0.4);
+		box-shadow: 0.5em 0.5em 0 0 oklch(from var(--foreground) l c h / 0.2);
 
 		> :where(:not(:last-child)) {
 			margin-block-end: 1em;
