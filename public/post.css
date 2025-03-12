@@ -101,9 +101,7 @@
 			}
 
 			&:where(:first-child) {
-				& {
-					align-items: end;
-				}
+				align-items: end;
 
 				&::before {
 					padding-block-start: 1rem;
@@ -111,34 +109,32 @@
 			}
 
 			&:where(:last-child) {
-				& {
-					align-items: start;
-				}
+				align-items: start;
 
 				&::before {
 					padding-block-end: 1rem;
 				}
 			}
 		}
-	}
 
-	.callout {
-		padding-inline: 1rem;
-		border-radius: 0.125rem;
-		padding: 1em;
-		border: 0.0625em solid oklch(from var(--foreground) l c h / 0.4);
-		box-shadow: 0.5em 0.5em 0 0 oklch(from var(--foreground) l c h / 0.2);
+		:where(blockquote) {
+			padding-inline: 1rem;
+			border-radius: 0.125rem;
+			padding: 1em;
+			border: 0.0625em solid oklch(from var(--foreground) l c h / 0.4);
+			box-shadow: 0.5em 0.5em 0 0 oklch(from var(--foreground) l c h / 0.2);
 
-		> :where(:not(:last-child)) {
-			margin-block-end: 1em;
-		}
+			> :where(:not(:last-child)) {
+				margin-block-end: 1em;
+			}
 
-		:where(cite) {
-			display: inline flex;
-			gap: 0.5rem;
+			:where(cite) {
+				display: inline flex;
+				gap: 0.5rem;
 
-			&::before {
-				content: "—";
+				&::before {
+					content: "—";
+				}
 			}
 		}
 	}

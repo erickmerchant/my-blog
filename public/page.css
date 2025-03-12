@@ -82,10 +82,8 @@
 
 	h2 {
 		font-size: 1.125rem;
-	}
 
-	:where(:has(nav h1)) {
-		h2 {
+		:where(:has(nav h1)) & {
 			font-size: 1.25rem;
 		}
 	}

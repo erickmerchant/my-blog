@@ -3,7 +3,7 @@ title = "Getting a CSS property's value in any units"
 date_published = "2024-01-27"
 +++
 
-<blockquote class="callout">
+<blockquote>
 	<p>Is there a way to convert between units in CSS using browser js <em>stuffs</em>?</p>
 	<footer>
 		<cite>ginger, chief meme officer</cite>
