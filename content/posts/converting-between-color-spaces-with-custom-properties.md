@@ -1,6 +1,5 @@
 +++
 title = "Converting between color spaces with custom properties"
-date_published = "2025-03-10"
 +++
 
 Last year I wrote ["Getting a CSS property's value in any units"](/posts/getting-a-css-property-value-in-any-units/), a trick you can do to get a CSS property in any units. The post never mentions it, but I probably should have specified that it's for properties that are a length. Recently I found another cool trick that again involves defining a custom property, but this time with colors. Again I got nerd-sniped by something posted in the Shoptalk Show Discord.
