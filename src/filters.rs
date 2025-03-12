@@ -9,13 +9,14 @@ pub fn html<T: std::fmt::Display>(contents: T) -> rinja::Result<String> {
 	let parser = Parser::new_ext(contents.as_str(), options);
 	let mut events = Vec::new();
 	let mut code_block_text = None;
+	let mut lang = String::default();
 
 	for event in parser {
 		match event {
-			Event::Start(Tag::CodeBlock(lang)) => {
-				code_block_text = match lang {
-					CodeBlockKind::Fenced(_) => Some(String::new()),
-					_ => None,
+			Event::Start(Tag::CodeBlock(l)) => {
+				(code_block_text, lang) = match l {
+					CodeBlockKind::Fenced(lang) => (Some(String::new()), lang.to_string()),
+					_ => (None, String::default()),
 				};
 			}
 			Event::End(TagEnd::CodeBlock) => {
@@ -27,14 +28,18 @@ pub fn html<T: std::fmt::Display>(contents: T) -> rinja::Result<String> {
 						lines.push(format!("<code>{}</code>", html_escape::encode_text(line)));
 					}
 
-					let highlighted_html =
-						format!(r#"<figure><pre>{}</pre></figure>"#, lines.join("\n"));
+					let highlighted_html = format!(
+						r#"<code-block data-language="{}"><pre>{}</pre></code-block>"#,
+						lang,
+						lines.join("\n")
+					);
 
 					events.push(Event::Html(CowStr::Boxed(
 						highlighted_html.into_boxed_str(),
 					)));
 					code_block_text = None;
 				}
+				lang = String::default();
 			}
 			Event::Text(t) => {
 				if let Some(text) = code_block_text.as_mut() {

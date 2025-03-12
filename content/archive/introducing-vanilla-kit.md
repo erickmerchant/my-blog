@@ -3,7 +3,7 @@ title = "Introducing vanilla-kit"
 date_published = "2024-07-01"
 +++
 
-```javascript
+```js
 import {html, watch, children, classes, on, $} from "vanilla-kit";
 
 let {button} = html;

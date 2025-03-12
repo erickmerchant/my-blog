@@ -14,6 +14,73 @@
 		}
 	}
 
+	code-block {
+		border: 0.0625em solid oklch(from var(--foreground) l c h / 0.2);
+		border-radius: 0.125rem;
+		counter-reset: lines 0;
+		display: grid;
+		overflow-x: auto;
+		overflow-y: hidden;
+		overscroll-behavior-x: none;
+		tab-size: 2;
+		grid-column: 1 / -1 !important;
+		--white-space: pre-wrap;
+
+		@container (inline-size <= 44rem) {
+			border-inline: none;
+			border-radius: 0;
+			grid-column: 1 / -1;
+			--white-space: pre;
+		}
+
+		:where(pre) {
+			display: grid;
+			grid-template-columns: max-content auto;
+			position: relative;
+			white-space: var(--white-space);
+			word-break: break-word;
+		}
+
+		:where(code) {
+			display: grid;
+			gap: 0.25rem 1rem;
+			grid-column: 1 / -1;
+			grid-template-columns: subgrid;
+			background-color: oklch(from currentColor l c h / 0.025);
+
+			&::before {
+				background-color: oklch(from currentColor l c h / 0.05);
+				content: counter(lines, decimal);
+				counter-increment: lines 1;
+				display: grid;
+				inset-inline-start: 0;
+				padding-inline: 1rem;
+				position: sticky;
+				text-align: right;
+			}
+
+			&:where(:first-child) {
+				align-items: end;
+
+				&::before {
+					padding-block-start: 1rem;
+				}
+			}
+
+			&:where(:last-child) {
+				align-items: start;
+
+				&::before {
+					padding-block-end: 1rem;
+				}
+			}
+		}
+
+		:where(.highlight) {
+			background-color: oklch(from currentColor l c h / 0.1);
+		}
+	}
+
 	.article {
 		display: grid;
 		grid-template-columns: subgrid;
@@ -52,69 +119,6 @@
 			background-color: oklch(from currentColor l c h / 0.05);
 			padding: 0.075rem 0.25rem;
 			border-radius: 0.125rem;
-		}
-
-		:where(figure:has(pre)) {
-			border: 0.0625em solid oklch(from var(--foreground) l c h / 0.2);
-			border-radius: 0.125rem;
-			counter-reset: lines 0;
-			display: grid;
-			overflow-x: auto;
-			overflow-y: hidden;
-			overscroll-behavior-x: none;
-			tab-size: 2;
-			grid-column: 1 / -1;
-			--white-space: pre-wrap;
-
-			@container (inline-size <= 44rem) {
-				border-inline: none;
-				border-radius: 0;
-				grid-column: 1 / -1;
-				--white-space: pre;
-			}
-		}
-
-		:where(figure:has(pre)) :where(pre) {
-			display: grid;
-			grid-template-columns: max-content auto;
-			position: relative;
-			white-space: var(--white-space);
-			word-break: break-word;
-		}
-
-		:where(figure:has(pre)) :where(code) {
-			display: grid;
-			gap: 0.25rem 1rem;
-			grid-column: 1 / -1;
-			grid-template-columns: subgrid;
-			background-color: oklch(from currentColor l c h / 0.025);
-
-			&::before {
-				background-color: oklch(from currentColor l c h / 0.05);
-				content: counter(lines, decimal);
-				counter-increment: lines 1;
-				display: grid;
-				inset-inline-start: 0;
-				padding-inline: 1rem;
-				position: sticky;
-				text-align: right;
-			}
-
-			&:where(:first-child) {
-				align-items: end;
-
-				&::before {
-					padding-block-start: 1rem;
-				}
-			}
-
-			&:where(:last-child) {
-				align-items: start;
-
-				&::before {
-					padding-block-end: 1rem;
-				}
-			}
 		}
 
 		:where(blockquote) {
