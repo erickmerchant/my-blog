@@ -15,7 +15,7 @@ use regex::Regex;
 use serde::{Deserialize, Serialize};
 use serde_json as json;
 use std::{
-	collections::{BTreeMap, HashSet},
+	collections::{BTreeMap, BTreeSet},
 	fs,
 	sync::{Arc, LazyLock},
 };
@@ -258,7 +258,7 @@ impl Optimizer {
 		rewriter.write(bytes.as_ref())?;
 		rewriter.end()?;
 
-		let mut preload_modules: HashSet<String> = HashSet::new();
+		let mut preload_modules: BTreeSet<String> = BTreeSet::new();
 
 		for module in modules.clone() {
 			preload_modules.insert(module);
@@ -297,9 +297,9 @@ impl Optimizer {
 		&self,
 		url: String,
 		body: Option<String>,
-		found: HashSet<String>,
+		found: BTreeSet<String>,
 		import_map: ImportMap,
-	) -> HashSet<String> {
+	) -> BTreeSet<String> {
 		static IMPORT_REGEX: LazyLock<Regex> =
 			LazyLock::new(|| Regex::new(r#"\s*import.*?('(.*?)'|"(.*?)")"#).unwrap());
 
