@@ -184,8 +184,11 @@ impl Optimizer {
 			Settings {
 				element_content_handlers: [
 					element!("head", |el| {
+						let url = self.get_url("/favicon.svg", true);
+
 						el.append(
-							r#"<link rel="icon" href="/favicon.svg" type="image/svg+xml" />"#,
+							format!(r#"<link rel="icon" href="{url}" type="image/svg+xml" />"#)
+								.as_str(),
 							ContentType::Html,
 						);
 
