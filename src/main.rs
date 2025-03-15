@@ -1,6 +1,7 @@
 use anyhow::Result;
 use app::{
 	layers::html,
+	models::Model,
 	routes::{asset, home, not_found, post, resume, rss},
 	state::State,
 };
@@ -25,6 +26,7 @@ async fn main() -> Result<()> {
 	let state = State {
 		base_dir: ".".to_string(),
 		rewrite_assets,
+		model: Model::new(".".to_string()),
 	};
 	let app = get_app(state.clone());
 	let listener = TcpListener::bind(("0.0.0.0", port))
@@ -56,7 +58,7 @@ pub fn get_app(state: State) -> Router {
 
 #[cfg(test)]
 mod tests {
-	use super::{get_app, State};
+	use super::{get_app, Model, State};
 	use axum::{
 		body::Body,
 		http::{header, header::HeaderValue, Request, StatusCode},
@@ -68,6 +70,7 @@ mod tests {
 		let state = State {
 			base_dir: "fixtures".to_string(),
 			rewrite_assets: true,
+			model: Model::new("fixtures".to_string()),
 		};
 
 		get_app(state)

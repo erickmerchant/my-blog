@@ -23,10 +23,10 @@ pub async fn post_handler(
 	State(state): State<Arc<state::State>>,
 	Path(slug): Path<String>,
 ) -> Result<Response, error::Error> {
-	let post: Option<post::Model> = post::Model::by_slug(&state.base_dir, &slug).await;
+	let post: Option<post::Model> = state.model.post_by_slug(&slug).await;
 
 	if let Some(post) = post {
-		let site = site::Model::read(&state.base_dir).await?;
+		let site = state.model.site().await?;
 		let html = View { site, post }.render()?;
 
 		return Ok((StatusCode::OK, Html(html)).into_response());

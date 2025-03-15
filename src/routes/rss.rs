@@ -19,8 +19,8 @@ pub struct View {
 }
 
 pub async fn rss_handler(State(state): State<Arc<state::State>>) -> Result<Response, error::Error> {
-	let post_list = post::Model::all(&state.base_dir).await;
-	let site = site::Model::read(&state.base_dir).await?;
+	let post_list = state.model.all_posts().await;
+	let site = state.model.site().await?;
 	let html = View { site, post_list }.render()?;
 
 	Ok((

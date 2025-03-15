@@ -91,12 +91,12 @@ impl ImportMap {
 				if let Ok(full_url) = optimizer.url.join(&value) {
 					let full_url_path = full_url.path();
 					let results = glob(
-						format!(
-							"{}/public/{}**/*.js",
-							optimizer.base_dir,
-							full_url_path.trim_start_matches("/")
-						)
-						.as_str(),
+						optimizer
+							.get_public_path(format!(
+								"{}**/*.js",
+								full_url_path.trim_start_matches("/")
+							))
+							.as_str(),
 					)
 					.ok();
 
@@ -104,15 +104,14 @@ impl ImportMap {
 						for path in paths.flatten() {
 							let path = path.to_string_lossy();
 							let relative_key = path.trim_start_matches(
-								format!("{}/public", optimizer.base_dir).trim_start_matches("./"),
+								optimizer.get_public_directory().trim_start_matches("./"),
 							);
 							let relative_path = path.trim_start_matches(
-								format!(
-									"{}/public/{}",
-									optimizer.base_dir,
-									full_url_path.trim_start_matches("/")
-								)
-								.trim_start_matches("./"),
+								optimizer
+									.get_public_path(
+										full_url_path.trim_start_matches("/").to_string(),
+									)
+									.trim_start_matches("./"),
 							);
 
 							new_imports.insert(
@@ -170,6 +169,16 @@ impl ImportMap {
 pub struct Optimizer {
 	base_dir: String,
 	url: Url,
+}
+
+impl Optimizer {
+	pub fn get_public_path(&self, path: String) -> String {
+		format!("{}/public/{}", &self.base_dir, path)
+	}
+
+	pub fn get_public_directory(&self) -> String {
+		format!("{}/public", &self.base_dir)
+	}
 }
 
 const PRELOAD_MODULES_COMMENT: &str = "<!-- preloadmodules -->";
@@ -305,7 +314,7 @@ impl Optimizer {
 
 		let mut results = found.clone();
 		let body = body.unwrap_or_else(|| {
-			let file_path = format!("{}/public/{}", self.base_dir, url.trim_start_matches("/"));
+			let file_path = self.get_public_path(url.trim_start_matches("/").to_string());
 
 			fs::read_to_string(Utf8Path::new(file_path.as_str()).to_path_buf()).unwrap_or_default()
 		});
@@ -330,11 +339,7 @@ impl Optimizer {
 	pub fn get_url(&self, url: &str, with_hash: bool) -> String {
 		if let Ok(full_url) = self.url.join(url) {
 			let full_url_path = full_url.path();
-			let file_path = format!(
-				"{}/public/{}",
-				self.base_dir,
-				full_url_path.trim_start_matches("/")
-			);
+			let file_path = self.get_public_path(full_url_path.trim_start_matches("/").to_string());
 
 			if with_hash {
 				if let Ok(body) =

@@ -16,7 +16,7 @@ pub struct View {
 pub async fn resume_handler(
 	State(state): State<Arc<state::State>>,
 ) -> Result<Response, error::Error> {
-	let resume = resume::Model::read(&state.base_dir).await?;
+	let resume = state.model.resume().await?;
 	let view = View { resume };
 	let body = view.render()?;
 

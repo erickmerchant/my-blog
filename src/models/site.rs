@@ -20,9 +20,9 @@ pub struct Model {
 	pub projects: Vec<Project>,
 }
 
-impl Model {
-	pub async fn read(base_dir: &str) -> Result<Self> {
-		let toml = read_to_string(Utf8Path::new(&base_dir).join("content/site.toml"))?;
+impl super::Model {
+	pub async fn site(&self) -> Result<Model> {
+		let toml = read_to_string(Utf8Path::new(&self.base_dir).join("content/site.toml"))?;
 		let site = toml::from_str(&toml)?;
 
 		Ok(site)

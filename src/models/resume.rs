@@ -32,9 +32,9 @@ pub type SkillList = String;
 pub type TimeLine = Vec<TimeLineItem>;
 pub type DetailList = String;
 
-impl Model {
-	pub async fn read(base_dir: &str) -> Result<Self> {
-		let content = read_to_string(Utf8Path::new(&base_dir).join("content/resume.toml"))?;
+impl super::Model {
+	pub async fn resume(&self) -> Result<Model> {
+		let content = read_to_string(Utf8Path::new(&self.base_dir).join("content/resume.toml"))?;
 		let resume = toml::from_str(&content)?;
 
 		Ok(resume)

@@ -16,7 +16,7 @@ pub struct View {
 pub async fn not_found_handler(
 	State(state): State<Arc<state::State>>,
 ) -> Result<Response, error::Error> {
-	let site = site::Model::read(&state.base_dir).await?;
+	let site = state.model.site().await?;
 	let body = View { site }.render()?;
 
 	Ok((StatusCode::NOT_FOUND, Html(body)).into_response())

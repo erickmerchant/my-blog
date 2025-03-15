@@ -11,10 +11,10 @@ pub struct Model {
 	pub content: Option<String>,
 }
 
-impl Model {
-	pub async fn all(base_dir: &str) -> Vec<Self> {
+impl super::Model {
+	pub async fn all_posts(&self) -> Vec<Model> {
 		let mut all = Vec::new();
-		let results = read_dir(Utf8Path::new(&base_dir).join("content/posts")).ok();
+		let results = read_dir(Utf8Path::new(&self.base_dir).join("content/posts")).ok();
 
 		if let Some(paths) = results {
 			for path in paths.flatten() {
@@ -23,14 +23,14 @@ impl Model {
 				if let Some(Some(slug)) =
 					Utf8Path::from_path(path.as_path()).map(|path| path.file_stem())
 				{
-					if let Some(model) = Self::by_slug(base_dir, slug).await {
+					if let Some(model) = self.post_by_slug(slug).await {
 						all.push(model);
 					}
 				}
 			}
 		}
 
-		let mut all: Vec<Self> = all
+		let mut all: Vec<Model> = all
 			.iter()
 			.filter(|e| e.date_published.is_some())
 			.map(|e| e.to_owned())
@@ -49,8 +49,8 @@ impl Model {
 		all
 	}
 
-	pub async fn by_slug(base_dir: &str, slug: &str) -> Option<Self> {
-		read_to_string(Utf8Path::new(&base_dir).join(format!("content/posts/{slug}.md")))
+	pub async fn post_by_slug(&self, slug: &str) -> Option<Model> {
+		read_to_string(Utf8Path::new(&self.base_dir).join(format!("content/posts/{slug}.md")))
 			.ok()
 			.map(|contents| {
 				let parts = if contents.starts_with("+++") {
@@ -61,14 +61,14 @@ impl Model {
 					None
 				};
 
-				let mut model: Self;
+				let mut model: Model;
 
 				if let Some([_, frontmatter, contents]) = parts.as_deref() {
 					model = toml::from_str(frontmatter).unwrap_or_default();
 
 					model.content = Some(contents.to_string());
 				} else {
-					model = Self {
+					model = Model {
 						content: Some(contents),
 						..Default::default()
 					}
