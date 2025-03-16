@@ -152,8 +152,8 @@ impl ImportMap {
 			}
 		}
 
-		if let Ok(Ok(specifier)) = Url::parse(("https://0.0.0.0".to_string() + base).as_str())
-			.map(|base| base.join(specifier.as_str()))
+		if let Ok(Ok(Ok(specifier))) = Url::parse("https://0.0.0.0")
+			.map(|url| url.join(base).map(|base| base.join(specifier.as_str())))
 		{
 			return specifier.path().to_string();
 		}
