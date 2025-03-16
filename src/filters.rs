@@ -1,7 +1,7 @@
 use pulldown_cmark::{html, CodeBlockKind, CowStr, Event, Options, Parser, Tag, TagEnd};
 
 pub fn html<T: std::fmt::Display>(contents: T) -> rinja::Result<String> {
-	let contents = format!("{contents}");
+	let contents = contents.to_string();
 	let mut options = Options::empty();
 
 	options.insert(Options::ENABLE_STRIKETHROUGH);

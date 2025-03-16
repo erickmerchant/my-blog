@@ -1,4 +1,4 @@
-use crate::{error, models::site, state};
+use crate::{error, models::Site, state};
 use axum::{
 	extract::State,
 	http::StatusCode,
@@ -10,7 +10,7 @@ use std::sync::Arc;
 #[derive(Template)]
 #[template(path = "not_found.html")]
 pub struct View {
-	pub site: site::Model,
+	pub site: Site,
 }
 
 pub async fn not_found_handler(

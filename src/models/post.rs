@@ -4,7 +4,7 @@ use serde::Deserialize;
 use std::fs::{read_dir, read_to_string};
 
 #[derive(Clone, Debug, Default, PartialEq, Eq, Deserialize)]
-pub struct Model {
+pub struct Post {
 	pub slug: Option<String>,
 	pub title: String,
 	pub date_published: Option<NaiveDate>,
@@ -12,7 +12,7 @@ pub struct Model {
 }
 
 impl super::Model {
-	pub async fn all_posts(&self) -> Vec<Model> {
+	pub async fn all_posts(&self) -> Vec<Post> {
 		let mut all = Vec::new();
 		let results = read_dir(Utf8Path::new(&self.base_dir).join("content/posts")).ok();
 
@@ -30,7 +30,7 @@ impl super::Model {
 			}
 		}
 
-		let mut all: Vec<Model> = all
+		let mut all: Vec<Post> = all
 			.iter()
 			.filter(|e| e.date_published.is_some())
 			.map(|e| e.to_owned())
@@ -49,34 +49,36 @@ impl super::Model {
 		all
 	}
 
-	pub async fn post_by_slug(&self, slug: &str) -> Option<Model> {
-		read_to_string(Utf8Path::new(&self.base_dir).join(format!("content/posts/{slug}.md")))
-			.ok()
-			.map(|contents| {
-				let parts = if contents.starts_with("+++") {
-					let parts: Vec<_> = contents.splitn(3, "+++").collect();
+	pub async fn post_by_slug(&self, slug: &str) -> Option<Post> {
+		read_to_string(
+			Utf8Path::new(&self.base_dir).join("content/posts/".to_string() + slug + ".md"),
+		)
+		.ok()
+		.map(|contents| {
+			let parts = if contents.starts_with("+++") {
+				let parts: Vec<_> = contents.splitn(3, "+++").collect();
 
-					Some(parts)
-				} else {
-					None
-				};
+				Some(parts)
+			} else {
+				None
+			};
 
-				let mut model: Model;
+			let mut model: Post;
 
-				if let Some([_, frontmatter, contents]) = parts.as_deref() {
-					model = toml::from_str(frontmatter).unwrap_or_default();
+			if let Some([_, frontmatter, contents]) = parts.as_deref() {
+				model = toml::from_str(frontmatter).unwrap_or_default();
 
-					model.content = Some(contents.to_string());
-				} else {
-					model = Model {
-						content: Some(contents),
-						..Default::default()
-					}
+				model.content = Some(contents.to_string());
+			} else {
+				model = Post {
+					content: Some(contents),
+					..Default::default()
 				}
+			}
 
-				model.slug = Some(slug.to_string());
+			model.slug = Some(slug.to_string());
 
-				model
-			})
+			model
+		})
 	}
 }

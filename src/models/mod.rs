@@ -2,6 +2,10 @@ pub mod post;
 pub mod resume;
 pub mod site;
 
+pub use post::Post;
+pub use resume::Resume;
+pub use site::Site;
+
 #[derive(Clone)]
 pub struct Model {
 	pub base_dir: String,

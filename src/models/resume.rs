@@ -4,7 +4,7 @@ use serde::{Deserialize, Serialize};
 use std::fs::read_to_string;
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
-pub struct Model {
+pub struct Resume {
 	pub name: String,
 	pub contacts: Option<ContactList>,
 	pub skills: SkillList,
@@ -33,7 +33,7 @@ pub type TimeLine = Vec<TimeLineItem>;
 pub type DetailList = String;
 
 impl super::Model {
-	pub async fn resume(&self) -> Result<Model> {
+	pub async fn resume(&self) -> Result<Resume> {
 		let content = read_to_string(Utf8Path::new(&self.base_dir).join("content/resume.toml"))?;
 		let resume = toml::from_str(&content)?;
 

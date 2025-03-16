@@ -1,7 +1,7 @@
 use super::not_found;
 use crate::{
 	error, filters,
-	models::{post, site},
+	models::{Post, Site},
 	state,
 };
 use axum::{
@@ -15,15 +15,15 @@ use std::sync::Arc;
 #[derive(Template)]
 #[template(path = "post.html")]
 struct View {
-	pub site: site::Model,
-	pub post: post::Model,
+	pub site: Site,
+	pub post: Post,
 }
 
 pub async fn post_handler(
 	State(state): State<Arc<state::State>>,
 	Path(slug): Path<String>,
 ) -> Result<Response, error::Error> {
-	let post: Option<post::Model> = state.model.post_by_slug(&slug).await;
+	let post: Option<Post> = state.model.post_by_slug(&slug).await;
 
 	if let Some(post) = post {
 		let site = state.model.site().await?;

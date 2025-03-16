@@ -1,6 +1,6 @@
 use crate::{
 	error,
-	models::{post, site},
+	models::{Post, Site},
 	state,
 };
 use axum::{
@@ -14,8 +14,8 @@ use std::sync::Arc;
 #[derive(Template)]
 #[template(path = "rss.xml")]
 pub struct View {
-	pub site: site::Model,
-	pub post_list: Vec<post::Model>,
+	pub site: Site,
+	pub post_list: Vec<Post>,
 }
 
 pub async fn rss_handler(State(state): State<Arc<state::State>>) -> Result<Response, error::Error> {

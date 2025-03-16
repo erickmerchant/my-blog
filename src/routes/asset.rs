@@ -38,7 +38,7 @@ pub async fn asset_handler(
 
 	if let (Some(content_type), Ok(body)) = (
 		mime_guess::from_path(&path).first(),
-		fs::read(Utf8Path::new(&state.base_dir).join(format!("public/{path}"))),
+		fs::read(Utf8Path::new(&state.base_dir).join("public/".to_string() + path.as_str())),
 	) {
 		if content_type == mime::TEXT_HTML {
 			let (req_parts, _) = req.into_parts();

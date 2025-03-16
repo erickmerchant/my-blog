@@ -86,16 +86,13 @@ impl ImportMap {
 	pub fn map(&mut self, optimizer: &Optimizer) -> &Self {
 		let mut new_imports = Imports::new();
 
-		for (key, value) in self.imports.clone() {
+		for (key, value) in &self.imports {
 			if value.ends_with("/") {
 				if let Ok(full_url) = optimizer.url.join(&value) {
 					let full_url_path = full_url.path();
 					let results = glob(
 						optimizer
-							.get_public_path(format!(
-								"{}**/*.js",
-								full_url_path.trim_start_matches("/")
-							))
+							.get_public_path((full_url_path.to_string() + "**/*.js").as_str())
 							.as_str(),
 					)
 					.ok();
@@ -108,19 +105,19 @@ impl ImportMap {
 							);
 							let relative_path = path.trim_start_matches(
 								optimizer
-									.get_public_path(
-										full_url_path.trim_start_matches("/").to_string(),
-									)
+									.get_public_path(full_url_path)
 									.trim_start_matches("./"),
 							);
 
 							new_imports.insert(
-								format!("{key}{relative_path}"),
-								optimizer.get_url(format!("{value}{relative_path}").as_str(), true),
+								key.to_string() + relative_path,
+								optimizer
+									.get_url((value.to_owned() + relative_path).as_str(), true),
 							);
 							new_imports.insert(
 								relative_key.to_string(),
-								optimizer.get_url(format!("{value}{relative_path}").as_str(), true),
+								optimizer
+									.get_url((value.to_owned() + relative_path).as_str(), true),
 							);
 						}
 					}
@@ -144,23 +141,22 @@ impl ImportMap {
 			&& !specifier.starts_with("../")
 			&& !specifier.starts_with("/")
 		{
-			for (key, path) in self.imports.clone() {
-				if specifier.starts_with(&key) {
-					let new_specifier = specifier.trim_start_matches(&key);
+			for (key, path) in &self.imports {
+				if specifier.starts_with(key) {
+					let new_specifier = specifier.trim_start_matches(key);
 
-					specifier = path + new_specifier;
+					specifier = path.to_owned() + new_specifier;
 
 					break;
 				}
 			}
 		}
 
-		let base = Url::parse("https://0.0.0.0")
-			.expect("should be a url")
-			.join(base)
-			.expect("should be a url");
-		let specifier = base.join(specifier.as_str()).expect("should be a url");
-		let specifier = specifier.path();
+		if let Ok(Ok(specifier)) = Url::parse(("https://0.0.0.0".to_string() + base).as_str())
+			.map(|base| base.join(specifier.as_str()))
+		{
+			return specifier.path().to_string();
+		}
 
 		specifier.to_string()
 	}
@@ -172,12 +168,12 @@ pub struct Optimizer {
 }
 
 impl Optimizer {
-	pub fn get_public_path(&self, path: String) -> String {
-		format!("{}/public/{}", &self.base_dir, path)
+	pub fn get_public_path(&self, path: &str) -> String {
+		self.base_dir.trim_end_matches("/").to_string() + "/public/" + path.trim_start_matches("/")
 	}
 
 	pub fn get_public_directory(&self) -> String {
-		format!("{}/public", &self.base_dir)
+		self.base_dir.trim_end_matches("/").to_string() + "/public"
 	}
 }
 
@@ -223,7 +219,7 @@ impl Optimizer {
 
 							if let Some(t) = el.get_attribute("type") {
 								if t == "module" {
-									modules.push(url.clone());
+									modules.push(url);
 								}
 							}
 
@@ -269,21 +265,21 @@ impl Optimizer {
 
 		let mut preload_modules: BTreeSet<String> = BTreeSet::new();
 
-		for module in modules.clone() {
-			preload_modules.insert(module);
+		for module in &modules {
+			preload_modules.insert(module.to_owned());
 		}
 
-		for block in module_blocks.clone() {
+		for block in module_blocks {
 			preload_modules = self.get_deps(
 				self.url.to_string(),
 				Some(block),
-				preload_modules.clone(),
-				import_map.clone(),
+				preload_modules,
+				&import_map,
 			);
 		}
 
-		for module in modules.clone() {
-			preload_modules = self.get_deps(module, None, preload_modules, import_map.clone());
+		for module in modules {
+			preload_modules = self.get_deps(module, None, preload_modules, &import_map);
 		}
 
 		let mut preloads = String::new();
@@ -307,25 +303,25 @@ impl Optimizer {
 		url: String,
 		body: Option<String>,
 		found: BTreeSet<String>,
-		import_map: ImportMap,
+		import_map: &ImportMap,
 	) -> BTreeSet<String> {
 		static IMPORT_REGEX: LazyLock<Regex> =
 			LazyLock::new(|| Regex::new(r#"\s*import.*?('(.*?)'|"(.*?)")"#).unwrap());
 
-		let mut results = found.clone();
+		let mut results = found.to_owned();
 		let body = body.unwrap_or_else(|| {
-			let file_path = self.get_public_path(url.trim_start_matches("/").to_string());
+			let file_path = self.get_public_path(url.as_str());
 
-			fs::read_to_string(Utf8Path::new(file_path.as_str()).to_path_buf()).unwrap_or_default()
+			fs::read_to_string(file_path.as_str()).unwrap_or_default()
 		});
 
 		for (_, [_, a]) in IMPORT_REGEX.captures_iter(&body).map(|c| c.extract()) {
 			let resolved = import_map.resolve(a.to_string(), &url);
 
 			if !results.contains(&resolved) {
-				results.insert(resolved.clone());
+				results.insert(resolved.to_owned());
 
-				for r in self.get_deps(resolved, None, found.clone(), import_map.clone()) {
+				for r in self.get_deps(resolved, None, found.to_owned(), &import_map) {
 					if !results.contains(&r) {
 						results.insert(r);
 					}
@@ -339,18 +335,16 @@ impl Optimizer {
 	pub fn get_url(&self, url: &str, with_hash: bool) -> String {
 		if let Ok(full_url) = self.url.join(url) {
 			let full_url_path = full_url.path();
-			let file_path = self.get_public_path(full_url_path.trim_start_matches("/").to_string());
+			let file_path = self.get_public_path(full_url_path);
 
 			if with_hash {
-				if let Ok(body) =
-					fs::read_to_string(Utf8Path::new(file_path.as_str()).to_path_buf())
-				{
+				if let Ok(body) = fs::read_to_string(file_path.as_str()) {
 					let hash = md5::compute(body.as_bytes());
 					let mut new_ext = format!("{hash:?}")[0..10].to_string();
 					let path = Utf8Path::new(full_url_path);
 
 					if let Some(ext) = path.extension() {
-						new_ext = format!("{new_ext}.{ext}");
+						new_ext = new_ext + "." + ext;
 					}
 
 					let path = path.with_extension(new_ext);

@@ -1,6 +1,6 @@
 use crate::{
 	error, filters,
-	models::{post, site},
+	models::{Post, Site},
 	state,
 };
 use axum::{
@@ -14,8 +14,8 @@ use std::sync::Arc;
 #[derive(Template)]
 #[template(path = "home.html")]
 struct View {
-	pub site: site::Model,
-	pub post_list: Vec<post::Model>,
+	pub site: Site,
+	pub post_list: Vec<Post>,
 }
 
 pub async fn home_handler(

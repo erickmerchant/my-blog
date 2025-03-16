@@ -1,4 +1,4 @@
-use crate::{error, filters, models::resume, state};
+use crate::{error, filters, models::Resume, state};
 use axum::{
 	extract::State,
 	http::StatusCode,
@@ -10,7 +10,7 @@ use std::sync::Arc;
 #[derive(Template)]
 #[template(path = "resume.html")]
 pub struct View {
-	pub resume: resume::Model,
+	pub resume: Resume,
 }
 
 pub async fn resume_handler(
