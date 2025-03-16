@@ -88,7 +88,7 @@ impl ImportMap {
 
 		for (key, value) in &self.imports {
 			if value.ends_with("/") {
-				if let Ok(full_url) = optimizer.url.join(&value) {
+				if let Ok(full_url) = optimizer.url.join(value) {
 					let full_url_path = full_url.path();
 					let results = glob(
 						optimizer
@@ -125,7 +125,7 @@ impl ImportMap {
 
 				new_imports.insert(key.to_owned(), value.to_owned());
 			} else {
-				new_imports.insert(key.to_owned(), optimizer.get_url(&value, true));
+				new_imports.insert(key.to_owned(), optimizer.get_url(value, true));
 			}
 		}
 
@@ -321,7 +321,7 @@ impl Optimizer {
 			if !results.contains(&resolved) {
 				results.insert(resolved.to_owned());
 
-				for r in self.get_deps(resolved, None, found.to_owned(), &import_map) {
+				for r in self.get_deps(resolved, None, found.to_owned(), import_map) {
 					if !results.contains(&r) {
 						results.insert(r);
 					}
