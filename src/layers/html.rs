@@ -222,7 +222,7 @@ impl Optimizer {
 					),
 					element!("script[src]", |el| {
 						if let Some(src) = el.get_attribute("src") {
-							let url = self.get_url(src.as_str(), false);
+							let url = src.to_owned();
 
 							if let Some(t) = el.get_attribute("type") {
 								if t == "module" {
@@ -272,6 +272,10 @@ impl Optimizer {
 
 		let mut preload_modules: BTreeSet<String> = BTreeSet::new();
 
+		if has_code_block {
+			modules.push("/code-block.js".to_string());
+		}
+
 		for module in &modules {
 			preload_modules.insert(module.to_owned());
 		}
@@ -300,7 +304,13 @@ impl Optimizer {
 		}
 
 		if has_code_block {
-			preloads.push_str(r#"<script type="module" src="/code-block.js"></script>"#);
+			preloads.push_str(
+				format!(
+					r#"<script type="module" src="{}"></script>"#,
+					self.get_url("/code-block.js", true)
+				)
+				.as_str(),
+			);
 		}
 
 		let output = String::from_utf8(output.to_vec()).unwrap_or_default();
