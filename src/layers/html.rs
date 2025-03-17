@@ -186,6 +186,7 @@ impl Optimizer {
 		let mut import_map = ImportMap::default();
 		let mut modules = Vec::new();
 		let mut module_blocks = Vec::new();
+		let mut has_code_block = false;
 		let mut rewriter = HtmlRewriter::new(
 			Settings {
 				element_content_handlers: [
@@ -197,6 +198,11 @@ impl Optimizer {
 								.as_str(),
 							ContentType::Html,
 						);
+
+						Ok(())
+					}),
+					element!("code-block", |_| {
+						has_code_block = true;
 
 						Ok(())
 					}),
@@ -291,6 +297,10 @@ impl Optimizer {
 			preloads.push_str(
 				format!(r#"<link rel="modulepreload" href="{}" />"#, preload_module).as_str(),
 			);
+		}
+
+		if has_code_block {
+			preloads.push_str(r#"<script type="module" src="/code-block.js"></script>"#);
 		}
 
 		let output = String::from_utf8(output.to_vec()).unwrap_or_default();
