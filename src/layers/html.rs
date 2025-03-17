@@ -293,7 +293,7 @@ impl Optimizer {
 			);
 		}
 
-		let output = String::from_utf8(output.to_vec()).expect("should be a string");
+		let output = String::from_utf8(output.to_vec()).unwrap_or_default();
 		let output = output.replace(PRELOAD_MODULES_COMMENT, preloads.as_str());
 
 		Ok(output.into())
