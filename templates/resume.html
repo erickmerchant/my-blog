@@ -12,7 +12,7 @@
 			{% if let Some(location) = item.location %}
 			<div class="location">{{location}}</div>
 			{% endif %}
-			{{item.details|html|safe}}
+			{{item.details|md_to_html|safe}}
 		</li>
 		{% endfor %}
 	</ol>
@@ -42,7 +42,7 @@
 			</header>
 			<section class="skills">
 				<h2>Skills</h2>
-				{{resume.skills|html|safe}}
+				{{resume.skills|md_to_html|safe}}
 			</section>
 			{% call timeline("Employment History", resume.history) %}
 			{% call timeline("Education", resume.education) %}

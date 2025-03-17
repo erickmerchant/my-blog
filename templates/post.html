@@ -24,6 +24,6 @@
 			{% call status::text(post) %}
 		</header>
 
-		{% if let Some(content) = post.content %} {{content|html|safe}} {% endif %}
+		{% if let Some(content) = post.content %} {{content|md_to_html|safe}} {% endif %}
 	</article>
 {% endblock %}

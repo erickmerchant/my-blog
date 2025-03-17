@@ -1,6 +1,6 @@
 use pulldown_cmark::{html, CodeBlockKind, CowStr, Event, Options, Parser, Tag, TagEnd};
 
-pub fn html<T: std::fmt::Display>(contents: T) -> rinja::Result<String> {
+pub fn md_to_html<T: std::fmt::Display>(contents: T) -> rinja::Result<String> {
 	let contents = contents.to_string();
 	let mut options = Options::empty();
 
@@ -29,7 +29,7 @@ pub fn html<T: std::fmt::Display>(contents: T) -> rinja::Result<String> {
 					}
 
 					let highlighted_html = format!(
-						r#"<code-block data-language="{}"><pre>{}</pre></code-block>"#,
+						r#"<script type="module" src="/code-block.js"></script><code-block data-language="{}"><pre>{}</pre></code-block>"#,
 						lang,
 						lines.join("\n")
 					);

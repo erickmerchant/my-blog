@@ -186,7 +186,6 @@ impl Optimizer {
 		let mut import_map = ImportMap::default();
 		let mut modules = Vec::new();
 		let mut module_blocks = Vec::new();
-		let mut has_code_block = false;
 		let mut rewriter = HtmlRewriter::new(
 			Settings {
 				element_content_handlers: [
@@ -198,11 +197,6 @@ impl Optimizer {
 								.as_str(),
 							ContentType::Html,
 						);
-
-						Ok(())
-					}),
-					element!("code-block", |_| {
-						has_code_block = true;
 
 						Ok(())
 					}),
@@ -222,17 +216,21 @@ impl Optimizer {
 					),
 					element!("script[src]", |el| {
 						if let Some(src) = el.get_attribute("src") {
+							let url = self.get_url(src.as_str(), true);
+
+							el.set_attribute("src", url.as_str()).ok();
+
 							let url = self.get_url(src.as_str(), false);
 
 							if let Some(t) = el.get_attribute("type") {
 								if t == "module" {
-									modules.push(url);
+									if modules.contains(&url) {
+										el.remove();
+									} else {
+										modules.push(url);
+									}
 								}
 							}
-
-							let url = self.get_url(src.as_str(), true);
-
-							el.set_attribute("src", url.as_str()).ok();
 						}
 
 						Ok(())
@@ -272,10 +270,6 @@ impl Optimizer {
 
 		let mut preload_modules: BTreeSet<String> = BTreeSet::new();
 
-		if has_code_block {
-			modules.push("/code-block.js".to_string());
-		}
-
 		for module in &modules {
 			preload_modules.insert(module.to_owned());
 		}
@@ -300,16 +294,6 @@ impl Optimizer {
 
 			preloads.push_str(
 				format!(r#"<link rel="modulepreload" href="{}" />"#, preload_module).as_str(),
-			);
-		}
-
-		if has_code_block {
-			preloads.push_str(
-				format!(
-					r#"<script type="module" src="{}"></script>"#,
-					self.get_url("/code-block.js", true)
-				)
-				.as_str(),
 			);
 		}
 
