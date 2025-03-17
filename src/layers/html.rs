@@ -222,7 +222,7 @@ impl Optimizer {
 					),
 					element!("script[src]", |el| {
 						if let Some(src) = el.get_attribute("src") {
-							let url = src.to_owned();
+							let url = self.get_url(src.as_str(), false);
 
 							if let Some(t) = el.get_attribute("type") {
 								if t == "module" {
