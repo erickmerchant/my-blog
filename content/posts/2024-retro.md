@@ -13,4 +13,4 @@ My dog started to get sick the day of the presidential election. She didn't eat 
 
 I lost a wisdom tooth, too just to close out the year. Since then the world has turned to chaos, and 2025 isn't likely to be better. I'm broke. But I have my health. And my family.
 
-Soon I'll devote five days a week to taking care of my daughter which will save a lot of money. I'm looking forward to it. She's in part-time daycare now, and Tuesdays and Thursady when she's home it's like I have a job. It's hard but important. It may be that I just try to return to work after she's in school. In the meantime I'll work on open source and try to write and get paid for that.
+Soon I'll devote five days a week to taking care of my daughter which will save a lot of money. I'm looking forward to it. She's in part-time daycare now, and Tuesdays and Thursdays when she's home it's like I have a job. It's hard, but important. It may be that I just try to return to work after she's in school, but I'll certainly still apply to something every week at least. In the meantime I'll work on open source and try to write and get paid for that.
