@@ -4,7 +4,6 @@
 	margin: 0;
 	max-inline-size: 100%;
 	padding: 0;
-	text-box: trim-both cap numeric;
 }
 
 html {
@@ -30,20 +29,15 @@ body {
 .grid {
 	background-size: 1rlh 1rlh;
 	background-image: linear-gradient(
-			to right,
-			oklch(from skyblue 70% c h / 0.5) 1px,
-			transparent 1px
-		),
-		linear-gradient(
-			to bottom,
-			oklch(from skyblue 70% c h / 0.5) 1px,
-			transparent 1px
-		);
+		to bottom,
+		oklch(from skyblue 70% c h / 0.5) 1px,
+		transparent 1px
+	);
 }
 
 h1 {
-	font-size: 2rem;
-	line-height: 1.25;
+	font-size: 2.25rem;
+	line-height: 1.125;
 	font-weight: 900;
 }
 
@@ -164,8 +158,8 @@ ol {
 
 		:where(ul) {
 			list-style: disc;
-			list-style-position: inside;
-			margin-inline-start: 1ex;
+			list-style-position: outside;
+			margin-inline-start: 2ex;
 
 			@container (inline-size > 45rem) {
 				grid-column: 2;
