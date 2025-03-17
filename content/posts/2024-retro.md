@@ -3,7 +3,7 @@ title = "2024 Retrospective"
 date_published = "2025-03-16"
 +++
 
-I have been meaning to write this since before 2025, but maybe I was just trying to get too much out, and if I can keep it brief I can finally write this. 2024 sucked...a lot. I feel like Job, being tested by a petty god.
+I have been meaning to write this since before 2025, but maybe I was just trying to get too much out, and if I can keep it brief I can finally write this. 2024 sucked...a lot.
 
 I was laid off from my job of two and half years. I really did like working there and I have nothing ill to say. No clue why they let me go. I've been looking for work since. I have had a lot of interviews. Gone the full round with a few. Nothing has landed yet. I try to keep going, but honestly I don't have much hope I'll ever be a profressional software engineer again. And I think I'm actually damn good at it.
 
