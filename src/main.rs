@@ -6,7 +6,8 @@ use app::{
 	state::State,
 };
 use axum::{middleware::from_fn_with_state, routing::get, serve, Router};
-use std::{env, sync::Arc};
+use camino::Utf8Path;
+use std::{env, fs, sync::Arc};
 use tokio::net::TcpListener;
 use tower_http::{compression::CompressionLayer, trace::TraceLayer};
 
@@ -28,6 +29,9 @@ async fn main() -> Result<()> {
 		rewrite_assets,
 		model: Model::new(".".to_string()),
 	};
+
+	fs::remove_dir_all(Utf8Path::new(&state.base_dir).join("storage/cache/")).ok();
+
 	let app = get_app(state.clone());
 	let listener = TcpListener::bind(("0.0.0.0", port))
 		.await
