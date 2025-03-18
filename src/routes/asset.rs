@@ -36,24 +36,36 @@ pub async fn asset_handler(
 			.with_extension(file_name_parts[2]);
 	}
 
+	let content_type = mime_guess::from_path(&path).first();
+
+	if content_type == Some(mime::TEXT_HTML) {
+		let headers = &req.headers();
+
+		return apply_html_layer(
+			State(state.clone()),
+			headers,
+			path.to_string(),
+			async move || {
+				let body = fs::read(
+					Utf8Path::new(&state.base_dir).join("public/".to_string() + path.as_str()),
+				)
+				.unwrap_or_default();
+
+				Ok((
+					StatusCode::OK,
+					[(header::CONTENT_TYPE, mime::TEXT_HTML.to_string())],
+					body,
+				)
+					.into_response())
+			},
+		)
+		.await;
+	}
+
 	if let (Some(content_type), Ok(body)) = (
-		mime_guess::from_path(&path).first(),
+		content_type,
 		fs::read(Utf8Path::new(&state.base_dir).join("public/".to_string() + path.as_str())),
 	) {
-		if content_type == mime::TEXT_HTML {
-			let (req_parts, _) = req.into_parts();
-			let headers = &req_parts.headers;
-			let uri = &req_parts.uri;
-			let res = (
-				StatusCode::OK,
-				[(header::CONTENT_TYPE, content_type.to_string())],
-				body,
-			)
-				.into_response();
-
-			return apply_html_layer(State(state), headers, uri, res).await;
-		}
-
 		return Ok((
 			StatusCode::OK,
 			[
