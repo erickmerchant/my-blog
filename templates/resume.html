@@ -12,14 +12,14 @@
 			{% if let Some(location) = item.location %}
 			<div class="location">{{location}}</div>
 			{% endif %}
-			{{item.details|md_to_html|safe}}
+			<div class="details">{{item.bullets|md_to_html|safe}}</div>
 		</li>
 		{% endfor %}
 	</ol>
 </section>
 {% endmacro -%}
 
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
@@ -33,11 +33,11 @@
 			<header class="header">
 				<h1>{{resume.name}}</h1>
 				{% if let Some(contacts) = resume.contacts %}
-					<ul class="contacts">
-						{% for contact in contacts %}
-						<li><a href="{{contact.href}}">{{contact.text}}</a></li>
-						{% endfor %}
-					</ul>
+				<ul class="contacts">
+					{% for contact in contacts %}
+					<li><a href="{{contact.href}}">{{contact.text}}</a></li>
+					{% endfor %}
+				</ul>
 				{% endif %}
 			</header>
 			<section class="skills">

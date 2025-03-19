@@ -15,7 +15,7 @@ html {
 	line-height: 1.25;
 
 	@media print {
-		font-size: 13px;
+		font-size: 12px;
 	}
 }
 
@@ -87,10 +87,14 @@ ol {
 	grid-column: 1 / -1;
 	white-space: nowrap;
 	display: grid;
+
+	@container (inline-size > 45rem) {
+		grid-template-columns: 1fr auto;
+		align-items: baseline;
+	}
 }
 
 .contacts {
-	grid-column: 1 / -1;
 	display: flex;
 	flex-wrap: wrap;
 	column-gap: 2ex;
@@ -156,15 +160,17 @@ ol {
 			white-space: normal;
 		}
 
-		:where(ul) {
-			list-style: disc;
-			list-style-position: outside;
-			margin-inline-start: 2ex;
-
+		:where(.details) {
 			@container (inline-size > 45rem) {
 				grid-column: 2;
 				grid-row: 1 / -1;
 			}
+		}
+
+		:where(ul) {
+			list-style: disc;
+			list-style-position: outside;
+			margin-inline-start: 2ex;
 		}
 	}
 }

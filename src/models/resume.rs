@@ -7,7 +7,7 @@ use std::fs::read_to_string;
 pub struct Resume {
 	pub name: String,
 	pub contacts: Option<ContactList>,
-	pub skills: SkillList,
+	pub skills: String,
 	pub history: TimeLine,
 	pub education: TimeLine,
 }
@@ -24,13 +24,12 @@ pub struct TimeLineItem {
 	pub time: String,
 	pub organization: Option<String>,
 	pub location: Option<String>,
-	pub details: DetailList,
+	pub summary: Option<String>,
+	pub bullets: String,
 }
 
 pub type ContactList = Vec<Contact>;
-pub type SkillList = String;
 pub type TimeLine = Vec<TimeLineItem>;
-pub type DetailList = String;
 
 impl super::Model {
 	pub async fn resume(&self) -> Result<Resume> {
