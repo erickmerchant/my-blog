@@ -95,7 +95,7 @@ bullets = """
 - Initially focused on LAMP stack work, with expert-level PHP skills.
 - Primarily worked with ExpressionEngine as a CMS, building countless sites, writing plugins, and developing templates, etc.
 - Drove the adoption of Composer for dependency management, significantly improving PHP usage.
-- Transitioned into a front-end JavaScript role.
+- Switched to a front-end JavaScript role that I invented.
 - Led the development of the admin for a proprietary Java (Spring Boot) CMS, alongside another engineer, completing it in four months, which helped Adpearance enter new markets.
 - Worked extensively with Node.js and Vue.
 - Championed the adoption of git for version control, overcoming significant resistance within the company.
@@ -111,8 +111,8 @@ summary = """
 Where my career started. NetBiz was a digital services company that mostly placed people on Google and other search engines. A lot of that changed over the years, but I worked on the websites that were mostly given away to customers when they signed on for other services. In the late 00s if you were a realtor there was a very good chance you had a NetBiz site, or they had called you. I developed things using the LAMP stack. So I wrote a lot of PHP, but I also had a focus on JQuery and CSS. I worked on internal dashboards as well, and worked on their proprietary CMS. I was tasked with building the company's site, which was probably the biggest honor, because it meant they had a lot of confidence in my front-end skills.
 """
 bullets = """
-- Worked with search engine placement and SEO teams in real estate and other areas.
-- Developed websites using the LAMP stack, with a focus on PHP, jQuery, and CSS.
+- Worked with SEM and SEO teams in real estate and other areas.
+- Used the LAMP stack, with a focus on PHP, jQuery, and CSS.
 - Worked on internal dashboards and contributed to the development of their proprietary CMS.
 - Was tasked with building NetBiz's own website, which was a significant honor and recognition of my front-end skills.
 """
