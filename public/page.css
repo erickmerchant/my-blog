@@ -26,6 +26,9 @@
 		scrollbar-gutter: stable;
 		overscroll-behavior: none;
 		scrollbar-color: currentColor var(--background);
+
+		--background: light-dark(oklch(100% 0.025 100), oklch(30% 0.075 200));
+		--foreground: light-dark(oklch(30% 0.025 100), oklch(100% 0.075 200));
 	}
 
 	body {
@@ -113,8 +116,6 @@
 		grid-template-columns: auto 1rem min(100% - 2rem, 40rem) 1rem auto;
 		grid-template-rows: min-content auto min-content;
 		row-gap: 1rem;
-		--background: light-dark(oklch(100% 0.025 100), oklch(30% 0.05 220));
-		--foreground: light-dark(oklch(30% 0.025 100), oklch(100% 0.05 220));
 
 		> * {
 			grid-column: 3;
@@ -223,7 +224,8 @@
 		:where(svg) {
 			block-size: 1.1em;
 			background: oklch(from currentColor l c h / 0.2);
-			box-shadow: 0.0625em 0.0625em 0 oklch(from currentColor l c h / 0.5);
+			box-shadow: 0.125em 0.125em 0
+				oklch(from var(--background) calc(l - 0.05) c h);
 			fill: var(--foreground);
 			padding: 0.125em;
 			border-radius: 0.125rem;

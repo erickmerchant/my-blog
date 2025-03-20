@@ -137,7 +137,8 @@
 			border-radius: 0.125rem;
 			padding: 1em;
 			border: 0.0625em solid oklch(from var(--foreground) l c h / 0.4);
-			box-shadow: 0.5em 0.5em 0 0 oklch(from var(--foreground) l c h / 0.2);
+			box-shadow: 0.5em 0.5em 0 0
+				oklch(from var(--background) calc(l - 0.05) c h);
 
 			> :where(:not(:last-child)) {
 				margin-block-end: 1em;

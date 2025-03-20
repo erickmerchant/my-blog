@@ -81,10 +81,8 @@ pub async fn html_layer(
 	req: Request<Body>,
 	next: Next,
 ) -> Result<Response, error::Error> {
-	let (req_parts, req_body) = req.into_parts();
-	let new_req = Request::from_parts(req_parts.to_owned(), req_body);
-	let headers = &req_parts.headers;
-	let uri = req_parts.uri;
+	let headers = &req.headers().clone();
+	let uri = req.uri().clone();
 	let mut path = uri.path().to_string();
 
 	if uri.path().ends_with("/") {
@@ -92,7 +90,7 @@ pub async fn html_layer(
 	}
 
 	apply_html_layer(State(state), headers, path, async move || {
-		let res = next.run(new_req).await;
+		let res = next.run(req).await;
 
 		Ok(res)
 	})
