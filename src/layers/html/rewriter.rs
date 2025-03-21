@@ -1,9 +1,8 @@
 use super::import_map::ImportMap;
-use camino::Utf8Path;
 use hyper::body::Bytes;
 use lol_html::{element, html_content::ContentType, text, HtmlRewriter, Settings};
 use serde_json as json;
-use std::{collections::BTreeSet, fs};
+use std::collections::BTreeSet;
 use url::Url;
 
 const PRELOAD_MODULES_COMMENT: &str = "<!-- preloadmodules -->";
@@ -23,7 +22,7 @@ impl Rewriter {
 			Settings {
 				element_content_handlers: [
 					element!("head", |el| {
-						let url = self.get_url("/favicon.svg", true);
+						let url = self.get_full_path("/favicon.svg", true);
 
 						el.append(
 							format!(r#"<link rel="icon" href="{url}" type="image/svg+xml" />"#)
@@ -39,7 +38,7 @@ impl Rewriter {
 							if let Some(href) = el.get_attribute("href") {
 								el.set_attribute(
 									"href",
-									self.get_url(href.as_str(), true).as_str(),
+									self.get_full_path(href.as_str(), true).as_str(),
 								)
 								.ok();
 							}
@@ -49,11 +48,11 @@ impl Rewriter {
 					),
 					element!("script[src]", |el| {
 						if let Some(src) = el.get_attribute("src") {
-							let url = self.get_url(src.as_str(), true);
+							let url = self.get_full_path(src.as_str(), true);
 
 							el.set_attribute("src", url.as_str()).ok();
 
-							let url = self.get_url(src.as_str(), false);
+							let url = self.get_full_path(src.as_str(), false);
 
 							if let Some(t) = el.get_attribute("type") {
 								if t == "module" {
@@ -123,7 +122,7 @@ impl Rewriter {
 		let mut preloads = String::new();
 
 		for preload_module in preload_modules {
-			let preload_module = self.get_url(preload_module.as_str(), true);
+			let preload_module = self.get_full_path(preload_module.as_str(), true);
 
 			preloads.push_str(
 				format!(r#"<link rel="modulepreload" href="{}" />"#, preload_module).as_str(),
@@ -134,40 +133,5 @@ impl Rewriter {
 		let output = output.replace(PRELOAD_MODULES_COMMENT, preloads.as_str());
 
 		Ok(output.into())
-	}
-
-	pub fn get_public_path(&self, path: &str) -> String {
-		self.get_public_directory() + "/" + path.trim_start_matches("/")
-	}
-
-	pub fn get_public_directory(&self) -> String {
-		self.base_dir.trim_end_matches("/").to_string() + "/public"
-	}
-
-	pub fn get_url(&self, url: &str, with_hash: bool) -> String {
-		if let Ok(full_url) = self.url.join(url) {
-			let full_url_path = full_url.path();
-			let file_path = self.get_public_path(full_url_path);
-
-			if with_hash {
-				if let Ok(body) = fs::read_to_string(file_path.as_str()) {
-					let hash = md5::compute(body.as_bytes());
-					let mut new_ext = format!("{hash:?}")[0..10].to_string();
-					let path = Utf8Path::new(full_url_path);
-
-					if let Some(ext) = path.extension() {
-						new_ext = new_ext + "." + ext;
-					}
-
-					let path = path.with_extension(new_ext);
-
-					return path.to_string();
-				}
-			}
-
-			return full_url_path.to_string();
-		};
-
-		url.to_string()
 	}
 }

@@ -1,4 +1,5 @@
 pub(super) mod import_map;
+pub(super) mod paths;
 pub(super) mod rewriter;
 
 use crate::{error, state};

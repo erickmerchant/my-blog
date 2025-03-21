@@ -72,11 +72,17 @@ impl Rewriter {
 
 							imports.insert(
 								key.to_string() + relative_path,
-								self.get_url((value.to_owned() + relative_path).as_str(), true),
+								self.get_full_path(
+									(value.to_owned() + relative_path).as_str(),
+									true,
+								),
 							);
 							imports.insert(
 								relative_key.to_string(),
-								self.get_url((value.to_owned() + relative_path).as_str(), true),
+								self.get_full_path(
+									(value.to_owned() + relative_path).as_str(),
+									true,
+								),
 							);
 						}
 					}
@@ -84,7 +90,7 @@ impl Rewriter {
 
 				imports.insert(key.to_owned(), value.to_owned());
 			} else {
-				imports.insert(key.to_owned(), self.get_url(value, true));
+				imports.insert(key.to_owned(), self.get_full_path(value, true));
 			}
 		}
 
