@@ -1,7 +1,12 @@
-use super::optimizer::Optimizer;
+use super::Rewriter;
 use glob::glob;
+use regex::Regex;
 use serde::{Deserialize, Serialize};
-use std::collections::BTreeMap;
+use std::{
+	collections::{BTreeMap, BTreeSet},
+	fs,
+	sync::LazyLock,
+};
 use url::Url;
 
 type Imports = BTreeMap<String, String>;
@@ -12,57 +17,6 @@ pub struct ImportMap {
 }
 
 impl ImportMap {
-	pub fn map(&mut self, optimizer: &Optimizer) -> &Self {
-		let mut new_imports = Imports::new();
-
-		for (key, value) in &self.imports {
-			if value.ends_with("/") {
-				if let Ok(full_url) = optimizer.url.join(value) {
-					let full_url_path = full_url.path();
-					let results = glob(
-						optimizer
-							.get_public_path((full_url_path.to_string() + "**/*.js").as_str())
-							.as_str(),
-					)
-					.ok();
-
-					if let Some(paths) = results {
-						for path in paths.flatten() {
-							let path = path.to_string_lossy();
-							let relative_key = path.trim_start_matches(
-								optimizer.get_public_directory().trim_start_matches("./"),
-							);
-							let relative_path = path.trim_start_matches(
-								optimizer
-									.get_public_path(full_url_path)
-									.trim_start_matches("./"),
-							);
-
-							new_imports.insert(
-								key.to_string() + relative_path,
-								optimizer
-									.get_url((value.to_owned() + relative_path).as_str(), true),
-							);
-							new_imports.insert(
-								relative_key.to_string(),
-								optimizer
-									.get_url((value.to_owned() + relative_path).as_str(), true),
-							);
-						}
-					}
-				}
-
-				new_imports.insert(key.to_owned(), value.to_owned());
-			} else {
-				new_imports.insert(key.to_owned(), optimizer.get_url(value, true));
-			}
-		}
-
-		self.imports = new_imports;
-
-		self
-	}
-
 	pub fn resolve(&self, specifier: String, base: &str) -> String {
 		let mut specifier = specifier;
 
@@ -89,5 +43,85 @@ impl ImportMap {
 		}
 
 		specifier.to_string()
+	}
+}
+
+impl Rewriter {
+	pub fn map_imports(&self, import_map: ImportMap) -> ImportMap {
+		let mut imports = Imports::new();
+
+		for (key, value) in &import_map.imports {
+			if value.ends_with("/") {
+				if let Ok(full_url) = self.url.join(value) {
+					let full_url_path = full_url.path();
+					let results = glob(
+						self.get_public_path((full_url_path.to_string() + "**/*.js").as_str())
+							.as_str(),
+					)
+					.ok();
+
+					if let Some(paths) = results {
+						for path in paths.flatten() {
+							let path = path.to_string_lossy();
+							let relative_key = path.trim_start_matches(
+								self.get_public_directory().trim_start_matches("./"),
+							);
+							let relative_path = path.trim_start_matches(
+								self.get_public_path(full_url_path).trim_start_matches("./"),
+							);
+
+							imports.insert(
+								key.to_string() + relative_path,
+								self.get_url((value.to_owned() + relative_path).as_str(), true),
+							);
+							imports.insert(
+								relative_key.to_string(),
+								self.get_url((value.to_owned() + relative_path).as_str(), true),
+							);
+						}
+					}
+				}
+
+				imports.insert(key.to_owned(), value.to_owned());
+			} else {
+				imports.insert(key.to_owned(), self.get_url(value, true));
+			}
+		}
+
+		ImportMap { imports }
+	}
+
+	pub fn get_dependencies(
+		&self,
+		import_map: &ImportMap,
+		url: String,
+		body: Option<String>,
+		found: BTreeSet<String>,
+	) -> BTreeSet<String> {
+		static IMPORT_REGEX: LazyLock<Regex> =
+			LazyLock::new(|| Regex::new(r#"\s*import.*?('(.*?)'|"(.*?)")"#).unwrap());
+
+		let mut results = found.to_owned();
+		let body = body.unwrap_or_else(|| {
+			let file_path = self.get_public_path(url.as_str());
+
+			fs::read_to_string(file_path.as_str()).unwrap_or_default()
+		});
+
+		for (_, [_, a]) in IMPORT_REGEX.captures_iter(&body).map(|c| c.extract()) {
+			let resolved = import_map.resolve(a.to_string(), &url);
+
+			if !results.contains(&resolved) {
+				results.insert(resolved.to_owned());
+
+				for r in self.get_dependencies(import_map, resolved, None, found.to_owned()) {
+					if !results.contains(&r) {
+						results.insert(r);
+					}
+				}
+			}
+		}
+
+		results
 	}
 }

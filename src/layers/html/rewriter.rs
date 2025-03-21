@@ -2,30 +2,19 @@ use super::import_map::ImportMap;
 use camino::Utf8Path;
 use hyper::body::Bytes;
 use lol_html::{element, html_content::ContentType, text, HtmlRewriter, Settings};
-use regex::Regex;
 use serde_json as json;
-use std::{collections::BTreeSet, fs, sync::LazyLock};
+use std::{collections::BTreeSet, fs};
 use url::Url;
 
-pub struct Optimizer {
+const PRELOAD_MODULES_COMMENT: &str = "<!-- preloadmodules -->";
+
+pub struct Rewriter {
 	pub base_dir: String,
 	pub url: Url,
 }
 
-impl Optimizer {
-	pub fn get_public_path(&self, path: &str) -> String {
-		self.base_dir.trim_end_matches("/").to_string() + "/public/" + path.trim_start_matches("/")
-	}
-
-	pub fn get_public_directory(&self) -> String {
-		self.base_dir.trim_end_matches("/").to_string() + "/public"
-	}
-}
-
-const PRELOAD_MODULES_COMMENT: &str = "<!-- preloadmodules -->";
-
-impl Optimizer {
-	pub fn rewrite_assets(&self, bytes: &Bytes) -> anyhow::Result<Vec<u8>> {
+impl Rewriter {
+	pub fn rewrite(&self, bytes: &Bytes) -> anyhow::Result<Vec<u8>> {
 		let mut output = Vec::new();
 		let mut import_map = ImportMap::default();
 		let mut modules = Vec::new();
@@ -85,10 +74,10 @@ impl Optimizer {
 						Ok(())
 					}),
 					text!("script[type='importmap']", |el| {
-						if let Ok(mut im) = json::from_str::<ImportMap>(el.as_str()) {
+						if let Ok(im) = json::from_str::<ImportMap>(el.as_str()) {
 							import_map = im.clone();
 
-							im.map(self);
+							let im = self.map_imports(im);
 
 							if let Ok(map) = json::to_string(&im) {
 								el.replace(map.as_str(), ContentType::Text);
@@ -119,16 +108,16 @@ impl Optimizer {
 		}
 
 		for block in module_blocks {
-			preload_modules = self.get_deps(
+			preload_modules = self.get_dependencies(
+				&import_map,
 				self.url.to_string(),
 				Some(block),
 				preload_modules,
-				&import_map,
 			);
 		}
 
 		for module in modules {
-			preload_modules = self.get_deps(module, None, preload_modules, &import_map);
+			preload_modules = self.get_dependencies(&import_map, module, None, preload_modules);
 		}
 
 		let mut preloads = String::new();
@@ -147,38 +136,12 @@ impl Optimizer {
 		Ok(output.into())
 	}
 
-	pub fn get_deps(
-		&self,
-		url: String,
-		body: Option<String>,
-		found: BTreeSet<String>,
-		import_map: &ImportMap,
-	) -> BTreeSet<String> {
-		static IMPORT_REGEX: LazyLock<Regex> =
-			LazyLock::new(|| Regex::new(r#"\s*import.*?('(.*?)'|"(.*?)")"#).unwrap());
+	pub fn get_public_path(&self, path: &str) -> String {
+		self.get_public_directory() + "/" + path.trim_start_matches("/")
+	}
 
-		let mut results = found.to_owned();
-		let body = body.unwrap_or_else(|| {
-			let file_path = self.get_public_path(url.as_str());
-
-			fs::read_to_string(file_path.as_str()).unwrap_or_default()
-		});
-
-		for (_, [_, a]) in IMPORT_REGEX.captures_iter(&body).map(|c| c.extract()) {
-			let resolved = import_map.resolve(a.to_string(), &url);
-
-			if !results.contains(&resolved) {
-				results.insert(resolved.to_owned());
-
-				for r in self.get_deps(resolved, None, found.to_owned(), import_map) {
-					if !results.contains(&r) {
-						results.insert(r);
-					}
-				}
-			}
-		}
-
-		results
+	pub fn get_public_directory(&self) -> String {
+		self.base_dir.trim_end_matches("/").to_string() + "/public"
 	}
 
 	pub fn get_url(&self, url: &str, with_hash: bool) -> String {

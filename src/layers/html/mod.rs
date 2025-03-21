@@ -1,5 +1,5 @@
 pub(super) mod import_map;
-pub(super) mod optimizer;
+pub(super) mod rewriter;
 
 use crate::{error, state};
 use axum::{
@@ -12,7 +12,7 @@ use axum::{
 use camino::Utf8Path;
 use etag::EntityTag;
 use hyper::HeaderMap;
-use optimizer::Optimizer;
+use rewriter::Rewriter;
 use std::{fs, sync::Arc};
 use url::Url;
 
@@ -41,13 +41,13 @@ where
 
 		let body = res.into_body();
 		let body = to_bytes(body, usize::MAX).await?;
-		let optimizer = Optimizer {
+		let rewriter = Rewriter {
 			url: Url::parse("https://0.0.0.0")?.join(path.as_str())?,
 			base_dir: state.base_dir.to_owned(),
 		};
 
 		if state.rewrite_assets {
-			optimizer.rewrite_assets(&body)?
+			rewriter.rewrite(&body)?
 		} else {
 			body.to_vec()
 		}
