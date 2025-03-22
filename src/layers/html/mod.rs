@@ -47,18 +47,20 @@ where
 			base_dir: state.base_dir.to_owned(),
 		};
 
-		if state.rewrite_assets {
+		let body = if state.rewrite_assets {
 			rewriter.rewrite(&body)?
 		} else {
 			body.to_vec()
+		};
+
+		if let Some(dir) = cache_path.parent() {
+			fs::create_dir_all(dir).ok();
 		}
+
+		fs::write(cache_path, &body).ok();
+
+		body
 	};
-
-	if let Some(dir) = cache_path.parent() {
-		fs::create_dir_all(dir).ok();
-	}
-
-	fs::write(cache_path, &body).ok();
 
 	let etag = EntityTag::from_data(&body).to_string();
 
