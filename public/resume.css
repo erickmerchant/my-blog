@@ -6,7 +6,7 @@
 	padding: 0;
 }
 
-html {
+:root {
 	background-color: white;
 	block-size: 100%;
 	color: black;
@@ -19,7 +19,7 @@ html {
 	}
 }
 
-body {
+.page {
 	min-block-size: 100%;
 	display: grid;
 	justify-items: safe center;
