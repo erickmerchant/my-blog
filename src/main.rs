@@ -10,6 +10,7 @@ use camino::Utf8Path;
 use std::{env, fs, sync::Arc};
 use tokio::net::TcpListener;
 use tower_http::{compression::CompressionLayer, trace::TraceLayer};
+use tracing_subscriber::EnvFilter;
 
 #[tokio::main]
 async fn main() -> Result<()> {
@@ -29,6 +30,10 @@ async fn main() -> Result<()> {
 		rewrite_assets,
 		model: Model::new(".".to_string()),
 	};
+
+	tracing_subscriber::fmt()
+		.with_env_filter(EnvFilter::try_from_default_env().unwrap_or_default())
+		.init();
 
 	fs::remove_dir_all(Utf8Path::new(&state.base_dir).join("storage/cache/")).ok();
 
