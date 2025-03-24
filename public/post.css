@@ -145,7 +145,8 @@
 			}
 
 			:where(cite) {
-				display: inline flex;
+				display: inline grid;
+				grid-template-columns: auto 1fr;
 				gap: 0.5rem;
 
 				&::before {

@@ -95,9 +95,14 @@ ol {
 }
 
 .contacts {
-	display: flex;
-	flex-wrap: wrap;
+	display: grid;
+	grid-template-columns: max-content;
 	column-gap: 2ex;
+	row-gap: 0;
+
+	@container (inline-size > 45rem) {
+		grid-template-columns: max-content max-content;
+	}
 }
 
 .skills {
