@@ -12,20 +12,23 @@ use axum::{
 };
 use camino::Utf8Path;
 use etag::EntityTag;
-use hyper::HeaderMap;
 use rewriter::Rewriter;
 use std::{fs, sync::Arc};
 use url::Url;
 
-pub async fn apply_html_layer<F>(
+pub async fn html_layer(
 	State(state): State<Arc<state::State>>,
-	headers: &HeaderMap,
-	path: String,
-	uncached_callback: F,
-) -> Result<Response, error::Error>
-where
-	F: AsyncFnOnce() -> Result<Response, error::Error>,
-{
+	req: Request<Body>,
+	next: Next,
+) -> Result<Response, error::Error> {
+	let headers = &req.headers().clone();
+	let uri = req.uri().clone();
+	let mut path = uri.path().to_string();
+
+	if uri.path().ends_with("/") {
+		path += "index.html";
+	}
+
 	let cache_path =
 		Utf8Path::new(&state.base_dir).join("storage/cache/".to_string() + path.as_str());
 	let body = fs::read(&cache_path).ok();
@@ -34,7 +37,7 @@ where
 	let body = if let Some(body) = body {
 		body
 	} else {
-		let res = uncached_callback().await?;
+		let res = next.run(req).await;
 
 		if res.status() != StatusCode::OK {
 			return Ok(res);
@@ -77,25 +80,4 @@ where
 		body,
 	)
 		.into_response())
-}
-
-pub async fn html_layer(
-	State(state): State<Arc<state::State>>,
-	req: Request<Body>,
-	next: Next,
-) -> Result<Response, error::Error> {
-	let headers = &req.headers().clone();
-	let uri = req.uri().clone();
-	let mut path = uri.path().to_string();
-
-	if uri.path().ends_with("/") {
-		path += "index.html";
-	}
-
-	apply_html_layer(State(state), headers, path, async move || {
-		let res = next.run(req).await;
-
-		Ok(res)
-	})
-	.await
 }

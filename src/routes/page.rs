@@ -1,19 +1,20 @@
 use super::not_found;
 use crate::{error, state};
 use axum::{
-	extract::{Path, State},
+	extract::{Request, State},
 	http::{header, StatusCode},
 	response::{IntoResponse, Response},
 };
 use camino::Utf8Path;
 use std::{fs, sync::Arc};
 
-pub async fn asset_handler(
+pub async fn page_handler(
 	State(state): State<Arc<state::State>>,
-	Path(path): Path<String>,
+	req: Request,
 ) -> Result<Response, error::Error> {
+	let path = req.uri().path();
 	let is_index = path.ends_with("/");
-	let path = Utf8Path::new(path.as_str());
+	let path = Utf8Path::new(path);
 	let path = if is_index {
 		path.join("index.html")
 	} else {
@@ -34,16 +35,13 @@ pub async fn asset_handler(
 			.with_extension(file_name_parts[2]);
 	}
 
-	let content_type = mime_guess::from_path(&path).first();
-
-	if let (Some(content_type), Ok(body)) = (
-		content_type,
-		fs::read(Utf8Path::new(&state.base_dir).join("public/".to_string() + path.as_str())),
-	) {
+	if let Ok(body) =
+		fs::read(Utf8Path::new(&state.base_dir).join("public/".to_string() + path.as_str()))
+	{
 		return Ok((
 			StatusCode::OK,
 			[
-				(header::CONTENT_TYPE, content_type.to_string()),
+				(header::CONTENT_TYPE, mime::HTML.to_string()),
 				(
 					header::CACHE_CONTROL,
 					if has_hash {

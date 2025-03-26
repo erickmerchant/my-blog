@@ -2,29 +2,21 @@ use anyhow::Result;
 use app::{
 	layers::html,
 	models::Model,
-	routes::{asset, home, not_found, post, resume, rss},
+	routes::{asset, home, not_found, page, post, resume, rss},
 	state::State,
 };
 use axum::{middleware::from_fn_with_state, routing::get, serve, Router};
 use camino::Utf8Path;
-use std::{env, fs, sync::Arc};
+use glob::glob;
+use std::{env, fs, str::FromStr, sync::Arc};
 use tokio::net::TcpListener;
 use tower_http::{compression::CompressionLayer, trace::TraceLayer};
 use tracing_subscriber::EnvFilter;
 
 #[tokio::main]
 async fn main() -> Result<()> {
-	let port: u16 = if let Ok(Ok(p)) = env::var("APP_PORT").map(|p| p.parse()) {
-		p
-	} else {
-		8080
-	};
-	let rewrite_assets: bool = if let Ok(Ok(p)) = env::var("APP_REWRITE_ASSETS").map(|p| p.parse())
-	{
-		p
-	} else {
-		true
-	};
+	let port: u16 = get_env("APP_PORT", 8080);
+	let rewrite_assets: bool = get_env("APP_REWRITE_ASSETS", true);
 	let state = State {
 		base_dir: ".".to_string(),
 		rewrite_assets,
@@ -49,13 +41,42 @@ async fn main() -> Result<()> {
 	Ok(())
 }
 
+fn get_env<T>(name: &str, default_value: T) -> T
+where
+	T: FromStr,
+{
+	if let Ok(Ok(p)) = env::var(name).map(|p| p.parse::<T>()) {
+		p
+	} else {
+		default_value
+	}
+}
+
 pub fn get_app(state: State) -> Router {
 	let state = Arc::new(state);
 
-	Router::new()
+	let mut router = Router::new()
 		.route("/", get(home::home_handler))
 		.route("/resume/", get(resume::resume_handler))
-		.route("/posts/{slug}/", get(post::post_handler))
+		.route("/posts/{slug}/", get(post::post_handler));
+
+	let public_path = state.base_dir.trim_end_matches("/").to_owned() + "/public";
+	let public_path = public_path.trim_start_matches("./");
+	let public_htmls = glob((public_path.to_owned() + "/**/*.html").as_str()).ok();
+
+	if let Some(paths) = public_htmls {
+		for path in paths.flatten() {
+			if let Some(p) = path.to_str() {
+				let p = p
+					.trim_start_matches(public_path)
+					.trim_end_matches("index.html");
+
+				router = router.route(p, get(page::page_handler));
+			}
+		}
+	}
+
+	router
 		.route_layer(from_fn_with_state(state.clone(), html::html_layer))
 		.route("/posts.rss", get(rss::rss_handler))
 		.route("/{*path}", get(asset::asset_handler))
