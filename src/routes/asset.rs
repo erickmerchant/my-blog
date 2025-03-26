@@ -12,13 +12,8 @@ pub async fn asset_handler(
 	State(state): State<Arc<state::State>>,
 	Path(path): Path<String>,
 ) -> Result<Response, error::Error> {
-	let is_index = path.ends_with("/");
 	let path = Utf8Path::new(path.as_str());
-	let path = if is_index {
-		path.join("index.html")
-	} else {
-		path.to_path_buf()
-	};
+	let path = path.to_path_buf();
 	let mut has_hash = false;
 	let mut path = path.to_path_buf();
 	let file_name_parts: Vec<&str> = path

@@ -1,5 +1,4 @@
 use anyhow::Result;
-use camino::Utf8Path;
 use serde::Deserialize;
 use std::fs::read_to_string;
 
@@ -22,7 +21,8 @@ pub struct Site {
 
 impl super::Model {
 	pub async fn site(&self) -> Result<Site> {
-		let toml = read_to_string(Utf8Path::new(&self.base_dir).join("content/site.toml"))?;
+		let toml =
+			read_to_string(self.base_dir.trim_end_matches("/").to_string() + "/content/site.toml")?;
 		let site = toml::from_str(&toml)?;
 
 		Ok(site)

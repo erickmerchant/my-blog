@@ -14,7 +14,8 @@ pub struct Post {
 impl super::Model {
 	pub async fn all_posts(&self) -> Vec<Post> {
 		let mut all = Vec::new();
-		let results = read_dir(Utf8Path::new(&self.base_dir).join("content/posts")).ok();
+		let results =
+			read_dir(self.base_dir.trim_end_matches("/").to_string() + "/content/posts").ok();
 
 		if let Some(paths) = results {
 			for path in paths.flatten() {
@@ -51,7 +52,7 @@ impl super::Model {
 
 	pub async fn post_by_slug(&self, slug: &str) -> Option<Post> {
 		read_to_string(
-			Utf8Path::new(&self.base_dir).join("content/posts/".to_string() + slug + ".md"),
+			self.base_dir.trim_end_matches("/").to_string() + "/content/posts/" + slug + ".md",
 		)
 		.ok()
 		.map(|contents| {

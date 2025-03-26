@@ -1,5 +1,4 @@
 use anyhow::Result;
-use camino::Utf8Path;
 use serde::{Deserialize, Serialize};
 use std::fs::read_to_string;
 
@@ -33,7 +32,9 @@ pub type TimeLine = Vec<TimeLineItem>;
 
 impl super::Model {
 	pub async fn resume(&self) -> Result<Resume> {
-		let content = read_to_string(Utf8Path::new(&self.base_dir).join("content/resume.toml"))?;
+		let content = read_to_string(
+			self.base_dir.trim_end_matches("/").to_string() + "/content/resume.toml",
+		)?;
 		let resume = toml::from_str(&content)?;
 
 		Ok(resume)

@@ -6,7 +6,6 @@ use app::{
 	state::State,
 };
 use axum::{middleware::from_fn_with_state, routing::get, serve, Router};
-use camino::Utf8Path;
 use glob::glob;
 use std::{env, fs, str::FromStr, sync::Arc};
 use tokio::net::TcpListener;
@@ -27,7 +26,7 @@ async fn main() -> Result<()> {
 		.with_env_filter(EnvFilter::try_from_default_env().unwrap_or_default())
 		.init();
 
-	fs::remove_dir_all(Utf8Path::new(&state.base_dir).join("storage/cache/")).ok();
+	fs::remove_dir_all(state.base_dir.trim_end_matches("/").to_string() + "/storage/cache/").ok();
 
 	let app = get_app(state.clone());
 	let listener = TcpListener::bind(("0.0.0.0", port))
