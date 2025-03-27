@@ -1,17 +1,14 @@
 import "handcraft/dom/classes.js";
-import "handcraft/dom/observe.js";
+import "handcraft/dom/find.js";
+import "handcraft/dom/text.js";
 import {define} from "handcraft/define.js";
-import {effect} from "handcraft/reactivity.js";
 
 define("code-block").connected((host) => {
-	let observer = host.observe();
-	let lines = observer.find("code");
+	let lines = host.find("code");
 
-	effect(() => {
-		for (let line of lines) {
-			if (/^\s*\/\//.test(line.deref().textContent)) {
-				line.classes("highlight");
-			}
+	for (let line of lines) {
+		if (/^\s*\/\//.test(line.text())) {
+			line.classes("highlight");
 		}
-	});
+	}
 });
