@@ -1,10 +1,10 @@
 use crate::{error, filters, models::Resume, state};
+use askama::Template;
 use axum::{
 	extract::State,
 	http::StatusCode,
 	response::{Html, IntoResponse, Response},
 };
-use rinja::Template;
 use std::sync::Arc;
 
 #[derive(Template)]

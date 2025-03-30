@@ -4,12 +4,12 @@ use crate::{
 	models::{Post, Site},
 	state,
 };
+use askama::Template;
 use axum::{
 	extract::{Path, State},
 	http::StatusCode,
 	response::{Html, IntoResponse, Response},
 };
-use rinja::Template;
 use std::sync::Arc;
 
 #[derive(Template)]

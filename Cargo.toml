@@ -6,6 +6,7 @@ edition = "2021"
 
 [dependencies]
 anyhow = { version = "1.0.70", features = ["backtrace"] }
+askama = "0.13.0"
 axum = { version = "0.8.1", features = [
 	"tokio",
 	"tower-log",
@@ -27,7 +28,6 @@ mime = "0.3.17"
 mime_guess = "2.0.4"
 pulldown-cmark = "0.13.0"
 regex = "1.11.1"
-rinja = "0.3.4"
 serde = { version = "1.0.185", features = ["derive"] }
 serde_json = "1.0.122"
 tokio = { version = "1.27.0", features = ["macros", "fs", "rt-multi-thread"] }

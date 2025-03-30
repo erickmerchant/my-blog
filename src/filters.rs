@@ -1,6 +1,6 @@
 use pulldown_cmark::{html, CodeBlockKind, CowStr, Event, Options, Parser, Tag, TagEnd};
 
-pub fn md_to_html<T: std::fmt::Display>(contents: T) -> rinja::Result<String> {
+pub fn md_to_html<T: std::fmt::Display>(contents: T) -> askama::Result<String> {
 	let contents = contents.to_string();
 	let mut options = Options::empty();
 
