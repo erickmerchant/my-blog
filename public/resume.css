@@ -54,7 +54,7 @@ h3 {
 
 a {
 	color: hsl(200 70% 40%);
-	text-underline-offset: 0.15em;
+	text-underline-offset: 0.15rem;
 }
 
 ul,

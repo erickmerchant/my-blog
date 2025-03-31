@@ -36,15 +36,15 @@
 	}
 
 	a {
-		text-decoration-thickness: 0.1em;
-		text-underline-offset: 0.15em;
-		text-decoration-color: oklch(from currentColor l c h / 0.5);
+		text-decoration-thickness: 0.1rem;
+		text-underline-offset: 0.15rem;
+		text-decoration-color: currentColor;
 		transition: text-underline-offset 0.25s 0.25s;
 
 		&:hover,
 		&:focus-visible {
 			outline: none;
-			text-underline-offset: 0.3em;
+			text-underline-offset: 0.3rem;
 		}
 
 		&:focus-visible {
@@ -75,7 +75,7 @@
 		font-weight: 900;
 
 		:where(a) {
-			text-decoration-thickness: 0.15em;
+			text-decoration-thickness: 0.15rem;
 		}
 	}
 
@@ -104,7 +104,7 @@
 	del {
 		color: oklch(from currentColor l c h / 0.6);
 		text-decoration: line-through;
-		text-decoration-thickness: 0.5em;
+		text-decoration-thickness: 0.5rem;
 		text-decoration-color: oklch(from currentColor l c h / 0.4);
 	}
 
@@ -142,46 +142,40 @@
 	.nav {
 		display: grid;
 		padding-block: 1rem 0;
-		grid-column: 3;
+		grid-column: 2 / -2;
 
 		> * {
 			line-height: 1.5;
 			font-size: clamp(1.25rem, 7cqi, 2rem);
 			font-weight: 900;
 		}
+
+		@container (inline-size <= 44rem) {
+			grid-column: 3;
+		}
 	}
 
 	.nav-link {
-		display: inline-block;
-		padding-inline-end: 0.5em;
+		display: grid;
+		padding: 0.125rem 1rem;
 		text-decoration: none;
 		position: relative;
-
-		&:before {
-			position: absolute;
-			inset-block-end: 0.15em;
-			inset-inline-start: -0.25em;
-			inset-inline-end: -0.25em;
-			content: "";
-			display: block;
-			block-size: 0.5em;
-			background-color: oklch(from currentColor l c h / 0.2);
-			transition: inset-block-end 0.25s 0.25s;
-		}
+		background-color: oklch(from currentColor l c h / 0.2);
+		border-radius: 0.25rem;
 	}
 
 	.title-plus {
 		display: grid;
 		grid-template-columns: 1fr;
 		align-items: baseline;
-		column-gap: 0.5em;
-		row-gap: 0.125em;
+		column-gap: 0.5rem;
+		row-gap: 0.125rem;
 		font-weight: 700;
 	}
 
 	.status {
 		font-weight: 300;
-		font-size: 0.8em;
+		font-size: 0.8rem;
 	}
 
 	.title-plus :where(p) {
@@ -217,20 +211,20 @@
 	}
 
 	.footer-link {
-		text-decoration-thickness: 0.125em;
+		text-decoration-thickness: 0.125rem;
 	}
 
 	.rss-link {
 		:where(svg) {
-			block-size: 1.1em;
+			block-size: 1.1rem;
 			background: oklch(from currentColor l c h / 0.2);
-			box-shadow: 0.125em 0.125em 0
+			box-shadow: 0.125rem 0.125rem 0
 				oklch(from var(--background) calc(l - 0.05) c h);
 			fill: var(--foreground);
-			padding: 0.125em;
+			padding: 0.125rem;
 			border-radius: 0.125rem;
-			margin-block-end: -0.2em;
-			margin-inline-end: 0.5em;
+			margin-block-end: -0.2rem;
+			margin-inline-end: 0.5rem;
 		}
 	}
 }

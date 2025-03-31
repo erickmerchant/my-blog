@@ -15,7 +15,7 @@
 	}
 
 	code-block {
-		border: 0.0625em solid oklch(from var(--foreground) l c h / 0.2);
+		border: 0.0625rem solid oklch(from var(--foreground) l c h / 0.2);
 		border-radius: 0.125rem;
 		counter-reset: lines 0;
 		display: grid;
@@ -135,13 +135,13 @@
 		:where(blockquote) {
 			padding-inline: 1rem;
 			border-radius: 0.125rem;
-			padding: 1em;
-			border: 0.0625em solid oklch(from var(--foreground) l c h / 0.4);
-			box-shadow: 0.5em 0.5em 0 0
+			padding: 1rem;
+			border: 0.0625rem solid oklch(from var(--foreground) l c h / 0.4);
+			box-shadow: 0.5rem 0.5rem 0 0
 				oklch(from var(--background) calc(l - 0.05) c h);
 
 			> :where(:not(:last-child)) {
-				margin-block-end: 1em;
+				margin-block-end: 1rem;
 			}
 
 			:where(cite) {
