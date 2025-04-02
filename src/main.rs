@@ -26,8 +26,6 @@ async fn main() -> Result<()> {
 		.with_env_filter(EnvFilter::try_from_default_env().unwrap_or_default())
 		.init();
 
-	fs::remove_dir_all(state.base_dir.trim_end_matches("/").to_string() + "/storage/cache/").ok();
-
 	let app = get_app(state.clone());
 	let listener = TcpListener::bind(("0.0.0.0", port))
 		.await
@@ -52,6 +50,8 @@ where
 }
 
 pub fn get_app(state: State) -> Router {
+	fs::remove_dir_all(state.base_dir.trim_end_matches("/").to_string() + "/storage/cache/").ok();
+
 	let state = Arc::new(state);
 
 	let mut router = Router::new()
@@ -88,12 +88,24 @@ pub fn get_app(state: State) -> Router {
 #[cfg(test)]
 mod tests {
 	use super::{get_app, Model, State};
+	use anyhow::anyhow;
+	use app::error;
 	use axum::{
 		body::Body,
 		http::{header, header::HeaderValue, Request, StatusCode},
+		response::{IntoResponse, Response},
+		routing::get,
 		Router,
 	};
 	use tower::ServiceExt;
+
+	pub async fn will_error_handler() -> Result<Response, error::Error> {
+		let x: Result<String, _> = Err(anyhow!("test"));
+
+		let x = x?;
+
+		Ok(x.into_response())
+	}
 
 	async fn get_test_app() -> Router {
 		let state = State {
@@ -102,7 +114,26 @@ mod tests {
 			model: Model::new("fixtures".to_string()),
 		};
 
-		get_app(state)
+		let app = get_app(state);
+
+		app.route("/will-error", get(will_error_handler))
+	}
+
+	#[tokio::test]
+	async fn test_500() {
+		let app = get_test_app().await;
+		let response = app
+			.clone()
+			.oneshot(
+				Request::builder()
+					.uri("/will-error")
+					.body(Body::empty())
+					.unwrap(),
+			)
+			.await
+			.unwrap();
+
+		assert_eq!(response.status(), StatusCode::INTERNAL_SERVER_ERROR);
 	}
 
 	#[tokio::test]

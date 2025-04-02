@@ -5,11 +5,15 @@
 		<script type="importmap">
 			{
 				"imports": {
-					"blah": "./blah.js"
+					"blah": "./blah.js",
+					"bloo": "./bloo.js"
 				}
 			}
 		</script>
-		<script src="./blah.js"></script>
+		<script src="./blah.js" type="module"></script>
+		<script type="module">
+			import "bloo"
+		</script>
 	</head>
 	<body>
 		<h1>Project</h1>
