@@ -49,7 +49,7 @@ where
 	}
 }
 
-pub fn get_app(state: State) -> Router {
+fn get_app(state: State) -> Router {
 	fs::remove_dir_all(state.base_dir.trim_end_matches("/").to_string() + "/storage/cache/").ok();
 
 	let state = Arc::new(state);
@@ -99,7 +99,7 @@ mod tests {
 	};
 	use tower::ServiceExt;
 
-	pub async fn will_error_handler() -> Result<Response, error::Error> {
+	async fn will_error_handler() -> Result<Response, error::Error> {
 		let x: Result<String, _> = Err(anyhow!("test"));
 
 		let x = x?;

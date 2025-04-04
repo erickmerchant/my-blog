@@ -15,8 +15,8 @@ use std::sync::Arc;
 #[derive(Template)]
 #[template(path = "post.html")]
 struct View {
-	pub site: Site,
-	pub post: Post,
+	site: Site,
+	post: Post,
 }
 
 pub async fn post_handler(

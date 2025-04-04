@@ -1,10 +1,10 @@
-pub mod post;
-pub mod resume;
-pub mod site;
+mod post;
+mod resume;
+mod site;
 
-pub use post::Post;
-pub use resume::Resume;
-pub use site::Site;
+pub(super) use post::Post;
+pub(super) use resume::Resume;
+pub(super) use site::Site;
 
 #[derive(Clone)]
 pub struct Model {

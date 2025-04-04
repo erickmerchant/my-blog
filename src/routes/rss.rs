@@ -13,9 +13,9 @@ use std::sync::Arc;
 
 #[derive(Template)]
 #[template(path = "rss.xml")]
-pub struct View {
-	pub site: Site,
-	pub post_list: Vec<Post>,
+struct View {
+	site: Site,
+	post_list: Vec<Post>,
 }
 
 pub async fn rss_handler(State(state): State<Arc<state::State>>) -> Result<Response, error::Error> {

@@ -14,8 +14,8 @@ use std::sync::Arc;
 #[derive(Template)]
 #[template(path = "home.html")]
 struct View {
-	pub site: Site,
-	pub post_list: Vec<Post>,
+	site: Site,
+	post_list: Vec<Post>,
 }
 
 pub async fn home_handler(

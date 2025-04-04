@@ -9,8 +9,8 @@ use std::sync::Arc;
 
 #[derive(Template)]
 #[template(path = "not_found.html")]
-pub struct View {
-	pub site: Site,
+struct View {
+	site: Site,
 }
 
 pub async fn not_found_handler(

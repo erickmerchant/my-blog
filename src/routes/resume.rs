@@ -9,8 +9,8 @@ use std::sync::Arc;
 
 #[derive(Template)]
 #[template(path = "resume.html")]
-pub struct View {
-	pub resume: Resume,
+struct View {
+	resume: Resume,
 }
 
 pub async fn resume_handler(

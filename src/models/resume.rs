@@ -27,8 +27,8 @@ pub struct TimeLineItem {
 	pub bullets: String,
 }
 
-pub type ContactList = Vec<Contact>;
-pub type TimeLine = Vec<TimeLineItem>;
+type ContactList = Vec<Contact>;
+type TimeLine = Vec<TimeLineItem>;
 
 impl super::Model {
 	pub async fn resume(&self) -> Result<Resume> {
