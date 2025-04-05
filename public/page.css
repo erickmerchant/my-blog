@@ -62,10 +62,6 @@
 	h2 {
 		line-height: 1.25;
 		font-weight: 900;
-
-		:where(a) {
-			text-decoration-thickness: 0.15em;
-		}
 	}
 
 	h1 {
@@ -145,6 +141,8 @@
 	}
 
 	.nav-link {
+		text-decoration-thickness: 0.15em;
+
 		@container (inline-size > 44rem) {
 			padding: 0.125rem 1rem;
 		}
