@@ -36,20 +36,9 @@
 	}
 
 	a {
-		text-decoration-thickness: 0.1rem;
-		text-underline-offset: 0.15rem;
+		text-decoration-thickness: 0.1em;
+		text-underline-offset: 0.15em;
 		text-decoration-color: currentColor;
-		transition: text-underline-offset 0.25s 0.25s;
-
-		&:hover,
-		&:focus-visible {
-			outline: none;
-			text-underline-offset: 0.3rem;
-		}
-
-		&:focus-visible {
-			transition-delay: 0s;
-		}
 	}
 
 	p {
@@ -75,7 +64,7 @@
 		font-weight: 900;
 
 		:where(a) {
-			text-decoration-thickness: 0.15rem;
+			text-decoration-thickness: 0.15em;
 		}
 	}
 
@@ -104,7 +93,7 @@
 	del {
 		color: oklch(from currentColor l c h / 0.6);
 		text-decoration: line-through;
-		text-decoration-thickness: 0.5rem;
+		text-decoration-thickness: 0.5em;
 		text-decoration-color: oklch(from currentColor l c h / 0.4);
 	}
 
@@ -156,12 +145,9 @@
 	}
 
 	.nav-link {
-		display: grid;
-		padding: 0.125rem 1rem;
-		text-decoration: none;
-		position: relative;
-		background-color: oklch(from currentColor l c h / 0.2);
-		border-radius: 0.25rem;
+		@container (inline-size > 44rem) {
+			padding: 0.125rem 1rem;
+		}
 	}
 
 	.title-plus {
@@ -208,10 +194,6 @@
 
 	.footer-item {
 		display: grid;
-	}
-
-	.footer-link {
-		text-decoration-thickness: 0.125rem;
 	}
 
 	.rss-link {

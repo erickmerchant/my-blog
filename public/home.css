@@ -34,8 +34,4 @@
 				50cqi 0 var(--background);
 		}
 	}
-
-	.section-item :where(a) {
-		text-decoration-thickness: 0.125rem;
-	}
 }
