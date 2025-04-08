@@ -6,7 +6,7 @@ use std::fs::read_to_string;
 pub struct Resume {
 	pub name: String,
 	pub contacts: Option<ContactList>,
-	pub skills: String,
+	pub objective: String,
 	pub history: TimeLine,
 	pub education: TimeLine,
 }
@@ -20,11 +20,11 @@ pub struct Contact {
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct TimeLineItem {
 	pub title: String,
-	pub time: String,
+	pub time: (String, String),
+	pub tags: Option<Vec<String>>,
 	pub organization: Option<String>,
 	pub location: Option<String>,
-	pub summary: Option<String>,
-	pub bullets: String,
+	pub summary: String,
 }
 
 type ContactList = Vec<Contact>;

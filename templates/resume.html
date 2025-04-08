@@ -4,15 +4,18 @@
 	<ol>
 		{% for item in items %}
 		<li>
-			<h3>{{item.title}}</h3>
+			<h3 class="title">{{item.title}}</h3>
 			{% if let Some(organization) = item.organization %}
 			<div class="organization">{{organization}}</div>
 			{% endif %}
-			<span class="time">{{item.time}}</span>
+			<span class="time">{{item.time.0}} - {{item.time.1}}</span>
 			{% if let Some(location) = item.location %}
 			<div class="location">{{location}}</div>
 			{% endif %}
-			<div class="details">{{item.bullets|md_to_html|safe}}</div>
+			{% if let Some(tags) = item.tags %}
+			<ul class="tags">{% for tag in tags %}<li>{{tag}}</li>{% endfor %}</ul>
+			{% endif %}
+			<div class="summary">{{item.summary|md_to_html|safe}}</div>
 		</li>
 		{% endfor %}
 	</ol>
@@ -25,6 +28,8 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<title>Résumé</title>
+		<link rel="preconnect" href="https://fonts.bunny.net">
+		<link href="https://fonts.bunny.net/css?family=bitter:700|work-sans:400,400i,700" rel="stylesheet" />
 		<link href="/resume.css" rel="stylesheet" />
 		<meta name="description" content="My résumé" />
 	</head>
@@ -40,9 +45,8 @@
 				</ul>
 				{% endif %}
 			</header>
-			<section class="skills">
-				<h2>Skills</h2>
-				{{resume.skills|md_to_html|safe}}
+			<section class="objective">
+				{{resume.objective|md_to_html|safe}}
 			</section>
 			{% call timeline("Employment History", resume.history) %}
 			{% call timeline("Education", resume.education) %}
