@@ -1,4 +1,6 @@
-* {
+*,
+::before,
+::after {
 	box-sizing: border-box;
 	font: inherit;
 	margin: 0;
@@ -27,29 +29,28 @@ h2 {
 h3 {
 	font-size: 1.125rem;
 	font-weight: 700;
+
+	@container (inline-size <= 45rem) {
+		font-size: 1rem;
+	}
 }
 
 a {
-	color: oklch(from skyblue 50% c h);
+	color: oklch(from deepskyblue 50% c h);
 	text-underline-offset: 0.15rem;
 }
 
 ul,
-ol {
+li {
 	list-style: none;
 }
 
 :root {
-	background-color: var(--background-1);
-	block-size: 100%;
+	/* block-size: 100%; */
 	color: black;
 	font-family: "Work Sans", sans-serif;
 	font-weight: 400;
 	line-height: 1.25;
-
-	--background-1: white;
-	--background-2: oklch(from linen 80% c h / 0.1);
-	--background-3: oklch(from linen 80% c h / 0.3);
 
 	@media print {
 		font-size: 12px;
@@ -57,26 +58,23 @@ ol {
 }
 
 .page {
-	min-block-size: 100%;
+	/* min-block-size: 100%; */
 	display: grid;
 	justify-items: safe center;
+	max-inline-size: 100%;
 	container-type: inline-size;
 }
 
 .layout {
 	display: grid;
-	gap: 1rem;
+	gap: 2rem;
 	inline-size: 100%;
 	padding: 1rem;
 	grid-template-columns: min-content auto;
 
-	> :nth-child(1n + 2) {
-		padding-block-start: 1rem;
-	}
-
 	@container (inline-size > 45rem) {
 		display: grid;
-		place-content: start;
+		/* place-content: start; */
 	}
 
 	@media print {
@@ -93,6 +91,7 @@ ol {
 	white-space: nowrap;
 	display: grid;
 	gap: 0.5rem;
+	/* margin-block-start: 3rem; */
 
 	@container (inline-size > 45rem) {
 		grid-template-columns: 1fr auto;
@@ -113,113 +112,159 @@ ol {
 
 .objective {
 	grid-column: 1 / -1;
-	background: var(--background-2);
-	padding: 1rem;
 }
 
 .timeline {
 	display: grid;
+	grid-row: auto;
 	grid-column: 1 / -1;
 	grid-template-columns: subgrid;
-	gap: 1rem 2rem;
+	gap: 1rem;
+}
 
-	:where(h2) {
-		grid-column: 1 / -1;
+.timeline-header {
+	grid-column: 1 / -1;
+	display: grid;
+	grid-template-columns: min-content max-content auto;
+	gap: 0.25rem;
 
-		&:before {
-			content: "▋";
-			color: var(--background-3);
-		}
+	@container (inline-size <= 45rem) {
+		grid-template-columns: min-content auto;
 	}
 
-	:where(ol) {
-		display: grid;
-		grid-column: 1 / -1;
-		grid-template-columns: subgrid;
-		gap: 0.25rem 1rem;
+	&::before {
+		content: "▋";
+		color: oklch(from linen 70% c h / 0.5);
+	}
 
-		> * {
-			display: grid;
-			grid-template-columns: subgrid;
+	:where(.note) {
+		font-size: 1rem;
+		margin-inline-start: -0.25ex;
+		text-align: right;
+
+		@container (inline-size <= 45rem) {
+			grid-row: 2;
 			grid-column: 1 / -1;
-			padding: 1rem 0.5rem;
-			background-color: var(--background);
-			gap: 0.5rem 1rem;
-			break-inside: avoid;
-
-			--background: var(--background-1);
-			--tag-background: var(--background-2);
-
-			@container (inline-size > 45rem) {
-				grid-column: 1 / -1;
-				grid-template-rows: repeat(5, max-content) auto;
-			}
+			text-align: left;
 		}
 
-		> :where(:nth-child(odd)) {
-			border-radius: 0.2125rem;
-
-			--background: var(--background-2);
-			--tag-background: var(--background-1);
-		}
-
-		:where(h3) {
-			font-style: normal;
-			white-space: nowrap;
+		&::first-letter {
+			color: oklch(from linen 70% c h / 0.8);
 		}
 	}
 }
 
-.time {
-	grid-column: 1;
-	align-self: stretch;
+.timeline-items {
+	display: grid;
+	grid-column: 1 / -1;
+	grid-template-columns: subgrid;
+	gap: 1rem;
+
+	> * {
+		display: grid;
+		grid-template-columns: subgrid;
+		grid-column: 1 / -1;
+		gap: 0.5rem;
+		align-items: start;
+		align-content: start;
+		grid-template-areas:
+			"a ."
+			"c c";
+
+		@container (inline-size > 45rem) {
+			gap: 1rem;
+			grid-template-areas: "a c";
+		}
+
+		&:has(.tags) {
+			grid-template-areas:
+				"a b"
+				"c c";
+
+			@container (inline-size > 45rem) {
+				grid-template-areas:
+					"a c"
+					"b c"
+					". c";
+			}
+		}
+	}
+
+	> :nth-child(1n + 2) {
+		padding-block-start: 1rem;
+		background-image: linear-gradient(
+			oklch(from linen 70% c h / 0.5),
+			oklch(from linen 70% c h / 0.5)
+		);
+		background-position: top center;
+		background-size: calc(100% - 2rem) 1px;
+		background-repeat: no-repeat;
+	}
+}
+
+.details {
+	grid-area: a;
+	display: grid;
+}
+
+.title {
+	font-style: normal;
 	white-space: nowrap;
+
+	&:has(.note) {
+		&::first-letter {
+			margin-inline-start: -0.25ex;
+			color: oklch(from linen 70% c h / 0.8);
+		}
+	}
 }
 
 .organization {
-	grid-column: 1;
 	white-space: normal;
 }
 
+.dates {
+	white-space: nowrap;
+}
+
 .location {
-	grid-column: 1;
 	white-space: normal;
 	font-style: italic;
 }
 
 .tags {
 	white-space: normal;
-	list-style: none;
-	display: flex;
+	display: inline-flex;
 	flex-wrap: wrap;
 	gap: 0.5rem;
-	padding-block-start: 0;
-	align-content: start;
-	grid-column: 2;
-	grid-row: 1 / span 4;
+	grid-area: b;
 
-	@container (inline-size > 45rem) {
-		padding-block-start: 1rem;
-		grid-column: 1;
-		grid-row: auto;
+	@container (inline-size <= 45rem) {
+		align-self: self-start;
+		justify-self: center;
+		justify-content: center;
 	}
 
-	:where(li) {
-		background-color: var(--tag-background);
+	> * {
+		background-color: oklch(from linen 70% c h / 0.2);
 		padding: 0.125rem 0.5rem;
 		border-radius: 0.25rem;
 		font-size: 0.9rem;
+		white-space: nowrap;
+
+		@container (inline-size <= 45rem) {
+			font-size: 0.75rem;
+		}
 	}
 }
 
 .summary {
-	display: grid;
-	row-gap: 1em;
-	grid-column: 1 / -1;
+	grid-area: c;
 
-	@container (inline-size > 45rem) {
-		grid-column: 2;
-		grid-row: 1 / -1;
+	:where(li) {
+		list-style: disc;
+		list-style-position: outside;
+		margin-inline-start: 1rem;
 	}
 }
 

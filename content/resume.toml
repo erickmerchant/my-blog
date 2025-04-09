@@ -14,106 +14,124 @@ text = "erickmerchant.com"
 
 [[history]]
 title = "Open-source creator"
-time = ["May 2014", "present"]
+dates = ["May 2014", "present"]
 tags = ["Rust", "JavaScript", "CSS"]
 summary = """
-I have done a lot of open-source work. My current projects are [Handcraft](https://github.com/erickmerchant/handcraft) and [Coolstyleserver](https://github.com/erickmerchant/coolstyleserver).
-
-Handcraft is a front-end library for creating declarative UI with reactive state using a jQuery inspired API.
-
-Coolstyleserver is a development server that does live reloading for CSS for designing in the browser without the need of NPM.
+- Created [Handcraft](https://github.com/erickmerchant/handcraft), a front-end library for creating declarative UI with reactive state using a jQuery inspired API
+- Created [Cool Style Server](https://github.com/erickmerchant/coolstyleserver), a development server that does live-reloading for CSS for designing in the browser without the need of NPM
 """
 
-[[history]]
-title = "Freelance writer"
-time = ["Sept 2024", "present"]
-tags = ["Writing", "JavaScript", "CSS"]
-summary = """
-So far I've written an article about JavaScript loops for [CSS-Tricks](https://css-tricks.com/all-about-javascript-loops/). I plan to write more. I love to blog on my [personal site](https://erickmerchant.com/), but for now I'm mostly focused on paid writing.
-"""
+# [[history]]
+# title = "Freelance writer"
+# dates = ["Sept 2024", "present"]
+# tags = ["Writing", "JavaScript", "CSS"]
+# summary = """
+# So far I've written an article about JavaScript loops for [CSS-Tricks](https://css-tricks.com/all-about-javascript-loops/). I plan to write more. I love to blog on my [personal site](https://erickmerchant.com/), but for now I'm mostly focused on paid writing.
+# """
 
 [[history]]
 title = "Freelance engineer"
-organization = "Music App"
-time = ["Sept 2024", "Jan 2025"]
+organization = "Music studio"
+dates = ["Oct 2024", "Dec 2025"]
 location = "Los Angeles, CA"
-tags = ["Python", "React", "AI"]
+tags = ["Python", "React", "Next.js", "AI"]
 summary = """
-I can not tell too much about the app, but it has a Python (FastAPI) server, and a TypeScript server (Next.js), and I completed work that touches both. The app uses various AI services, so I gained some experience with that. I utilized SQLAlchemy to make the app stateful. Previously you could log in, but not save your work. I also did work with Supabase and Retool for some dashboards, and implemented an analytics system for it.
+- Worked on an application with a Python (FastAPI) service, and a TypeScript service (Next.js)
+- Created React components and worked with Redux and XState
+- Implemented search features that utilized AI services
+- Utilized SQLAlchemy to save application state per user and organization (managed by Clerk)
+- Worked with Supabase and Retool for rapid development of simple dashboards
+- Implemented a bespoke analytics system to gain insight into how the application was used
 """
 
 [[history]]
 title = "Senior Software Engineer"
-time = ["Oct 2021", "Mar 2024"]
+latest_full_time = true
+dates = ["Oct 2021", "Mar 2024"]
 organization = "WorkStep"
 location = "San Francisco, CA"
-tags = ["React", "Python"]
+tags = ["React", "Typescript", "GraphQL", "Python"]
 summary = """
-WorkStep is an employee listening platform where companies can hear from their workforce. Used mostly for supply chain jobs (warehouse workers and drivers). It is highly customized per company, but often allows upper management to better understand what is going wrong at facilities and regions. The application is Python and React, and the bulk of the work I did used both, and involved making charts, tables, and the forms where feedback was gathered.
-
-During my tenure here I established conventions for more maintainable CSS. I also improved build times by adopting SWC and doing other improvements which directly saved the company money and developers' sanity. I also was instrumental in adopting front-end testing, and wrote many of the initial tests, which then allowed us to migrate to TypeScript.
-
-We had a lot of junior devs and I did a lot of pair programming and mentoring with them.
+- Used Python and React to build out features for an employee listening platform targeted towards frontline workers
+- Made charts, tables, and the forms where feedback was gathered
+- Established conventions for more maintainable CSS
+- Improved build times by adopting SWC and doing other improvements which directly saved the company money and developers' sanity
+- Added front-end testing, and wrote many of the initial tests, which then allowed us to migrate to TypeScript
+- Worked on adopting GraphQL in a successful effort to scale the application
+- Did pair programming and one-on-one meetings with fellow engineers to facilitate problem solving (unblocking) and education
 """
 
 [[history]]
 title = "Senior Software Engineer"
-time = ["Aug 2019", "Oct 2021"]
+dates = ["Aug 2019", "Oct 2021"]
 organization = "Brightspot"
 location = "Reston, VA"
 tags = ["HTML", "CSS", "Web Components", "Java"]
 summary = """
-At Brightspot I developed HTML, CSS, and JavaScript for client websites, as well as worked with Java since their CMS is written in Java. They use web components, so I learned a lot about web components and have used them ever since. I often would help junior developers who mostly just knew Java with the the front-ends of their assigned sites.
-
-One of my focuses here was improving accessibility on several sites. We would get an audit and I'd fix all the problems it outlined.
-
-I worked on some really big sites here: [Sotheby's](https://www.sothebys.com/en/), [BCG](https://www.bcg.com/), [Special Olympics](https://www.specialolympics.org/), and some small Amazon sites, as well as many others.
+- Developed HTML, CSS, and JavaScript for client websites
+- Worked with Java to tailor their proprietary CMS to the requirements of each project
+- Learned a lot about web components and have used them ever since
+- Helped junior developers who mostly just knew Java with the the front-ends of their assigned sites
+- Improving accessibility on several sites by fixing issues flagged in audits
 """
 
 [[history]]
 title = "Senior Developer"
-time = ["May 2012", "Jul 2019"]
+dates = ["May 2012", "Jul 2019"]
 organization = "Adpearance"
 location = "Portland, OR"
 tags = ["HTML", "CSS", "JavaScript", "Vue", "PHP", "Node.js", "Java"]
 summary = """
-The bulk of my experience was at Adpearance, so it's hard to summarize exactly what I did here. When I started I was one of only three engineers. When I left it was a company with several engineering teams, two product, one maintenance, and one project focused, and I was a part of all of that growth.
-
-When I started I did a lot of LAMP stack work. My skills with PHP were expert level. We used ExpressionEngine as a CMS mostly and I built countless sites in it, writing plugins, developing templates, etc. I drove the adoption of Composer for dependency management, and really elevated the PHP usage.
-
-Later I took on more of a front-end JavaScript sort of role, since I was the only person that wanted to write JS, and I had a lot of skill in that as well. I was tasked with creating the admin for our proprietary Java (Spring Boot) CMS we were developing. Together with one other engineer we built the CMS in about four months and it was a success allowing Adpearance to break into new markets, namely large equipment sites like John Deere dealerships for example. I worked extensively with Node.js, Vue, and browserify.
-
-During my time here I drove the adoption of git. It was actually very difficult to get the company to adopt version control (git), which seems unbelievable now. During my time there I also wrote web-scrapers, and countless build tools, dashboards, and internal tools. And always I was mentoring others in how to write good PHP, JavaScript, and CSS.
-
-This job ended when I moved from Oregon to Virginia. They since were acquired.
+- Started as one of three developers and helped grow the company into several engineering teams: two product, one maintenance, and one project focused
+- Used my expert level skills with PHP to develop client sites (ecommerce focused)
+- Wrote plugins and authored templates for use in our ExpressionEngine sites
+- Drove the adoption of Composer for dependency management
+- Created a role as a front-end JavaScript engineer before that was a widespread career path
+- Created the admin for their proprietary Java (Spring Boot) CMS called Foursite using jQuery and Node.js and later Vue
+- Worked with one other engineer to successful develop the CMS, allowing Adpearance to break into new markets, namely large equipment sites like John Deere dealerships for example
+- Later for about 5 years, I was the unofficial lead of a team devoted solely to the development of the CMS as a product
+- Drove the adoption of git, moving the company away from risky and frustrating ftp practices
+- Wrote web-scrapers (using PHP and later Node.js) to migrate content from one system into another
+- Authored many build tools in Node.js such as the tool that managed our Java projects. The IDE was too slow so I wrote something much faster
+- Created Dashboards, and internal tools for direct marketing teams and others
+- Mentored others in how to write good PHP, fast JavaScript, and manageable CSS
 """
 
 [[history]]
 title = "Developer"
-time = ["Jun 2006", "May 2012"]
+dates = ["Jun 2006", "May 2012"]
 organization = "NetBiz, Inc."
 location = "Tualatin, OR"
 tags = ["HTML", "CSS", "JavScript", "PHP"]
 summary = """
-Where my career started. NetBiz was a digital services company that mostly placed people on Google and other search engines. A lot of that changed over the years, but I worked on the websites that were mostly given away to customers when they signed on for other services. In the late 00s if you were a real-estate agent there was a very good chance you had a NetBiz site, or they had called you.
-
-I developed things using the LAMP stack. So I wrote a lot of PHP, but I also had a focus on JQuery and CSS. I worked on internal dashboards as well, and worked on their proprietary CMS. I was tasked with building the company's site, which was probably the biggest honor, because it meant they had a lot of confidence in my front-end skills.
+- Developed software using the LAMP stack
+- Wrote Flash applications
+- Took PDFs from designers and created pixel for pixel perfect templates in HTML and CSS from them
+- Introduced Ajax and used it to accomplish things on sites that had not yet ever been done at the company
+- Introduced the company to jQuery and became an expert in its usage
+- Worked on internal dashboards as well, and worked on their proprietary CMS
+- Built the company's site which was obviously a big honor and responsibility
 """
 
 [[education]]
 title = "A.A.S., Web Design"
-time = ["January 2005", "May 2006"]
+dates = ["January 2005", "May 2006"]
 organization = "Tompkins-Cortland Community College"
 location = "Dryden, NY"
 summary = """
-I graduated with a 4.0 GPA. I studied web technologies, programming, and design. This program gave me a significant headstart in my career, because I was typically the only one that had had courses on JavaScript, CSS, and PHP at most jobs for many years.
+- Graduated with a 4.0 GPA
+- Studied web technologies, programming, and design
+- Gained a significant headstart in my career, because I was typically the only one that had had courses on JavaScript, CSS, and PHP at most jobs for many years
 """
 
 [[education]]
 title = "B.A., Anthropology"
-time = ["September 1997", "May 2002"]
+dates = ["September 1997", "May 2002"]
 organization = "University at Albany"
 location = "Albany, NY"
 summary = """
-I majored in Anthropology with a focus in linguistics.
+- Majored in Anthropology with a focus in linguistics
+- Studied English literature
+- Studied Greek, Roman, and Egyptian history extensively
+- Did my work study program assisting an anthro professor with editing of his publications and cataloging of artifacts
 """

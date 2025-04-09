@@ -17,10 +17,12 @@ pub struct Contact {
 	pub text: String,
 }
 
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Clone, Debug, Default, Serialize, Deserialize)]
 pub struct TimeLineItem {
 	pub title: String,
-	pub time: (String, String),
+	#[serde(default)]
+	pub latest_full_time: bool,
+	pub dates: (String, String),
 	pub tags: Option<Vec<String>>,
 	pub organization: Option<String>,
 	pub location: Option<String>,
