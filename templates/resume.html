@@ -36,7 +36,7 @@
 		<meta name="description" content="My résumé" />
 	</head>
 	<body class="page">
-		<article class="layout">
+		<div class="layout">
 			<header class="header">
 				<h1>{{resume.name}}</h1>
 				{% if let Some(contacts) = resume.contacts %}
@@ -55,6 +55,6 @@
 			<section class="references">
 				<p>References available upon request</p>
 			</section>
-		</article>
+		</div>
 	</body>
 </html>

@@ -27,8 +27,8 @@
 		overscroll-behavior: none;
 		scrollbar-color: currentColor var(--background);
 
-		--background: light-dark(oklch(90% 0.0125 100), oklch(10% 0.0125 100));
-		--foreground: light-dark(oklch(10% 0.05 100), oklch(90% 0.05 100));
+		--background: light-dark(oklch(100% 0.05 100), oklch(30% 0.05 200));
+		--foreground: light-dark(oklch(30% none none), oklch(100% none none));
 	}
 
 	body {
