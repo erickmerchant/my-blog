@@ -72,16 +72,11 @@ li {
 	grid-template-columns: min-content auto;
 
 	@media screen {
-		padding: 1rem;
 		max-inline-size: 50rem;
 	}
 
 	> * {
 		padding-inline: 1rem;
-
-		@media print {
-			padding: 0;
-		}
 	}
 
 	> :nth-child(even) {
