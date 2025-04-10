@@ -71,10 +71,6 @@ li {
 	inline-size: 100%;
 	grid-template-columns: min-content auto;
 
-	@container (inline-size > 45rem) {
-		display: grid;
-	}
-
 	@media screen {
 		padding: 1rem;
 		max-inline-size: 50rem;
