@@ -33,7 +33,6 @@ pub async fn html_layer(
 		Utf8Path::new(&state.base_dir).join("storage/cache/".to_string() + path.as_str());
 	let body = fs::read(&cache_path).ok();
 	let if_none_match = headers.get(header::IF_NONE_MATCH);
-
 	let body = if let Some(body) = body {
 		body
 	} else {
@@ -49,7 +48,6 @@ pub async fn html_layer(
 			url: Url::parse("https://0.0.0.0")?.join(path.as_str())?,
 			base_dir: state.base_dir.to_owned(),
 		};
-
 		let body = if state.rewrite_assets {
 			rewriter.rewrite(&body)?
 		} else {
@@ -64,7 +62,6 @@ pub async fn html_layer(
 
 		body
 	};
-
 	let etag = EntityTag::from_data(&body).to_string();
 
 	if if_none_match.is_some_and(|if_none_match| etag == *if_none_match) {

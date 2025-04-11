@@ -53,12 +53,10 @@ fn get_app(state: State) -> Router {
 	fs::remove_dir_all(state.base_dir.trim_end_matches("/").to_string() + "/storage/cache/").ok();
 
 	let state = Arc::new(state);
-
 	let mut router = Router::new()
 		.route("/", get(home::home_handler))
 		.route("/resume/", get(resume::resume_handler))
 		.route("/posts/{slug}/", get(post::post_handler));
-
 	let public_path = state.base_dir.trim_end_matches("/").to_owned() + "/public";
 	let public_path = public_path.trim_start_matches("./");
 	let public_htmls = glob((public_path.to_owned() + "/**/*.html").as_str()).ok();
@@ -101,7 +99,6 @@ mod tests {
 
 	async fn will_error_handler() -> Result<Response, error::Error> {
 		let x: Result<String, _> = Err(anyhow!("test"));
-
 		let x = x?;
 
 		Ok(x.into_response())
@@ -113,7 +110,6 @@ mod tests {
 			rewrite_assets: true,
 			model: Model::new("fixtures".to_string()),
 		};
-
 		let app = get_app(state);
 
 		app.route("/will-error", get(will_error_handler))
