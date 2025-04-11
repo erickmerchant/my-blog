@@ -11,7 +11,7 @@ This one I feel is important for async programming. JavaScript is nearly all asy
 
 - What is specificity and how do you approach managing it?
 
-I feel like the biggest challenge with CSS and scaling it is specificity. There are a lot of ways to address this like atomic css or BEM. If you're writing CSS you probably have an opinion.
+I feel like the biggest challenge with CSS and scaling it is specificity. There are a few ways to address this like atomic CSS or BEM. If you're writing CSS you probably have an opinion.
 
 - What is a memory leak and an example of how one can occur?
 
@@ -31,8 +31,8 @@ Are they going to create basic accessibility mistakes. I'm not an accessibility 
 
 - How do you measure and optimize for performance?
 
-The answer is Ligthouse. If it's something else I feel like they probably know a lot here.
+The answer is Ligthouse. If it's something else I feel like they probably are an expert here.
 
 - What is color contrast?
 
-Another basic accessibility thing that touches on design too. Accessibility is in such a poor state on the web that it's worth it to throw in a lot of questions about it.
+Another basic accessibility thing that touches on design too. Accessibility is in such a poor state on the web that it's worth it to throw in a few questions about it.

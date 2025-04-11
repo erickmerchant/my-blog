@@ -14,7 +14,7 @@ Sometimes you'll want to actually use `return` in your code to make it more read
 
 ## The Ugly
 
-This is the worst option. Note all the else blocks all resulting in `url`. That's a lot of repetition, and nesting, and any programmer I think would not be happy with this.
+This is the worst option. Note all the else blocks all resulting in `url`. That's a great deal of repetition, and nesting, and any programmer I think would not be happy with this.
 
 ``` rs
 use camino::Utf8Path;

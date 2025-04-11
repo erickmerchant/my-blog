@@ -5,7 +5,7 @@ date_published = "2022-03-07"
 
 ## Why Rust
 
-Recently I rebuilt this site to use [Rust](https://www.rust-lang.org/) on the server side, because I'm really into Rust now. There are a lot of great things about Rust — safety, expressiveness, versatility, etc. — that others can explain better than me, but I started learning it in 2020, because I initially wanted to use WebAssembly, so Rust was a natural choice. I ended up not doing too much with Web Assembly, but by 2021 I was having a lot of fun with Rust. I loved programming in it.
+Recently I rebuilt this site to use [Rust](https://www.rust-lang.org/) on the server side, because I'm really into Rust now. There are great things about Rust — safety, expressiveness, versatility, etc. — that others can explain better than me, but I started learning it in 2020, because I initially wanted to use WebAssembly, so Rust was a natural choice. I ended up not doing too much with Web Assembly, but by 2021 I was having frequent fun with Rust. I loved programming in it.
 
 ## Actix
 
