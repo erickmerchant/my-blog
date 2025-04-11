@@ -63,6 +63,7 @@ li {
 	justify-items: safe center;
 	max-inline-size: 100%;
 	container-type: inline-size;
+	padding-block: 1rem;
 }
 
 .layout {
