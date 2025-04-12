@@ -63,7 +63,6 @@ li {
 	justify-items: safe center;
 	max-inline-size: 100%;
 	container-type: inline-size;
-	padding-block: 1rem;
 }
 
 .layout {
@@ -71,6 +70,11 @@ li {
 	gap: 1rem;
 	inline-size: 100%;
 	grid-template-columns: min-content auto;
+	padding-block: 1rem;
+
+	@media print {
+		padding-block: 0;
+	}
 
 	@media screen {
 		max-inline-size: 50rem;
