@@ -21,12 +21,12 @@ struct View {
 pub async fn rss_handler(State(state): State<Arc<state::State>>) -> Result<Response, error::Error> {
 	let post_list = state.model.all_posts().await;
 	let site = state.model.site().await?;
-	let html = View { site, post_list }.render()?;
+	let body = View { site, post_list }.render()?;
 
 	Ok((
 		StatusCode::OK,
 		[(header::CONTENT_TYPE, "application/rss+xml")],
-		html,
+		body,
 	)
 		.into_response())
 }
