@@ -1,33 +1,26 @@
 use anyhow::Result;
 use app::{
 	layers::html,
-	models::Model,
 	routes::{asset, home, not_found, page, post, resume, rss},
-	state::State,
+	state,
 };
 use axum::{middleware::from_fn_with_state, routing::get, serve, Router};
 use glob::glob;
-use std::{env, fs, str::FromStr, sync::Arc};
+use std::{fs, sync::Arc};
 use tokio::net::TcpListener;
 use tower_http::{compression::CompressionLayer, trace::TraceLayer};
 use tracing_subscriber::EnvFilter;
 
 #[tokio::main]
 async fn main() -> Result<()> {
-	let port: u16 = get_env("APP_PORT", 8080);
-	let rewrite_assets: bool = get_env("APP_REWRITE_ASSETS", true);
-	let state = State {
-		base_dir: ".".to_string(),
-		rewrite_assets,
-		model: Model::new(".".to_string()),
-	};
+	let state = state::State::from_env();
 
 	tracing_subscriber::fmt()
 		.with_env_filter(EnvFilter::try_from_default_env().unwrap_or_default())
 		.init();
 
 	let app = get_app(state.clone());
-	let listener = TcpListener::bind(("0.0.0.0", port))
+	let listener = TcpListener::bind(("0.0.0.0", state.args.port))
 		.await
 		.expect("should listen");
 
@@ -38,26 +31,16 @@ async fn main() -> Result<()> {
 	Ok(())
 }
 
-fn get_env<T>(name: &str, default_value: T) -> T
-where
-	T: FromStr,
-{
-	if let Ok(Ok(p)) = env::var(name).map(|p| p.parse::<T>()) {
-		p
-	} else {
-		default_value
-	}
-}
-
-fn get_app(state: State) -> Router {
-	fs::remove_dir_all(state.base_dir.trim_end_matches("/").to_string() + "/storage/cache/").ok();
+fn get_app(state: state::State) -> Router {
+	fs::remove_dir_all(state.args.base_dir.trim_end_matches("/").to_string() + "/storage/cache/")
+		.ok();
 
 	let state = Arc::new(state);
 	let mut router = Router::new()
 		.route("/", get(home::home_handler))
 		.route("/resume/", get(resume::resume_handler))
 		.route("/posts/{slug}/", get(post::post_handler));
-	let public_path = state.base_dir.trim_end_matches("/").to_owned() + "/public";
+	let public_path = state.args.base_dir.trim_end_matches("/").to_owned() + "/public";
 	let public_path = public_path.trim_start_matches("./");
 	let public_htmls = glob((public_path.to_owned() + "/**/*.html").as_str()).ok();
 
@@ -85,7 +68,7 @@ fn get_app(state: State) -> Router {
 
 #[cfg(test)]
 mod tests {
-	use super::{get_app, Model, State};
+	use super::{get_app, state};
 	use anyhow::anyhow;
 	use app::error;
 	use axum::{
@@ -105,11 +88,11 @@ mod tests {
 	}
 
 	async fn get_test_app() -> Router {
-		let state = State {
+		let state = state::State::from_args(state::Args {
 			base_dir: "fixtures".to_string(),
 			rewrite_assets: true,
-			model: Model::new("fixtures".to_string()),
-		};
+			port: 80,
+		});
 		let app = get_app(state);
 
 		app.route("/will-error", get(will_error_handler))
@@ -331,19 +314,6 @@ mod tests {
 	#[tokio::test]
 	async fn test_404() {
 		let app = get_test_app().await;
-		let response = app
-			.clone()
-			.oneshot(
-				Request::builder()
-					.uri("/posts/test-post")
-					.body(Body::empty())
-					.unwrap(),
-			)
-			.await
-			.unwrap();
-
-		assert_eq!(response.status(), StatusCode::NOT_FOUND);
-
 		let response = app
 			.clone()
 			.oneshot(

@@ -33,7 +33,7 @@ pub async fn asset_handler(
 
 	if let (Some(content_type), Ok(body)) = (
 		content_type,
-		fs::read(Utf8Path::new(&state.base_dir).join("public/".to_string() + path.as_str())),
+		fs::read(Utf8Path::new(&state.args.base_dir).join("public/".to_string() + path.as_str())),
 	) {
 		return Ok((
 			StatusCode::OK,

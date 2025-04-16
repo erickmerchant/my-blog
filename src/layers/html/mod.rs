@@ -30,7 +30,7 @@ pub async fn html_layer(
 	}
 
 	let cache_path =
-		Utf8Path::new(&state.base_dir).join("storage/cache/".to_string() + path.as_str());
+		Utf8Path::new(&state.args.base_dir).join("storage/cache/".to_string() + path.as_str());
 	let body = fs::read(&cache_path).ok();
 	let if_none_match = headers.get(header::IF_NONE_MATCH);
 	let body = if let Some(body) = body {
@@ -46,9 +46,9 @@ pub async fn html_layer(
 		let body = to_bytes(body, usize::MAX).await?;
 		let rewriter = Rewriter {
 			url: Url::parse("https://0.0.0.0")?.join(path.as_str())?,
-			base_dir: state.base_dir.to_owned(),
+			base_dir: state.args.base_dir.to_owned(),
 		};
-		let body = if state.rewrite_assets {
+		let body = if state.args.rewrite_assets {
 			rewriter.rewrite(&body)?
 		} else {
 			body.to_vec()
