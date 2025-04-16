@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% import "status.html" as status %}
 
 {% block head %}
 	<link rel="stylesheet" href="/home.css" />
@@ -16,9 +15,8 @@
 			<ol class="section-list">
 				{% for e in post_list %}
 					{% if let Some(slug) = e.slug %}
-						<li class="title-plus section-item">
-							<a href="/posts/{{slug}}/">{{e.title}}</a>
-							{% call status::text(e) %}
+						<li class="section-item">
+							<a class="title" href="/posts/{{slug}}/">{{e.title}}</a>
 						</li>
 					{% endif %}
 				{% endfor %}
@@ -32,8 +30,8 @@
 			<p>Some open-source projects.</p>
 			<ul class="section-list">
 				{% for p in site.projects %}
-					<li class="title-plus section-item">
-						<a href="{{p.href}}">{{p.title}}</a>
+					<li class="section-item">
+						<a class="title" href="{{p.href}}">{{p.title}}</a>
 						{{p.description|md_to_html|safe}}
 					</li>
 				{% endfor %}

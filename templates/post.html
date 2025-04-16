@@ -1,7 +1,5 @@
 {% extends "base.html" %}
 
-{% import "status.html" as status %}
-
 {% block title%}
 	{% call super() %} — {{post.title}}
 {% endblock %}
@@ -19,9 +17,13 @@
 
 {% block main %}
 	<article class="article">
-		<header class="title-plus">
+		<header>
 			<h1>{{post.title}}</h1>
-			{% call status::text(post) %}
+			{% if let Some(date) = post.date_published %}
+				<time class="status">{{date.format("%Y-%m-%d")}}</time>
+			{% else %}
+				<span class="status">Draft</span>
+			{% endif %}
 		</header>
 
 		{% if let Some(content) = post.content %} {{content|md_to_html|safe}} {% endif %}

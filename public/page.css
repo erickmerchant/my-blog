@@ -156,25 +156,6 @@
 		}
 	}
 
-	.title-plus {
-		display: grid;
-		grid-template-columns: 1fr;
-		align-items: baseline;
-		column-gap: 0.5rem;
-		row-gap: 0.125rem;
-		font-weight: 700;
-	}
-
-	.status {
-		font-weight: 300;
-		font-size: 0.8rem;
-	}
-
-	.title-plus :where(p) {
-		font-weight: 300;
-		grid-column: 1 / -1;
-	}
-
 	.footer {
 		display: grid;
 		grid-column: 2 / -2;

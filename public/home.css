@@ -21,4 +21,12 @@
 		border-radius: 0.25rem;
 		padding-inline: 1rem;
 	}
+
+	.title {
+		font-weight: 500;
+	}
+
+	.title + * {
+		font-weight: 300;
+	}
 }

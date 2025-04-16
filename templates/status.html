@@ -1,7 +1,0 @@
-{%- macro text(post) %}
-	{% if let Some(date) = post.date_published %}
-		<time class="status">{{date.format("%Y-%m-%d")}}</time>
-	{% else %}
-		<span class="status">Draft</span>
-	{% endif %}
-{% endmacro -%}

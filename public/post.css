@@ -1,4 +1,9 @@
 @layer sub-page {
+	.status {
+		font-weight: 300;
+		font-size: 0.8rem;
+	}
+
 	code {
 		font-family:
 			ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas,
