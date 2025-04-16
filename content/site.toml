@@ -20,23 +20,9 @@ description = """
 A front-end framework using a fluent interface for creating reactive UI.
 """
 
-# [[projects]]
-# href = "/projects/icons/"
-# title = "Icons"
-# description = """
-# A collection of icons I hand-code to use on this site and on other projects. The app is written in Handcraft.
-# """
-
 [[projects]]
 href = "/projects/memory/"
 title = "Memory"
 description = """
 A game I made for my daughter to play when she wants to see my phone. The app is written in Handcraft. Halloween version [here](/projects/memory/halloween.html)
-"""
-
-[[projects]]
-href = "/projects/mine-sweeper/"
-title = "Mine-Sweeper"
-description = """
-A minesweeper clone written in Handcraft.
 """
