@@ -20,12 +20,12 @@ description = """
 A front-end framework using a fluent interface for creating reactive UI.
 """
 
-[[projects]]
-href = "/projects/icons/"
-title = "Icons"
-description = """
-A collection of icons I hand-code to use on this site and on other projects. The app is written in Handcraft.
-"""
+# [[projects]]
+# href = "/projects/icons/"
+# title = "Icons"
+# description = """
+# A collection of icons I hand-code to use on this site and on other projects. The app is written in Handcraft.
+# """
 
 [[projects]]
 href = "/projects/memory/"
