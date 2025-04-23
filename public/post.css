@@ -102,8 +102,11 @@
 			oklch(from var(--background) calc(l - 0.05) c h);
 		overflow-wrap: anywhere;
 		hyphens: auto;
-		max-inline-size: calc(100% - 1rem);
 		justify-self: start;
+
+		@container (inline-size < 45rem) {
+			max-inline-size: calc(100% - 1rem);
+		}
 
 		> :where(:not(:last-child)) {
 			margin-block-end: 1rem;

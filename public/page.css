@@ -44,7 +44,7 @@
 	p {
 		text-wrap: pretty;
 
-		@container (inline-size <= 44rem) {
+		@container (inline-size <= 45rem) {
 			hyphens: auto;
 		}
 	}
