@@ -1,6 +1,9 @@
 use pulldown_cmark::{html, CodeBlockKind, CowStr, Event, Options, Parser, Tag, TagEnd};
 
-pub fn md_to_html<T: std::fmt::Display>(contents: T) -> askama::Result<String> {
+pub fn md_to_html<T: std::fmt::Display>(
+	contents: T,
+	_: &dyn askama::Values,
+) -> askama::Result<String> {
 	let contents = contents.to_string();
 	let mut options = Options::empty();
 
