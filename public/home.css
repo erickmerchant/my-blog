@@ -1,25 +1,17 @@
 @layer sub-page {
 	.section {
 		display: grid;
-		grid-template-columns: subgrid;
-		grid-column: 2 / -2;
 		row-gap: 0.5rem;
-
-		> * {
-			grid-column: 2;
-		}
 	}
 
 	.section-list {
 		display: grid;
-		grid-column: 1 / -1;
 		list-style: none;
 		row-gap: 0.5rem;
 	}
 
 	.section-item {
 		border-radius: 0.25rem;
-		padding-inline: 1rem;
 	}
 
 	.title {

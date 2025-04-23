@@ -1,14 +1,12 @@
 @layer sub-page {
-	.status {
-		font-weight: 300;
-		font-size: 0.8rem;
-	}
-
-	code {
+	:where(:not(pre)) > code {
 		font-family:
 			ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas,
 			"DejaVu Sans Mono", monospace;
 		font-size: 0.85rem;
+		background-color: oklch(from currentColor l c h / 0.05);
+		padding: 0.075rem 0.25rem;
+		border-radius: 0.125rem;
 
 		/* Arc iOS bug fix */
 		:where(a) {
@@ -26,7 +24,6 @@
 		overflow-y: hidden;
 		overscroll-behavior-x: none;
 		tab-size: 2;
-		grid-column: 1 / -1 !important;
 		display: grid;
 		grid-template-columns: 1rem auto;
 		position: relative;
@@ -36,6 +33,10 @@
 
 		@supports (x: attr(x type(*))) {
 			--white-space: pre-line;
+		}
+
+		@container (inline-size <= 44rem) {
+			--column: 1 / -1;
 		}
 
 		:where(code) {
@@ -95,27 +96,24 @@
 		}
 	}
 
+	.status {
+		font-weight: 300;
+		font-size: 0.8rem;
+	}
+
 	.article {
 		display: grid;
+		grid-column: 1 / -1;
 		grid-template-columns: subgrid;
 		align-content: start;
 		row-gap: 1rem;
 		overflow-wrap: break-word;
 		z-index: 1;
-		grid-column: 2 / -2;
 
 		> * {
 			inline-size: 100%;
 			margin-inline: auto;
-			grid-column: 2;
-		}
-
-		@container (inline-size <= 44rem) {
-			grid-column: 1 / -1;
-
-			> * {
-				grid-column: 3;
-			}
+			grid-column: var(--column, 2);
 		}
 
 		:where(ul, ol) {
@@ -129,19 +127,15 @@
 			}
 		}
 
-		:where(:not(pre)) > :where(code) {
-			background-color: oklch(from currentColor l c h / 0.05);
-			padding: 0.075rem 0.25rem;
-			border-radius: 0.125rem;
-		}
-
 		:where(blockquote) {
-			padding-inline: 1rem;
 			border-radius: 0.125rem;
 			padding: 1rem;
 			border: 0.0625rem solid oklch(from var(--foreground) l c h / 0.4);
 			box-shadow: 0.5rem 0.5rem 0 0
 				oklch(from var(--background) calc(l - 0.05) c h);
+			max-inline-size: 100%;
+			overflow-wrap: anywhere;
+			hyphens: auto;
 
 			> :where(:not(:last-child)) {
 				margin-block-end: 1rem;
