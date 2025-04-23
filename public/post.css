@@ -103,6 +103,8 @@
 		overflow-wrap: anywhere;
 		hyphens: auto;
 		justify-self: start;
+		position: relative;
+		inset: -0.5rem -0.5rem;
 
 		@container (inline-size < 45rem) {
 			max-inline-size: calc(100% - 1rem);
