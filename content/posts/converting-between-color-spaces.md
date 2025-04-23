@@ -17,66 +17,66 @@ So you can look at his CodePen and my [fork](https://codepen.io/erickmerchant/pe
 
 Let me highlight the relevant bits of js.
 
-``` js
-import { LitElement, css } from "https://esm.sh/lit";
+```js
+import {LitElement, css} from "https://esm.sh/lit";
 
 export class ColorInput extends LitElement {
-  static {
-  	// This is important so that the value that we later set is cast to an actual color and not just stored as a string.
-    window.CSS.registerProperty({
-      name: "--color-input-value",
-      syntax: "<color>",
-      inherits: false,
-      initialValue: "#000000"
-    });
-  }
+	static {
+		// This is important so that the value that we later set is cast to an actual color and not just stored as a string.
+		window.CSS.registerProperty({
+			name: "--color-input-value",
+			syntax: "<color>",
+			inherits: false,
+			initialValue: "#000000",
+		});
+	}
 
-  createRenderRoot() {
-    return this;
-  }
+	createRenderRoot() {
+		return this;
+	}
 
-  connectedCallback() {
-    super.connectedCallback();
+	connectedCallback() {
+		super.connectedCallback();
 
-    const label = this.querySelector("label");
-    const colorInput = this.querySelector("input");
-    const textInput = document.createElement("input");
+		const label = this.querySelector("label");
+		const colorInput = this.querySelector("input");
+		const textInput = document.createElement("input");
 
-    label.insertAdjacentElement("afterend", textInput);
+		label.insertAdjacentElement("afterend", textInput);
 
-    colorInput.addEventListener("input", () => {
-      textInput.value = colorInput.value;
-    });
+		colorInput.addEventListener("input", () => {
+			textInput.value = colorInput.value;
+		});
 
-    textInput.addEventListener("input", () => {
-    	// This takes a string that is the input's value, and uses the color function in css to say take this value and convert it into srgb.
-      textInput.style.setProperty(
-        "--color-input-value",
-        `color(from ${textInput.value} srgb r g b)`
-      );
+		textInput.addEventListener("input", () => {
+			// This takes a string that is the input's value, and uses the color function in css to say take this value and convert it into srgb.
+			textInput.style.setProperty(
+				"--color-input-value",
+				`color(from ${textInput.value} srgb r g b)`
+			);
 
-      const style = window.getComputedStyle(textInput);
-      const value = style.getPropertyValue("--color-input-value");
+			const style = window.getComputedStyle(textInput);
+			const value = style.getPropertyValue("--color-input-value");
 
-      // Now we have an rgb color. But it's not a hex and color inputs use hex, so now we have to grab the first three numbers out of that with a regex match — only three because color inputs don't support opacity —  and use that to produce a hex value.
-      const numbers = value.match(/[0-9\.]+/g);
+			// Now we have an rgb color. But it's not a hex and color inputs use hex, so now we have to grab the first three numbers out of that with a regex match — only three because color inputs don't support opacity — and use that to produce a hex value.
+			const numbers = value.match(/[0-9\.]+/g);
 
-      colorInput.value = `#${numbers
-        .slice(0, 3)
-        .map((n) =>
-          Math.floor(Number(n) * 255)
-            .toString(16)
-            .padStart(2, "0")
-        )
-        .join("")}`;
-    });
-  }
+			colorInput.value = `#${numbers
+				.slice(0, 3)
+				.map((n) =>
+					Math.floor(Number(n) * 255)
+						.toString(16)
+						.padStart(2, "0")
+				)
+				.join("")}`;
+		});
+	}
 }
 customElements.define("color-input", ColorInput);
 ```
 
 - We register a custom property `--color-input-value` with `window.CSS.registerProperty`. This is important so that the value that we later set is cast to an actual color and not just stored as a string.
 - Then when the input changes we set the custom property on an element. I used the input, but it doesn't matter where really. We set it to `color(from ${textInput.value} srgb r g b)`. This takes a string that is the input's value, and uses the `color` function in css to say take this value and convert it into srgb.
-- Now we have an rgb color. But it's not a hex and color inputs use hex, so now we have to grab the first three numbers out of that with a regex match — only three because color inputs don't support opacity —  and use that to produce a hex value. I did not test this cross browser and I suspect that if there is anywhere it might fail even in browsers that support custom properties, it might be this step. I could imagine a browser stringifying an rgb as a hex instead of the `rgb` functional notation. Why wouldn't they? Hex values are older than that notation.
+- Now we have an rgb color. But it's not a hex and color inputs use hex, so now we have to grab the first three numbers out of that with a regex match — only three because color inputs don't support opacity — and use that to produce a hex value. I did not test this cross browser and I suspect that if there is anywhere it might fail even in browsers that support custom properties, it might be this step. I could imagine a browser stringifying an rgb as a hex instead of the `rgb` functional notation. Why wouldn't they? Hex values are older than that notation.
 
 Custom properties, and the newish `color` function are really powerful, and when you use css and js together you can do cool things.

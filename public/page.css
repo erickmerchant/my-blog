@@ -106,7 +106,7 @@
 		color: var(--foreground);
 		container-type: inline-size;
 		display: grid;
-		grid-template-columns: auto 1rem min(100% - 2rem, 40rem) 1rem auto;
+		grid-template-columns: auto 1.5rem min(100% - 2rem, 40rem) 1.5rem auto;
 		grid-template-rows: min-content auto min-content;
 		row-gap: 1rem;
 

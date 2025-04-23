@@ -9,14 +9,13 @@ pub fn md_to_html<T: std::fmt::Display>(contents: T) -> askama::Result<String> {
 	let parser = Parser::new_ext(contents.as_str(), options);
 	let mut events = Vec::new();
 	let mut code_block_text = None;
-	let mut lang = String::default();
 
 	for event in parser {
 		match event {
 			Event::Start(Tag::CodeBlock(l)) => {
-				(code_block_text, lang) = match l {
-					CodeBlockKind::Fenced(lang) => (Some(String::new()), lang.to_string()),
-					_ => (None, String::default()),
+				code_block_text = match l {
+					CodeBlockKind::Fenced(_) => Some(String::new()),
+					_ => None,
 				};
 			}
 			Event::End(TagEnd::CodeBlock) => {
@@ -25,21 +24,23 @@ pub fn md_to_html<T: std::fmt::Display>(contents: T) -> askama::Result<String> {
 					let inner_html = text;
 
 					for line in inner_html.trim().lines() {
-						lines.push(format!("<code>{}</code>", html_escape::encode_text(line)));
+						let trimmed_line = line.trim_ascii_start();
+						let leading_tab_count = line.len() - trimmed_line.len();
+
+						lines.push(format!(
+							r#"<code data-indent="{}">{}</code>"#,
+							leading_tab_count,
+							html_escape::encode_text(line)
+						));
 					}
 
-					let highlighted_html = format!(
-						r#"<script type="module" src="/code-block.js"></script><code-block data-language="{}"><pre>{}</pre></code-block>"#,
-						lang,
-						lines.join("\n")
-					);
+					let highlighted_html = format!(r#"<pre>{}</pre>"#, lines.join("\n"));
 
 					events.push(Event::Html(CowStr::Boxed(
 						highlighted_html.into_boxed_str(),
 					)));
 					code_block_text = None;
 				}
-				lang = String::default();
 			}
 			Event::Text(t) => {
 				if let Some(text) = code_block_text.as_mut() {
