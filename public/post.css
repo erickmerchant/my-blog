@@ -29,14 +29,12 @@
 		position: relative;
 		white-space: var(--white-space);
 		word-break: break-word;
+		max-inline-size: 43rem;
 		--white-space: pre-wrap;
+		--column: 1 / -1;
 
 		@supports (x: attr(x type(*))) {
 			--white-space: pre-line;
-		}
-
-		@container (inline-size <= 44rem) {
-			--column: 1 / -1;
 		}
 
 		:where(code) {
@@ -96,6 +94,32 @@
 		}
 	}
 
+	blockquote {
+		border-radius: 0.125rem;
+		padding: 1rem;
+		border: 0.0625rem solid oklch(from var(--foreground) l c h / 0.4);
+		box-shadow: 0.5rem 0.5rem 0 0
+			oklch(from var(--background) calc(l - 0.05) c h);
+		overflow-wrap: anywhere;
+		hyphens: auto;
+		max-inline-size: calc(100% - 1rem);
+		justify-self: start;
+
+		> :where(:not(:last-child)) {
+			margin-block-end: 1rem;
+		}
+
+		:where(cite) {
+			display: inline grid;
+			grid-template-columns: auto 1fr;
+			gap: 0.5rem;
+
+			&::before {
+				content: "—";
+			}
+		}
+	}
+
 	.status {
 		font-weight: 300;
 		font-size: 0.8rem;
@@ -124,31 +148,6 @@
 			::marker {
 				content: "- ";
 				font-weight: 900;
-			}
-		}
-
-		:where(blockquote) {
-			border-radius: 0.125rem;
-			padding: 1rem;
-			border: 0.0625rem solid oklch(from var(--foreground) l c h / 0.4);
-			box-shadow: 0.5rem 0.5rem 0 0
-				oklch(from var(--background) calc(l - 0.05) c h);
-			max-inline-size: 100%;
-			overflow-wrap: anywhere;
-			hyphens: auto;
-
-			> :where(:not(:last-child)) {
-				margin-block-end: 1rem;
-			}
-
-			:where(cite) {
-				display: inline grid;
-				grid-template-columns: auto 1fr;
-				gap: 0.5rem;
-
-				&::before {
-					content: "—";
-				}
 			}
 		}
 	}
