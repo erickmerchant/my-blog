@@ -125,7 +125,7 @@ impl Rewriter {
 			let preload_module = self.get_full_path(preload_module.as_str(), true);
 
 			preloads.push_str(
-				format!(r#"<link rel="modulepreload" href="{}" />"#, preload_module).as_str(),
+				format!(r#"<link rel="modulepreload" href="{preload_module}" />"#).as_str(),
 			);
 		}
 
