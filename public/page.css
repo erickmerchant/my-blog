@@ -30,6 +30,10 @@
 
 		--background: light-dark(oklch(100% 0.005 80), oklch(30% 0.005 80));
 		--foreground: light-dark(oklch(30% 0.005 80), oklch(100% 0.005 80));
+		--link-color: light-dark(
+			oklch(from seagreen 50% c h),
+			oklch(from seagreen 80% c h)
+		);
 	}
 
 	body {
@@ -37,10 +41,7 @@
 	}
 
 	a {
-		color: light-dark(
-			oklch(from seagreen 50% c h),
-			oklch(from seagreen 80% c h)
-		);
+		color: var(--link-color);
 		text-decoration-thickness: 0.1em;
 		text-underline-offset: 0.15em;
 		text-decoration-color: currentColor;
@@ -119,7 +120,8 @@
 			grid-column: 2;
 		}
 
-		> :where(:nth-child(1n + 3)) {
+		> :where(:nth-child(1n + 3)),
+		> :where(:first-child) {
 			padding-block-start: 1rem;
 			background-image: repeating-linear-gradient(
 				90deg,
@@ -127,25 +129,43 @@
 				oklch(from currentColor l c h / 0.7) 0.125rem 1.125rem,
 				transparent 1.125rem 1.25rem
 			);
-			background-position: center top;
 			background-size: calc(round(down, 100%, 1.25rem) - 1.25rem) 0.15rem;
 			background-repeat: no-repeat;
+		}
+
+		> :where(:first-child) {
+			background-position: center bottom;
+		}
+
+		> :where(:nth-child(1n + 3)) {
+			background-position: center top;
 		}
 	}
 
 	.nav {
 		display: grid;
-		padding-block: 1rem 0;
+		grid-template-columns: auto min-content;
+		padding-block: 1rem;
+	}
 
-		> * {
-			line-height: 1.5;
-			font-size: clamp(1.25rem, 7cqi, 2rem);
-			font-weight: 900;
-		}
+	.nav-title {
+		line-height: 1.5;
+		font-size: clamp(1.25rem, 7cqi, 2rem);
+		/* text-shadow: 0.25rem 0.25rem 0 oklch(from var(--foreground) l c h / 0.4); */
+		font-weight: 900;
 	}
 
 	.nav-link {
+		align-self: center;
+		padding: 0.5rem 1rem;
 		text-decoration-thickness: 0.15em;
+		color: var(--background);
+		background: var(--link-color);
+		box-shadow: 0.25rem 0.25rem 0 oklch(from var(--link-color) l c h / 0.4);
+		text-decoration: none;
+		font-weight: 900;
+		text-box: trim-both cap text;
+		border-radius: 0.125rem;
 	}
 
 	.footer {

@@ -4,8 +4,8 @@
 	<link rel="stylesheet" href="/home.css" />
 {% endblock %}
 
-{% block site_link %}
-	<h1>{% call super() %}</h1>
+{% block site_title %}
+	<h1 class="nav-title">{{site.title}}</h1>
 {% endblock %}
 
 {% block main %}

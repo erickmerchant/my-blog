@@ -54,8 +54,7 @@
 		padding: 1rem;
 		background-color: oklch(from currentColor l c h / 0.025);
 		border: 0.0625rem solid oklch(from var(--foreground) l c h / 0.4);
-		box-shadow: 0.5rem 0.5rem 0 0
-			oklch(from var(--background) calc(l - 0.05) c h);
+		box-shadow: 0.5rem 0.5rem 0 oklch(from var(--foreground) l c h / 0.2);
 		overflow-wrap: anywhere;
 		hyphens: auto;
 		justify-self: start;
