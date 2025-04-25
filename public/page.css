@@ -28,8 +28,8 @@
 		scrollbar-color: currentColor var(--background);
 		color: var(--foreground);
 
-		--background: light-dark(oklch(100% 0.005 80), oklch(30% 0.005 80));
-		--foreground: light-dark(oklch(30% 0.005 80), oklch(100% 0.005 80));
+		--background: light-dark(oklch(100% 0.02 80), oklch(30% 0.02 80));
+		--foreground: light-dark(oklch(30% 0.02 80), oklch(100% 0.02 80));
 		--link-color: light-dark(
 			oklch(from seagreen 50% c h),
 			oklch(from seagreen 80% c h)
@@ -184,7 +184,9 @@
 		list-style: none;
 
 		@container (inline-size <= 27.5rem) {
-			grid-template-columns: max-content max-content;
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: center;
 		}
 	}
 
@@ -194,6 +196,7 @@
 
 	.footer-link {
 		text-decoration-thickness: 0.13em;
+		white-space: nowrap;
 	}
 
 	.rss-link {
