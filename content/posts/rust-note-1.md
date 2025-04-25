@@ -9,7 +9,7 @@ Run [Clippy](https://crates.io/crates/clippy) against your Rust code to lint it 
 
 I once wrote code like this...
 
-``` rs
+``` rust
 let mut minifier_options = stylesheet::MinifyOptions::default();
 
 minifier_options.targets = targets;
@@ -17,7 +17,7 @@ minifier_options.targets = targets;
 
 Clippy emitted a warning, "field assignment outside of initializer for an instance created with Default::default()" and recommended I use [struct update syntax](https://doc.rust-lang.org/book/ch05-01-defining-structs.html#creating-instances-from-other-instances-with-struct-update-syntax) instead. So I changed the code to...
 
-``` rs
+``` rust
 let minifier_options = stylesheet::MinifyOptions {
 	targets,
 	..stylesheet::MinifyOptions::default()

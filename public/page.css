@@ -26,9 +26,10 @@
 		scrollbar-gutter: stable;
 		overscroll-behavior: none;
 		scrollbar-color: currentColor var(--background);
+		color: var(--foreground);
 
-		--background: light-dark(oklch(100% 0.0375 100), oklch(30% 0.0375 250));
-		--foreground: light-dark(oklch(30% none none), oklch(100% none none));
+		--background: light-dark(oklch(100% 0.005 80), oklch(30% 0.005 80));
+		--foreground: light-dark(oklch(30% 0.005 80), oklch(100% 0.005 80));
 	}
 
 	body {
@@ -36,6 +37,10 @@
 	}
 
 	a {
+		color: light-dark(
+			oklch(from seagreen 50% c h),
+			oklch(from seagreen 80% c h)
+		);
 		text-decoration-thickness: 0.1em;
 		text-underline-offset: 0.15em;
 		text-decoration-color: currentColor;
@@ -44,7 +49,7 @@
 	p {
 		text-wrap: pretty;
 
-		@container (inline-size <= 45rem) {
+		@container (inline-size <= 43.5rem) {
 			hyphens: auto;
 		}
 	}
@@ -159,7 +164,7 @@
 		list-style: none;
 
 		@container (inline-size <= 27.5rem) {
-			grid-template-columns: max-content;
+			grid-template-columns: max-content max-content;
 		}
 	}
 
@@ -172,12 +177,18 @@
 	}
 
 	.rss-link {
+		color: var(--local-background);
+		--local-background: light-dark(
+			oklch(from coral 60% c h),
+			oklch(from coral 80% c h)
+		);
+
 		:where(svg) {
 			block-size: 1.1rem;
-			background: oklch(from currentColor l c h / 0.2);
+			background: var(--local-background);
 			box-shadow: 0.125rem 0.125rem 0
-				oklch(from var(--background) calc(l - 0.05) c h);
-			fill: var(--foreground);
+				oklch(from var(--local-background) l c h / 0.7);
+			fill: var(--background);
 			padding: 0.125rem;
 			border-radius: 0.125rem;
 			margin-block-end: -0.2rem;

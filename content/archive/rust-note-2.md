@@ -9,7 +9,7 @@ Now on the server I am doing something possibly naive. I am compiling CSS with [
 
 So turns out if you open a file for writing in Rust using `std::File::options()` it will not truncate the file. This means if you open a file for writing and then write to it, it will just replace the contents up to the length of your new content, but leave old content after that. This is not what I wanted obviously. I wanted to truncate the file and write to it. So I had to do this:
 
-``` rs
+``` rust
 let mut file = File::options()
 	.read(true) // this is why I can't use File::create()
 	.write(true)

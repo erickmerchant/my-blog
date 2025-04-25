@@ -16,7 +16,7 @@ Sometimes you'll want to actually use `return` in your code to make it more read
 
 This is the worst option. Note all the else blocks all resulting in `url`. That's a great deal of repetition, and nesting, and any programmer I think would not be happy with this.
 
-``` rs
+``` rust
 use camino::Utf8Path;
 use std::fs;
 
@@ -54,7 +54,7 @@ pub fn asset_url(url: String) -> String {
 
 This one is better. We've eliminated the nesting and the else statements. Honestly this is fine. The problem I have with this is we're needlessly creating a mutable variable, and when we get to our implicit return at the end we have to remember that `url` is mutable, and find all the places where we mutated it to see what the possibilities are.
 
-``` rs
+``` rust
 use camino::Utf8Path;
 use std::fs;
 
@@ -91,7 +91,7 @@ pub fn asset_url(url: String) -> String {
 
 This is my favorite, and again this is code style. For a long time I avoided `return`. But in cases like this I think it's better to just return early and be done with it. It is clear what is happening, and we don't have to think about a mutable variable.
 
-``` rs
+``` rust
 use camino::Utf8Path;
 use std::fs;
 
