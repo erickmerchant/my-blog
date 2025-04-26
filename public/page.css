@@ -109,15 +109,14 @@
 
 	ul,
 	ol {
-		padding-inline-start: 0.5rem;
-
-		::marker {
-			content: "-";
-			font-weight: 600;
-		}
+		list-style: none;
 
 		> :where(li) {
-			padding-inline-start: 0.5rem;
+			&::before {
+				content: "-";
+				padding-inline-end: 0.25rem;
+				font-weight: 600;
+			}
 		}
 	}
 
@@ -209,7 +208,7 @@
 	.footer-item {
 		display: grid;
 
-		::marker {
+		&::before {
 			content: none;
 		}
 	}

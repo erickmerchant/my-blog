@@ -40,10 +40,7 @@ https://prismjs.com/download.html#themes=prism&languages=markup+css+clike+javasc
 	.token.property,
 	.token.symbol,
 	.token.tag {
-		color: light-dark(
-			oklch(from darkorange 50% c h),
-			oklch(from darkorange 80% c h)
-		);
+		color: light-dark(oklch(from wheat 50% c h), oklch(from wheat 80% c h));
 	}
 	.token.attr-name,
 	.token.builtin,
@@ -67,15 +64,12 @@ https://prismjs.com/download.html#themes=prism&languages=markup+css+clike+javasc
 	}
 	.token.class-name,
 	.token.function {
-		color: light-dark(
-			oklch(from palevioletred 50% c h),
-			oklch(from palevioletred 80% c h)
-		);
+		color: light-dark(oklch(from coral 50% c h), oklch(from coral 80% c h));
 	}
 	.token.important,
 	.token.regex,
 	.token.variable {
-		color: light-dark(oklch(from red 50% c h), oklch(from red 80% c h));
+		color: light-dark(oklch(from hotpink 50% c h), oklch(from hotpink 80% c h));
 	}
 	.token.bold,
 	.token.important {
