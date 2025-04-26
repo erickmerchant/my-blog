@@ -133,7 +133,8 @@
 			grid-column: 2;
 		}
 
-		> :where(:nth-child(1n + 3)) {
+		> :where(:nth-child(1n + 3)),
+		> :where(:first-child) {
 			padding-block-start: 1rem;
 			background-image: repeating-linear-gradient(
 				90deg,
@@ -143,16 +144,27 @@
 			);
 			background-size: calc(round(down, 100%, 1.25rem) - 1.25rem) 0.15rem;
 			background-repeat: no-repeat;
+		}
+
+		> :where(:nth-child(1n + 3)) {
 			background-position: center top;
+		}
+
+		> :where(:first-child) {
+			background-position: center bottom;
 		}
 	}
 
 	.nav {
 		display: grid;
 		grid-template-columns: auto min-content;
-		padding-block: 1rem 0;
+		padding-block: 0.5rem;
 		line-height: 1.5;
 		gap: 1rem;
+
+		@container (inline-size > 43.5rem) {
+			padding-block: 0;
+		}
 	}
 
 	.nav-title {
@@ -160,7 +172,7 @@
 		font-family: "Jacquard 24", display;
 		font-size: clamp(2rem, 7cqi, 3.5rem);
 		line-height: 1.5;
-		text-shadow: 0.1rem 0.1rem oklch(from currentColor l c h / 0.5);
+		/* text-shadow: 0.1rem 0.1rem oklch(from currentColor l c h / 0.5); */
 	}
 
 	.nav-link {
