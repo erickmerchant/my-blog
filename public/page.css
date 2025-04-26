@@ -17,9 +17,9 @@
 	html {
 		block-size: 100%;
 		color-scheme: light dark;
-		font-family: system-ui, sans-serif;
+		font-family: "Work Sans", sans-serif;
 		font-weight: 400;
-		font-size: 125%;
+		font-size: 112.5%;
 		line-height: 1.5;
 		overflow-y: scroll;
 		overflow-x: auto;
@@ -67,7 +67,7 @@
 	h1,
 	h2 {
 		line-height: 1.25;
-		font-weight: 900;
+		font-weight: 800;
 
 		:where(a) {
 			text-decoration-thickness: 0.15em;
@@ -89,7 +89,7 @@
 	h3,
 	h4,
 	strong {
-		font-weight: 700;
+		font-weight: 600;
 
 		:where(a) {
 			text-decoration-thickness: 0.13em;
@@ -105,6 +105,20 @@
 		text-decoration: line-through;
 		text-decoration-thickness: 0.5em;
 		text-decoration-color: oklch(from currentColor l c h / 0.4);
+	}
+
+	ul,
+	ol {
+		padding-inline-start: 0.5rem;
+
+		::marker {
+			content: "-";
+			font-weight: 600;
+		}
+
+		> :where(li) {
+			padding-inline-start: 0.5rem;
+		}
 	}
 
 	.page {
@@ -145,14 +159,15 @@
 	.nav {
 		display: grid;
 		grid-template-columns: auto min-content;
-		padding-block: 1rem;
+		padding-block: 1rem 1rem;
+		line-height: 1.5;
 	}
 
 	.nav-title {
+		font-weight: 400;
+		font-family: "Jacquard 24", display;
+		font-size: clamp(2rem, 7cqi, 3rem);
 		line-height: 1.5;
-		font-size: clamp(1.25rem, 7cqi, 2rem);
-		/* text-shadow: 0.25rem 0.25rem 0 oklch(from var(--foreground) l c h / 0.4); */
-		font-weight: 900;
 	}
 
 	.nav-link {
@@ -163,9 +178,10 @@
 		background: var(--link-color);
 		box-shadow: 0.25rem 0.25rem 0 oklch(from var(--link-color) l c h / 0.4);
 		text-decoration: none;
-		font-weight: 900;
-		text-box: trim-both cap text;
+		/* text-box: trim-both cap text; */
 		border-radius: 0.125rem;
+		font-size: 0.75rem;
+		font-weight: 800;
 	}
 
 	.footer {
@@ -173,7 +189,7 @@
 		gap: 1.5rem 0;
 		align-content: center;
 		padding-block: 1rem;
-		font-weight: 700;
+		font-weight: 400;
 	}
 
 	.footer-list {
@@ -192,6 +208,10 @@
 
 	.footer-item {
 		display: grid;
+
+		::marker {
+			content: none;
+		}
 	}
 
 	.footer-link {

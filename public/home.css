@@ -6,7 +6,6 @@
 
 	.section-list {
 		display: grid;
-		list-style: none;
 		row-gap: 0.5rem;
 	}
 
@@ -15,10 +14,10 @@
 	}
 
 	.title {
-		font-weight: 500;
+		font-weight: 600;
 	}
 
 	.title + * {
-		font-weight: 300;
+		font-weight: 400;
 	}
 }

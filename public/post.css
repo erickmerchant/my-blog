@@ -81,8 +81,7 @@
 	}
 
 	.status {
-		font-weight: 300;
-		font-size: 0.8rem;
+		font-weight: 200;
 	}
 
 	.article {
@@ -98,17 +97,6 @@
 			inline-size: 100%;
 			margin-inline: auto;
 			grid-column: var(--column, 2);
-		}
-
-		:where(ul, ol) {
-			padding-inline-start: 1rem;
-		}
-
-		:where(ul) {
-			::marker {
-				content: "- ";
-				font-weight: 900;
-			}
 		}
 	}
 }
