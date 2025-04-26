@@ -4,9 +4,12 @@
 	{% call super() %} — {{post.title}}
 {% endblock %}
 
-{% block head %}
+{% block styles %}
 	<link rel="stylesheet" href="/post.css" />
 	<link rel="stylesheet" href="/vendor/prism.css" />
+{% endblock %}
+
+{% block scripts %}
 	<script src="/vendor/prism.js"></script>
 {% endblock %}
 

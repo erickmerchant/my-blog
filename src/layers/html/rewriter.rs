@@ -22,10 +22,18 @@ impl Rewriter {
 			Settings {
 				element_content_handlers: [
 					element!("head", |el| {
-						let url = self.get_full_path("/favicon.svg", true);
+						let url = self.get_full_path("/favicon-light.png", true);
 
 						el.append(
-							format!(r#"<link rel="icon" href="{url}" type="image/svg+xml" />"#)
+							format!(r#"<link rel="icon" href="{url}" type="image/svg+xml" media="(prefers-color-scheme: light)" />"#)
+								.as_str(),
+							ContentType::Html,
+						);
+
+						let url = self.get_full_path("/favicon-dark.png", true);
+
+						el.append(
+							format!(r#"<link rel="icon" href="{url}" type="image/svg+xml" media="(prefers-color-scheme: dark)" />"#)
 								.as_str(),
 							ContentType::Html,
 						);

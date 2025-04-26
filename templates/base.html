@@ -5,15 +5,17 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<title>{% block title %}{{site.title}}{% endblock %}</title>
 		<link rel="preconnect" href="https://fonts.bunny.net">
-		<link href="https://fonts.bunny.net/css?family=jacquard-24:400|work-sans:200,400,600,800" rel="stylesheet" />
 		<link rel="stylesheet" href="/page.css" />
-		{% block head %}{% endblock %}
+		{% block styles %}{% endblock %}
+		<link href="https://fonts.bunny.net/css?family=jacquard-24:400|work-sans:200,400,600,800" rel="stylesheet" />
+		{% block scripts %}{% endblock %}
 		<meta name="description" content="{{site.description}}" />
 		<link
 			rel="alternate"
 			type="application/rss+xml"
 			title="Posts"
-			href="{{site.host}}/posts.rss" />
+			href="{{site.host}}/posts.rss"
+		/>
 	</head>
 
 	<body class="page">
