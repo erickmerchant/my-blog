@@ -1,23 +1,26 @@
-use crate::{error, models::Site, state};
-use askama::Template;
+use crate::{error, state};
 use axum::{
 	extract::State,
-	http::StatusCode,
-	response::{Html, IntoResponse, Response},
+	http::{header, StatusCode},
+	response::{IntoResponse, Response},
 };
-use std::sync::Arc;
-
-#[derive(Template)]
-#[template(path = "not_found.html")]
-struct View {
-	site: Site,
-}
+use std::{fs, sync::Arc};
 
 pub async fn not_found_handler(
 	State(state): State<Arc<state::State>>,
 ) -> Result<Response, error::Error> {
-	let site = state.model.site().await?;
-	let body = View { site }.render()?;
+	let path = "404.html".to_string();
 
-	Ok((StatusCode::NOT_FOUND, Html(body)).into_response())
+	if let Ok(body) =
+		fs::read(state.args.base_dir.trim_end_matches("/").to_string() + "/public/" + &path)
+	{
+		return Ok((
+			StatusCode::OK,
+			[(header::CONTENT_TYPE, mime::HTML.to_string())],
+			body,
+		)
+			.into_response());
+	}
+
+	Ok(StatusCode::NOT_FOUND.into_response())
 }

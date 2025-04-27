@@ -1,10 +1,8 @@
-use crate::models::Model;
 use std::{env, str::FromStr};
 
 #[derive(Clone)]
 pub struct State {
 	pub args: Args,
-	pub model: Model,
 }
 
 #[derive(Clone)]
@@ -19,7 +17,6 @@ impl State {
 		let base_dir: String = get_env("APP_BASE_DIR", ".".to_string());
 		let rewrite_assets: bool = get_env("APP_REWRITE_ASSETS", true);
 		let port: u16 = get_env("APP_PORT", 8080);
-		let model = Model::new(base_dir.to_owned());
 
 		Self {
 			args: Args {
@@ -27,14 +24,11 @@ impl State {
 				rewrite_assets,
 				port,
 			},
-			model,
 		}
 	}
 
 	pub fn from_args(args: Args) -> Self {
-		let model = Model::new(args.base_dir.to_owned());
-
-		Self { args, model }
+		Self { args }
 	}
 }
 

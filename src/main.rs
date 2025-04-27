@@ -4,7 +4,7 @@ mod tests;
 use anyhow::Result;
 use app::{
 	layers::html,
-	routes::{asset, home, not_found, page, post, resume, rss},
+	routes::{asset, not_found, page},
 	state,
 };
 use axum::{middleware::from_fn_with_state, routing::get, serve, Router};
@@ -39,10 +39,7 @@ fn get_app(state: state::State) -> Router {
 		.ok();
 
 	let state = Arc::new(state);
-	let mut router = Router::new()
-		.route("/", get(home::home_handler))
-		.route("/resume/", get(resume::resume_handler))
-		.route("/posts/{slug}/", get(post::post_handler));
+	let mut router = Router::new();
 	let public_path = state.args.base_dir.trim_end_matches("/").to_owned() + "/public";
 	let public_path = public_path.trim_start_matches("./");
 	let public_htmls = glob((public_path.to_owned() + "/**/*.html").as_str()).ok();
@@ -61,7 +58,6 @@ fn get_app(state: state::State) -> Router {
 
 	router
 		.route_layer(from_fn_with_state(state.clone(), html::html_layer))
-		.route("/posts.rss", get(rss::rss_handler))
 		.route("/{*path}", get(asset::asset_handler))
 		.fallback(not_found::not_found_handler)
 		.with_state(state.clone())
