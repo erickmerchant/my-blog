@@ -7,7 +7,7 @@ type Props = {
 	children?: JSX.Children;
 };
 
-export default function ({
+export function Base({
 	styles,
 	scripts,
 	title,

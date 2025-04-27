@@ -1,3 +1,5 @@
+import {raw} from "../main.ts";
+
 function TimeLine({
 	title,
 	items,
@@ -33,7 +35,7 @@ function TimeLine({
 								))}
 							</ul>
 						)}
-						<div class="summary">{{__html: item.summary}}</div>
+						<div class="summary">{raw(item.summary)}</div>
 					</li>
 				))}
 			</ol>
@@ -45,7 +47,7 @@ type Props = {
 	resume: Resume;
 };
 
-export default function ({resume}: Props) {
+export function Resume({resume}: Props) {
 	return (
 		<html lang="en">
 			<head>
@@ -72,7 +74,7 @@ export default function ({resume}: Props) {
 							))}
 						</ul>
 					</header>
-					<section class="objective">{{__html: resume.objective}}</section>
+					<section class="objective">{raw(resume.objective)}</section>
 					<TimeLine
 						title="Employment History"
 						items={resume.history}
