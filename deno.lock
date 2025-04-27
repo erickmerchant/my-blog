@@ -1,0 +1,60 @@
+{
+  "version": "4",
+  "specifiers": {
+    "jsr:@std/assert@1": "1.0.13",
+    "jsr:@std/collections@^1.0.11": "1.0.11",
+    "jsr:@std/internal@^1.0.6": "1.0.6",
+    "jsr:@std/toml@^1.0.5": "1.0.5",
+    "npm:@types/node@*": "22.9.0",
+    "npm:marked@^15.0.11": "15.0.11"
+  },
+  "jsr": {
+    "@std/assert@1.0.13": {
+      "integrity": "ae0d31e41919b12c656c742b22522c32fb26ed0cba32975cb0de2a273cb68b29",
+      "dependencies": [
+        "jsr:@std/internal"
+      ]
+    },
+    "@std/collections@1.0.11": {
+      "integrity": "2f62cf9587484b1fff364f6c3e1f83478eea53dbb6faed6ffeda92ddb6b172f0"
+    },
+    "@std/internal@1.0.6": {
+      "integrity": "9533b128f230f73bd209408bb07a4b12f8d4255ab2a4d22a1fd6d87304aca9a4"
+    },
+    "@std/toml@1.0.5": {
+      "integrity": "08061156e9c5716443a144b6e40a8668738b8b424ad99ab0b6fdf1b6ea4da806",
+      "dependencies": [
+        "jsr:@std/collections"
+      ]
+    }
+  },
+  "npm": {
+    "@types/node@22.9.0": {
+      "integrity": "sha512-vuyHg81vvWA1Z1ELfvLko2c8f34gyA0zaic0+Rllc5lbCnbSyuvb2Oxpm6TAUAC/2xZN3QGqxBNggD1nNR2AfQ==",
+      "dependencies": [
+        "undici-types"
+      ]
+    },
+    "marked@15.0.11": {
+      "integrity": "sha512-1BEXAU2euRCG3xwgLVT1y0xbJEld1XOrmRJpUwRCcy7rxhSCwMrmEu9LXoPhHSCJG41V7YcQ2mjKRr5BA3ITIA=="
+    },
+    "undici-types@6.19.8": {
+      "integrity": "sha512-ve2KP6f/JnbPBFyobGHuerC9g1FYGn/F8n1LWTwNxCEzd6IfqTwUQcNXgEtmmQ6DlRrC1hrSrBnCZPokRrDHjw=="
+    }
+  },
+  "redirects": {
+    "https://deno.land/x/ssx/jsx-runtime.ts": "https://deno.land/x/ssx@v0.1.8/jsx-runtime.ts"
+  },
+  "remote": {
+    "https://deno.land/x/ssx@v0.1.8/css.ts": "6756e74b96e3694631745ce12f80f4eb89c88940f44fbd97e4b676811bbc225c",
+    "https://deno.land/x/ssx@v0.1.8/html.ts": "26185b76f311467f1e2f93131ebb6f48b709cf6e9eefd254d95260ccaa0e1e6b",
+    "https://deno.land/x/ssx@v0.1.8/jsx-runtime.ts": "79b5c6b482b43b84bc07ef5fe0d010572de5cffa94a6eecf9aaff6f51d102df9"
+  },
+  "workspace": {
+    "dependencies": [
+      "jsr:@std/assert@1",
+      "jsr:@std/toml@^1.0.5",
+      "npm:marked@^15.0.11"
+    ]
+  }
+}
