@@ -142,7 +142,7 @@
 				oklch(from currentColor l c h / 0.7) 0.125rem 0.625rem,
 				transparent 0.625rem 0.75rem
 			);
-			background-size: calc(round(down, 100%, 1.25rem) - 1.25rem) 0.15rem;
+			background-size: calc(round(down, 100%, 0.75rem) - 0.75rem) 0.15rem;
 			background-repeat: no-repeat;
 		}
 
@@ -172,7 +172,6 @@
 		font-family: "Jacquard 24", display;
 		font-size: clamp(2rem, 7cqi, 3.5rem);
 		line-height: 1.5;
-		/* text-shadow: 0.1rem 0.1rem oklch(from currentColor l c h / 0.5); */
 	}
 
 	.nav-link {
@@ -183,7 +182,6 @@
 		background: var(--link-color);
 		box-shadow: 0.25rem 0.25rem 0 oklch(from var(--link-color) l c h / 0.4);
 		text-decoration: none;
-		/* text-box: trim-both cap text; */
 		border-radius: 0.125rem;
 		font-size: 0.75rem;
 		font-weight: 800;
