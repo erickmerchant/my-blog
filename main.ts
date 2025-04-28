@@ -71,7 +71,7 @@ if (import.meta.main) {
     rss.channel.item.push({
       title: post.title,
       link: `${site.host}/posts/${slug}/`,
-      pubDate: post.date_published?.toDateString(),
+      pubDate: buildRFC822Date(post.date_published),
     });
 
     const postHTML = await toHTML(PostView({ site, post }));
@@ -154,10 +154,12 @@ function buildRFC822Date(date) {
   const time = `${addLeadingZeros(date.getHours())}:${
     addLeadingZeros(date.getMinutes())
   }:00`;
-  const timezone = date.getTimezoneOffset() === 0 ? "GMT" : "BST";
+  const timezone = addLeadingZeros(date.getTimezoneOffset(), 4);
 
   //Wed, 02 Oct 2002 13:00:00 GMT
-  return `${day}, ${dayNumber} ${month} ${year} ${time} ${timezone}`;
+  return `${day}, ${dayNumber} ${month} ${year} ${time} ${
+    timezone.startsWith("-") ? "" : "+"
+  }${timezone}`;
 }
 
 export function addLeadingZeros(str: string | number, length = 2) {

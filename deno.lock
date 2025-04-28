@@ -10,6 +10,7 @@
     "npm:@happy-dom/global-registrator@^17.4.4": "17.4.4",
     "npm:@types/node@*": "22.9.0",
     "npm:fast-xml-parser@5.2.1": "5.2.1",
+    "npm:happy-dom@^17.4.4": "17.4.4",
     "npm:marked@^15.0.11": "15.0.11"
   },
   "jsr": {
