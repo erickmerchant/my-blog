@@ -3,6 +3,9 @@ import * as Fs from "@std/fs";
 import * as Toml from "@std/toml";
 import * as Marked from "marked";
 import { XMLBuilder } from "fast-xml-parser";
+import { transform } from "lightningcss";
+import { minify } from "html-minifier";
+import swc from "@swc/core";
 import { HandcraftElement } from "handcraft/prelude/all.js";
 import NotFoundView from "./templates/not_found.ts";
 import PostView from "./templates/post.ts";
@@ -74,7 +77,7 @@ if (import.meta.main) {
       rssItems.push({
         title: post.title,
         link: `${site.host}/posts/${slug}/`,
-        pubDate: buildRFC822Date(post.date_published),
+        pubDate: asRFC822Date(post.date_published),
       });
     }
 
@@ -121,6 +124,45 @@ if (import.meta.main) {
 
   await Fs.ensureDir(`./dist/resume`);
   await Deno.writeTextFile(`./dist/resume/index.html`, resumeHTML);
+
+  /* minify html */
+  for await (const { path } of Fs.expandGlob("./dist/**/*.html")) {
+    const code = minify(await Deno.readTextFile(path), {
+      collapseWhitespace: true,
+    });
+
+    await Deno.writeTextFile(path, code);
+  }
+
+  /* minify css */
+  for await (const { path } of Fs.expandGlob("./dist/**/*.css")) {
+    const { code } = transform({
+      filename: path,
+      code: await Deno.readFile(path),
+      minify: true,
+      sourceMap: false,
+    });
+
+    await Deno.writeFile(path, code);
+  }
+
+  /* minify js */
+  for await (const { path } of Fs.expandGlob("./dist/**/*.js")) {
+    const { code } = await swc
+      .transform(await Deno.readTextFile(path), {
+        filename: path,
+        sourceMaps: false,
+        minify: true,
+        jsc: {
+          target: "es2024",
+          parser: {
+            syntax: "ecmascript",
+          },
+        },
+      });
+
+    await Deno.writeTextFile(path, code);
+  }
 }
 
 async function toHTML(el: HandcraftElement) {
@@ -134,7 +176,7 @@ async function toHTML(el: HandcraftElement) {
 }
 
 /* https://whitep4nth3r.com/blog/how-to-format-dates-for-rss-feeds-rfc-822/ */
-function buildRFC822Date(date: Date) {
+function asRFC822Date(date: Date) {
   const dayStrings = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const monthStrings = [
     "Jan",
