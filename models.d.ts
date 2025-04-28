@@ -40,3 +40,5 @@ type ResumeItem = {
   tags?: [string];
   summary: string;
 };
+
+type RssItem = { title: string; link: string; pubDate: string };

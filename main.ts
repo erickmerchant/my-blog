@@ -35,13 +35,15 @@ if (import.meta.main) {
 
   /* create post models and posts/{slug}/index.html */
   const posts: Array<Post> = [];
+
+  const rssItems: Array<RssItem> = [];
   const rss = {
     attributes: { version: "2.0" },
     channel: {
       title: "Posts",
       link: `${site.host}/posts.rss`,
       copyright: site.author,
-      item: [],
+      item: rssItems,
     },
   };
 
@@ -68,11 +70,13 @@ if (import.meta.main) {
 
     posts.push(post);
 
-    rss.channel.item.push({
-      title: post.title,
-      link: `${site.host}/posts/${slug}/`,
-      pubDate: buildRFC822Date(post.date_published),
-    });
+    if (post.date_published) {
+      rssItems.push({
+        title: post.title,
+        link: `${site.host}/posts/${slug}/`,
+        pubDate: buildRFC822Date(post.date_published),
+      });
+    }
 
     const postHTML = await toHTML(PostView({ site, post }));
 
@@ -120,7 +124,7 @@ if (import.meta.main) {
 }
 
 async function toHTML(el: HandcraftElement) {
-  const { promise, resolve } = Promise.withResolvers();
+  const { promise, resolve } = Promise.withResolvers<string>();
 
   setTimeout(() => {
     resolve(`<!doctype html>${el.deref().innerHTML}`);
@@ -130,7 +134,7 @@ async function toHTML(el: HandcraftElement) {
 }
 
 /* https://whitep4nth3r.com/blog/how-to-format-dates-for-rss-feeds-rfc-822/ */
-function buildRFC822Date(date) {
+function buildRFC822Date(date: Date) {
   const dayStrings = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const monthStrings = [
     "Jan",
