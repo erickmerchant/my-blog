@@ -7,9 +7,9 @@
     "jsr:@std/internal@^1.0.6": "1.0.6",
     "jsr:@std/path@^1.0.9": "1.0.9",
     "jsr:@std/toml@^1.0.5": "1.0.5",
-    "npm:@happy-dom/global-registrator@*": "17.4.4",
+    "npm:@happy-dom/global-registrator@^17.4.4": "17.4.4",
     "npm:@types/node@*": "22.9.0",
-    "npm:happy-dom@*": "17.4.4",
+    "npm:fast-xml-parser@5.2.1": "5.2.1",
     "npm:marked@^15.0.11": "15.0.11"
   },
   "jsr": {
@@ -54,6 +54,12 @@
         "undici-types"
       ]
     },
+    "fast-xml-parser@5.2.1": {
+      "integrity": "sha512-Kqq/ewnRACQ20e0BlQ5KqHRYWRBp7yv+jttK4Yj2yY+2ldgCoxJkrP1NHUhjypsJ+eQXlGJ/jebM3wa60s1rbQ==",
+      "dependencies": [
+        "strnum"
+      ]
+    },
     "happy-dom@17.4.4": {
       "integrity": "sha512-/Pb0ctk3HTZ5xEL3BZ0hK1AqDSAUuRQitOmROPHhfUYEWpmTImwfD8vFDGADmMAX0JYgbcgxWoLFKtsWhcpuVA==",
       "dependencies": [
@@ -63,6 +69,9 @@
     },
     "marked@15.0.11": {
       "integrity": "sha512-1BEXAU2euRCG3xwgLVT1y0xbJEld1XOrmRJpUwRCcy7rxhSCwMrmEu9LXoPhHSCJG41V7YcQ2mjKRr5BA3ITIA=="
+    },
+    "strnum@2.0.5": {
+      "integrity": "sha512-YAT3K/sgpCUxhxNMrrdhtod3jckkpYwH6JAuwmUdXZsmzH1wUyzTMrrK2wYCEEqlKwrWDd35NeuUkbBy/1iK+Q=="
     },
     "undici-types@6.19.8": {
       "integrity": "sha512-ve2KP6f/JnbPBFyobGHuerC9g1FYGn/F8n1LWTwNxCEzd6IfqTwUQcNXgEtmmQ6DlRrC1hrSrBnCZPokRrDHjw=="
@@ -87,8 +96,9 @@
       "jsr:@std/assert@1",
       "jsr:@std/fs@^1.0.17",
       "jsr:@std/toml@^1.0.5",
-      "npm:@happy-dom/global-registrator@*",
-      "npm:happy-dom@*",
+      "npm:@happy-dom/global-registrator@^17.4.4",
+      "npm:fast-xml-parser@5.2.1",
+      "npm:happy-dom@^17.4.4",
       "npm:marked@^15.0.11"
     ]
   }

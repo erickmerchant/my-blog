@@ -5,12 +5,13 @@
     "stage": "docker build . -t my-blog && docker run -p 3000:8080 --name my-blog my-blog && docker wait my-blog"
   },
   "imports": {
-    "@std/assert": "jsr:@std/assert@1",
+    "@happy-dom/global-registrator": "npm:@happy-dom/global-registrator@^17.4.4",
+    "@std/assert": "jsr:@std/assert@^1.0.0",
     "@std/fs": "jsr:@std/fs@^1.0.17",
     "@std/toml": "jsr:@std/toml@^1.0.5",
+    "fast-xml-parser": "npm:fast-xml-parser@5.2.1",
     "handcraft/": "../handcraft/",
-    "happy-dom": "npm:happy-dom",
-    "@happy-dom/global-registrator": "npm:@happy-dom/global-registrator",
+    "happy-dom": "npm:happy-dom@^17.4.4",
     "marked": "npm:marked@^15.0.11"
   }
 }

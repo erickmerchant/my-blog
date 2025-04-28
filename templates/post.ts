@@ -1,5 +1,6 @@
 import { html, unsafe } from "handcraft/prelude/all.js";
 import base from "./base.ts";
+import { addLeadingZeros } from "../main.ts";
 
 const { link, script, article, header, h1, time, span } = html;
 
@@ -24,9 +25,9 @@ export default function ({ site, post }: Props) {
           ? time().classes("status").text(
             post.date_published.getFullYear() +
               "-" +
-              ("0" + (post.date_published.getMonth() + 1)).slice(-2) +
+              addLeadingZeros(post.date_published.getMonth() + 1) +
               "-" +
-              post.date_published.getDate(),
+              addLeadingZeros(post.date_published.getDate()),
           )
           : span().classes("status").text("Draft"),
       ),
