@@ -55,7 +55,7 @@ impl Rewriter {
 				if let Ok(full_url) = self.url.join(value) {
 					let full_url_path = full_url.path();
 					let results = glob(
-						self.get_public_path((full_url_path.to_string() + "**/*.js").as_str())
+						self.get_dist_path((full_url_path.to_string() + "**/*.js").as_str())
 							.as_str(),
 					)
 					.ok();
@@ -64,10 +64,10 @@ impl Rewriter {
 						for path in paths.flatten() {
 							let path = path.to_string_lossy();
 							let relative_key = path.trim_start_matches(
-								self.get_public_directory().trim_start_matches("./"),
+								self.get_dist_directory().trim_start_matches("./"),
 							);
 							let relative_path = path.trim_start_matches(
-								self.get_public_path(full_url_path).trim_start_matches("./"),
+								self.get_dist_path(full_url_path).trim_start_matches("./"),
 							);
 
 							imports.insert(
@@ -109,7 +109,7 @@ impl Rewriter {
 
 		let mut results = found.to_owned();
 		let body = body.unwrap_or_else(|| {
-			let file_path = self.get_public_path(url.as_str());
+			let file_path = self.get_dist_path(url.as_str());
 
 			fs::read_to_string(file_path.as_str()).unwrap_or_default()
 		});

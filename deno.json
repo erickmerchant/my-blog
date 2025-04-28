@@ -1,15 +1,16 @@
 {
   "tasks": {
-    "dev": "deno run --watch main.ts"
+    "watch": "deno -A --watch=content,public main.ts & coolstyleserver serve ./dist/",
+    "deploy": "cargo test && cargo clippy && cargo +nightly fmt --check && fly deploy --remote-only",
+    "stage": "docker build . -t my-blog && docker run -p 3000:8080 --name my-blog my-blog && docker wait my-blog"
   },
   "imports": {
     "@std/assert": "jsr:@std/assert@1",
+    "@std/fs": "jsr:@std/fs@^1.0.17",
     "@std/toml": "jsr:@std/toml@^1.0.5",
-    "marked": "npm:marked@^15.0.11",
-    "ssx/jsx-runtime": "https://deno.land/x/ssx/jsx-runtime.ts"
-  },
-  "compilerOptions": {
-    "jsx": "precompile",
-    "jsxImportSource": "ssx"
+    "handcraft/": "../handcraft/",
+    "happy-dom": "npm:happy-dom",
+    "@happy-dom/global-registrator": "npm:@happy-dom/global-registrator",
+    "marked": "npm:marked@^15.0.11"
   }
 }

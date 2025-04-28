@@ -1,0 +1,8 @@
+import { GlobalRegistrator } from "@happy-dom/global-registrator";
+import { HandcraftElement } from "handcraft/dom.js";
+
+GlobalRegistrator.register({
+  url: "http://localhost:3000",
+  width: 1920,
+  height: 1080,
+});

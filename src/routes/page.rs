@@ -19,7 +19,7 @@ pub async fn page_handler(
 	}
 
 	if let Ok(body) =
-		fs::read(state.args.base_dir.trim_end_matches("/").to_string() + "/public/" + &path)
+		fs::read(state.args.base_dir.trim_end_matches("/").to_string() + "/dist/" + &path)
 	{
 		return Ok((
 			StatusCode::OK,

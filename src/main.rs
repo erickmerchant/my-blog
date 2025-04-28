@@ -9,7 +9,7 @@ use app::{
 };
 use axum::{middleware::from_fn_with_state, routing::get, serve, Router};
 use glob::glob;
-use std::{fs, sync::Arc};
+use std::sync::Arc;
 use tokio::net::TcpListener;
 use tower_http::{compression::CompressionLayer, trace::TraceLayer};
 use tracing_subscriber::EnvFilter;
@@ -35,20 +35,17 @@ async fn main() -> Result<()> {
 }
 
 fn get_app(state: state::State) -> Router {
-	fs::remove_dir_all(state.args.base_dir.trim_end_matches("/").to_string() + "/storage/cache/")
-		.ok();
-
 	let state = Arc::new(state);
 	let mut router = Router::new();
-	let public_path = state.args.base_dir.trim_end_matches("/").to_owned() + "/public";
-	let public_path = public_path.trim_start_matches("./");
-	let public_htmls = glob((public_path.to_owned() + "/**/*.html").as_str()).ok();
+	let dist_path = state.args.base_dir.trim_end_matches("/").to_owned() + "/dist";
+	let dist_path = dist_path.trim_start_matches("./");
+	let dist_htmls = glob((dist_path.to_owned() + "/**/*.html").as_str()).ok();
 
-	if let Some(paths) = public_htmls {
+	if let Some(paths) = dist_htmls {
 		for path in paths.flatten() {
 			if let Some(p) = path.to_str() {
 				let p = p
-					.trim_start_matches(public_path)
+					.trim_start_matches(dist_path)
 					.trim_end_matches("index.html");
 
 				router = router.route(p, get(page::page_handler));

@@ -46,39 +46,13 @@ async fn test_500() {
 }
 
 #[tokio::test]
-async fn test_home_200_and_304() {
-	let app = get_test_app().await;
-	let response = app
-		.clone()
-		.oneshot(Request::builder().uri("/").body(Body::empty()).unwrap())
-		.await
-		.unwrap();
-
-	assert_eq!(response.status(), StatusCode::OK);
-
-	let etag = response.headers().get(header::ETAG);
-
-	assert!(etag.is_some());
-
-	let etag = etag.unwrap();
-	let mut req = Request::builder().uri("/").body(Body::empty()).unwrap();
-
-	req.headers_mut()
-		.insert(header::IF_NONE_MATCH, etag.to_owned());
-
-	let response = app.oneshot(req).await.unwrap();
-
-	assert_eq!(response.status(), StatusCode::NOT_MODIFIED);
-}
-
-#[tokio::test]
 async fn test_asset_cache_control() {
 	let app = get_test_app().await;
 	let response = app
 		.clone()
 		.oneshot(
 			Request::builder()
-				.uri("/page.css")
+				.uri("/test.css")
 				.body(Body::empty())
 				.unwrap(),
 		)
@@ -102,7 +76,7 @@ async fn test_asset_cache_control() {
 		.clone()
 		.oneshot(
 			Request::builder()
-				.uri("/page.abcdefghij.css")
+				.uri("/test.abcdefghij.css")
 				.body(Body::empty())
 				.unwrap(),
 		)
@@ -130,7 +104,7 @@ async fn test_asset_index() {
 		.clone()
 		.oneshot(
 			Request::builder()
-				.uri("/projects/test/")
+				.uri("/test-3/")
 				.body(Body::empty())
 				.unwrap(),
 		)
@@ -150,7 +124,7 @@ async fn test_asset_html() {
 		.clone()
 		.oneshot(
 			Request::builder()
-				.uri("/page.html")
+				.uri("/test-1.html")
 				.body(Body::empty())
 				.unwrap(),
 		)
@@ -168,7 +142,7 @@ async fn test_asset_html() {
 
 	let etag = etag.unwrap();
 	let mut req = Request::builder()
-		.uri("/page.html")
+		.uri("/test-1.html")
 		.body(Body::empty())
 		.unwrap();
 
@@ -184,71 +158,13 @@ async fn test_asset_html() {
 }
 
 #[tokio::test]
-async fn test_rss() {
-	let app = get_test_app().await;
-	let response = app
-		.clone()
-		.oneshot(
-			Request::builder()
-				.uri("/posts.rss")
-				.body(Body::empty())
-				.unwrap(),
-		)
-		.await
-		.unwrap();
-	let cache_control = response.headers().get(header::CACHE_CONTROL);
-
-	assert!(cache_control.is_none());
-
-	let etag = response.headers().get(header::ETAG);
-
-	assert!(etag.is_none());
-
-	assert_eq!(response.status(), StatusCode::OK);
-}
-
-#[tokio::test]
-async fn test_post_200() {
-	let app = get_test_app().await;
-	let response = app
-		.clone()
-		.oneshot(
-			Request::builder()
-				.uri("/posts/test-post/")
-				.body(Body::empty())
-				.unwrap(),
-		)
-		.await
-		.unwrap();
-
-	assert_eq!(response.status(), StatusCode::OK);
-}
-
-#[tokio::test]
-async fn test_post_404() {
-	let app = get_test_app().await;
-	let response = app
-		.clone()
-		.oneshot(
-			Request::builder()
-				.uri("/posts/test-post-2/")
-				.body(Body::empty())
-				.unwrap(),
-		)
-		.await
-		.unwrap();
-
-	assert_eq!(response.status(), StatusCode::NOT_FOUND);
-}
-
-#[tokio::test]
 async fn test_404() {
 	let app = get_test_app().await;
 	let response = app
 		.clone()
 		.oneshot(
 			Request::builder()
-				.uri("/articles/test-post")
+				.uri("/test-4.html")
 				.body(Body::empty())
 				.unwrap(),
 		)

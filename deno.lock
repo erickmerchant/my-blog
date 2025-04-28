@@ -3,9 +3,13 @@
   "specifiers": {
     "jsr:@std/assert@1": "1.0.13",
     "jsr:@std/collections@^1.0.11": "1.0.11",
+    "jsr:@std/fs@^1.0.17": "1.0.17",
     "jsr:@std/internal@^1.0.6": "1.0.6",
+    "jsr:@std/path@^1.0.9": "1.0.9",
     "jsr:@std/toml@^1.0.5": "1.0.5",
+    "npm:@happy-dom/global-registrator@*": "17.4.4",
     "npm:@types/node@*": "22.9.0",
+    "npm:happy-dom@*": "17.4.4",
     "npm:marked@^15.0.11": "15.0.11"
   },
   "jsr": {
@@ -18,8 +22,17 @@
     "@std/collections@1.0.11": {
       "integrity": "2f62cf9587484b1fff364f6c3e1f83478eea53dbb6faed6ffeda92ddb6b172f0"
     },
+    "@std/fs@1.0.17": {
+      "integrity": "1c00c632677c1158988ef7a004cb16137f870aafdb8163b9dce86ec652f3952b",
+      "dependencies": [
+        "jsr:@std/path"
+      ]
+    },
     "@std/internal@1.0.6": {
       "integrity": "9533b128f230f73bd209408bb07a4b12f8d4255ab2a4d22a1fd6d87304aca9a4"
+    },
+    "@std/path@1.0.9": {
+      "integrity": "260a49f11edd3db93dd38350bf9cd1b4d1366afa98e81b86167b4e3dd750129e"
     },
     "@std/toml@1.0.5": {
       "integrity": "08061156e9c5716443a144b6e40a8668738b8b424ad99ab0b6fdf1b6ea4da806",
@@ -29,10 +42,23 @@
     }
   },
   "npm": {
+    "@happy-dom/global-registrator@17.4.4": {
+      "integrity": "sha512-njrU74GrYVHO43upIJr96f7pEmUG7YLZbHCGiHALBECeVnDKpepzL9kVc7KIl8S2nQOkPA0rAA1EyC3xASb54w==",
+      "dependencies": [
+        "happy-dom"
+      ]
+    },
     "@types/node@22.9.0": {
       "integrity": "sha512-vuyHg81vvWA1Z1ELfvLko2c8f34gyA0zaic0+Rllc5lbCnbSyuvb2Oxpm6TAUAC/2xZN3QGqxBNggD1nNR2AfQ==",
       "dependencies": [
         "undici-types"
+      ]
+    },
+    "happy-dom@17.4.4": {
+      "integrity": "sha512-/Pb0ctk3HTZ5xEL3BZ0hK1AqDSAUuRQitOmROPHhfUYEWpmTImwfD8vFDGADmMAX0JYgbcgxWoLFKtsWhcpuVA==",
+      "dependencies": [
+        "webidl-conversions",
+        "whatwg-mimetype"
       ]
     },
     "marked@15.0.11": {
@@ -40,6 +66,12 @@
     },
     "undici-types@6.19.8": {
       "integrity": "sha512-ve2KP6f/JnbPBFyobGHuerC9g1FYGn/F8n1LWTwNxCEzd6IfqTwUQcNXgEtmmQ6DlRrC1hrSrBnCZPokRrDHjw=="
+    },
+    "webidl-conversions@7.0.0": {
+      "integrity": "sha512-VwddBukDzu71offAQR975unBIGqfKZpM+8ZX6ySk8nYhVoo5CYaZyzt3YBvYtRtO+aoGlqxPg/B87NGVZ/fu6g=="
+    },
+    "whatwg-mimetype@3.0.0": {
+      "integrity": "sha512-nt+N2dzIutVRxARx1nghPKGv1xHikU7HKdfafKkLNLindmPU/ch3U31NOCGGA/dmPcmb1VlofO0vnKAcsm0o/Q=="
     }
   },
   "redirects": {
@@ -53,7 +85,10 @@
   "workspace": {
     "dependencies": [
       "jsr:@std/assert@1",
+      "jsr:@std/fs@^1.0.17",
       "jsr:@std/toml@^1.0.5",
+      "npm:@happy-dom/global-registrator@*",
+      "npm:happy-dom@*",
       "npm:marked@^15.0.11"
     ]
   }

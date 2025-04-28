@@ -139,7 +139,7 @@
 			background-image: repeating-linear-gradient(
 				90deg,
 				transparent 0 0.125rem,
-				oklch(from currentColor l c h / 0.7) 0.125rem 0.625rem,
+				oklch(from currentColor l c h) 0.125rem 0.625rem,
 				transparent 0.625rem 0.75rem
 			);
 			background-size: calc(round(down, 100%, 0.75rem) - 0.75rem) 0.15rem;

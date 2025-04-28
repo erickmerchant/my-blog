@@ -4,12 +4,13 @@ type Site = {
   author: string;
   description: string;
   projects: [Project];
+  bio: string;
 };
 
 type Post = {
   slug: string;
   title: string;
-  date?: Date;
+  date_published?: Date;
   content: string;
 };
 

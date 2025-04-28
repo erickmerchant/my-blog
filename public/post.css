@@ -1,8 +1,7 @@
 @layer sub-page {
 	code {
-		font-family:
-			ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas,
-			"DejaVu Sans Mono", monospace;
+		font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo,
+			Consolas, "DejaVu Sans Mono", monospace;
 		font-size: 0.85rem;
 	}
 
@@ -54,12 +53,12 @@
 		padding: 1rem;
 		background-color: oklch(from currentColor l c h / 0.025);
 		border: 0.0625rem solid oklch(from var(--foreground) l c h / 0.4);
-		box-shadow: 0.5rem 0.5rem 0 oklch(from var(--foreground) l c h / 0.2);
+		box-shadow: 0.25rem 0.25rem 0 oklch(from var(--foreground) l c h / 0.2);
 		overflow-wrap: anywhere;
 		hyphens: auto;
 		justify-self: start;
 		position: relative;
-		inset: -0.5rem -0.5rem;
+		inset: -0.25rem -0.25rem;
 
 		@container (inline-size < 43.5rem) {
 			max-inline-size: calc(100% - 1rem);
