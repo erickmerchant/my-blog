@@ -1,8 +1,7 @@
 {
   "tasks": {
     "watch": "deno -A --watch=content,public main.ts & coolstyleserver serve ./dist/",
-    "deploy": "cargo test && cargo clippy && cargo +nightly fmt --check && fly deploy --remote-only",
-    "stage": "docker build . -t my-blog && docker run -p 3000:8080 --name my-blog my-blog && docker wait my-blog"
+    "deploy": "deno run -A main.ts && cargo test && cargo clippy && cargo +nightly fmt --check && fly deploy --remote-only"
   },
   "imports": {
     "@happy-dom/global-registrator": "npm:@happy-dom/global-registrator@^17.4.4",

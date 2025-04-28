@@ -29,7 +29,13 @@ pub async fn asset_handler(
 			.with_extension(file_name_parts[2]);
 	}
 
-	let content_type = mime_guess::from_path(&path).first();
+	let content_type = if path.ends_with(".rss") {
+		Some("application/rss+xml".to_string())
+	} else {
+		mime_guess::from_path(&path)
+			.first()
+			.map(|mime| mime.to_string())
+	};
 
 	if let (Some(content_type), Ok(body)) = (
 		content_type,
@@ -38,7 +44,7 @@ pub async fn asset_handler(
 		return Ok((
 			StatusCode::OK,
 			[
-				(header::CONTENT_TYPE, content_type.to_string()),
+				(header::CONTENT_TYPE, content_type),
 				(
 					header::CACHE_CONTROL,
 					if has_hash {
