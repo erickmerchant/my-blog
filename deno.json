@@ -1,7 +1,6 @@
 {
   "tasks": {
-    "dev": "deno -A --watch=content,public main.ts & coolstyleserver serve ./dist/",
-    "deploy": "deno run -A main.ts && cargo test && cargo clippy && cargo +nightly fmt --check && fly deploy --remote-only"
+    "dev": "deno -A --watch=content,public main.ts & coolstyleserver serve ./dist/"
   },
   "imports": {
     "@happy-dom/global-registrator": "npm:@happy-dom/global-registrator@^17.4.4",

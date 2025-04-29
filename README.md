@@ -4,8 +4,8 @@
 
 ### Development
 
-- [Rust and Cargo](https://doc.rust-lang.org/cargo/getting-started/installation.html)
-- [Cargo Watch](https://crates.io/crates/cargo-watch)
+- [Coolstyleserver](https://github.com/erickmerchant/coolstyleserver)
+- [Deno](https://deno.com/)
 
 ### Production
 

@@ -10,9 +10,10 @@ use axum::{
 	middleware::Next,
 	response::{IntoResponse, Response},
 };
+use camino::Utf8Path;
 use etag::EntityTag;
 use rewriter::Rewriter;
-use std::sync::Arc;
+use std::{fs, sync::Arc};
 use url::Url;
 
 pub async fn html_layer(
@@ -28,26 +29,39 @@ pub async fn html_layer(
 		path += "index.html";
 	}
 
+	let cache_path =
+		Utf8Path::new(&state.args.base_dir).join("storage/cache/".to_string() + path.as_str());
+	let body = fs::read(&cache_path).ok();
 	let if_none_match = headers.get(header::IF_NONE_MATCH);
-
-	let res = next.run(req).await;
-
-	if res.status() != StatusCode::OK {
-		return Ok(res);
-	}
-
-	let body = res.into_body();
-	let body = to_bytes(body, usize::MAX).await?;
-	let rewriter = Rewriter {
-		url: Url::parse("https://0.0.0.0")?.join(path.as_str())?,
-		base_dir: state.args.base_dir.to_owned(),
-	};
-	let body = if state.args.rewrite_assets {
-		rewriter.rewrite(&body)?
+	let body = if let Some(body) = body {
+		body
 	} else {
-		body.to_vec()
-	};
+		let res = next.run(req).await;
 
+		if res.status() != StatusCode::OK {
+			return Ok(res);
+		}
+
+		let body = res.into_body();
+		let body = to_bytes(body, usize::MAX).await?;
+		let rewriter = Rewriter {
+			url: Url::parse("https://0.0.0.0")?.join(path.as_str())?,
+			base_dir: state.args.base_dir.to_owned(),
+		};
+		let body = if state.args.rewrite_assets {
+			rewriter.rewrite(&body)?
+		} else {
+			body.to_vec()
+		};
+
+		if let Some(dir) = cache_path.parent() {
+			fs::create_dir_all(dir).ok();
+		}
+
+		fs::write(cache_path, &body).ok();
+
+		body
+	};
 	let etag = EntityTag::from_data(&body).to_string();
 
 	if if_none_match.is_some_and(|if_none_match| etag == *if_none_match) {
