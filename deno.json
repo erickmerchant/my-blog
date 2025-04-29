@@ -5,7 +5,10 @@
   "imports": {
     "@happy-dom/global-registrator": "npm:@happy-dom/global-registrator@^17.4.4",
     "@std/assert": "jsr:@std/assert@^1.0.0",
+    "@std/crypto": "jsr:@std/crypto@^1.0.4",
+    "@std/encoding": "jsr:@std/encoding@^1.0.10",
     "@std/fs": "jsr:@std/fs@^1.0.17",
+    "@std/path": "jsr:@std/path@^1.0.9",
     "@std/toml": "jsr:@std/toml@^1.0.5",
     "@swc/core": "npm:@swc/core@^1.11.22",
     "fast-xml-parser": "npm:fast-xml-parser@5.2.1",
@@ -14,5 +17,8 @@
     "html-minifier": "npm:html-minifier@^4.0.0",
     "lightningcss": "npm:lightningcss@^1.29.3",
     "marked": "npm:marked@^15.0.11"
+  },
+  "compilerOptions": {
+    "lib": ["dom", "dom.iterable", "dom.asynciterable", "deno.ns"]
   }
 }

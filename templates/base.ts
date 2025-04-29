@@ -3,13 +3,15 @@ import { HandcraftElement, html, svg } from "handcraft/prelude/all.js";
 const { head, body, meta, title, link, nav, span, a, footer, ul, li } = html;
 const { title: svgTitle, path } = svg;
 
+type Block = HandcraftElement | null | string;
+
 type Props = {
   site: Site;
   page_title?: string;
-  styles?: HandcraftElement | null | [HandcraftElement | null];
-  scripts?: HandcraftElement | null | [HandcraftElement | null];
-  nav_title?: HandcraftElement | null | [HandcraftElement | null];
-  main?: HandcraftElement | null | [HandcraftElement | null];
+  styles?: Block | [Block];
+  scripts?: Block | [Block];
+  nav_title?: Block | [Block];
+  main?: Block | [Block];
 };
 
 export default function ({

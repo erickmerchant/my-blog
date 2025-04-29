@@ -5,3 +5,7 @@ GlobalRegistrator.register({
   width: 1920,
   height: 1080,
 });
+
+export default async function () {
+  await GlobalRegistrator.unregister();
+}

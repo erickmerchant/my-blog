@@ -1,11 +1,14 @@
-import "./setup.ts";
+import Unregister from "./setup.ts";
+import * as Path from "@std/path";
 import * as Fs from "@std/fs";
 import * as Toml from "@std/toml";
+import { encodeHex } from "@std/encoding/hex";
+import { crypto } from "@std/crypto";
 import * as Marked from "marked";
-import { XMLBuilder } from "fast-xml-parser";
-import { transform } from "lightningcss";
-import { minify } from "html-minifier";
-import swc from "@swc/core";
+import * as XML from "fast-xml-parser";
+import * as LightningCSS from "lightningcss";
+import * as HTMLMinifier from "html-minifier";
+import SWC from "@swc/core";
 import { HandcraftElement } from "handcraft/prelude/all.js";
 import NotFoundView from "./templates/not_found.ts";
 import PostView from "./templates/post.ts";
@@ -88,7 +91,7 @@ if (import.meta.main) {
     await Deno.writeTextFile(`./dist/posts/${slug}/index.html`, postHTML);
   }
   /* create posts.rss */
-  const builder = new XMLBuilder({
+  const builder = new XML.XMLBuilder({
     ignoreAttributes: false,
     attributesGroupName: "attributes",
   });
@@ -125,18 +128,14 @@ if (import.meta.main) {
   await Fs.ensureDir(`./dist/resume`);
   await Deno.writeTextFile(`./dist/resume/index.html`, resumeHTML);
 
-  /* minify html */
-  for await (const { path } of Fs.expandGlob("./dist/**/*.html")) {
-    const code = minify(await Deno.readTextFile(path), {
-      collapseWhitespace: true,
-    });
+  await Unregister();
 
-    await Deno.writeTextFile(path, code);
-  }
+  const jsImports = new Map();
+  const cacheBustedUrls = new Map();
 
   /* minify css */
   for await (const { path } of Fs.expandGlob("./dist/**/*.css")) {
-    const { code } = transform({
+    const { code } = LightningCSS.transform({
       filename: path,
       code: await Deno.readFile(path),
       minify: true,
@@ -148,8 +147,34 @@ if (import.meta.main) {
 
   /* minify js */
   for await (const { path } of Fs.expandGlob("./dist/**/*.js")) {
-    const { code } = await swc
-      .transform(await Deno.readTextFile(path), {
+    const jsContent = await Deno.readTextFile(path);
+    const res = await SWC.parse(jsContent);
+    const encoder = new TextEncoder();
+    const fileHashBuffer = await crypto.subtle.digest(
+      "MD5",
+      encoder.encode(jsContent),
+    );
+    const fileHash = encodeHex(fileHashBuffer);
+
+    jsImports.set(
+      path,
+      res.body.filter(({ type }) => type === "ImportDeclaration").map((
+        { source },
+      ) => source.value),
+    );
+
+    cacheBustedUrls.set(
+      path,
+      Path.format({
+        root: "/",
+        dir: Path.dirname(path),
+        ext: `.${fileHash}${Path.extname(path)}`,
+        name: Path.basename(path),
+      }),
+    );
+
+    const { code } = await SWC
+      .transform(jsContent, {
         filename: path,
         sourceMaps: false,
         minify: true,
@@ -160,6 +185,18 @@ if (import.meta.main) {
           },
         },
       });
+
+    await Deno.writeTextFile(path, code);
+  }
+
+  console.log(jsImports);
+  console.log(cacheBustedUrls);
+
+  /* minify html */
+  for await (const { path } of Fs.expandGlob("./dist/**/*.html")) {
+    const code = HTMLMinifier.minify(await Deno.readTextFile(path), {
+      collapseWhitespace: true,
+    });
 
     await Deno.writeTextFile(path, code);
   }
@@ -192,7 +229,6 @@ function asRFC822Date(date: Date) {
     "Nov",
     "Dec",
   ];
-
   const day = dayStrings[date.getDay()];
   const dayNumber = addLeadingZeros(date.getDate());
   const month = monthStrings[date.getMonth()];
