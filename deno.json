@@ -18,7 +18,14 @@
     "lightningcss": "npm:lightningcss@^1.29.3",
     "marked": "npm:marked@^15.0.11"
   },
+  "nodeModulesDir": "auto",
   "compilerOptions": {
-    "lib": ["dom", "dom.iterable", "dom.asynciterable", "deno.ns"]
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "dom.asynciterable",
+      "es2024",
+      "deno.ns"
+    ]
   }
 }

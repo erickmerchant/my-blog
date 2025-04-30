@@ -21,60 +21,6 @@ impl Rewriter {
 		let mut rewriter = HtmlRewriter::new(
 			Settings {
 				element_content_handlers: [
-					element!("head", |el| {
-						let url = self.get_full_path("/favicon-light.png", true);
-
-						el.append(
-							format!(r#"<link rel="icon" href="{url}" type="image/svg+xml" media="(prefers-color-scheme: light)" />"#)
-								.as_str(),
-							ContentType::Html,
-						);
-
-						let url = self.get_full_path("/favicon-dark.png", true);
-
-						el.append(
-							format!(r#"<link rel="icon" href="{url}" type="image/svg+xml" media="(prefers-color-scheme: dark)" />"#)
-								.as_str(),
-							ContentType::Html,
-						);
-
-						Ok(())
-					}),
-					element!(
-						"link[href][rel='stylesheet'], link[href][rel='icon']",
-						|el| {
-							if let Some(href) = el.get_attribute("href") {
-								el.set_attribute(
-									"href",
-									self.get_full_path(href.as_str(), true).as_str(),
-								)
-								.ok();
-							}
-
-							Ok(())
-						}
-					),
-					element!("script[src]", |el| {
-						if let Some(src) = el.get_attribute("src") {
-							let url = self.get_full_path(src.as_str(), true);
-
-							el.set_attribute("src", url.as_str()).ok();
-
-							let url = self.get_full_path(src.as_str(), false);
-
-							if let Some(t) = el.get_attribute("type") {
-								if t == "module" {
-									if modules.contains(&url) {
-										el.remove();
-									} else {
-										modules.push(url);
-									}
-								}
-							}
-						}
-
-						Ok(())
-					}),
 					text!("script[type='module']", |el| {
 						module_blocks.push(el.as_str().to_string());
 

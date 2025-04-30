@@ -33,7 +33,7 @@ export default function ({ site, posts }: Props) {
         ? section().classes("section").append(
           h2().text("Projects"),
           p().text("Some open-source projects."),
-          ol().classes("section-list").append(
+          ul().classes("section-list").append(
             site.projects.map((project) =>
               li().classes("section-item").append(
                 a().classes("title").attr("href", project.href)

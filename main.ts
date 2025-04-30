@@ -1,19 +1,20 @@
-import Unregister from "./setup.ts";
 import * as Path from "@std/path";
 import * as Fs from "@std/fs";
 import * as Toml from "@std/toml";
-import { encodeHex } from "@std/encoding/hex";
-import { crypto } from "@std/crypto";
 import * as Marked from "marked";
-import * as XML from "fast-xml-parser";
-import * as LightningCSS from "lightningcss";
 import * as HTMLMinifier from "html-minifier";
-import SWC from "@swc/core";
-import { HandcraftElement } from "handcraft/prelude/all.js";
-import NotFoundView from "./templates/not_found.ts";
-import PostView from "./templates/post.ts";
-import HomeView from "./templates/home.ts";
-import ResumeView from "./templates/resume.ts";
+import { alterHTML, saveHTML } from "./app/util/html.ts";
+import { saveRSS } from "./app/util/rss.ts";
+import { moveCacheBusted, saveCacheBusted } from "./app/util/cache-busting.ts";
+import { asRFC822Date } from "./app/util/misc.ts";
+import { runLightning, runSWC } from "./app/util/assets.ts";
+import NotFoundView from "./app/templates/not_found.ts";
+import PostView from "./app/templates/post.ts";
+import HomeView from "./app/templates/home.ts";
+import ResumeView from "./app/templates/resume.ts";
+
+export const cacheBustedUrls = new Map();
+export const distDir = Path.join(Deno.cwd(), "dist");
 
 if (import.meta.main) {
   /* copy public to dist */
@@ -35,15 +36,12 @@ if (import.meta.main) {
   site.bio = await Marked.parse(site.bio);
 
   /* create 404.html */
-  const notFoundHTML = await toHTML(NotFoundView({ site }));
-
-  await Deno.writeTextFile("./dist/404.html", notFoundHTML);
+  await saveHTML("./dist/404.html", () => NotFoundView({ site }));
 
   /* create post models and posts/{slug}/index.html */
   const posts: Array<Post> = [];
-
   const rssItems: Array<RssItem> = [];
-  const rss = {
+  const rss: RSS = {
     attributes: { version: "2.0" },
     channel: {
       title: "Posts",
@@ -84,29 +82,16 @@ if (import.meta.main) {
       });
     }
 
-    const postHTML = await toHTML(PostView({ site, post }));
-
-    await Fs.ensureDir(`./dist/posts/${slug}`);
-
-    await Deno.writeTextFile(`./dist/posts/${slug}/index.html`, postHTML);
+    await saveHTML(
+      `./dist/posts/${slug}/index.html`,
+      () => PostView({ site, post }),
+    );
   }
-  /* create posts.rss */
-  const builder = new XML.XMLBuilder({
-    ignoreAttributes: false,
-    attributesGroupName: "attributes",
-  });
 
-  const rssContent = builder.build(rss);
-
-  await Deno.writeTextFile(
-    `./dist/posts.rss`,
-    `<?xml version="1.0" encoding="utf-8"?>${rssContent}`,
-  );
+  await saveRSS(rss);
 
   /* create index.html */
-  const homeHTML = await toHTML(HomeView({ site, posts }));
-
-  await Deno.writeTextFile(`./dist/index.html`, homeHTML);
+  await saveHTML(`./dist/index.html`, () => HomeView({ site, posts }));
 
   /* create resume model */
   const resumeContent = await Deno.readTextFile("./content/resume.toml");
@@ -123,127 +108,150 @@ if (import.meta.main) {
   }
 
   /* create resume/index.html */
-  const resumeHTML = await toHTML(ResumeView({ resume }));
-
-  await Fs.ensureDir(`./dist/resume`);
-  await Deno.writeTextFile(`./dist/resume/index.html`, resumeHTML);
-
-  await Unregister();
-
-  const jsImports = new Map();
-  const cacheBustedUrls = new Map();
+  await saveHTML(`./dist/resume/index.html`, () => ResumeView({ resume }));
 
   /* minify css */
   for await (const { path } of Fs.expandGlob("./dist/**/*.css")) {
-    const { code } = LightningCSS.transform({
-      filename: path,
-      code: await Deno.readFile(path),
-      minify: true,
-      sourceMap: false,
-    });
+    const cssContent = await Deno.readFile(path);
+    const code = await runLightning(path, cssContent);
 
-    await Deno.writeFile(path, code);
+    await saveCacheBusted(path, code);
   }
+
+  const jsImports = new Map();
 
   /* minify js */
   for await (const { path } of Fs.expandGlob("./dist/**/*.js")) {
     const jsContent = await Deno.readTextFile(path);
-    const res = await SWC.parse(jsContent);
-    const encoder = new TextEncoder();
-    const fileHashBuffer = await crypto.subtle.digest(
-      "MD5",
-      encoder.encode(jsContent),
-    );
-    const fileHash = encodeHex(fileHashBuffer);
+    const imports: Array<string> = [];
+    const code = await runSWC(path, jsContent, imports);
 
     jsImports.set(
-      path,
-      res.body.filter(({ type }) => type === "ImportDeclaration").map((
-        { source },
-      ) => source.value),
+      path.slice(distDir.length),
+      imports,
     );
 
-    cacheBustedUrls.set(
-      path,
-      Path.format({
-        root: "/",
-        dir: Path.dirname(path),
-        ext: `.${fileHash}${Path.extname(path)}`,
-        name: Path.basename(path),
-      }),
-    );
-
-    const { code } = await SWC
-      .transform(jsContent, {
-        filename: path,
-        sourceMaps: false,
-        minify: true,
-        jsc: {
-          target: "es2024",
-          parser: {
-            syntax: "ecmascript",
-          },
-        },
-      });
-
-    await Deno.writeTextFile(path, code);
+    await saveCacheBusted(path, code);
   }
 
-  console.log(jsImports);
-  console.log(cacheBustedUrls);
+  const lightFaviconPath = await moveCacheBusted(
+    Path.join(distDir, "favicon-light.png"),
+  );
+  const darkFaviconPath = await moveCacheBusted(
+    Path.join(distDir, "favicon-dark.png"),
+  );
 
   /* minify html */
   for await (const { path } of Fs.expandGlob("./dist/**/*.html")) {
-    const code = HTMLMinifier.minify(await Deno.readTextFile(path), {
-      collapseWhitespace: true,
-    });
+    await alterHTML(
+      path,
+      await Deno.readTextFile(path),
+      async (document) => {
+        const html = document.querySelector("html");
 
-    await Deno.writeTextFile(path, code);
+        if (html) {
+          const usedJSImports: Array<string> = [];
+          const head = html.querySelector("head");
+          let importMap;
+
+          if (head) {
+            head.insertAdjacentHTML(
+              "beforeend",
+              `<link rel="icon" href="${lightFaviconPath}" type="image/svg+xml" media="(prefers-color-scheme: light)" />`,
+            );
+
+            head.insertAdjacentHTML(
+              "beforeend",
+              `<link rel="icon" href="${darkFaviconPath}" type="image/svg+xml" media="(prefers-color-scheme: dark)" />`,
+            );
+          }
+
+          for (
+            const link of html.querySelectorAll("link[href][rel='stylesheet']")
+          ) {
+            const href = link.getAttribute("href");
+
+            if (href) {
+              if (
+                !href.startsWith("/") && !href.startsWith("./") &&
+                !href.startsWith("../")
+              ) continue;
+
+              link.setAttribute(
+                "href",
+                cacheBustedUrls.get(
+                  Path.resolve(Path.dirname(path.slice(distDir.length)), href),
+                ),
+              );
+            }
+          }
+
+          for (
+            const script of html.querySelectorAll("script[type='importmap']")
+          ) {
+            importMap = JSON.parse(script.textContent);
+          }
+
+          for (
+            const script of html.querySelectorAll("script[src]")
+          ) {
+            const src = script.getAttribute("src");
+
+            if (src) {
+              if (
+                !src.startsWith("/") && !src.startsWith("./") &&
+                !src.startsWith("../")
+              ) continue;
+
+              usedJSImports.push(
+                Path.resolve(Path.dirname(path.slice(distDir.length)), src),
+              );
+
+              script.setAttribute(
+                "src",
+                cacheBustedUrls.get(
+                  Path.resolve(Path.dirname(path.slice(distDir.length)), src),
+                ),
+              );
+            }
+          }
+
+          for (
+            const script of html.querySelectorAll("script[type='module']")
+          ) {
+            const src = script.getAttribute("src");
+
+            if (!src) {
+              const jsContent = script.textContent;
+              const imports: Array<string> = [];
+              const code = await runSWC(path, jsContent, imports);
+
+              usedJSImports.push(...imports);
+
+              script.textContent = code;
+            }
+          }
+
+          const code = HTMLMinifier.minify(`<!doctype html>${html.outerHTML}`, {
+            collapseWhitespace: true,
+          });
+
+          console.log(usedJSImports, importMap);
+
+          if (importMap) {
+            // unprocessedJSImports = usedJSImports
+            // for each unprocessedJSImports as specifier
+            //    resolve the specifier through the imporMap if it doesn't start with / ./ or ../
+            //  update import map with specifier: resolved
+            //  get fullPath with Path.resolve(Path.dirname(path.slice(distDir.length)), src)
+            //    add preload tag with fullPath
+            //  add to processedJSImports
+            //  get dependencies from jsImports and add to unprocessedJSImports if not in processedJSImports
+          }
+
+          return code;
+        }
+      },
+    );
   }
-}
-
-async function toHTML(el: HandcraftElement) {
-  const { promise, resolve } = Promise.withResolvers<string>();
-
-  setTimeout(() => {
-    resolve(`<!doctype html>${el.deref().innerHTML}`);
-  }, 0);
-
-  return await promise;
-}
-
-/* https://whitep4nth3r.com/blog/how-to-format-dates-for-rss-feeds-rfc-822/ */
-function asRFC822Date(date: Date) {
-  const dayStrings = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-  const monthStrings = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
-  const day = dayStrings[date.getDay()];
-  const dayNumber = addLeadingZeros(date.getDate());
-  const month = monthStrings[date.getMonth()];
-  const year = date.getFullYear();
-  const time = `${addLeadingZeros(date.getHours())}:${
-    addLeadingZeros(date.getMinutes())
-  }:00`;
-  const timezone = addLeadingZeros(date.getTimezoneOffset(), 4);
-
-  //Wed, 02 Oct 2002 13:00:00 GMT
-  return `${day}, ${dayNumber} ${month} ${year} ${time} ${
-    timezone.startsWith("-") ? "" : "+"
-  }${timezone}`;
-}
-
-export function addLeadingZeros(str: string | number, length = 2) {
-  return ("0".repeat(length) + str).slice(-1 * length);
 }

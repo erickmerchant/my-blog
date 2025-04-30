@@ -1,6 +1,6 @@
 import { html, unsafe } from "handcraft/prelude/all.js";
 import base from "./base.ts";
-import { addLeadingZeros } from "../main.ts";
+import { addLeadingZeros } from "../util/misc.ts";
 
 const { link, script, article, header, h1, time, span } = html;
 

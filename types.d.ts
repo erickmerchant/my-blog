@@ -42,3 +42,13 @@ type ResumeItem = {
 };
 
 type RssItem = { title: string; link: string; pubDate: string };
+
+type RSS = {
+  attributes: { version: string };
+  channel: {
+    title: string;
+    link: string;
+    copyright: string;
+    item: Array<RssItem>;
+  };
+};

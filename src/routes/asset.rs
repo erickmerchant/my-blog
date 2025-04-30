@@ -21,7 +21,7 @@ pub async fn asset_handler(
 		.map(|name| name.split('.').collect::<_>())
 		.unwrap_or_default();
 
-	if file_name_parts.len() == 3 && file_name_parts[1].len() == 10 {
+	if file_name_parts.len() == 3 && file_name_parts[1].len() == 32 {
 		has_hash = true;
 
 		path = path
