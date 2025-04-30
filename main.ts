@@ -251,8 +251,6 @@ if (import.meta.main) {
             while (unprocessedJSImports.length) {
               const item = unprocessedJSImports.pop();
 
-              console.log(item);
-
               if (!item) continue;
 
               let { specifier, path } = item;
