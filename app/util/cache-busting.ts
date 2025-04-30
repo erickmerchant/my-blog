@@ -53,12 +53,10 @@ export async function moveCacheBusted(path: string) {
     cacheBustedUrl,
   );
 
-  await Deno.writeFile(
+  await Deno.rename(
+    path,
     Path.join(Deno.cwd(), "dist", cacheBustedUrl),
-    content,
   );
-
-  await Deno.remove(path);
 
   return cacheBustedUrl;
 }

@@ -126,12 +126,12 @@ if (import.meta.main) {
     const imports: Array<string> = [];
     const code = await runSWC(path, jsContent, imports);
 
+    await saveCacheBusted(path, code);
+
     jsImports.set(
       path.slice(distDir.length),
       imports,
     );
-
-    await saveCacheBusted(path, code);
   }
 
   const lightFaviconPath = await moveCacheBusted(
@@ -153,6 +153,10 @@ if (import.meta.main) {
           const usedJSImports: Array<string> = [];
           const head = html.querySelector("head");
           let importMap;
+          const newImportMap: { imports: Record<string, string> } = {
+            imports: {},
+          };
+          const preloads = new Set();
 
           if (head) {
             head.insertAdjacentHTML(
@@ -186,10 +190,12 @@ if (import.meta.main) {
             }
           }
 
-          for (
-            const script of html.querySelectorAll("script[type='importmap']")
-          ) {
-            importMap = JSON.parse(script.textContent);
+          const importMapScript = html.querySelector(
+            "script[type='importmap']",
+          );
+
+          if (importMapScript) {
+            importMap = JSON.parse(importMapScript.textContent);
           }
 
           for (
@@ -232,22 +238,107 @@ if (import.meta.main) {
             }
           }
 
+          const distPath = path.slice(distDir.length);
+
+          if (importMap) {
+            const unprocessedJSImports: Array<
+              { specifier: string; path: string }
+            > = usedJSImports.slice(0).map((specifier) => {
+              return { specifier, path: distPath };
+            });
+            const processedJSImports = new Set();
+
+            while (unprocessedJSImports.length) {
+              const item = unprocessedJSImports.pop();
+
+              console.log(item);
+
+              if (!item) continue;
+
+              let { specifier, path } = item;
+
+              processedJSImports.add(`${specifier} ${path}`);
+
+              if (
+                !specifier.startsWith("/") && !specifier.startsWith("./") &&
+                !specifier.startsWith("../")
+              ) {
+                for (
+                  const [key, value] of Object.entries(importMap?.imports ?? {})
+                    .toSorted(([a], [b]) => b.length - a.length)
+                ) {
+                  if (specifier.startsWith(key)) {
+                    let newSpecifier = value + specifier?.substring(key.length);
+
+                    newSpecifier = Path.resolve(
+                      Path.dirname(path),
+                      newSpecifier,
+                    );
+
+                    for (const dep of jsImports.get(newSpecifier) ?? []) {
+                      if (!processedJSImports.has(`${dep} ${newSpecifier}`)) {
+                        unprocessedJSImports.push({
+                          path: newSpecifier,
+                          specifier: dep,
+                        });
+                      }
+                    }
+
+                    newSpecifier = cacheBustedUrls.get(
+                      newSpecifier,
+                    );
+
+                    preloads.add(newSpecifier);
+
+                    newImportMap.imports[specifier] = newSpecifier;
+
+                    break;
+                  }
+                }
+              } else {
+                specifier = Path.resolve(
+                  Path.dirname(path),
+                  specifier,
+                );
+
+                for (const dep of jsImports.get(specifier) ?? []) {
+                  if (!processedJSImports.has(`${dep} ${specifier}`)) {
+                    unprocessedJSImports.push({
+                      path: specifier,
+                      specifier: dep,
+                    });
+                  }
+                }
+
+                const newSpecifier = cacheBustedUrls.get(
+                  specifier,
+                );
+
+                newImportMap.imports[specifier] = newSpecifier;
+
+                preloads.add(newSpecifier);
+              }
+            }
+
+            const importMapScript = html.querySelector(
+              "script[type='importmap']",
+            );
+
+            if (importMapScript) {
+              importMapScript.textContent = JSON.stringify(newImportMap);
+
+              for (const preload of preloads) {
+                importMapScript.insertAdjacentHTML(
+                  "afterend",
+                  `<link rel="modulepreload" href="${preload}" />`,
+                );
+              }
+            }
+          }
+
           const code = HTMLMinifier.minify(`<!doctype html>${html.outerHTML}`, {
             collapseWhitespace: true,
           });
-
-          console.log(usedJSImports, importMap);
-
-          if (importMap) {
-            // unprocessedJSImports = usedJSImports
-            // for each unprocessedJSImports as specifier
-            //    resolve the specifier through the imporMap if it doesn't start with / ./ or ../
-            //  update import map with specifier: resolved
-            //  get fullPath with Path.resolve(Path.dirname(path.slice(distDir.length)), src)
-            //    add preload tag with fullPath
-            //  add to processedJSImports
-            //  get dependencies from jsImports and add to unprocessedJSImports if not in processedJSImports
-          }
 
           return code;
         }
