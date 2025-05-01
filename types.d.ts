@@ -11,7 +11,7 @@ type Post = {
   slug: string;
   title: string;
   hasCode: boolean;
-  date_published?: Date;
+  date_published: Date;
   content: string;
 };
 

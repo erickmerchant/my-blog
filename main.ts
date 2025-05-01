@@ -76,18 +76,22 @@ if (import.meta.main) {
 
     posts.push(post);
 
-    if (post.date_published) {
-      rssItems.push({
-        title: post.title,
-        link: `${site.host}/posts/${slug}/`,
-        pubDate: asRFC822Date(post.date_published),
-      });
-    }
-
     await saveHTML(
       `./dist/posts/${slug}/index.html`,
       () => PostView({ site, post }),
     );
+  }
+
+  posts.sort((a, b) => {
+    return b.date_published.getTime() - a.date_published.getTime();
+  });
+
+  for (const post of posts) {
+    rssItems.push({
+      title: post.title,
+      link: `${site.host}/posts/${post.slug}/`,
+      pubDate: asRFC822Date(post.date_published),
+    });
   }
 
   await saveRSS(rss);
