@@ -3,11 +3,10 @@ mod tests;
 
 use anyhow::Result;
 use app::{
-	layers::html,
-	routes::{asset, not_found, page},
+	routes::{asset, page},
 	state,
 };
-use axum::{middleware::from_fn_with_state, routing::get, serve, Router};
+use axum::{routing::get, serve, Router};
 use glob::glob;
 use std::{fs, sync::Arc};
 use tokio::net::TcpListener;
@@ -57,9 +56,7 @@ fn get_app(state: state::State) -> Router {
 	}
 
 	router
-		.route_layer(from_fn_with_state(state.clone(), html::html_layer))
 		.route("/{*path}", get(asset::asset_handler))
-		.fallback(not_found::not_found_handler)
 		.with_state(state.clone())
 		.layer(CompressionLayer::new())
 		.layer(TraceLayer::new_for_http())

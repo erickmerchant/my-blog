@@ -13,26 +13,20 @@ pub async fn asset_handler(
 	Path(path): Path<String>,
 ) -> Result<Response, error::Error> {
 	let path = Utf8Path::new(path.as_str());
-	let path = path.to_path_buf();
 	let mut has_hash = false;
-	let mut path = path.to_path_buf();
 	let file_name_parts: Vec<&str> = path
 		.file_name()
 		.map(|name| name.split('.').collect::<_>())
 		.unwrap_or_default();
 
-	if file_name_parts.len() == 3 && file_name_parts[1].len() == 32 {
+	if file_name_parts.len() == 3 {
 		has_hash = true;
-
-		path = path
-			.with_file_name(file_name_parts[0])
-			.with_extension(file_name_parts[2]);
 	}
 
 	let content_type = if path.ends_with(".rss") {
 		Some("application/rss+xml".to_string())
 	} else {
-		mime_guess::from_path(&path)
+		mime_guess::from_path(path)
 			.first()
 			.map(|mime| mime.to_string())
 	};

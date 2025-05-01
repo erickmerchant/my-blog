@@ -1,9 +1,20 @@
 import * as Path from "@std/path";
 import { encodeHex } from "@std/encoding/hex";
 import { crypto } from "@std/crypto";
-import { cacheBustedUrls, distDir } from "../../main.ts";
+import { cacheBustedUrls, distDir } from "../main.ts";
 
 export async function saveCacheBusted(path: string, code: string) {
+  if (!Deno.args.includes("--rewrite")) {
+    const subpath = path.substring(distDir.length);
+
+    cacheBustedUrls.set(
+      path.substring(distDir.length),
+      subpath,
+    );
+
+    return subpath;
+  }
+
   const encoder = new TextEncoder();
   const fileHashBuffer = await crypto.subtle.digest(
     "MD5",
@@ -13,13 +24,13 @@ export async function saveCacheBusted(path: string, code: string) {
   const fileHash = encodeHex(fileHashBuffer);
   const cacheBustedUrl = Path.format({
     root: "/",
-    dir: Path.dirname(path).slice(distDir.length),
+    dir: Path.dirname(path).substring(distDir.length),
     ext: `.${fileHash}${Path.extname(path)}`,
     name: Path.basename(path, Path.extname(path)),
   });
 
   cacheBustedUrls.set(
-    path.slice(distDir.length),
+    path.substring(distDir.length),
     cacheBustedUrl,
   );
 
@@ -34,6 +45,17 @@ export async function saveCacheBusted(path: string, code: string) {
 }
 
 export async function moveCacheBusted(path: string) {
+  if (!Deno.args.includes("--rewrite")) {
+    const subpath = path.substring(distDir.length);
+
+    cacheBustedUrls.set(
+      path.substring(distDir.length),
+      subpath,
+    );
+
+    return subpath;
+  }
+
   const content = await Deno.readFile(path);
   const fileHashBuffer = await crypto.subtle.digest(
     "MD5",
@@ -43,13 +65,13 @@ export async function moveCacheBusted(path: string) {
   const fileHash = encodeHex(fileHashBuffer);
   const cacheBustedUrl = Path.format({
     root: "/",
-    dir: Path.dirname(path).slice(distDir.length),
+    dir: Path.dirname(path).substring(distDir.length),
     ext: `.${fileHash}${Path.extname(path)}`,
     name: Path.basename(path, Path.extname(path)),
   });
 
   cacheBustedUrls.set(
-    path.slice(distDir.length),
+    path.substring(distDir.length),
     cacheBustedUrl,
   );
 

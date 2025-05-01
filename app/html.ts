@@ -3,7 +3,7 @@ import * as Fs from "@std/fs";
 import { HandcraftElement } from "handcraft/prelude/all.js";
 import { GlobalRegistrator } from "@happy-dom/global-registrator";
 import { Document, Window } from "happy-dom";
-import { distDir } from "../../main.ts";
+import { distDir } from "../main.ts";
 
 export async function saveHTML(path: string, view: () => HandcraftElement) {
   GlobalRegistrator.register({
@@ -44,7 +44,7 @@ export async function alterHTML(
   content: string,
   cb: (document: Document) => Promise<string | undefined>,
 ) {
-  const subpath = path.slice(distDir.length);
+  const subpath = path.substring(distDir.length);
 
   const window = new Window({
     width: 1920,

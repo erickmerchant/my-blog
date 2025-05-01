@@ -15,7 +15,7 @@ pub async fn not_found_handler(
 		fs::read(state.args.base_dir.trim_end_matches("/").to_string() + "/dist/" + &path)
 	{
 		return Ok((
-			StatusCode::OK,
+			StatusCode::NOT_FOUND,
 			[(header::CONTENT_TYPE, mime::HTML.to_string())],
 			body,
 		)

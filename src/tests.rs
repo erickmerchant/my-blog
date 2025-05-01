@@ -20,7 +20,6 @@ async fn will_error_handler() -> Result<Response, error::Error> {
 async fn get_test_app() -> Router {
 	let state = state::State::from_args(state::Args {
 		base_dir: "fixtures".to_string(),
-		rewrite_assets: true,
 		port: 80,
 	});
 	let app = get_app(state);

@@ -8,22 +8,16 @@ pub struct State {
 #[derive(Clone)]
 pub struct Args {
 	pub base_dir: String,
-	pub rewrite_assets: bool,
 	pub port: u16,
 }
 
 impl State {
 	pub fn from_env() -> Self {
 		let base_dir: String = get_env("APP_BASE_DIR", ".".to_string());
-		let rewrite_assets: bool = get_env("APP_REWRITE_ASSETS", true);
 		let port: u16 = get_env("APP_PORT", 8080);
 
 		Self {
-			args: Args {
-				base_dir,
-				rewrite_assets,
-				port,
-			},
+			args: Args { base_dir, port },
 		}
 	}
 

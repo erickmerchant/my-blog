@@ -5,6 +5,7 @@ killgroup(){
   kill 0;
 }
 
+deno run -A main.ts --rewrite &&
 docker build . -t my-blog &&
 docker run -p 3000:8080 --name my-blog my-blog &&
 docker wait my-blog &
