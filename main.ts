@@ -65,10 +65,12 @@ if (import.meta.main) {
       ? new Date(frontmatter.date_published as string)
       : null;
 
+    const hasCode = /\n```/.test(md);
     const content = await Marked.parse(md);
     const post: Post = {
       slug,
       content,
+      hasCode,
       ...frontmatter,
     } as Post;
 
@@ -177,16 +179,33 @@ if (import.meta.main) {
 
             if (href) {
               if (
-                !href.startsWith("/") && !href.startsWith("./") &&
-                !href.startsWith("../")
+                href.startsWith("http://") || href.startsWith("https://")
               ) continue;
 
-              link.setAttribute(
-                "href",
-                cacheBustedUrls.get(
-                  Path.resolve(Path.dirname(path.slice(distDir.length)), href),
+              const cacheBustedUrl = cacheBustedUrls.get(
+                Path.resolve(
+                  Path.dirname(path.substring(distDir.length)),
+                  href,
                 ),
               );
+
+              if (!Deno.args.includes("--inline-css")) {
+                link.setAttribute(
+                  "href",
+                  cacheBustedUrl,
+                );
+              } else {
+                const style = document.createElement("style");
+
+                style.textContent = await Deno.readTextFile(
+                  Path.join(
+                    distDir,
+                    cacheBustedUrl,
+                  ),
+                );
+
+                link.replaceWith(style);
+              }
             }
           }
 

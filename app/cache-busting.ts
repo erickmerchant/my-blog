@@ -4,7 +4,7 @@ import { crypto } from "@std/crypto";
 import { cacheBustedUrls, distDir } from "../main.ts";
 
 export async function saveCacheBusted(path: string, code: string) {
-  if (!Deno.args.includes("--rewrite")) {
+  if (!Deno.args.includes("--cache-bust")) {
     const subpath = path.substring(distDir.length);
 
     cacheBustedUrls.set(
@@ -45,7 +45,7 @@ export async function saveCacheBusted(path: string, code: string) {
 }
 
 export async function moveCacheBusted(path: string) {
-  if (!Deno.args.includes("--rewrite")) {
+  if (!Deno.args.includes("--cache-bust")) {
     const subpath = path.substring(distDir.length);
 
     cacheBustedUrls.set(

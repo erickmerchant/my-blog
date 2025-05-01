@@ -4,7 +4,6 @@
   },
   "imports": {
     "@happy-dom/global-registrator": "npm:@happy-dom/global-registrator@^17.4.4",
-    "@std/assert": "jsr:@std/assert@^1.0.0",
     "@std/crypto": "jsr:@std/crypto@^1.0.4",
     "@std/encoding": "jsr:@std/encoding@^1.0.10",
     "@std/fs": "jsr:@std/fs@^1.0.17",

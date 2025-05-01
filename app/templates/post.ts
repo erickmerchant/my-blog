@@ -15,9 +15,11 @@ export default function ({ site, post }: Props) {
     page_title: post.title,
     styles: [
       link().attr("rel", "stylesheet").attr("href", "/post.css"),
-      link().attr("rel", "stylesheet").attr("href", "/vendor/prism.css"),
+      post.hasCode
+        ? link().attr("rel", "stylesheet").attr("href", "/vendor/prism.css")
+        : null,
     ],
-    scripts: script().attr("src", "/vendor/prism.js"),
+    scripts: post.hasCode ? script().attr("src", "/vendor/prism.js") : null,
     main: article().classes("article").append(
       header().append(
         h1().text(post.title),
