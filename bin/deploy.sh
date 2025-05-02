@@ -1,4 +1,4 @@
-deno run -A main.ts --cache-bust --inline-css && 
+deno task frontend && 
 cargo test && 
 cargo clippy && 
 cargo +nightly fmt --check && 

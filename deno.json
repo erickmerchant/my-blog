@@ -1,6 +1,11 @@
 {
   "tasks": {
-    "dev": "deno -A --watch=content,public main.ts & coolstyleserver serve ./dist/"
+    "dev": {
+      "dependencies": ["dev-frontend", "dev-server"]
+    },
+    "dev-frontend": "deno -A --watch=content,public main.ts",
+    "dev-server": "coolstyleserver serve ./dist/",
+    "frontend": "deno run -A main.ts --cache-bust --inline-css"
   },
   "imports": {
     "@happy-dom/global-registrator": "npm:@happy-dom/global-registrator@^17.4.4",

@@ -1,19 +1,5 @@
-import * as LightningCSS from "lightningcss";
 import SWC from "@swc/core";
-
-export function runLightning(
-  path: string,
-  content: Uint8Array,
-): Promise<string> {
-  const { code } = LightningCSS.transform({
-    filename: path,
-    code: content,
-    minify: true,
-    sourceMap: false,
-  });
-
-  return Promise.resolve(code.toString());
-}
+import { saveCacheBusted } from "./cache-busting.ts";
 
 export async function runSWC(
   path: string,
@@ -44,4 +30,11 @@ export async function runSWC(
     });
 
   return code;
+}
+
+export async function optimizeJS(path: string, imports: Array<string>) {
+  const jsContent = await Deno.readTextFile(path);
+  const code = await runSWC(path, jsContent, imports);
+
+  await saveCacheBusted(path, code);
 }

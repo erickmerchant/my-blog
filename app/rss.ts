@@ -1,6 +1,28 @@
 import * as XML from "fast-xml-parser";
+import { asRFC822Date } from "./utils.ts";
 
-export async function saveRSS(rss: RSS) {
+export async function saveRSS(
+  { site, posts }: { site: Site; posts: Array<Post> },
+) {
+  const rssItems: Array<RssItem> = [];
+  const rss: RSS = {
+    attributes: { version: "2.0" },
+    channel: {
+      title: "Posts",
+      link: `${site.host}/posts.rss`,
+      copyright: site.author,
+      item: rssItems,
+    },
+  };
+
+  for (const post of posts) {
+    rssItems.push({
+      title: post.title,
+      link: `${site.host}/posts/${post.slug}/`,
+      pubDate: asRFC822Date(post.date_published),
+    });
+  }
+
   /* create posts.rss */
   const builder = new XML.XMLBuilder({
     ignoreAttributes: false,

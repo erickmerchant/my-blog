@@ -72,7 +72,7 @@ export default function ({
           "https://github.com/erickmerchant/my-blog",
         ).text("View Source"),
       ),
-      li().classes("footer-item").text("©" + site.author),
+      li().classes("footer-item").text("© " + site.author),
     ),
   );
 
