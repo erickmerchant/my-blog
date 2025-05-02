@@ -19,7 +19,9 @@ export default function ({ site, post }: Props) {
         ? link().attr("rel", "stylesheet").attr("href", "/vendor/prism.css")
         : null,
     ],
-    scripts: post.hasCode ? script().attr("src", "/vendor/prism.js") : null,
+    scripts: post.hasCode
+      ? script().attr("src", "/vendor/prism.js").attr("type", "module")
+      : null,
     main: article().classes("article").append(
       header().append(
         h1().text(post.title),
