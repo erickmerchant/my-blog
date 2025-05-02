@@ -64,8 +64,9 @@
 		background-repeat: no-repeat;
 		background-position: left center;
 
-		@container (inline-size < 43.5rem) {
+		@container (inline-size <= 43.5rem) {
 			max-inline-size: calc(100% - 1rem);
+			padding-inline: 1rem;
 		}
 
 		> :where(:not(:last-child)) {
