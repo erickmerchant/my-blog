@@ -1,7 +1,6 @@
 @layer sub-page {
 	code {
 		font-family: "Fira Code", monospace;
-		font-size: 0.85rem;
 	}
 
 	:where(:not(pre)) > code {
