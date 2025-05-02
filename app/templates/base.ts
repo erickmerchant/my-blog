@@ -32,14 +32,14 @@ export default function ({
     link().attr("rel", "stylesheet").attr("href", "/page.css"),
     styles,
     scripts,
-    meta().attr("name", "description").attr(
-      "content",
-      site.description,
-    ),
     link().attr("rel", "alternate")
       .attr("type", "application/rss+xml")
       .attr("title", "Posts")
       .attr("href", site.host + "/posts.rss"),
+    meta().attr("name", "description").attr(
+      "content",
+      site.description,
+    ),
   );
 
   const baseNav = nav().classes("nav").append(

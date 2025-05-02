@@ -17,6 +17,7 @@ import ResumeView from "./app/templates/resume.ts";
 export const distDir = Path.join(Deno.cwd(), "dist");
 export const cacheBustedUrls = new Map();
 export const jsImports = new Map();
+export const cssImports = new Map();
 
 if (import.meta.main) {
   await Fs.ensureDir("./dist");
@@ -52,7 +53,14 @@ if (import.meta.main) {
   }
 
   for await (const { path } of Fs.expandGlob("./dist/**/*.css")) {
-    await optimizeCSS(path);
+    const imports: Array<string> = [];
+
+    await optimizeCSS(path, imports);
+
+    cssImports.set(
+      path.slice(distDir.length),
+      imports,
+    );
   }
 
   for await (const { path } of Fs.expandGlob("./dist/**/*.js")) {

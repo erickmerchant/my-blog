@@ -20,7 +20,7 @@ export default function ({ site, post }: Props) {
         : null,
     ],
     scripts: post.hasCode
-      ? script().attr("src", "/vendor/prism.js").attr("type", "module")
+      ? script().attr("src", "/vendor/prism.js").attr("defer", true)
       : null,
     main: article().classes("article").append(
       header().append(

@@ -4,7 +4,7 @@ import * as HTMLMinifier from "html-minifier";
 import { HandcraftElement } from "handcraft/prelude/all.js";
 import { GlobalRegistrator } from "@happy-dom/global-registrator";
 import { Document, Window } from "happy-dom";
-import { cacheBustedUrls, distDir, jsImports } from "../main.ts";
+import { cacheBustedUrls, cssImports, distDir, jsImports } from "../main.ts";
 import { runSWC } from "./js.ts";
 
 export async function saveView(path: string, view: () => HandcraftElement) {
@@ -95,21 +95,22 @@ export async function optimizeHTML(path: string) {
         const newImportMap: { imports: Record<string, string> } = {
           imports: {},
         };
-        const preloads = new Set();
+        const modulePreloads = new Set<string>();
+        const preloads = new Set<string>();
 
         if (head) {
           head.insertAdjacentHTML(
             "beforeend",
             `<link rel="icon" href="${
               cacheBustedUrls.get("/favicon-light.png")
-            }" type="image/svg+xml" media="(prefers-color-scheme: light)" />`,
+            }" type="image/svg+xml" media="(prefers-color-scheme: light)" as=>`,
           );
 
           head.insertAdjacentHTML(
             "beforeend",
             `<link rel="icon" href="${
               cacheBustedUrls.get("/favicon-dark.png")
-            }" type="image/svg+xml" media="(prefers-color-scheme: dark)" />`,
+            }" type="image/svg+xml" media="(prefers-color-scheme: dark)" as=>`,
           );
         }
 
@@ -123,11 +124,19 @@ export async function optimizeHTML(path: string) {
               href.startsWith("http://") || href.startsWith("https://")
             ) continue;
 
+            const resolvedHref = Path.resolve(
+              Path.dirname(path.substring(distDir.length)),
+              href,
+            );
+
+            for (const url of cssImports.get(resolvedHref)) {
+              preloads.add(
+                cacheBustedUrls.get(Path.resolve(resolvedHref, url)),
+              );
+            }
+
             const cacheBustedUrl = cacheBustedUrls.get(
-              Path.resolve(
-                Path.dirname(path.substring(distDir.length)),
-                href,
-              ),
+              resolvedHref,
             );
 
             if (!Deno.args.includes("--inline-css")) {
@@ -146,6 +155,25 @@ export async function optimizeHTML(path: string) {
               );
 
               link.replaceWith(style);
+            }
+          }
+        }
+
+        const firstStylesheet = !Deno.args.includes("--inline-css")
+          ? html.querySelector(
+            "link:nth-child(1 of [rel='stylesheet'])",
+          )
+          : html.querySelector(
+            "style:nth-of-type(1)",
+          );
+
+        if (firstStylesheet) {
+          for (const preload of preloads) {
+            if (preload.endsWith(".woff2")) {
+              firstStylesheet.insertAdjacentHTML(
+                "beforebegin",
+                `<link rel="preload" href="${preload}" as="font" type="font/woff2" crossorigin>`,
+              );
             }
           }
         }
@@ -246,7 +274,7 @@ export async function optimizeHTML(path: string) {
                     newSpecifier,
                   );
 
-                  preloads.add(newSpecifier);
+                  modulePreloads.add(newSpecifier);
 
                   newImportMap.imports[specifier] = newSpecifier;
 
@@ -274,7 +302,7 @@ export async function optimizeHTML(path: string) {
 
               newImportMap.imports[specifier] = newSpecifier;
 
-              preloads.add(newSpecifier);
+              modulePreloads.add(newSpecifier);
             }
           }
 
@@ -285,10 +313,10 @@ export async function optimizeHTML(path: string) {
           if (importMapScript) {
             importMapScript.textContent = JSON.stringify(newImportMap);
 
-            for (const preload of preloads) {
+            for (const modulePreload of modulePreloads) {
               importMapScript.insertAdjacentHTML(
                 "afterend",
-                `<link rel="modulepreload" href="${preload}" />`,
+                `<link rel="modulepreload" href="${modulePreload}" as=>`,
               );
             }
           }

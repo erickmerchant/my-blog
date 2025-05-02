@@ -6,6 +6,7 @@ import * as Path from "@std/path";
 export function runLightning(
   path: string,
   content: Uint8Array,
+  imports: Array<string>,
 ): Promise<string> {
   const { code } = LightningCSS.transform({
     filename: path,
@@ -14,6 +15,8 @@ export function runLightning(
     sourceMap: false,
     visitor: {
       Url(url) {
+        imports.push(url.url);
+
         return {
           ...url,
           url: cacheBustedUrls.get(Path.resolve(
@@ -28,9 +31,9 @@ export function runLightning(
   return Promise.resolve(code.toString());
 }
 
-export async function optimizeCSS(path: string) {
+export async function optimizeCSS(path: string, imports: Array<string>) {
   const cssContent = await Deno.readFile(path);
-  const code = await runLightning(path, cssContent);
+  const code = await runLightning(path, cssContent, imports);
 
   await saveCacheBusted(path, code);
 }
