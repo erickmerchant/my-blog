@@ -1,5 +1,7 @@
 import * as LightningCSS from "lightningcss";
 import { saveCacheBusted } from "./cache-busting.ts";
+import { cacheBustedUrls } from "../main.ts";
+import * as Path from "@std/path";
 
 export function runLightning(
   path: string,
@@ -10,6 +12,17 @@ export function runLightning(
     code: content,
     minify: true,
     sourceMap: false,
+    visitor: {
+      Url(url) {
+        return {
+          ...url,
+          url: cacheBustedUrls.get(Path.resolve(
+            path,
+            url.url,
+          )),
+        };
+      },
+    },
   });
 
   return Promise.resolve(code.toString());

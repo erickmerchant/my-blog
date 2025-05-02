@@ -1,3 +1,10 @@
+@font-face {
+	font-family: "Fira Code";
+	font-weight: 400;
+	src: url(/fonts/FiraCode-Regular-subset.woff2) format("woff2");
+	unicode-range: U+20-7E;
+}
+
 @layer sub-page {
 	code {
 		font-family: "Fira Code", monospace;

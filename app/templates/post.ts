@@ -16,13 +16,7 @@ export default function ({ site, post }: Props) {
     styles: [
       link().attr("rel", "stylesheet").attr("href", "/post.css"),
       post.hasCode
-        ? [
-          link().attr("rel", "stylesheet").attr("href", "/vendor/prism.css"),
-          link().attr("rel", "stylesheet").attr(
-            "href",
-            "https://fonts.bunny.net/css?family=fira-code:400",
-          ),
-        ]
+        ? link().attr("rel", "stylesheet").attr("href", "/vendor/prism.css")
         : null,
     ],
     scripts: post.hasCode ? script().attr("src", "/vendor/prism.js") : null,

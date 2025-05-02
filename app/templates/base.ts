@@ -29,13 +29,8 @@ export default function ({
       "width=device-width, initial-scale=1",
     ),
     title().text(page_title ? page_title + " - " + site.title : site.title),
-    link().attr("rel", "preconnect").attr("href", "https://fonts.bunny.net"),
     link().attr("rel", "stylesheet").attr("href", "/page.css"),
     styles,
-    link().attr("rel", "stylesheet").attr(
-      "href",
-      "https://fonts.bunny.net/css?family=jacquard-24:400|work-sans:300,400,600,800",
-    ),
     scripts,
     meta().attr("name", "description").attr(
       "content",

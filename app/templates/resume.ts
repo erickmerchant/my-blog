@@ -71,13 +71,6 @@ export default function ({ resume }: Props) {
         "width=device-width, initial-scale=1",
       ),
       title().text("Résumé"),
-      link().attr("rel", "preconnect").attr("href", "https://fonts.bunny.net"),
-      link()
-        .attr(
-          "href",
-          "https://fonts.bunny.net/css?family=bitter:700|work-sans:400,400i,700",
-        )
-        .attr("rel", "stylesheet"),
       link()
         .attr("href", "/resume.css")
         .attr("rel", "stylesheet"),

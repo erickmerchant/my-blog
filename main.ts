@@ -47,6 +47,10 @@ if (import.meta.main) {
 
   await saveView(`./dist/resume/index.html`, () => ResumeView({ resume }));
 
+  for await (const { path } of Fs.expandGlob("./dist/fonts/*.woff2")) {
+    await moveCacheBusted(path);
+  }
+
   for await (const { path } of Fs.expandGlob("./dist/**/*.css")) {
     await optimizeCSS(path);
   }
