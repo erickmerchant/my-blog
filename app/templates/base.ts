@@ -3,15 +3,15 @@ import { HandcraftElement, html, svg } from "handcraft/prelude/all.js";
 const { head, body, meta, title, link, nav, span, a, footer, ul, li } = html;
 const { title: svgTitle, path } = svg;
 
-type Block = HandcraftElement | null | string;
+type Block = HandcraftElement | null | string | [Block];
 
 type Props = {
   site: Site;
   page_title?: string;
-  styles?: Block | [Block];
-  scripts?: Block | [Block];
-  nav_title?: Block | [Block];
-  main?: Block | [Block];
+  styles?: Block;
+  scripts?: Block;
+  nav_title?: Block;
+  main?: Block;
 };
 
 export default function ({
@@ -34,7 +34,7 @@ export default function ({
     styles,
     link().attr("rel", "stylesheet").attr(
       "href",
-      "https://fonts.bunny.net/css?family=jacquard-24:400|work-sans:200,400,600,800",
+      "https://fonts.bunny.net/css?family=jacquard-24:400|work-sans:300,400,600,800",
     ),
     scripts,
     meta().attr("name", "description").attr(

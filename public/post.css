@@ -1,7 +1,6 @@
 @layer sub-page {
 	code {
-		font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo,
-			Consolas, "DejaVu Sans Mono", monospace;
+		font-family: "Fira Code", monospace;
 		font-size: 0.85rem;
 	}
 
@@ -49,16 +48,22 @@
 	}
 
 	blockquote {
-		border-radius: 0.125rem;
-		padding: 1rem;
+		padding: 1rem 2rem;
 		background-color: oklch(from currentColor l c h / 0.025);
-		border: 0.0625rem solid oklch(from var(--foreground) l c h / 0.4);
-		box-shadow: 0.25rem 0.25rem 0 oklch(from var(--foreground) l c h / 0.2);
 		overflow-wrap: anywhere;
 		hyphens: auto;
 		justify-self: start;
 		position: relative;
 		inset: -0.25rem -0.25rem;
+		background-image: repeating-linear-gradient(
+			0deg,
+			transparent 0 0.125rem,
+			oklch(from currentColor l c h) 0.125rem 0.625rem,
+			transparent 0.625rem 0.75rem
+		);
+		background-size: 0.15rem calc(round(down, 100%, 0.75rem) - 0.75rem);
+		background-repeat: no-repeat;
+		background-position: left center;
 
 		@container (inline-size < 43.5rem) {
 			max-inline-size: calc(100% - 1rem);
@@ -80,7 +85,7 @@
 	}
 
 	.status {
-		font-weight: 200;
+		font-weight: 300;
 	}
 
 	.article {

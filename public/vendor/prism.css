@@ -17,43 +17,50 @@ https://prismjs.com/download.html#themes=prism&languages=markup+css+clike+javasc
 		-ms-hyphens: none;
 		hyphens: none;
 	}
+
 	pre[class*="language-"] {
 		overflow: auto;
 	}
+
 	.token.cdata,
 	.token.comment,
 	.token.doctype,
 	.token.prolog {
 		color: light-dark(oklch(from gray 50% c h), oklch(from gray 80% c h));
 	}
+
 	.token.punctuation,
 	.token.operator {
 		color: light-dark(oklch(from gray 50% c h), oklch(from gray 80% c h));
 	}
+
 	.token.namespace {
 		opacity: 0.7;
 	}
-	.token.boolean,
+
 	.token.constant,
 	.token.deleted,
-	.token.number,
 	.token.property,
 	.token.symbol,
 	.token.tag {
 		color: light-dark(oklch(from wheat 50% c h), oklch(from wheat 80% c h));
 	}
+
 	.token.attr-name,
 	.token.builtin,
 	.token.char,
 	.token.inserted,
 	.token.selector,
-	.token.string {
+	.token.string,
+	.token.regex {
 		color: light-dark(oklch(from plum 50% c h), oklch(from plum 80% c h));
 	}
+
 	.token.entity,
 	.token.url {
 		color: light-dark(oklch(from teal 50% c h), oklch(from teal 80% c h));
 	}
+
 	.token.atrule,
 	.token.attr-value,
 	.token.keyword {
@@ -62,22 +69,28 @@ https://prismjs.com/download.html#themes=prism&languages=markup+css+clike+javasc
 			oklch(from deepskyblue 80% c h)
 		);
 	}
+
 	.token.class-name,
 	.token.function {
 		color: light-dark(oklch(from coral 50% c h), oklch(from coral 80% c h));
 	}
+
 	.token.important,
-	.token.regex,
-	.token.variable {
+	.token.variable,
+	.token.boolean,
+	.token.number {
 		color: light-dark(oklch(from hotpink 50% c h), oklch(from hotpink 80% c h));
 	}
+
 	.token.bold,
 	.token.important {
 		font-weight: 700;
 	}
+
 	.token.italic {
 		font-style: italic;
 	}
+
 	.token.entity {
 		cursor: help;
 	}
