@@ -19,7 +19,12 @@ export async function getAllPosts(): Promise<Array<Post>> {
       ? new Date(frontmatter.date_published as string)
       : null;
 
-    const hasCode = /\n```/.test(md);
+    let hasCode = 0;
+
+    if (/`/.test(md)) hasCode++;
+
+    if (/\n```/.test(md)) hasCode++;
+
     const content = await Marked.parse(md);
     const post: Post = {
       slug,

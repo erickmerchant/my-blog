@@ -16,7 +16,12 @@ export default function ({ site, post }: Props) {
     styles: [
       link().attr("rel", "stylesheet").attr("href", "/post.css"),
       post.hasCode
-        ? link().attr("rel", "stylesheet").attr("href", "/vendor/prism.css")
+        ? [
+          link().attr("rel", "stylesheet").attr("href", "/code.css"),
+          post.hasCode > 1
+            ? link().attr("rel", "stylesheet").attr("href", "/vendor/prism.css")
+            : null,
+        ]
         : null,
     ],
     scripts: post.hasCode

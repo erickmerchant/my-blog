@@ -10,7 +10,7 @@ type Site = {
 type Post = {
   slug: string;
   title: string;
-  hasCode: boolean;
+  hasCode: 0 | 1 | 2;
   date_published: Date;
   content: string;
 };
