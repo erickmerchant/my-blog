@@ -8,5 +8,6 @@
 @layer component {
 	code {
 		font-family: "Fira Code", monospace;
+		font-size: 0.9rem;
 	}
 }
