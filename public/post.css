@@ -1,8 +1,8 @@
 @layer sub-page {
 	:where(:not(pre)) > code {
 		background-color: oklch(from currentColor l c h / 0.05);
-		padding: 0.075rem 0.25rem;
-		border-radius: 0.125rem;
+		padding: 0.05rem 0.25rem;
+		border-radius: 0.25rem;
 
 		/* Arc iOS bug fix */
 		:where(a) {
