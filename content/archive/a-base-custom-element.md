@@ -1,6 +1,6 @@
 +++
 title = "A base Custom Element for Declarative Shadow Dom"
-date_published = "2023-06-04"
+datePublished = "2023-06-04"
 +++
 
 ## Declarative Shadow DOM

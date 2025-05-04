@@ -39,7 +39,7 @@ function timeline({
         li().append(
           div().classes("details").append(
             h3().classes("title").append(
-              item.latest_full_time && span().classes("note").text("★"),
+              item.latestFullTime && span().classes("note").text("★"),
               item.title,
             ),
             item.organization &&

@@ -1,35 +1,23 @@
 /* https://whitep4nth3r.com/blog/how-to-format-dates-for-rss-feeds-rfc-822/ */
-export function asRFC822Date(date: Date) {
-  const dayStrings = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-  const monthStrings = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
-  const day = dayStrings[date.getDay()];
-  const dayNumber = addLeadingZeros(date.getDate());
-  const month = monthStrings[date.getMonth()];
-  const year = date.getFullYear();
-  const time = `${addLeadingZeros(date.getHours())}:${
-    addLeadingZeros(date.getMinutes())
-  }:00`;
-  const timezone = addLeadingZeros(date.getTimezoneOffset(), 4);
-
-  //Wed, 02 Oct 2002 13:00:00 GMT
-  return `${day}, ${dayNumber} ${month} ${year} ${time} ${
-    timezone.startsWith("-") ? "" : "+"
-  }${timezone}`;
+export function asRFC822Date(date: Temporal.PlainDate) {
+  return new Intl.DateTimeFormat("en-NZ", {
+    weekday: "short",
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    timeZone: "UTC",
+  }).format(date) + " " + new Intl.DateTimeFormat("en-NZ", {
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hourCycle: "h24",
+  }).format(new Temporal.PlainTime(0, 0, 0)) +
+    " EST";
 }
 
-export function addLeadingZeros(str: string | number, length = 2) {
-  return ("0".repeat(length) + str).slice(-1 * length);
+export function asLocalDate(date: Temporal.PlainDate) {
+  return new Intl.DateTimeFormat("en-US", {
+    dateStyle: "long",
+    timeZone: "UTC",
+  }).format(date);
 }

@@ -1,6 +1,6 @@
 +++
 title = "Getting a CSS property's value in any units"
-date_published = "2024-01-27"
+datePublished = "2024-01-27"
 +++
 
 <blockquote>

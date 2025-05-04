@@ -1,6 +1,6 @@
 +++
 title = "Introducing vanilla-kit"
-date_published = "2024-07-01"
+datePublished = "2024-07-01"
 +++
 
 ```js
@@ -20,8 +20,7 @@ $(target).children(
 			state.count += 1;
 		})
 		.children(
-			() =>
-				`clicked ${state.count} ${state.count === 1 ? " time" : " times"}`
+			() => `clicked ${state.count} ${state.count === 1 ? " time" : " times"}`
 		)
 );
 ```

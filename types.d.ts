@@ -10,8 +10,8 @@ type Site = {
 type Post = {
   slug: string;
   title: string;
-  hasCode: 0 | 1 | 2;
-  date_published: Date;
+  components: Array<string>;
+  datePublished: Temporal.PlainDate;
   content: string;
 };
 
@@ -33,7 +33,7 @@ type Resume = {
 };
 
 type ResumeItem = {
-  latest_full_time: boolean;
+  latestFullTime: boolean;
   title: string;
   organization?: string;
   dates: [string, string];
@@ -42,14 +42,17 @@ type ResumeItem = {
   summary: string;
 };
 
-type RssItem = { title: string; link: string; pubDate: string };
+type RssItem = { title: string; link: string; guid: string; pubDate: string };
 
 type RSS = {
-  attributes: { version: string };
-  channel: {
-    title: string;
-    link: string;
-    copyright: string;
-    item: Array<RssItem>;
+  rss: {
+    attributes: { version: string };
+    channel: {
+      title: string;
+      description: string;
+      link: string;
+      copyright: string;
+      item: Array<RssItem>;
+    };
   };
 };

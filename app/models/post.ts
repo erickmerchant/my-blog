@@ -2,7 +2,7 @@ import * as Toml from "@std/toml";
 import * as Marked from "marked";
 import * as Fs from "@std/fs";
 
-export async function getAllPosts(): Promise<Array<Post>> {
+export async function getPublishedPosts(): Promise<Array<Post>> {
   const posts: Array<Post> = [];
 
   for await (const { name, path } of Fs.expandGlob("./content/posts/*.md")) {
@@ -13,31 +13,49 @@ export async function getAllPosts(): Promise<Array<Post>> {
     const [, slug] = matched;
     const text = await Deno.readTextFile(path);
     const [, toml, md] = text.split("+++\n");
-    const frontmatter = Toml.parse(toml);
+    const frontmatter: {
+      title?: string;
+      datePublished?: string;
+    } = Toml.parse(toml);
 
-    frontmatter.date_published = frontmatter.date_published !== null
-      ? new Date(frontmatter.date_published as string)
-      : null;
+    if (frontmatter.datePublished == null || frontmatter.title == null) {
+      continue;
+    }
 
-    let hasCode = 0;
+    const title = frontmatter.title;
 
-    if (/`/.test(md)) hasCode++;
+    const splitDatePublished: Array<number> = frontmatter.datePublished
+      .split("-").map((s) => Number(s));
+    let datePublished;
 
-    if (/\n```/.test(md)) hasCode++;
+    if (splitDatePublished.length === 3) {
+      datePublished = new Temporal.PlainDate(
+        ...splitDatePublished as [number, number, number],
+      );
+    }
+
+    if (!datePublished) continue;
+
+    const components = [];
+
+    if (/`/.test(md)) components.push("code");
+
+    if (/\n```/.test(md)) components.push("highlighting");
 
     const content = await Marked.parse(md);
     const post: Post = {
       slug,
       content,
-      hasCode,
-      ...frontmatter,
+      components,
+      datePublished,
+      title,
     } as Post;
 
     posts.push(post);
   }
 
   posts.sort((a, b) => {
-    return b.date_published.getTime() - a.date_published.getTime();
+    return Temporal.PlainDate.compare(b.datePublished, a.datePublished);
   });
 
   return posts;

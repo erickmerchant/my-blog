@@ -1,6 +1,6 @@
-import { html, unsafe } from "handcraft/prelude/all.js";
+import { html, unsafe, when } from "handcraft/prelude/all.js";
 import base from "./base.ts";
-import { addLeadingZeros } from "../utils.ts";
+import { asLocalDate } from "../utils.ts";
 
 const { link, script, article, header, h1, time, span } = html;
 
@@ -15,28 +15,22 @@ export default function ({ site, post }: Props) {
     page_title: post.title,
     styles: [
       link().attr("rel", "stylesheet").attr("href", "/post.css"),
-      post.hasCode
-        ? [
-          link().attr("rel", "stylesheet").attr("href", "/code.css"),
-          post.hasCode > 1
-            ? link().attr("rel", "stylesheet").attr("href", "/vendor/prism.css")
-            : null,
-        ]
-        : null,
+      when(() => post.components.includes("code")).show(() =>
+        link().attr("rel", "stylesheet").attr("href", "/code.css")
+      ),
+      when(() => post.components.includes("highlighting")).show(() =>
+        link().attr("rel", "stylesheet").attr("href", "/vendor/prism.css")
+      ),
     ],
-    scripts: post.hasCode
-      ? script().attr("src", "/vendor/prism.js").attr("defer", true)
-      : null,
+    scripts: when(() => post.components.includes("highlighting")).show(() =>
+      script().attr("src", "/vendor/prism.js").attr("defer", true)
+    ),
     main: article().classes("article").append(
       header().append(
         h1().text(post.title),
-        post.date_published
+        post.datePublished
           ? time().classes("status").text(
-            post.date_published.getFullYear() +
-              "-" +
-              addLeadingZeros(post.date_published.getMonth() + 1) +
-              "-" +
-              addLeadingZeros(post.date_published.getDate()),
+            asLocalDate(post.datePublished),
           )
           : span().classes("status").text("Draft"),
       ),

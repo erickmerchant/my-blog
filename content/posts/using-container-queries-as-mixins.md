@@ -1,6 +1,6 @@
 +++
 title = "Using container queries as mixins"
-date_published = "2024-01-28"
+datePublished = "2024-01-28"
 +++
 
 [Mixins](https://sass-lang.com/documentation/at-rules/mixin/) are a thing that's kind of missing from CSS. I found an interest way to get mixin type functionality from container queries. To be clear this is a total hack, but it could be useful.

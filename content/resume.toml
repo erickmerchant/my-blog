@@ -46,7 +46,7 @@ summary = """
 
 [[history]]
 title = "Senior Software Engineer"
-latest_full_time = true
+latestFullTime = true
 dates = ["Oct 2021", "Mar 2024"]
 organization = "WorkStep"
 location = "San Francisco, CA"

@@ -8,7 +8,7 @@ import { optimizeCSS } from "./app/css.ts";
 import { optimizeJS } from "./app/js.ts";
 import { getSite } from "./app/models/site.ts";
 import { getResume } from "./app/models/resume.ts";
-import { getAllPosts } from "./app/models/post.ts";
+import { getPublishedPosts } from "./app/models/post.ts";
 import NotFoundView from "./app/templates/not_found.ts";
 import PostView from "./app/templates/post.ts";
 import HomeView from "./app/templates/home.ts";
@@ -31,7 +31,7 @@ if (import.meta.main) {
 
   await saveView("./dist/404.html", () => NotFoundView({ site }));
 
-  const posts = await getAllPosts();
+  const posts = await getPublishedPosts();
 
   for (const post of posts) {
     await saveView(

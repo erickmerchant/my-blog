@@ -1,6 +1,6 @@
 +++
 title = "Rust rewrite"
-date_published = "2022-03-07"
+datePublished = "2022-03-07"
 +++
 
 ## Why Rust
@@ -28,7 +28,6 @@ For compiling JavaScript. It's basically a Rust Babel. It does aim to be many ot
 For compiling CSS. It's basically like Postcss in Rust. It was actually released when I had most of the server written already. Originally I was using a Sass implementation in Rust, but I had forgotten how sometimes Sass syntax conflicts with vanilla CSS, so I welcomed Parcel's arrival. It allows me to do nesting and forget about prefixes. The only downside here is its alpha, so it sometimes breaks. Committing my lock file has been a life saver.
 
 Note: Parcel CSS is now <a href="https://lightningcss.dev/">Lightning CSS</a>.
-
 
 ## More to come
 

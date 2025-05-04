@@ -1,6 +1,6 @@
 +++
 title = "JSX in Web Components"
-date_published = "2022-08-06"
+datePublished = "2022-08-06"
 +++
 
 ## How'd I get there
@@ -37,10 +37,7 @@ function h(tag, props, ...children) {
 
 	for (let [key, val] of Object.entries(props ?? {})) {
 		if (key.startsWith("on")) {
-			node.addEventListener(
-				key.substring(2).toLowerCase(),
-				...[].concat(val)
-			);
+			node.addEventListener(key.substring(2).toLowerCase(), ...[].concat(val));
 		} else {
 			node[key] = val;
 		}

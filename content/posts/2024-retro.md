@@ -1,6 +1,6 @@
 +++
 title = "2024 Retrospective"
-date_published = "2025-03-16"
+datePublished = "2025-03-16"
 +++
 
 I have been meaning to write this since before 2025, but maybe I was just trying to get too much out, and if I can keep it brief I can finally write this. 2024 was terrible.

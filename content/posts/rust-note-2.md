@@ -1,6 +1,6 @@
 +++
 title = "Rust note #2: return early sometimes"
-date_published = "2023-08-24"
+datePublished = "2023-08-24"
 +++
 
 <blockquote>

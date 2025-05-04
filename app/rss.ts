@@ -6,12 +6,15 @@ export async function saveRSS(
 ) {
   const rssItems: Array<RssItem> = [];
   const rss: RSS = {
-    attributes: { version: "2.0" },
-    channel: {
-      title: "Posts",
-      link: `${site.host}/posts.rss`,
-      copyright: site.author,
-      item: rssItems,
+    rss: {
+      attributes: { version: "2.0" },
+      channel: {
+        title: "Posts",
+        description: site.description,
+        link: `${site.host}/posts.rss`,
+        copyright: site.author,
+        item: rssItems,
+      },
     },
   };
 
@@ -19,7 +22,8 @@ export async function saveRSS(
     rssItems.push({
       title: post.title,
       link: `${site.host}/posts/${post.slug}/`,
-      pubDate: asRFC822Date(post.date_published),
+      guid: `${site.host}/posts/${post.slug}/`,
+      pubDate: asRFC822Date(post.datePublished),
     });
   }
 

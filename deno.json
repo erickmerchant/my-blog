@@ -3,9 +3,9 @@
     "dev": {
       "dependencies": ["dev-frontend", "dev-server"]
     },
-    "dev-frontend": "deno -A --watch=content,public main.ts",
+    "dev-frontend": "deno -A --unstable-temporal --watch=content,public main.ts",
     "dev-server": "APP_PORT=3000 cargo watch -x 'r --no-default-features'",
-    "frontend": "deno run -A main.ts --cache-bust --inline-css"
+    "frontend": "deno run -A --unstable-temporal main.ts --cache-bust --inline-css"
   },
   "imports": {
     "@happy-dom/global-registrator": "npm:@happy-dom/global-registrator@^17.4.4",
@@ -24,12 +24,14 @@
   },
   "nodeModulesDir": "auto",
   "compilerOptions": {
+    "types": ["./types.d.ts"],
     "lib": [
       "dom",
       "dom.iterable",
       "dom.asynciterable",
       "es2024",
-      "deno.ns"
+      "deno.ns",
+      "deno.unstable"
     ]
   }
 }
