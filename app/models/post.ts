@@ -18,23 +18,30 @@ export async function getPublishedPosts(): Promise<Array<Post>> {
       datePublished?: string;
     } = Toml.parse(toml);
 
-    if (frontmatter.datePublished == null || frontmatter.title == null) {
+    frontmatter.title ??= "Untitled";
+
+    if (
+      !Deno.args.includes("--drafts") &&
+      (frontmatter.datePublished == null)
+    ) {
       continue;
     }
 
     const title = frontmatter.title;
-
-    const splitDatePublished: Array<number> = frontmatter.datePublished
-      .split("-").map((s) => Number(s));
     let datePublished;
 
-    if (splitDatePublished.length === 3) {
-      datePublished = new Temporal.PlainDate(
-        ...splitDatePublished as [number, number, number],
-      );
-    }
+    if (frontmatter.datePublished) {
+      const splitDatePublished: Array<number> = frontmatter.datePublished
+        .split("-").map((s) => Number(s));
 
-    if (!datePublished) continue;
+      if (splitDatePublished.length === 3) {
+        datePublished = new Temporal.PlainDate(
+          ...splitDatePublished as [number, number, number],
+        );
+      }
+
+      if (!datePublished) continue;
+    }
 
     const components = [];
 
@@ -55,6 +62,9 @@ export async function getPublishedPosts(): Promise<Array<Post>> {
   }
 
   posts.sort((a, b) => {
+    if (!a.datePublished) return -1;
+    if (!b.datePublished) return 1;
+
     return Temporal.PlainDate.compare(b.datePublished, a.datePublished);
   });
 
