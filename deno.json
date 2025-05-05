@@ -3,15 +3,16 @@
     "dev": {
       "dependencies": ["dev-frontend", "dev-server"]
     },
-    "dev-frontend": "deno -A --unstable-temporal --watch=content,public main.ts --drafts",
+    "dev-frontend": "deno -A --unstable-temporal --watch=content,public main.tsx --drafts",
     "dev-server": "APP_PORT=3000 cargo watch -x 'r --no-default-features'",
-    "frontend": "deno run -A --unstable-temporal main.ts --cache-bust --inline-css"
+    "frontend": "deno run -A --unstable-temporal main.tsx --cache-bust --inline-css"
   },
   "imports": {
     "@happy-dom/global-registrator": "npm:@happy-dom/global-registrator@^17.4.4",
     "@std/crypto": "jsr:@std/crypto@^1.0.4",
     "@std/encoding": "jsr:@std/encoding@^1.0.10",
     "@std/fs": "jsr:@std/fs@^1.0.17",
+    "@std/html": "jsr:@std/html@^1.0.3",
     "@std/path": "jsr:@std/path@^1.0.9",
     "@std/toml": "jsr:@std/toml@^1.0.5",
     "@swc/core": "npm:@swc/core@^1.11.22",
@@ -32,6 +33,14 @@
       "es2024",
       "deno.ns",
       "deno.unstable"
-    ]
+    ],
+    "jsxFactory": "h",
+    "jsxFragmentFactory": "Fragment",
+    "noImplicitAny": false
+  },
+  "lint": {
+    "rules": {
+      "exclude": ["no-explicit-any"]
+    }
   }
 }

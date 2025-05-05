@@ -4,7 +4,7 @@ import * as HTMLMinifier from "html-minifier";
 import { HandcraftElement } from "handcraft/prelude/all.js";
 import { GlobalRegistrator } from "@happy-dom/global-registrator";
 import { Document, Window } from "happy-dom";
-import { cacheBustedUrls, cssImports, distDir, jsImports } from "../main.ts";
+import { cacheBustedUrls, cssImports, distDir, jsImports } from "../main.tsx";
 import { runSWC } from "./js.ts";
 
 export async function saveView(path: string, view: () => HandcraftElement) {

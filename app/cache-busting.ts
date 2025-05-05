@@ -1,7 +1,7 @@
 import * as Path from "@std/path";
 import { encodeHex } from "@std/encoding/hex";
 import { crypto } from "@std/crypto";
-import { cacheBustedUrls, distDir } from "../main.ts";
+import { cacheBustedUrls, distDir } from "../main.tsx";
 
 export async function saveCacheBusted(path: string, code: string) {
   if (!Deno.args.includes("--cache-bust")) {

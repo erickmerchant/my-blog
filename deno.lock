@@ -5,6 +5,7 @@
     "jsr:@std/crypto@^1.0.4": "1.0.4",
     "jsr:@std/encoding@^1.0.10": "1.0.10",
     "jsr:@std/fs@^1.0.17": "1.0.17",
+    "jsr:@std/html@^1.0.3": "1.0.3",
     "jsr:@std/path@^1.0.9": "1.0.9",
     "jsr:@std/toml@^1.0.5": "1.0.5",
     "npm:@happy-dom/global-registrator@^17.4.4": "17.4.4",
@@ -32,6 +33,9 @@
       "dependencies": [
         "jsr:@std/path"
       ]
+    },
+    "@std/html@1.0.3": {
+      "integrity": "7a0ac35e050431fb49d44e61c8b8aac1ebd55937e0dc9ec6409aa4bab39a7988"
     },
     "@std/path@1.0.9": {
       "integrity": "260a49f11edd3db93dd38350bf9cd1b4d1366afa98e81b86167b4e3dd750129e"
@@ -314,6 +318,7 @@
       "jsr:@std/crypto@^1.0.4",
       "jsr:@std/encoding@^1.0.10",
       "jsr:@std/fs@^1.0.17",
+      "jsr:@std/html@^1.0.3",
       "jsr:@std/path@^1.0.9",
       "jsr:@std/toml@^1.0.5",
       "npm:@happy-dom/global-registrator@^17.4.4",

@@ -1,5 +1,5 @@
 import { html, unsafe, when } from "handcraft/prelude/all.js";
-import base from "./base.ts";
+import base from "./base.tsx";
 import { asLocalDate } from "../utils.ts";
 
 const { link, script, article, header, h1, time, span } = html;

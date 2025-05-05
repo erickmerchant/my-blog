@@ -1,5 +1,5 @@
 import { html, unsafe } from "handcraft/prelude/all.js";
-import base from "./base.ts";
+import base from "./base.tsx";
 
 const { section, h1, h2, p, ol, ul, li, a, aside, link } = html;
 
