@@ -27,7 +27,7 @@ We need reactive state. When the state changes, the UI updates without having to
 
 With element.js I have a `watch` method.
 
-```js
+```javascript
 import {Element, watch} from "element";
 
 class ExampleElement extends Element {
@@ -59,7 +59,7 @@ Declarative Shadow DOM isn't supported in Firefox at the time of writing, so if 
 
 In element.js I have the following.
 
-```js
+```javascript
 let firstChild = this.firstElementChild;
 let mode = firstChild?.getAttribute("shadowrootmode");
 
@@ -74,7 +74,7 @@ if (!this.shadowRoot && firstChild?.nodeName === "TEMPLATE" && mode) {
 
 This last one is probably the one that you could take or leave. It's nice to have attributes behave like any other watched state, but also have your base element handle updating attributes when that state is changed by you.
 
-```js
+```javascript
 import {Element} from "element";
 
 class ExampleElement extends Element {

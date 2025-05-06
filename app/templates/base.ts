@@ -7,19 +7,17 @@ type Block = HandcraftElement | null | string | [Block];
 
 type Props = {
   site: Site;
-  page_title?: string;
+  pageTitle?: string;
   styles?: Block;
-  scripts?: Block;
-  nav_title?: Block;
+  navTitle?: Block;
   main?: Block;
 };
 
 export default function ({
   site,
-  page_title,
+  pageTitle,
   styles,
-  scripts,
-  nav_title,
+  navTitle,
   main,
 }: Props) {
   const baseHead = head().append(
@@ -28,10 +26,9 @@ export default function ({
       "content",
       "width=device-width, initial-scale=1",
     ),
-    title().text(page_title ? page_title + " - " + site.title : site.title),
+    title().text(pageTitle ? pageTitle + " - " + site.title : site.title),
     link().attr("rel", "stylesheet").attr("href", "/page.css"),
     styles,
-    scripts,
     link().attr("rel", "alternate")
       .attr("type", "application/rss+xml")
       .attr("title", "Posts")
@@ -43,7 +40,7 @@ export default function ({
   );
 
   const baseNav = nav().classes("nav").append(
-    nav_title ?? span().classes("nav-title").text(site.title),
+    navTitle ?? span().classes("nav-title").text(site.title),
     a().classes("nav-link").attr("href", "/").text("/"),
   );
 

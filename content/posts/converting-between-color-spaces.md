@@ -17,7 +17,7 @@ So you can look at his CodePen and my [fork](https://codepen.io/erickmerchant/pe
 
 Let me highlight the relevant bits of js.
 
-```js
+```javascript
 import {LitElement, css} from "https://esm.sh/lit";
 
 export class ColorInput extends LitElement {

@@ -12,7 +12,7 @@ datePublished = "2024-01-27"
 
 The other day ginger in the Shoptalk Show Discord had an interesting question, "Is there a way to convert between units in CSS using browser js _stuffs_?". And an example given was:
 
-```js
+```javascript
 const styles = getComputedStyle($0);
 
 console.log(styles.fontSize); // 1rem;
@@ -22,7 +22,7 @@ const fontSizeInPx = CSS.px(styles.fontSize); // 16px
 
 I didn't really get involved in the conversation, but immediately thought of `@property` and how that might be able to help. The next morning I opened up CodePen and tried to get a rough idea working of a function that would convert between units. A perfect activity after dropping my daughter off at daycare, to do while I drank my morning coffee. This is the result, a function I call `getPropertyValueInUnits` which you pass an element, a property you want the value of, and the units you want the value in. Also there is an optional namespace.
 
-```js
+```javascript
 function getPropertyValueInUnits(el, prop, units, ns = "units") {
 	if (!el) return;
 

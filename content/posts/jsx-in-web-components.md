@@ -27,7 +27,7 @@ For step 1, if you are using Babel you can use their [JSX plugin](https://babelj
 
 And here is an example of `h` and `Fragment`. You just need to be sure to import them or make sure they are defined wherever you use JSX.
 
-```js
+```javascript
 function h(tag, props, ...children) {
 	children = children.flat(Infinity);
 

@@ -11,7 +11,7 @@ type Props = {
 export default function ({ site, posts }: Props) {
   return base({
     site,
-    nav_title: h1().classes("nav-title").text(site.title),
+    navTitle: h1().classes("nav-title").text(site.title),
     styles: link().attr("rel", "stylesheet").attr("href", "/home.css"),
     main: [
       posts.length

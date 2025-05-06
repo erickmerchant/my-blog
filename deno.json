@@ -20,7 +20,9 @@
     "happy-dom": "npm:happy-dom@^17.4.4",
     "html-minifier": "npm:html-minifier@^4.0.0",
     "lightningcss": "npm:lightningcss@^1.29.3",
-    "marked": "npm:marked@^15.0.11"
+    "marked": "npm:marked@^15.0.11",
+    "marked-highlight": "npm:marked-highlight@^2.2.1",
+    "prismjs": "npm:prismjs@^1.30.0"
   },
   "nodeModulesDir": "auto",
   "compilerOptions": {

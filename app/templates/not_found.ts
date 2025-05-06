@@ -10,7 +10,7 @@ type Props = {
 export default function ({ site }: Props) {
   return base({
     site,
-    page_title: "404 Not Found",
+    pageTitle: "404 Not Found",
     styles: link().attr("rel", "stylesheet").attr("href", "/post.css"),
     main: article().classes("article").append(
       h1().text("404 Not Found"),

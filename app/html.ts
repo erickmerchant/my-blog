@@ -29,7 +29,7 @@ export async function saveView(path: string, view: () => HandcraftElement) {
   const { promise, resolve } = Promise.withResolvers<string>();
 
   setTimeout(() => {
-    resolve(`<!doctype html>${el.deref().innerHTML}`);
+    resolve(`<!doctype html>${el.deref().outerHTML}`);
   }, 0);
 
   const html = await promise;
@@ -90,34 +90,21 @@ export async function optimizeHTML(path: string) {
 
       if (html) {
         const usedJSImports: Array<string> = [];
-        const head = html.querySelector("head");
         let importMap;
         const newImportMap: { imports: Record<string, string> } = {
           imports: {},
         };
         const modulePreloads = new Set<string>();
         const preloads = new Set<string>();
-
-        if (head) {
-          head.insertAdjacentHTML(
-            "beforeend",
-            `<link rel="icon" href="${
-              cacheBustedUrls.get("/favicon-light.png")
-            }" type="image/svg+xml" media="(prefers-color-scheme: light)" as=>`,
-          );
-
-          head.insertAdjacentHTML(
-            "beforeend",
-            `<link rel="icon" href="${
-              cacheBustedUrls.get("/favicon-dark.png")
-            }" type="image/svg+xml" media="(prefers-color-scheme: dark)" as=>`,
-          );
-        }
+        const head = html.querySelector("head");
+        let inlineCSS = "";
 
         for (
-          const link of html.querySelectorAll("link[href][rel='stylesheet']")
+          const el of html.querySelectorAll(
+            "link[href][rel='stylesheet'], style",
+          )
         ) {
-          const href = link.getAttribute("href");
+          const href = el.getAttribute("href");
 
           if (href) {
             if (
@@ -140,22 +127,40 @@ export async function optimizeHTML(path: string) {
             );
 
             if (!Deno.args.includes("--inline-css")) {
-              link.setAttribute(
+              el.setAttribute(
                 "href",
                 cacheBustedUrl,
               );
             } else {
-              const style = document.createElement("style");
-
-              style.textContent = await Deno.readTextFile(
+              inlineCSS += await Deno.readTextFile(
                 Path.join(
                   distDir,
                   cacheBustedUrl,
                 ),
               );
 
-              link.replaceWith(style);
+              el.remove();
             }
+          } else if (
+            el.tagName === "STYLE" && Deno.args.includes("--inline-css")
+          ) {
+            inlineCSS += el.textContent;
+
+            el.remove();
+          }
+        }
+
+        if (inlineCSS) {
+          const style = document.createElement("style");
+
+          style.textContent = inlineCSS;
+
+          const firstLink = html.querySelector("link:nth-of-type(1)");
+
+          if (firstLink) {
+            firstLink.insertAdjacentElement("beforebegin", style);
+          } else {
+            if (head) head.insertAdjacentElement("beforeend", style);
           }
         }
 
@@ -322,8 +327,25 @@ export async function optimizeHTML(path: string) {
           }
         }
 
+        if (head) {
+          head.insertAdjacentHTML(
+            "beforeend",
+            `<link rel="icon" href="${
+              cacheBustedUrls.get("/favicon-light.png")
+            }" type="image/svg+xml" media="(prefers-color-scheme: light)" as=>`,
+          );
+
+          head.insertAdjacentHTML(
+            "beforeend",
+            `<link rel="icon" href="${
+              cacheBustedUrls.get("/favicon-dark.png")
+            }" type="image/svg+xml" media="(prefers-color-scheme: dark)" as=>`,
+          );
+        }
+
         const code = HTMLMinifier.minify(`<!doctype html>${html.outerHTML}`, {
           collapseWhitespace: true,
+          removeComments: true,
         });
 
         return code;
