@@ -9,6 +9,8 @@ export async function getPublishedPosts(): Promise<Array<Post>> {
     markedHighlight({
       async: true,
       async highlight(code, lang) {
+        if (lang === "html") lang = "markup";
+
         try {
           await import(
             `prismjs/components/prism-${lang}.js`
