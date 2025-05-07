@@ -9,7 +9,7 @@ function create(tag, namespace) {
 
 			if (el) {
 				for (const a of args.flat(Infinity)) {
-					if (a == null) continue;
+					if (a == null || a === false) continue;
 
 					if (a.self) {
 						el.append(a.self);
