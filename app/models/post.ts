@@ -64,7 +64,7 @@ export async function getPublishedPosts(): Promise<Array<Post>> {
       if (!datePublished) continue;
     }
 
-    const components = [];
+    const components: Array<string> = [];
 
     if (/`/.test(md)) components.push("code");
 

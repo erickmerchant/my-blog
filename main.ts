@@ -1,6 +1,5 @@
 import * as Path from "@std/path";
 import * as Fs from "@std/fs";
-
 import { optimizeHTML, saveView } from "./app/html.ts";
 import { saveRSS } from "./app/rss.ts";
 import { moveCacheBusted } from "./app/cache-busting.ts";
@@ -9,10 +8,10 @@ import { optimizeJS } from "./app/js.ts";
 import { getSite } from "./app/models/site.ts";
 import { getResume } from "./app/models/resume.ts";
 import { getPublishedPosts } from "./app/models/post.ts";
-import NotFoundView from "./app/templates/not_found.ts";
-import PostView from "./app/templates/post.ts";
-import HomeView from "./app/templates/home.ts";
-import ResumeView from "./app/templates/resume.ts";
+import NotFoundView from "./app/templates/not_found.js";
+import PostView from "./app/templates/post.js";
+import HomeView from "./app/templates/home.js";
+import ResumeView from "./app/templates/resume.js";
 
 export const distDir = Path.join(Deno.cwd(), "dist");
 export const cacheBustedUrls = new Map();
