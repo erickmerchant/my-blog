@@ -1,7 +1,8 @@
-import { HandcraftElement, html, svg } from "handcraft/prelude/all.js";
+import { h } from "../h.ts";
 
-const { head, body, meta, title, link, nav, span, a, footer, ul, li } = html;
-const { title: svgTitle, path } = svg;
+const { head, body, meta, title, link, nav, span, a, footer, ul, li, html } =
+  h.html;
+const { title: svgTitle, path, svg } = h.svg;
 
 type Block = HandcraftElement | null | string | [Block];
 
@@ -20,61 +21,56 @@ export default function ({
   navTitle,
   main,
 }: Props) {
-  const baseHead = head().append(
-    meta().attr("charset", "utf-8"),
-    meta().attr("name", "viewport").attr(
-      "content",
+  const baseHead = head(
+    meta.charset("utf-8"),
+    meta.name("viewport").content(
       "width=device-width, initial-scale=1",
     ),
-    title().text(pageTitle ? pageTitle + " - " + site.title : site.title),
-    link().attr("rel", "stylesheet").attr("href", "/page.css"),
+    title(pageTitle ? pageTitle + " - " + site.title : site.title),
+    link.rel("stylesheet").href("/page.css"),
     styles,
-    link().attr("rel", "alternate")
-      .attr("type", "application/rss+xml")
-      .attr("title", "Posts")
-      .attr("href", site.host + "/posts.rss"),
-    meta().attr("name", "description").attr(
-      "content",
+    link.rel("alternate")
+      .type("application/rss+xml")
+      .title("Posts")
+      .href(site.host + "/posts.rss"),
+    meta.name("description").content(
       site.description,
     ),
   );
 
-  const baseNav = nav().classes("nav").append(
-    navTitle ?? span().classes("nav-title").text(site.title),
-    a().classes("nav-link").attr("href", "/").text("/"),
+  const baseNav = nav.class("nav")(
+    navTitle ?? span.class("nav-title")(site.title),
+    a.class("nav-link").href("/")("/"),
   );
 
-  const baseFooter = footer().classes("footer").append(
-    ul().classes("footer-list").append(
-      li().classes("footer-item").append(
-        a().classes("footer-link", "rss-link").attr("href", "/posts.rss")
-          .append(
-            svg().attr("viewBox", "0 0 28 28").append(
-              svgTitle().text("RSS Feed"),
-              path().attr(
-                "d",
-                "M0 24 A4 4 0 1 1 8 24 A4 4 0 1 1 0 24 Z M0 11 Q0 10 1 10 Q18 10 18 27 Q18 28 17 28 H13 Q12 28 12 27 Q12 16 1 16 Q0 16 0 15 Z M0 1 Q0 0 1 0 Q28 0 28 27 Q28 28 27 28 H23 Q22 28 22 27 Q22 6 1 6 Q0 6 0 5 Z",
-              ),
+  const baseFooter = footer.class("footer")(
+    ul.class("footer-list")(
+      li.class("footer-item")(
+        a.class("footer-link", "rss-link").href("/posts.rss")(
+          svg.viewBox("0 0 28 28")(
+            svgTitle("RSS Feed"),
+            path.d(
+              "M0 24 A4 4 0 1 1 8 24 A4 4 0 1 1 0 24 Z M0 11 Q0 10 1 10 Q18 10 18 27 Q18 28 17 28 H13 Q12 28 12 27 Q12 16 1 16 Q0 16 0 15 Z M0 1 Q0 0 1 0 Q28 0 28 27 Q28 28 27 28 H23 Q22 28 22 27 Q22 6 1 6 Q0 6 0 5 Z",
             ),
           ),
+        ),
       ),
-      li().classes("footer-item").append(
-        a().classes("footer-link").attr(
-          "href",
+      li.class("footer-item")(
+        a.class("footer-link").href(
           "https://github.com/erickmerchant/my-blog",
-        ).text("View Source"),
+        )("View Source"),
       ),
-      li().classes("footer-item").text("© " + site.author),
+      li.class("footer-item")("© " + site.author),
     ),
   );
 
-  const baseBody = body().classes("page").append(
+  const baseBody = body.class("page")(
     baseNav,
     main,
     baseFooter,
   );
 
-  return html().attr("lang", "en-US").append(
+  return html.lang("en-US")(
     baseHead,
     baseBody,
   );

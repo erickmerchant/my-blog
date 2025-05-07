@@ -1,7 +1,7 @@
-import { html, unsafe } from "handcraft/prelude/all.js";
+import { h, unsafe } from "../h.ts";
 import base from "./base.ts";
 
-const { section, h1, h2, p, ol, ul, li, a, aside, link } = html;
+const { section, h1, h2, p, ol, ul, li, a, aside, link } = h.html;
 
 type Props = {
   site: Site;
@@ -11,42 +11,40 @@ type Props = {
 export default function ({ site, posts }: Props) {
   return base({
     site,
-    navTitle: h1().classes("nav-title").text(site.title),
-    styles: link().attr("rel", "stylesheet").attr("href", "/home.css"),
+    navTitle: h1.class("nav-title")(site.title),
+    styles: link.rel("stylesheet").href("/home.css"),
     main: [
       posts.length
-        ? section().classes("section").append(
-          h2().text("Posts"),
-          ol().classes("section-list").append(
+        ? section.class("section")(
+          h2("Posts"),
+          ol.class("section-list")(
             posts.map((post) =>
-              li().classes("section-item").append(
-                a().classes("title").attr("href", "/posts/" + post.slug + "/")
-                  .text(
-                    post.title,
-                  ),
+              li.class("section-item")(
+                a.class("title").href("/posts/" + post.slug + "/")(
+                  post.title,
+                ),
               )
             ),
           ),
         )
         : null,
       site.projects.length
-        ? section().classes("section").append(
-          h2().text("Projects"),
-          p().text("Some open-source projects."),
-          ul().classes("section-list").append(
+        ? section.class("section")(
+          h2("Projects"),
+          p("Some open-source projects."),
+          ul.class("section-list")(
             site.projects.map((project) =>
-              li().classes("section-item").append(
-                a().classes("title").attr("href", project.href)
-                  .text(
-                    project.title,
-                  ),
+              li.class("section-item")(
+                a.class("title").href(project.href)(
+                  project.title,
+                ),
                 unsafe(project.description),
               )
             ),
           ),
         )
         : null,
-      aside().classes("section").append(h2().text("About"), unsafe(site.bio)),
+      aside.class("section")(h2("About"), unsafe(site.bio)),
     ],
   });
 }

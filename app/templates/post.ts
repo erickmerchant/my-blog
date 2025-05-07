@@ -1,8 +1,8 @@
-import { html, unsafe, when } from "handcraft/prelude/all.js";
+import { h, unsafe } from "../h.ts";
 import base from "./base.ts";
 import { asLocalDate } from "../utils.ts";
 
-const { link, article, header, h1, time, span } = html;
+const { link, article, header, h1, time, span } = h.html;
 
 type Props = {
   site: Site;
@@ -14,22 +14,20 @@ export default function ({ site, post }: Props) {
     site,
     pageTitle: post.title,
     styles: [
-      link().attr("rel", "stylesheet").attr("href", "/post.css"),
-      when(() => post.components.includes("code")).show(() =>
-        link().attr("rel", "stylesheet").attr("href", "/code.css")
-      ),
-      when(() => post.components.includes("highlighting")).show(() =>
-        link().attr("rel", "stylesheet").attr("href", "/prism.css")
-      ),
+      link.rel("stylesheet").href("/post.css"),
+      post.components.includes("code") &&
+      link.rel("stylesheet").href("/code.css"),
+      post.components.includes("highlighting") &&
+      link.rel("stylesheet").href("/prism.css"),
     ],
-    main: article().classes("article").append(
-      header().append(
-        h1().text(post.title),
+    main: article.class("article")(
+      header(
+        h1(post.title),
         post.datePublished
-          ? time().classes("status").text(
+          ? time.class("status")(
             asLocalDate(post.datePublished),
           )
-          : span().classes("status").text("Draft"),
+          : span.class("status")("Draft"),
       ),
       unsafe(post.content),
     ),

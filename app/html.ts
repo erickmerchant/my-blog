@@ -1,13 +1,12 @@
 import * as Path from "@std/path";
 import * as Fs from "@std/fs";
 import * as HTMLMinifier from "html-minifier";
-import { HandcraftElement } from "handcraft/prelude/all.js";
 import { GlobalRegistrator } from "@happy-dom/global-registrator";
-import { Document, Window } from "happy-dom";
+import { Document, Element, Window } from "happy-dom";
 import { cacheBustedUrls, cssImports, distDir, jsImports } from "../main.ts";
 import { runSWC } from "./js.ts";
 
-export async function saveView(path: string, view: () => HandcraftElement) {
+export async function saveView(path: string, view: () => { self: Element }) {
   GlobalRegistrator.register({
     url: "http://localhost:3000",
     width: 1920,
@@ -29,7 +28,7 @@ export async function saveView(path: string, view: () => HandcraftElement) {
   const { promise, resolve } = Promise.withResolvers<string>();
 
   setTimeout(() => {
-    resolve(`<!doctype html>${el.deref().outerHTML}`);
+    resolve(`<!doctype html>${el.self.outerHTML}`);
   }, 0);
 
   const html = await promise;

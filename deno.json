@@ -34,6 +34,12 @@
       "es2024",
       "deno.ns",
       "deno.unstable"
-    ]
+    ],
+    "noImplicitAny": false
+  },
+  "lint": {
+    "rules": {
+      "exclude": ["no-explicit-any"]
+    }
   }
 }

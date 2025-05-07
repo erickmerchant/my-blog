@@ -1,7 +1,7 @@
-import { html } from "handcraft/prelude/all.js";
+import { h } from "../h.ts";
 import base from "./base.ts";
 
-const { link, article, h1, p } = html;
+const { link, article, h1, p } = h.html;
 
 type Props = {
   site: Site;
@@ -11,10 +11,10 @@ export default function ({ site }: Props) {
   return base({
     site,
     pageTitle: "404 Not Found",
-    styles: link().attr("rel", "stylesheet").attr("href", "/post.css"),
-    main: article().classes("article").append(
-      h1().text("404 Not Found"),
-      p().text("The thing you're looking for can not be located."),
+    styles: link.rel("stylesheet").href("/post.css"),
+    main: article.class("article")(
+      h1("404 Not Found"),
+      p("The thing you're looking for can not be located."),
     ),
   });
 }

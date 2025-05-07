@@ -1,4 +1,4 @@
-import { html, unsafe } from "handcraft/prelude/all.js";
+import { h, unsafe } from "../h.ts";
 
 const {
   a,
@@ -18,7 +18,8 @@ const {
   span,
   title,
   ul,
-} = html;
+  html,
+} = h.html;
 
 function timeline({
   title,
@@ -29,29 +30,29 @@ function timeline({
   items: [ResumeItem];
   note?: string;
 }) {
-  return section().classes("timeline").append(
-    header().classes("timeline-header").append(
-      h2().text(title),
-      span().classes("note").text(note),
+  return section.class("timeline")(
+    header.class("timeline-header")(
+      h2(title),
+      span.class("note")(note),
     ),
-    ol().classes("timeline-items").append(
+    ol.class("timeline-items")(
       items.map((item) =>
-        li().append(
-          div().classes("details").append(
-            h3().classes("title").append(
-              item.latestFullTime && span().classes("note").text("★"),
+        li(
+          div.class("details")(
+            h3.class("title")(
+              item.latestFullTime && span.class("note")("★"),
               item.title,
             ),
             item.organization &&
-              p().classes("organization").text(item.organization),
-            p().classes("dates").text(item.dates[0] + "-" + item.dates[1]),
-            item.location && p().classes("location").text(item.location),
+              p.class("organization")(item.organization),
+            p.class("dates")(item.dates[0] + "-" + item.dates[1]),
+            item.location && p.class("location")(item.location),
           ),
           item.tags && item.tags.length &&
-            ul().classes("tags").append(
-              item.tags.map((tag) => li().text(tag)),
+            ul.class("tags")(
+              item.tags.map((tag) => li(tag)),
             ),
-          div().classes("summary").append(unsafe(item.summary)),
+          div.class("summary")(unsafe(item.summary)),
         )
       ),
     ),
@@ -63,32 +64,31 @@ type Props = {
 };
 
 export default function ({ resume }: Props) {
-  return html().attr("lang", "en-US").append(
-    head().append(
-      meta().attr("charset", "utf-8"),
-      meta().attr("name", "viewport").attr(
-        "content",
+  return html.lang("en-US")(
+    head(
+      meta.charset("utf-8"),
+      meta.name("viewport").content(
         "width=device-width, initial-scale=1",
       ),
-      title().text("Résumé"),
-      link()
-        .attr("href", "/resume.css")
-        .attr("rel", "stylesheet"),
-      meta().attr("name", "description").attr("content", "My résumé"),
+      title("Résumé"),
+      link
+        .href("/resume.css")
+        .rel("stylesheet"),
+      meta.name("description").content("My résumé"),
     ),
-    body().classes("page").append(
-      div().classes("layout").append(
-        header().classes("header").append(
-          h1().text(resume.name),
-          ul().classes("contacts").append(
+    body.class("page")(
+      div.class("layout")(
+        header.class("header")(
+          h1(resume.name),
+          ul.class("contacts")(
             resume.contacts.map((contact) =>
-              li().append(
-                a().attr("href", contact.href).text(contact.text),
+              li(
+                a.href(contact.href)(contact.text),
               )
             ),
           ),
         ),
-        section().classes("objective").append(unsafe(resume.objective)),
+        section.class("objective")(unsafe(resume.objective)),
         timeline({
           title: "Employment History",
           items: resume.history,
@@ -98,8 +98,8 @@ export default function ({ resume }: Props) {
           title: "Education",
           items: resume.education,
         }),
-        section().classes("references").append(
-          p().text("References available upon request"),
+        section.class("references")(
+          p("References available upon request"),
         ),
       ),
     ),
