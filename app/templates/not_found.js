@@ -1,4 +1,4 @@
-import {h} from "../h.js";
+import {h} from "handcraft/prelude/all.js";
 import base from "./base.js";
 
 const {link, article, h1, p} = h.html;

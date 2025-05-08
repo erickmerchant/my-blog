@@ -11,7 +11,7 @@
     "npm:@swc/core@^1.11.22": "1.11.22",
     "npm:@types/node@*": "22.9.0",
     "npm:fast-xml-parser@5.2.1": "5.2.1",
-    "npm:handcraft@*": "0.16.2",
+    "npm:handcraft@next": "0.17.0-beta.1",
     "npm:happy-dom@^17.4.4": "17.4.4",
     "npm:html-minifier@4": "4.0.0",
     "npm:lightningcss@^1.29.3": "1.29.3",
@@ -164,8 +164,8 @@
       ],
       "bin": true
     },
-    "handcraft@0.16.2": {
-      "integrity": "sha512-UOD/9SjWwG6+Lt+2Ao1tbNHchm144wtWrxkDfnm1yXtEowmHtbqtYplHSExRRDvTeDH07y+RtM1e5z9MMr3Png=="
+    "handcraft@0.17.0-beta.1": {
+      "integrity": "sha512-AdlvzJAgCQ5hWNXu8fAc2UZmMPhtt6R5/3YNCpD+XfPuVjLXMXAhjROaX+kldOimUvznBEQ6nr5ipTyuYwiYRA=="
     },
     "happy-dom@17.4.4": {
       "integrity": "sha512-/Pb0ctk3HTZ5xEL3BZ0hK1AqDSAUuRQitOmROPHhfUYEWpmTImwfD8vFDGADmMAX0JYgbcgxWoLFKtsWhcpuVA==",
@@ -331,7 +331,7 @@
       "npm:@happy-dom/global-registrator@^17.4.4",
       "npm:@swc/core@^1.11.22",
       "npm:fast-xml-parser@5.2.1",
-      "npm:handcraft@*",
+      "npm:handcraft@next",
       "npm:happy-dom@^17.4.4",
       "npm:html-minifier@4",
       "npm:lightningcss@^1.29.3",

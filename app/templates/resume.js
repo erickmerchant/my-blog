@@ -1,4 +1,4 @@
-import {h, unsafe} from "../h.js";
+import {h, unsafe} from "handcraft/prelude/all.js";
 
 const {
 	a,

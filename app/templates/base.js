@@ -1,4 +1,4 @@
-import {h} from "../h.js";
+import {h} from "handcraft/prelude/all.js";
 
 const {head, body, meta, title, link, nav, span, a, footer, ul, li, html} =
 	h.html;
@@ -27,7 +27,7 @@ export default function ({site, pageTitle, styles, navTitle, main}) {
 	const baseFooter = footer.class("footer")(
 		ul.class("footer-list")(
 			li.class("footer-item")(
-				a.class("footer-link", "rss-link").href("/posts.rss")(
+				a.class("footer-link rss-link").href("/posts.rss")(
 					svg.viewBox("0 0 28 28")(
 						svgTitle("RSS Feed"),
 						path.d(

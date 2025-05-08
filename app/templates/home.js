@@ -1,4 +1,4 @@
-import {h, unsafe} from "../h.js";
+import {h, unsafe} from "handcraft/prelude/all.js";
 import base from "./base.js";
 
 const {section, h1, h2, p, ol, ul, li, a, aside, link} = h.html;

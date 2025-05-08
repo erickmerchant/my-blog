@@ -6,7 +6,10 @@ import { Document, Element, Window } from "happy-dom";
 import { cacheBustedUrls, cssImports, distDir, jsImports } from "../main.ts";
 import { runSWC } from "./js.ts";
 
-export async function saveView(path: string, view: () => { self: Element }) {
+export async function saveView(
+  path: string,
+  view: () => { deref: () => Element },
+) {
   GlobalRegistrator.register({
     url: "http://localhost:3000",
     width: 1920,
@@ -28,7 +31,7 @@ export async function saveView(path: string, view: () => { self: Element }) {
   const { promise, resolve } = Promise.withResolvers<string>();
 
   setTimeout(() => {
-    resolve(`<!doctype html>${el.self.outerHTML}`);
+    resolve(`<!doctype html>${el.deref().outerHTML}`);
   }, 0);
 
   const html = await promise;
