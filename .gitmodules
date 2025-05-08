@@ -1,6 +1,8 @@
 [submodule "public/projects/handcraft"]
 	path = public/projects/handcraft
 	url = git@github.com:erickmerchant/handcraft.git
+	branch = 0.17.0
 [submodule "public/projects/memory"]
 	path = public/projects/memory
 	url = git@github.com:erickmerchant/memory.git
+	branch = handcraft-new-syntax
