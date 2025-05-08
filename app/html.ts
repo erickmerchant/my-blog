@@ -323,7 +323,7 @@ export async function optimizeHTML(path: string) {
             for (const modulePreload of modulePreloads) {
               importMapScript.insertAdjacentHTML(
                 "afterend",
-                `<link rel="modulepreload" href="${modulePreload}" as=>`,
+                `<link rel="modulepreload" href="${modulePreload}">`,
               );
             }
           }
@@ -334,14 +334,14 @@ export async function optimizeHTML(path: string) {
             "beforeend",
             `<link rel="icon" href="${
               cacheBustedUrls.get("/favicon-light.png")
-            }" type="image/svg+xml" media="(prefers-color-scheme: light)" as=>`,
+            }" type="image/svg+xml" media="(prefers-color-scheme: light)">`,
           );
 
           head.insertAdjacentHTML(
             "beforeend",
             `<link rel="icon" href="${
               cacheBustedUrls.get("/favicon-dark.png")
-            }" type="image/svg+xml" media="(prefers-color-scheme: dark)" as=>`,
+            }" type="image/svg+xml" media="(prefers-color-scheme: dark)">`,
           );
         }
 
