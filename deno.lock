@@ -6,6 +6,7 @@
     "jsr:@std/encoding@^1.0.10": "1.0.10",
     "jsr:@std/fs@^1.0.17": "1.0.17",
     "jsr:@std/path@^1.0.9": "1.0.9",
+    "jsr:@std/toml@^1.0.3": "1.0.5",
     "jsr:@std/toml@^1.0.5": "1.0.5",
     "npm:@happy-dom/global-registrator@^17.4.4": "17.4.4",
     "npm:@swc/core@^1.11.22": "1.11.22",
