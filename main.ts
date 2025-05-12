@@ -8,6 +8,7 @@ import { optimizeJS } from "./app/js.ts";
 import { getSite } from "./app/models/site.ts";
 import { getResume } from "./app/models/resume.ts";
 import { getPublishedPosts } from "./app/models/post.ts";
+import { embedProjects } from "./app/projects.ts";
 import NotFoundView from "./app/templates/not_found.js";
 import PostView from "./app/templates/post.js";
 import HomeView from "./app/templates/home.js";
@@ -26,11 +27,13 @@ if (import.meta.main) {
     preserveTimestamps: true,
   });
 
-  const site = await getSite();
+  const [site, posts, resume] = await Promise.all([
+    getSite(),
+    getPublishedPosts(),
+    getResume(),
+  ]);
 
   await saveView("./dist/404.html", () => NotFoundView({ site }));
-
-  const posts = await getPublishedPosts();
 
   for (const post of posts) {
     await saveView(
@@ -43,64 +46,9 @@ if (import.meta.main) {
 
   await saveView(`./dist/index.html`, () => HomeView({ site, posts }));
 
-  const resume = await getResume();
-
   await saveView(`./dist/resume/index.html`, () => ResumeView({ resume }));
 
-  await Fs.ensureDir("./dist/projects");
-
-  const checkoutMemory = new Deno.Command(
-    "git",
-    {
-      args: [
-        "clone",
-        "--single-branch",
-        "-b",
-        "handcraft-new-syntax",
-        "git@github.com:erickmerchant/memory.git",
-        "./dist/projects/memory",
-      ],
-      stdin: "piped",
-      stdout: "piped",
-    },
-  );
-
-  await checkoutMemory.spawn().output();
-
-  const denoInstallMemory = new Deno.Command(
-    "deno",
-    {
-      args: [
-        "install",
-        "--entrypoint",
-        "./memory-game.js",
-      ],
-      stdin: "piped",
-      stdout: "piped",
-      cwd: Path.join(Deno.cwd(), "dist/projects/memory/"),
-    },
-  );
-
-  await denoInstallMemory.spawn().output();
-
-  for await (
-    const { path, name, isSymlink } of Fs.expandGlob(
-      "./dist/projects/memory/node_modules/*",
-      {
-        followSymlinks: false,
-      },
-    )
-  ) {
-    if (name.startsWith(".")) continue;
-
-    if (isSymlink) {
-      const realpath = await Deno.realPath(path);
-
-      await Deno.remove(path, { recursive: true });
-
-      await Fs.move(realpath, path);
-    }
-  }
+  await embedProjects();
 
   for await (const { path } of Fs.expandGlob("./dist/fonts/*.woff2")) {
     await moveCacheBusted(path);
