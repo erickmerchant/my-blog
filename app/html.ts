@@ -3,7 +3,7 @@ import * as Fs from "@std/fs";
 import * as HTMLMinifier from "html-minifier";
 import { GlobalRegistrator } from "@happy-dom/global-registrator";
 import { Document, Element, Window } from "happy-dom";
-import { cacheBustedUrls, cssImports, distDir, jsImports } from "../main.ts";
+import { cacheBustedUrls, cssImports, distDir, jsImports } from "./main.ts";
 import { runSWC } from "./js.ts";
 
 export async function saveView(

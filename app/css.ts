@@ -1,6 +1,6 @@
 import * as LightningCSS from "lightningcss";
-import { saveCacheBusted } from "./cache-busting.ts";
-import { cacheBustedUrls } from "../main.ts";
+import { saveCacheBusted } from "./utils/cache-busting.ts";
+import { cacheBustedUrls } from "./main.ts";
 import * as Path from "@std/path";
 
 export function runLightning(

@@ -1,6 +1,6 @@
 import {h, unsafe} from "handcraft/prelude/all.js";
 import base from "./base.js";
-import {asLocalDate} from "../utils.ts";
+import {asLocalDate} from "../utils/dates.ts";
 
 const {link, article, header, h1, time, span} = h.html;
 

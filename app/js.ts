@@ -1,5 +1,5 @@
 import SWC from "@swc/core";
-import { saveCacheBusted } from "./cache-busting.ts";
+import { saveCacheBusted } from "./utils/cache-busting.ts";
 
 export async function runSWC(
   path: string,

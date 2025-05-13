@@ -1,5 +1,5 @@
 import * as XML from "fast-xml-parser";
-import { asRFC822Date } from "./utils.ts";
+import { asRFC822Date } from "./utils/dates.ts";
 
 export async function saveRSS(
   { site, posts }: { site: Site; posts: Array<Post> },
@@ -19,10 +19,14 @@ export async function saveRSS(
   };
 
   for (const post of posts) {
+    if (!post.datePublished) continue;
+
+    const link = `${site.host}/posts/${post.slug}/`;
+
     rssItems.push({
       title: post.title,
-      link: `${site.host}/posts/${post.slug}/`,
-      guid: `${site.host}/posts/${post.slug}/`,
+      link,
+      guid: link,
       pubDate: asRFC822Date(post.datePublished),
     });
   }
