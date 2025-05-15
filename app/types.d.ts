@@ -21,6 +21,16 @@ type Project = {
   description: string;
 };
 
+type ResumeItem = {
+  latestFullTime: boolean;
+  title: string;
+  organization?: string;
+  dates: [string, string];
+  location?: string;
+  tags?: [string];
+  summary: string;
+};
+
 type Resume = {
   name: string;
   contacts: [{
@@ -30,16 +40,6 @@ type Resume = {
   objective: string;
   history: [ResumeItem];
   education: [ResumeItem];
-};
-
-type ResumeItem = {
-  latestFullTime: boolean;
-  title: string;
-  organization?: string;
-  dates: [string, string];
-  location?: string;
-  tags?: [string];
-  summary: string;
 };
 
 type RssItem = { title: string; link: string; guid: string; pubDate: string };
