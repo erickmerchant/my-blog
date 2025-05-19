@@ -36,7 +36,6 @@ export async function saveRSS(
     ignoreAttributes: false,
     attributesGroupName: "attributes",
   });
-
   const rssContent = builder.build(rss);
 
   await Deno.writeTextFile(

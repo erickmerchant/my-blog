@@ -18,12 +18,10 @@ export default function ({site, pageTitle, styles, navTitle, main}) {
 			.href(site.host + "/posts.rss"),
 		meta.name("description").content(site.description)
 	);
-
 	const baseNav = nav.class("nav")(
 		navTitle ?? span.class("nav-title")(site.title),
 		a.class("nav-link").href("/")("/")
 	);
-
 	const baseFooter = footer.class("footer")(
 		ul.class("footer-list")(
 			li.class("footer-item")(
@@ -44,7 +42,6 @@ export default function ({site, pageTitle, styles, navTitle, main}) {
 			li.class("footer-item")("© " + site.author)
 		)
 	);
-
 	const baseBody = body.class("page")(baseNav, main, baseFooter);
 
 	return html.lang("en-US")(baseHead, baseBody);

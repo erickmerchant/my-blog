@@ -20,7 +20,6 @@ export async function saveCacheBusted(path: string, code: string) {
     "MD5",
     encoder.encode(code),
   );
-
   const fileHash = encodeHex(fileHashBuffer);
   const cacheBustedUrl = Path.format({
     root: "/",
@@ -61,7 +60,6 @@ export async function moveCacheBusted(path: string) {
     "MD5",
     content,
   );
-
   const fileHash = encodeHex(fileHashBuffer);
   const cacheBustedUrl = Path.format({
     root: "/",

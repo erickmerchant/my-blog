@@ -27,7 +27,6 @@ export async function saveView(
   });
 
   const el = view();
-
   const { promise, resolve } = Promise.withResolvers<string>();
 
   setTimeout(() => {
@@ -69,7 +68,6 @@ export async function optimizeHTML(path: string) {
   document.write(content);
 
   const html = document.querySelector("html");
-  let result;
 
   if (html) {
     const usedJSImports: Array<string> = [];
@@ -331,12 +329,6 @@ export async function optimizeHTML(path: string) {
       removeComments: true,
     });
 
-    result = code;
+    await Deno.writeTextFile(path, code);
   }
-
-  if (result) {
-    await Deno.writeTextFile(path, result);
-  }
-
-  return `<!doctype html>${document.querySelector("html")?.outerHTML}`;
 }
