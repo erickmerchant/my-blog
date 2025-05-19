@@ -27,13 +27,8 @@ export async function saveView(
   });
 
   const el = view();
-  const { promise, resolve } = Promise.withResolvers<string>();
 
-  setTimeout(() => {
-    resolve(`<!doctype html>${el.deref().outerHTML}`);
-  }, 0);
-
-  const html = await promise;
+  const html = `<!doctype html>${el.deref().outerHTML}`;
 
   await GlobalRegistrator.unregister();
 
@@ -328,6 +323,14 @@ export async function optimizeHTML(path: string) {
       collapseWhitespace: true,
       removeComments: true,
     });
+
+    if (
+      code.includes(`(...args) =&gt; { element.attr(key, ...args); return p; }`)
+    ) {
+      console.log(html.outerHTML);
+
+      throw Error("fail");
+    }
 
     await Deno.writeTextFile(path, code);
   }
