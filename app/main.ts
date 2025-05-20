@@ -9,7 +9,7 @@ import { getSite } from "./models/site.ts";
 import { getResume } from "./models/resume.ts";
 import { getPublishedPosts } from "./models/post.ts";
 import { embedProjects } from "./projects.ts";
-import NotFoundView from "./templates/not_found.js";
+import NotFoundView from "./templates/not-found.js";
 import PostView from "./templates/post.js";
 import HomeView from "./templates/home.js";
 import ResumeView from "./templates/resume.js";
