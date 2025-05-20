@@ -27,7 +27,6 @@ export async function saveView(
   });
 
   const el = view();
-
   const html = `<!doctype html>${el.deref().outerHTML}`;
 
   await GlobalRegistrator.unregister();
@@ -66,7 +65,6 @@ export async function optimizeHTML(path: string) {
 
   if (html) {
     const usedJSImports: Array<string> = [];
-    let importMap;
     const newImportMap: { imports: Record<string, string> } = {
       imports: {},
     };
@@ -74,6 +72,7 @@ export async function optimizeHTML(path: string) {
     const preloads = new Set<string>();
     const head = html.querySelector("head");
     let inlineCSS = "";
+    let importMap;
 
     for (
       const el of html.querySelectorAll(
@@ -210,11 +209,10 @@ export async function optimizeHTML(path: string) {
     const distPath = path.slice(distDir.length);
 
     if (importMap) {
-      const unprocessedJSImports: Array<
-        { specifier: string; path: string }
-      > = usedJSImports.slice(0).map((specifier) => {
-        return { specifier, path: distPath };
-      });
+      const unprocessedJSImports: Array<{ specifier: string; path: string }> =
+        usedJSImports.slice(0).map((specifier) => {
+          return { specifier, path: distPath };
+        });
       const processedJSImports = new Set();
 
       while (unprocessedJSImports.length) {

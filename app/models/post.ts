@@ -23,7 +23,6 @@ export async function getPublishedPosts(): Promise<Array<Post>> {
       },
     }),
   );
-
   const posts: Array<Post> = [];
 
   for await (const { name, path } of Fs.expandGlob("./content/posts/*.md")) {
