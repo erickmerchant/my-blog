@@ -34,7 +34,7 @@ pub async fn page_handler(
 		return Ok((
 			StatusCode::OK,
 			[
-				(header::CONTENT_TYPE, mime::HTML.to_string()),
+				(header::CONTENT_TYPE, mime::TEXT_HTML_UTF_8.to_string()),
 				(header::ETAG, etag),
 			],
 			body,

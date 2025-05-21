@@ -16,7 +16,7 @@ pub async fn not_found_handler(
 	{
 		return Ok((
 			StatusCode::NOT_FOUND,
-			[(header::CONTENT_TYPE, mime::HTML.to_string())],
+			[(header::CONTENT_TYPE, mime::TEXT_HTML_UTF_8.to_string())],
 			body,
 		)
 			.into_response());
