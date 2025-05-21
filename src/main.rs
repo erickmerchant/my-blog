@@ -2,12 +2,8 @@
 mod tests;
 
 use anyhow::Result;
-use app::{
-	routes::{asset, page},
-	state,
-};
-use axum::{routing::get, serve, Router};
-use glob::glob;
+use app::{routes::asset, state};
+use axum::{serve, Router};
 use std::sync::Arc;
 use tokio::net::TcpListener;
 use tower_http::{compression::CompressionLayer, trace::TraceLayer};
@@ -35,25 +31,9 @@ async fn main() -> Result<()> {
 
 fn get_app(state: state::State) -> Router {
 	let state = Arc::new(state);
-	let mut router = Router::new();
-	let dist_path = state.args.base_dir.trim_end_matches("/").to_owned() + "/dist";
-	let dist_path = dist_path.trim_start_matches("./");
-	let dist_htmls = glob((dist_path.to_owned() + "/**/*.html").as_str()).ok();
 
-	if let Some(paths) = dist_htmls {
-		for path in paths.flatten() {
-			if let Some(p) = path.to_str() {
-				let p = p
-					.trim_start_matches(dist_path)
-					.trim_end_matches("index.html");
-
-				router = router.route(p, get(page::page_handler));
-			}
-		}
-	}
-
-	router
-		.route("/{*path}", get(asset::asset_handler))
+	Router::new()
+		.fallback(asset::asset_handler)
 		.with_state(state.clone())
 		.layer(CompressionLayer::new())
 		.layer(TraceLayer::new_for_http())

@@ -1,29 +1,36 @@
 use super::not_found;
-use crate::{error, state};
+use crate::{error, routes::page, state};
 use axum::{
-	extract::{Path, State},
+	extract::{Request, State},
 	http::{header, StatusCode},
 	response::{IntoResponse, Response},
 };
-use camino::Utf8Path;
-use std::{fs, sync::Arc};
+use std::{fs, path, sync::Arc};
 
 pub async fn asset_handler(
 	State(state): State<Arc<state::State>>,
-	Path(path): Path<String>,
+	req: Request,
 ) -> Result<Response, error::Error> {
-	let path = Utf8Path::new(path.as_str());
+	let path = req.uri().path().to_string();
+
+	if path.ends_with("/") || path.ends_with(".html") {
+		return page::page_handler(State(state), req).await;
+	}
+
+	let path = path.trim_start_matches("/");
+	let path = path::Path::new(path);
 	let mut has_hash = false;
 	let file_name_parts: Vec<&str> = path
 		.file_name()
-		.map(|name| name.split('.').collect::<_>())
+		.and_then(|name| name.to_str())
+		.map(|name| name.split('.').collect())
 		.unwrap_or_default();
 
 	if file_name_parts.len() == 3 {
 		has_hash = true;
 	}
 
-	let content_type = if path.ends_with(".rss") {
+	let content_type = if path.extension().is_some_and(|ext| ext == "rss") {
 		Some("application/rss+xml".to_string())
 	} else {
 		mime_guess::from_path(path)
@@ -33,7 +40,11 @@ pub async fn asset_handler(
 
 	if let (Some(content_type), Ok(body)) = (
 		content_type,
-		fs::read(Utf8Path::new(&state.args.base_dir).join("dist/".to_string() + path.as_str())),
+		fs::read(
+			path::Path::new(&state.args.base_dir)
+				.join("dist")
+				.join(path),
+		),
 	) {
 		return Ok((
 			StatusCode::OK,

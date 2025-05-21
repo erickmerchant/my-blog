@@ -26,6 +26,52 @@ if (import.meta.main) {
     overwrite: true,
     preserveTimestamps: true,
   });
+  await embedProjects();
+
+  const [fontFiles, cssFiles, jsFiles] = await Promise.all([
+    Array.fromAsync(Fs.expandGlob("./dist/fonts/*.woff2")),
+    Array.fromAsync(Fs.expandGlob("./dist/**/*.css")),
+    Array.fromAsync(Fs.expandGlob("./dist/**/*.js")),
+  ]);
+
+  await Promise.all([
+    ...fontFiles.map(
+      ({ path }) => moveCacheBusted(path),
+    ),
+    moveCacheBusted(
+      Path.join(distDir, "favicon-light.png"),
+    ),
+    moveCacheBusted(
+      Path.join(distDir, "favicon-dark.png"),
+    ),
+  ]);
+
+  await Promise.all([
+    ...cssFiles.map(
+      async ({ path }) => {
+        const imports: Array<string> = [];
+
+        await optimizeCSS(path, imports);
+
+        cssImports.set(
+          path.slice(distDir.length),
+          imports,
+        );
+      },
+    ),
+    ...jsFiles.map(
+      async ({ path }) => {
+        const imports: Array<string> = [];
+
+        await optimizeJS(path, imports);
+
+        jsImports.set(
+          path.slice(distDir.length),
+          imports,
+        );
+      },
+    ),
+  ]);
 
   const [site, posts, resume] = await Promise.all([
     getSite(),
@@ -33,56 +79,18 @@ if (import.meta.main) {
     getResume(),
   ]);
 
-  await saveView("./dist/404.html", () => NotFoundView({ site }));
-
-  for (const post of posts) {
-    await saveView(
-      `./dist/posts/${post.slug}/index.html`,
-      () => PostView({ site, post }),
-    );
-  }
-
-  await saveRSS({ site, posts });
-
-  await saveView(`./dist/index.html`, () => HomeView({ site, posts }));
-
-  await saveView(`./dist/resume/index.html`, () => ResumeView({ resume }));
-
-  await embedProjects();
-
-  for await (const { path } of Fs.expandGlob("./dist/fonts/*.woff2")) {
-    await moveCacheBusted(path);
-  }
-
-  for await (const { path } of Fs.expandGlob("./dist/**/*.css")) {
-    const imports: Array<string> = [];
-
-    await optimizeCSS(path, imports);
-
-    cssImports.set(
-      path.slice(distDir.length),
-      imports,
-    );
-  }
-
-  for await (const { path } of Fs.expandGlob("./dist/**/*.js")) {
-    const imports: Array<string> = [];
-
-    await optimizeJS(path, imports);
-
-    jsImports.set(
-      path.slice(distDir.length),
-      imports,
-    );
-  }
-
-  await moveCacheBusted(
-    Path.join(distDir, "favicon-light.png"),
-  );
-
-  await moveCacheBusted(
-    Path.join(distDir, "favicon-dark.png"),
-  );
+  await Promise.all([
+    saveView("./dist/404.html", () => NotFoundView({ site })),
+    ...posts.map((post) =>
+      saveView(
+        `./dist/posts/${post.slug}/index.html`,
+        () => PostView({ site, post }),
+      )
+    ),
+    saveRSS({ site, posts }),
+    saveView(`./dist/index.html`, () => HomeView({ site, posts })),
+    saveView(`./dist/resume/index.html`, () => ResumeView({ resume })),
+  ]);
 
   for await (const { path } of Fs.expandGlob("./dist/**/*.html")) {
     await optimizeHTML(path);
