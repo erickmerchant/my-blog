@@ -1,5 +1,5 @@
 use super::not_found;
-use crate::{error, routes::page, state};
+use crate::{error, state};
 use axum::{
 	extract::{Request, State},
 	http::{header, StatusCode},
@@ -11,15 +11,10 @@ pub async fn asset_handler(
 	State(state): State<Arc<state::State>>,
 	req: Request,
 ) -> Result<Response, error::Error> {
+	let mut has_hash = false;
 	let path = req.uri().path().to_string();
-
-	if path.ends_with("/") || path.ends_with(".html") {
-		return page::page_handler(State(state), req).await;
-	}
-
 	let path = path.trim_start_matches("/");
 	let path = path::Path::new(path);
-	let mut has_hash = false;
 	let file_name_parts: Vec<&str> = path
 		.file_name()
 		.and_then(|name| name.to_str())

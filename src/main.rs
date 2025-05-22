@@ -2,7 +2,7 @@
 mod tests;
 
 use anyhow::Result;
-use app::{routes::asset, state};
+use app::{routes::file, state};
 use axum::{serve, Router};
 use std::sync::Arc;
 use tokio::net::TcpListener;
@@ -33,7 +33,7 @@ fn get_app(state: state::State) -> Router {
 	let state = Arc::new(state);
 
 	Router::new()
-		.fallback(asset::asset_handler)
+		.fallback(file::file_handler)
 		.with_state(state.clone())
 		.layer(CompressionLayer::new())
 		.layer(TraceLayer::new_for_http())
