@@ -9,6 +9,10 @@ export default function ({site, pageTitle, styles, navTitle, main}) {
 		meta.charset("utf-8"),
 		meta.name("viewport").content("width=device-width, initial-scale=1"),
 		title(pageTitle ? pageTitle + " - " + site.title : site.title),
+		meta
+			.property("og:title")
+			.content(pageTitle ? pageTitle + " - " + site.title : site.title),
+		meta.property("og:description").content(""),
 		link.rel("stylesheet").href("/page.css"),
 		styles,
 		link
