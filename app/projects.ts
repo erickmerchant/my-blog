@@ -1,5 +1,6 @@
 import * as Path from "@std/path";
 import * as Fs from "@std/fs";
+import { command } from "./utils/command.ts";
 
 export async function embedProjects() {
   await Fs.ensureDir("./dist/projects");
@@ -39,31 +40,4 @@ export async function embedProjects() {
   ) {
     if (name.startsWith(".")) await Deno.remove(path, { recursive: true });
   }
-}
-
-function command(tstrs: TemplateStringsArray, ...vars: Array<any>) {
-  const strs: Array<string> = [...tstrs];
-  const [command, ...args] = strs.shift()?.split?.(/\s+/) ?? [];
-
-  for (let i = 0; i < strs.length; i++) {
-    args.push(...strs[i].split(/\s+/));
-
-    if (vars[i]) {
-      args.push(vars[i]);
-    }
-  }
-
-  return async (cwd = Deno.cwd()) => {
-    const cmd = new Deno.Command(
-      command,
-      {
-        args,
-        cwd,
-        stdin: "piped",
-        stdout: "piped",
-      },
-    );
-
-    await cmd.spawn().output();
-  };
 }
