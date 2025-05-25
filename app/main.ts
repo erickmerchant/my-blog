@@ -2,7 +2,7 @@ import * as Path from "@std/path";
 import * as Fs from "@std/fs";
 import { optimizeHTML, saveView } from "./html.ts";
 import { saveRSS } from "./rss.ts";
-import { moveCacheBusted } from "./utils/cache-busting.ts";
+import { saveCacheBusted } from "./utils/cache-busting.ts";
 import { optimizeCSS } from "./css.ts";
 import { optimizeJS } from "./js.ts";
 import { getSite } from "./models/site.ts";
@@ -36,12 +36,12 @@ if (import.meta.main) {
 
   await Promise.all([
     ...fontFiles.map(
-      ({ path }) => moveCacheBusted(path),
+      ({ path }) => saveCacheBusted(path),
     ),
-    moveCacheBusted(
+    saveCacheBusted(
       Path.join(distDir, "favicon-light.png"),
     ),
-    moveCacheBusted(
+    saveCacheBusted(
       Path.join(distDir, "favicon-dark.png"),
     ),
   ]);
