@@ -1,19 +1,19 @@
 {
   "version": "5",
   "specifiers": {
-    "jsr:@std/collections@^1.1.0": "1.1.0",
+    "jsr:@std/collections@^1.1.1": "1.1.1",
     "jsr:@std/crypto@^1.0.4": "1.0.5",
     "jsr:@std/encoding@^1.0.10": "1.0.10",
     "jsr:@std/fs@^1.0.17": "1.0.17",
-    "jsr:@std/path@^1.0.9": "1.0.9",
-    "jsr:@std/text@^1.0.13": "1.0.13",
-    "jsr:@std/toml@^1.0.5": "1.0.6",
-    "npm:@happy-dom/global-registrator@^17.4.4": "17.4.7",
+    "jsr:@std/path@^1.0.9": "1.1.0",
+    "jsr:@std/text@^1.0.13": "1.0.14",
+    "jsr:@std/toml@^1.0.5": "1.0.7",
+    "npm:@happy-dom/global-registrator@^17.4.4": "17.5.6",
     "npm:@swc/core@^1.11.22": "1.11.29",
     "npm:@types/node@*": "22.15.15",
     "npm:fast-xml-parser@5.2.1": "5.2.1",
     "npm:handcraft@next": "0.17.0-beta.7",
-    "npm:happy-dom@^17.4.4": "17.4.7",
+    "npm:happy-dom@^17.4.4": "17.5.6",
     "npm:html-minifier@4": "4.0.0",
     "npm:lightningcss@^1.29.3": "1.30.1",
     "npm:marked-highlight@^2.2.1": "2.2.1_marked@15.0.12",
@@ -21,8 +21,8 @@
     "npm:prismjs@^1.30.0": "1.30.0"
   },
   "jsr": {
-    "@std/collections@1.1.0": {
-      "integrity": "2ee8761c84c3d203f7a4ecd376f9ca88a0c559817a4a54c9150f28c0b948027c"
+    "@std/collections@1.1.1": {
+      "integrity": "eff6443fbd9d5a6697018fb39c5d13d5f662f0045f21392d640693d0008ab2af"
     },
     "@std/crypto@1.0.5": {
       "integrity": "0dcfbb319fe0bba1bd3af904ceb4f948cde1b92979ec1614528380ed308a3b40"
@@ -36,22 +36,22 @@
         "jsr:@std/path"
       ]
     },
-    "@std/path@1.0.9": {
-      "integrity": "260a49f11edd3db93dd38350bf9cd1b4d1366afa98e81b86167b4e3dd750129e"
+    "@std/path@1.1.0": {
+      "integrity": "ddc94f8e3c275627281cbc23341df6b8bcc874d70374f75fec2533521e3d6886"
     },
-    "@std/text@1.0.13": {
-      "integrity": "2191c90e6e667b0c3b7dea1cd082137580a93b3c136bad597c0212d5fe006eb1"
+    "@std/text@1.0.14": {
+      "integrity": "1a810108482414d19112b8b506ad0b7cba826000cd13f74274ffda6dd83d273f"
     },
-    "@std/toml@1.0.6": {
-      "integrity": "da225502aecad66d8d778a635e9b78991997c2567ef8c6dbbd595c0cfce14c51",
+    "@std/toml@1.0.7": {
+      "integrity": "3c86f8bbde31578da33d2fbe410b80e3cb672b66e008e06cf41afc4d7409921c",
       "dependencies": [
         "jsr:@std/collections"
       ]
     }
   },
   "npm": {
-    "@happy-dom/global-registrator@17.4.7": {
-      "integrity": "sha512-BsKWeI115LT0J/lKJ4Kz638oy4zO+nC4TLh3cYPY6BBypttPZg8Fg+EXL2If4KHMSy3Wx+yRiM+68Hr1iGgiWA==",
+    "@happy-dom/global-registrator@17.5.6": {
+      "integrity": "sha512-nOUwjNp1GJUgAE8cVHIWgOgCUaxTCQBbVbbuapf2rEvXVh4aauyZ/mgiLbMXSI3Xz8HgGbETkxeJRFdKIoYCzA==",
       "dependencies": [
         "happy-dom"
       ]
@@ -170,8 +170,8 @@
     "handcraft@0.17.0-beta.7": {
       "integrity": "sha512-73ma28tMdqBI3E80/JAx2rfX4yd0Izwd+TBcsz6nIQv1o1PDI9n5I0LNBD5r5xpjmC28xMXoR7ZHQAUUQFHFuA=="
     },
-    "happy-dom@17.4.7": {
-      "integrity": "sha512-NZypxadhCiV5NT4A+Y86aQVVKQ05KDmueja3sz008uJfDRwz028wd0aTiJPwo4RQlvlz0fznkEEBBCHVNWc08g==",
+    "happy-dom@17.5.6": {
+      "integrity": "sha512-B4U6jKuiizwCJ2WP0YreQmRdeBrHKOXhpz7YUbbwdSAKfWEhdG4UfWZOZTZ5Oejs/9yJtk7xmbfp8YdVL9LVFA==",
       "dependencies": [
         "webidl-conversions",
         "whatwg-mimetype"
