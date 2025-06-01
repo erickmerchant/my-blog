@@ -11,7 +11,6 @@
     "frontend": "deno -A app/main.ts --cache-bust --inline-css"
   },
   "imports": {
-    "@happy-dom/global-registrator": "npm:@happy-dom/global-registrator@^17.4.4",
     "@std/crypto": "jsr:@std/crypto@^1.0.4",
     "@std/encoding": "jsr:@std/encoding@^1.0.10",
     "@std/fs": "jsr:@std/fs@^1.0.17",
@@ -20,7 +19,7 @@
     "@std/toml": "jsr:@std/toml@^1.0.5",
     "@swc/core": "npm:@swc/core@^1.11.22",
     "fast-xml-parser": "npm:fast-xml-parser@5.2.1",
-    "handcraft": "npm:handcraft@next",
+    "handcraft/": "../handcraft/",
     "happy-dom": "npm:happy-dom@^17.4.4",
     "html-minifier": "npm:html-minifier@^4.0.0",
     "lightningcss": "npm:lightningcss@^1.29.3",

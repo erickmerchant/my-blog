@@ -79,18 +79,18 @@ if (import.meta.main) {
     getResume(),
   ]);
 
-  await Promise.all([
-    saveView("./dist/404.html", () => NotFoundView({ site })),
-    ...posts.map((post) =>
-      saveView(
-        `./dist/posts/${post.slug}/index.html`,
-        () => PostView({ site, post }),
-      )
-    ),
-    saveRSS({ site, posts }),
-    saveView(`./dist/index.html`, () => HomeView({ site, posts })),
-    saveView(`./dist/resume/index.html`, () => ResumeView({ resume })),
-  ]);
+  await saveView("./dist/404.html", () => NotFoundView({ site }));
+
+  for (const post of posts) {
+    await saveView(
+      `./dist/posts/${post.slug}/index.html`,
+      () => PostView({ site, post }),
+    );
+  }
+
+  await saveView(`./dist/index.html`, () => HomeView({ site, posts }));
+  await saveView(`./dist/resume/index.html`, () => ResumeView({ resume }));
+  await saveRSS({ site, posts });
 
   for await (const { path } of Fs.expandGlob("./dist/**/*.html")) {
     await optimizeHTML(path);

@@ -12,9 +12,11 @@ export async function getPublishedPosts(): Promise<Array<Post>> {
         if (lang === "html") lang = "markup";
 
         try {
-          await import(
-            `prismjs/components/prism-${lang}.js`
-          );
+          if (!Prism.languages[lang]) {
+            await import(
+              `prismjs/components/prism-${lang}.js`
+            );
+          }
 
           return Prism.highlight(code, Prism.languages[lang], lang);
         } catch {
@@ -48,7 +50,7 @@ export async function getPublishedPosts(): Promise<Array<Post>> {
     }
 
     const title = frontmatter.title;
-    let datePublished;
+    let datePublished: Temporal.PlainDate | undefined;
 
     if (frontmatter.datePublished) {
       const splitDatePublished: Array<number> = frontmatter.datePublished

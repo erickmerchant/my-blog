@@ -1,7 +1,8 @@
 import * as Path from "@std/path";
 import * as Fs from "@std/fs";
 import * as HTMLMinifier from "html-minifier";
-import { GlobalRegistrator } from "@happy-dom/global-registrator";
+import "handcraft/prelude/server.js";
+import { effect } from "handcraft/reactivity.js";
 import { Element, Window } from "happy-dom";
 import { cacheBustedUrls, cssImports, distDir, jsImports } from "./main.ts";
 import { runSWC } from "./js.ts";
@@ -10,29 +11,26 @@ export async function saveView(
   path: string,
   view: () => { deref: () => Element },
 ) {
-  GlobalRegistrator.register({
-    url: "http://localhost:3000",
-    width: 1920,
-    height: 1080,
-    settings: {
-      fetch: {
-        virtualServers: [
-          {
-            url: "https://localhost:3000",
-            directory: "./dist",
-          },
-        ],
-      },
-    },
+  const el = view();
+  const { promise, resolve } = Promise.withResolvers<string>();
+
+  effect(() => {
+    resolve(`<pre>${JSON.stringify(el.deref(), null, 2)}</pre>`);
   });
 
-  const el = view();
-  const html = `<!doctype html>${el.deref().outerHTML}`;
+  const html = await promise;
 
-  await GlobalRegistrator.unregister();
+  if (
+    html.includes(`(...args) => {
+				element.attr(key, ...args);
+
+				return p;
+			}`)
+  ) {
+    throw Error("fail");
+  }
 
   await Fs.ensureDir(Path.dirname(path));
-
   await Deno.writeTextFile(path, html);
 }
 
@@ -325,8 +323,6 @@ export async function optimizeHTML(path: string) {
     if (
       code.includes(`(...args) =&gt; { element.attr(key, ...args); return p; }`)
     ) {
-      console.log(html.outerHTML);
-
       throw Error("fail");
     }
 
