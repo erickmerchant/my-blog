@@ -3,12 +3,9 @@ title = "Rust note #2: return early sometimes"
 datePublished = "2023-08-24"
 +++
 
-<blockquote>
-	The final expression in the function will be used as return value. Alternatively, the return statement can be used to return a value earlier from within the function, even from inside loops or if statements.
-	<footer>
-		<cite><a href="https://doc.rust-lang.org/rust-by-example/fn.html">Rust by Example</a></cite>
-	</footer>
-</blockquote>
+> The final expression in the function will be used as return value. Alternatively, the return statement can be used to return a value earlier from within the function, even from inside loops or if statements.
+>
+> — [Rust by Example](https://doc.rust-lang.org/rust-by-example/fn.html)
 
 Sometimes you'll want to actually use `return` in your code to make it more readable. It's only a matter of style, but consider the following examples. They accomplish the same thing, but I think clearly one is the most succinct and readable, one is ok, and one is clearly a very ugly option. I'll call them the Good, Bad, and Ugly. Here listed in reverse.
 

@@ -1,10 +1,11 @@
-import {h, unsafe} from "handcraft/prelude/all.js";
+import {h} from "handcraft/prelude/all.js";
 import base from "./base.js";
 import {asLocalDate} from "../utils/dates.ts";
+import * as Markdown from "../utils/markdown.ts";
 
 const {link, article, header, h1, time, span} = h.html;
 
-export default function ({site, post}) {
+export default async function ({site, post}) {
 	return base({
 		site,
 		pageTitle: post.title,
@@ -22,7 +23,7 @@ export default function ({site, post}) {
 					? time.class("status")(asLocalDate(post.datePublished))
 					: span.class("status")("Draft")
 			),
-			unsafe(post.content)
+			await Markdown.parse(post.content)
 		),
 	});
 }

@@ -1,8 +1,7 @@
 @layer component {
 	/* PrismJS 1.30.0
 https://prismjs.com/download.html#themes=prism&languages=markup+css+clike+javascript+rust+sql */
-	code[class*="language-"],
-	pre[class*="language-"] {
+	.highlighted {
 		text-align: left;
 		white-space: pre;
 		word-spacing: normal;
@@ -18,80 +17,80 @@ https://prismjs.com/download.html#themes=prism&languages=markup+css+clike+javasc
 		hyphens: none;
 	}
 
-	pre[class*="language-"] {
+	.highlighted {
 		overflow: auto;
 	}
 
-	.token.cdata,
-	.token.comment,
-	.token.doctype,
-	.token.prolog {
+	.token-cdata,
+	.token-comment,
+	.token-doctype,
+	.token-prolog {
 		color: light-dark(oklch(from gray 45% c h), oklch(from gray 80% c h));
 	}
 
-	.token.punctuation,
-	.token.operator {
+	.token-punctuation,
+	.token-operator {
 		color: light-dark(oklch(from gray 45% c h), oklch(from gray 80% c h));
 	}
 
-	.token.namespace {
+	.token-namespace {
 		opacity: 0.7;
 	}
 
-	.token.constant,
-	.token.deleted,
-	.token.property,
-	.token.symbol,
-	.token.tag {
+	.token-constant,
+	.token-deleted,
+	.token-property,
+	.token-symbol,
+	.token-tag {
 		color: light-dark(oklch(from wheat 45% c h), oklch(from wheat 80% c h));
 	}
 
-	.token.attr-name,
-	.token.builtin,
-	.token.char,
-	.token.inserted,
-	.token.selector,
-	.token.string,
-	.token.regex {
+	.token-attr-name,
+	.token-builtin,
+	.token-char,
+	.token-inserted,
+	.token-selector,
+	.token-string,
+	.token-regex {
 		color: light-dark(oklch(from plum 45% c h), oklch(from plum 80% c h));
 	}
 
-	.token.entity,
-	.token.url {
+	.token-entity,
+	.token-url {
 		color: light-dark(oklch(from teal 45% c h), oklch(from teal 80% c h));
 	}
 
-	.token.atrule,
-	.token.attr-value,
-	.token.keyword {
+	.token-atrule,
+	.token-attr-value,
+	.token-keyword {
 		color: light-dark(
 			oklch(from deepskyblue 45% c h),
 			oklch(from deepskyblue 80% c h)
 		);
 	}
 
-	.token.class-name,
-	.token.function {
+	.token-class-name,
+	.token-function {
 		color: light-dark(oklch(from coral 45% c h), oklch(from coral 80% c h));
 	}
 
-	.token.important,
-	.token.variable,
-	.token.boolean,
-	.token.number {
+	.token-important,
+	.token-variable,
+	.token-boolean,
+	.token-number {
 		color: light-dark(oklch(from hotpink 45% c h), oklch(from hotpink 80% c h));
 	}
 
-	.token.bold,
-	.token.important {
+	.token-bold,
+	.token-important {
 		font-weight: 700;
 	}
 
-	.token.italic {
+	.token-italic {
 		font-style: italic;
 	}
 
-	.token.entity {
+	.token-entity {
 		cursor: help;
 	}
 }

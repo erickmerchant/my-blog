@@ -1,30 +1,7 @@
 import * as Toml from "@std/toml";
-import { Marked } from "marked";
-import { markedHighlight } from "marked-highlight";
-import Prism from "prismjs";
 import * as Fs from "@std/fs";
 
 export async function getPublishedPosts(): Promise<Array<Post>> {
-  const marked = new Marked(
-    markedHighlight({
-      async: true,
-      async highlight(code, lang) {
-        if (lang === "html") lang = "markup";
-
-        try {
-          if (!Prism.languages[lang]) {
-            await import(
-              `prismjs/components/prism-${lang}.js`
-            );
-          }
-
-          return Prism.highlight(code, Prism.languages[lang], lang);
-        } catch {
-          return code;
-        }
-      },
-    }),
-  );
   const posts: Array<Post> = [];
 
   for await (const { name, path } of Fs.expandGlob("./content/posts/*.md")) {
@@ -71,7 +48,7 @@ export async function getPublishedPosts(): Promise<Array<Post>> {
 
     if (/\n```/.test(md)) components.push("highlighting");
 
-    const content = await marked.parse(md);
+    const content = md;
     const post: Post = {
       slug,
       content,

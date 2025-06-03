@@ -1,21 +1,23 @@
 import * as Path from "@std/path";
 import * as Fs from "@std/fs";
 import * as HTMLMinifier from "html-minifier";
-import "handcraft/prelude/server.js";
+import { DOMParser } from "linkedom";
+import { render } from "handcraft/prelude/server.js";
 import { effect } from "handcraft/reactivity.js";
-import { Element, Window } from "happy-dom";
 import { cacheBustedUrls, cssImports, distDir, jsImports } from "./main.ts";
 import { runSWC } from "./js.ts";
 
+type View = { deref: () => Element };
+
 export async function saveView(
   path: string,
-  view: () => { deref: () => Element },
+  view: () => Promise<View> | View,
 ) {
-  const el = view();
+  const el = await view();
   const { promise, resolve } = Promise.withResolvers<string>();
 
   effect(() => {
-    resolve(`<pre>${JSON.stringify(el.deref(), null, 2)}</pre>`);
+    resolve(`<!doctype html>${render(el.deref())}`);
   });
 
   const html = await promise;
@@ -36,44 +38,23 @@ export async function saveView(
 
 export async function optimizeHTML(path: string) {
   const content = await Deno.readTextFile(path);
-  const subpath = path.substring(distDir.length);
-  const window = new Window({
-    width: 1920,
-    height: 1080,
-    url: `http://localhost:3000${subpath}`,
-    settings: {
-      handleDisabledFileLoadingAsSuccess: true,
-      disableCSSFileLoading: true,
-      disableJavaScriptFileLoading: true,
-      fetch: {
-        virtualServers: [
-          {
-            url: "https://localhost:3000",
-            directory: "./dist",
-          },
-        ],
-      },
-    },
-  });
-  const document = window.document;
+  // const subpath = path.substring(distDir.length);
 
-  document.write(content);
+  const doc = new DOMParser().parseFromString(content, "text/html");
 
-  const html = document.querySelector("html");
-
-  if (html) {
+  if (doc) {
     const usedJSImports: Array<string> = [];
     const newImportMap: { imports: Record<string, string> } = {
       imports: {},
     };
     const modulePreloads = new Set<string>();
     const preloads = new Set<string>();
-    const head = html.querySelector("head");
+    const head = doc.querySelector("head");
     let inlineCSS = "";
     let importMap;
 
     for (
-      const el of html.querySelectorAll(
+      const el of doc.querySelectorAll(
         "link[href][rel='stylesheet'], style",
       )
     ) {
@@ -124,11 +105,11 @@ export async function optimizeHTML(path: string) {
     }
 
     if (inlineCSS) {
-      const style = document.createElement("style");
+      const style = doc.createElement("style");
 
       style.textContent = inlineCSS;
 
-      const firstLink = html.querySelector("link:nth-of-type(1)");
+      const firstLink = doc.querySelector("link:nth-of-type(1)");
 
       if (firstLink) {
         firstLink.insertAdjacentElement("beforebegin", style);
@@ -138,10 +119,10 @@ export async function optimizeHTML(path: string) {
     }
 
     const firstStylesheet = !Deno.args.includes("--inline-css")
-      ? html.querySelector(
-        "link:nth-child(1 of [rel='stylesheet'])",
-      )
-      : html.querySelector(
+      ? doc.querySelectorAll(
+        "link[rel='stylesheet']",
+      )?.[0]
+      : doc.querySelector(
         "style:nth-of-type(1)",
       );
 
@@ -156,7 +137,7 @@ export async function optimizeHTML(path: string) {
       }
     }
 
-    const importMapScript = html.querySelector(
+    const importMapScript = doc.querySelector(
       "script[type='importmap']",
     );
 
@@ -165,7 +146,7 @@ export async function optimizeHTML(path: string) {
     }
 
     for (
-      const script of html.querySelectorAll("script[src]")
+      const script of doc.querySelectorAll("script[src]")
     ) {
       const src = script.getAttribute("src");
 
@@ -189,7 +170,7 @@ export async function optimizeHTML(path: string) {
     }
 
     for (
-      const script of html.querySelectorAll("script[type='module']")
+      const script of doc.querySelectorAll("script[type='module']")
     ) {
       const src = script.getAttribute("src");
 
@@ -283,7 +264,7 @@ export async function optimizeHTML(path: string) {
         }
       }
 
-      const importMapScript = html.querySelector(
+      const importMapScript = doc.querySelector(
         "script[type='importmap']",
       );
 
@@ -315,10 +296,13 @@ export async function optimizeHTML(path: string) {
       );
     }
 
-    const code = HTMLMinifier.minify(`<!doctype html>${html.outerHTML}`, {
-      collapseWhitespace: true,
-      removeComments: true,
-    });
+    const code = HTMLMinifier.minify(
+      `${doc}`,
+      {
+        collapseWhitespace: true,
+        removeComments: true,
+      },
+    );
 
     if (
       code.includes(`(...args) =&gt; { element.attr(key, ...args); return p; }`)

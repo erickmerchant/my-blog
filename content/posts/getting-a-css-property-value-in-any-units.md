@@ -3,12 +3,9 @@ title = "Getting a CSS property's value in any units"
 datePublished = "2024-01-27"
 +++
 
-<blockquote>
-	<p>Is there a way to convert between units in CSS using browser js <em>stuffs</em>?</p>
-	<footer>
-		<cite>ginger, chief meme officer</cite>
-	</footer>
-</blockquote>
+> Is there a way to convert between units in CSS using browser js _stuffs_?
+>
+> — ginger, chief meme officer
 
 The other day ginger in the Shoptalk Show Discord had an interesting question, "Is there a way to convert between units in CSS using browser js _stuffs_?". And an example given was:
 

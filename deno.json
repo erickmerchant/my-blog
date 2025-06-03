@@ -20,11 +20,10 @@
     "@swc/core": "npm:@swc/core@^1.11.22",
     "fast-xml-parser": "npm:fast-xml-parser@5.2.1",
     "handcraft/": "../handcraft/",
-    "happy-dom": "npm:happy-dom@^17.4.4",
     "html-minifier": "npm:html-minifier@^4.0.0",
     "lightningcss": "npm:lightningcss@^1.29.3",
+    "linkedom": "npm:linkedom@^0.18.10",
     "marked": "npm:marked@^15.0.11",
-    "marked-highlight": "npm:marked-highlight@^2.2.1",
     "prismjs": "npm:prismjs@^1.30.0"
   },
   "nodeModulesDir": "auto",

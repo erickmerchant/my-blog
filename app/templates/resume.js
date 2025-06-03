@@ -1,4 +1,5 @@
-import {h, unsafe} from "handcraft/prelude/all.js";
+import {h} from "handcraft/prelude/all.js";
+import * as Markdown from "../utils/markdown.ts";
 
 const {
 	a,
@@ -21,32 +22,34 @@ const {
 	html,
 } = h.html;
 
-function timeline({title, items, note}) {
+async function timeline({title, items, note}) {
 	return section.class("timeline")(
 		header.class("timeline-header")(h2(title), span.class("note")(note)),
 		ol.class("timeline-items")(
-			items.map((item) =>
-				li(
-					div.class("details")(
-						h3.class("title")(
-							item.latestFullTime && span.class("note")("★"),
-							item.title
+			await Promise.all(
+				items.map(async (item) =>
+					li(
+						div.class("details")(
+							h3.class("title")(
+								item.latestFullTime && span.class("note")("★"),
+								item.title
+							),
+							item.organization && p.class("organization")(item.organization),
+							p.class("dates")(item.dates[0] + "-" + item.dates[1]),
+							item.location && p.class("location")(item.location)
 						),
-						item.organization && p.class("organization")(item.organization),
-						p.class("dates")(item.dates[0] + "-" + item.dates[1]),
-						item.location && p.class("location")(item.location)
-					),
-					item.tags &&
-						item.tags.length &&
-						ul.class("tags")(item.tags.map((tag) => li(tag))),
-					div.class("summary")(unsafe(item.summary))
+						item.tags &&
+							item.tags.length &&
+							ul.class("tags")(item.tags.map((tag) => li(tag))),
+						div.class("summary")(await Markdown.parse(item.summary))
+					)
 				)
 			)
 		)
 	);
 }
 
-export default function ({resume}) {
+export default async function ({resume}) {
 	return html.lang("en-US")(
 		head(
 			meta.charset("utf-8"),
@@ -65,13 +68,13 @@ export default function ({resume}) {
 						)
 					)
 				),
-				section.class("objective")(unsafe(resume.objective)),
-				timeline({
+				section.class("objective")(await Markdown.parse(resume.objective)),
+				await timeline({
 					title: "Employment History",
 					items: resume.history,
 					note: "★ = Latest full-time role",
 				}),
-				timeline({
+				await timeline({
 					title: "Education",
 					items: resume.education,
 				}),

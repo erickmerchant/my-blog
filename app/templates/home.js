@@ -1,9 +1,10 @@
-import {h, unsafe} from "handcraft/prelude/all.js";
+import {h} from "handcraft/prelude/all.js";
 import base from "./base.js";
+import * as Markdown from "../utils/markdown.ts";
 
 const {section, h1, h2, p, ol, ul, li, a, aside, link} = h.html;
 
-export default function ({site, posts}) {
+export default async function ({site, posts}) {
 	return base({
 		site,
 		navTitle: h1.class("nav-title")(site.title),
@@ -26,16 +27,18 @@ export default function ({site, posts}) {
 						h2("Projects"),
 						p("Some open-source projects."),
 						ul.class("section-list")(
-							site.projects.map((project) =>
-								li.class("section-item")(
-									a.class("title").href(project.href)(project.title),
-									unsafe(project.description)
+							await Promise.all(
+								site.projects.map(async (project) =>
+									li.class("section-item")(
+										a.class("title").href(project.href)(project.title),
+										await Markdown.parse(project.description)
+									)
 								)
 							)
 						)
 				  )
 				: null,
-			aside.class("section")(h2("About"), unsafe(site.bio)),
+			aside.class("section")(h2("About"), await Markdown.parse(site.bio)),
 		],
 	});
 }

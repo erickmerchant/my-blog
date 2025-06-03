@@ -1,10 +1,11 @@
 import {h} from "handcraft/prelude/all.js";
+import * as Markdown from "../utils/markdown.ts";
 
 const {head, body, meta, title, link, nav, span, a, footer, ul, li, html} =
 	h.html;
 const {title: svgTitle, path, svg} = h.svg;
 
-export default function ({site, pageTitle, styles, navTitle, main}) {
+export default async function ({site, pageTitle, styles, navTitle, main}) {
 	const baseHead = head(
 		meta.charset("utf-8"),
 		meta.name("viewport").content("width=device-width, initial-scale=1"),
@@ -20,7 +21,7 @@ export default function ({site, pageTitle, styles, navTitle, main}) {
 			.type("application/rss+xml")
 			.title("Posts")
 			.href(site.host + "/posts.rss"),
-		meta.name("description").content(site.description)
+		meta.name("description").content(await Markdown.parse(site.description))
 	);
 	const baseNav = nav.class("nav")(
 		navTitle ?? span.class("nav-title")(site.title),
