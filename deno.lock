@@ -12,6 +12,7 @@
     "npm:@swc/core@^1.11.22": "1.11.29",
     "npm:@types/node@*": "22.15.15",
     "npm:fast-xml-parser@5.2.1": "5.2.1",
+    "npm:handcraft@next": "0.17.0-beta.8",
     "npm:html-minifier@4": "4.0.0",
     "npm:lightningcss@^1.29.3": "1.30.1",
     "npm:linkedom@~0.18.10": "0.18.10",
@@ -209,6 +210,9 @@
       ],
       "bin": true
     },
+    "handcraft@0.17.0-beta.8": {
+      "integrity": "sha512-hRy9S5QGFOYNB2q6KKQnC+pekNQsedQ+o4MwzL/+b1DbaSiUagE6QvpWD1cWLA5+JLBPpHfxKmt1j1lo3WDdMw=="
+    },
     "he@1.2.0": {
       "integrity": "sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==",
       "bin": true
@@ -377,6 +381,7 @@
       "jsr:@std/toml@^1.0.5",
       "npm:@swc/core@^1.11.22",
       "npm:fast-xml-parser@5.2.1",
+      "npm:handcraft@next",
       "npm:html-minifier@4",
       "npm:lightningcss@^1.29.3",
       "npm:linkedom@~0.18.10",

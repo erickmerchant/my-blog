@@ -105,7 +105,7 @@ export async function optimizeHTML(path: string) {
     }
 
     if (inlineCSS) {
-      const style = doc.createElement("style");
+      const style = doc.createElement("style", {});
 
       style.textContent = inlineCSS;
 

@@ -19,7 +19,7 @@
     "@std/toml": "jsr:@std/toml@^1.0.5",
     "@swc/core": "npm:@swc/core@^1.11.22",
     "fast-xml-parser": "npm:fast-xml-parser@5.2.1",
-    "handcraft/": "../handcraft/",
+    "handcraft": "npm:handcraft@next",
     "html-minifier": "npm:html-minifier@^4.0.0",
     "lightningcss": "npm:lightningcss@^1.29.3",
     "linkedom": "npm:linkedom@^0.18.10",
