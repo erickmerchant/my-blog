@@ -2,9 +2,14 @@ import * as Path from "@std/path";
 import * as Fs from "@std/fs";
 import * as HTMLMinifier from "html-minifier";
 import { DOMParser } from "linkedom";
-import { render } from "handcraft/prelude/server.js";
 import { effect } from "handcraft/reactivity.js";
-import { cacheBustedUrls, cssImports, distDir, jsImports } from "./main.ts";
+import {
+  cacheBustedUrls,
+  cssImports,
+  distDir,
+  jsImports,
+  render,
+} from "./main.ts";
 import { runSWC } from "./js.ts";
 
 type View = { deref: () => Element };
