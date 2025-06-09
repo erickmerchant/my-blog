@@ -43,7 +43,6 @@ export async function saveView(
 
 export async function optimizeHTML(path: string) {
   const content = await Deno.readTextFile(path);
-  // const subpath = path.substring(distDir.length);
 
   const doc = new DOMParser().parseFromString(content, "text/html");
 
