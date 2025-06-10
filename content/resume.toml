@@ -12,14 +12,14 @@ text = "erickmerchant@gmail.com"
 href = "https://erickmerchant.com"
 text = "erickmerchant.com"
 
-[[history]]
-title = "Open-source creator"
-dates = ["May 2014", "present"]
-tags = ["Rust", "JavaScript", "CSS"]
-summary = """
-- Created [Handcraft](https://github.com/erickmerchant/handcraft), a front-end library for creating declarative UI with reactive state using a jQuery inspired API
-- Created [Cool Style Server](https://github.com/erickmerchant/coolstyleserver), a development server that does live-reloading for CSS for designing in the browser without the need of NPM
-"""
+# [[history]]
+# title = "Open-source creator"
+# dates = ["May 2014", "present"]
+# tags = ["Rust", "JavaScript", "CSS"]
+# summary = """
+# - Created [Handcraft](https://github.com/erickmerchant/handcraft), a front-end library for creating declarative UI with reactive state using a jQuery inspired API
+# - Created [Cool Style Server](https://github.com/erickmerchant/coolstyleserver), a development server that does live-reloading for CSS for designing in the browser without the need of NPM
+# """
 
 # [[history]]
 # title = "Freelance writer"
@@ -30,10 +30,10 @@ summary = """
 # """
 
 [[history]]
-title = "Freelance engineer"
-organization = "Music studio"
-dates = ["Oct 2024", "Dec 2024"]
-location = "Los Angeles, CA"
+title = "Freelance Engineer"
+# organization = "Music studio"
+dates = ["Mar 2024", "Dec 2024"]
+# location = "Los Angeles, CA"
 tags = ["Python", "React", "Next.js", "AI"]
 summary = """
 - Worked on an application with a Python (FastAPI) service, and a TypeScript service (Next.js)
@@ -46,7 +46,6 @@ summary = """
 
 [[history]]
 title = "Senior Software Engineer"
-latestFullTime = true
 dates = ["Oct 2021", "Mar 2024"]
 organization = "WorkStep"
 location = "San Francisco, CA"

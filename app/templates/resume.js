@@ -16,24 +16,20 @@ const {
 	ol,
 	p,
 	section,
-	span,
 	title,
 	ul,
 	html,
 } = h.html;
 
-async function timeline({title, items, note}) {
+async function timeline({title, items}) {
 	return section.class("timeline")(
-		header.class("timeline-header")(h2(title), span.class("note")(note)),
+		header.class("timeline-header")(h2(title)),
 		ol.class("timeline-items")(
 			await Promise.all(
 				items.map(async (item) =>
 					li(
 						div.class("details")(
-							h3.class("title")(
-								item.latestFullTime && span.class("note")("★"),
-								item.title
-							),
+							h3.class("title")(item.title),
 							item.organization && p.class("organization")(item.organization),
 							p.class("dates")(item.dates[0] + "-" + item.dates[1]),
 							item.location && p.class("location")(item.location)
@@ -72,7 +68,6 @@ export default async function ({resume}) {
 				await timeline({
 					title: "Employment History",
 					items: resume.history,
-					note: "★ = Latest full-time role",
 				}),
 				await timeline({
 					title: "Education",

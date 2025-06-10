@@ -22,7 +22,6 @@ type Project = {
 };
 
 type ResumeItem = {
-  latestFullTime: boolean;
   title: string;
   organization?: string;
   dates: [string, string];
