@@ -97,7 +97,7 @@ async fn test_asset_cache_control() {
 }
 
 #[tokio::test]
-async fn test_asset_index() {
+async fn test_index() {
 	let app = get_test_app().await;
 	let response = app
 		.clone()
@@ -117,7 +117,7 @@ async fn test_asset_index() {
 }
 
 #[tokio::test]
-async fn test_asset_html() {
+async fn test_html_etags() {
 	let app = get_test_app().await;
 	let response = app
 		.clone()
