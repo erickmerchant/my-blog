@@ -1,55 +1,55 @@
 {
-  "unstable": ["temporal"],
-  "tasks": {
-    "post:draft": "deno -A app/cli/post-draft.ts",
-    "post:publish": "deno -A app/cli/post-publish.ts",
-    "dev": {
-      "dependencies": ["dev:frontend", "dev:server"]
-    },
-    "dev:frontend": "deno -A --watch=content,public app/main.ts --drafts",
-    "dev:server": "APP_PORT=3000 cargo watch -x 'r --no-default-features'",
-    "frontend": "deno -A app/main.ts --cache-bust --inline-css",
-    "stage": {
-      "command": "cargo test && cargo clippy && cargo +nightly fmt --check && docker build . -t my-blog && docker run --init -it --rm -p 3000:8080 --name my-blog my-blog",
-      "dependencies": ["frontend"]
-    },
-    "deploy": {
-      "command": "cargo test && cargo clippy && cargo +nightly fmt --check && fly deploy --remote-only",
-      "dependencies": ["frontend"]
-    }
-  },
-  "imports": {
-    "@std/crypto": "jsr:@std/crypto@^1.0.4",
-    "@std/encoding": "jsr:@std/encoding@^1.0.10",
-    "@std/fs": "jsr:@std/fs@^1.0.17",
-    "@std/path": "jsr:@std/path@^1.0.9",
-    "@std/text": "jsr:@std/text@^1.0.13",
-    "@std/toml": "jsr:@std/toml@^1.0.5",
-    "@swc/core": "npm:@swc/core@^1.11.22",
-    "fast-xml-parser": "npm:fast-xml-parser@5.2.1",
-    "handcraft": "npm:handcraft@next",
-    "html-minifier": "npm:html-minifier@^4.0.0",
-    "lightningcss": "npm:lightningcss@^1.29.3",
-    "linkedom": "npm:linkedom@^0.18.10",
-    "marked": "npm:marked@^15.0.11",
-    "prismjs": "npm:prismjs@^1.30.0"
-  },
-  "nodeModulesDir": "auto",
-  "compilerOptions": {
-    "types": ["./app/types.d.ts"],
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "dom.asynciterable",
-      "es2024",
-      "deno.ns",
-      "deno.unstable"
-    ],
-    "noImplicitAny": false
-  },
-  "lint": {
-    "rules": {
-      "exclude": ["no-explicit-any"]
-    }
-  }
+	"unstable": ["temporal"],
+	"tasks": {
+		"post:draft": "deno -A app/cli/post-draft.ts",
+		"post:publish": "deno -A app/cli/post-publish.ts",
+		"dev": {
+			"dependencies": ["dev:frontend", "dev:server"]
+		},
+		"dev:frontend": "deno -A --watch=content,public app/main.ts --drafts",
+		"dev:server": "APP_PORT=3000 cargo watch -x 'r --no-default-features'",
+		"frontend": "deno -A app/main.ts --cache-bust --inline-css",
+		"stage": {
+			"command": "cargo test && cargo clippy && cargo +nightly fmt --check && docker build . -t my-blog && docker run --init -it --rm -p 3000:8080 --name my-blog my-blog",
+			"dependencies": ["frontend"]
+		},
+		"deploy": {
+			"command": "cargo test && cargo clippy && cargo +nightly fmt --check && fly deploy --remote-only",
+			"dependencies": ["frontend"]
+		}
+	},
+	"imports": {
+		"@std/crypto": "jsr:@std/crypto@^1.0.4",
+		"@std/encoding": "jsr:@std/encoding@^1.0.10",
+		"@std/fs": "jsr:@std/fs@^1.0.17",
+		"@std/path": "jsr:@std/path@^1.0.9",
+		"@std/text": "jsr:@std/text@^1.0.13",
+		"@std/toml": "jsr:@std/toml@^1.0.5",
+		"@swc/core": "npm:@swc/core@^1.11.22",
+		"fast-xml-parser": "npm:fast-xml-parser@5.2.1",
+		"handcraft": "npm:handcraft@next",
+		"html-minifier": "npm:html-minifier@^4.0.0",
+		"lightningcss": "npm:lightningcss@^1.29.3",
+		"linkedom": "npm:linkedom@^0.18.10",
+		"marked": "npm:marked@^15.0.11",
+		"prismjs": "npm:prismjs@^1.30.0"
+	},
+	"nodeModulesDir": "auto",
+	"compilerOptions": {
+		"types": ["./app/types.d.ts"],
+		"lib": [
+			"dom",
+			"dom.iterable",
+			"dom.asynciterable",
+			"es2024",
+			"deno.ns",
+			"deno.unstable"
+		],
+		"noImplicitAny": false
+	},
+	"lint": {
+		"rules": {
+			"exclude": ["no-explicit-any"]
+		}
+	}
 }
