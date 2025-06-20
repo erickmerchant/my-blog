@@ -43,7 +43,7 @@
 	}
 
 	blockquote {
-		padding: 1.5rem 3rem;
+		padding: 1rem 1.5rem;
 		background-color: oklch(from currentColor l c h / 0.05);
 		overflow-wrap: anywhere;
 		hyphens: auto;
