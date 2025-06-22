@@ -31,10 +31,10 @@ if (import.meta.main) {
   await embedProjects();
 
   const [fontFiles, cssFiles, jsFiles] = await Promise.all([
-    Array.fromAsync(Fs.expandGlob("./dist/fonts/*.woff2")),
-    Array.fromAsync(Fs.expandGlob("./dist/**/*.css")),
-    Array.fromAsync(Fs.expandGlob("./dist/**/*.js")),
-  ]);
+    "./dist/fonts/*.woff2",
+    "./dist/**/*.css",
+    "./dist/**/*.js",
+  ].map((url) => Array.fromAsync(Fs.expandGlob(url))));
 
   await Promise.all([
     ...fontFiles.map(
