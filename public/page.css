@@ -1,8 +1,8 @@
 @font-face {
 	font-family: "Jacquard 24";
 	src: url(/fonts/Jacquard24-Regular-subset.woff2) format("woff2");
-	unicode-range: U+45, U+4D, U+61, U+63, U+65, U+68, U+69, U+6B, U+6E, U+72,
-		U+74;
+	unicode-range:
+		U+45, U+4D, U+61, U+63, U+65, U+68, U+69, U+6B, U+6E, U+72, U+74;
 }
 
 @font-face {
@@ -24,6 +24,7 @@
 		margin: 0;
 		max-inline-size: 100%;
 		padding: 0;
+		border: none;
 		-webkit-text-size-adjust: none;
 	}
 
@@ -39,13 +40,17 @@
 		scrollbar-gutter: stable;
 		overscroll-behavior: none;
 		scrollbar-color: currentColor var(--background);
-		color: var(--foreground);
+		color: var(--text-color);
 
 		--background: light-dark(oklch(100% 0.02 80), oklch(30% 0.02 80));
-		--foreground: light-dark(oklch(30% 0.02 80), oklch(100% 0.02 80));
+		--text-color: light-dark(oklch(30% 0.02 80), oklch(100% 0.02 80));
+		--heading-color: light-dark(
+			oklch(from forestgreen 50% 0.2 h),
+			oklch(from forestgreen 80% 0.2 h)
+		);
 		--link-color: light-dark(
-			oklch(from seagreen 50% c h),
-			oklch(from seagreen 80% c h)
+			oklch(from forestgreen 50% 0.4 h),
+			oklch(from forestgreen 80% 0.4 h)
 		);
 	}
 
@@ -134,7 +139,7 @@
 
 	.page {
 		background-color: var(--background);
-		color: var(--foreground);
+		color: var(--text-color);
 		container-type: inline-size;
 		display: grid;
 		grid-template-columns: 1fr min(100% - 2rem, 40rem) 1fr;
@@ -151,7 +156,7 @@
 			background-image: repeating-linear-gradient(
 				90deg,
 				transparent 0 0.125rem,
-				oklch(from currentColor l c h) 0.125rem 0.625rem,
+				currentColor 0.125rem 0.625rem,
 				transparent 0.625rem 0.75rem
 			);
 			background-size: calc(round(down, 100%, 0.75rem) - 0.75rem) 0.15rem;
@@ -190,12 +195,15 @@
 	.nav-link {
 		align-self: center;
 		padding: 0.5rem 1rem;
-		text-decoration-thickness: 0.15em;
 		color: var(--background);
-		background: var(--link-color);
-		box-shadow: 0.25rem 0.25rem 0 oklch(from var(--link-color) l c h / 0.4);
+		background-image: linear-gradient(
+			-42deg,
+			var(--link-color) 0 50%,
+			oklch(from var(--link-color) l c h / 0.85) 50%
+		);
+		/* box-shadow: inset 0 0 0 0.125rem oklch(from var(--text-color) l c h / 0.25); */
 		text-decoration: none;
-		border-radius: 0.125rem;
+		border-radius: 0.25rem;
 		font-size: 0.75rem;
 		font-weight: 800;
 	}
@@ -236,15 +244,23 @@
 	}
 
 	.rss-link {
-		color: light-dark(oklch(from coral 60% c h), oklch(from coral 80% c h));
+		--rss-color: light-dark(
+			oklch(from coral 60% 0.25 h),
+			oklch(from coral 80% 0.25 h)
+		);
 
 		:where(svg) {
-			block-size: 1.1rem;
-			background: currentColor;
-			box-shadow: 0.25rem 0.25rem 0 oklch(from currentColor l c h / 0.4);
+			block-size: 1.3rem;
+			background-image: linear-gradient(
+				-42deg,
+				var(--rss-color) 0 50%,
+				oklch(from var(--rss-color) l c h / 0.85) 50%
+			);
+			/* box-shadow: inset 0 0 0 0.125rem
+				oklch(from var(--text-color) l c h / 0.25); */
 			fill: var(--background);
-			padding: 0.125rem;
-			border-radius: 0.125rem;
+			padding: 0.225rem;
+			border-radius: 0.25rem;
 			margin-block-end: -0.2rem;
 			margin-inline-end: 0.5rem;
 		}
