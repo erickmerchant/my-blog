@@ -1,4 +1,4 @@
-import {h} from "handcraft/prelude/all.js";
+import {h} from "handcraft/env/server.js";
 import base from "./base.js";
 import * as Markdown from "../utils/markdown.ts";
 
@@ -20,7 +20,7 @@ export default async function ({site, posts}) {
 								)
 							)
 						)
-				  )
+					)
 				: null,
 			site.projects.length
 				? section.class("section")(
@@ -36,7 +36,7 @@ export default async function ({site, posts}) {
 								)
 							)
 						)
-				  )
+					)
 				: null,
 			aside.class("section")(h2("About"), await Markdown.parse(site.bio)),
 		],

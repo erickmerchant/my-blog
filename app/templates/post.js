@@ -1,4 +1,4 @@
-import {h} from "handcraft/prelude/all.js";
+import {h} from "handcraft/env/server.js";
 import base from "./base.js";
 import {asLocalDate} from "../utils/dates.ts";
 import * as Markdown from "../utils/markdown.ts";

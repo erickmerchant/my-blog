@@ -14,7 +14,7 @@ import PostView from "./templates/post.js";
 import HomeView from "./templates/home.js";
 import ResumeView from "./templates/resume.js";
 
-export { render } from "handcraft/prelude/server.js";
+export { render } from "handcraft/env/server.js";
 
 export const distDir = Path.join(Deno.cwd(), "dist");
 export const cacheBustedUrls = new Map();

@@ -1,4 +1,4 @@
-import {h} from "handcraft/prelude/all.js";
+import {h} from "handcraft/env/server.js";
 import * as Markdown from "../utils/markdown.ts";
 
 const {head, body, meta, title, link, nav, span, a, footer, ul, li, html} =
