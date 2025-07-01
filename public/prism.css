@@ -1,6 +1,4 @@
 @layer component {
-	/* PrismJS 1.30.0
-https://prismjs.com/download.html#themes=prism&languages=markup+css+clike+javascript+rust+sql */
 	.highlighted {
 		text-align: left;
 		white-space: pre;
@@ -64,8 +62,8 @@ https://prismjs.com/download.html#themes=prism&languages=markup+css+clike+javasc
 	.token-attr-value,
 	.token-keyword {
 		color: light-dark(
-			oklch(from deepskyblue 45% c h),
-			oklch(from deepskyblue 80% c h)
+			oklch(from forestgreen 45% c h),
+			oklch(from forestgreen 80% c h)
 		);
 	}
 

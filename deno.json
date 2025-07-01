@@ -4,12 +4,12 @@
 		"post:draft": "deno -A app/cli/post-draft.ts",
 		"post:publish": "deno -A app/cli/post-publish.ts",
 		"dev": {
-			"dependencies": ["dev:frontend", "dev:server", "coolstyleserver"]
+			"dependencies": ["dev:frontend", "dev:server", "dev:styles"]
 		},
 		"dev:frontend": "deno -A --watch=content,public app/main.ts --drafts",
-		"dev:server": "APP_PORT=4000 cargo watch -x 'r --no-default-features'",
-		"coolstyleserver": "coolstyleserver -p3000 proxy dist http://localhost:4000",
-		"frontend": "deno -A app/main.ts --cache-bust --inline-css",
+		"dev:server": "APP_PORT=4000 cargo watch -i=dist -i=content -i=public -x 'r --no-default-features'",
+		"dev:styles": "coolstyleserver -p3000 proxy dist http://localhost:4000",
+		"frontend": "deno -A app/main.ts --cache-bust --inline-css --clean",
 		"stage": {
 			"command": "cargo test && cargo clippy && cargo +nightly fmt --check && docker build . -t my-blog && docker run --init -it --rm -p 3000:8080 --name my-blog my-blog",
 			"dependencies": ["frontend"]

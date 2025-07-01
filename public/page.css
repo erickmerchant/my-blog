@@ -44,13 +44,9 @@
 
 		--background: light-dark(oklch(100% 0.02 80), oklch(30% 0.02 80));
 		--text-color: light-dark(oklch(30% 0.02 80), oklch(100% 0.02 80));
-		--heading-color: light-dark(
-			oklch(from forestgreen 50% 0.2 h),
-			oklch(from forestgreen 80% 0.2 h)
-		);
 		--link-color: light-dark(
-			oklch(from forestgreen 50% 0.4 h),
-			oklch(from forestgreen 80% 0.4 h)
+			oklch(from skyblue 50% 0.2 h),
+			oklch(from skyblue 80% 0.4 h)
 		);
 	}
 
@@ -201,7 +197,6 @@
 			var(--link-color) 0 50%,
 			oklch(from var(--link-color) l c h / 0.85) 50%
 		);
-		/* box-shadow: inset 0 0 0 0.125rem oklch(from var(--text-color) l c h / 0.25); */
 		text-decoration: none;
 		border-radius: 0.25rem;
 		font-size: 0.75rem;

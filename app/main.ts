@@ -23,7 +23,11 @@ export const cssImports = new Map();
 
 if (import.meta.main) {
   await Fs.ensureDir("./dist");
-  await Fs.emptyDir("./dist");
+
+  if (Deno.args.includes("--clean")) {
+    await Fs.emptyDir("./dist");
+  }
+
   await Fs.copy("./public", "./dist", {
     overwrite: true,
     preserveTimestamps: true,
