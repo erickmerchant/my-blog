@@ -104,6 +104,7 @@ async function walkMarkedAST(tokens) {
         res.children = [{
           type: "element",
           tag: "code",
+          classes: { "highlighted": true },
           children: await highlight(node.text, node.lang),
         }];
         break;
