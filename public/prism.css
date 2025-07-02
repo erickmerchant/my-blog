@@ -23,31 +23,31 @@
 	.token-comment,
 	.token-doctype,
 	.token-prolog {
-		color: light-dark(oklch(from gray 55% c h), oklch(from gray 80% c h));
+		color: light-dark(oklch(from gray 55% c h), oklch(from gray 90% c h));
 	}
 
 	.token-punctuation {
 		color: light-dark(
 			oklch(from slategray 55% c h),
-			oklch(from slategray 80% c h)
+			oklch(from slategray 90% c h)
 		);
 	}
 
 	.token-attr-value,
 	.token-builtin,
 	.token-char,
-	.token-inserted,
 	.token-regex,
-	.token-atrule {
-		color: light-dark(
-			oklch(from goldenrod 55% c h),
-			oklch(from goldenrod 80% c h)
-		);
+	.token-atrule,
+	.token-constant {
+		color: light-dark(oklch(from wheat 55% c h), oklch(from wheat 90% c h));
 	}
 
 	.token-keyword,
 	.token-tag {
-		color: light-dark(oklch(from skyblue 55% c h), oklch(from skyblue 80% c h));
+		color: light-dark(
+			oklch(from lightsteelblue 55% c h),
+			oklch(from lightsteelblue 90% c h)
+		);
 	}
 
 	.token-attr-name,
@@ -58,25 +58,19 @@
 	.token-selector,
 	.token-options,
 	.token-options * {
-		color: light-dark(
-			oklch(from orangered 55% c h),
-			oklch(from orangered 80% c h)
-		);
+		color: light-dark(oklch(from coral 55% c h), oklch(from coral 90% c h));
 	}
 
-	.token-important,
 	.token-variable,
 	.token-boolean,
 	.token-number,
-	.token-constant,
 	.token-symbol {
-		color: light-dark(oklch(from plum 55% c h), oklch(from plum 80% c h));
+		color: light-dark(oklch(from plum 55% c h), oklch(from plum 90% c h));
 	}
 
 	.token-string,
-	.token-deleted,
 	.token-property {
-		color: light-dark(oklch(from wheat 55% c h), oklch(from wheat 80% c h));
+		color: light-dark(oklch(from gold 55% c h), oklch(from gold 90% c h));
 	}
 
 	.token-bold,

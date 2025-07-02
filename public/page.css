@@ -45,8 +45,8 @@
 		--background: light-dark(oklch(100% 0.02 60), oklch(30% 0.02 60));
 		--text-color: light-dark(oklch(30% 0.02 60), oklch(100% 0.02 60));
 		--link-color: light-dark(
-			oklch(from seagreen 45% 0.4 h),
-			oklch(from seagreen 80% 0.4 h)
+			oklch(from seagreen 45% 0.2 h),
+			oklch(from seagreen 85% 0.2 h)
 		);
 	}
 
@@ -240,8 +240,8 @@
 
 	.rss-link {
 		--rss-color: light-dark(
-			oklch(from coral 60% 0.175 h),
-			oklch(from coral 80% 0.175 h)
+			oklch(from darkorange 60% 0.175 h),
+			oklch(from darkorange 85% 0.175 h)
 		);
 
 		:where(svg) {
