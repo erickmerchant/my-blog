@@ -9,10 +9,10 @@ import { getSite } from "./models/site.ts";
 import { getResume } from "./models/resume.ts";
 import { getPublishedPosts } from "./models/post.ts";
 import { embedProjects } from "./projects.ts";
-import NotFoundView from "./templates/not-found.js";
-import PostView from "./templates/post.js";
-import HomeView from "./templates/home.js";
-import ResumeView from "./templates/resume.js";
+import NotFoundView from "./views/not-found.js";
+import PostView from "./views/post.js";
+import HomeView from "./views/home.js";
+import ResumeView from "./views/resume.js";
 
 export { render } from "handcraft/env/server.js";
 
