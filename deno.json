@@ -3,20 +3,27 @@
 	"tasks": {
 		"post:draft": "deno -A app/cli/post-draft.ts",
 		"post:publish": "deno -A app/cli/post-publish.ts",
+		"dev:frontend": "deno -A --watch=content,public app/main.ts --drafts --clean",
+		"dev:server": "APP_PORT=4000 cargo watch -i=dist -i=content -i=public -x 'r --no-default-features'",
+		"dev:styles": "coolstyleserver -p3000 proxy dist http://localhost:4000",
 		"dev": {
 			"dependencies": ["dev:frontend", "dev:server", "dev:styles"]
 		},
-		"dev:frontend": "rm -rf dist && deno -A --watch=content,public app/main.ts --drafts",
-		"dev:server": "APP_PORT=4000 cargo watch -i=dist -i=content -i=public -x 'r --no-default-features'",
-		"dev:styles": "coolstyleserver -p3000 proxy dist http://localhost:4000",
 		"frontend": "deno -A app/main.ts --cache-bust --inline-css --clean",
+		"cargo:test": "cargo test",
+		"cargo:clippy": "cargo clippy",
+		"cargo:fmt": "cargo +nightly fmt --check",
+		"docker:build": {
+			"command": "docker build . -t my-blog",
+			"dependencies": ["frontend", "cargo:test", "cargo:clippy", "cargo:fmt"]
+		},
 		"stage": {
-			"command": "cargo test && cargo clippy && cargo +nightly fmt --check && docker build . -t my-blog && docker run --init -it --rm -p 3000:8080 --name my-blog my-blog",
-			"dependencies": ["frontend"]
+			"command": "docker run --init -it --rm -p 3000:8080 --name my-blog my-blog",
+			"dependencies": ["docker:build"]
 		},
 		"deploy": {
-			"command": "cargo test && cargo clippy && cargo +nightly fmt --check && fly deploy --remote-only",
-			"dependencies": ["frontend"]
+			"command": "fly deploy --remote-only",
+			"dependencies": ["frontend", "cargo:test", "cargo:clippy", "cargo:fmt"]
 		}
 	},
 	"imports": {
