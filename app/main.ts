@@ -1,5 +1,6 @@
 import * as Path from "@std/path";
 import * as Fs from "@std/fs";
+import { serveDir } from "@std/http/file-server";
 import { optimizeHTML, saveView } from "./html.ts";
 import { saveRSS } from "./rss.ts";
 import { saveCacheBusted } from "./utils/cache-busting.ts";
@@ -22,6 +23,14 @@ export const jsImports = new Map();
 export const cssImports = new Map();
 
 if (import.meta.main) {
+  if (Deno.args.includes("--serve")) {
+    Deno.serve({ port: 3000 }, (req) => {
+      return serveDir(req, {
+        fsRoot: "dist",
+      });
+    });
+  }
+
   await Fs.ensureDir("./dist");
 
   if (Deno.args.includes("--clean")) {

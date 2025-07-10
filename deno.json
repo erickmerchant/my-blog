@@ -3,11 +3,7 @@
 	"tasks": {
 		"post:draft": "deno -A app/cli/post-draft.ts",
 		"post:publish": "deno -A app/cli/post-publish.ts",
-		"dev:frontend": "deno -A --watch=content,public app/main.ts --drafts --clean",
-		"dev:server": "coolstyleserver -p3000 serve dist",
-		"dev": {
-			"dependencies": ["dev:frontend", "dev:server"]
-		},
+		"dev": "deno -A --watch=content,public app/main.ts --drafts --clean --serve",
 		"frontend": "deno -A app/main.ts --cache-bust --inline-css --clean",
 		"docker:build": {
 			"command": "docker build . -t my-blog",
@@ -26,6 +22,7 @@
 		"@std/crypto": "jsr:@std/crypto@^1.0.4",
 		"@std/encoding": "jsr:@std/encoding@^1.0.10",
 		"@std/fs": "jsr:@std/fs@^1.0.17",
+		"@std/http": "jsr:@std/http@^1.0.19",
 		"@std/path": "jsr:@std/path@^1.0.9",
 		"@std/text": "jsr:@std/text@^1.0.13",
 		"@std/toml": "jsr:@std/toml@^1.0.5",
