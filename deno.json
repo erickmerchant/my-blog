@@ -20,7 +20,7 @@
 		},
 		"deploy": {
 			"command": "fly deploy --remote-only",
-			"dependencies": ["frontend"]
+			"dependencies": ["frontend", "server-code"]
 		}
 	},
 	"imports": {
