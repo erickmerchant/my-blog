@@ -1,7 +1,7 @@
 import * as Path from "@std/path";
 import { encodeBase64Url } from "@std/encoding/base64url";
 import { crypto } from "@std/crypto";
-import { cacheBustedUrls, distDir } from "../main.ts";
+import { cacheBustedUrls, distDir } from "../cli/build.ts";
 
 export async function saveCacheBusted(
   path: string,

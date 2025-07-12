@@ -1,5 +1,5 @@
 import * as XML from "fast-xml-parser";
-import { asRFC822Date } from "./utils/dates.ts";
+import { asRFC822Date } from "../utils/dates.ts";
 
 export async function saveRSS(
   { site, posts }: { site: Site; posts: Array<Post> },

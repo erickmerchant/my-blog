@@ -1,9 +1,8 @@
 import * as Fs from "@std/fs";
 import * as LightningCSS from "lightningcss";
-import { saveCacheBusted } from "./utils/cache-busting.ts";
-import { getUrl } from "./main.ts";
+import { saveCacheBusted } from "../utils/cache-busting.ts";
+import { distDir, getUrl } from "../cli/build.ts";
 import * as Path from "@std/path";
-import { distDir } from "./main.ts";
 
 export const cssImports = new Map();
 

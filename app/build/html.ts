@@ -3,7 +3,7 @@ import * as Fs from "@std/fs";
 import * as HTMLMinifier from "html-minifier";
 import { DOMParser } from "linkedom";
 import { effect } from "handcraft/reactivity.js";
-import { distDir, render } from "./main.ts";
+import { distDir, render } from "../cli/build.ts";
 import { cssImports } from "./css.ts";
 
 type View = { deref: () => Element };

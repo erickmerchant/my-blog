@@ -1,59 +1,45 @@
 {
-	"unstable": ["temporal"],
-	"tasks": {
-		"post:draft": "deno -A app/cli/post-draft.ts",
-		"post:publish": "deno -A app/cli/post-publish.ts",
-		"dev:frontend": "deno -A --watch=content,public app/main.ts --dev",
-		"dev:styles": "coolstyleserver proxy -p3000 dist http://localhost:4000",
-		"dev": {
-			"dependencies": ["dev:frontend", "dev:styles"]
-		},
-		"frontend": "deno -A app/main.ts",
-		"server-code": "rm -rf server && git clone --depth=1 https://github.com/erickmerchant/hyper-folder.git server",
-		"docker": {
-			"command": "docker build . -t my-blog",
-			"dependencies": ["frontend", "server-code"]
-		},
-		"stage": {
-			"command": "docker run --init -it --rm -p 3000:8080 --name my-blog my-blog",
-			"dependencies": ["docker"]
-		},
-		"deploy": {
-			"command": "fly deploy --remote-only",
-			"dependencies": ["frontend", "server-code"]
-		}
-	},
-	"imports": {
-		"@std/crypto": "jsr:@std/crypto@^1.0.4",
-		"@std/encoding": "jsr:@std/encoding@^1.0.10",
-		"@std/fs": "jsr:@std/fs@^1.0.17",
-		"@std/http": "jsr:@std/http@^1.0.19",
-		"@std/path": "jsr:@std/path@^1.0.9",
-		"@std/text": "jsr:@std/text@^1.0.13",
-		"@std/toml": "jsr:@std/toml@^1.0.5",
-		"fast-xml-parser": "npm:fast-xml-parser@5.2.1",
-		"handcraft": "npm:handcraft",
-		"html-minifier": "npm:html-minifier@^4.0.0",
-		"lightningcss": "npm:lightningcss@^1.29.3",
-		"linkedom": "npm:linkedom@^0.18.10",
-		"marked": "npm:marked@^15.0.11",
-		"prismjs": "npm:prismjs@^1.30.0"
-	},
-	"compilerOptions": {
-		"types": ["./app/types.d.ts"],
-		"lib": [
-			"dom",
-			"dom.iterable",
-			"dom.asynciterable",
-			"es2024",
-			"deno.ns",
-			"deno.unstable"
-		],
-		"noImplicitAny": false
-	},
-	"lint": {
-		"rules": {
-			"exclude": ["no-explicit-any"]
-		}
-	}
+  "unstable": ["temporal"],
+  "tasks": {
+    "post:draft": "deno -A app/cli/post-draft.ts",
+    "post:publish": "deno -A app/cli/post-publish.ts",
+    "dev": {
+      "dependencies": ["dev:serve", "dev:build"]
+    },
+    "dev:serve": "deno serve --port=3000 -A --watch=app app/cli/serve.ts --dev",
+    "dev:build": "deno run -A --watch=app,public,content app/cli/build.ts --dev"
+  },
+  "imports": {
+    "@std/crypto": "jsr:@std/crypto@^1.0.4",
+    "@std/encoding": "jsr:@std/encoding@^1.0.10",
+    "@std/fs": "jsr:@std/fs@^1.0.17",
+    "@std/http": "jsr:@std/http@^1.0.19",
+    "@std/path": "jsr:@std/path@^1.0.9",
+    "@std/text": "jsr:@std/text@^1.0.13",
+    "@std/toml": "jsr:@std/toml@^1.0.5",
+    "fast-xml-parser": "npm:fast-xml-parser@5.2.1",
+    "handcraft": "npm:handcraft",
+    "html-minifier": "npm:html-minifier@^4.0.0",
+    "lightningcss": "npm:lightningcss@^1.29.3",
+    "linkedom": "npm:linkedom@^0.18.10",
+    "marked": "npm:marked@^15.0.11",
+    "prismjs": "npm:prismjs@^1.30.0"
+  },
+  "compilerOptions": {
+    "types": ["./app/types.d.ts"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "dom.asynciterable",
+      "es2024",
+      "deno.ns",
+      "deno.unstable"
+    ],
+    "noImplicitAny": false
+  },
+  "lint": {
+    "rules": {
+      "exclude": ["no-explicit-any"]
+    }
+  }
 }
