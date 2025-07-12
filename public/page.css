@@ -192,19 +192,11 @@
 		align-self: center;
 		padding: 0.5rem 1rem;
 		color: var(--background);
-		background-image:
-			linear-gradient(
-				-42deg,
-				oklch(from var(--link-color) l c h / 0.45) 0 50%,
-				oklch(from var(--link-color) l c h / 0.65) 50%
-			),
-			linear-gradient(
-				42deg,
-				oklch(from var(--link-color) l c h / 0.45) 0 50%,
-				oklch(from var(--link-color) l c h / 0.65) 50%
-			);
+		background-color: oklch(from var(--link-color) l c h / 0.8);
+		box-shadow: inset 0px 0px 0.25rem 0.0625rem
+			light-dark(var(--link-color), var(--background));
+		border-radius: 0.125rem;
 		text-decoration: none;
-		border-radius: 0.25rem;
 		font-size: 0.75rem;
 		font-weight: 800;
 	}
@@ -252,20 +244,12 @@
 
 		:where(svg) {
 			block-size: 1.3rem;
-			background-image:
-				linear-gradient(
-					-42deg,
-					oklch(from var(--rss-color) l c h / 0.45) 0 50%,
-					oklch(from var(--rss-color) l c h / 0.65) 50%
-				),
-				linear-gradient(
-					42deg,
-					oklch(from var(--rss-color) l c h / 0.45) 0 50%,
-					oklch(from var(--rss-color) l c h / 0.65) 50%
-				);
+			background-color: oklch(from var(--rss-color) l c h / 0.8);
+			box-shadow: inset 0px 0px 0.125rem 0.03125rem
+				light-dark(var(--rss-color), var(--background));
+			border-radius: 0.125rem;
 			fill: var(--background);
 			padding: 0.225rem;
-			border-radius: 0.25rem;
 			margin-block-end: -0.2rem;
 			margin-inline-end: 0.5rem;
 		}
