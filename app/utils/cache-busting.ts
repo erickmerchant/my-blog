@@ -1,5 +1,5 @@
 import * as Path from "@std/path";
-import { encodeHex } from "@std/encoding/hex";
+import { encodeBase64Url } from "@std/encoding/base64url";
 import { crypto } from "@std/crypto";
 import { cacheBustedUrls, distDir } from "../main.ts";
 
@@ -7,7 +7,7 @@ export async function saveCacheBusted(
   path: string,
   code?: string,
 ) {
-  if (!Deno.args.includes("--cache-bust")) {
+  if (Deno.args.includes("--dev")) {
     const subpath = path.substring(distDir.length);
 
     cacheBustedUrls.set(
@@ -27,10 +27,10 @@ export async function saveCacheBusted(
   }
 
   const fileHashBuffer = await crypto.subtle.digest(
-    "MD5",
+    "SHA-256",
     content,
   );
-  const fileHash = encodeHex(fileHashBuffer);
+  const fileHash = encodeBase64Url(fileHashBuffer);
   const cacheBustedUrl = Path.format({
     root: "/",
     dir: Path.dirname(path).substring(distDir.length),

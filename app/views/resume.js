@@ -1,5 +1,6 @@
 import {h} from "handcraft/env/server.js";
 import * as Markdown from "../utils/markdown.ts";
+import {getUrl} from "../main.ts";
 
 const {
 	a,
@@ -51,7 +52,7 @@ export default async function ({resume}) {
 			meta.charset("utf-8"),
 			meta.name("viewport").content("width=device-width, initial-scale=1"),
 			title("Résumé"),
-			link.href("/resume.css").rel("stylesheet"),
+			link.href(getUrl("/resume.css")).rel("stylesheet"),
 			meta.name("description").content("My résumé")
 		),
 		body.class("page")(

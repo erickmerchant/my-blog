@@ -3,13 +3,12 @@ import * as Fs from "@std/fs";
 import { serveDir } from "@std/http/file-server";
 import { optimizeHTML, saveView } from "./html.ts";
 import { saveRSS } from "./rss.ts";
-import { saveCacheBusted } from "./utils/cache-busting.ts";
-import { optimizeCSS } from "./css.ts";
-import { optimizeJS } from "./js.ts";
+import { processCSS } from "./css.ts";
+import { processFonts } from "./fonts.ts";
+import { processFavicons } from "./favicons.ts";
 import { getSite } from "./models/site.ts";
 import { getResume } from "./models/resume.ts";
 import { getPublishedPosts } from "./models/post.ts";
-import { embedProjects } from "./projects.ts";
 import NotFoundView from "./views/not-found.js";
 import PostView from "./views/post.js";
 import HomeView from "./views/home.js";
@@ -19,12 +18,17 @@ export { render } from "handcraft/env/server.js";
 
 export const distDir = Path.join(Deno.cwd(), "dist");
 export const cacheBustedUrls = new Map();
-export const jsImports = new Map();
-export const cssImports = new Map();
+
+export function getUrl(path) {
+  return cacheBustedUrls.get(path);
+}
 
 if (import.meta.main) {
-  if (Deno.args.includes("--serve")) {
-    Deno.serve({ port: 3000 }, (req) => {
+  // @todo write handcraft plugin to call getUrl for hrefs and srcs
+  // @todo convert to export default server
+
+  if (Deno.args.includes("--dev")) {
+    Deno.serve({ port: 4000 }, (req) => {
       return serveDir(req, {
         fsRoot: "dist",
       });
@@ -33,60 +37,16 @@ if (import.meta.main) {
 
   await Fs.ensureDir("./dist");
 
-  if (Deno.args.includes("--clean")) {
-    await Fs.emptyDir("./dist");
-  }
+  await Fs.emptyDir("./dist");
 
   await Fs.copy("./public", "./dist", {
     overwrite: true,
     preserveTimestamps: true,
   });
-  await embedProjects();
 
-  const [fontFiles, cssFiles, jsFiles] = await Promise.all([
-    "./dist/fonts/*.woff2",
-    "./dist/**/*.css",
-    "./dist/**/*.js",
-  ].map((url) => Array.fromAsync(Fs.expandGlob(url))));
+  await Promise.all([processFonts(), processFavicons()]);
 
-  await Promise.all([
-    ...fontFiles.map(
-      ({ path }) => saveCacheBusted(path),
-    ),
-    saveCacheBusted(
-      Path.join(distDir, "favicon-light.png"),
-    ),
-    saveCacheBusted(
-      Path.join(distDir, "favicon-dark.png"),
-    ),
-  ]);
-
-  await Promise.all([
-    ...cssFiles.map(
-      async ({ path }) => {
-        const imports: Array<string> = [];
-
-        await optimizeCSS(path, imports);
-
-        cssImports.set(
-          path.slice(distDir.length),
-          imports,
-        );
-      },
-    ),
-    ...jsFiles.map(
-      async ({ path }) => {
-        const imports: Array<string> = [];
-
-        await optimizeJS(path, imports);
-
-        jsImports.set(
-          path.slice(distDir.length),
-          imports,
-        );
-      },
-    ),
-  ]);
+  await processCSS();
 
   const [site, posts, resume] = await Promise.all([
     getSite(),
@@ -94,18 +54,18 @@ if (import.meta.main) {
     getResume(),
   ]);
 
-  await saveView("./dist/404.html", () => NotFoundView({ site }));
-
-  for (const post of posts) {
-    await saveView(
-      `./dist/posts/${post.slug}/index.html`,
-      () => PostView({ site, post }),
-    );
-  }
-
-  await saveView(`./dist/index.html`, () => HomeView({ site, posts }));
-  await saveView(`./dist/resume/index.html`, () => ResumeView({ resume }));
-  await saveRSS({ site, posts });
+  await Promise.all([
+    saveView("./dist/404.html", () => NotFoundView({ site })),
+    ...posts.map((post) =>
+      saveView(
+        `./dist/posts/${post.slug}/index.html`,
+        () => PostView({ site, post }),
+      )
+    ),
+    saveView(`./dist/index.html`, () => HomeView({ site, posts })),
+    saveView(`./dist/resume/index.html`, () => ResumeView({ resume })),
+    saveRSS({ site, posts }),
+  ]);
 
   for await (const { path } of Fs.expandGlob("./dist/**/*.html")) {
     await optimizeHTML(path);

@@ -1,5 +1,6 @@
 import {h} from "handcraft/env/server.js";
 import * as Markdown from "../utils/markdown.ts";
+import {getUrl} from "../main.ts";
 
 const {head, body, meta, title, link, nav, span, a, footer, ul, li, html} =
 	h.html;
@@ -14,13 +15,23 @@ export default async function ({site, pageTitle, styles, navTitle, main}) {
 			.property("og:title")
 			.content(pageTitle ? pageTitle + " - " + site.title : site.title),
 		meta.property("og:description").content(""),
-		link.rel("stylesheet").href("/page.css"),
+		link.rel("stylesheet").href(getUrl("/page.css")),
 		styles,
 		link
 			.rel("alternate")
 			.type("application/rss+xml")
 			.title("Posts")
 			.href(site.host + "/posts.rss"),
+		link
+			.rel("icon")
+			.href(getUrl("/favicon-light.png"))
+			.type("image/svg+xml")
+			.media("(prefers-color-scheme: light)"),
+		link
+			.rel("icon")
+			.href(getUrl("/favicon-dark.png"))
+			.type("image/svg+xml")
+			.media("(prefers-color-scheme: dark)"),
 		meta.name("description").content(await Markdown.parse(site.description))
 	);
 	const baseNav = nav.class("nav")(

@@ -1,13 +1,14 @@
+import * as Fs from "@std/fs";
 import * as LightningCSS from "lightningcss";
 import { saveCacheBusted } from "./utils/cache-busting.ts";
-import { cacheBustedUrls } from "./main.ts";
+import { getUrl } from "./main.ts";
 import * as Path from "@std/path";
+import { distDir } from "./main.ts";
 
-export function runLightning(
-  path: string,
-  content: Uint8Array,
-  imports: Array<string>,
-): Promise<string> {
+export const cssImports = new Map();
+
+async function optimizeCSS(path: string, imports: Array<string>) {
+  const content = await Deno.readFile(path);
   const { code } = LightningCSS.transform({
     filename: path,
     code: content,
@@ -19,7 +20,7 @@ export function runLightning(
 
         return {
           ...url,
-          url: cacheBustedUrls.get(Path.resolve(
+          url: getUrl(Path.resolve(
             path,
             url.url,
           )),
@@ -28,12 +29,22 @@ export function runLightning(
     },
   });
 
-  return Promise.resolve(code.toString());
+  await saveCacheBusted(path, code.toString());
 }
 
-export async function optimizeCSS(path: string, imports: Array<string>) {
-  const cssContent = await Deno.readFile(path);
-  const code = await runLightning(path, cssContent, imports);
+export async function processCSS() {
+  const cssFiles = await Array.fromAsync(Fs.expandGlob("./dist/**/*.css"));
 
-  await saveCacheBusted(path, code);
+  await Promise.all(cssFiles.map(
+    async ({ path }) => {
+      const imports: Array<string> = [];
+
+      await optimizeCSS(path, imports);
+
+      cssImports.set(
+        getUrl(path.slice(distDir.length)),
+        imports.map((i) => getUrl(i)),
+      );
+    },
+  ));
 }

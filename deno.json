@@ -3,15 +3,20 @@
 	"tasks": {
 		"post:draft": "deno -A app/cli/post-draft.ts",
 		"post:publish": "deno -A app/cli/post-publish.ts",
-		"dev": "deno -A --watch=content,public app/main.ts --drafts --clean --serve",
-		"frontend": "deno -A app/main.ts --cache-bust --inline-css --clean",
-		"docker:build": {
+		"dev:frontend": "deno -A --watch=content,public app/main.ts --dev",
+		"dev:styles": "coolstyleserver proxy -p3000 dist http://localhost:4000",
+		"dev": {
+			"dependencies": ["dev:frontend", "dev:styles"]
+		},
+		"frontend": "deno -A app/main.ts",
+		"server-code": "rm -rf server && git clone --depth=1 https://github.com/erickmerchant/hyper-folder.git server",
+		"docker": {
 			"command": "docker build . -t my-blog",
-			"dependencies": ["frontend"]
+			"dependencies": ["frontend", "server-code"]
 		},
 		"stage": {
 			"command": "docker run --init -it --rm -p 3000:8080 --name my-blog my-blog",
-			"dependencies": ["docker:build"]
+			"dependencies": ["docker"]
 		},
 		"deploy": {
 			"command": "fly deploy --remote-only",
@@ -26,7 +31,6 @@
 		"@std/path": "jsr:@std/path@^1.0.9",
 		"@std/text": "jsr:@std/text@^1.0.13",
 		"@std/toml": "jsr:@std/toml@^1.0.5",
-		"@swc/core": "npm:@swc/core@^1.11.22",
 		"fast-xml-parser": "npm:fast-xml-parser@5.2.1",
 		"handcraft": "npm:handcraft@next",
 		"html-minifier": "npm:html-minifier@^4.0.0",
@@ -35,7 +39,6 @@
 		"marked": "npm:marked@^15.0.11",
 		"prismjs": "npm:prismjs@^1.30.0"
 	},
-	"nodeModulesDir": "auto",
 	"compilerOptions": {
 		"types": ["./app/types.d.ts"],
 		"lib": [

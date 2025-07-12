@@ -1,6 +1,7 @@
 import {h} from "handcraft/env/server.js";
 import base from "./base.js";
 import * as Markdown from "../utils/markdown.ts";
+import {getUrl} from "../main.ts";
 
 const {section, h1, h2, p, ol, ul, li, a, aside, link} = h.html;
 
@@ -8,7 +9,7 @@ export default async function ({site, posts}) {
 	return base({
 		site,
 		navTitle: h1.class("nav-title")(site.title),
-		styles: link.rel("stylesheet").href("/home.css"),
+		styles: link.rel("stylesheet").href(getUrl("/home.css")),
 		main: [
 			posts.length
 				? section.class("section")(

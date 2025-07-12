@@ -2,6 +2,7 @@ import {h} from "handcraft/env/server.js";
 import base from "./base.js";
 import {asLocalDate} from "../utils/dates.ts";
 import * as Markdown from "../utils/markdown.ts";
+import {getUrl} from "../main.ts";
 
 const {link, article, header, h1, time, span} = h.html;
 
@@ -10,11 +11,11 @@ export default async function ({site, post}) {
 		site,
 		pageTitle: post.title,
 		styles: [
-			link.rel("stylesheet").href("/post.css"),
+			link.rel("stylesheet").href(getUrl("/post.css")),
 			post.components.includes("code") &&
-				link.rel("stylesheet").href("/code.css"),
+				link.rel("stylesheet").href(getUrl("/code.css")),
 			post.components.includes("highlighting") &&
-				link.rel("stylesheet").href("/prism.css"),
+				link.rel("stylesheet").href(getUrl("/prism.css")),
 		],
 		main: article.class("article")(
 			header(
