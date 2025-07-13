@@ -43,7 +43,7 @@ I'm using Work Sans as the main font and Fira Code for code. Both are subset wit
 
 ```bash
 subset_latin_woff2 () {
-    pyftsubset $1 --output-file=$(basename $1 '.ttf')-subset.woff2 --unicodes=U+20-7E --flavor=woff2 --layout-features='wght';
+	pyftsubset $1 --output-file=$(basename $1 '.ttf')-subset.woff2 --unicodes=U+20-7E --flavor=woff2 --layout-features='wght';
 }
 ```
 

@@ -34,15 +34,13 @@ class ExampleElement extends Element {
 	#state = watch({count: 0});
 
 	*setupCallback() {
-		this.shadowRoot.getElementById("button")
-			?.addEventListener("click", () => {
-				this.#state.count++;
-			});
+		this.shadowRoot.getElementById("button")?.addEventListener("click", () => {
+			this.#state.count++;
+		});
 
 		yield () => {
-			this.shadowRoot.getElementById("output")
-				?.innerHTML = this.#state.count;
-		}
+			this.shadowRoot.getElementById("output")?.innerHTML = this.#state.count;
+		};
 	}
 }
 
@@ -83,15 +81,13 @@ class ExampleElement extends Element {
 	}
 
 	*setupCallback() {
-		this.shadowRoot.getElementById("button")
-			?.addEventListener("click", () => {
-				this.count++;
-			});
+		this.shadowRoot.getElementById("button")?.addEventListener("click", () => {
+			this.count++;
+		});
 
 		yield () => {
-			this.shadowRoot.getElementById("output")
-				?.innerHTML = this.count;
-		}
+			this.shadowRoot.getElementById("output")?.innerHTML = this.count;
+		};
 	}
 }
 

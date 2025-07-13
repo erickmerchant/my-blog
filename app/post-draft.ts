@@ -4,7 +4,7 @@ import * as Toml from "@std/toml";
 const title = Deno.args.join("");
 const slug = slugify(title);
 const frontmatter = Toml.stringify({
-  title,
+	title,
 });
 const data = `+++\n${frontmatter}+++\n`;
 
