@@ -1,10 +1,12 @@
 import * as Path from "@std/path";
-import { saveCacheBusted } from "../utils/cache-busting.ts";
-import { distDir } from "../build.ts";
+import { distDir, write } from "../build.ts";
 
 export async function processFavicons() {
-	await Promise.all([
-		saveCacheBusted(Path.join(distDir, "favicon-light.png")),
-		saveCacheBusted(Path.join(distDir, "favicon-dark.png")),
-	]);
+	await Promise.all(
+		["favicon-light.png", "favicon-dark.png"].map((name) =>
+			Deno.readFile(Path.join("./public", name)).then((c) =>
+				write(Path.join(distDir, name), c)
+			)
+		),
+	);
 }

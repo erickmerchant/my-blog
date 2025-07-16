@@ -23,7 +23,10 @@
 	.token-comment,
 	.token-doctype,
 	.token-prolog {
-		color: light-dark(oklch(from gray 55% c h), oklch(from gray 90% c h));
+		color: light-dark(
+			oklch(from ghostwhite 55% c h),
+			oklch(from ghostwhite 90% c h)
+		);
 	}
 
 	.token-punctuation {

@@ -1,11 +1,11 @@
 import { h } from "handcraft/env/server.js";
-import base from "./base.js";
 import { getUrl } from "../build.ts";
+import page from "./page.js";
 
 const { link, article, h1, p } = h.html;
 
 export default function ({ site }) {
-	return base({
+	return page({
 		site,
 		pageTitle: "404 Not Found",
 		styles: link.rel("stylesheet").href(getUrl("/post.css")),

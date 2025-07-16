@@ -1,5 +1,6 @@
 import * as XML from "fast-xml-parser";
 import { asRFC822Date } from "../utils/dates.ts";
+import { write } from "../build.ts";
 
 export async function saveRSS(
 	{ site, posts }: { site: Site; posts: Array<Post> },
@@ -38,8 +39,10 @@ export async function saveRSS(
 	});
 	const rssContent = builder.build(rss);
 
-	await Deno.writeTextFile(
+	const encoder = new TextEncoder();
+
+	await write(
 		`./dist/posts.rss`,
-		`<?xml version="1.0" encoding="utf-8"?>${rssContent}`,
+		encoder.encode(`<?xml version="1.0" encoding="utf-8"?>${rssContent}`),
 	);
 }

@@ -40,17 +40,10 @@ export async function getPublishedPosts(): Promise<Array<Post>> {
 			if (!datePublished) continue;
 		}
 
-		const components: Array<string> = [];
-
-		if (/`/.test(md)) components.push("code");
-
-		if (/\n```/.test(md)) components.push("highlighting");
-
 		const content = md;
 		const post: Post = {
 			slug,
 			content,
-			components,
 			datePublished,
 			title,
 		} as Post;

@@ -11,6 +11,13 @@
 	unicode-range: U+20-7E;
 }
 
+@font-face {
+	font-family: "Fira Code";
+	font-weight: 400;
+	src: url(/fonts/FiraCode-Regular-subset.woff2) format("woff2");
+	unicode-range: U+20-7E;
+}
+
 @layer page {
 	:where(:not(svg)) {
 		font: inherit;
@@ -31,7 +38,9 @@
 	html {
 		block-size: 100%;
 		color-scheme: light dark;
-		font-family: "Work Sans", sans-serif;
+		font-family:
+			"Work Sans", Inter, Roboto, "Helvetica Neue", "Arial Nova", "Nimbus Sans",
+			Arial, sans-serif;
 		font-weight: 400;
 		font-size: 112.5%;
 		line-height: 1.5;
@@ -110,6 +119,13 @@
 		}
 	}
 
+	code {
+		font-family:
+			"Fira Code", ui-monospace, "Cascadia Code", "Source Code Pro", Menlo,
+			Consolas, "DejaVu Sans Mono", monospace;
+		font-size: 0.9rem;
+	}
+
 	em {
 		font-weight: 300;
 	}
@@ -131,6 +147,17 @@
 				font-weight: 600;
 			}
 		}
+	}
+
+	.button {
+		color: var(--button-background);
+		background-color: oklch(from var(--button-color) l c h / 0.8);
+		box-shadow: inset 0px 0px var(--button-shadow-size)
+			light-dark(
+				var(--button-color),
+				oklch(from var(--button-background) l c h / 0.75)
+			);
+		border-radius: 0.125rem;
 	}
 
 	.page {
@@ -181,8 +208,11 @@
 	}
 
 	.nav-title {
+		font-family:
+			"Jacquard 24", Rockwell, "Rockwell Nova", "Roboto Slab", "DejaVu Serif",
+			"Sitka Small", serif;
+		font-weight: normal;
 		font-weight: 400;
-		font-family: "Jacquard 24", display;
 		font-size: clamp(2rem, 7cqi, 3.5rem);
 		line-height: 1;
 		margin-block: 0.25em;
@@ -191,14 +221,13 @@
 	.nav-link {
 		align-self: center;
 		padding: 0.5rem 1rem;
-		color: var(--background);
-		background-color: oklch(from var(--link-color) l c h / 0.8);
-		box-shadow: inset 0px 0px 0.25rem 0.0625rem
-			light-dark(var(--link-color), oklch(from var(--background) l c h / 0.75));
-		border-radius: 0.125rem;
 		text-decoration: none;
 		font-size: 0.75rem;
 		font-weight: 800;
+
+		--button-color: var(--link-color);
+		--button-background: var(--background);
+		--button-shadow-size: 0.25rem 0.0625rem;
 	}
 
 	.footer {
@@ -225,6 +254,7 @@
 
 	.footer-item {
 		display: grid;
+		align-content: center;
 
 		&::before {
 			content: none;
@@ -237,18 +267,23 @@
 	}
 
 	.rss-link {
-		--rss-color: light-dark(
+		display: grid;
+		aspect-ratio: 1;
+		block-size: 1.3rem;
+
+		--button-color: light-dark(
 			oklch(from darkorange 60% 0.175 h),
 			oklch(from darkorange 85% 0.175 h)
 		);
+		--button-background: var(--background);
+		--button-shadow-size: 0.125rem 0.03125rem;
 
 		:where(svg) {
-			block-size: 1.3rem;
-			background-color: oklch(from var(--rss-color) l c h / 0.8);
-			box-shadow: inset 0px 0px 0.125rem 0.03125rem
-				light-dark(var(--rss-color), oklch(from var(--background) l c h / 0.75));
-			border-radius: 0.125rem;
-			fill: var(--background);
+			block-size: 100%;
+			inline-size: auto;
+			aspect-ratio: 1;
+			fill: var(--button-background);
+			background: transparent;
 			padding: 0.225rem;
 			margin-block-end: -0.2rem;
 			margin-inline-end: 0.5rem;

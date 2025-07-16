@@ -3,15 +3,20 @@
 	"tasks": {
 		"post:draft": "deno run -A app/post-draft.ts",
 		"post:publish": "deno run -A app/post-publish.ts",
-		"dev": {
-			"dependencies": ["dev:serve", "dev:build"]
-		},
+		"clean": "deno run -A app/clean.ts",
+		"dev:build": "deno run -A --watch=content,public,app app/build.ts --dev",
 		"dev:serve": "deno serve -A --watch=app --port=3000 app/serve.ts --dev",
-		"dev:build": "deno run -A --watch=app,public,content app/build.ts --dev",
+		"dev": {
+			"dependencies": ["clean", "dev:build", "dev:serve"]
+		},
+		"build": "deno run -A app/build.ts",
 		"serve": "deno serve -A --port=3000 app/serve.ts",
-		"build": "deno run -A app/build.ts"
+		"start": {
+			"dependencies": ["clean", "build", "serve"]
+		}
 	},
 	"imports": {
+		"@std/async": "jsr:@std/async@^1.0.13",
 		"@std/crypto": "jsr:@std/crypto@^1.0.4",
 		"@std/encoding": "jsr:@std/encoding@^1.0.10",
 		"@std/fs": "jsr:@std/fs@^1.0.17",
@@ -23,7 +28,6 @@
 		"handcraft": "npm:handcraft",
 		"html-minifier": "npm:html-minifier@^4.0.0",
 		"lightningcss": "npm:lightningcss@^1.29.3",
-		"linkedom": "npm:linkedom@^0.18.10",
 		"marked": "npm:marked@^15.0.11",
 		"prismjs": "npm:prismjs@^1.30.0"
 	},

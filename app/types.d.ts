@@ -10,7 +10,6 @@ type Site = {
 type Post = {
 	slug: string;
 	title: string;
-	components?: Array<string>;
 	datePublished?: Temporal.PlainDate;
 	content?: string;
 };

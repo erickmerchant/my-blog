@@ -1,10 +1,17 @@
 import * as Fs from "@std/fs";
-import { saveCacheBusted } from "../utils/cache-busting.ts";
+import * as Path from "@std/path";
+import { distDir, publicDir, write } from "../build.ts";
 
 export async function processFonts() {
 	const fontFiles = await Array.fromAsync(
-		Fs.expandGlob("./dist/fonts/*.woff2"),
+		Fs.expandGlob("./public/fonts/*.woff2"),
 	);
 
-	await Promise.all(fontFiles.map(({ path }) => saveCacheBusted(path)));
+	await Promise.all(
+		fontFiles.map(({ path }) =>
+			Deno.readFile(path).then((c) =>
+				write(Path.join(distDir, path.substring(publicDir.length)), c)
+			)
+		),
+	);
 }

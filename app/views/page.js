@@ -1,6 +1,6 @@
 import { h } from "handcraft/env/server.js";
-import * as Markdown from "../utils/markdown.ts";
 import { getUrl } from "../build.ts";
+import favicons from "./favicons.js";
 
 const { head, body, meta, title, link, nav, span, a, footer, ul, li, html } =
 	h.html;
@@ -11,10 +11,11 @@ export default async function ({ site, pageTitle, styles, navTitle, main }) {
 		meta.charset("utf-8"),
 		meta.name("viewport").content("width=device-width, initial-scale=1"),
 		title(pageTitle ? pageTitle + " - " + site.title : site.title),
-		meta
-			.property("og:title")
-			.content(pageTitle ? pageTitle + " - " + site.title : site.title),
-		meta.property("og:description").content(""),
+		link.rel("preload").href(getUrl("/fonts/Jacquard24-Regular-subset.woff2"))
+			.as("font").type("font/woff2").crossorigin(""),
+		link.rel("preload").href(
+			getUrl("/fonts/WorkSans-VariableFont_wght-subset.woff2"),
+		).as("font").type("font/woff2").crossorigin(""),
 		link.rel("stylesheet").href(getUrl("/page.css")),
 		styles,
 		link
@@ -22,26 +23,17 @@ export default async function ({ site, pageTitle, styles, navTitle, main }) {
 			.type("application/rss+xml")
 			.title("Posts")
 			.href(site.host + "/posts.rss"),
-		link
-			.rel("icon")
-			.href(getUrl("/favicon-light.png"))
-			.type("image/svg+xml")
-			.media("(prefers-color-scheme: light)"),
-		link
-			.rel("icon")
-			.href(getUrl("/favicon-dark.png"))
-			.type("image/svg+xml")
-			.media("(prefers-color-scheme: dark)"),
-		meta.name("description").content(await Markdown.parse(site.description)),
+		favicons(),
+		meta.name("description").content(site.description),
 	);
 	const baseNav = nav.class("nav")(
 		navTitle ?? span.class("nav-title")(site.title),
-		a.class("nav-link").href("/")("/"),
+		a.class("nav-link button").href("/")("/"),
 	);
 	const baseFooter = footer.class("footer")(
 		ul.class("footer-list")(
 			li.class("footer-item")(
-				a.class("footer-link rss-link").href("/posts.rss")(
+				a.class("footer-link rss-link button").href("/posts.rss")(
 					svg.viewBox("0 0 28 28")(
 						svgTitle("RSS Feed"),
 						path.d(

@@ -1,6 +1,7 @@
 import { h } from "handcraft/env/server.js";
 import * as Markdown from "../utils/markdown.ts";
 import { getUrl } from "../build.ts";
+import favicons from "./favicons.js";
 
 const {
 	a,
@@ -22,30 +23,6 @@ const {
 	html,
 } = h.html;
 
-async function timeline({ title, items }) {
-	return section.class("timeline")(
-		header.class("timeline-header")(h2(title)),
-		ol.class("timeline-items")(
-			await Promise.all(
-				items.map(async (item) =>
-					li(
-						div.class("details")(
-							h3.class("title")(item.title),
-							item.organization && p.class("organization")(item.organization),
-							p.class("dates")(item.dates[0] + "-" + item.dates[1]),
-							item.location && p.class("location")(item.location),
-						),
-						item.tags &&
-							item.tags.length &&
-							ul.class("tags")(item.tags.map((tag) => li(tag))),
-						div.class("summary")(await Markdown.parse(item.summary)),
-					)
-				),
-			),
-		),
-	);
-}
-
 export default async function ({ resume }) {
 	return html.lang("en-US")(
 		head(
@@ -53,6 +30,7 @@ export default async function ({ resume }) {
 			meta.name("viewport").content("width=device-width, initial-scale=1"),
 			title("Résumé"),
 			link.href(getUrl("/resume.css")).rel("stylesheet"),
+			favicons(),
 			meta.name("description").content("My résumé"),
 		),
 		body.class("page")(
@@ -75,6 +53,30 @@ export default async function ({ resume }) {
 					items: resume.education,
 				}),
 				section.class("references")(p("References available upon request")),
+			),
+		),
+	);
+}
+
+async function timeline({ title, items }) {
+	return section.class("timeline")(
+		header.class("timeline-header")(h2(title)),
+		ol.class("timeline-items")(
+			await Promise.all(
+				items.map(async (item) =>
+					li(
+						div.class("details")(
+							h3.class("title")(item.title),
+							item.organization && p.class("organization")(item.organization),
+							p.class("dates")(item.dates[0] + "-" + item.dates[1]),
+							item.location && p.class("location")(item.location),
+						),
+						item.tags &&
+							item.tags.length &&
+							ul.class("tags")(item.tags.map((tag) => li(tag))),
+						div.class("summary")(await Markdown.parse(item.summary)),
+					)
+				),
 			),
 		),
 	);
