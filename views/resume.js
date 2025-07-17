@@ -24,7 +24,7 @@ const {
 } = h.html;
 
 export default {
-	pattern: new URLPattern({ pathname: "/resume/" }),
+	urlPattern: new URLPattern({ pathname: "/resume/" }),
 	async serve() {
 		const resume = await getResume();
 
@@ -34,7 +34,7 @@ export default {
 				meta.name("viewport").content("width=device-width, initial-scale=1"),
 				title("Résumé"),
 				link.href(this.urls["/resume.css"]).rel("stylesheet"),
-				favicons(),
+				favicons.call(this),
 				meta.name("description").content("My résumé"),
 			),
 			body.class("page")(

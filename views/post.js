@@ -8,13 +8,13 @@ import { getPublishedPosts } from "../models/post.ts";
 const { link, article, header, h1, time, span } = h.html;
 
 export default {
-	pattern: new URLPattern({ pathname: "/posts/:slug/" }),
+	urlPattern: new URLPattern({ pathname: "/posts/:slug/" }),
 	async serve({ slug }) {
 		const site = await getSite();
 		const posts = await getPublishedPosts();
 		const post = posts.find((post) => post.slug === slug);
 
-		return page({
+		return page.call(this, {
 			site,
 			pageTitle: post.title,
 			styles: [

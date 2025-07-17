@@ -1,73 +1,81 @@
 import * as Path from "@std/path";
 import { effect, render } from "handcraft/env/server.js";
 import { serveDir } from "@std/http/file-server";
-import { debounce } from "@std/async/debounce";
+// import { debounce } from "@std/async/debounce";
 
 export default function (
-	config: {
-		views: Array<{ status?: number; pattern: URLPattern; serve: () => any }>;
+	{ routes, urls, dist }: {
+		routes: Array<
+			{
+				status?: number;
+				contentType?: string;
+				urlPattern: URLPattern;
+				serve: (params: any) => any;
+			}
+		>;
 		urls: Record<string, string>;
+		dist?: string;
 	},
 ) {
 	return async (req: Request) => {
 		const url = new URL(req.url);
 		const headers: Array<string> = [];
 
-		if (Deno.args.includes("--dev")) {
-			if (url.pathname === "/_watch") {
-				let watcher: Deno.FsWatcher;
-				const body = new ReadableStream({
-					async start(controller) {
-						const enqueue = debounce(() => {
-							controller.enqueue(
-								new TextEncoder().encode(
-									`data: "change"\r\n\r\n`,
-								),
-							);
-						}, 500);
+		// if (dev) {
+		// 	if (url.pathname === "/_watch") {
+		// 		let watcher: Deno.FsWatcher;
+		// 		const body = new ReadableStream({
+		// 			async start(controller) {
+		// 				const enqueue = debounce(() => {
+		// 					controller.enqueue(
+		// 						new TextEncoder().encode(
+		// 							`data: "change"\r\n\r\n`,
+		// 						),
+		// 					);
+		// 				}, 500);
 
-						watcher = Deno.watchFs(["dist"]);
+		// 				watcher = Deno.watchFs(["dist"]);
 
-						for await (const e of watcher) {
-							console.log(e.kind, e.paths.join(" "));
+		// 				for await (const e of watcher) {
+		// 					console.log(e.kind, e.paths.join(" "));
 
-							enqueue();
-						}
-					},
-					cancel() {
-						watcher.close();
-					},
-				});
+		// 					enqueue();
+		// 				}
+		// 			},
+		// 			cancel() {
+		// 				watcher.close();
+		// 			},
+		// 		});
 
-				return new Response(body, {
-					headers: {
-						"Content-Type": "text/event-stream",
-					},
-				});
-			}
+		// 		return new Response(body, {
+		// 			headers: {
+		// 				"Content-Type": "text/event-stream",
+		// 			},
+		// 		});
+		// 	}
 
-			headers.push("Cache-Control: no-store");
-		} else {
-			const fingerprinted = Path.extname(
-				Path.basename(url.pathname, Path.extname(url.pathname)),
-			) !== "";
+		// 	headers.push("Cache-Control: no-store");
+		// } else {
+		const fingerprinted = Path.extname(
+			Path.basename(url.pathname, Path.extname(url.pathname)),
+		) !== "";
 
-			if (fingerprinted) {
-				headers.push("Cache-Control: public, max-age=31536000, immutable");
-			}
+		if (fingerprinted) {
+			headers.push("Cache-Control: public, max-age=31536000, immutable");
 		}
+		// }
 
 		let response: Response | undefined = await serveDir(req, {
-			fsRoot: "dist",
+			fsRoot: Path.join(dist ?? "dist", "public"),
 			headers,
 		});
 
 		if (response.status === 404) {
-			response = await tryViews(200, url);
+			response = await tryRouting(200, url);
 
 			if (response) return response;
 
-			response = await tryViews(404, url);
+			response = await tryRouting(404, url);
 
 			if (response) return response;
 		}
@@ -75,14 +83,17 @@ export default function (
 		return response;
 	};
 
-	async function tryViews(status, url) {
-		for (const view of config.views) {
+	async function tryRouting(status: number, url: URL) {
+		for (const view of routes) {
 			if (
-				((view.status ?? 200) == status) && view.pattern.test(url)
+				((view.status ?? 200) == status) && view.urlPattern.test(url)
 			) {
-				const match = view.pattern.exec(url);
+				const match = view.urlPattern.exec(url);
+
+				if (!match) continue;
+
 				let body = await view.serve.call(
-					{ urls: config.urls },
+					{ urls },
 					match.pathname.groups,
 				);
 

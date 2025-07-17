@@ -2,19 +2,60 @@ import * as Path from "@std/path";
 import * as Fs from "@std/fs";
 import { encodeBase64Url } from "@std/encoding/base64url";
 import { crypto } from "@std/crypto";
-import { processCSS } from "./plugins/css.ts";
-import { processFiles } from "./plugins/files.ts";
 
-export { render } from "handcraft/env/server.js";
+const { config } = await import(Path.join(Deno.cwd(), "config.ts"));
+const urls = {};
 
-export const urls = {};
-export const distDir = Path.join(Deno.cwd(), "dist");
-export const publicDir = Path.join(Deno.cwd(), "public");
+export const distDir = Path.join(Deno.cwd(), config.dist ?? "dist");
+export const publicDir = Path.join(Deno.cwd(), config.public ?? "public");
 
 if (import.meta.main) {
-	await processFiles();
+	await Fs.emptyDir(distDir);
 
-	await processCSS();
+	await Fs.ensureDir(distDir);
+
+	const files = await Array.fromAsync(
+		Fs.expandGlob(Path.join(publicDir, "**")),
+	);
+
+	for (const plugin of config.plugins) {
+		for (const file of files) {
+			if (plugin.urlPattern.test(`file://${file.path}`)) {
+				let content = await Deno.readFile(file.path);
+
+				content = await plugin.run(
+					file.path,
+					content,
+					urls,
+				);
+
+				await write(
+					Path.join(distDir, "public", file.path.substring(publicDir.length)),
+					content,
+					false,
+				);
+			}
+		}
+	}
+
+	await Deno.writeTextFile(
+		Path.join(distDir, "serve.ts"),
+		`
+		import * as Path from "@std/path";
+		import serve from "../app/serve.ts";
+
+		const { config } = await import(Path.join(Deno.cwd(), "config.ts"));
+		const urls = ${JSON.stringify(urls)};
+
+		const handler = serve({...config, urls})
+
+		export default {
+			fetch(req: Request) {
+				return handler(req);
+			}
+		}
+	`,
+	);
 }
 
 async function getFingerprint(code: Uint8Array<ArrayBufferLike>) {
@@ -27,25 +68,26 @@ async function getFingerprint(code: Uint8Array<ArrayBufferLike>) {
 export async function write(
 	path: string,
 	code: Uint8Array<ArrayBufferLike>,
+	dev: boolean,
 ) {
 	if (!path.endsWith(".html") && !path.endsWith(".rss")) {
-		const subpath = path.substring(distDir.length);
+		const subpath = path.substring(Path.join(distDir, "public").length);
 
-		if (Deno.args.includes("--dev")) {
-			urls[path.substring(distDir.length)] = subpath;
+		if (dev) {
+			urls[subpath] = subpath;
 		} else {
 			const buffer = await getFingerprint(code);
 			const fingerprint = encodeBase64Url(buffer);
 			const withFingerprint = Path.format({
 				root: "/",
-				dir: Path.dirname(path).substring(distDir.length),
+				dir: Path.dirname(path).substring(Path.join(distDir, "public").length),
 				ext: `.${fingerprint}${Path.extname(path)}`,
 				name: Path.basename(path, Path.extname(path)),
 			});
 
 			urls[subpath] = withFingerprint;
 
-			path = Path.join(Deno.cwd(), "dist", withFingerprint);
+			path = Path.join(distDir, "public", withFingerprint);
 		}
 	}
 

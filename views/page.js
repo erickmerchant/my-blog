@@ -24,7 +24,7 @@ export default function ({ site, pageTitle, styles, navTitle, main }) {
 			.type("application/rss+xml")
 			.title("Posts")
 			.href(site.host + "/posts.rss"),
-		favicons(),
+		favicons.call(this),
 		meta.name("description").content(site.description),
 	);
 	const baseNav = nav.class("nav")(

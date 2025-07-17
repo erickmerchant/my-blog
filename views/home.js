@@ -8,12 +8,12 @@ const { section, h1, h2, p, ol, ul, li, a, aside, link } = h.html;
 
 export default {
 	urls: ["/"],
-	pattern: new URLPattern({ pathname: "/" }),
+	urlPattern: new URLPattern({ pathname: "/" }),
 	async serve() {
 		const site = await getSite();
 		const posts = await getPublishedPosts();
 
-		return page({
+		return page.call(this, {
 			site,
 			navTitle: h1.class("nav-title")(site.title),
 			styles: link.rel("stylesheet").href(this.urls["/home.css"]),

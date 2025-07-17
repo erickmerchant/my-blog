@@ -19,7 +19,7 @@ export async function getPublishedPosts(): Promise<Array<Post>> {
 
 		frontmatter.title ??= "Untitled";
 
-		if (!Deno.args.includes("--dev") && frontmatter.datePublished == null) {
+		if (frontmatter.datePublished == null) {
 			continue;
 		}
 

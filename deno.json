@@ -5,8 +5,8 @@
 		"post:publish": "deno run -A cli/post-publish.ts",
 		"dev": "deno run -A app/dev.ts",
 		"build": "deno run -A app/build.ts",
-		"serve": {
-			"command": "deno serve -A --port=3000 serve.ts",
+		"stage": {
+			"command": "deno serve -A --port=3000 dist/serve.ts",
 			"dependencies": ["build"]
 		}
 	},

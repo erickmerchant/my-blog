@@ -1,9 +1,11 @@
-import * as Fs from "@std/fs";
 import * as Path from "@std/path";
 import * as LightningCSS from "lightningcss";
-import { urls } from "../build.ts";
 
-export async function plugin(path: string, content: Uint8Array<ArrayBuffer>) {
+export default function (
+	path: string,
+	content: Uint8Array<ArrayBuffer>,
+	urls: Record<string, string>,
+) {
 	const { code } = LightningCSS.transform({
 		filename: path,
 		code: content,

@@ -6,11 +6,11 @@ const { link, article, h1, p } = h.html;
 
 export default {
 	status: 404,
-	pattern: new URLPattern({ pathname: "/*" }),
+	urlPattern: new URLPattern({ pathname: "/*" }),
 	async serve() {
 		const site = await getSite();
 
-		return page({
+		return page.call(this, {
 			site,
 			pageTitle: "404 Not Found",
 			styles: link.rel("stylesheet").href(this.urls["/post.css"]),
