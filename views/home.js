@@ -7,8 +7,7 @@ import { getPublishedPosts } from "../models/post.ts";
 const { section, h1, h2, p, ol, ul, li, a, aside, link } = h.html;
 
 export default {
-	urls: ["/"],
-	urlPattern: new URLPattern({ pathname: "/" }),
+	pattern: "/",
 	async serve() {
 		const site = await getSite();
 		const posts = await getPublishedPosts();

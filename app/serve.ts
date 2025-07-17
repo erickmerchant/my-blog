@@ -9,7 +9,7 @@ export default function (
 			{
 				status?: number;
 				contentType?: string;
-				urlPattern: URLPattern;
+				pattern: URLPattern;
 				serve: (params: any) => any;
 			}
 		>;
@@ -85,10 +85,14 @@ export default function (
 
 	async function tryRouting(status: number, url: URL) {
 		for (const view of routes) {
+			const pattern = view.pattern instanceof URLPattern
+				? view.pattern
+				: new URLPattern({ pathname: view.pattern });
+
 			if (
-				((view.status ?? 200) == status) && view.urlPattern.test(url)
+				((view.status ?? 200) == status) && pattern.test(url)
 			) {
-				const match = view.urlPattern.exec(url);
+				const match = pattern.exec(url);
 
 				if (!match) continue;
 

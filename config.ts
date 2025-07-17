@@ -10,15 +10,15 @@ export const config = {
 	routes: [notFound, home, post, resume, rss],
 	plugins: [
 		{
-			urlPattern: new URLPattern({ pathname: "/*/:file.woff2" }),
+			pattern: "/*/:file.woff2",
 			run: file,
 		},
 		{
-			urlPattern: new URLPattern({ pathname: "/*/:file.png" }),
+			pattern: "/*/:file.png",
 			run: file,
 		},
 		{
-			urlPattern: new URLPattern({ pathname: "/*/:file.css" }),
+			pattern: "/*/:file.css",
 			run: css,
 		},
 	],

@@ -20,7 +20,10 @@ if (import.meta.main) {
 
 	for (const plugin of config.plugins) {
 		for (const file of files) {
-			if (plugin.urlPattern.test(`file://${file.path}`)) {
+			const pattern = plugin.pattern instanceof URLPattern
+				? plugin.pattern
+				: new URLPattern({ pathname: plugin.pattern });
+			if (pattern.test(`file://${file.path}`)) {
 				let content = await Deno.readFile(file.path);
 
 				content = await plugin.run(

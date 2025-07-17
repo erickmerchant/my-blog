@@ -24,7 +24,7 @@ const {
 } = h.html;
 
 export default {
-	urlPattern: new URLPattern({ pathname: "/resume/" }),
+	pattern: "/resume/",
 	async serve() {
 		const resume = await getResume();
 

@@ -6,7 +6,7 @@ const { link, article, h1, p } = h.html;
 
 export default {
 	status: 404,
-	urlPattern: new URLPattern({ pathname: "/*" }),
+	pattern: "/*",
 	async serve() {
 		const site = await getSite();
 

@@ -4,7 +4,7 @@ import { getSite } from "../models/site.ts";
 import { getPublishedPosts } from "../models/post.ts";
 
 export default {
-	urlPattern: new URLPattern({ pathname: "/posts.rss" }),
+	pattern: "/posts.rss",
 	contentType: "application/rss+xml",
 	async serve() {
 		const site = await getSite();

@@ -8,7 +8,10 @@ import { getPublishedPosts } from "../models/post.ts";
 const { link, article, header, h1, time, span } = h.html;
 
 export default {
-	urlPattern: new URLPattern({ pathname: "/posts/:slug/" }),
+	// urls: (await getPublishedPosts()).map((post) =>
+	// 	`posts/${post.slug}/index.html`
+	// ),
+	pattern: "/posts/:slug/",
 	async serve({ slug }) {
 		const site = await getSite();
 		const posts = await getPublishedPosts();
