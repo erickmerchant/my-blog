@@ -2,52 +2,19 @@ import * as Path from "@std/path";
 import * as Fs from "@std/fs";
 import { encodeBase64Url } from "@std/encoding/base64url";
 import { crypto } from "@std/crypto";
-import { saveView } from "./build/html.ts";
-import { saveRSS } from "./build/rss.ts";
-import { processCSS } from "./build/css.ts";
-import { processFonts } from "./build/fonts.ts";
-import { processFavicons } from "./build/favicons.ts";
-import { getSite } from "./models/site.ts";
-import { getResume } from "./models/resume.ts";
-import { getPublishedPosts } from "./models/post.ts";
-import NotFoundView from "./views/not-found.js";
-import PostView from "./views/post.js";
-import HomeView from "./views/home.js";
-import ResumeView from "./views/resume.js";
+import { processCSS } from "./plugins/css.ts";
+import { processFiles } from "./plugins/files.ts";
 
 export { render } from "handcraft/env/server.js";
 
-export const urlMap = new Map();
+export const urls = {};
 export const distDir = Path.join(Deno.cwd(), "dist");
 export const publicDir = Path.join(Deno.cwd(), "public");
 
 if (import.meta.main) {
-	await Promise.all([processFonts(), processFavicons()]);
+	await processFiles();
 
 	await processCSS();
-
-	const [site, posts, resume] = await Promise.all([
-		getSite(),
-		getPublishedPosts(),
-		getResume(),
-	]);
-
-	await Promise.all([
-		saveView("./dist/404.html", () => NotFoundView({ site })),
-		...posts.map((post) =>
-			saveView(
-				`./dist/posts/${post.slug}/index.html`,
-				() => PostView({ site, post }),
-			)
-		),
-		saveView(`./dist/index.html`, () => HomeView({ site, posts })),
-		saveView(`./dist/resume/index.html`, () => ResumeView({ resume })),
-		saveRSS({ site, posts }),
-	]);
-}
-
-export function getUrl(path: string) {
-	return urlMap.get(path);
 }
 
 async function getFingerprint(code: Uint8Array<ArrayBufferLike>) {
@@ -65,7 +32,7 @@ export async function write(
 		const subpath = path.substring(distDir.length);
 
 		if (Deno.args.includes("--dev")) {
-			urlMap.set(path.substring(distDir.length), subpath);
+			urls[path.substring(distDir.length)] = subpath;
 		} else {
 			const buffer = await getFingerprint(code);
 			const fingerprint = encodeBase64Url(buffer);
@@ -76,7 +43,7 @@ export async function write(
 				name: Path.basename(path, Path.extname(path)),
 			});
 
-			urlMap.set(subpath, withFingerprint);
+			urls[subpath] = withFingerprint;
 
 			path = Path.join(Deno.cwd(), "dist", withFingerprint);
 		}

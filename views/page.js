@@ -1,22 +1,23 @@
 import { h } from "handcraft/env/server.js";
-import { getUrl } from "../build.ts";
 import favicons from "./favicons.js";
 
 const { head, body, meta, title, link, nav, span, a, footer, ul, li, html } =
 	h.html;
 const { title: svgTitle, path, svg } = h.svg;
 
-export default async function ({ site, pageTitle, styles, navTitle, main }) {
+export default function ({ site, pageTitle, styles, navTitle, main }) {
 	const baseHead = head(
 		meta.charset("utf-8"),
 		meta.name("viewport").content("width=device-width, initial-scale=1"),
 		title(pageTitle ? pageTitle + " - " + site.title : site.title),
-		link.rel("preload").href(getUrl("/fonts/Jacquard24-Regular-subset.woff2"))
+		link.rel("preload").href(
+			this.urls["/fonts/Jacquard24-Regular-subset.woff2"],
+		)
 			.as("font").type("font/woff2").crossorigin(""),
 		link.rel("preload").href(
-			getUrl("/fonts/WorkSans-VariableFont_wght-subset.woff2"),
+			this.urls["/fonts/WorkSans-VariableFont_wght-subset.woff2"],
 		).as("font").type("font/woff2").crossorigin(""),
-		link.rel("stylesheet").href(getUrl("/page.css")),
+		link.rel("stylesheet").href(this.urls["/page.css"]),
 		styles,
 		link
 			.rel("alternate")

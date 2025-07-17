@@ -1,9 +1,15 @@
 import * as Path from "@std/path";
+import { effect, render } from "handcraft/env/server.js";
 import { serveDir } from "@std/http/file-server";
 import { debounce } from "@std/async/debounce";
 
-export default {
-	async fetch(req: Request) {
+export default function (
+	config: {
+		views: Array<{ status?: number; pattern: URLPattern; serve: () => any }>;
+		urls: Record<string, string>;
+	},
+) {
+	return async (req: Request) => {
 		const url = new URL(req.url);
 		const headers: Array<string> = [];
 
@@ -51,24 +57,52 @@ export default {
 			}
 		}
 
-		const response = await serveDir(req, {
+		let response: Response | undefined = await serveDir(req, {
 			fsRoot: "dist",
 			headers,
 		});
 
 		if (response.status === 404) {
-			const body = await Deno.readTextFile("./dist/404.html").catch(() => null);
+			response = await tryViews(200, url);
 
-			if (body != null) {
+			if (response) return response;
+
+			response = await tryViews(404, url);
+
+			if (response) return response;
+		}
+
+		return response;
+	};
+
+	async function tryViews(status, url) {
+		for (const view of config.views) {
+			if (
+				((view.status ?? 200) == status) && view.pattern.test(url)
+			) {
+				const match = view.pattern.exec(url);
+				let body = await view.serve.call(
+					{ urls: config.urls },
+					match.pathname.groups,
+				);
+
+				if (typeof body !== "string") {
+					const { promise, resolve } = Promise.withResolvers<string>();
+
+					effect(() => {
+						resolve(`<!doctype html>${render(body.deref())}`);
+					});
+
+					body = await promise;
+				}
+
 				return new Response(body, {
-					status: 404,
+					status: 200,
 					headers: {
-						"Content-Type": "text/html",
+						"Content-Type": view.contentType ?? "text/html",
 					},
 				});
 			}
 		}
-
-		return response;
-	},
-};
+	}
+}

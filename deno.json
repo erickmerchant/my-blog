@@ -1,18 +1,13 @@
 {
 	"unstable": ["temporal"],
 	"tasks": {
-		"post:draft": "deno run -A app/post-draft.ts",
-		"post:publish": "deno run -A app/post-publish.ts",
-		"clean": "deno run -A app/clean.ts",
-		"dev:build": "deno run -A --watch=content,public,app app/build.ts --dev",
-		"dev:serve": "deno serve -A --watch=app --port=3000 app/serve.ts --dev",
-		"dev": {
-			"dependencies": ["clean", "dev:build", "dev:serve"]
-		},
+		"post:draft": "deno run -A cli/post-draft.ts",
+		"post:publish": "deno run -A cli/post-publish.ts",
+		"dev": "deno run -A app/dev.ts",
 		"build": "deno run -A app/build.ts",
-		"serve": "deno serve -A --port=3000 app/serve.ts",
-		"start": {
-			"dependencies": ["clean", "build", "serve"]
+		"serve": {
+			"command": "deno serve -A --port=3000 serve.ts",
+			"dependencies": ["build"]
 		}
 	},
 	"imports": {
