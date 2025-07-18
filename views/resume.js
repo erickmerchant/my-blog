@@ -23,45 +23,42 @@ const {
 	html,
 } = h.html;
 
-export default {
-	pattern: "/resume/",
-	async serve() {
-		const resume = await getResume();
+export default async function ({ urls }) {
+	const resume = await getResume();
 
-		return html.lang("en-US")(
-			head(
-				meta.charset("utf-8"),
-				meta.name("viewport").content("width=device-width, initial-scale=1"),
-				title("Résumé"),
-				link.href(this.urls["/resume.css"]).rel("stylesheet"),
-				favicons.call(this),
-				meta.name("description").content("My résumé"),
-			),
-			body.class("page")(
-				div.class("layout")(
-					header.class("header")(
-						h1(resume.name),
-						ul.class("contacts")(
-							resume.contacts.map((contact) =>
-								li(a.href(contact.href)(contact.text))
-							),
+	return html.lang("en-US")(
+		head(
+			meta.charset("utf-8"),
+			meta.name("viewport").content("width=device-width, initial-scale=1"),
+			title("Résumé"),
+			link.href(urls["/resume.css"]).rel("stylesheet"),
+			favicons({ urls }),
+			meta.name("description").content("My résumé"),
+		),
+		body.class("page")(
+			div.class("layout")(
+				header.class("header")(
+					h1(resume.name),
+					ul.class("contacts")(
+						resume.contacts.map((contact) =>
+							li(a.href(contact.href)(contact.text))
 						),
 					),
-					section.class("objective")(await Markdown.parse(resume.objective)),
-					await timeline({
-						title: "Employment History",
-						items: resume.history,
-					}),
-					await timeline({
-						title: "Education",
-						items: resume.education,
-					}),
-					section.class("references")(p("References available upon request")),
 				),
+				section.class("objective")(await Markdown.parse(resume.objective)),
+				await timeline({
+					title: "Employment History",
+					items: resume.history,
+				}),
+				await timeline({
+					title: "Education",
+					items: resume.education,
+				}),
+				section.class("references")(p("References available upon request")),
 			),
-		);
-	},
-};
+		),
+	);
+}
 
 async function timeline({ title, items }) {
 	return section.class("timeline")(

@@ -3,36 +3,30 @@ import { asLocalDate } from "../utils/dates.ts";
 import * as Markdown from "../utils/markdown.ts";
 import page from "./page.js";
 import { getSite } from "../models/site.ts";
-import { getPublishedPosts } from "../models/post.ts";
+import { getPostBySlug } from "../models/post.ts";
 
 const { link, article, header, h1, time, span } = h.html;
 
-export default {
-	// urls: (await getPublishedPosts()).map((post) =>
-	// 	`posts/${post.slug}/index.html`
-	// ),
-	pattern: "/posts/:slug/",
-	async serve({ slug }) {
-		const site = await getSite();
-		const posts = await getPublishedPosts();
-		const post = posts.find((post) => post.slug === slug);
+export default async function ({ params: { slug }, urls }) {
+	const site = await getSite();
+	const post = await getPostBySlug(slug);
 
-		return page.call(this, {
-			site,
-			pageTitle: post.title,
-			styles: [
-				link.rel("stylesheet").href(this.urls["/post.css"]),
-				link.rel("stylesheet").href(this.urls["/prism.css"]),
-			],
-			main: article.class("article")(
-				header(
-					h1(post.title),
-					post.datePublished
-						? time.class("status")(asLocalDate(post.datePublished))
-						: span.class("status")("Draft"),
-				),
-				await Markdown.parse(post.content),
+	return page({
+		site,
+		urls,
+		pageTitle: post.title,
+		styles: [
+			link.rel("stylesheet").href(urls["/post.css"]),
+			link.rel("stylesheet").href(urls["/prism.css"]),
+		],
+		main: article.class("article")(
+			header(
+				h1(post.title),
+				post.datePublished
+					? time.class("status")(asLocalDate(post.datePublished))
+					: span.class("status")("Draft"),
 			),
-		});
-	},
-};
+			await Markdown.parse(post.content),
+		),
+	});
+}

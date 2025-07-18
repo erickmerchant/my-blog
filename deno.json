@@ -3,7 +3,7 @@
 	"tasks": {
 		"post:draft": "deno run -A cli/post-draft.ts",
 		"post:publish": "deno run -A cli/post-publish.ts",
-		"dev": "deno run -A app/dev.ts",
+		"dev": "deno serve -A --port=3000 app/dev.ts",
 		"build": "deno run -A app/build.ts",
 		"stage": {
 			"command": "deno serve -A --port=3000 dist/serve.ts",

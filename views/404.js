@@ -4,20 +4,17 @@ import page from "./page.js";
 
 const { link, article, h1, p } = h.html;
 
-export default {
-	status: 404,
-	pattern: "/*",
-	async serve() {
-		const site = await getSite();
+export default async function ({ urls }) {
+	const site = await getSite();
 
-		return page.call(this, {
-			site,
-			pageTitle: "404 Not Found",
-			styles: link.rel("stylesheet").href(this.urls["/post.css"]),
-			main: article.class("article")(
-				h1("404 Not Found"),
-				p("The thing you're looking for can not be located."),
-			),
-		});
-	},
-};
+	return page({
+		site,
+		urls,
+		pageTitle: "404 Not Found",
+		styles: link.rel("stylesheet").href(urls["/post.css"]),
+		main: article.class("article")(
+			h1("404 Not Found"),
+			p("The thing you're looking for can not be located."),
+		),
+	});
+}

@@ -1,3 +1,3 @@
-export default function (_path: string, content: Uint8Array<ArrayBuffer>) {
+export default function ({ content }: PluginParams) {
 	return content;
 }

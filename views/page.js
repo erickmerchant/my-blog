@@ -5,26 +5,26 @@ const { head, body, meta, title, link, nav, span, a, footer, ul, li, html } =
 	h.html;
 const { title: svgTitle, path, svg } = h.svg;
 
-export default function ({ site, pageTitle, styles, navTitle, main }) {
+export default function ({ site, urls, pageTitle, styles, navTitle, main }) {
 	const baseHead = head(
 		meta.charset("utf-8"),
 		meta.name("viewport").content("width=device-width, initial-scale=1"),
 		title(pageTitle ? pageTitle + " - " + site.title : site.title),
 		link.rel("preload").href(
-			this.urls["/fonts/Jacquard24-Regular-subset.woff2"],
+			urls["/fonts/Jacquard24-Regular-subset.woff2"],
 		)
 			.as("font").type("font/woff2").crossorigin(""),
 		link.rel("preload").href(
-			this.urls["/fonts/WorkSans-VariableFont_wght-subset.woff2"],
+			urls["/fonts/WorkSans-VariableFont_wght-subset.woff2"],
 		).as("font").type("font/woff2").crossorigin(""),
-		link.rel("stylesheet").href(this.urls["/page.css"]),
+		link.rel("stylesheet").href(urls["/page.css"]),
 		styles,
 		link
 			.rel("alternate")
 			.type("application/rss+xml")
 			.title("Posts")
 			.href(site.host + "/posts.rss"),
-		favicons.call(this),
+		favicons({ urls }),
 		meta.name("description").content(site.description),
 	);
 	const baseNav = nav.class("nav")(

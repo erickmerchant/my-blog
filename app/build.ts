@@ -2,12 +2,13 @@ import * as Path from "@std/path";
 import * as Fs from "@std/fs";
 import { encodeBase64Url } from "@std/encoding/base64url";
 import { crypto } from "@std/crypto";
+import { callRoute } from "./serve.ts";
 
 const { config } = await import(Path.join(Deno.cwd(), "config.ts"));
 const urls = {};
 
-export const distDir = Path.join(Deno.cwd(), config.dist ?? "dist");
-export const publicDir = Path.join(Deno.cwd(), config.public ?? "public");
+export const distDir = Path.join(Deno.cwd(), "dist");
+export const publicDir = Path.join(Deno.cwd(), "public");
 
 if (import.meta.main) {
 	await Fs.emptyDir(distDir);
@@ -26,16 +27,91 @@ if (import.meta.main) {
 			if (pattern.test(`file://${file.path}`)) {
 				let content = await Deno.readFile(file.path);
 
-				content = await plugin.run(
-					file.path,
-					content,
-					urls,
+				content = await plugin.handler({ path: file.path, content, urls });
+
+				let path = Path.join(
+					distDir,
+					"public",
+					file.path.substring(publicDir.length),
 				);
 
-				await write(
-					Path.join(distDir, "public", file.path.substring(publicDir.length)),
-					content,
-					false,
+				if (!path.endsWith(".html") && !path.endsWith(".rss")) {
+					const subpath = path.substring(Path.join(distDir, "public").length);
+
+					const buffer = await crypto.subtle.digest("SHA-256", content);
+					const fingerprint = encodeBase64Url(buffer);
+					const withFingerprint = Path.format({
+						root: "/",
+						dir: Path.dirname(path).substring(
+							Path.join(distDir, "public").length,
+						),
+						ext: `.${fingerprint}${Path.extname(path)}`,
+						name: Path.basename(path, Path.extname(path)),
+					});
+
+					urls[subpath] = withFingerprint;
+
+					path = Path.join(distDir, "public", withFingerprint);
+				}
+
+				await Fs.ensureDir(Path.dirname(path));
+
+				await Deno.writeFile(path, content);
+			}
+		}
+	}
+
+	const notFoundBody = await callRoute(config.notFound, urls);
+
+	const path = Path.join("dist", "public/404.html");
+
+	await Fs.ensureDir(Path.dirname(path));
+
+	await Deno.writeTextFile(
+		path,
+		notFoundBody,
+	);
+
+	for (const route of config.routes) {
+		let { cache, pattern } = route;
+		if (cache !== false) {
+			const files: Array<string> = [];
+
+			if (
+				(cache === true || cache == null) && typeof pattern === "string" &&
+				!/[\:\?\+\*\{\}\(\)]/.test(pattern)
+			) {
+				files.push(pattern);
+			} else if (typeof cache === "string") {
+				files.push(cache);
+			} else if (Array.isArray(cache)) {
+				files.push(...cache);
+			} else if (typeof cache === "function") {
+				files.push(...(await cache()));
+			}
+
+			pattern = pattern instanceof URLPattern
+				? pattern
+				: new URLPattern({ pathname: pattern });
+
+			for (let file of files) {
+				const match = pattern.exec(new URL(`http://localhost${file}`));
+
+				if (!match) continue;
+
+				const body = await callRoute(route, urls, match.pathname.groups);
+
+				if (file.endsWith("/")) {
+					file += "index.html";
+				}
+
+				const path = Path.join("dist", "public", file);
+
+				await Fs.ensureDir(Path.dirname(path));
+
+				await Deno.writeTextFile(
+					path,
+					body,
 				);
 			}
 		}
@@ -59,53 +135,4 @@ if (import.meta.main) {
 		}
 	`,
 	);
-}
-
-async function getFingerprint(code: Uint8Array<ArrayBufferLike>) {
-	const buffer = await crypto.subtle.digest("SHA-256", code);
-	const fingerprint = encodeBase64Url(buffer);
-
-	return fingerprint;
-}
-
-export async function write(
-	path: string,
-	code: Uint8Array<ArrayBufferLike>,
-	dev: boolean,
-) {
-	if (!path.endsWith(".html") && !path.endsWith(".rss")) {
-		const subpath = path.substring(Path.join(distDir, "public").length);
-
-		if (dev) {
-			urls[subpath] = subpath;
-		} else {
-			const buffer = await getFingerprint(code);
-			const fingerprint = encodeBase64Url(buffer);
-			const withFingerprint = Path.format({
-				root: "/",
-				dir: Path.dirname(path).substring(Path.join(distDir, "public").length),
-				ext: `.${fingerprint}${Path.extname(path)}`,
-				name: Path.basename(path, Path.extname(path)),
-			});
-
-			urls[subpath] = withFingerprint;
-
-			path = Path.join(distDir, "public", withFingerprint);
-		}
-	}
-
-	const unchanged = await Deno.readFile(path).then(async (c) => {
-		const fileFingerprint1 = await getFingerprint(c);
-		const fileFingerprint2 = await getFingerprint(code);
-
-		return fileFingerprint1 === fileFingerprint2;
-	}).catch(
-		() => false,
-	);
-
-	if (unchanged) return;
-
-	await Fs.ensureDir(Path.dirname(path));
-
-	await Deno.writeFile(path, code);
 }
