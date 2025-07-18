@@ -4,11 +4,11 @@ import { encodeBase64Url } from "@std/encoding/base64url";
 import { crypto } from "@std/crypto";
 import { callRoute } from "./serve.ts";
 
-const { config } = await import(Path.join(Deno.cwd(), "config.ts"));
+const { config } = await import(Path.join(Deno.cwd(), "flint.ts"));
 const urls = {};
 
-export const distDir = Path.join(Deno.cwd(), "dist");
-export const publicDir = Path.join(Deno.cwd(), "public");
+const distDir = Path.join(Deno.cwd(), "dist");
+const publicDir = Path.join(Deno.cwd(), "public");
 
 if (import.meta.main) {
 	await Fs.emptyDir(distDir);
@@ -123,7 +123,7 @@ if (import.meta.main) {
 		import * as Path from "@std/path";
 		import serve from "../app/serve.ts";
 
-		const { config } = await import(Path.join(Deno.cwd(), "config.ts"));
+		const { config } = await import(Path.join(Deno.cwd(), "flint.ts"));
 		const urls = ${JSON.stringify(urls)};
 
 		const handler = serve({...config, urls})

@@ -5,6 +5,7 @@ import resume from "./views/resume.js";
 import rss from "./views/rss.ts";
 import file from "./app/plugins/file.ts";
 import css from "./app/plugins/css.ts";
+import js from "./app/plugins/js.ts";
 import { getPublishedPosts } from "./models/post.ts";
 
 export const config: Config = {
@@ -29,16 +30,20 @@ export const config: Config = {
 	watch: ["content", "public"],
 	plugins: [
 		{
-			pattern: "/*/:name.woff2",
+			pattern: "/*.woff2",
 			handler: file,
 		},
 		{
-			pattern: "/*/:name.png",
+			pattern: "/*.png",
 			handler: file,
 		},
 		{
-			pattern: "/*/:name.css",
+			pattern: "/*.css",
 			handler: css,
+		},
+		{
+			pattern: "/*.js",
+			handler: js,
 		},
 	],
 };

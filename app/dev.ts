@@ -3,7 +3,8 @@ import { serveDir } from "@std/http/file-server";
 import { debounce } from "@std/async/debounce";
 import { callRoute } from "./serve.ts";
 
-const { config } = await import(Path.join(Deno.cwd(), "config.ts"));
+const publicDir = Path.join(Deno.cwd(), "public");
+const { config } = await import(Path.join(Deno.cwd(), "flint.ts"));
 const urls = new Proxy({}, {
 	get(_, key) {
 		return key;
@@ -29,8 +30,6 @@ export default {
 					watcher = Deno.watchFs(config.watch);
 
 					for await (const e of watcher) {
-						console.log(e.kind, e.paths.join(" "));
-
 						enqueue();
 					}
 				},
@@ -47,7 +46,7 @@ export default {
 		}
 
 		const response: Response | undefined = await serveDir(req, {
-			fsRoot: Path.join(Deno.cwd(), "public"),
+			fsRoot: publicDir,
 			headers: ["Cache-Control: no-store"],
 			quiet: true,
 		});
@@ -96,9 +95,13 @@ export default {
 					? plugin.pattern
 					: new URLPattern({ pathname: plugin.pattern });
 				if (pattern.test(url)) {
-					let content = response.body;
+					let content = await response.bytes();
 
-					content = await plugin.handler({ path: url.pathname, content, urls });
+					content = await plugin.handler({
+						path: Path.join(publicDir, url.pathname),
+						content,
+						urls,
+					});
 
 					return new Response(content, { ...response });
 				}
