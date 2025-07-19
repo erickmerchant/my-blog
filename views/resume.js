@@ -1,4 +1,4 @@
-import { h } from "handcraft/env/server.js";
+import { h, render } from "handcraft/env/server.js";
 import * as Markdown from "../utils/markdown.ts";
 import favicons from "./favicons.js";
 import { getResume } from "../models/resume.ts";
@@ -25,8 +25,7 @@ const {
 
 export default async function ({ urls }) {
 	const resume = await getResume();
-
-	return html.lang("en-US")(
+	const doc = html.lang("en-US")(
 		head(
 			meta.charset("utf-8"),
 			meta.name("viewport").content("width=device-width, initial-scale=1"),
@@ -58,6 +57,8 @@ export default async function ({ urls }) {
 			),
 		),
 	);
+
+	return render(doc);
 }
 
 async function timeline({ title, items }) {

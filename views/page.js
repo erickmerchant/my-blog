@@ -1,4 +1,4 @@
-import { h } from "handcraft/env/server.js";
+import { h, render } from "handcraft/env/server.js";
 import favicons from "./favicons.js";
 
 const { head, body, meta, title, link, nav, span, a, footer, ul, li, html } =
@@ -53,5 +53,5 @@ export default function ({ site, urls, pageTitle, styles, navTitle, main }) {
 	);
 	const baseBody = body.class("page")(baseNav, main, baseFooter);
 
-	return html.lang("en-US")(baseHead, baseBody);
+	return render(html.lang("en-US")(baseHead, baseBody));
 }
