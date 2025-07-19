@@ -1,6 +1,5 @@
 import file from "@flint/framework/plugins/file";
 import css from "@flint/framework/plugins/css";
-import js from "@flint/framework/plugins/js";
 import create from "@flint/framework/create";
 import notFound from "./views/404.js";
 import home from "./views/home.js";
@@ -27,7 +26,6 @@ const app = create("public")
 	.route("/*.woff2", file)
 	.route("/*.png", file)
 	.route("/*.css", css)
-	.route("/*.js", js)
 	.route(notFound)
 	.output("dist");
 
