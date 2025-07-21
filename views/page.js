@@ -1,11 +1,11 @@
 import { h, render } from "handcraft/env/server.js";
 import favicons from "./favicons.js";
 
-const { head, body, meta, title, link, nav, span, a, footer, ul, li, html } =
+const { head, body, meta, title, link, header, span, a, footer, ul, li, html } =
 	h.html;
 const { title: svgTitle, path, svg } = h.svg;
 
-export default function ({ site, urls, pageTitle, styles, navTitle, main }) {
+export default function ({ site, urls, pageTitle, styles, bannerTitle, main }) {
 	const baseHead = head(
 		meta.charset("utf-8"),
 		meta.name("viewport").content("width=device-width, initial-scale=1"),
@@ -27,9 +27,9 @@ export default function ({ site, urls, pageTitle, styles, navTitle, main }) {
 		favicons({ urls }),
 		meta.name("description").content(site.description),
 	);
-	const baseNav = nav.class("nav")(
-		navTitle ?? span.class("nav-title")(site.title),
-		a.class("nav-link button").href("/")("/"),
+	const baseNav = header.class("banner")(
+		bannerTitle ?? span.class("banner-title")(site.title),
+		a.class("banner-link button").href("/")("/"),
 	);
 	const baseFooter = footer.class("footer")(
 		ul.class("footer-list")(

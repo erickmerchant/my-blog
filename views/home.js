@@ -13,7 +13,7 @@ export default async function ({ urls }) {
 	return page({
 		site,
 		urls,
-		navTitle: h1.class("nav-title")(site.title),
+		bannerTitle: h1.class("banner-title")(site.title),
 		styles: link.rel("stylesheet").href(urls["/home.css"]),
 		main: [
 			posts.length

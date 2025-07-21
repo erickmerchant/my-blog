@@ -28,7 +28,6 @@
 		word-break: break-word;
 		max-inline-size: 43rem;
 		background-color: oklch(from var(--background) l calc(c - 0.01) h);
-		padding: 1rem 1.5rem;
 		justify-self: center;
 		scrollbar-width: thin;
 		scrollbar-color: currentColor
@@ -37,6 +36,10 @@
 
 		@container (inline-size <= 43.5rem) {
 			border-inline: none;
+		}
+
+		code {
+			padding: 1rem 1.5rem;
 		}
 	}
 

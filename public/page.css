@@ -104,7 +104,7 @@
 	h2 {
 		font-size: 1.125rem;
 
-		:where(:has(nav h1)) & {
+		:where(:has(header h1)) & {
 			font-size: 1.25rem;
 		}
 	}
@@ -195,7 +195,7 @@
 		}
 	}
 
-	.nav {
+	.banner {
 		display: grid;
 		grid-template-columns: auto min-content;
 		padding-block: 0.5rem;
@@ -207,7 +207,7 @@
 		}
 	}
 
-	.nav-title {
+	.banner-title {
 		font-family:
 			"Jacquard 24", Rockwell, "Rockwell Nova", "Roboto Slab", "DejaVu Serif",
 			"Sitka Small", serif;
@@ -216,9 +216,10 @@
 		font-size: clamp(2rem, 7cqi, 3.5rem);
 		line-height: 1;
 		margin-block: 0.25em;
+		padding-block-start: 0.25rem;
 	}
 
-	.nav-link {
+	.banner-link {
 		align-self: center;
 		padding: 0.5rem 1rem;
 		text-decoration: none;

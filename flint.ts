@@ -1,6 +1,6 @@
 import file from "@flint/framework/plugins/file";
 import css from "@flint/framework/plugins/css";
-import create from "@flint/framework/create";
+import flint from "@flint/framework";
 import notFound from "./views/404.js";
 import home from "./views/home.js";
 import post from "./views/post.js";
@@ -8,16 +8,11 @@ import resume from "./views/resume.js";
 import rss from "./views/rss.ts";
 import { getPublishedPosts } from "./models/post.ts";
 
-const app = create("public")
-	.cache(async () => {
+const app = flint("public")
+	.cache("/", "/posts.rss", "/resume/", async () => {
 		const posts = await getPublishedPosts();
 
-		return [
-			"/",
-			"/posts.rss",
-			"/resume/",
-			...posts.map((post) => `/posts/${post.slug}/`),
-		];
+		return posts.map((post) => `/posts/${post.slug}/`);
 	})
 	.route("/", home)
 	.route("/posts/:slug/", post)
