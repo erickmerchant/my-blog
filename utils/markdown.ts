@@ -1,4 +1,4 @@
-import { Marked } from "marked";
+import { Marked, Token } from "marked";
 import Prism from "prismjs";
 
 const marked = new Marked({ async: true });
@@ -12,7 +12,9 @@ type Node = {
 	content?: string;
 };
 
-function walkPrismAST(tokens): Array<Node> {
+function walkPrismAST(
+	tokens: Array<string | { type: string; content: string }>,
+): Array<Node> {
 	const result: Array<Node> = [];
 
 	for (const token of tokens) {
@@ -33,7 +35,7 @@ function walkPrismAST(tokens): Array<Node> {
 	return result;
 }
 
-async function highlight(code, lang): Promise<Array<Node>> {
+async function highlight(code: string, lang: string): Promise<Array<Node>> {
 	if (lang === "html") lang = "markup";
 
 	try {
@@ -49,7 +51,7 @@ async function highlight(code, lang): Promise<Array<Node>> {
 	}
 }
 
-async function walkMarkedAST(tokens) {
+async function walkMarkedAST(tokens: Array<Token>) {
 	const result: Array<Node> = [];
 
 	for (const node of tokens) {
@@ -59,20 +61,45 @@ async function walkMarkedAST(tokens) {
 			case "paragraph":
 				res.type = "element";
 				res.tag = "p";
+
+				if (node.tokens) {
+					res.children = await walkMarkedAST(node.tokens);
+				} else {
+					res.children = [
+						{
+							type: "text",
+							content: node.text,
+						},
+					];
+				}
 				break;
 
 			case "list":
 				res.type = "element";
 				res.tag = node.ordered ? "ol" : "ul";
+
+				if (node.items) {
+					res.children = await walkMarkedAST(node.items);
+				}
 				break;
 
 			case "list_item":
 				res.type = "element";
 				res.tag = "li";
+
+				if (node.tokens) {
+					res.children = await walkMarkedAST(node.tokens);
+				} else {
+					res.children = [
+						{
+							type: "text",
+							content: node.text,
+						},
+					];
+				}
 				break;
 
 			case "text":
-			case "escape":
 				if (node.tokens) {
 					res.type = "fragment";
 					res.children = await walkMarkedAST(node.tokens);
@@ -82,15 +109,42 @@ async function walkMarkedAST(tokens) {
 				}
 				break;
 
+			case "escape":
+				res.type = "text";
+				res.content = node.text;
+				break;
+
 			case "link":
 				res.type = "element";
 				res.tag = "a";
 				res.attrs = { href: node.href };
+
+				if (node.tokens) {
+					res.children = await walkMarkedAST(node.tokens);
+				} else {
+					res.children = [
+						{
+							type: "text",
+							content: node.text,
+						},
+					];
+				}
 				break;
 
 			case "heading":
 				res.type = "element";
 				res.tag = "h" + node.depth;
+
+				if (node.tokens) {
+					res.children = await walkMarkedAST(node.tokens);
+				} else {
+					res.children = [
+						{
+							type: "text",
+							content: node.text,
+						},
+					];
+				}
 				break;
 
 			case "space":
@@ -112,6 +166,7 @@ async function walkMarkedAST(tokens) {
 			case "codespan":
 				res.type = "element";
 				res.tag = "code";
+
 				res.children = [
 					{
 						type: "text",
@@ -123,36 +178,53 @@ async function walkMarkedAST(tokens) {
 			case "em":
 				res.type = "element";
 				res.tag = "em";
-				res.children = [
-					{
-						type: "text",
-						content: node.text,
-					},
-				];
+
+				if (node.tokens) {
+					res.children = await walkMarkedAST(node.tokens);
+				} else {
+					res.children = [
+						{
+							type: "text",
+							content: node.text,
+						},
+					];
+				}
 				break;
 
 			case "del":
 				res.type = "element";
 				res.tag = "del";
-				res.children = [
-					{
-						type: "text",
-						content: node.text,
-					},
-				];
+
+				if (node.tokens) {
+					res.children = await walkMarkedAST(node.tokens);
+				} else {
+					res.children = [
+						{
+							type: "text",
+							content: node.text,
+						},
+					];
+				}
 				break;
 
 			case "blockquote":
 				res.type = "element";
 				res.tag = "blockquote";
+
+				if (node.tokens) {
+					res.children = await walkMarkedAST(node.tokens);
+				} else {
+					res.children = [
+						{
+							type: "text",
+							content: node.text,
+						},
+					];
+				}
 				break;
 
 			default:
 				throw Error(node.type + " unsupported in markdown");
-		}
-
-		if (node.tokens || node.items) {
-			res.children = await walkMarkedAST(node.tokens ?? node.items);
 		}
 
 		result.push(res);
@@ -161,8 +233,8 @@ async function walkMarkedAST(tokens) {
 	return result;
 }
 
-export async function parse(markdown) {
-	const ast = await marked.lexer(markdown);
+export async function parse(markdown: string) {
+	const ast = marked.lexer(markdown);
 
 	return await walkMarkedAST(ast);
 }

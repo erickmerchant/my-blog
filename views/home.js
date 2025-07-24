@@ -6,15 +6,14 @@ import { getPublishedPosts } from "../models/post.ts";
 
 const { section, h1, h2, p, ol, ul, li, a, aside, link } = h.html;
 
-export default async function ({ urls }) {
+export default async function (_, resolve) {
 	const site = await getSite();
 	const posts = await getPublishedPosts();
 
 	return page({
 		site,
-		urls,
 		bannerTitle: h1.class("banner-title")(site.title),
-		styles: link.rel("stylesheet").href(urls["/home.css"]),
+		styles: link.rel("stylesheet").href(resolve("/home.css")),
 		main: [
 			posts.length
 				? section.class("section")(
@@ -48,5 +47,5 @@ export default async function ({ urls }) {
 				: null,
 			aside.class("section")(h2("About"), await Markdown.parse(site.bio)),
 		],
-	});
+	}, resolve);
 }

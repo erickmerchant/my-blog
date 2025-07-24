@@ -150,13 +150,10 @@
 	}
 
 	.button {
-		color: var(--button-background);
-		background-color: oklch(from var(--button-color) l c h / 0.8);
+		color: var(--button-color);
+		background-color: oklch(from var(--button-background) l c h / 0.8);
 		box-shadow: inset 0px 0px var(--button-shadow-size)
-			light-dark(
-				var(--button-color),
-				oklch(from var(--button-background) l c h / 0.75)
-			);
+			var(--button-shadow-color);
 		border-radius: 0.125rem;
 	}
 
@@ -226,9 +223,10 @@
 		font-size: 0.75rem;
 		font-weight: 800;
 
-		--button-color: var(--link-color);
-		--button-background: var(--background);
-		--button-shadow-size: 0.25rem 0.0625rem;
+		--button-background: var(--link-color);
+		--button-color: var(--background);
+		--button-shadow-color: light-dark(var(--text-color), var(--background));
+		--button-shadow-size: 0.25rem 0.03125rem;
 	}
 
 	.footer {
@@ -272,18 +270,19 @@
 		aspect-ratio: 1;
 		block-size: 1.3rem;
 
-		--button-color: light-dark(
+		--button-background: light-dark(
 			oklch(from darkorange 60% 0.175 h),
 			oklch(from darkorange 85% 0.175 h)
 		);
-		--button-background: var(--background);
+		--button-color: var(--background);
+		--button-shadow-color: light-dark(var(--text-color), var(--background));
 		--button-shadow-size: 0.125rem 0.03125rem;
 
 		:where(svg) {
 			block-size: 100%;
 			inline-size: auto;
 			aspect-ratio: 1;
-			fill: var(--button-background);
+			fill: var(--button-color);
 			background: transparent;
 			padding: 0.225rem;
 			margin-block-end: -0.2rem;

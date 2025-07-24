@@ -12,7 +12,7 @@ const app = flint("public")
 	.cache("/", "/posts.rss", "/resume/", async () => {
 		const posts = await getPublishedPosts();
 
-		return posts.map((post) => `/posts/${post.slug}/`);
+		return posts.map((post) => "/posts/" + post.slug + "/");
 	})
 	.route("/", home)
 	.route("/posts/:slug/", post)

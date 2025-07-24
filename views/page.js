@@ -5,26 +5,29 @@ const { head, body, meta, title, link, header, span, a, footer, ul, li, html } =
 	h.html;
 const { title: svgTitle, path, svg } = h.svg;
 
-export default function ({ site, urls, pageTitle, styles, bannerTitle, main }) {
+export default function (
+	{ site, pageTitle, styles, bannerTitle, main },
+	resolve,
+) {
 	const baseHead = head(
 		meta.charset("utf-8"),
 		meta.name("viewport").content("width=device-width, initial-scale=1"),
 		title(pageTitle ? pageTitle + " - " + site.title : site.title),
 		link.rel("preload").href(
-			urls["/fonts/Jacquard24-Regular-subset.woff2"],
+			resolve("/fonts/Jacquard24-Regular-subset.woff2"),
 		)
 			.as("font").type("font/woff2").crossorigin(""),
 		link.rel("preload").href(
-			urls["/fonts/WorkSans-VariableFont_wght-subset.woff2"],
+			resolve("/fonts/WorkSans-VariableFont_wght-subset.woff2"),
 		).as("font").type("font/woff2").crossorigin(""),
-		link.rel("stylesheet").href(urls["/page.css"]),
+		link.rel("stylesheet").href(resolve("/page.css")),
 		styles,
 		link
 			.rel("alternate")
 			.type("application/rss+xml")
 			.title("Posts")
 			.href(site.host + "/posts.rss"),
-		favicons({ urls }),
+		favicons({}, resolve),
 		meta.name("description").content(site.description),
 	);
 	const baseNav = header.class("banner")(

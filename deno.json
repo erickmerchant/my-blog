@@ -3,7 +3,7 @@
 	"tasks": {
 		"post:draft": "deno run -A cli/post-draft.ts",
 		"post:publish": "deno run -A cli/post-publish.ts",
-		"dev": "deno run -A flint.ts dev 3000",
+		"dev": "deno run -A --watch --watch-exclude=public,dist,content flint.ts dev 3000",
 		"build": "deno run -A flint.ts build",
 		"stage": {
 			"command": "deno serve -A --port=3000 dist/serve.ts",
@@ -11,19 +11,18 @@
 		}
 	},
 	"imports": {
-		"@flint/framework": "jsr:@flint/framework@^0.1.1",
+		"@flint/framework": "jsr:@flint/framework@^0.2.0",
 		"@std/fs": "jsr:@std/fs@^1.0.17",
 		"@std/path": "jsr:@std/path@^1.0.9",
 		"@std/text": "jsr:@std/text@^1.0.13",
 		"@std/toml": "jsr:@std/toml@^1.0.5",
 		"fast-xml-parser": "npm:fast-xml-parser@5.2.1",
-		"handcraft": "npm:handcraft@^0.18.0",
+		"handcraft": "npm:handcraft@^0.19.0",
 		"lightningcss": "npm:lightningcss@^1.29.3",
 		"marked": "npm:marked@^15.0.11",
 		"prismjs": "npm:prismjs@^1.30.0"
 	},
 	"compilerOptions": {
-		"types": ["./types.d.ts"],
 		"lib": [
 			"dom",
 			"dom.iterable",
@@ -31,13 +30,7 @@
 			"es2024",
 			"deno.ns",
 			"deno.unstable"
-		],
-		"noImplicitAny": false
-	},
-	"lint": {
-		"rules": {
-			"exclude": ["no-explicit-any"]
-		}
+		]
 	},
 	"fmt": {
 		"useTabs": true

@@ -7,17 +7,16 @@ import { getPostBySlug } from "../models/post.ts";
 
 const { link, article, header, h1, time, span } = h.html;
 
-export default async function ({ params: { slug }, urls }) {
+export default async function ({ params: { slug } }, resolve) {
 	const site = await getSite();
 	const post = await getPostBySlug(slug);
 
 	return page({
 		site,
-		urls,
 		pageTitle: post.title,
 		styles: [
-			link.rel("stylesheet").href(urls["/post.css"]),
-			link.rel("stylesheet").href(urls["/prism.css"]),
+			link.rel("stylesheet").href(resolve("/post.css")),
+			link.rel("stylesheet").href(resolve("/prism.css")),
 		],
 		main: article.class("article")(
 			header(
@@ -28,5 +27,5 @@ export default async function ({ params: { slug }, urls }) {
 			),
 			await Markdown.parse(post.content),
 		),
-	});
+	}, resolve);
 }

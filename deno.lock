@@ -1,9 +1,9 @@
 {
   "version": "5",
   "specifiers": {
-    "jsr:@flint/framework@~0.1.1": "0.1.8",
+    "jsr:@flint/framework@0.2": "0.2.3",
     "jsr:@std/async@^1.0.13": "1.0.13",
-    "jsr:@std/cli@^1.0.20": "1.0.20",
+    "jsr:@std/cli@^1.0.21": "1.0.21",
     "jsr:@std/collections@^1.1.1": "1.1.2",
     "jsr:@std/crypto@^1.0.4": "1.0.5",
     "jsr:@std/encoding@^1.0.10": "1.0.10",
@@ -11,8 +11,8 @@
     "jsr:@std/fs@^1.0.17": "1.0.19",
     "jsr:@std/fs@^1.0.19": "1.0.19",
     "jsr:@std/html@^1.0.4": "1.0.4",
-    "jsr:@std/http@^1.0.19": "1.0.19",
-    "jsr:@std/internal@^1.0.9": "1.0.9",
+    "jsr:@std/http@^1.0.19": "1.0.20",
+    "jsr:@std/internal@^1.0.9": "1.0.10",
     "jsr:@std/media-types@^1.1.0": "1.1.0",
     "jsr:@std/net@^1.0.4": "1.0.4",
     "jsr:@std/path@^1.0.9": "1.1.1",
@@ -22,14 +22,14 @@
     "jsr:@std/toml@^1.0.5": "1.0.8",
     "npm:@types/node@*": "22.15.15",
     "npm:fast-xml-parser@5.2.1": "5.2.1",
-    "npm:handcraft@0.18": "0.18.0",
+    "npm:handcraft@0.19": "0.19.1",
     "npm:lightningcss@^1.29.3": "1.30.1",
     "npm:marked@^15.0.11": "15.0.12",
     "npm:prismjs@^1.30.0": "1.30.0"
   },
   "jsr": {
-    "@flint/framework@0.1.8": {
-      "integrity": "b9e6961cb546e16981c50f19a8a6ce0833421aa212068fb69d755ab5209e0599",
+    "@flint/framework@0.2.3": {
+      "integrity": "b1964d514705993954248c786e73caf73b63e8981e97fa60fd4b26bce7d06acb",
       "dependencies": [
         "jsr:@std/async",
         "jsr:@std/crypto",
@@ -44,8 +44,8 @@
     "@std/async@1.0.13": {
       "integrity": "1d76ca5d324aef249908f7f7fe0d39aaf53198e5420604a59ab5c035adc97c96"
     },
-    "@std/cli@1.0.20": {
-      "integrity": "a8c384a2c98cec6ec6a2055c273a916e2772485eb784af0db004c5ab8ba52333"
+    "@std/cli@1.0.21": {
+      "integrity": "cd25b050bdf6282e321854e3822bee624f07aca7636a3a76d95f77a3a919ca2a"
     },
     "@std/collections@1.1.2": {
       "integrity": "f1685dd45c3ec27c39d0e8a642ccf810f391ec8a6cb5e7355926e6dacc64c43e"
@@ -69,8 +69,8 @@
     "@std/html@1.0.4": {
       "integrity": "eff3497c08164e6ada49b7f81a28b5108087033823153d065e3f89467dd3d50e"
     },
-    "@std/http@1.0.19": {
-      "integrity": "52128c8d00a1f0b20019f8b72376e7ef5f3133375b6f805b5bc89b9de2ad4686",
+    "@std/http@1.0.20": {
+      "integrity": "b5cc33fc001bccce65ed4c51815668c9891c69ccd908295997e983d8f56070a1",
       "dependencies": [
         "jsr:@std/cli",
         "jsr:@std/encoding",
@@ -83,8 +83,8 @@
         "jsr:@std/streams"
       ]
     },
-    "@std/internal@1.0.9": {
-      "integrity": "bdfb97f83e4db7a13e8faab26fb1958d1b80cc64366501af78a0aee151696eb8"
+    "@std/internal@1.0.10": {
+      "integrity": "e3be62ce42cab0e177c27698e5d9800122f67b766a0bea6ca4867886cbde8cf7"
     },
     "@std/media-types@1.1.0": {
       "integrity": "c9d093f0c05c3512932b330e3cc1fe1d627b301db33a4c2c2185c02471d6eaa4"
@@ -128,8 +128,8 @@
       ],
       "bin": true
     },
-    "handcraft@0.18.0": {
-      "integrity": "sha512-kOft2/rTjR2FFtRmJh8v2DwmQxvtGFB2QZ1COZklokdcvbX+70Fq/z97rsFLn7tfntpkZwHLvO28IQzd9HhRSw=="
+    "handcraft@0.19.1": {
+      "integrity": "sha512-n7Er0HIIqV7l/Lw4Dq6EdOUwt/TgT5jUl3qrIZ1k+zzPajhcmuXQ/xs7hSTKCgkMTNMgx/ClZzacktBYQkcQlA=="
     },
     "lightningcss-darwin-arm64@1.30.1": {
       "integrity": "sha512-c8JK7hyE65X1MHMN+Viq9n11RRC7hgin3HhYKhrMyaXflk5GVplZ60IxyoVtzILeKr+xAJwg6zK6sjTBJ0FKYQ==",
@@ -215,13 +215,13 @@
   },
   "workspace": {
     "dependencies": [
-      "jsr:@flint/framework@~0.1.1",
+      "jsr:@flint/framework@0.2",
       "jsr:@std/fs@^1.0.17",
       "jsr:@std/path@^1.0.9",
       "jsr:@std/text@^1.0.13",
       "jsr:@std/toml@^1.0.5",
       "npm:fast-xml-parser@5.2.1",
-      "npm:handcraft@0.18",
+      "npm:handcraft@0.19",
       "npm:lightningcss@^1.29.3",
       "npm:marked@^15.0.11",
       "npm:prismjs@^1.30.0"
