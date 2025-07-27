@@ -1,3 +1,7 @@
+@layer sub-page, component;
+
+@import "./prism.css";
+
 @layer sub-page {
 	:where(:not(pre)) > code {
 		background-color: oklch(from var(--background) l calc(c - 0.01) h);

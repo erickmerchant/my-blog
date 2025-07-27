@@ -16,7 +16,6 @@ export default async function ({ params: { slug }, resolve }) {
 		pageTitle: post.title,
 		styles: [
 			link.rel("stylesheet").href(resolve("/post.css")),
-			link.rel("stylesheet").href(resolve("/prism.css")),
 		],
 		main: article.class("article")(
 			header(
