@@ -11,26 +11,19 @@
 		}
 	},
 	"imports": {
-		"@flint/framework": "jsr:@flint/framework@^0.2.0",
+		"@flint/framework": "jsr:@flint/framework@^0.3.0",
 		"@std/fs": "jsr:@std/fs@^1.0.17",
 		"@std/path": "jsr:@std/path@^1.0.9",
 		"@std/text": "jsr:@std/text@^1.0.13",
 		"@std/toml": "jsr:@std/toml@^1.0.5",
-		"fast-xml-parser": "npm:fast-xml-parser@5.2.1",
+		"fast-xml-parser": "npm:fast-xml-parser@5.2.5",
 		"handcraft": "npm:handcraft@^0.19.0",
 		"lightningcss": "npm:lightningcss@^1.29.3",
-		"marked": "npm:marked@^15.0.11",
+		"marked": "npm:marked@^16.1.1",
 		"prismjs": "npm:prismjs@^1.30.0"
 	},
 	"compilerOptions": {
-		"lib": [
-			"dom",
-			"dom.iterable",
-			"dom.asynciterable",
-			"es2024",
-			"deno.ns",
-			"deno.unstable"
-		]
+		"lib": ["deno.unstable"]
 	},
 	"fmt": {
 		"useTabs": true

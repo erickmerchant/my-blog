@@ -6,8 +6,7 @@ const { head, body, meta, title, link, header, span, a, footer, ul, li, html } =
 const { title: svgTitle, path, svg } = h.svg;
 
 export default function (
-	{ site, pageTitle, styles, bannerTitle, main },
-	resolve,
+	{ site, pageTitle, styles, bannerTitle, main, resolve },
 ) {
 	const baseHead = head(
 		meta.charset("utf-8"),
@@ -27,7 +26,7 @@ export default function (
 			.type("application/rss+xml")
 			.title("Posts")
 			.href(site.host + "/posts.rss"),
-		favicons({}, resolve),
+		favicons({ resolve }),
 		meta.name("description").content(site.description),
 	);
 	const baseNav = header.class("banner")(

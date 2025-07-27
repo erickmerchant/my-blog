@@ -1,4 +1,3 @@
-import file from "@flint/framework/plugins/file";
 import css from "@flint/framework/plugins/css";
 import flint from "@flint/framework";
 import notFound from "./views/404.js";
@@ -8,7 +7,7 @@ import resume from "./views/resume.js";
 import rss from "./views/rss.ts";
 import { getPublishedPosts } from "./models/post.ts";
 
-const app = flint("public")
+const app = flint("public", "dist")
 	.cache("/", "/posts.rss", "/resume/", async () => {
 		const posts = await getPublishedPosts();
 
@@ -18,11 +17,10 @@ const app = flint("public")
 	.route("/posts/:slug/", post)
 	.route("/posts.rss", rss)
 	.route("/resume/", resume)
-	.route("/*.woff2", file)
-	.route("/*.png", file)
-	.route("/*.css", css)
 	.route(notFound)
-	.output("dist");
+	.use("/*.css", css)
+	.use("/*.woff2")
+	.use("/*.png");
 
 export default app;
 

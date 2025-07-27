@@ -4,7 +4,7 @@ import page from "./page.js";
 
 const { link, article, h1, p } = h.html;
 
-export default async function (_, resolve) {
+export default async function ({ resolve }) {
 	const site = await getSite();
 
 	return page({
@@ -15,5 +15,6 @@ export default async function (_, resolve) {
 			h1("404 Not Found"),
 			p("The thing you're looking for can not be located."),
 		),
-	}, resolve);
+		resolve,
+	});
 }

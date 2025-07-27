@@ -1,7 +1,7 @@
 {
   "version": "5",
   "specifiers": {
-    "jsr:@flint/framework@0.2": "0.2.3",
+    "jsr:@flint/framework@0.3": "0.3.0",
     "jsr:@std/async@^1.0.13": "1.0.13",
     "jsr:@std/cli@^1.0.21": "1.0.21",
     "jsr:@std/collections@^1.1.1": "1.1.2",
@@ -11,7 +11,7 @@
     "jsr:@std/fs@^1.0.17": "1.0.19",
     "jsr:@std/fs@^1.0.19": "1.0.19",
     "jsr:@std/html@^1.0.4": "1.0.4",
-    "jsr:@std/http@^1.0.19": "1.0.20",
+    "jsr:@std/http@^1.0.20": "1.0.20",
     "jsr:@std/internal@^1.0.9": "1.0.10",
     "jsr:@std/media-types@^1.1.0": "1.1.0",
     "jsr:@std/net@^1.0.4": "1.0.4",
@@ -21,15 +21,15 @@
     "jsr:@std/text@^1.0.13": "1.0.15",
     "jsr:@std/toml@^1.0.5": "1.0.8",
     "npm:@types/node@*": "22.15.15",
-    "npm:fast-xml-parser@5.2.1": "5.2.1",
+    "npm:fast-xml-parser@5.2.5": "5.2.5",
     "npm:handcraft@0.19": "0.19.1",
     "npm:lightningcss@^1.29.3": "1.30.1",
-    "npm:marked@^15.0.11": "15.0.12",
+    "npm:marked@^16.1.1": "16.1.1",
     "npm:prismjs@^1.30.0": "1.30.0"
   },
   "jsr": {
-    "@flint/framework@0.2.3": {
-      "integrity": "b1964d514705993954248c786e73caf73b63e8981e97fa60fd4b26bce7d06acb",
+    "@flint/framework@0.3.0": {
+      "integrity": "a0bf0958804a2bc00b55329928647a80ee5389b35734af37e6f71bed372eab83",
       "dependencies": [
         "jsr:@std/async",
         "jsr:@std/crypto",
@@ -121,8 +121,8 @@
     "detect-libc@2.0.4": {
       "integrity": "sha512-3UDv+G9CsCKO1WKMGw9fwq/SWJYbI0c5Y7LU1AXYoDdbhE2AHQ6N6Nb34sG8Fj7T5APy8qXDCKuuIHd1BR0tVA=="
     },
-    "fast-xml-parser@5.2.1": {
-      "integrity": "sha512-Kqq/ewnRACQ20e0BlQ5KqHRYWRBp7yv+jttK4Yj2yY+2ldgCoxJkrP1NHUhjypsJ+eQXlGJ/jebM3wa60s1rbQ==",
+    "fast-xml-parser@5.2.5": {
+      "integrity": "sha512-pfX9uG9Ki0yekDHx2SiuRIyFdyAr1kMIMitPvb0YBo8SUfKvia7w7FIyd/l6av85pFYRhZscS75MwMnbvY+hcQ==",
       "dependencies": [
         "strnum"
       ],
@@ -199,8 +199,8 @@
         "lightningcss-win32-x64-msvc"
       ]
     },
-    "marked@15.0.12": {
-      "integrity": "sha512-8dD6FusOQSrpv9Z1rdNMdlSgQOIP880DHqnohobOmYLElGEqAL/JvxvuxZO16r4HtjTlfPRDC1hbvxC9dPN2nA==",
+    "marked@16.1.1": {
+      "integrity": "sha512-ij/2lXfCRT71L6u0M29tJPhP0bM5shLL3u5BePhFwPELj2blMJ6GDtD7PfJhRLhJ/c2UwrK17ySVcDzy2YHjHQ==",
       "bin": true
     },
     "prismjs@1.30.0": {
@@ -215,15 +215,15 @@
   },
   "workspace": {
     "dependencies": [
-      "jsr:@flint/framework@0.2",
+      "jsr:@flint/framework@0.3",
       "jsr:@std/fs@^1.0.17",
       "jsr:@std/path@^1.0.9",
       "jsr:@std/text@^1.0.13",
       "jsr:@std/toml@^1.0.5",
-      "npm:fast-xml-parser@5.2.1",
+      "npm:fast-xml-parser@5.2.5",
       "npm:handcraft@0.19",
       "npm:lightningcss@^1.29.3",
-      "npm:marked@^15.0.11",
+      "npm:marked@^16.1.1",
       "npm:prismjs@^1.30.0"
     ]
   }

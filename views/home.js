@@ -6,7 +6,7 @@ import { getPublishedPosts } from "../models/post.ts";
 
 const { section, h1, h2, p, ol, ul, li, a, aside, link } = h.html;
 
-export default async function (_, resolve) {
+export default async function ({ resolve }) {
 	const site = await getSite();
 	const posts = await getPublishedPosts();
 
@@ -47,5 +47,6 @@ export default async function (_, resolve) {
 				: null,
 			aside.class("section")(h2("About"), await Markdown.parse(site.bio)),
 		],
-	}, resolve);
+		resolve,
+	});
 }

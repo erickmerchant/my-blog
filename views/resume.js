@@ -23,7 +23,7 @@ const {
 	html,
 } = h.html;
 
-export default async function (_, resolve) {
+export default async function ({ resolve }) {
 	const resume = await getResume();
 	const doc = html.lang("en-US")(
 		head(
@@ -31,7 +31,7 @@ export default async function (_, resolve) {
 			meta.name("viewport").content("width=device-width, initial-scale=1"),
 			title("Résumé"),
 			link.href(resolve("/resume.css")).rel("stylesheet"),
-			favicons({}, resolve),
+			favicons({ resolve }),
 			meta.name("description").content("My résumé"),
 		),
 		body.class("page")(

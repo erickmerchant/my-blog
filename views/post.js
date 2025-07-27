@@ -7,7 +7,7 @@ import { getPostBySlug } from "../models/post.ts";
 
 const { link, article, header, h1, time, span } = h.html;
 
-export default async function ({ params: { slug } }, resolve) {
+export default async function ({ params: { slug }, resolve }) {
 	const site = await getSite();
 	const post = await getPostBySlug(slug);
 
@@ -27,5 +27,6 @@ export default async function ({ params: { slug } }, resolve) {
 			),
 			await Markdown.parse(post.content),
 		),
-	}, resolve);
+		resolve,
+	});
 }

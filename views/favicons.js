@@ -2,7 +2,7 @@ import { h } from "handcraft/env/server.js";
 
 const { link } = h.html;
 
-export default function (_, resolve) {
+export default function ({ resolve }) {
 	return [
 		link
 			.rel("icon")
