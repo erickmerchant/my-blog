@@ -23,7 +23,7 @@
 		"prismjs": "npm:prismjs@^1.30.0"
 	},
 	"compilerOptions": {
-		"lib": ["deno.unstable"]
+		"lib": ["deno.window", "deno.unstable"]
 	},
 	"fmt": {
 		"useTabs": true
