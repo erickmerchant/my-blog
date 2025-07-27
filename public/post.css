@@ -3,14 +3,14 @@
 @import "./prism.css";
 
 @layer sub-page {
-	:where(:not(pre)) > code {
+	:not(pre) > code {
 		background-color: oklch(from var(--background) l calc(c - 0.01) h);
 		border: 0.0625rem solid oklch(from currentColor l c h / 0.2);
 		padding: 0.05rem 0.25rem;
 		border-radius: 0.125rem;
 
 		/* Arc iOS bug fix */
-		:where(a) {
+		a {
 			color: inherit;
 			text-decoration: none;
 			pointer-events: none;
@@ -63,11 +63,11 @@
 			padding-inline: 1rem;
 		}
 
-		> :where(:not(:last-child)) {
+		> :not(:last-child) {
 			margin-block-end: 1rem;
 		}
 
-		:where(cite) {
+		cite {
 			display: inline grid;
 			grid-template-columns: auto 1fr;
 			gap: 0.5rem;

@@ -7,10 +7,10 @@ Hey there! I'm Erick. I've been making things for the web for 19 years. I like t
 """
 
 [[projects]]
-href = "https://github.com/erickmerchant/coolstyleserver"
-title = "Cool Style Server"
+href = "https://github.com/erickmerchant/flint"
+title = "Flint"
 description = """
-A development server that does hot module replacement of CSS without using a JavaScript bundler. You shouldn't need NPM to design a website.
+A static site generator / dynamic site server written for Deno.
 """
 
 [[projects]]

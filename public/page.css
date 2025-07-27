@@ -19,7 +19,7 @@
 }
 
 @layer page {
-	:where(:not(svg)) {
+	:not(svg) {
 		font: inherit;
 	}
 
@@ -92,7 +92,7 @@
 		line-height: 1.25;
 		font-weight: 800;
 
-		:where(a) {
+		a {
 			text-decoration-thickness: 0.15em;
 		}
 	}
@@ -104,7 +104,7 @@
 	h2 {
 		font-size: 1.125rem;
 
-		:where(:has(header h1)) & {
+		:has(header h1) & {
 			font-size: 1.25rem;
 		}
 	}
@@ -114,7 +114,7 @@
 	strong {
 		font-weight: 600;
 
-		:where(a) {
+		a {
 			text-decoration-thickness: 0.13em;
 		}
 	}
@@ -140,7 +140,7 @@
 	ol {
 		list-style: none;
 
-		> :where(li) {
+		> li {
 			&::before {
 				content: "-";
 				padding-inline-end: 0.25rem;
@@ -170,8 +170,8 @@
 			grid-column: 2;
 		}
 
-		> :where(:nth-child(1n + 3)),
-		> :where(:first-child) {
+		> :nth-child(1n + 3),
+		> :first-child {
 			padding-block-start: 1rem;
 			background-image: repeating-linear-gradient(
 				90deg,
@@ -183,11 +183,11 @@
 			background-repeat: no-repeat;
 		}
 
-		> :where(:nth-child(1n + 3)) {
+		> :nth-child(1n + 3) {
 			background-position: center top;
 		}
 
-		> :where(:first-child) {
+		> :first-child {
 			background-position: center bottom;
 		}
 	}
@@ -278,7 +278,7 @@
 		--button-shadow-color: light-dark(var(--text-color), var(--background));
 		--button-shadow-size: 0.125rem 0.03125rem;
 
-		:where(svg) {
+		svg {
 			block-size: 100%;
 			inline-size: auto;
 			aspect-ratio: 1;

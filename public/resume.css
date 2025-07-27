@@ -286,7 +286,7 @@ li {
 .summary {
 	grid-area: c;
 
-	:where(li) {
+	li {
 		list-style: disc;
 		list-style-position: outside;
 		margin-inline-start: 1rem;
@@ -297,7 +297,7 @@ li {
 	display: grid;
 	grid-column: 1 / -1;
 
-	:where(p) {
+	p {
 		font-style: italic;
 		grid-column: 1 / -1;
 	}
