@@ -1,10 +1,5 @@
 import css from "@flint/framework/plugins/css";
 import flint from "@flint/framework";
-import notFound from "./views/404.js";
-import home from "./views/home.js";
-import post from "./views/post.js";
-import resume from "./views/resume.js";
-import rss from "./views/rss.ts";
 import { getPublishedPosts } from "./models/post.ts";
 
 const app = flint("public", "dist")
@@ -13,11 +8,11 @@ const app = flint("public", "dist")
 
 		return posts.map((post) => "/posts/" + post.slug + "/");
 	})
-	.route("/", home)
-	.route("/posts/:slug/", post)
-	.route("/posts.rss", rss)
-	.route("/resume/", resume)
-	.route(notFound)
+	.route("/", "./views/home.js")
+	.route("/posts/:slug/", "./views/post.js")
+	.route("/posts.rss", "./views/rss.ts")
+	.route("/resume/", "./views/resume.js")
+	.route("./views/404.js")
 	.use("/*.css", css)
 	.use("/*.woff2")
 	.use("/*.png");
