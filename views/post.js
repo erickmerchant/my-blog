@@ -7,9 +7,9 @@ import { getPostBySlug } from "../models/post.ts";
 
 const { link, article, header, h1, time, span } = h.html;
 
-export default async function ({ params: { slug }, resolve }) {
+export default async function ({ params, resolve }) {
 	const site = await getSite();
-	const post = await getPostBySlug(slug);
+	const post = await getPostBySlug(params.slug);
 
 	return page({
 		site,
