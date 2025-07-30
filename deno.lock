@@ -1,8 +1,8 @@
 {
   "version": "5",
   "specifiers": {
-    "jsr:@flint/framework@0.5": "0.5.0",
-    "jsr:@std/async@^1.0.13": "1.0.13",
+    "jsr:@flint/framework@~0.5.1": "0.5.1",
+    "jsr:@std/async@^1.0.14": "1.0.14",
     "jsr:@std/cli@^1.0.21": "1.0.21",
     "jsr:@std/collections@^1.1.1": "1.1.2",
     "jsr:@std/crypto@^1.0.4": "1.0.5",
@@ -28,8 +28,8 @@
     "npm:prismjs@^1.30.0": "1.30.0"
   },
   "jsr": {
-    "@flint/framework@0.5.0": {
-      "integrity": "79d82797dbd5efabcf97204b7ad4ed0a5d3dbdedc7d03721a3f203deb316da64",
+    "@flint/framework@0.5.1": {
+      "integrity": "67ede3147edf61c6a3bdd0d64e71802979ed7b68d815427a8dfa7910a78efe38",
       "dependencies": [
         "jsr:@std/async",
         "jsr:@std/crypto",
@@ -41,8 +41,8 @@
         "npm:lightningcss"
       ]
     },
-    "@std/async@1.0.13": {
-      "integrity": "1d76ca5d324aef249908f7f7fe0d39aaf53198e5420604a59ab5c035adc97c96"
+    "@std/async@1.0.14": {
+      "integrity": "62e954a418652c704d37563a3e54a37d4cf0268a9dcaeac1660cc652880b5326"
     },
     "@std/cli@1.0.21": {
       "integrity": "cd25b050bdf6282e321854e3822bee624f07aca7636a3a76d95f77a3a919ca2a"
@@ -215,7 +215,7 @@
   },
   "workspace": {
     "dependencies": [
-      "jsr:@flint/framework@0.5",
+      "jsr:@flint/framework@~0.5.1",
       "jsr:@std/fs@^1.0.17",
       "jsr:@std/path@^1.0.9",
       "jsr:@std/text@^1.0.13",
