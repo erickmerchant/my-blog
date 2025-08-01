@@ -1,7 +1,7 @@
 {
   "version": "5",
   "specifiers": {
-    "jsr:@flint/framework@0.6": "0.6.0",
+    "jsr:@flint/framework@~0.6.1": "0.6.1",
     "jsr:@std/async@^1.0.14": "1.0.14",
     "jsr:@std/collections@^1.1.1": "1.1.2",
     "jsr:@std/crypto@^1.0.4": "1.0.5",
@@ -21,8 +21,8 @@
     "npm:prismjs@^1.30.0": "1.30.0"
   },
   "jsr": {
-    "@flint/framework@0.6.0": {
-      "integrity": "491cf65d6d9da2d00dc5b0b43063b08ff9225b1f5c7aecb807eee6a46a496809",
+    "@flint/framework@0.6.1": {
+      "integrity": "4afeb6c7dd627e1cc7f9f6a15a9b7c9232bfb5f3c120eb0a69db668f32a18ca0",
       "dependencies": [
         "jsr:@std/async",
         "jsr:@std/crypto",
@@ -178,7 +178,7 @@
   },
   "workspace": {
     "dependencies": [
-      "jsr:@flint/framework@0.6",
+      "jsr:@flint/framework@~0.6.1",
       "jsr:@std/fs@^1.0.17",
       "jsr:@std/path@^1.0.9",
       "jsr:@std/text@^1.0.13",

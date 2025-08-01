@@ -11,7 +11,7 @@
 		}
 	},
 	"imports": {
-		"@flint/framework": "jsr:@flint/framework@^0.6.0",
+		"@flint/framework": "jsr:@flint/framework@^0.6.1",
 		"@std/fs": "jsr:@std/fs@^1.0.17",
 		"@std/path": "jsr:@std/path@^1.0.9",
 		"@std/text": "jsr:@std/text@^1.0.13",
