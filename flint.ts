@@ -18,7 +18,10 @@ const app = flint("public", "dist")
 	.route("/posts.rss", rss)
 	.route("/resume/", resume)
 	.route(notFound)
-	.use("/*.css", css)
+	.use("/page.css", css)
+	.use("/post.css", css)
+	.use("/home.css", css)
+	.use("/resume.css", css)
 	.use("/*.woff2")
 	.use("/*.png");
 
