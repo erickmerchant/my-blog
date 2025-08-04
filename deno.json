@@ -19,7 +19,7 @@
 		"fast-xml-parser": "npm:fast-xml-parser@5.2.5",
 		"handcraft": "npm:handcraft@^0.19.0",
 		"lightningcss": "npm:lightningcss@^1.29.3",
-		"marked": "npm:marked@^16.1.1",
+		"marked": "npm:marked@^16.1.2",
 		"prismjs": "npm:prismjs@^1.30.0"
 	},
 	"compilerOptions": {
