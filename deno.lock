@@ -1,8 +1,9 @@
 {
   "version": "5",
   "specifiers": {
-    "jsr:@flint/framework@~0.6.1": "0.6.1",
+    "jsr:@flint/framework@0.7": "0.7.0",
     "jsr:@std/async@^1.0.14": "1.0.14",
+    "jsr:@std/cli@^1.0.21": "1.0.21",
     "jsr:@std/collections@^1.1.1": "1.1.2",
     "jsr:@std/crypto@^1.0.4": "1.0.5",
     "jsr:@std/encoding@^1.0.10": "1.0.10",
@@ -21,10 +22,11 @@
     "npm:prismjs@^1.30.0": "1.30.0"
   },
   "jsr": {
-    "@flint/framework@0.6.1": {
-      "integrity": "4afeb6c7dd627e1cc7f9f6a15a9b7c9232bfb5f3c120eb0a69db668f32a18ca0",
+    "@flint/framework@0.7.0": {
+      "integrity": "519bce3eda4c9c52e0ef5fa76fbaf3443063802916bc20125afcb519c1ebbe57",
       "dependencies": [
         "jsr:@std/async",
+        "jsr:@std/cli",
         "jsr:@std/crypto",
         "jsr:@std/encoding",
         "jsr:@std/fs",
@@ -35,6 +37,9 @@
     },
     "@std/async@1.0.14": {
       "integrity": "62e954a418652c704d37563a3e54a37d4cf0268a9dcaeac1660cc652880b5326"
+    },
+    "@std/cli@1.0.21": {
+      "integrity": "cd25b050bdf6282e321854e3822bee624f07aca7636a3a76d95f77a3a919ca2a"
     },
     "@std/collections@1.1.2": {
       "integrity": "f1685dd45c3ec27c39d0e8a642ccf810f391ec8a6cb5e7355926e6dacc64c43e"
@@ -178,7 +183,7 @@
   },
   "workspace": {
     "dependencies": [
-      "jsr:@flint/framework@~0.6.1",
+      "jsr:@flint/framework@0.7",
       "jsr:@std/fs@^1.0.17",
       "jsr:@std/path@^1.0.9",
       "jsr:@std/text@^1.0.13",

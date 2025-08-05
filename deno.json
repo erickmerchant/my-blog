@@ -3,7 +3,7 @@
 	"tasks": {
 		"post:draft": "deno run -A cli/post-draft.ts",
 		"post:publish": "deno run -A cli/post-publish.ts",
-		"dev": "deno run -A --watch flint.ts dev 3000",
+		"dev": "deno run -A --watch flint.ts dev --port=3000",
 		"build": "deno run -A flint.ts build",
 		"stage": {
 			"command": "deno serve -A --port=3000 dist/serve.ts",
@@ -11,7 +11,7 @@
 		}
 	},
 	"imports": {
-		"@flint/framework": "jsr:@flint/framework@^0.6.1",
+		"@flint/framework": "jsr:@flint/framework@^0.7.0",
 		"@std/fs": "jsr:@std/fs@^1.0.17",
 		"@std/path": "jsr:@std/path@^1.0.9",
 		"@std/text": "jsr:@std/text@^1.0.13",
