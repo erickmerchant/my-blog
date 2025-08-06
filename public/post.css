@@ -3,98 +3,98 @@
 @import "./prism.css";
 
 @layer sub-page {
-	:not(pre) > code {
-		background-color: oklch(from var(--background) l calc(c - 0.01) h);
-		border: 0.0625rem solid oklch(from currentColor l c h / 0.2);
-		padding: 0.05rem 0.25rem;
-		border-radius: 0.125rem;
+  :not(pre) > code {
+    background-color: oklch(from var(--background) l calc(c - 0.01) h);
+    border: 0.0625rem solid oklch(from currentColor l c h / 0.2);
+    padding: 0.05rem 0.25rem;
+    border-radius: 0.125rem;
 
-		/* Arc iOS bug fix */
-		a {
-			color: inherit;
-			text-decoration: none;
-			pointer-events: none;
-			display: contents;
-		}
-	}
+    /* Arc iOS bug fix */
+    a {
+      color: inherit;
+      text-decoration: none;
+      pointer-events: none;
+      display: contents;
+    }
+  }
 
-	pre {
-		border: 0.0625rem solid oklch(from currentColor l c h / 0.2);
-		border-radius: 0.125rem;
-		overflow-x: auto;
-		overflow-y: hidden;
-		overscroll-behavior-x: none;
-		tab-size: 2;
-		display: grid;
-		grid-template-columns: auto;
-		position: relative;
-		white-space: pre;
-		word-break: break-word;
-		max-inline-size: 43rem;
-		background-color: oklch(from var(--background) l calc(c - 0.01) h);
-		justify-self: center;
-		scrollbar-width: thin;
-		scrollbar-color: currentColor
-			oklch(from var(--background) l calc(c - 0.01) h);
-		--column: 1 / -1;
+  pre {
+    border: 0.0625rem solid oklch(from currentColor l c h / 0.2);
+    border-radius: 0.125rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-x: none;
+    tab-size: 2;
+    display: grid;
+    grid-template-columns: auto;
+    position: relative;
+    white-space: pre;
+    word-break: break-word;
+    max-inline-size: 43rem;
+    background-color: oklch(from var(--background) l calc(c - 0.01) h);
+    justify-self: center;
+    scrollbar-width: thin;
+    scrollbar-color: currentColor
+      oklch(from var(--background) l calc(c - 0.01) h);
+    --column: 1 / -1;
 
-		@container (inline-size <= 43.5rem) {
-			border-inline: none;
-		}
+    @container (inline-size <= 43.5rem) {
+      border-inline: none;
+    }
 
-		code {
-			padding: 1rem 1.5rem;
-		}
-	}
+    code {
+      padding: 1rem 1.5rem;
+    }
+  }
 
-	blockquote {
-		padding: 1rem 1.5rem;
-		border: 0.0625rem solid oklch(from currentColor l c h / 0.2);
-		border-radius: 0.125rem;
-		background-color: oklch(from var(--background) l calc(c + 0.0075) h);
-		overflow-wrap: anywhere;
-		hyphens: auto;
-		justify-self: start;
-		position: relative;
-		inset: -0.25rem -0.25rem;
+  blockquote {
+    padding: 1rem 1.5rem;
+    border: 0.0625rem solid oklch(from currentColor l c h / 0.2);
+    border-radius: 0.125rem;
+    background-color: oklch(from var(--background) l calc(c + 0.0075) h);
+    overflow-wrap: anywhere;
+    hyphens: auto;
+    justify-self: start;
+    position: relative;
+    inset: -0.25rem -0.25rem;
 
-		@container (inline-size <= 43.5rem) {
-			max-inline-size: calc(100% - 1rem);
-			padding-inline: 1rem;
-		}
+    @container (inline-size <= 43.5rem) {
+      max-inline-size: calc(100% - 1rem);
+      padding-inline: 1rem;
+    }
 
-		> :not(:last-child) {
-			margin-block-end: 1rem;
-		}
+    > :not(:last-child) {
+      margin-block-end: 1rem;
+    }
 
-		cite {
-			display: inline grid;
-			grid-template-columns: auto 1fr;
-			gap: 0.5rem;
+    cite {
+      display: inline grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.5rem;
 
-			&::before {
-				content: "—";
-			}
-		}
-	}
+      &::before {
+        content: "—";
+      }
+    }
+  }
 
-	.status {
-		font-weight: 300;
-	}
+  .status {
+    font-weight: 300;
+  }
 
-	.article {
-		display: grid;
-		grid-column: 1 / -1;
-		grid-template-columns: subgrid;
-		align-content: start;
-		row-gap: 1rem;
-		overflow-wrap: break-word;
-		z-index: 1;
+  .article {
+    display: grid;
+    grid-column: 1 / -1;
+    grid-template-columns: subgrid;
+    align-content: start;
+    row-gap: 1rem;
+    overflow-wrap: break-word;
+    z-index: 1;
 
-		> * {
-			inline-size: 100%;
-			margin-inline: auto;
-			grid-column: var(--column, 2);
-		}
-	}
+    > * {
+      inline-size: 100%;
+      margin-inline: auto;
+      grid-column: var(--column, 2);
+    }
+  }
 }

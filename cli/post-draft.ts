@@ -4,15 +4,15 @@ import * as Toml from "@std/toml";
 import { slugify } from "@std/text/unstable-slugify";
 
 if (import.meta.main) {
-	const title = Deno.args.join("");
-	const slug = slugify(title);
-	const frontmatter = Toml.stringify({
-		title,
-	});
-	const code = `+++\n${frontmatter}+++\n`;
-	const path = `content/posts/${slug}.md`;
+  const title = Deno.args.join("");
+  const slug = slugify(title);
+  const frontmatter = Toml.stringify({
+    title,
+  });
+  const code = `+++\n${frontmatter}+++\n`;
+  const path = `content/posts/${slug}.md`;
 
-	await Fs.ensureDir(Path.dirname(path));
+  await Fs.ensureDir(Path.dirname(path));
 
-	await Deno.writeTextFile(path, code);
+  await Deno.writeTextFile(path, code);
 }

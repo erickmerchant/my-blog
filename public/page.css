@@ -1,292 +1,302 @@
 @font-face {
-	font-family: "Jacquard 24";
-	src: url(/fonts/Jacquard24-Regular-subset.woff2) format("woff2");
-	unicode-range:
-		U+45, U+4D, U+61, U+63, U+65, U+68, U+69, U+6B, U+6E, U+72, U+74;
+  font-family: "Jacquard 24";
+  src: url(/fonts/Jacquard24-Regular-subset.woff2) format("woff2");
+  unicode-range:
+    U+45,
+    U+4D,
+    U+61,
+    U+63,
+    U+65,
+    U+68,
+    U+69,
+    U+6B,
+    U+6E,
+    U+72,
+    U+74;
 }
 
 @font-face {
-	font-family: "Work Sans";
-	src: url(/fonts/WorkSans-VariableFont_wght-subset.woff2) format("woff2");
-	unicode-range: U+20-7E;
+  font-family: "Work Sans";
+  src: url(/fonts/WorkSans-VariableFont_wght-subset.woff2) format("woff2");
+  unicode-range: U+20-7E;
 }
 
 @font-face {
-	font-family: "Fira Code";
-	font-weight: 400;
-	src: url(/fonts/FiraCode-Regular-subset.woff2) format("woff2");
-	unicode-range: U+20-7E;
+  font-family: "Fira Code";
+  font-weight: 400;
+  src: url(/fonts/FiraCode-Regular-subset.woff2) format("woff2");
+  unicode-range: U+20-7E;
 }
 
 @layer page {
-	:not(svg) {
-		font: inherit;
-	}
+  :not(svg) {
+    font: inherit;
+  }
 
-	*,
-	::before,
-	::after {
-		box-sizing: border-box;
-		color: inherit;
-		margin: 0;
-		max-inline-size: 100%;
-		padding: 0;
-		border: none;
-		-webkit-text-size-adjust: none;
-	}
+  *,
+  ::before,
+  ::after {
+    box-sizing: border-box;
+    color: inherit;
+    margin: 0;
+    max-inline-size: 100%;
+    padding: 0;
+    border: none;
+    -webkit-text-size-adjust: none;
+  }
 
-	html {
-		block-size: 100%;
-		color-scheme: light dark;
-		font-family:
-			"Work Sans", Inter, Roboto, "Helvetica Neue", "Arial Nova", "Nimbus Sans",
-			Arial, sans-serif;
-		font-weight: 400;
-		font-size: 112.5%;
-		line-height: 1.5;
-		overflow-y: scroll;
-		overflow-x: auto;
-		scrollbar-gutter: stable;
-		overscroll-behavior: none;
-		scrollbar-color: currentColor var(--background);
-		color: var(--text-color);
+  html {
+    block-size: 100%;
+    color-scheme: light dark;
+    font-family:
+      "Work Sans", Inter, Roboto, "Helvetica Neue", "Arial Nova", "Nimbus Sans",
+      Arial, sans-serif;
+    font-weight: 400;
+    font-size: 112.5%;
+    line-height: 1.5;
+    overflow-y: scroll;
+    overflow-x: auto;
+    scrollbar-gutter: stable;
+    overscroll-behavior: none;
+    scrollbar-color: currentColor var(--background);
+    color: var(--text-color);
 
-		--background: light-dark(oklch(100% 0.02 60), oklch(30% 0.02 60));
-		--text-color: light-dark(oklch(30% 0.02 60), oklch(100% 0.02 60));
-		--link-color: light-dark(
-			oklch(from seagreen 45% 0.2 h),
-			oklch(from seagreen 85% 0.2 h)
-		);
-	}
+    --background: light-dark(oklch(100% 0.02 60), oklch(30% 0.02 60));
+    --text-color: light-dark(oklch(30% 0.02 60), oklch(100% 0.02 60));
+    --link-color: light-dark(
+      oklch(from seagreen 45% 0.2 h),
+      oklch(from seagreen 85% 0.2 h)
+    );
+  }
 
-	body {
-		min-block-size: 100%;
-	}
+  body {
+    min-block-size: 100%;
+  }
 
-	a {
-		color: var(--link-color);
-		text-decoration-thickness: 0.1em;
-		text-underline-offset: 0.15em;
-		text-decoration-color: currentColor;
-	}
+  a {
+    color: var(--link-color);
+    text-decoration-thickness: 0.1em;
+    text-underline-offset: 0.15em;
+    text-decoration-color: currentColor;
+  }
 
-	p {
-		text-wrap: pretty;
+  p {
+    text-wrap: pretty;
 
-		@container (inline-size <= 43.5rem) {
-			hyphens: auto;
-		}
-	}
+    @container (inline-size <= 43.5rem) {
+      hyphens: auto;
+    }
+  }
 
-	h1,
-	h2,
-	h3,
-	h4,
-	h5,
-	h6 {
-		text-wrap: balance;
-	}
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    text-wrap: balance;
+  }
 
-	h1,
-	h2 {
-		line-height: 1.25;
-		font-weight: 800;
+  h1,
+  h2 {
+    line-height: 1.25;
+    font-weight: 800;
 
-		a {
-			text-decoration-thickness: 0.15em;
-		}
-	}
+    a {
+      text-decoration-thickness: 0.15em;
+    }
+  }
 
-	h1 {
-		font-size: 1.25rem;
-	}
+  h1 {
+    font-size: 1.25rem;
+  }
 
-	h2 {
-		font-size: 1.125rem;
+  h2 {
+    font-size: 1.125rem;
 
-		:has(header h1) & {
-			font-size: 1.25rem;
-		}
-	}
+    :has(header h1) & {
+      font-size: 1.25rem;
+    }
+  }
 
-	h3,
-	h4,
-	strong {
-		font-weight: 600;
+  h3,
+  h4,
+  strong {
+    font-weight: 600;
 
-		a {
-			text-decoration-thickness: 0.13em;
-		}
-	}
+    a {
+      text-decoration-thickness: 0.13em;
+    }
+  }
 
-	code {
-		font-family:
-			"Fira Code", ui-monospace, "Cascadia Code", "Source Code Pro", Menlo,
-			Consolas, "DejaVu Sans Mono", monospace;
-		font-size: 0.9rem;
-	}
+  code {
+    font-family:
+      "Fira Code", ui-monospace, "Cascadia Code", "Source Code Pro", Menlo,
+      Consolas, "DejaVu Sans Mono", monospace;
+    font-size: 0.9rem;
+  }
 
-	em {
-		font-weight: 300;
-	}
+  em {
+    font-weight: 300;
+  }
 
-	del {
-		text-decoration: line-through;
-		text-decoration-thickness: 0.25em;
-		text-decoration-color: oklch(from currentColor l c h / 0.5);
-	}
+  del {
+    text-decoration: line-through;
+    text-decoration-thickness: 0.25em;
+    text-decoration-color: oklch(from currentColor l c h / 0.5);
+  }
 
-	ul,
-	ol {
-		list-style: none;
+  ul,
+  ol {
+    list-style: none;
 
-		> li {
-			&::before {
-				content: "-";
-				padding-inline-end: 0.25rem;
-				font-weight: 600;
-			}
-		}
-	}
+    > li {
+      &::before {
+        content: "-";
+        padding-inline-end: 0.25rem;
+        font-weight: 600;
+      }
+    }
+  }
 
-	.button {
-		color: var(--button-color);
-		background-color: oklch(from var(--button-background) l c h / 0.8);
-		box-shadow: inset 0px 0px var(--button-shadow-size)
-			var(--button-shadow-color);
-		border-radius: 0.125rem;
-	}
+  .button {
+    color: var(--button-color);
+    background-color: oklch(from var(--button-background) l c h / 0.8);
+    box-shadow: inset 0px 0px var(--button-shadow-size)
+      var(--button-shadow-color);
+    border-radius: 0.125rem;
+  }
 
-	.page {
-		background-color: var(--background);
-		color: var(--text-color);
-		container-type: inline-size;
-		display: grid;
-		grid-template-columns: 1fr min(100% - 2rem, 40rem) 1fr;
-		grid-template-rows: min-content auto min-content;
-		row-gap: 1rem;
+  .page {
+    background-color: var(--background);
+    color: var(--text-color);
+    container-type: inline-size;
+    display: grid;
+    grid-template-columns: 1fr min(100% - 2rem, 40rem) 1fr;
+    grid-template-rows: min-content auto min-content;
+    row-gap: 1rem;
 
-		> * {
-			grid-column: 2;
-		}
+    > * {
+      grid-column: 2;
+    }
 
-		> :nth-child(1n + 3),
-		> :first-child {
-			padding-block-start: 1rem;
-			background-image: repeating-linear-gradient(
-				90deg,
-				transparent 0 0.125rem,
-				currentColor 0.125rem 0.625rem,
-				transparent 0.625rem 0.75rem
-			);
-			background-size: calc(round(down, 100%, 0.75rem) - 0.75rem) 0.15rem;
-			background-repeat: no-repeat;
-		}
+    > :nth-child(n+3),
+    > :first-child {
+      padding-block-start: 1rem;
+      background-image: repeating-linear-gradient(
+        90deg,
+        transparent 0 0.125rem,
+        currentColor 0.125rem 0.625rem,
+        transparent 0.625rem 0.75rem
+      );
+      background-size: calc(round(down, 100%, 0.75rem) - 0.75rem) 0.15rem;
+      background-repeat: no-repeat;
+    }
 
-		> :nth-child(1n + 3) {
-			background-position: center top;
-		}
+    > :nth-child(n+3) {
+      background-position: center top;
+    }
 
-		> :first-child {
-			background-position: center bottom;
-		}
-	}
+    > :first-child {
+      background-position: center bottom;
+    }
+  }
 
-	.banner {
-		display: grid;
-		grid-template-columns: auto min-content;
-		padding-block: 0.5rem;
-		line-height: 1.5;
-		gap: 1rem;
+  .banner {
+    display: grid;
+    grid-template-columns: auto min-content;
+    padding-block: 0.5rem;
+    line-height: 1.5;
+    gap: 1rem;
 
-		@container (inline-size > 43.5rem) {
-			padding-block: 0;
-		}
-	}
+    @container (inline-size > 43.5rem) {
+      padding-block: 0;
+    }
+  }
 
-	.banner-title {
-		font-family:
-			"Jacquard 24", Rockwell, "Rockwell Nova", "Roboto Slab", "DejaVu Serif",
-			"Sitka Small", serif;
-		font-weight: normal;
-		font-weight: 400;
-		font-size: clamp(2rem, 7cqi, 3.5rem);
-		line-height: 1;
-		margin-block: 0.25em;
-		padding-block-start: 0.25rem;
-	}
+  .banner-title {
+    font-family:
+      "Jacquard 24", Rockwell, "Rockwell Nova", "Roboto Slab", "DejaVu Serif",
+      "Sitka Small", serif;
+    font-weight: normal;
+    font-weight: 400;
+    font-size: clamp(2rem, 7cqi, 3.5rem);
+    line-height: 1;
+    margin-block: 0.25em;
+    padding-block-start: 0.25rem;
+  }
 
-	.banner-link {
-		align-self: center;
-		padding: 0.5rem 1rem;
-		text-decoration: none;
-		font-size: 0.75rem;
-		font-weight: 800;
+  .banner-link {
+    align-self: center;
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    font-size: 0.75rem;
+    font-weight: 800;
 
-		--button-background: var(--link-color);
-		--button-color: var(--background);
-		--button-shadow-color: light-dark(var(--text-color), var(--background));
-		--button-shadow-size: 0.25rem 0.03125rem;
-	}
+    --button-background: var(--link-color);
+    --button-color: var(--background);
+    --button-shadow-color: light-dark(var(--text-color), var(--background));
+    --button-shadow-size: 0.25rem 0.03125rem;
+  }
 
-	.footer {
-		display: grid;
-		gap: 1.5rem 0;
-		align-content: center;
-		padding-block: 1rem;
-		font-weight: 600;
-	}
+  .footer {
+    display: grid;
+    gap: 1.5rem 0;
+    align-content: center;
+    padding-block: 1rem;
+    font-weight: 600;
+  }
 
-	.footer-list {
-		display: grid;
-		gap: 1rem 1rem;
-		grid-template-columns: max-content max-content max-content;
-		justify-content: space-between;
-		list-style: none;
+  .footer-list {
+    display: grid;
+    gap: 1rem 1rem;
+    grid-template-columns: max-content max-content max-content;
+    justify-content: space-between;
+    list-style: none;
 
-		@container (inline-size <= 27.5rem) {
-			display: flex;
-			flex-wrap: wrap;
-			justify-content: center;
-		}
-	}
+    @container (inline-size <= 27.5rem) {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+  }
 
-	.footer-item {
-		display: grid;
-		align-content: center;
+  .footer-item {
+    display: grid;
+    align-content: center;
 
-		&::before {
-			content: none;
-		}
-	}
+    &::before {
+      content: none;
+    }
+  }
 
-	.footer-link {
-		text-decoration-thickness: 0.13em;
-		white-space: nowrap;
-	}
+  .footer-link {
+    text-decoration-thickness: 0.13em;
+    white-space: nowrap;
+  }
 
-	.rss-link {
-		display: grid;
-		aspect-ratio: 1;
-		block-size: 1.3rem;
+  .rss-link {
+    display: grid;
+    aspect-ratio: 1;
+    block-size: 1.3rem;
 
-		--button-background: light-dark(
-			oklch(from darkorange 60% 0.175 h),
-			oklch(from darkorange 85% 0.175 h)
-		);
-		--button-color: var(--background);
-		--button-shadow-color: light-dark(var(--text-color), var(--background));
-		--button-shadow-size: 0.125rem 0.03125rem;
+    --button-background: light-dark(
+      oklch(from darkorange 60% 0.175 h),
+      oklch(from darkorange 85% 0.175 h)
+    );
+    --button-color: var(--background);
+    --button-shadow-color: light-dark(var(--text-color), var(--background));
+    --button-shadow-size: 0.125rem 0.03125rem;
 
-		svg {
-			block-size: 100%;
-			inline-size: auto;
-			aspect-ratio: 1;
-			fill: var(--button-color);
-			background: transparent;
-			padding: 0.225rem;
-			margin-block-end: -0.2rem;
-			margin-inline-end: 0.5rem;
-		}
-	}
+    svg {
+      block-size: 100%;
+      inline-size: auto;
+      aspect-ratio: 1;
+      fill: var(--button-color);
+      background: transparent;
+      padding: 0.225rem;
+      margin-block-end: -0.2rem;
+      margin-inline-end: 0.5rem;
+    }
+  }
 }
