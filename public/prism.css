@@ -19,69 +19,69 @@
     overflow: auto;
   }
 
-  .token-cdata,
-  .token-comment,
-  .token-doctype,
-  .token-prolog {
+  .token.cdata,
+  .token.comment,
+  .token.doctype,
+  .token.prolog {
     color: light-dark(
       oklch(from ghostwhite 55% c h),
       oklch(from ghostwhite 90% c h)
     );
   }
 
-  .token-punctuation {
+  .token.punctuation {
     color: light-dark(
       oklch(from slategray 55% c h),
       oklch(from slategray 90% c h)
     );
   }
 
-  .token-attr-value,
-  .token-builtin,
-  .token-char,
-  .token-regex,
-  .token-atrule,
-  .token-constant {
+  .token.attr-value,
+  .token.builtin,
+  .token.char,
+  .token.regex,
+  .token.atrule,
+  .token.constant {
     color: light-dark(oklch(from wheat 55% c h), oklch(from wheat 90% c h));
   }
 
-  .token-keyword,
-  .token-tag {
+  .token.keyword,
+  .token.tag {
     color: light-dark(
       oklch(from lightsteelblue 55% c h),
       oklch(from lightsteelblue 90% c h)
     );
   }
 
-  .token-attr-name,
-  .token-class-name,
-  .token-function,
-  .token-function-name,
-  .token-rule,
-  .token-selector,
-  .token-options,
-  .token-options * {
+  .token.attr-name,
+  .token.class-name,
+  .token.function,
+  .token.function-name,
+  .token.rule,
+  .token.selector,
+  .token.options,
+  .token.options * {
     color: light-dark(oklch(from coral 55% c h), oklch(from coral 90% c h));
   }
 
-  .token-variable,
-  .token-boolean,
-  .token-number,
-  .token-symbol {
+  .token.variable,
+  .token.boolean,
+  .token.number,
+  .token.symbol {
     color: light-dark(oklch(from plum 55% c h), oklch(from plum 90% c h));
   }
 
-  .token-string,
-  .token-property {
+  .token.string,
+  .token.property {
     color: light-dark(oklch(from gold 55% c h), oklch(from gold 90% c h));
   }
 
-  .token-bold,
-  .token-important {
+  .token.bold,
+  .token.important {
     font-weight: 700;
   }
 
-  .token-italic {
+  .token.italic {
     font-style: italic;
   }
 }

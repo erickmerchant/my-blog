@@ -1,19 +1,20 @@
-import { h } from "handcraft/env/server.js";
-import page from "./page.js";
+import type { FlintRouteContext } from "@flint/framework";
+import { fragment, h } from "@handcraft/lib";
+import page from "./page.ts";
 import * as Markdown from "../utils/markdown.ts";
 import { getSite } from "../models/site.ts";
 import { getPublishedPosts } from "../models/post.ts";
 
 const { section, h1, h2, p, ol, ul, li, a, aside, link } = h.html;
 
-export default async function ({ resolve }) {
+export default async function ({ resolve }: FlintRouteContext) {
   const site = await getSite();
   const posts = await getPublishedPosts();
 
   return page({
     site,
-    bannerTitle: h1.class("banner-title")(site.title),
-    styles: link.rel("stylesheet").href(resolve("/home.css")),
+    bannerTitle: [h1.class("banner-title")(site.title)],
+    styles: [link.rel("stylesheet").href(resolve("/home.css"))],
     main: [
       posts.length
         ? section.class("section")(
@@ -38,14 +39,17 @@ export default async function ({ resolve }) {
               site.projects.map(async (project) =>
                 li.class("section-item")(
                   a.class("title").href(project.href)(project.title),
-                  await Markdown.parse(project.description),
+                  fragment().html(await Markdown.parse(project.description)),
                 )
               ),
             ),
           ),
         )
         : null,
-      aside.class("section")(h2("About"), await Markdown.parse(site.bio)),
+      aside.class("section")(
+        h2("About"),
+        fragment().html(await Markdown.parse(site.bio)),
+      ),
     ],
     resolve,
   });

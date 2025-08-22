@@ -1,12 +1,27 @@
-import { h, render } from "handcraft/env/server.js";
-import favicons from "./favicons.js";
+import type { HandcraftChildArg } from "@handcraft/lib";
+import { h, render } from "@handcraft/lib";
+import favicons from "./favicons.ts";
 
 const { head, body, meta, title, link, header, span, a, footer, ul, li, html } =
   h.html;
 const { title: svgTitle, path, svg } = h.svg;
 
 export default function (
-  { site, pageTitle, styles, bannerTitle, main, resolve },
+  {
+    site,
+    pageTitle,
+    styles,
+    bannerTitle,
+    main,
+    resolve,
+  }: {
+    site: Site;
+    pageTitle?: Array<HandcraftChildArg>;
+    styles: Array<HandcraftChildArg>;
+    bannerTitle?: Array<HandcraftChildArg>;
+    main: Array<HandcraftChildArg>;
+    resolve: (url: string) => string;
+  },
 ) {
   const baseHead = head(
     meta.charset("utf-8"),
@@ -20,7 +35,7 @@ export default function (
       resolve("/fonts/WorkSans-VariableFont_wght-subset.woff2"),
     ).as("font").type("font/woff2").crossorigin(""),
     link.rel("stylesheet").href(resolve("/page.css")),
-    styles,
+    ...styles,
     link
       .rel("alternate")
       .type("application/rss+xml")
@@ -30,7 +45,7 @@ export default function (
     meta.name("description").content(site.description),
   );
   const baseNav = header.class("banner")(
-    bannerTitle ?? span.class("banner-title")(site.title),
+    ...(bannerTitle ?? [span.class("banner-title")(site.title)]),
     a.class("banner-link button").href("/")("/"),
   );
   const baseFooter = footer.class("footer")(
@@ -53,7 +68,7 @@ export default function (
       li.class("footer-item")("© " + site.author),
     ),
   );
-  const baseBody = body.class("page")(baseNav, main, baseFooter);
+  const baseBody = body.class("page")(baseNav, ...main, baseFooter);
 
   return render(html.lang("en-US")(baseHead, baseBody));
 }

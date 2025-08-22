@@ -1,8 +1,8 @@
-import { h } from "handcraft/env/server.js";
+import { h } from "@handcraft/lib";
 
 const { link } = h.html;
 
-export default function ({ resolve }) {
+export default function ({ resolve }: { resolve: (url: string) => string }) {
   return [
     link
       .rel("icon")

@@ -1,29 +1,24 @@
-import css from "@flint/framework/plugins/css";
+import css from "@flint/framework/handlers/css";
 import flint from "@flint/framework";
-import { getPublishedPosts } from "./models/post.ts";
-import home from "./views/home.js";
-import post from "./views/post.js";
+import { getPostURLs as posts } from "./models/post.ts";
+import home from "./views/home.ts";
+import post from "./views/post.ts";
 import rss from "./views/rss.ts";
-import resume from "./views/resume.js";
-import notFound from "./views/404.js";
+import resume from "./views/resume.ts";
+import notFound from "./views/404.ts";
 
 const app = flint("public", "dist")
-  .cache("/", "/posts.rss", "/resume/", async () => {
-    const posts = await getPublishedPosts();
-
-    return posts.map((post) => "/posts/" + post.slug + "/");
-  })
   .route("/", home)
-  .route("/posts/:slug/", post)
-  .route("/posts.rss", rss)
+  .route("/posts/:slug/", post, posts)
   .route("/resume/", resume)
+  .route("/posts.rss", rss)
   .route(notFound)
-  .use("/page.css", css)
-  .use("/post.css", css)
-  .use("/home.css", css)
-  .use("/resume.css", css)
-  .use("/*.woff2")
-  .use("/*.png");
+  .file("/*.woff2")
+  .file("/*.png")
+  .file("/page.css", css)
+  .file("/post.css", css)
+  .file("/home.css", css)
+  .file("/resume.css", css);
 
 export default app;
 

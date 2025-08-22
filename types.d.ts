@@ -38,8 +38,8 @@ type Resume = {
     },
   ];
   objective: string;
-  history: [ResumeItem];
-  education: [ResumeItem];
+  history: Array<ResumeItem>;
+  education: Array<ResumeItem>;
 };
 
 type RssItem = { title: string; link: string; guid: string; pubDate: string };

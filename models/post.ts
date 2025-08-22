@@ -12,7 +12,7 @@ export async function getPublishedPosts(): Promise<Array<Post>> {
     const [, slug] = matched;
     const post = await getPostBySlug(slug);
 
-    if (post.datePublished != null) {
+    if (post && post.datePublished != null) {
       posts.push(post);
     }
   }
@@ -27,7 +27,9 @@ export async function getPublishedPosts(): Promise<Array<Post>> {
   return posts;
 }
 
-export async function getPostBySlug(slug: string) {
+export async function getPostBySlug(slug?: string) {
+  if (!slug) return;
+
   const path = `./content/posts/${slug}.md`;
   const text = await Deno.readTextFile(path);
   const [, toml, md] = text.split("+++\n");
@@ -62,4 +64,10 @@ export async function getPostBySlug(slug: string) {
   } as Post;
 
   return post;
+}
+
+export async function getPostURLs() {
+  const posts = await getPublishedPosts();
+
+  return posts.map((post) => "/posts/" + post.slug + "/");
 }
