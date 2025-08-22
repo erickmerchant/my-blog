@@ -1,3 +1,4 @@
+import type { Site } from "../types.ts";
 import * as Toml from "@std/toml";
 
 export async function getSite(): Promise<Site> {

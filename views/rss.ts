@@ -1,3 +1,4 @@
+import type { RSS, RssItem } from "../types.ts";
 import * as XML from "fast-xml-parser";
 import { asRFC822Date } from "../utils/dates.ts";
 import { getSite } from "../models/site.ts";

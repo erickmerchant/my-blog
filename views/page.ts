@@ -1,4 +1,5 @@
 import type { HandcraftChildArg } from "@handcraft/lib";
+import type { Site } from "../types.ts";
 import { h, render } from "@handcraft/lib";
 import favicons from "./favicons.ts";
 

@@ -1,4 +1,4 @@
-type Site = {
+export type Site = {
   host: string;
   title: string;
   author: string;
@@ -7,20 +7,20 @@ type Site = {
   bio: string;
 };
 
-type Post = {
+export type Post = {
   slug: string;
   title: string;
   datePublished?: Temporal.PlainDate;
   content?: string;
 };
 
-type Project = {
+export type Project = {
   href: string;
   title: string;
   description: string;
 };
 
-type ResumeItem = {
+export type ResumeItem = {
   title: string;
   organization?: string;
   dates: [string, string];
@@ -29,7 +29,7 @@ type ResumeItem = {
   summary: string;
 };
 
-type Resume = {
+export type Resume = {
   name: string;
   contacts: [
     {
@@ -42,9 +42,14 @@ type Resume = {
   education: Array<ResumeItem>;
 };
 
-type RssItem = { title: string; link: string; guid: string; pubDate: string };
+export type RssItem = {
+  title: string;
+  link: string;
+  guid: string;
+  pubDate: string;
+};
 
-type RSS = {
+export type RSS = {
   rss: {
     attributes: { version: string };
     channel: {

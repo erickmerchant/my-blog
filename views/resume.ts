@@ -1,4 +1,5 @@
 import type { FlintRouteContext } from "@flint/framework";
+import type { ResumeItem } from "../types.ts";
 import { h, render } from "@handcraft/lib";
 import * as Markdown from "../utils/markdown.ts";
 import favicons from "./favicons.ts";

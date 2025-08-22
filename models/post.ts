@@ -1,3 +1,4 @@
+import type { Post } from "../types.ts";
 import * as Toml from "@std/toml";
 import * as Fs from "@std/fs";
 
