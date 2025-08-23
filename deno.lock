@@ -1,7 +1,7 @@
 {
   "version": "5",
   "specifiers": {
-    "jsr:@flint/framework@~0.9.1": "0.9.1",
+    "jsr:@flint/framework@~0.9.2": "0.9.2",
     "jsr:@handcraft/lib@^1.1.1": "1.1.1",
     "jsr:@std/async@^1.0.14": "1.0.14",
     "jsr:@std/cli@^1.0.21": "1.0.21",
@@ -25,8 +25,8 @@
     "npm:prismjs@^1.30.0": "1.30.0"
   },
   "jsr": {
-    "@flint/framework@0.9.1": {
-      "integrity": "dbe9ff353b64cbb400c0b18a76d79043a4c5b8994fa478368efd90dba3a5ccc9",
+    "@flint/framework@0.9.2": {
+      "integrity": "222d87fc45566843b9db02723f72a24a33fc36552db5172d990189f7366d40f6",
       "dependencies": [
         "jsr:@std/async",
         "jsr:@std/cli",
@@ -198,7 +198,7 @@
   },
   "workspace": {
     "dependencies": [
-      "jsr:@flint/framework@~0.9.1",
+      "jsr:@flint/framework@~0.9.2",
       "jsr:@handcraft/lib@^1.1.1",
       "jsr:@std/fs@^1.0.19",
       "jsr:@std/path@^1.1.2",
