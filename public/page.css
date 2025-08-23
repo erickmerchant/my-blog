@@ -161,9 +161,15 @@
 
   .button {
     color: var(--button-color);
-    background-color: oklch(from var(--button-background) l c h / 0.8);
-    box-shadow: inset 0px 0px var(--button-shadow-size)
-      var(--button-shadow-color);
+    background-image: linear-gradient(
+      -45deg,
+      oklch(from var(--button-background) l c h / 0.95) 0 50%,
+      var(--button-background) 50%
+    );
+    box-shadow:
+      inset 0 0 0 calc(var(--button-shadow-size) / 2) var(--button-background),
+      inset 0 0 0 calc(var(--button-shadow-size) * 2)
+      var(--button-color);
     border-radius: 0.125rem;
   }
 
@@ -235,8 +241,7 @@
 
     --button-background: var(--link-color);
     --button-color: var(--background);
-    --button-shadow-color: light-dark(var(--text-color), var(--background));
-    --button-shadow-size: 0.25rem 0.03125rem;
+    --button-shadow-size: 0.0625rem;
   }
 
   .footer {
@@ -285,8 +290,7 @@
       oklch(from darkorange 85% 0.175 h)
     );
     --button-color: var(--background);
-    --button-shadow-color: light-dark(var(--text-color), var(--background));
-    --button-shadow-size: 0.125rem 0.03125rem;
+    --button-shadow-size: 0.0625rem;
 
     svg {
       block-size: 100%;
