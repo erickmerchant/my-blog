@@ -1,8 +1,8 @@
 {
   "version": "5",
   "specifiers": {
-    "jsr:@flint/framework@~0.9.2": "0.9.2",
-    "jsr:@handcraft/lib@^1.2.0": "1.2.0",
+    "jsr:@flint/framework@0.11": "0.11.0",
+    "jsr:@handcraft/lib@^1.3.0": "1.3.0",
     "jsr:@std/async@^1.0.14": "1.0.14",
     "jsr:@std/cli@^1.0.21": "1.0.21",
     "jsr:@std/collections@^1.1.3": "1.1.3",
@@ -20,13 +20,13 @@
     "npm:@types/node@*": "22.15.15",
     "npm:fast-xml-parser@5.2.5": "5.2.5",
     "npm:lightningcss@^1.30.1": "1.30.1",
-    "npm:marked-highlight@^2.2.2": "2.2.2_marked@16.2.0",
-    "npm:marked@^16.2.0": "16.2.0",
+    "npm:marked-highlight@^2.2.2": "2.2.2_marked@16.2.1",
+    "npm:marked@^16.2.1": "16.2.1",
     "npm:prismjs@^1.30.0": "1.30.0"
   },
   "jsr": {
-    "@flint/framework@0.9.2": {
-      "integrity": "222d87fc45566843b9db02723f72a24a33fc36552db5172d990189f7366d40f6",
+    "@flint/framework@0.11.0": {
+      "integrity": "1adb52fdaacfd170e912cee93a7610693998685726a3288f7bee603c4be7463e",
       "dependencies": [
         "jsr:@std/async",
         "jsr:@std/cli",
@@ -38,8 +38,8 @@
         "npm:lightningcss"
       ]
     },
-    "@handcraft/lib@1.2.0": {
-      "integrity": "2558ad0635e327d432ff157e145a0d62f37a1117de48ac122676b61e0c080d3c"
+    "@handcraft/lib@1.3.0": {
+      "integrity": "5b5b1fb9a22be45e8176e7cfa3930e57f8956abb6d4ff370605a9f35eff9d79f"
     },
     "@std/async@1.0.14": {
       "integrity": "62e954a418652c704d37563a3e54a37d4cf0268a9dcaeac1660cc652880b5326"
@@ -176,14 +176,14 @@
         "lightningcss-win32-x64-msvc"
       ]
     },
-    "marked-highlight@2.2.2_marked@16.2.0": {
+    "marked-highlight@2.2.2_marked@16.2.1": {
       "integrity": "sha512-KlHOP31DatbtPPXPaI8nx1KTrG3EW0Z5zewCwpUj65swbtKOTStteK3sNAjBqV75Pgo3fNEVNHeptg18mDuWgw==",
       "dependencies": [
         "marked"
       ]
     },
-    "marked@16.2.0": {
-      "integrity": "sha512-LbbTuye+0dWRz2TS9KJ7wsnD4KAtpj0MVkWc90XvBa6AslXsT0hTBVH5k32pcSyHH1fst9XEFJunXHktVy0zlg==",
+    "marked@16.2.1": {
+      "integrity": "sha512-r3UrXED9lMlHF97jJByry90cwrZBBvZmjG1L68oYfuPMW+uDTnuMbyJDymCWwbTE+f+3LhpNDKfpR3a3saFyjA==",
       "bin": true
     },
     "prismjs@1.30.0": {
@@ -198,8 +198,8 @@
   },
   "workspace": {
     "dependencies": [
-      "jsr:@flint/framework@~0.9.2",
-      "jsr:@handcraft/lib@^1.2.0",
+      "jsr:@flint/framework@0.11",
+      "jsr:@handcraft/lib@^1.3.0",
       "jsr:@std/fs@^1.0.19",
       "jsr:@std/path@^1.1.2",
       "jsr:@std/text@^1.0.16",
@@ -207,7 +207,7 @@
       "npm:fast-xml-parser@5.2.5",
       "npm:lightningcss@^1.30.1",
       "npm:marked-highlight@^2.2.2",
-      "npm:marked@^16.2.0",
+      "npm:marked@^16.2.1",
       "npm:prismjs@^1.30.0"
     ]
   }

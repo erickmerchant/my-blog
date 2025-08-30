@@ -1,5 +1,5 @@
 import css from "@flint/framework/handlers/css";
-import flint from "@flint/framework";
+import flint, { pattern as p } from "@flint/framework";
 import { getPostURLs as posts } from "./models/post.ts";
 import home from "./views/home.ts";
 import post from "./views/post.ts";
@@ -9,12 +9,12 @@ import notFound from "./views/404.ts";
 
 const app = flint("public", "dist")
   .route("/", home)
-  .route("/posts/:slug/", post, posts)
+  .route(p`/posts/:slug/`, post, posts)
   .route("/resume/", resume)
   .route("/posts.rss", rss)
   .route(notFound)
-  .file("/*.woff2")
-  .file("/*.png")
+  .file(p`/*.woff2`)
+  .file(p`/*.png`)
   .file("/page.css", css)
   .file("/post.css", css)
   .file("/home.css", css)
