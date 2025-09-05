@@ -1,5 +1,5 @@
 import type { FlintRouteContext } from "@flint/framework";
-import { fragment, h } from "@handcraft/lib";
+import { each, fragment, h, when } from "@handcraft/lib";
 import page from "./page.ts";
 import * as Markdown from "../utils/markdown.ts";
 import { getSite } from "../models/site.ts";
@@ -16,8 +16,8 @@ export default async function ({ resolve }: FlintRouteContext) {
     bannerTitle: [h1.class("banner-title")(site.title)],
     styles: [link.rel("stylesheet").href(resolve("/home.css"))],
     main: [
-      posts.length
-        ? section.class("section")(
+      when(() => posts.length > 0).show(() =>
+        section.class("section")(
           h2("Posts"),
           ol.class("section-list")(
             posts.map((post) =>
@@ -29,23 +29,21 @@ export default async function ({ resolve }: FlintRouteContext) {
             ),
           ),
         )
-        : null,
-      site.projects.length
-        ? section.class("section")(
+      ),
+      when(() => site.projects.length > 0).show(() =>
+        section.class("section")(
           h2("Projects"),
           p("Some open-source projects."),
           ul.class("section-list")(
-            await Promise.all(
-              site.projects.map(async (project) =>
-                li.class("section-item")(
-                  a.class("title").href(project.href)(project.title),
-                  fragment().html(await Markdown.parse(project.description)),
-                )
-              ),
+            each(site.projects).map(async (project) =>
+              li.class("section-item")(
+                a.class("title").href(project.href)(project.title),
+                fragment().html(await Markdown.parse(project.description)),
+              )
             ),
           ),
         )
-        : null,
+      ),
       aside.class("section")(
         h2("About"),
         fragment().html(await Markdown.parse(site.bio)),

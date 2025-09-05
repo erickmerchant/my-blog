@@ -1,5 +1,5 @@
 import type { FlintRouteContext } from "@flint/framework";
-import { fragment, h } from "@handcraft/lib";
+import { fragment, h, when } from "@handcraft/lib";
 import { asLocalDate } from "../utils/dates.ts";
 import * as Markdown from "../utils/markdown.ts";
 import page from "./page.ts";
@@ -23,9 +23,12 @@ export default async function ({ params, resolve }: FlintRouteContext) {
         article.class("article")(
           header(
             h1(post.title),
-            post.datePublished
-              ? time.class("status")(asLocalDate(post.datePublished))
-              : span.class("status")("Draft"),
+            when(() => post.datePublished != null).show(
+              () =>
+                time.class("status")(
+                  asLocalDate(post.datePublished as Temporal.PlainDate),
+                ),
+            ).fallback(() => span.class("status")("Draft")),
           ),
           fragment().html(await Markdown.parse(post.content ?? "")),
         ),

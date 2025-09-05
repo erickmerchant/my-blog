@@ -41,5 +41,5 @@ export default async function () {
     attributesGroupName: "attributes",
   });
 
-  return builder.build(rss);
+  return `<?xml version="1.0" encoding="UTF-8" ?>${builder.build(rss)}`;
 }

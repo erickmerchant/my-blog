@@ -1,6 +1,6 @@
 import type { FlintRouteContext } from "@flint/framework";
 import type { ResumeItem } from "../types.ts";
-import { h, render } from "@handcraft/lib";
+import { each, h, render, when } from "@handcraft/lib";
 import * as Markdown from "../utils/markdown.ts";
 import favicons from "./favicons.ts";
 import { getResume } from "../models/resume.ts";
@@ -51,11 +51,11 @@ export default async function ({ resolve }: FlintRouteContext) {
           section.class("objective").html(
             await Markdown.parse(resume.objective),
           ),
-          await timeline({
+          timeline({
             title: "Employment History",
             items: resume.history,
           }),
-          await timeline({
+          timeline({
             title: "Education",
             items: resume.education,
           }),
@@ -66,30 +66,28 @@ export default async function ({ resolve }: FlintRouteContext) {
   );
 }
 
-async function timeline(
+function timeline(
   { title, items }: { title: string; items: Array<ResumeItem> },
 ) {
   return section.class("timeline")(
     header.class("timeline-header")(h2(title)),
     ol.class("timeline-items")(
-      await Promise.all(
-        items.map(async (item) =>
-          li(
-            div.class("details")(
-              h3.class("title")(item.title),
-              item.organization
-                ? p.class("organization")(item.organization)
-                : null,
-              p.class("dates")(item.dates[0] + "-" + item.dates[1]),
-              item.location ? p.class("location")(item.location) : null,
+      each(items).map(async (item) =>
+        li(
+          div.class("details")(
+            h3.class("title")(item.title),
+            when(() => item.organization != null).show(() =>
+              p.class("organization")(item.organization as string)
             ),
-            item.tags &&
-              item.tags.length
-              ? ul.class("tags")(item.tags.map((tag) => li(tag)))
-              : null,
-            div.class("summary").html(await Markdown.parse(item.summary)),
-          )
-        ),
+            p.class("dates")(item.dates[0] + "-" + item.dates[1]),
+            item.location ? p.class("location")(item.location) : null,
+          ),
+          item.tags &&
+            item.tags.length
+            ? ul.class("tags")(item.tags.map((tag) => li(tag)))
+            : null,
+          div.class("summary").html(await Markdown.parse(item.summary)),
+        )
       ),
     ),
   );

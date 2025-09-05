@@ -5,7 +5,7 @@ import * as Fs from "@std/fs";
 export async function getPublishedPosts(): Promise<Array<Post>> {
   const posts: Array<Post> = [];
 
-  for await (const { name } of Fs.expandGlob("./content/posts/*.md")) {
+  for await (const { name } of Fs.expandGlob("./src/content/posts/*.md")) {
     const matched = name.match(/(.*?)\.md/);
 
     if (!matched) continue;
@@ -31,7 +31,7 @@ export async function getPublishedPosts(): Promise<Array<Post>> {
 export async function getPostBySlug(slug?: string) {
   if (!slug) return;
 
-  const path = `./content/posts/${slug}.md`;
+  const path = `./src/content/posts/${slug}.md`;
   const text = await Deno.readTextFile(path);
   const [, toml, md] = text.split("+++\n");
   const frontmatter: {
