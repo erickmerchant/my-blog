@@ -1,7 +1,7 @@
 name = "Erick Merchant"
 
 objective = """
-I am currently looking for a full-time role as either a front-end engineer, design engineer, or full-stack engineer. I would love if that role involved Rust, JavaScript, CSS, Typescript, Vue, Web Components, REST, or similar technologies. I love the web, but also more broadly just programming, and solving difficult problems with computers.
+I am currently looking for a full-time role as a front-end engineer or full-stack engineer. I would love if that role involved Rust, Deno, Node.js, Typescript, JavaScript, CSS, React, Preact, Vue, Web Components, or similar technologies. I take pride in building things for the web platform, programming, and solving difficult problems with computers.
 """
 
 [[contacts]]
