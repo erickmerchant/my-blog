@@ -1,6 +1,5 @@
 import { markedHighlight } from "marked-highlight";
 import { Marked } from "marked";
-import Prism from "prismjs";
 
 const marked = new Marked(
   markedHighlight({
@@ -10,6 +9,11 @@ const marked = new Marked(
 );
 
 async function highlight(code: string, lang: string): Promise<string> {
+  const { default: Prism } = await import("prismjs");
+
+  Prism.manual = true;
+  Prism.disableWorkerMessageHandler = true;
+
   if (lang === "html") lang = "markup";
 
   try {
