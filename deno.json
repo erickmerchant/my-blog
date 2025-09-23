@@ -11,7 +11,7 @@
     }
   },
   "imports": {
-    "@flint/framework": "jsr:@flint/framework@^0.12.2",
+    "@flint/framework": "jsr:@flint/framework@^0.13.0",
     "@handcraft/lib": "jsr:@handcraft/lib@^1.4.1",
     "@std/fs": "jsr:@std/fs@^1.0.19",
     "@std/path": "jsr:@std/path@^1.1.2",
