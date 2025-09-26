@@ -3,15 +3,19 @@
   "tasks": {
     "post:draft": "deno run -A src/cli/post-draft.ts",
     "post:publish": "deno run -A src/cli/post-publish.ts",
-    "dev": "deno run -A --watch flint.ts dev --port=4000",
-    "build": "deno run -A flint.ts build",
+    "dev:build": "deno run -A flint.ts --dev",
+    "build": "deno run -A flint.ts",
+    "dev": {
+      "command": "deno serve -A --port=4000 --watch-hmr dist/dev-serve.ts",
+      "dependencies": ["dev:build"]
+    },
     "stage": {
-      "command": "deno serve -A --port=4000 dist/serve.ts",
+      "command": "deno serve -A --port=4000 --parallel dist/serve.ts",
       "dependencies": ["build"]
     }
   },
   "imports": {
-    "@flint/framework": "jsr:@flint/framework@^0.13.0",
+    "@flint/framework": "jsr:@flint/framework@^0.14.0",
     "@handcraft/lib": "jsr:@handcraft/lib@^1.4.1",
     "@std/fs": "jsr:@std/fs@^1.0.19",
     "@std/path": "jsr:@std/path@^1.1.2",
