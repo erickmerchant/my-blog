@@ -11,7 +11,7 @@ export default async function ({ resolve }: FlintRouteContext) {
   return page({
     site,
     pageTitle: ["404 Not Found"],
-    styles: [link.rel("stylesheet").href(resolve("/post.css"))],
+    styles: [link.rel("stylesheet").href(resolve("/styles/post.css"))],
     main: [
       article.class("article")(
         h1("404 Not Found"),

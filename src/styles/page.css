@@ -162,14 +162,15 @@
   .button {
     color: var(--button-color);
     background-image: linear-gradient(
-      -45deg,
+      -30deg,
       oklch(from var(--button-background) l c h / 0.95) 0 50%,
       var(--button-background) 50%
     );
     box-shadow:
-      inset 0 0 0 calc(var(--button-shadow-size) / 2) var(--button-background),
-      inset 0 0 0 calc(var(--button-shadow-size) * 2) var(--button-color);
-    border-radius: 0.125rem;
+      0 0 0 0.0625em oklch(from var(--button-background) l c h / 0.5),
+      inset 0 0 0 0.0625em oklch(from var(--button-color) l c h / 0.125);
+    border-radius: 50% / 12.5%;
+    corner-shape: superellipse(0.2);
   }
 
   .page {
@@ -191,10 +192,10 @@
       background-image: repeating-linear-gradient(
         90deg,
         transparent 0 0.125rem,
-        currentColor 0.125rem 0.625rem,
-        transparent 0.625rem 0.75rem
+        currentColor 0.125rem 0.5rem,
+        transparent 0.5rem 0.75rem
       );
-      background-size: calc(round(down, 100%, 0.75rem) - 0.75rem) 0.15rem;
+      background-size: calc(round(down, 100%, 0.75rem) - 0.75rem) 0.1rem;
       background-repeat: no-repeat;
     }
 
@@ -233,14 +234,13 @@
 
   .banner-link {
     align-self: center;
-    padding: 0.5rem 1rem;
+    padding: 0.25rem 1rem;
     text-decoration: none;
-    font-size: 0.75rem;
+    font-size: 1rem;
     font-weight: 800;
 
     --button-background: var(--link-color);
     --button-color: var(--background);
-    --button-shadow-size: 0.0625rem;
   }
 
   .footer {
@@ -282,14 +282,14 @@
   .rss-link {
     display: grid;
     aspect-ratio: 1;
-    block-size: 1.3rem;
+    block-size: 1.5rem;
+    padding: 0.125rem;
 
     --button-background: light-dark(
       oklch(from darkorange 60% 0.175 h),
       oklch(from darkorange 85% 0.175 h)
     );
     --button-color: var(--background);
-    --button-shadow-size: 0.0625rem;
 
     svg {
       block-size: 100%;

@@ -50,7 +50,8 @@
   blockquote {
     padding: 1rem 1.5rem;
     border: 0.0625rem solid oklch(from currentColor l c h / 0.2);
-    border-radius: 0.125rem;
+    border-radius: 0.5rem;
+    corner-shape: bevel;
     background-color: oklch(from var(--background) l calc(c + 0.0075) h);
     overflow-wrap: anywhere;
     hyphens: auto;

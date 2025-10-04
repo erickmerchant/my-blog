@@ -28,14 +28,21 @@ export default function (
     meta.charset("utf-8"),
     meta.name("viewport").content("width=device-width, initial-scale=1"),
     title(pageTitle ? pageTitle + " - " + site.title : site.title),
-    link.rel("preload").href(
-      resolve("/fonts/Jacquard24-Regular-subset.woff2"),
-    )
-      .as("font").type("font/woff2").crossorigin(""),
-    link.rel("preload").href(
-      resolve("/fonts/WorkSans-VariableFont_wght-subset.woff2"),
-    ).as("font").type("font/woff2").crossorigin(""),
-    link.rel("stylesheet").href(resolve("/page.css")),
+    link.rel("preload")
+      .href(
+        resolve("/fonts/Jacquard24-Regular-subset.woff2"),
+      )
+      .as("font")
+      .type("font/woff2")
+      .crossorigin(""),
+    link.rel("preload")
+      .href(
+        resolve("/fonts/WorkSans-VariableFont_wght-subset.woff2"),
+      )
+      .as("font")
+      .type("font/woff2")
+      .crossorigin(""),
+    link.rel("stylesheet").href(resolve("/styles/page.css")),
     ...styles,
     link
       .rel("alternate")

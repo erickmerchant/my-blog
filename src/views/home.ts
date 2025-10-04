@@ -14,7 +14,7 @@ export default async function ({ resolve }: FlintRouteContext) {
   return page({
     site,
     bannerTitle: [h1.class("banner-title")(site.title)],
-    styles: [link.rel("stylesheet").href(resolve("/home.css"))],
+    styles: [link.rel("stylesheet").href(resolve("/styles/home.css"))],
     main: [
       when(() => posts.length > 0).show(() =>
         section.class("section")(

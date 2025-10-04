@@ -34,7 +34,28 @@ export default async function ({ resolve }: FlintRouteContext) {
         meta.charset("utf-8"),
         meta.name("viewport").content("width=device-width, initial-scale=1"),
         title("Résumé"),
-        link.href(resolve("/resume.css")).rel("stylesheet"),
+        link.rel("preload")
+          .href(
+            resolve("/fonts/Bitter-Bold-subset.woff2"),
+          )
+          .as("font")
+          .type("font/woff2")
+          .crossorigin(""),
+        link.rel("preload")
+          .href(
+            resolve("/fonts/WorkSans-VariableFont_wght-subset.woff2"),
+          )
+          .as("font")
+          .type("font/woff2")
+          .crossorigin(""),
+        link.rel("preload")
+          .href(
+            resolve("/fonts/WorkSans-Italic-VariableFont_wght-subset.woff2"),
+          )
+          .as("font")
+          .type("font/woff2")
+          .crossorigin(""),
+        link.href(resolve("/styles/resume.css")).rel("stylesheet"),
         favicons({ resolve }),
         meta.name("description").content("My résumé"),
       ),

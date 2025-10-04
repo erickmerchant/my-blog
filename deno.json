@@ -3,25 +3,21 @@
   "tasks": {
     "post:draft": "deno run -A src/cli/post-draft.ts",
     "post:publish": "deno run -A src/cli/post-publish.ts",
-    "dev:build": "deno run -A flint.ts --dev",
-    "build": "deno run -A flint.ts",
-    "dev": {
-      "command": "deno serve -A --port=4000 --watch-hmr dist/dev-serve.ts",
-      "dependencies": ["dev:build"]
-    },
+    "dev": "deno serve -A --port=4000 --watch-hmr flint.ts",
+    "build": "deno run -A flint.ts --build",
     "stage": {
       "command": "deno serve -A --port=4000 --parallel dist/serve.ts",
       "dependencies": ["build"]
     }
   },
   "imports": {
-    "@flint/framework": "jsr:@flint/framework@^0.14.1",
+    "@flint/framework": "jsr:@flint/framework@^0.15.0",
     "@handcraft/lib": "jsr:@handcraft/lib@^1.4.1",
     "@std/fs": "jsr:@std/fs@^1.0.19",
     "@std/path": "jsr:@std/path@^1.1.2",
     "@std/text": "jsr:@std/text@^1.0.16",
     "@std/toml": "jsr:@std/toml@^1.0.10",
-    "fast-xml-parser": "npm:fast-xml-parser@5.2.5",
+    "fast-xml-parser": "npm:fast-xml-parser@5.3.0",
     "marked": "npm:marked@^16.3.0",
     "marked-highlight": "npm:marked-highlight@^2.2.2",
     "prismjs": "npm:prismjs@^1.30.0"
