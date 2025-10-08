@@ -169,8 +169,8 @@
     box-shadow:
       0 0 0 0.0625em oklch(from var(--button-background) l c h / 0.5),
       inset 0 0 0 0.0625em oklch(from var(--button-color) l c h / 0.125);
-    border-radius: 50% / 12.5%;
-    corner-shape: superellipse(0.2);
+    border-radius: 25%;
+    corner-shape: squircle;
   }
 
   .page {
