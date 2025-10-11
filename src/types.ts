@@ -3,7 +3,7 @@ export type Site = {
   title: string;
   author: string;
   description: string;
-  projects: [Project];
+  projects: Array<Project>;
   bio: string;
 };
 
@@ -25,18 +25,18 @@ export type ResumeItem = {
   organization?: string;
   dates: [string, string];
   location?: string;
-  tags?: [string];
+  tags?: Array<string>;
   summary: string;
 };
 
 export type Resume = {
   name: string;
-  contacts: [
+  contacts: Array<
     {
       href: string;
       text: string;
-    },
-  ];
+    }
+  >;
   objective: string;
   history: Array<ResumeItem>;
   education: Array<ResumeItem>;
