@@ -1,8 +1,8 @@
 {
   "version": "5",
   "specifiers": {
-    "jsr:@flint/framework@~0.15.2": "0.15.2",
-    "jsr:@handcraft/lib@^1.4.1": "1.4.1",
+    "jsr:@flint/framework@~0.15.3": "0.15.3",
+    "jsr:@handcraft/lib@^1.4.2": "1.4.2",
     "jsr:@std/async@^1.0.15": "1.0.15",
     "jsr:@std/cli@^1.0.23": "1.0.23",
     "jsr:@std/collections@^1.1.3": "1.1.3",
@@ -26,8 +26,8 @@
     "npm:prismjs@^1.30.0": "1.30.0"
   },
   "jsr": {
-    "@flint/framework@0.15.2": {
-      "integrity": "784d5473195f726ae4ee0a6e538bf6ceec2601f8affc7acc8812ab285c95fad3",
+    "@flint/framework@0.15.3": {
+      "integrity": "f77c16d73988e3739224af61af95662c28547a44bb0ce01131ff54a50e4954c8",
       "dependencies": [
         "jsr:@std/async",
         "jsr:@std/cli",
@@ -39,8 +39,8 @@
         "npm:lightningcss"
       ]
     },
-    "@handcraft/lib@1.4.1": {
-      "integrity": "0c17846bd2deb1a63c9537b82210a9a674f17606423e8840d9f7d4f85e1ab8d4"
+    "@handcraft/lib@1.4.2": {
+      "integrity": "510fc9a04e3dfa12d06074ab37de791ca41f14d01bddb245565c561c72362314"
     },
     "@std/async@1.0.15": {
       "integrity": "55d1d9d04f99403fe5730ab16bdcc3c47f658a6bf054cafb38a50f046238116e"
@@ -205,8 +205,8 @@
   },
   "workspace": {
     "dependencies": [
-      "jsr:@flint/framework@~0.15.2",
-      "jsr:@handcraft/lib@^1.4.1",
+      "jsr:@flint/framework@~0.15.3",
+      "jsr:@handcraft/lib@^1.4.2",
       "jsr:@std/fs@^1.0.19",
       "jsr:@std/path@^1.1.2",
       "jsr:@std/text@^1.0.16",
