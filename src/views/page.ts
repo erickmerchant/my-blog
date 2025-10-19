@@ -14,14 +14,12 @@ export default function (
     styles,
     bannerTitle,
     main,
-    resolve,
   }: {
     site: Site;
     pageTitle?: Array<HandcraftChildArg>;
     styles: Array<HandcraftChildArg>;
     bannerTitle?: Array<HandcraftChildArg>;
     main: Array<HandcraftChildArg>;
-    resolve: (url: string) => string;
   },
 ) {
   const baseHead = head(
@@ -29,27 +27,23 @@ export default function (
     meta.name("viewport").content("width=device-width, initial-scale=1"),
     title(pageTitle ? pageTitle + " - " + site.title : site.title),
     link.rel("preload")
-      .href(
-        resolve("/fonts/Jacquard24-Regular-subset.woff2"),
-      )
+      .href("/fonts/Jacquard24-Regular-subset.woff2")
       .as("font")
       .type("font/woff2")
       .crossorigin(""),
     link.rel("preload")
-      .href(
-        resolve("/fonts/WorkSans-VariableFont_wght-subset.woff2"),
-      )
+      .href("/fonts/WorkSans-VariableFont_wght-subset.woff2")
       .as("font")
       .type("font/woff2")
       .crossorigin(""),
-    link.rel("stylesheet").href(resolve("/styles/page.css")),
+    link.rel("stylesheet").href("/styles/page.css"),
     ...styles,
     link
       .rel("alternate")
       .type("application/rss+xml")
       .title("Posts")
       .href(site.host + "/posts.rss"),
-    favicons({ resolve }),
+    favicons(),
     meta.name("description").content(site.description),
   );
   const baseNav = header.class("banner")(

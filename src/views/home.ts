@@ -1,4 +1,3 @@
-import type { FlintRouteContext } from "@flint/framework";
 import { each, fragment, h, when } from "@handcraft/lib";
 import page from "./page.ts";
 import * as Markdown from "../utils/markdown.ts";
@@ -7,14 +6,14 @@ import { getPublishedPosts } from "../models/post.ts";
 
 const { section, h1, h2, p, ol, ul, li, a, aside, link } = h.html;
 
-export default async function ({ resolve }: FlintRouteContext) {
+export default async function () {
   const site = await getSite();
   const posts = await getPublishedPosts();
 
   return page({
     site,
     bannerTitle: [h1.class("banner-title")(site.title)],
-    styles: [link.rel("stylesheet").href(resolve("/styles/home.css"))],
+    styles: [link.rel("stylesheet").href("/styles/home.css")],
     main: [
       when(() => posts.length > 0).show(() =>
         section.class("section")(
@@ -22,9 +21,7 @@ export default async function ({ resolve }: FlintRouteContext) {
           ol.class("section-list")(
             posts.map((post) =>
               li.class("section-item")(
-                a.class("title").href("/posts/" + post.slug + "/")(
-                  post.title,
-                ),
+                a.class("title").href("/posts/" + post.slug + "/")(post.title),
               )
             ),
           ),
@@ -49,6 +46,5 @@ export default async function ({ resolve }: FlintRouteContext) {
         fragment().html(await Markdown.parse(site.bio)),
       ),
     ],
-    resolve,
   });
 }

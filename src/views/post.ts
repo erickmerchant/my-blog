@@ -8,7 +8,7 @@ import { getPostBySlug } from "../models/post.ts";
 
 const { link, article, header, h1, time, span } = h.html;
 
-export default async function ({ params, resolve }: FlintRouteContext) {
+export default async function ({ params }: FlintRouteContext) {
   const site = await getSite();
   const post = await getPostBySlug(params.slug);
 
@@ -17,7 +17,7 @@ export default async function ({ params, resolve }: FlintRouteContext) {
       site,
       pageTitle: [post.title],
       styles: [
-        link.rel("stylesheet").href(resolve("/styles/post.css")),
+        link.rel("stylesheet").href("/styles/post.css"),
       ],
       main: [
         article.class("article")(
@@ -33,7 +33,6 @@ export default async function ({ params, resolve }: FlintRouteContext) {
           fragment().html(await Markdown.parse(post.content ?? "")),
         ),
       ],
-      resolve,
     })
     : "";
 }

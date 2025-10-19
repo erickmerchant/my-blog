@@ -169,7 +169,7 @@
     box-shadow:
       0 0 0 0.0625em oklch(from var(--button-background) l c h / 0.5),
       inset 0 0 0 0.0625em oklch(from var(--button-color) l c h / 0.125);
-    border-radius: 25%;
+    border-radius: 25% / 12.25%;
     corner-shape: squircle;
   }
 
@@ -282,8 +282,8 @@
   .rss-link {
     display: grid;
     aspect-ratio: 1;
-    block-size: 1.5rem;
-    padding: 0.125rem;
+    block-size: 1.25rem;
+    padding: 0;
 
     --button-background: light-dark(
       oklch(from darkorange 60% 0.175 h),

@@ -1,7 +1,7 @@
 {
   "version": "5",
   "specifiers": {
-    "jsr:@flint/framework@~0.15.3": "0.15.3",
+    "jsr:@flint/framework@0.16": "0.16.0",
     "jsr:@handcraft/lib@^1.4.2": "1.4.2",
     "jsr:@std/async@^1.0.15": "1.0.15",
     "jsr:@std/cli@^1.0.23": "1.0.23",
@@ -19,15 +19,16 @@
     "jsr:@std/toml@^1.0.11": "1.0.11",
     "npm:@types/node@*": "22.15.15",
     "npm:fast-xml-parser@5.3.0": "5.3.0",
+    "npm:html-rewriter-wasm@~0.4.1": "0.4.1",
     "npm:lightningcss@^1.30.2": "1.30.2",
-    "npm:marked-highlight@^2.2.2": "2.2.2_marked@16.4.0",
-    "npm:marked@^16.4.0": "16.4.0",
+    "npm:marked-highlight@^2.2.2": "2.2.2_marked@16.4.1",
+    "npm:marked@^16.4.1": "16.4.1",
     "npm:prismjs@*": "1.30.0",
     "npm:prismjs@^1.30.0": "1.30.0"
   },
   "jsr": {
-    "@flint/framework@0.15.3": {
-      "integrity": "f77c16d73988e3739224af61af95662c28547a44bb0ce01131ff54a50e4954c8",
+    "@flint/framework@0.16.0": {
+      "integrity": "5435dcc56e68cf17e2d19acd4ae7cb6f5dd1d9c46c40e8cb2d2eda759a25cc6e",
       "dependencies": [
         "jsr:@std/async",
         "jsr:@std/cli",
@@ -36,6 +37,7 @@
         "jsr:@std/fs",
         "jsr:@std/media-types",
         "jsr:@std/path@^1.1.2",
+        "npm:html-rewriter-wasm",
         "npm:lightningcss"
       ]
     },
@@ -108,6 +110,9 @@
         "strnum"
       ],
       "bin": true
+    },
+    "html-rewriter-wasm@0.4.1": {
+      "integrity": "sha512-lNovG8CMCCmcVB1Q7xggMSf7tqPCijZXaH4gL6iE8BFghdQCbaY5Met9i1x2Ex8m/cZHDUtXK9H6/znKamRP8Q=="
     },
     "lightningcss-android-arm64@1.30.2": {
       "integrity": "sha512-BH9sEdOCahSgmkVhBLeU7Hc9DWeZ1Eb6wNS6Da8igvUwAe0sqROHddIlvU06q3WyXVEOYDZ6ykBZQnjTbmo4+A==",
@@ -183,14 +188,14 @@
         "lightningcss-win32-x64-msvc"
       ]
     },
-    "marked-highlight@2.2.2_marked@16.4.0": {
+    "marked-highlight@2.2.2_marked@16.4.1": {
       "integrity": "sha512-KlHOP31DatbtPPXPaI8nx1KTrG3EW0Z5zewCwpUj65swbtKOTStteK3sNAjBqV75Pgo3fNEVNHeptg18mDuWgw==",
       "dependencies": [
         "marked"
       ]
     },
-    "marked@16.4.0": {
-      "integrity": "sha512-CTPAcRBq57cn3R8n3hwc2REddc28hjR7RzDXQ+lXLmMJYqn20BaI2cGw6QjgZGIgVfp2Wdfw4aMzgNteQ6qJgQ==",
+    "marked@16.4.1": {
+      "integrity": "sha512-ntROs7RaN3EvWfy3EZi14H4YxmT6A5YvywfhO+0pm+cH/dnSQRmdAmoFIc3B9aiwTehyk7pESH4ofyBY+V5hZg==",
       "bin": true
     },
     "prismjs@1.30.0": {
@@ -205,7 +210,7 @@
   },
   "workspace": {
     "dependencies": [
-      "jsr:@flint/framework@~0.15.3",
+      "jsr:@flint/framework@0.16",
       "jsr:@handcraft/lib@^1.4.2",
       "jsr:@std/fs@^1.0.19",
       "jsr:@std/path@^1.1.2",
@@ -213,7 +218,7 @@
       "jsr:@std/toml@^1.0.11",
       "npm:fast-xml-parser@5.3.0",
       "npm:marked-highlight@^2.2.2",
-      "npm:marked@^16.4.0",
+      "npm:marked@^16.4.1",
       "npm:prismjs@^1.30.0"
     ]
   }

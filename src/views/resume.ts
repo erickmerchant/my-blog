@@ -1,4 +1,3 @@
-import type { FlintRouteContext } from "@flint/framework";
 import type { ResumeItem } from "../types.ts";
 import { each, h, render, when } from "@handcraft/lib";
 import * as Markdown from "../utils/markdown.ts";
@@ -25,7 +24,7 @@ const {
   html,
 } = h.html;
 
-export default async function ({ resolve }: FlintRouteContext) {
+export default async function () {
   const resume = await getResume();
 
   return render(
@@ -35,28 +34,22 @@ export default async function ({ resolve }: FlintRouteContext) {
         meta.name("viewport").content("width=device-width, initial-scale=1"),
         title("Résumé"),
         link.rel("preload")
-          .href(
-            resolve("/fonts/Bitter-Bold-subset.woff2"),
-          )
+          .href("/fonts/Bitter-Bold-subset.woff2")
           .as("font")
           .type("font/woff2")
           .crossorigin(""),
         link.rel("preload")
-          .href(
-            resolve("/fonts/WorkSans-VariableFont_wght-subset.woff2"),
-          )
+          .href("/fonts/WorkSans-VariableFont_wght-subset.woff2")
           .as("font")
           .type("font/woff2")
           .crossorigin(""),
         link.rel("preload")
-          .href(
-            resolve("/fonts/WorkSans-Italic-VariableFont_wght-subset.woff2"),
-          )
+          .href("/fonts/WorkSans-Italic-VariableFont_wght-subset.woff2")
           .as("font")
           .type("font/woff2")
           .crossorigin(""),
-        link.href(resolve("/styles/resume.css")).rel("stylesheet"),
-        favicons({ resolve }),
+        link.href("/styles/resume.css").rel("stylesheet"),
+        favicons(),
         meta.name("description").content("My résumé"),
       ),
       body.class("page")(
