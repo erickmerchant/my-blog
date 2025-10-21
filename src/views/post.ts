@@ -6,7 +6,7 @@ import page from "./page.ts";
 import { getSite } from "../models/site.ts";
 import { getPostBySlug } from "../models/post.ts";
 
-const { link, article, header, h1, time, span } = h.html;
+const { link, article, div, h1, time, span } = h.html;
 
 export default async function ({ params }: FlintRouteContext) {
   const site = await getSite();
@@ -21,7 +21,7 @@ export default async function ({ params }: FlintRouteContext) {
       ],
       main: [
         article.class("article")(
-          header(
+          div(
             h1(post.title),
             when(() => post.datePublished != null).show(
               () =>

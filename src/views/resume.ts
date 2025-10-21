@@ -12,7 +12,6 @@ const {
   h2,
   h3,
   head,
-  header,
   li,
   link,
   meta,
@@ -54,7 +53,7 @@ export default async function () {
       ),
       body.class("page")(
         div.class("layout")(
-          header.class("header")(
+          div.class("header")(
             h1(resume.name),
             ul.class("contacts")(
               resume.contacts.map((contact) =>
@@ -84,7 +83,7 @@ function timeline(
   { title, items }: { title: string; items: Array<ResumeItem> },
 ) {
   return section.class("timeline")(
-    header.class("timeline-header")(h2(title)),
+    div.class("timeline-header")(h2(title)),
     ol.class("timeline-items")(
       each(items).map(async (item) =>
         li(
