@@ -12,7 +12,7 @@ export default async function () {
 
   return page({
     site,
-    bannerTitle: [h1.class("banner-title")(site.title)],
+    bannerTitle: h1,
     styles: [link.rel("stylesheet").href("/styles/home.css")],
     main: [
       when(() => posts.length > 0).show(() =>

@@ -1,6 +1,12 @@
-import type { Post } from "../types.ts";
 import * as Toml from "@std/toml";
 import * as Fs from "@std/fs";
+
+export type Post = {
+  slug: string;
+  title: string;
+  datePublished?: Temporal.PlainDate;
+  content?: string;
+};
 
 export async function getPublishedPosts(): Promise<Array<Post>> {
   const posts: Array<Post> = [];

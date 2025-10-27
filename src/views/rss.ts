@@ -1,8 +1,27 @@
-import type { RSS, RssItem } from "../types.ts";
 import * as XML from "fast-xml-parser";
 import { asRFC822Date } from "../utils/dates.ts";
 import { getSite } from "../models/site.ts";
 import { getPublishedPosts } from "../models/post.ts";
+
+type RssItem = {
+  title: string;
+  link: string;
+  guid: string;
+  pubDate: string;
+};
+
+export type RSS = {
+  rss: {
+    attributes: { version: string };
+    channel: {
+      title: string;
+      description: string;
+      link: string;
+      copyright: string;
+      item: Array<RssItem>;
+    };
+  };
+};
 
 export default async function () {
   const site = await getSite();

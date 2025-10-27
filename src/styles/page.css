@@ -1,23 +1,31 @@
 @font-face {
-  font-family: "Jacquard 24";
-  src: url(/fonts/Jacquard24-Regular-subset.woff2) format("woff2");
+  font-family: "Manufacturing Consent";
+  src: url(/fonts/ManufacturingConsent-Regular-subset.woff2) format("woff2");
   unicode-range:
     U+45,
-    U+4D,
-    U+61,
+    U+72,
+    U+69,
     U+63,
+    U+6B,
+    U+4D,
     U+65,
     U+68,
-    U+69,
-    U+6B,
+    U+61,
     U+6E,
-    U+72,
     U+74;
 }
 
 @font-face {
   font-family: "Work Sans";
   src: url(/fonts/WorkSans-VariableFont_wght-subset.woff2) format("woff2");
+  unicode-range: U+20-7E;
+}
+
+@font-face {
+  font-family: "Work Sans";
+  font-style: italic;
+  src: url(/fonts/WorkSans-Italic-VariableFont_wght-subset.woff2)
+    format("woff2");
   unicode-range: U+20-7E;
 }
 
@@ -48,9 +56,7 @@
   html {
     block-size: 100%;
     color-scheme: light dark;
-    font-family:
-      "Work Sans", Inter, Roboto, "Helvetica Neue", "Arial Nova", "Nimbus Sans",
-      Arial, sans-serif;
+    font-family: "Work Sans", system-ui, sans-serif;
     font-weight: 400;
     font-size: 112.5%;
     line-height: 1.5;
@@ -61,11 +67,11 @@
     scrollbar-color: currentColor var(--background);
     color: var(--text-color);
 
-    --background: light-dark(oklch(100% 0.02 60), oklch(30% 0.02 60));
-    --text-color: light-dark(oklch(30% 0.02 60), oklch(100% 0.02 60));
+    --background: light-dark(oklch(100% 0.04 60), oklch(30% 0.04 60));
+    --text-color: light-dark(oklch(30% 0.075 60), oklch(100% 0.075 60));
     --link-color: light-dark(
-      oklch(from seagreen 45% 0.2 h),
-      oklch(from seagreen 85% 0.2 h)
+      oklch(from seagreen 30% c h),
+      oklch(from seagreen 100% c h)
     );
   }
 
@@ -100,7 +106,7 @@
   h1,
   h2 {
     line-height: 1.25;
-    font-weight: 800;
+    font-weight: 700;
 
     a {
       text-decoration-thickness: 0.15em;
@@ -151,26 +157,14 @@
     list-style: none;
 
     > li {
-      &::before {
-        content: "-";
-        padding-inline-end: 0.25rem;
-        font-weight: 600;
+      padding-inline-start: 0.5rem;
+      margin-inline-start: 0.5rem;
+
+      &::marker {
+        content: "•";
+        font-weight: 700;
       }
     }
-  }
-
-  .button {
-    color: var(--button-color);
-    background-image: linear-gradient(
-      -30deg,
-      oklch(from var(--button-background) l c h / 0.95) 0 50%,
-      var(--button-background) 50%
-    );
-    box-shadow:
-      0 0 0 0.0625em oklch(from var(--button-background) l c h / 0.5),
-      inset 0 0 0 0.0625em oklch(from var(--button-color) l c h / 0.125);
-    border-radius: 25% / 12.25%;
-    corner-shape: squircle;
   }
 
   .page {
@@ -186,61 +180,49 @@
       grid-column: 2;
     }
 
-    > :nth-child(n+3),
-    > :first-child {
+    > :nth-child(n+3) {
       padding-block-start: 1rem;
       background-image: repeating-linear-gradient(
-        90deg,
-        transparent 0 0.125rem,
-        currentColor 0.125rem 0.5rem,
-        transparent 0.5rem 0.75rem
+        45deg,
+        oklch(from currentColor l c h / 0.2)
       );
-      background-size: calc(round(down, 100%, 0.75rem) - 0.75rem) 0.1rem;
+      background-size: 100% 0.0625rem;
       background-repeat: no-repeat;
     }
 
     > :nth-child(n+3) {
       background-position: center top;
     }
-
-    > :first-child {
-      background-position: center bottom;
-    }
   }
 
   .banner {
     display: grid;
     grid-template-columns: auto min-content;
-    padding-block: 0.5rem;
-    line-height: 1.5;
+    align-items: center;
+    padding-block: 1rem;
     gap: 1rem;
-
-    @container (inline-size > 43.5rem) {
-      padding-block: 0;
-    }
   }
 
   .banner-title {
-    font-family:
-      "Jacquard 24", Rockwell, "Rockwell Nova", "Roboto Slab", "DejaVu Serif",
-      "Sitka Small", serif;
+    font-family: "Manufacturing Consent", system-ui, sans-serif;
     font-weight: normal;
-    font-weight: 400;
-    font-size: clamp(2rem, 7cqi, 3.5rem);
+    font-size: clamp(2rem, 7cqi, 4rem);
     line-height: 1;
-    margin-block: 0.25em;
-    padding-block-start: 0.25rem;
+
+    a {
+      color: var(--text-color);
+      text-decoration-thickness: 0.065em;
+      text-underline-offset: 0.3em;
+    }
   }
 
   .banner-link {
+    margin-block-start: 1rem;
     align-self: center;
     padding: 0.25rem 1rem;
     text-decoration: none;
-    font-size: 1rem;
-    font-weight: 800;
-
-    --button-background: var(--link-color);
-    --button-color: var(--background);
+    font-size: 0.875rem;
+    font-weight: 700;
   }
 
   .footer {
@@ -268,10 +250,8 @@
   .footer-item {
     display: grid;
     align-content: center;
-
-    &::before {
-      content: none;
-    }
+    margin-inline-start: 0;
+    padding-inline-start: 0;
   }
 
   .footer-link {
@@ -281,25 +261,36 @@
 
   .rss-link {
     display: grid;
-    aspect-ratio: 1;
-    block-size: 1.25rem;
+    grid-template-columns: 1.25rem min-content;
+    gap: 0.5em;
     padding: 0;
-
-    --button-background: light-dark(
-      oklch(from darkorange 60% 0.175 h),
-      oklch(from darkorange 85% 0.175 h)
+    color: light-dark(
+      oklch(from darkorange 30% c h),
+      oklch(from darkorange 100% c h)
     );
-    --button-color: var(--background);
 
-    svg {
-      block-size: 100%;
-      inline-size: auto;
+    .icon {
+      display: inline-grid;
       aspect-ratio: 1;
-      fill: var(--button-color);
-      background: transparent;
+      inline-size: auto;
+      block-size: 1.25rem;
       padding: 0.225rem;
-      margin-block-end: -0.2rem;
-      margin-inline-end: 0.5rem;
+      margin-block-start: 0.125rem;
+      background: currentColor;
+      background-image: linear-gradient(
+        -30deg,
+        oklch(from currentColor l c h / 0.95) 0 50%,
+        currentColor 50%
+      );
+      box-shadow:
+        0 0 0 0.0625em oklch(from currentColor l c h / 0.5),
+        inset 0 0 0 0.0625em oklch(from var(--background) l c h / 0.125);
+      border-radius: 0.5rem;
+      corner-shape: squircle;
+
+      svg {
+        fill: var(--background);
+      }
     }
   }
 }

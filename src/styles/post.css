@@ -7,7 +7,8 @@
     background-color: oklch(from var(--background) l calc(c - 0.01) h);
     border: 0.0625rem solid oklch(from currentColor l c h / 0.2);
     padding: 0.05rem 0.25rem;
-    border-radius: 0.125rem;
+    border-radius: 0.5rem;
+    corner-shape: squircle;
 
     /* Arc iOS bug fix */
     a {
@@ -20,7 +21,8 @@
 
   pre {
     border: 0.0625rem solid oklch(from currentColor l c h / 0.2);
-    border-radius: 0.125rem;
+    border-radius: 0.5rem;
+    corner-shape: squircle;
     overflow-x: auto;
     overflow-y: hidden;
     overscroll-behavior-x: none;
@@ -30,7 +32,7 @@
     position: relative;
     white-space: pre;
     word-break: break-word;
-    max-inline-size: 43rem;
+    max-inline-size: 40rem;
     background-color: oklch(from var(--background) l calc(c - 0.01) h);
     justify-self: center;
     scrollbar-width: thin;
@@ -51,8 +53,8 @@
     padding: 1rem 1.5rem;
     border: 0.0625rem solid oklch(from currentColor l c h / 0.2);
     border-radius: 0.5rem;
-    corner-shape: bevel;
-    background-color: oklch(from var(--background) l calc(c + 0.0075) h);
+    corner-shape: squircle;
+    background-color: oklch(from var(--background) l calc(c + 0.005) h);
     overflow-wrap: anywhere;
     hyphens: auto;
     justify-self: start;
