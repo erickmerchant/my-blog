@@ -2,17 +2,7 @@
   font-family: "Manufacturing Consent";
   src: url(/fonts/ManufacturingConsent-Regular-subset.woff2) format("woff2");
   unicode-range:
-    U+45,
-    U+72,
-    U+69,
-    U+63,
-    U+6B,
-    U+4D,
-    U+65,
-    U+68,
-    U+61,
-    U+6E,
-    U+74;
+    U+45, U+72, U+69, U+63, U+6B, U+4D, U+65, U+68, U+61, U+6E, U+74;
 }
 
 @font-face {
@@ -67,8 +57,8 @@
     scrollbar-color: currentColor var(--background);
     color: var(--text-color);
 
-    --background: light-dark(oklch(100% 0.04 60), oklch(30% 0.04 60));
-    --text-color: light-dark(oklch(30% 0.075 60), oklch(100% 0.075 60));
+    --background: light-dark(oklch(100% 0.04 60), oklch(30% 0 60));
+    --text-color: light-dark(oklch(30% 0 60), oklch(100% 0.075 60));
     --link-color: light-dark(
       oklch(from seagreen 30% c h),
       oklch(from seagreen 100% c h)
@@ -162,7 +152,7 @@
 
       &::marker {
         content: "•";
-        font-weight: 700;
+        font-weight: 900;
       }
     }
   }
@@ -180,17 +170,14 @@
       grid-column: 2;
     }
 
-    > :nth-child(n+3) {
+    > :nth-child(n + 3) {
       padding-block-start: 1rem;
-      background-image: repeating-linear-gradient(
-        45deg,
-        oklch(from currentColor l c h / 0.2)
-      );
-      background-size: 100% 0.0625rem;
+      background-image: repeating-linear-gradient(45deg, currentColor);
+      background-size: 100% 0.125rem;
       background-repeat: no-repeat;
     }
 
-    > :nth-child(n+3) {
+    > :nth-child(n + 3) {
       background-position: center top;
     }
   }
@@ -265,8 +252,8 @@
     gap: 0.5em;
     padding: 0;
     color: light-dark(
-      oklch(from darkorange 30% c h),
-      oklch(from darkorange 100% c h)
+      oklch(from darkorange 60% c h),
+      oklch(from darkorange 90% c h)
     );
 
     .icon {

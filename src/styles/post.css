@@ -38,11 +38,6 @@
     scrollbar-width: thin;
     scrollbar-color: currentColor
       oklch(from var(--background) l calc(c - 0.01) h);
-    --column: 1 / -1;
-
-    @container (inline-size <= 43.5rem) {
-      border-inline: none;
-    }
 
     code {
       padding: 1rem 1.5rem;
@@ -59,10 +54,8 @@
     hyphens: auto;
     justify-self: start;
     position: relative;
-    inset: -0.25rem -0.25rem;
 
     @container (inline-size <= 43.5rem) {
-      max-inline-size: calc(100% - 1rem);
       padding-inline: 1rem;
     }
 
