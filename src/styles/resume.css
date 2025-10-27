@@ -157,7 +157,6 @@ li {
     block-size: 1.125rem;
     inline-size: 0.5rem;
     align-self: baseline;
-    /* margin-block-start: 0.125rem; */
     margin-inline-end: 0.125rem;
     background-color: oklch(from slategray 70% c h / 0.5);
   }

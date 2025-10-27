@@ -70,8 +70,8 @@
     --background: light-dark(oklch(100% 0.04 60), oklch(30% 0 60));
     --text-color: light-dark(oklch(30% 0 60), oklch(100% 0.075 60));
     --link-color: light-dark(
-      oklch(from seagreen 30% c h),
-      oklch(from seagreen 100% c h)
+      oklch(from seagreen 50% c h),
+      oklch(from seagreen 90% c h)
     );
   }
 
@@ -154,8 +154,6 @@
 
   ul,
   ol {
-    list-style: none;
-
     > li {
       padding-inline-start: 0.5rem;
       margin-inline-start: 0.5rem;
@@ -262,7 +260,7 @@
     gap: 0.5em;
     padding: 0;
     color: light-dark(
-      oklch(from darkorange 60% c h),
+      oklch(from darkorange 50% c h),
       oklch(from darkorange 90% c h)
     );
 
