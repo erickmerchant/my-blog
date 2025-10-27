@@ -42,12 +42,12 @@
     code {
       padding: 1rem 1.5rem;
 
-      @container (inline-size <= 43.5rem) {
+      @container (inline-size <= 41rem) {
         padding-inline: 1rem;
       }
     }
 
-    @container (inline-size <= 43.5rem) {
+    @container (inline-size <= 41rem) {
       border-inline: none;
       border-radius: 0;
       padding-inline: 0;
@@ -67,7 +67,7 @@
     justify-self: start;
     position: relative;
 
-    @container (inline-size <= 43.5rem) {
+    @container (inline-size <= 41rem) {
       border-inline: none;
       border-radius: 0;
       padding-inline: 1rem;

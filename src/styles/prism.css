@@ -19,20 +19,10 @@
     overflow: auto;
   }
 
-  .token.cdata,
-  .token.comment,
-  .token.doctype,
-  .token.prolog {
+  .token.comment {
     color: light-dark(
-      oklch(from ghostwhite 55% c h),
-      oklch(from ghostwhite 90% c h)
-    );
-  }
-
-  .token.punctuation {
-    color: light-dark(
-      oklch(from slategray 55% c h),
-      oklch(from slategray 90% c h)
+      oklch(from antiquewhite 55% c h),
+      oklch(from antiquewhite 90% c h)
     );
   }
 
@@ -47,10 +37,7 @@
 
   .token.keyword,
   .token.tag {
-    color: light-dark(
-      oklch(from lightsteelblue 55% c h),
-      oklch(from lightsteelblue 90% c h)
-    );
+    color: light-dark(oklch(from gold 55% c h), oklch(from gold 90% c h));
   }
 
   .token.attr-name,
@@ -71,9 +58,8 @@
     color: light-dark(oklch(from plum 55% c h), oklch(from plum 90% c h));
   }
 
-  .token.string,
-  .token.property {
-    color: light-dark(oklch(from gold 55% c h), oklch(from gold 90% c h));
+  .token.string {
+    color: light-dark(oklch(from crimson 55% c h), oklch(from crimson 90% c h));
   }
 
   .token.bold,
