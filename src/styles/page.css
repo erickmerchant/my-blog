@@ -154,6 +154,9 @@
 
   ul,
   ol {
+    list-style-type: disc;
+    list-style-position: outside;
+
     > li {
       padding-inline-start: 0.5rem;
       margin-inline-start: 0.5rem;
