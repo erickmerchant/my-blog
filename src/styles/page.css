@@ -155,17 +155,8 @@
   ul,
   ol {
     list-style-type: disc;
-    list-style-position: outside;
-
-    > li {
-      padding-inline-start: 0.5rem;
-      margin-inline-start: 0.5rem;
-
-      &::marker {
-        content: "•";
-        font-weight: 900;
-      }
-    }
+    list-style-position: inside;
+    padding-inline-start: 0.25rem;
   }
 
   .page {
