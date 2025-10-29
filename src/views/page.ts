@@ -11,13 +11,13 @@ export default function (
   {
     site,
     pageTitle,
-    styles,
+    stylesheet = null,
     bannerTitle = span,
     main,
   }: {
     site: Site;
-    pageTitle?: Array<HandcraftChildArg>;
-    styles: Array<HandcraftChildArg>;
+    pageTitle?: HandcraftChildArg;
+    stylesheet?: HandcraftChildArg;
     bannerTitle?: HandcraftElement;
     main: Array<HandcraftChildArg>;
   },
@@ -37,7 +37,7 @@ export default function (
       .type("font/woff2")
       .crossorigin(""),
     link.rel("stylesheet").href("/styles/page.css"),
-    ...styles,
+    stylesheet,
     link
       .rel("alternate")
       .type("application/rss+xml")

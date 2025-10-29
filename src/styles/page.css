@@ -47,7 +47,6 @@
     box-sizing: border-box;
     color: inherit;
     margin: 0;
-    max-inline-size: 100%;
     padding: 0;
     border: none;
     -webkit-text-size-adjust: none;
@@ -149,14 +148,15 @@
   del {
     text-decoration: line-through;
     text-decoration-thickness: 0.25em;
-    text-decoration-color: oklch(from currentColor l c h / 0.5);
+    text-decoration-color: oklch(from currentColor l c h / 0.75);
   }
 
   ul,
   ol {
     list-style-type: disc;
-    list-style-position: inside;
+    list-style-position: outside;
     padding-inline-start: 0.25rem;
+    margin-inline-start: 0.75rem;
   }
 
   .page {
@@ -172,14 +172,14 @@
       grid-column: 2;
     }
 
-    > :nth-child(n+3) {
+    > :nth-child(n+2) {
       padding-block-start: 1rem;
       background-image: repeating-linear-gradient(45deg, currentColor);
       background-size: 100% 0.125rem;
       background-repeat: no-repeat;
     }
 
-    > :nth-child(n+3) {
+    > :nth-child(n+2) {
       background-position: center top;
     }
   }
@@ -188,7 +188,7 @@
     display: grid;
     grid-template-columns: auto min-content;
     align-items: center;
-    padding-block: 1rem;
+    padding-block-start: 1rem;
     gap: 1rem;
   }
 
@@ -200,18 +200,8 @@
 
     a {
       color: var(--text-color);
-      text-decoration-thickness: 0.065em;
-      text-underline-offset: 0.3em;
+      text-decoration: none;
     }
-  }
-
-  .banner-link {
-    margin-block-start: 1rem;
-    align-self: center;
-    padding: 0.25rem 1rem;
-    text-decoration: none;
-    font-size: 0.875rem;
-    font-weight: 700;
   }
 
   .footer {
@@ -271,10 +261,7 @@
         oklch(from currentColor l c h / 0.95) 0 50%,
         currentColor 50%
       );
-      box-shadow:
-        0 0 0 0.0625em oklch(from currentColor l c h / 0.5),
-        inset 0 0 0 0.0625em oklch(from var(--background) l c h / 0.125);
-      border-radius: 0.5rem;
+      border-radius: 0.25rem;
       corner-shape: squircle;
 
       svg {

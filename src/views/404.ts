@@ -9,8 +9,8 @@ export default async function () {
 
   return page({
     site,
-    pageTitle: ["404 Not Found"],
-    styles: [link.rel("stylesheet").href("/styles/post.css")],
+    pageTitle: "404 Not Found",
+    stylesheet: link.rel("stylesheet").href("/styles/post.css"),
     main: [
       article.class("article")(
         h1("404 Not Found"),

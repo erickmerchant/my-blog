@@ -38,6 +38,7 @@
     scrollbar-width: thin;
     scrollbar-color: currentColor
       oklch(from var(--background) l calc(c - 0.01) h);
+    margin-inline: auto;
 
     code {
       padding: 1rem 1.5rem;
@@ -51,29 +52,19 @@
       border-inline: none;
       border-radius: 0;
       padding-inline: 0;
-
-      --column: 1 / -1;
+      inset-inline-start: -1rem;
+      inline-size: calc(100% + 2rem);
     }
   }
 
   blockquote {
-    padding: 1rem 1.5rem;
-    border: 0.0625rem solid oklch(from currentColor l c h / 0.2);
-    border-radius: 0.5rem;
-    corner-shape: squircle;
-    background-color: oklch(from var(--background) l calc(c + 0.005) h);
+    inline-size: 100%;
+    padding: 0.25rem 1.5rem;
+    border-inline-start: 0.125rem solid currentColor;
     overflow-wrap: anywhere;
     hyphens: auto;
     justify-self: start;
     position: relative;
-
-    @container (inline-size <= 41rem) {
-      border-inline: none;
-      border-radius: 0;
-      padding-inline: 1rem;
-
-      --column: 1 / -1;
-    }
 
     > :not(:last-child) {
       margin-block-end: 1rem;
@@ -96,17 +87,14 @@
 
   .article {
     display: grid;
-    grid-column: 1 / -1;
-    grid-template-columns: subgrid;
-    align-content: start;
+    grid-template-columns: auto;
     row-gap: 1rem;
     overflow-wrap: break-word;
+    align-items: center;
     z-index: 1;
 
     > * {
-      inline-size: 100%;
-      margin-inline: auto;
-      grid-column: var(--column, 2);
+      min-inline-size: 100%;
     }
   }
 }

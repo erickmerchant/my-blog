@@ -15,10 +15,8 @@ export default async function ({ params }: FlintRouteContext) {
   return post
     ? page({
       site,
-      pageTitle: [post.title],
-      styles: [
-        link.rel("stylesheet").href("/styles/post.css"),
-      ],
+      pageTitle: post.title,
+      stylesheet: link.rel("stylesheet").href("/styles/post.css"),
       main: [
         article.class("article")(
           div(

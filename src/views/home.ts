@@ -13,7 +13,7 @@ export default async function () {
   return page({
     site,
     bannerTitle: h1,
-    styles: [link.rel("stylesheet").href("/styles/home.css")],
+    stylesheet: link.rel("stylesheet").href("/styles/home.css"),
     main: [
       when(() => posts.length > 0).show(() =>
         section.class("section")(
