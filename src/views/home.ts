@@ -4,7 +4,7 @@ import * as Markdown from "../utils/markdown.ts";
 import { getSite } from "../models/site.ts";
 import { getPublishedPosts } from "../models/post.ts";
 
-const { section, h1, h2, p, ol, ul, li, a, aside, link } = h.html;
+const { section, h1, h2, p, ol, ul, li, a, aside } = h.html;
 
 export default async function () {
   const site = await getSite();
@@ -13,7 +13,6 @@ export default async function () {
   return page({
     site,
     bannerTitle: h1,
-    stylesheet: link.rel("stylesheet").href("/styles/home.css"),
     main: [
       when(() => posts.length > 0).show(() =>
         section.class("section")(

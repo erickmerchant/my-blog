@@ -20,6 +20,7 @@
   }
 
   pre {
+    line-height: 1.5;
     border: 0.0625rem solid oklch(from currentColor l c h / 0.2);
     border-radius: 0.5rem;
     corner-shape: squircle;
@@ -82,7 +83,7 @@
   }
 
   .status {
-    font-weight: 300;
+    font-weight: 200;
   }
 
   .article {
