@@ -27,7 +27,7 @@
   .token.regex,
   .token.atrule,
   .token.constant {
-    color: light-dark(oklch(from wheat 55% c h), oklch(from wheat 90% c h));
+    color: light-dark(oklch(from pink 55% c h), oklch(from pink 90% c h));
   }
 
   .token.keyword,
@@ -43,7 +43,10 @@
   .token.selector,
   .token.options,
   .token.options * {
-    color: light-dark(oklch(from coral 55% c h), oklch(from coral 90% c h));
+    color: light-dark(
+      oklch(from darkorange 55% c h),
+      oklch(from darkorange 90% c h)
+    );
   }
 
   .token.variable,

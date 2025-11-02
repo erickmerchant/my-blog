@@ -85,8 +85,8 @@
     --background: light-dark(oklch(100% 0.04 60), oklch(30% 0 60));
     --text-color: light-dark(oklch(30% 0 60), oklch(100% 0.075 60));
     --link-color: light-dark(
-      oklch(from seagreen 50% c h),
-      oklch(from seagreen 90% c h)
+      oklch(from forestgreen 50% c h),
+      oklch(from forestgreen 90% c h)
     );
   }
 
@@ -99,6 +99,7 @@
     text-decoration-thickness: 0.05em;
     text-underline-offset: 0.15em;
     text-decoration-color: currentColor;
+    font-weight: 500;
   }
 
   p {
@@ -116,12 +117,8 @@
   h5,
   h6 {
     text-wrap: balance;
-  }
-
-  h1,
-  h2 {
+    font-weight: 600;
     line-height: 1.5;
-    font-weight: 800;
 
     a {
       text-decoration-thickness: 0.1em;
@@ -140,16 +137,6 @@
     }
   }
 
-  h3,
-  h4,
-  strong {
-    font-weight: 800;
-
-    a {
-      text-decoration-thickness: 0.1em;
-    }
-  }
-
   code {
     font-family: "Cascadia Code", ui-monospace, monospace;
     font-weight: 300;
@@ -158,6 +145,10 @@
 
   em {
     font-weight: 200;
+  }
+
+  strong {
+    font-weight: 600;
   }
 
   del {
@@ -211,14 +202,13 @@
 
   .banner-title {
     font-family: "Bitter", system-ui, sans-serif;
-    font-weight: normal;
-    font-size: clamp(2rem, 7cqi, 3rem);
+    font-size: clamp(1rem, 4.666cqi, 2rem);
     line-height: 1;
 
     a {
       color: var(--text-color);
       text-decoration: none;
-      font-weight: 200;
+      font-weight: 800;
     }
   }
 
@@ -227,7 +217,6 @@
     gap: 1.5rem 0;
     align-content: center;
     padding-block: 1rem;
-    font-weight: 400;
   }
 
   .footer-list {

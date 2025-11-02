@@ -28,7 +28,7 @@ export default async function ({ params }: FlintRouteContext) {
                 ),
             ).fallback(() => span.class("status")("Draft")),
           ),
-          fragment().html(await Markdown.parse(post.content ?? "")),
+          fragment.html(await Markdown.parse(post.content ?? "")),
         ),
       ],
     })

@@ -34,7 +34,7 @@ export default async function () {
             each(site.projects).map(async (project) =>
               li.class("section-item")(
                 a.class("title").href(project.href)(project.title),
-                fragment().html(await Markdown.parse(project.description)),
+                fragment.html(await Markdown.parse(project.description)),
               )
             ),
           ),
@@ -42,7 +42,7 @@ export default async function () {
       ),
       aside.class("section")(
         h2("About"),
-        fragment().html(await Markdown.parse(site.bio)),
+        fragment.html(await Markdown.parse(site.bio)),
       ),
     ],
   });
