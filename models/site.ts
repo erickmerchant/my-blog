@@ -17,7 +17,7 @@ type Project = {
 
 export async function getSite(): Promise<Site> {
   /* create site model */
-  const siteContent = await Deno.readTextFile("./src/content/site.toml");
+  const siteContent = await Deno.readTextFile("./content/site.toml");
   const site = Toml.parse(siteContent) as Site;
 
   return site;

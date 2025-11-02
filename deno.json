@@ -1,8 +1,8 @@
 {
   "unstable": ["temporal"],
   "tasks": {
-    "post:draft": "deno run -A src/cli/post-draft.ts",
-    "post:publish": "deno run -A src/cli/post-publish.ts",
+    "post:draft": "deno run -A cli/post-draft.ts",
+    "post:publish": "deno run -A cli/post-publish.ts",
     "dev": "deno serve -A --port=4000 --watch-hmr flint.ts --dev",
     "build": "deno run -A flint.ts --build",
     "stage": {

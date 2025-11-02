@@ -10,7 +10,7 @@ if (import.meta.main) {
     title,
   });
   const code = `+++\n${frontmatter}+++\n`;
-  const path = `src/content/posts/${slug}.md`;
+  const path = `content/posts/${slug}.md`;
 
   await Fs.ensureDir(Path.dirname(path));
 
