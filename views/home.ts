@@ -10,10 +10,10 @@ export default async function () {
   const site = await getSite();
   const posts = await getPublishedPosts();
 
-  return page({
-    site,
-    bannerTitle: h1,
-    main: [
+  return page
+    .site(site)
+    .bannerTitle(h1)
+    .main([
       when(() => posts.length > 0).show(() =>
         section.class("section")(
           h2("Posts"),
@@ -44,6 +44,5 @@ export default async function () {
         h2("About"),
         fragment.html(await Markdown.parse(site.bio)),
       ),
-    ],
-  });
+    ])();
 }
