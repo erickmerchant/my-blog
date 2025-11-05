@@ -7,16 +7,15 @@ const { link, article, h1, p } = h.html;
 export default async function () {
   const site = await getSite();
 
-  return page
-    .site(site)
-    .pageTitle("404 Not Found")
-    .stylesheet(
-      link.rel("stylesheet").href("/styles/post.css"),
-    )
-    .main([
+  return page({
+    site,
+    pageTitle: "404 Not Found",
+    stylesheet: link.rel("stylesheet").href("/styles/post.css"),
+    main: [
       article.class("article")(
         h1("404 Not Found"),
         p("The thing you're looking for can not be located."),
       ),
-    ])();
+    ],
+  });
 }

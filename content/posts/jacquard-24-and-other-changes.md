@@ -158,7 +158,7 @@ I'm doing several things to ensure that my network graph remains as flat as
 possible. All assets except favicons are requested as soon as is possible and in
 the network panel there is hardly a waterfall at all.
 
-I'm countinuing to use the cache strategy described in a previous post,
+I'm continuing to use the cache strategy described in a previous post,
 ["Super cache strategy"](/posts/super-cache-strategy/). So all assets are
 prefixed with a unique hash so that they can be cached for a year while html
 uses an etag approach.
@@ -235,7 +235,7 @@ Tricks with proxies are involved as usual.
 
 ## RFC 822, en-NZ, and Intl.DateTimeFormat
 
-A bit of a tangeant, but while I was converting my Rust + Askama (Rust Jinja
+A bit of a tangent, but while I was converting my Rust + Askama (Rust Jinja
 basically) views to Javascript + Handcraft I wanted to use standard JS code to
 format dates. Well actually I couldn't find a suitable module, so I tried to use
 [Temporal](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Temporal).

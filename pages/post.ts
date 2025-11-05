@@ -13,11 +13,11 @@ export default async function ({ params }: FlintRouteContext) {
   const post = await getPostBySlug(params.slug);
 
   return post
-    ? page
-      .site(site)
-      .pageTitle(post.title)
-      .stylesheet(link.rel("stylesheet").href("/styles/post.css"))
-      .main([
+    ? page({
+      site,
+      pageTitle: post.title,
+      stylesheet: link.rel("stylesheet").href("/styles/post.css"),
+      main: [
         article.class("article")(
           div(
             h1(post.title),
@@ -30,6 +30,7 @@ export default async function ({ params }: FlintRouteContext) {
           ),
           fragment.html(await Markdown.parse(post.content ?? "")),
         ),
-      ])()
+      ],
+    })
     : "";
 }

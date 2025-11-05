@@ -1,25 +1,25 @@
 import type { HandcraftChildArg, HandcraftElement } from "@handcraft/lib";
 import type { Site } from "../models/site.ts";
-import { h, render, view } from "@handcraft/lib";
+import { h, render } from "@handcraft/lib";
 import favicons from "./favicons.ts";
 
 const { head, body, meta, title, link, header, span, a, footer, ul, li, html } =
   h.html;
 const { title: svgTitle, path, svg } = h.svg;
 
-export default view<{
-  site: Site;
-  pageTitle?: HandcraftChildArg;
-  stylesheet?: HandcraftChildArg;
-  bannerTitle?: HandcraftElement;
-  main: Array<HandcraftChildArg>;
-}, Promise<string>>(function (
+export default function (
   {
     site,
     pageTitle,
     stylesheet = null,
     bannerTitle = span,
     main,
+  }: {
+    site: Site;
+    pageTitle?: HandcraftChildArg;
+    stylesheet?: HandcraftChildArg;
+    bannerTitle?: HandcraftElement;
+    main: Array<HandcraftChildArg>;
   },
 ) {
   const baseHead = head(
@@ -72,4 +72,4 @@ export default view<{
   const baseBody = body.class("page")(baseNav, ...main, baseFooter);
 
   return render(html.lang("en-US")(baseHead, baseBody));
-});
+}
