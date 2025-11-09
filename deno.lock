@@ -10,6 +10,7 @@
     "jsr:@std/encoding@^1.0.10": "1.0.10",
     "jsr:@std/fs@^1.0.19": "1.0.19",
     "jsr:@std/internal@^1.0.10": "1.0.12",
+    "jsr:@std/internal@^1.0.12": "1.0.12",
     "jsr:@std/internal@^1.0.9": "1.0.12",
     "jsr:@std/media-types@^1.1.0": "1.1.0",
     "jsr:@std/path@^1.1.1": "1.1.2",
@@ -21,7 +22,7 @@
     "npm:fast-xml-parser@5.3.1": "5.3.1",
     "npm:html-rewriter-wasm@~0.4.1": "0.4.1",
     "npm:lightningcss@^1.30.2": "1.30.2",
-    "npm:marked-highlight@^2.2.2": "2.2.2_marked@16.4.1",
+    "npm:marked-highlight@^2.2.3": "2.2.3_marked@16.4.1",
     "npm:marked@16.4.1": "16.4.1",
     "npm:prismjs@*": "1.30.0",
     "npm:prismjs@^1.30.0": "1.30.0"
@@ -48,7 +49,10 @@
       "integrity": "55d1d9d04f99403fe5730ab16bdcc3c47f658a6bf054cafb38a50f046238116e"
     },
     "@std/cli@1.0.23": {
-      "integrity": "bf95b7a9425ba2af1ae5a6359daf58c508f2decf711a76ed2993cd352498ccca"
+      "integrity": "bf95b7a9425ba2af1ae5a6359daf58c508f2decf711a76ed2993cd352498ccca",
+      "dependencies": [
+        "jsr:@std/internal@^1.0.12"
+      ]
     },
     "@std/collections@1.1.3": {
       "integrity": "bf8b0818886df6a32b64c7d3b037a425111f28278d69fd0995aeb62777c986b0"
@@ -188,8 +192,8 @@
         "lightningcss-win32-x64-msvc"
       ]
     },
-    "marked-highlight@2.2.2_marked@16.4.1": {
-      "integrity": "sha512-KlHOP31DatbtPPXPaI8nx1KTrG3EW0Z5zewCwpUj65swbtKOTStteK3sNAjBqV75Pgo3fNEVNHeptg18mDuWgw==",
+    "marked-highlight@2.2.3_marked@16.4.1": {
+      "integrity": "sha512-FCfZRxW/msZAiasCML4isYpxyQWKEEx44vOgdn5Kloae+Qc3q4XR7WjpKKf8oMLk7JP9ZCRd2vhtclJFdwxlWQ==",
       "dependencies": [
         "marked"
       ]
@@ -212,12 +216,13 @@
     "dependencies": [
       "jsr:@flint/framework@0.17",
       "jsr:@handcraft/lib@^1.6.0",
+      "jsr:@std/cli@^1.0.23",
       "jsr:@std/fs@^1.0.19",
       "jsr:@std/path@^1.1.2",
       "jsr:@std/text@^1.0.16",
       "jsr:@std/toml@^1.0.11",
       "npm:fast-xml-parser@5.3.1",
-      "npm:marked-highlight@^2.2.2",
+      "npm:marked-highlight@^2.2.3",
       "npm:marked@16.4.1",
       "npm:prismjs@^1.30.0"
     ]
