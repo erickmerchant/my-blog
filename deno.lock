@@ -22,8 +22,8 @@
     "npm:fast-xml-parser@5.3.1": "5.3.1",
     "npm:html-rewriter-wasm@~0.4.1": "0.4.1",
     "npm:lightningcss@^1.30.2": "1.30.2",
-    "npm:marked-highlight@^2.2.3": "2.2.3_marked@16.4.1",
-    "npm:marked@16.4.1": "16.4.1",
+    "npm:marked-highlight@2.2.3": "2.2.3_marked@17.0.0",
+    "npm:marked@17.0.0": "17.0.0",
     "npm:prismjs@*": "1.30.0",
     "npm:prismjs@^1.30.0": "1.30.0"
   },
@@ -192,14 +192,14 @@
         "lightningcss-win32-x64-msvc"
       ]
     },
-    "marked-highlight@2.2.3_marked@16.4.1": {
+    "marked-highlight@2.2.3_marked@17.0.0": {
       "integrity": "sha512-FCfZRxW/msZAiasCML4isYpxyQWKEEx44vOgdn5Kloae+Qc3q4XR7WjpKKf8oMLk7JP9ZCRd2vhtclJFdwxlWQ==",
       "dependencies": [
         "marked"
       ]
     },
-    "marked@16.4.1": {
-      "integrity": "sha512-ntROs7RaN3EvWfy3EZi14H4YxmT6A5YvywfhO+0pm+cH/dnSQRmdAmoFIc3B9aiwTehyk7pESH4ofyBY+V5hZg==",
+    "marked@17.0.0": {
+      "integrity": "sha512-KkDYEWEEiYJw/KC+DVm1zzlpMQSMIu6YRltkcCvwheCp8HWPXCk9JwOmHJKBlGfzcpzcIt6x3sMnTsRm/51oDg==",
       "bin": true
     },
     "prismjs@1.30.0": {
@@ -222,8 +222,8 @@
       "jsr:@std/text@^1.0.16",
       "jsr:@std/toml@^1.0.11",
       "npm:fast-xml-parser@5.3.1",
-      "npm:marked-highlight@^2.2.3",
-      "npm:marked@16.4.1",
+      "npm:marked-highlight@2.2.3",
+      "npm:marked@17.0.0",
       "npm:prismjs@^1.30.0"
     ]
   }
