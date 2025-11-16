@@ -19,7 +19,7 @@
     "jsr:@std/text@^1.0.16": "1.0.16",
     "jsr:@std/toml@^1.0.11": "1.0.11",
     "npm:@types/node@*": "22.15.15",
-    "npm:fast-xml-parser@5.3.1": "5.3.1",
+    "npm:fast-xml-parser@5.3.2": "5.3.2",
     "npm:html-rewriter-wasm@~0.4.1": "0.4.1",
     "npm:lightningcss@^1.30.2": "1.30.2",
     "npm:marked-highlight@2.2.3": "2.2.3_marked@17.0.0",
@@ -108,8 +108,8 @@
     "detect-libc@2.1.2": {
       "integrity": "sha512-Btj2BOOO83o3WyH59e8MgXsxEQVcarkUOpEYrubB0urwnN10yQ364rsiByU11nZlqWYZm05i/of7io4mzihBtQ=="
     },
-    "fast-xml-parser@5.3.1": {
-      "integrity": "sha512-jbNkWiv2Ec1A7wuuxk0br0d0aTMUtQ4IkL+l/i1r9PRf6pLXjDgsBsWwO+UyczmQlnehi4Tbc8/KIvxGQe+I/A==",
+    "fast-xml-parser@5.3.2": {
+      "integrity": "sha512-n8v8b6p4Z1sMgqRmqLJm3awW4NX7NkaKPfb3uJIBTSH7Pdvufi3PQ3/lJLQrvxcMYl7JI2jnDO90siPEpD8JBA==",
       "dependencies": [
         "strnum"
       ],
@@ -221,7 +221,7 @@
       "jsr:@std/path@^1.1.2",
       "jsr:@std/text@^1.0.16",
       "jsr:@std/toml@^1.0.11",
-      "npm:fast-xml-parser@5.3.1",
+      "npm:fast-xml-parser@5.3.2",
       "npm:marked-highlight@2.2.3",
       "npm:marked@17.0.0",
       "npm:prismjs@^1.30.0"

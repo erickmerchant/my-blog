@@ -1,22 +1,24 @@
 @font-face {
   font-family: "Bitter";
-  font-weight: 700;
-  src: url(/fonts/Bitter-Bold-subset.woff2) format("woff2");
-  unicode-range: U+20-7E;
-}
-
-@font-face {
-  font-family: "Work Sans";
-  src: url(/fonts/WorkSans-VariableFont_wght-subset.woff2) format("woff2");
-  unicode-range: U+20-7E;
-}
-
-@font-face {
-  font-family: "Work Sans";
-  font-style: italic;
-  src: url(/fonts/WorkSans-Italic-VariableFont_wght-subset.woff2)
-    format("woff2");
-  unicode-range: U+20-7E;
+  src: url(/fonts/Bitter-VariableFont_wght-subset.woff2) format("woff2");
+  unicode-range:
+    U+0000-00FF,
+    U+0131,
+    U+0152-0153,
+    U+02BB-02BC,
+    U+02C6,
+    U+02DA,
+    U+02DC,
+    U+2000-206F,
+    U+2074,
+    U+20AC,
+    U+2122,
+    U+2191,
+    U+2193,
+    U+2212,
+    U+2215,
+    U+FEFF,
+    U+FFFD;
 }
 
 *,
@@ -68,7 +70,7 @@ li {
 
 :root {
   color: black;
-  font-family: "Work Sans", system-ui, sans-serif;
+  font-family: "Bitter", system-ui, sans-serif;
   font-weight: 400;
   line-height: 1.25;
 

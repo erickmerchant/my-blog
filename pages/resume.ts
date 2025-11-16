@@ -33,17 +33,7 @@ export default async function () {
         meta.name("viewport").content("width=device-width, initial-scale=1"),
         title("Résumé"),
         link.rel("preload")
-          .href("/fonts/Bitter-Bold-subset.woff2")
-          .as("font")
-          .type("font/woff2")
-          .crossorigin(""),
-        link.rel("preload")
-          .href("/fonts/WorkSans-VariableFont_wght-subset.woff2")
-          .as("font")
-          .type("font/woff2")
-          .crossorigin(""),
-        link.rel("preload")
-          .href("/fonts/WorkSans-Italic-VariableFont_wght-subset.woff2")
+          .href("/fonts/Bitter-VariableFont_wght-subset.woff2")
           .as("font")
           .type("font/woff2")
           .crossorigin(""),
