@@ -26,7 +26,7 @@ be rushed to a larger hospital in the big city of Syracuse. It's hard for people
 in major cities to imagine but the small city hospital I'm from sometimes is
 just like "nah we can't handle that" and sends you to a different hospital 30
 minutes away. This still happens. I'm actually from an even smaller place called
-Lincklean which is 30 minutes away from the small city and has no hospital.
+Lincklaen which is 30 minutes away from the small city and has no hospital.
 
 Ok so what's up with having two relatives with the same birthday and two
 coworkers. Well it turns out there is this math problem called the
