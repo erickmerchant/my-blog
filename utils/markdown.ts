@@ -1,32 +1,19 @@
-import { markedHighlight } from "marked-highlight";
-import { Marked } from "marked";
+import MarkdownIt from "markdown-it";
+import prism from "markdown-it-prism";
 
-const marked = new Marked(
-  markedHighlight({
-    async: true,
-    highlight,
-  }),
-);
+import "prismjs/components/prism-bash.js";
+import "prismjs/components/prism-clike.js";
+import "prismjs/components/prism-markup.js";
+import "prismjs/components/prism-css.js";
+import "prismjs/components/prism-javascript.js";
+import "prismjs/components/prism-typescript.js";
+import "prismjs/components/prism-docker.js";
+import "prismjs/components/prism-rust.js";
 
-async function highlight(code: string, lang: string): Promise<string> {
-  const { default: Prism } = await import("prismjs");
+const md = new MarkdownIt();
 
-  Prism.manual = true;
-  Prism.disableWorkerMessageHandler = true;
-
-  if (lang === "html") lang = "markup";
-
-  try {
-    if (!Prism.languages[lang]) {
-      await import(`prismjs/components/prism-${lang}.js`);
-    }
-
-    return Prism.highlight(code, Prism.languages[lang], lang);
-  } catch {
-    return code;
-  }
-}
+md.use(prism);
 
 export async function parse(markdown: string): Promise<string> {
-  return await marked.parse(markdown);
+  return await md.render(markdown);
 }

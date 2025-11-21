@@ -2,22 +2,8 @@
   font-family: "Bitter";
   src: url(/fonts/Bitter-VariableFont_wght-subset.woff2) format("woff2");
   unicode-range:
-    U+0000-00FF,
-    U+0131,
-    U+0152-0153,
-    U+02BB-02BC,
-    U+02C6,
-    U+02DA,
-    U+02DC,
-    U+2000-206F,
-    U+2074,
-    U+20AC,
-    U+2122,
-    U+2191,
-    U+2193,
-    U+2212,
-    U+2215,
-    U+FEFF,
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF,
     U+FFFD;
 }
 
@@ -26,22 +12,8 @@
   font-style: italic;
   src: url(/fonts/Bitter-Italic-VariableFont_wght-subset.woff2) format("woff2");
   unicode-range:
-    U+0000-00FF,
-    U+0131,
-    U+0152-0153,
-    U+02BB-02BC,
-    U+02C6,
-    U+02DA,
-    U+02DC,
-    U+2000-206F,
-    U+2074,
-    U+20AC,
-    U+2122,
-    U+2191,
-    U+2193,
-    U+2212,
-    U+2215,
-    U+FEFF,
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF,
     U+FFFD;
 }
 
@@ -73,7 +45,7 @@
     color-scheme: light dark;
     font-family: "Bitter", system-ui, sans-serif;
     font-weight: 400;
-    font-size: 100%;
+    font-size: clamp(75%, 3.5vi, 112.5%);
     line-height: 1.75;
     overflow-y: scroll;
     overflow-x: auto;
@@ -96,7 +68,7 @@
 
   a {
     color: var(--link-color);
-    text-decoration-thickness: 0.05em;
+    text-decoration-thickness: 0.1em;
     text-underline-offset: 0.15em;
     text-decoration-color: currentColor;
     font-weight: 500;
@@ -126,25 +98,26 @@
   }
 
   h1 {
-    font-size: clamp(1rem, 3.5cqi, 1.5rem);
+    font-size: 1.5rem;
   }
 
   h2 {
-    font-size: clamp(1rem, 3cqi, 1.25rem);
+    font-size: 1.25rem;
 
     :has(header h1) & {
-      font-size: clamp(1rem, 3cqi, 1.5rem);
+      font-size: 1.5rem;
     }
   }
 
   code {
     font-family: "Cascadia Code", ui-monospace, monospace;
     font-weight: 300;
-    font-size: 0.875rem;
+    font-size: 0.88888888rem;
   }
 
   em {
-    font-weight: 200;
+    font-style: italic;
+    font-weight: 400;
   }
 
   strong {
@@ -180,14 +153,14 @@
       grid-column: 2;
     }
 
-    > :nth-child(n+2) {
+    > :nth-child(n + 2) {
       padding-block-start: 1rem;
       background-image: repeating-linear-gradient(45deg, currentColor);
-      background-size: 100% 0.0625rem;
+      background-size: 100% 0.125rem;
       background-repeat: no-repeat;
     }
 
-    > :nth-child(n+2) {
+    > :nth-child(n + 2) {
       background-position: center top;
     }
   }
@@ -202,7 +175,7 @@
 
   .banner-title {
     font-family: "Bitter", system-ui, sans-serif;
-    font-size: clamp(1rem, 4.666cqi, 2rem);
+    font-size: 2rem;
     line-height: 1;
 
     a {
@@ -243,7 +216,7 @@
   }
 
   .footer-link {
-    text-decoration-thickness: 0.05em;
+    text-decoration-thickness: 0.1em;
     white-space: nowrap;
   }
 

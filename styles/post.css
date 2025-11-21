@@ -83,7 +83,8 @@
   }
 
   .status {
-    font-weight: 200;
+    font-style: italic;
+    font-weight: 400;
   }
 
   .article {

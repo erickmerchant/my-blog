@@ -1,20 +1,17 @@
 {
   "version": "5",
   "specifiers": {
-    "jsr:@flint/framework@0.17": "0.17.0",
-    "jsr:@handcraft/lib@^1.6.1": "1.6.1",
+    "jsr:@flint/framework@0.18": "0.18.0",
+    "jsr:@handcraft/lib@^1.7.0": "1.7.0",
     "jsr:@std/async@^1.0.15": "1.0.15",
-    "jsr:@std/cli@^1.0.23": "1.0.23",
+    "jsr:@std/cli@^1.0.24": "1.0.24",
     "jsr:@std/collections@^1.1.3": "1.1.3",
     "jsr:@std/crypto@^1.0.5": "1.0.5",
     "jsr:@std/encoding@^1.0.10": "1.0.10",
-    "jsr:@std/fs@^1.0.19": "1.0.19",
-    "jsr:@std/internal@^1.0.10": "1.0.12",
+    "jsr:@std/fs@^1.0.20": "1.0.20",
     "jsr:@std/internal@^1.0.12": "1.0.12",
-    "jsr:@std/internal@^1.0.9": "1.0.12",
     "jsr:@std/media-types@^1.1.0": "1.1.0",
-    "jsr:@std/path@^1.1.1": "1.1.2",
-    "jsr:@std/path@^1.1.2": "1.1.2",
+    "jsr:@std/path@^1.1.3": "1.1.3",
     "jsr:@std/regexp@^1.0.1": "1.0.1",
     "jsr:@std/text@^1.0.16": "1.0.16",
     "jsr:@std/toml@^1.0.11": "1.0.11",
@@ -22,14 +19,14 @@
     "npm:fast-xml-parser@5.3.2": "5.3.2",
     "npm:html-rewriter-wasm@~0.4.1": "0.4.1",
     "npm:lightningcss@^1.30.2": "1.30.2",
-    "npm:marked-highlight@2.2.3": "2.2.3_marked@17.0.0",
-    "npm:marked@17.0.0": "17.0.0",
+    "npm:markdown-it-prism@^3.0.1": "3.0.1_markdown-it@14.1.0",
+    "npm:markdown-it@^14.1.0": "14.1.0",
     "npm:prismjs@*": "1.30.0",
     "npm:prismjs@^1.30.0": "1.30.0"
   },
   "jsr": {
-    "@flint/framework@0.17.0": {
-      "integrity": "35d005fab0177dd80eed79b8de69021255501e141c5102d70fa03effbbef8f2e",
+    "@flint/framework@0.18.0": {
+      "integrity": "977631917244e9619567e382c71e7b2f34a3afecab77015d00310788feae3666",
       "dependencies": [
         "jsr:@std/async",
         "jsr:@std/cli",
@@ -37,21 +34,21 @@
         "jsr:@std/encoding",
         "jsr:@std/fs",
         "jsr:@std/media-types",
-        "jsr:@std/path@^1.1.2",
+        "jsr:@std/path",
         "npm:html-rewriter-wasm",
         "npm:lightningcss"
       ]
     },
-    "@handcraft/lib@1.6.1": {
-      "integrity": "d4fc1fe1acac4d040093ea15723ddf5aae25f5865bac4fe67cd6ef0ae92758d3"
+    "@handcraft/lib@1.7.0": {
+      "integrity": "1da1b775416f482c0cd0650d22ee787d42c4228af7ed8d7e83c7580a2dd8ca86"
     },
     "@std/async@1.0.15": {
       "integrity": "55d1d9d04f99403fe5730ab16bdcc3c47f658a6bf054cafb38a50f046238116e"
     },
-    "@std/cli@1.0.23": {
-      "integrity": "bf95b7a9425ba2af1ae5a6359daf58c508f2decf711a76ed2993cd352498ccca",
+    "@std/cli@1.0.24": {
+      "integrity": "b655a5beb26aa94f98add6bc8889f5fb9bc3ee2cc3fc954e151201f4c4200a5e",
       "dependencies": [
-        "jsr:@std/internal@^1.0.12"
+        "jsr:@std/internal"
       ]
     },
     "@std/collections@1.1.3": {
@@ -63,11 +60,11 @@
     "@std/encoding@1.0.10": {
       "integrity": "8783c6384a2d13abd5e9e87a7ae0520a30e9f56aeeaa3bdf910a3eaaf5c811a1"
     },
-    "@std/fs@1.0.19": {
-      "integrity": "051968c2b1eae4d2ea9f79a08a3845740ef6af10356aff43d3e2ef11ed09fb06",
+    "@std/fs@1.0.20": {
+      "integrity": "e953206aae48d46ee65e8783ded459f23bec7dd1f3879512911c35e5484ea187",
       "dependencies": [
-        "jsr:@std/internal@^1.0.9",
-        "jsr:@std/path@^1.1.1"
+        "jsr:@std/internal",
+        "jsr:@std/path"
       ]
     },
     "@std/internal@1.0.12": {
@@ -76,10 +73,10 @@
     "@std/media-types@1.1.0": {
       "integrity": "c9d093f0c05c3512932b330e3cc1fe1d627b301db33a4c2c2185c02471d6eaa4"
     },
-    "@std/path@1.1.2": {
-      "integrity": "c0b13b97dfe06546d5e16bf3966b1cadf92e1cc83e56ba5476ad8b498d9e3038",
+    "@std/path@1.1.3": {
+      "integrity": "b015962d82a5e6daea980c32b82d2c40142149639968549c649031a230b1afb3",
       "dependencies": [
-        "jsr:@std/internal@^1.0.10"
+        "jsr:@std/internal"
       ]
     },
     "@std/regexp@1.0.1": {
@@ -105,8 +102,14 @@
         "undici-types"
       ]
     },
+    "argparse@2.0.1": {
+      "integrity": "sha512-8+9WqebbFzpX9OR+Wa6O29asIogeRMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvurK3Q=="
+    },
     "detect-libc@2.1.2": {
       "integrity": "sha512-Btj2BOOO83o3WyH59e8MgXsxEQVcarkUOpEYrubB0urwnN10yQ364rsiByU11nZlqWYZm05i/of7io4mzihBtQ=="
+    },
+    "entities@4.5.0": {
+      "integrity": "sha512-V0hjH4dGPh9Ao5p0MoRY6BVqtwCjhz6vI5LT8AJ55H+4g9/4vbHx1I54fS0XuclLhDHArPQCiMjDxjaL8fPxhw=="
     },
     "fast-xml-parser@5.3.2": {
       "integrity": "sha512-n8v8b6p4Z1sMgqRmqLJm3awW4NX7NkaKPfb3uJIBTSH7Pdvufi3PQ3/lJLQrvxcMYl7JI2jnDO90siPEpD8JBA==",
@@ -192,21 +195,45 @@
         "lightningcss-win32-x64-msvc"
       ]
     },
-    "marked-highlight@2.2.3_marked@17.0.0": {
-      "integrity": "sha512-FCfZRxW/msZAiasCML4isYpxyQWKEEx44vOgdn5Kloae+Qc3q4XR7WjpKKf8oMLk7JP9ZCRd2vhtclJFdwxlWQ==",
+    "linkify-it@5.0.0": {
+      "integrity": "sha512-5aHCbzQRADcdP+ATqnDuhhJ/MRIqDkZX5pyjFHRRysS8vZ5AbqGEoFIb6pYHPZ+L/OC2Lc+xT8uHVVR5CAK/wQ==",
       "dependencies": [
-        "marked"
+        "uc.micro"
       ]
     },
-    "marked@17.0.0": {
-      "integrity": "sha512-KkDYEWEEiYJw/KC+DVm1zzlpMQSMIu6YRltkcCvwheCp8HWPXCk9JwOmHJKBlGfzcpzcIt6x3sMnTsRm/51oDg==",
+    "markdown-it-prism@3.0.1_markdown-it@14.1.0": {
+      "integrity": "sha512-JVnVGW8Gjw1TUtArXApnb/paeWye9TZW0kWzV2iqIUp1bxw+Rjh0WGg/BschKxn6fd1lCfv4FebSPMlcviGYSQ==",
+      "dependencies": [
+        "markdown-it",
+        "prismjs"
+      ]
+    },
+    "markdown-it@14.1.0": {
+      "integrity": "sha512-a54IwgWPaeBCAAsv13YgmALOF1elABB08FxO9i+r4VFk5Vl4pKokRPeX8u5TCgSsPi6ec1otfLjdOpVcgbpshg==",
+      "dependencies": [
+        "argparse",
+        "entities",
+        "linkify-it",
+        "mdurl",
+        "punycode.js",
+        "uc.micro"
+      ],
       "bin": true
+    },
+    "mdurl@2.0.0": {
+      "integrity": "sha512-Lf+9+2r+Tdp5wXDXC4PcIBjTDtq4UKjCPMQhKIuzpJNW0b96kVqSwW0bT7FhRSfmAiFYgP+SCRvdrDozfh0U5w=="
     },
     "prismjs@1.30.0": {
       "integrity": "sha512-DEvV2ZF2r2/63V+tK8hQvrR2ZGn10srHbXviTlcv7Kpzw8jWiNTqbVgjO3IY8RxrrOUF8VPMQQFysYYYv0YZxw=="
     },
+    "punycode.js@2.3.1": {
+      "integrity": "sha512-uxFIHU0YlHYhDQtV4R9J6a52SLx28BCjT+4ieh7IGbgwVJWO+km431c4yRlREUAsAmt/uMjQUyQHNEPf0M39CA=="
+    },
     "strnum@2.1.1": {
       "integrity": "sha512-7ZvoFTiCnGxBtDqJ//Cu6fWtZtc7Y3x+QOirG15wztbdngGSkht27o2pyGWrVy0b4WAy3jbKmnoK6g5VlVNUUw=="
+    },
+    "uc.micro@2.1.0": {
+      "integrity": "sha512-ARDJmphmdvUk6Glw7y9DQ2bFkKBHwQHLi2lsaH6PPmz/Ka9sFOBsBluozhDltWmnv9u/cF6Rt87znRTPV+yp/A=="
     },
     "undici-types@6.21.0": {
       "integrity": "sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ=="
@@ -214,16 +241,16 @@
   },
   "workspace": {
     "dependencies": [
-      "jsr:@flint/framework@0.17",
-      "jsr:@handcraft/lib@^1.6.1",
-      "jsr:@std/cli@^1.0.23",
-      "jsr:@std/fs@^1.0.19",
-      "jsr:@std/path@^1.1.2",
+      "jsr:@flint/framework@0.18",
+      "jsr:@handcraft/lib@^1.7.0",
+      "jsr:@std/cli@^1.0.24",
+      "jsr:@std/fs@^1.0.20",
+      "jsr:@std/path@^1.1.3",
       "jsr:@std/text@^1.0.16",
       "jsr:@std/toml@^1.0.11",
       "npm:fast-xml-parser@5.3.2",
-      "npm:marked-highlight@2.2.3",
-      "npm:marked@17.0.0",
+      "npm:markdown-it-prism@^3.0.1",
+      "npm:markdown-it@^14.1.0",
       "npm:prismjs@^1.30.0"
     ]
   }
