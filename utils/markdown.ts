@@ -12,7 +12,7 @@ export async function parse(markdown: string): Promise<string> {
   await import("prismjs/components/prism-docker.js");
   await import("prismjs/components/prism-bash.js");
 
-  const md = new MarkdownIt();
+  const md = new MarkdownIt({ typographer: true });
 
   md.use(prism, {});
 
