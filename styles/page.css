@@ -80,13 +80,13 @@
     scrollbar-gutter: stable;
     overscroll-behavior: none;
     scrollbar-color: currentColor var(--background);
-    color: var(--text-color);
+    color: var(--text);
 
     --background: light-dark(oklch(100% 0.04 60), oklch(30% 0 60));
-    --text-color: light-dark(oklch(30% 0 60), oklch(100% 0.075 60));
-    --link-color: light-dark(
-      oklch(from forestgreen 50% c h),
-      oklch(from forestgreen 90% c h)
+    --text: light-dark(oklch(30% 0 60), oklch(100% 0.075 60));
+    --accent: light-dark(
+      oklch(from seagreen 55% c h),
+      oklch(from seagreen 90% c h)
     );
   }
 
@@ -95,11 +95,10 @@
   }
 
   a {
-    color: var(--link-color);
-    text-decoration-thickness: 0.1em;
+    color: currentColor;
+    text-decoration-thickness: 0.15em;
     text-underline-offset: 0.15em;
-    text-decoration-color: currentColor;
-    font-weight: 500;
+    text-decoration-color: var(--accent);
   }
 
   p {
@@ -168,7 +167,7 @@
 
   .page {
     background-color: var(--background);
-    color: var(--text-color);
+    color: var(--text);
     container-type: inline-size;
     display: grid;
     grid-template-columns: 1fr min(100% - 2rem, 40rem) 1fr;
@@ -207,7 +206,7 @@
     line-height: 1;
 
     a {
-      color: var(--text-color);
+      color: var(--text);
       text-decoration: none;
       font-weight: 800;
     }
@@ -241,6 +240,7 @@
     align-content: center;
     margin-inline-start: 0;
     padding-inline-start: 0;
+    font-weight: 500;
   }
 
   .footer-link {
@@ -250,33 +250,26 @@
 
   .rss-link {
     display: grid;
-    grid-template-columns: 1.25rem min-content;
     gap: 0.5em;
-    padding: 0;
-    color: light-dark(
+    aspect-ratio: 1;
+    inline-size: auto;
+    block-size: 1.25rem;
+    padding: 0.225rem;
+    background: var(--accent);
+    background-image: linear-gradient(
+      -30deg,
+      oklch(from var(--accent) l c h / 0.95) 0 50%,
+      var(--accent) 50%
+    );
+    border-radius: 0.25rem;
+    corner-shape: squircle;
+    --accent: light-dark(
       oklch(from darkorange 60% c h),
       oklch(from darkorange 90% c h)
     );
 
-    .icon {
-      display: inline-grid;
-      aspect-ratio: 1;
-      inline-size: auto;
-      block-size: 1.25rem;
-      padding: 0.225rem;
-      margin-block-start: 0.2rem;
-      background: currentColor;
-      background-image: linear-gradient(
-        -30deg,
-        oklch(from currentColor l c h / 0.95) 0 50%,
-        currentColor 50%
-      );
-      border-radius: 0.25rem;
-      corner-shape: squircle;
-
-      svg {
-        fill: var(--background);
-      }
+    svg {
+      fill: var(--background);
     }
   }
 
