@@ -1,6 +1,7 @@
 import type { HandcraftChildArg, HandcraftElement } from "@handcraft/lib";
 import type { Site } from "../models/site.ts";
-import { h, render } from "@handcraft/lib";
+import { h } from "@handcraft/lib";
+import { render } from "@handcraft/lib/render";
 import favicons from "./favicons.ts";
 
 const { head, body, meta, title, link, header, span, a, footer, ul, li, html } =

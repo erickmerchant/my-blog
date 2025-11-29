@@ -1,5 +1,6 @@
 import type { ResumeItem } from "../models/resume.ts";
-import { each, h, render, when } from "@handcraft/lib";
+import { each, h, when } from "@handcraft/lib";
+import { render } from "@handcraft/lib/render";
 import * as Markdown from "../utils/markdown.ts";
 import favicons from "./favicons.ts";
 import { getResume } from "../models/resume.ts";
