@@ -2,7 +2,7 @@
   "version": "5",
   "specifiers": {
     "jsr:@flint/framework@0.18": "0.18.0",
-    "jsr:@handcraft/lib@^1.9.0": "1.9.0",
+    "jsr:@handcraft/lib@^1.10.0": "1.10.0",
     "jsr:@std/async@^1.0.15": "1.0.15",
     "jsr:@std/cli@^1.0.24": "1.0.24",
     "jsr:@std/collections@^1.1.3": "1.1.3",
@@ -39,8 +39,8 @@
         "npm:lightningcss"
       ]
     },
-    "@handcraft/lib@1.9.0": {
-      "integrity": "a28ac1034e507450fa085a01c2b899954e1d4f9d468b481fb9b191db5dcd619e"
+    "@handcraft/lib@1.10.0": {
+      "integrity": "8130a82e47cdaf6c68d8ab72104fd7c5e1b2e8e2acab411c527e64a8d70e8427"
     },
     "@std/async@1.0.15": {
       "integrity": "55d1d9d04f99403fe5730ab16bdcc3c47f658a6bf054cafb38a50f046238116e"
@@ -242,7 +242,7 @@
   "workspace": {
     "dependencies": [
       "jsr:@flint/framework@0.18",
-      "jsr:@handcraft/lib@^1.9.0",
+      "jsr:@handcraft/lib@^1.10.0",
       "jsr:@std/cli@^1.0.24",
       "jsr:@std/fs@^1.0.20",
       "jsr:@std/path@^1.1.3",
