@@ -32,7 +32,7 @@ text = "erickmerchant.com"
 [[history]]
 title = "Freelance Engineer"
 # organization = "Music studio"
-dates = ["Mar 2024", "Dec 2024"]
+dates = ["Mar 2024", "Present"]
 # location = "Los Angeles, CA"
 tags = ["Python", "React", "Next.js", "AI"]
 summary = """

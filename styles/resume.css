@@ -33,6 +33,17 @@
 
 html {
   font-size: 112.5%;
+
+  @media print {
+    font-size: 12px;
+  }
+}
+
+body {
+  color: black;
+  font-family: system-ui, sans-serif;
+  font-weight: 400;
+  line-height: 1.25;
 }
 
 h1,
@@ -70,17 +81,6 @@ a {
 ul,
 li {
   list-style: none;
-}
-
-body {
-  color: black;
-  font-family: "Bitter", system-ui, sans-serif;
-  font-weight: 400;
-  line-height: 1.25;
-
-  @media print {
-    font-size: 12px;
-  }
 }
 
 .page {
