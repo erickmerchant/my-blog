@@ -13,7 +13,7 @@ export default async function () {
   return page({
     site,
     bannerTitle: h1,
-    main: [
+    mainContent: [
       when(() => posts.length > 0).show(() =>
         section.class("section")(
           h2("Posts"),

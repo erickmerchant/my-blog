@@ -11,7 +11,7 @@ export default async function () {
     site,
     pageTitle: "404 Not Found",
     stylesheet: link.rel("stylesheet").href("/styles/post.css"),
-    main: [
+    mainContent: [
       article.class("article")(
         h1("404 Not Found"),
         p("The thing you're looking for can not be located."),

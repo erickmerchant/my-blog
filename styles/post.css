@@ -9,6 +9,7 @@
     padding: 0.05rem 0.25rem;
     border-radius: 0.5rem;
     corner-shape: squircle;
+    color: light-dark(oklch(from teal 50% c h), oklch(from peru 90% c h));
 
     /* Arc iOS bug fix */
     a {

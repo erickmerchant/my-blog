@@ -16,7 +16,7 @@
 
   .token.comment {
     color: light-dark(
-      oklch(from antiquewhite 55% c h),
+      oklch(from antiquewhite 50% c h),
       oklch(from antiquewhite 90% c h)
     );
   }
@@ -26,15 +26,19 @@
   .token.char,
   .token.regex,
   .token.atrule,
-  .token.constant {
-    color: light-dark(oklch(from pink 55% c h), oklch(from pink 90% c h));
+  .token.boolean,
+  .token.number,
+  .token.symbol {
+    color: light-dark(oklch(from teal 50% c h), oklch(from gold 90% c h));
   }
 
   .token.keyword,
   .token.tag {
-    color: light-dark(oklch(from gold 55% c h), oklch(from gold 90% c h));
+    color: light-dark(oklch(from chartreuse 50% c h), oklch(from peru 90% c h));
   }
 
+  .token.constant,
+  .token.variable,
   .token.attr-name,
   .token.class-name,
   .token.function,
@@ -43,21 +47,11 @@
   .token.selector,
   .token.options,
   .token.options * {
-    color: light-dark(
-      oklch(from darkorange 55% c h),
-      oklch(from darkorange 90% c h)
-    );
-  }
-
-  .token.variable,
-  .token.boolean,
-  .token.number,
-  .token.symbol {
-    color: light-dark(oklch(from plum 55% c h), oklch(from plum 90% c h));
+    color: light-dark(oklch(from plum 50% c h), oklch(from darkorange 90% c h));
   }
 
   .token.string {
-    color: light-dark(oklch(from crimson 55% c h), oklch(from crimson 90% c h));
+    color: light-dark(oklch(from deeppink 50% c h), oklch(from red 90% c h));
   }
 
   .token.italic {

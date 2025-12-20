@@ -2,22 +2,8 @@
   font-family: "Bitter";
   src: url(/fonts/Bitter-VariableFont_wght-subset.woff2) format("woff2");
   unicode-range:
-    U+0000-00FF,
-    U+0131,
-    U+0152-0153,
-    U+02BB-02BC,
-    U+02C6,
-    U+02DA,
-    U+02DC,
-    U+2000-206F,
-    U+2074,
-    U+20AC,
-    U+2122,
-    U+2191,
-    U+2193,
-    U+2212,
-    U+2215,
-    U+FEFF,
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF,
     U+FFFD;
 }
 
@@ -26,29 +12,15 @@
   font-style: italic;
   src: url(/fonts/Bitter-Italic-VariableFont_wght-subset.woff2) format("woff2");
   unicode-range:
-    U+0000-00FF,
-    U+0131,
-    U+0152-0153,
-    U+02BB-02BC,
-    U+02C6,
-    U+02DA,
-    U+02DC,
-    U+2000-206F,
-    U+2074,
-    U+20AC,
-    U+2122,
-    U+2191,
-    U+2193,
-    U+2212,
-    U+2215,
-    U+FEFF,
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF,
     U+FFFD;
 }
 
 @font-face {
-  font-family: "Cascadia Code";
-  font-weight: 300;
-  src: url(/fonts/CascadiaCode-Light-subset.woff2) format("woff2");
+  font-family: "Overpass Mono";
+  font-weight: 400;
+  src: url(/fonts/OverpassMono-Regular-subset.woff2) format("woff2");
   unicode-range: U+20-7E;
 }
 
@@ -82,11 +54,14 @@
     scrollbar-color: currentColor var(--background);
     color: var(--text);
 
-    --background: light-dark(oklch(100% 0.04 60), oklch(30% 0 60));
+    --background: light-dark(
+      oklch(from cornsilk 100% c h),
+      oklch(from darkslategray 30% c h)
+    );
     --text: light-dark(oklch(30% 0 60), oklch(100% 0.075 60));
     --accent: light-dark(
-      oklch(from seagreen 55% c h),
-      oklch(from seagreen 90% c h)
+      oklch(from deepskyblue 55% c h),
+      oklch(from forestgreen 90% c h)
     );
   }
 
@@ -120,7 +95,7 @@
     line-height: 1.5;
 
     a {
-      text-decoration-thickness: 0.1em;
+      text-decoration-thickness: 0.15em;
     }
   }
 
@@ -137,8 +112,8 @@
   }
 
   code {
-    font-family: "Cascadia Code", ui-monospace, monospace;
-    font-weight: 300;
+    font-family: "Overpass Mono", ui-monospace, monospace;
+    font-weight: 400;
     font-size: 0.88888888rem;
   }
 
@@ -165,7 +140,7 @@
     margin-inline-start: 0.75rem;
   }
 
-  .page {
+  .main {
     background-color: var(--background);
     color: var(--text);
     container-type: inline-size;
@@ -180,14 +155,14 @@
       grid-column: 2;
     }
 
-    > :nth-child(n+2) {
+    > :nth-child(n + 2) {
       padding-block-start: 1rem;
       background-image: repeating-linear-gradient(45deg, currentColor);
       background-size: 100% 0.125rem;
       background-repeat: no-repeat;
     }
 
-    > :nth-child(n+2) {
+    > :nth-child(n + 2) {
       background-position: center top;
     }
   }
@@ -244,7 +219,7 @@
   }
 
   .footer-link {
-    text-decoration-thickness: 0.1em;
+    text-decoration-thickness: 0.15em;
     white-space: nowrap;
   }
 
@@ -256,15 +231,10 @@
     block-size: 1.25rem;
     padding: 0.225rem;
     background: var(--accent);
-    background-image: linear-gradient(
-      -30deg,
-      oklch(from var(--accent) l c h / 0.95) 0 50%,
-      var(--accent) 50%
-    );
     border-radius: 0.25rem;
     corner-shape: squircle;
     --accent: light-dark(
-      oklch(from darkorange 60% c h),
+      oklch(from darkorange 65% c h),
       oklch(from darkorange 90% c h)
     );
 
