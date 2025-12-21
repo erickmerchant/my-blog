@@ -29,12 +29,12 @@
   .token.boolean,
   .token.number,
   .token.symbol {
-    color: light-dark(oklch(from teal 50% c h), oklch(from gold 90% c h));
+    color: light-dark(oklch(from lime 50% c h), oklch(from gold 90% c h));
   }
 
   .token.keyword,
   .token.tag {
-    color: light-dark(oklch(from chartreuse 50% c h), oklch(from peru 90% c h));
+    color: light-dark(oklch(from cadetblue 50% c h), oklch(from peru 90% c h));
   }
 
   .token.constant,
@@ -51,7 +51,7 @@
   }
 
   .token.string {
-    color: light-dark(oklch(from deeppink 50% c h), oklch(from red 90% c h));
+    color: light-dark(oklch(from dodgerblue 50% c h), oklch(from red 90% c h));
   }
 
   .token.italic {
