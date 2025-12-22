@@ -21,18 +21,6 @@
     );
   }
 
-  .token.attr-value,
-  .token.builtin,
-  .token.char,
-  .token.regex,
-  .token.atrule,
-  .token.boolean,
-  .token.number,
-  .token.symbol,
-  .token.string {
-    color: light-dark(oklch(from plum 50% c h), oklch(from red 90% c h));
-  }
-
   .token.keyword,
   .token.tag {
     color: light-dark(oklch(from chartreuse 50% c h), oklch(from gold 90% c h));
@@ -52,6 +40,18 @@
       oklch(from dodgerblue 50% c h),
       oklch(from darkorange 90% c h)
     );
+  }
+
+  .token.attr-value,
+  .token.builtin,
+  .token.char,
+  .token.regex,
+  .token.atrule,
+  .token.boolean,
+  .token.number,
+  .token.symbol,
+  .token.string {
+    color: light-dark(oklch(from plum 50% c h), oklch(from red 90% c h));
   }
 
   .token.italic {
