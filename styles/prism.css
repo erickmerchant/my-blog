@@ -28,16 +28,14 @@
   .token.atrule,
   .token.boolean,
   .token.number,
-  .token.symbol {
-    color: light-dark(oklch(from chartreuse 50% c h), oklch(from gold 90% c h));
+  .token.symbol,
+  .token.string {
+    color: light-dark(oklch(from plum 50% c h), oklch(from red 90% c h));
   }
 
   .token.keyword,
   .token.tag {
-    color: light-dark(
-      oklch(from dodgerblue 50% c h),
-      oklch(from dodgerblue 90% c h)
-    );
+    color: light-dark(oklch(from chartreuse 50% c h), oklch(from gold 90% c h));
   }
 
   .token.constant,
@@ -50,11 +48,10 @@
   .token.selector,
   .token.options,
   .token.options * {
-    color: light-dark(oklch(from plum 50% c h), oklch(from darkorange 90% c h));
-  }
-
-  .token.string {
-    color: light-dark(oklch(from red 50% c h), oklch(from red 90% c h));
+    color: light-dark(
+      oklch(from dodgerblue 50% c h),
+      oklch(from darkorange 90% c h)
+    );
   }
 
   .token.italic {
