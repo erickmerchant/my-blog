@@ -64,18 +64,13 @@
 
   blockquote {
     inline-size: 100%;
-    padding: 0.25rem 2rem;
+    padding: 0.25rem 1rem;
     overflow-wrap: anywhere;
     hyphens: auto;
     justify-self: start;
     position: relative;
-    background-image: radial-gradient(
-      currentColor 0rem 0.125rem,
-      transparent 0.125rem 1rem
-    );
-    background-size: 1rem 1rem;
-    background-repeat: no-repeat space;
-    background-position: left center;
+    border-inline-start: 0.125rem solid currentColor;
+    font-style: italic;
 
     > :not(:last-child) {
       margin-block-end: 1rem;
@@ -85,6 +80,7 @@
       display: inline grid;
       grid-template-columns: auto 1fr;
       gap: 0.5rem;
+      font-style: normal;
 
       &::before {
         content: "—";
