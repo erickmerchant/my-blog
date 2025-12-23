@@ -89,7 +89,7 @@
     --text: light-dark(oklch(30% 0 60), oklch(100% 0.075 60));
     --accent: light-dark(
       oklch(from deepskyblue 55% c h),
-      oklch(from forestgreen 90% c h)
+      oklch(from orange 90% c h)
     );
   }
 
@@ -185,13 +185,15 @@
 
     > :nth-child(n+2) {
       padding-block-start: 1rem;
-      background-image: repeating-linear-gradient(45deg, currentColor);
-      background-size: 100% 0.125rem;
-      background-repeat: no-repeat;
-    }
-
-    > :nth-child(n+2) {
-      background-position: center top;
+      background-image: repeating-linear-gradient(
+        90deg,
+        transparent 0rem 0.25rem,
+        currentColor 0.25rem 1.25rem,
+        transparent 1.25rem 1.5rem
+      );
+      background-size: 1.25rem 0.1rem;
+      background-repeat: space no-repeat;
+      background-position: top center;
     }
   }
 
@@ -234,7 +236,7 @@
     @container (inline-size <= 30rem) {
       display: flex;
       flex-wrap: wrap;
-      justify-content: center;
+      justify-content: space-between;
     }
   }
 
@@ -258,9 +260,9 @@
     inline-size: auto;
     block-size: 1.25rem;
     padding: 0.225rem;
-    background: var(--accent);
     border-radius: 0.25rem;
     corner-shape: squircle;
+    background: var(--accent);
     --accent: light-dark(
       oklch(from darkorange 65% c h),
       oklch(from darkorange 90% c h)
