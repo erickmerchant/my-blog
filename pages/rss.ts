@@ -42,8 +42,6 @@ export default async function () {
   };
 
   for (const post of posts) {
-    if (!post.datePublished) continue;
-
     const link = `${site.host}/posts/${post.slug}/`;
 
     rssItems.push({

@@ -1,8 +1,9 @@
-import { h } from "@handcraft/lib";
+import { fragment, h } from "@handcraft/lib";
 import { getSite } from "../models/site.ts";
 import page from "./page.ts";
+import * as Markdown from "../utils/markdown.ts";
 
-const { link, article, h1, p } = h.html;
+const { link, article, h1 } = h.html;
 
 export default async function () {
   const site = await getSite();
@@ -14,7 +15,11 @@ export default async function () {
     mainContent: [
       article.class("article")(
         h1("404 Not Found"),
-        p("The thing you're looking for can not be located."),
+        fragment.html(
+          await Markdown.parse(
+            "The page you're looking doesn't exist. Check the [home page](/) for currently supported pages.",
+          ),
+        ),
       ),
     ],
   });

@@ -94,7 +94,7 @@
   }
 
   body {
-    min-block-size: 100%;
+    block-size: 100%;
   }
 
   a {
@@ -174,12 +174,13 @@
   }
 
   .main {
+    min-block-size: 100%;
     background-color: var(--background);
     color: var(--text);
     container-type: inline-size;
     display: grid;
     grid-template-columns: 1fr min(100% - 2rem, 40rem) 1fr;
-    grid-template-rows: min-content auto min-content;
+    grid-template-rows: min-content 1fr min-content;
     row-gap: 1rem;
     align-items: start;
     align-content: start;

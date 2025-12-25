@@ -5,7 +5,7 @@ import { slugify } from "@std/text/unstable-slugify";
 import { parseArgs } from "@std/cli/parse-args";
 
 const helpText = `
-create a new post in draft state (no datepublished)
+create a new post
 
 --title   the title of the post. it will be slugified
 `;
@@ -24,6 +24,8 @@ if (import.meta.main) {
     const slug = slugify(title);
     const frontmatter = Toml.stringify({
       title,
+      datePublished: Temporal.Now.plainDateISO().toString(),
+      content: "",
     });
     const code = `+++\n${frontmatter}+++\n`;
     const path = `content/posts/${slug}.md`;

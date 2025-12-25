@@ -4,8 +4,8 @@ import * as Fs from "@std/fs";
 export type Post = {
   slug: string;
   title: string;
-  datePublished?: Temporal.PlainDate;
-  content?: string;
+  datePublished: Temporal.PlainDate;
+  content: string;
 };
 
 export async function getPublishedPosts(): Promise<Array<Post>> {
@@ -19,15 +19,12 @@ export async function getPublishedPosts(): Promise<Array<Post>> {
     const [, slug] = matched;
     const post = await getPostBySlug(slug);
 
-    if (post && post.datePublished != null) {
+    if (post) {
       posts.push(post);
     }
   }
 
   posts.sort((a, b) => {
-    if (!a.datePublished) return -1;
-    if (!b.datePublished) return 1;
-
     return Temporal.PlainDate.compare(b.datePublished, a.datePublished);
   });
 
