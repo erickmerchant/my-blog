@@ -4,10 +4,10 @@
 
 @layer sub-page {
   :not(pre) > code {
-    background-color: oklch(from var(--background) l calc(c - 0.01) h);
-    border: 0.0625rem solid oklch(from currentColor l c h / 0.2);
+    background-color: oklch(from var(--background) l calc(c - 0.005) h);
+    border: 0.03125rem solid oklch(from currentColor l c h / 0.2);
     padding: 0.05rem 0.25rem;
-    border-radius: 0.5rem;
+    border-radius: 0.125rem;
     corner-shape: squircle;
     color: light-dark(
       oklch(from aquamarine 45% c h),
@@ -25,9 +25,6 @@
 
   pre {
     line-height: 1.5;
-    border: 0.0625rem solid oklch(from currentColor l c h / 0.2);
-    border-radius: 0.5rem;
-    corner-shape: squircle;
     overflow-x: auto;
     overflow-y: hidden;
     overscroll-behavior-x: none;
@@ -38,12 +35,16 @@
     white-space: pre;
     word-break: break-word;
     max-inline-size: 40rem;
-    background-color: oklch(from var(--background) l calc(c - 0.01) h);
     justify-self: center;
     scrollbar-width: thin;
     scrollbar-color: currentColor
       oklch(from var(--background) l calc(c - 0.01) h);
     margin-inline: auto;
+    border-radius: 0.125rem;
+    corner-shape: squircle;
+    border: 0.03125rem solid oklch(from currentColor l c h / 0.1);
+    box-shadow: 0.25rem 0.25rem 0 oklch(from currentColor l c h / 0.1);
+    background-color: oklch(from var(--background) l calc(c - 0.005) h);
 
     code {
       padding: 1rem 1.5rem;
