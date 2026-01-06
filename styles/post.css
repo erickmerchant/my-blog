@@ -4,8 +4,7 @@
 
 @layer sub-page {
   :not(pre) > code {
-    background-color: oklch(from var(--background) l calc(c - 0.005) h);
-    border: 0.03125rem solid oklch(from currentColor l c h / 0.2);
+    background-color: oklch(from var(--background) l calc(c / 2) h);
     padding: 0.05rem 0.25rem;
     border-radius: 0.125rem;
     corner-shape: squircle;
@@ -42,9 +41,7 @@
     margin-inline: auto;
     border-radius: 0.125rem;
     corner-shape: squircle;
-    border: 0.03125rem solid oklch(from currentColor l c h / 0.1);
-    box-shadow: 0.25rem 0.25rem 0 oklch(from currentColor l c h / 0.1);
-    background-color: oklch(from var(--background) l calc(c - 0.005) h);
+    background-color: oklch(from var(--background) l calc(c / 2) h);
 
     code {
       padding: 1rem 1.5rem;
@@ -65,13 +62,13 @@
 
   blockquote {
     inline-size: 100%;
-    padding: 0.25rem 1rem;
+    padding: 1rem 2rem;
     overflow-wrap: anywhere;
     hyphens: auto;
     justify-self: start;
     position: relative;
-    border-inline-start: 0.125rem solid currentColor;
     font-style: italic;
+    background-color: oklch(from var(--background) l calc(c * 1.5) h);
 
     > :not(:last-child) {
       margin-block-end: 1rem;
