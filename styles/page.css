@@ -83,7 +83,7 @@
     color: var(--text);
 
     --background: light-dark(
-      oklch(from cornsilk 100% c h),
+      oklch(from oldlace 100% c h),
       oklch(from darkslategray 30% c h)
     );
     --text: light-dark(oklch(30% 0 60), oklch(100% 0.075 60));
@@ -267,11 +267,10 @@
     block-size: 1.25rem;
     padding: 0.225rem;
     border-radius: 0.25rem;
-    corner-shape: squircle;
     background: var(--accent);
     --accent: light-dark(
-      oklch(from darkorange 65% c h),
-      oklch(from darkorange 90% c h)
+      oklch(from lightskyblue 65% c h),
+      oklch(from coral 90% c h)
     );
 
     svg {
@@ -286,6 +285,6 @@
 
   .section-list {
     display: grid;
-    row-gap: 0.5rem;
+    row-gap: 0.25rem;
   }
 }

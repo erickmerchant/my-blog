@@ -4,10 +4,9 @@
 
 @layer sub-page {
   :not(pre) > code {
-    background-color: oklch(from var(--background) l calc(c / 2) h);
+    background-color: oklch(from var(--background) l calc(c / 1.5) h);
     padding: 0.05rem 0.25rem;
     border-radius: 0.125rem;
-    corner-shape: squircle;
     color: light-dark(
       oklch(from aquamarine 45% c h),
       oklch(from sandybrown 90% c h)
@@ -40,8 +39,7 @@
       oklch(from var(--background) l calc(c - 0.01) h);
     margin-inline: auto;
     border-radius: 0.125rem;
-    corner-shape: squircle;
-    background-color: oklch(from var(--background) l calc(c / 2) h);
+    background-color: oklch(from var(--background) l calc(c / 1.5) h);
 
     code {
       padding: 1rem 1.5rem;
