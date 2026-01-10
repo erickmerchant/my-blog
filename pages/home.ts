@@ -19,7 +19,7 @@ export default async function () {
           h2("Posts"),
           ol.class("section-list")(
             posts.map((post) =>
-              li.class("section-item")(
+              li(
                 a.class("title").href("/posts/" + post.slug + "/")(post.title),
               )
             ),
@@ -32,7 +32,7 @@ export default async function () {
           p("Some open-source projects."),
           ul.class("section-list")(
             each(site.projects).map(async (project) =>
-              li.class("section-item")(
+              li(
                 a.class("title").href(project.href)(project.title),
                 fragment.html(await Markdown.parse(project.description)),
               )

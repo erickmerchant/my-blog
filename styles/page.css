@@ -280,11 +280,9 @@
 
   .section {
     display: grid;
-    row-gap: 0.5rem;
   }
 
   .section-list {
     display: grid;
-    row-gap: 0.25rem;
   }
 }
