@@ -12,10 +12,10 @@
   "imports": {
     "@flint/framework": "jsr:@flint/framework@^0.20.0",
     "@handcraft/lib": "jsr:@handcraft/lib@^1.12.0",
-    "@std/cli": "jsr:@std/cli@^1.0.25",
-    "@std/fs": "jsr:@std/fs@^1.0.21",
+    "@std/cli": "jsr:@std/cli@^1.0.26",
+    "@std/fs": "jsr:@std/fs@^1.0.22",
     "@std/path": "jsr:@std/path@^1.1.4",
-    "@std/text": "jsr:@std/text@^1.0.16",
+    "@std/text": "jsr:@std/text@^1.0.17",
     "@std/toml": "jsr:@std/toml@^1.0.11",
     "fast-xml-parser": "npm:fast-xml-parser@^5.3.3",
     "markdown-it": "npm:markdown-it@^14.1.0",
