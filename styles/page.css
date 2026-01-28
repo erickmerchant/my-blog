@@ -2,22 +2,8 @@
   font-family: "Bitter";
   src: url(/fonts/Bitter-VariableFont_wght-subset.woff2) format("woff2");
   unicode-range:
-    U+0000-00FF,
-    U+0131,
-    U+0152-0153,
-    U+02BB-02BC,
-    U+02C6,
-    U+02DA,
-    U+02DC,
-    U+2000-206F,
-    U+2074,
-    U+20AC,
-    U+2122,
-    U+2191,
-    U+2193,
-    U+2212,
-    U+2215,
-    U+FEFF,
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF,
     U+FFFD;
 }
 
@@ -26,22 +12,8 @@
   font-style: italic;
   src: url(/fonts/Bitter-Italic-VariableFont_wght-subset.woff2) format("woff2");
   unicode-range:
-    U+0000-00FF,
-    U+0131,
-    U+0152-0153,
-    U+02BB-02BC,
-    U+02C6,
-    U+02DA,
-    U+02DC,
-    U+2000-206F,
-    U+2074,
-    U+20AC,
-    U+2122,
-    U+2191,
-    U+2193,
-    U+2212,
-    U+2215,
-    U+FEFF,
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF,
     U+FFFD;
 }
 
@@ -83,7 +55,7 @@
     color: var(--text);
 
     --background: light-dark(
-      oklch(from oldlace 97% c h),
+      oklch(from oldlace 95% c h),
       oklch(from darkslategray 30% c h)
     );
     --text: light-dark(oklch(30% 0 60), oklch(100% 0.075 60));
@@ -189,7 +161,7 @@
       grid-column: 2;
     }
 
-    > :nth-child(n+2) {
+    > :nth-child(n + 2) {
       padding-block-start: 1rem;
       background-image: repeating-linear-gradient(
         90deg,
