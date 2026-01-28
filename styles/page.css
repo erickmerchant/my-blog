@@ -83,7 +83,7 @@
     color: var(--text);
 
     --background: light-dark(
-      oklch(from oldlace 95% c h),
+      oklch(from oldlace 100% c h),
       oklch(from darkslategray 30% c h)
     );
     --text: light-dark(oklch(30% 0 60), oklch(100% 0.075 60));

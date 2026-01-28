@@ -16,14 +16,14 @@
 
   .token.comment {
     color: light-dark(
-      oklch(from antiquewhite 50% c h),
+      oklch(from antiquewhite 55% c h),
       oklch(from antiquewhite 90% c h)
     );
   }
 
   .token.keyword,
   .token.tag {
-    color: light-dark(oklch(from plum 50% c h), oklch(from gold 90% c h));
+    color: light-dark(oklch(from plum 55% c h), oklch(from gold 90% c h));
   }
 
   .token.constant,
@@ -37,7 +37,7 @@
   .token.options,
   .token.options * {
     color: light-dark(
-      oklch(from skyblue 50% c h),
+      oklch(from skyblue 55% c h),
       oklch(from darkorange 90% c h)
     );
   }
@@ -51,7 +51,7 @@
   .token.number,
   .token.symbol,
   .token.string {
-    color: light-dark(oklch(from seagreen 50% c h), oklch(from red 90% c h));
+    color: light-dark(oklch(from seagreen 55% c h), oklch(from red 90% c h));
   }
 
   .token.italic {
