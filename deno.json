@@ -17,7 +17,7 @@
     "@std/path": "jsr:@std/path@^1.1.4",
     "@std/text": "jsr:@std/text@^1.0.17",
     "@std/toml": "jsr:@std/toml@^1.0.11",
-    "fast-xml-parser": "npm:fast-xml-parser@^5.3.3",
+    "fast-xml-parser": "npm:fast-xml-parser@^5.3.4",
     "markdown-it": "npm:markdown-it@^14.1.0",
     "markdown-it-prism": "npm:markdown-it-prism@^3.0.1",
     "prismjs": "npm:prismjs@^1.30.0"
