@@ -8,8 +8,8 @@
     padding: 0.05rem 0.25rem;
     border-radius: 0.125rem;
     color: light-dark(
-      oklch(from aquamarine 45% c h),
-      oklch(from sandybrown 90% c h)
+      oklch(from seagreen 45% c h),
+      oklch(from red 90% c h)
     );
 
     /* Arc iOS bug fix */

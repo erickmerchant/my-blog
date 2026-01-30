@@ -268,10 +268,6 @@
     padding: 0.225rem;
     border-radius: 0.25rem;
     background: var(--accent);
-    --accent: light-dark(
-      oklch(from lightskyblue 65% c h),
-      oklch(from coral 90% c h)
-    );
 
     svg {
       fill: var(--background);
