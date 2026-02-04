@@ -1,7 +1,7 @@
 name = "Erick Merchant"
 
 objective = """
-I am currently looking for a full-time role as a front-end engineer or full-stack engineer. I would love if that role involved Rust, Deno, Node.js, Typescript, JavaScript, CSS, React, Preact, Vue, Web Components, or similar technologies. I take pride in building things for the web platform, programming, and solving difficult problems with computers.
+I am currently looking for a full-time role as a front-end engineer or full-stack engineer. I would love if that role involved Rust, Deno, Typescript, CSS, Preact, Vue, Lit, or similar technologies. I take pride in building things for the web platform, programming, and solving difficult problems with computers.
 """
 
 [[contacts]]
@@ -30,9 +30,23 @@ text = "erickmerchant.com"
 # """
 
 [[history]]
+title = "Engineering Consultant"
+# organization = "Music studio"
+dates = ["May 2025", "Present"]
+# location = "Los Angeles, CA"
+tags = ["Next.js", "React", "CSS", "Node.js", "Mongo"]
+summary = """
+- Worked to visualize particular scientific data using ArcGIS maps
+- Used an established design system to maintain consistency with other sites in the same organization
+- Designed a database schema to hold the data, aggregating it from different sources
+- Worked with a CMS (Payload) for secondary site content like a blog and faq.
+- Developed sign-in, forgot password, and change password forms
+"""
+
+[[history]]
 title = "Freelance Engineer"
 # organization = "Music studio"
-dates = ["Mar 2024", "Present"]
+dates = ["Mar 2024", "Dec 2024"]
 # location = "Los Angeles, CA"
 tags = ["Python", "React", "Next.js", "AI"]
 summary = """
@@ -82,7 +96,7 @@ location = "Portland, OR"
 tags = ["HTML", "CSS", "JavaScript", "Vue", "PHP", "Node.js", "Java"]
 summary = """
 - Started as one of three developers and helped grow the company into several engineering teams: two product, one maintenance, and one project focused
-- Used my expert level skills with PHP to develop client sites (ecommerce focused)
+- Used my expert level skills with PHP to develop client sites (e-commerce focused)
 - Wrote plugins and authored templates for use in our ExpressionEngine sites
 - Drove the adoption of Composer for dependency management
 - Created a role as a front-end JavaScript engineer before that was a widespread career path
@@ -120,7 +134,7 @@ location = "Dryden, NY"
 summary = """
 - Graduated with a 4.0 GPA
 - Studied web technologies, programming, and design
-- Gained a significant headstart in my career, because I was typically the only one that had had courses on JavaScript, CSS, and PHP at most jobs for many years
+- Gained a significant head start in my career, because I was typically the only one that had had courses on JavaScript, CSS, and PHP at most jobs for many years
 """
 
 [[education]]
@@ -132,5 +146,5 @@ summary = """
 - Majored in Anthropology with a focus in linguistics
 - Studied English literature
 - Studied Greek, Roman, and Egyptian history extensively
-- Did my work study program assisting an anthro professor with editing of his publications and cataloging of artifacts
+- Did my work study program assisting an anthropology professor with editing of his publications and cataloging of artifacts
 """
