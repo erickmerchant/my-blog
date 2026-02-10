@@ -1,3 +1,5 @@
+@layer page, sub-page, component;
+
 @font-face {
   font-family: "Bitter";
   src: url(/fonts/Bitter-VariableFont_wght-subset.woff2) format("woff2");
@@ -203,82 +205,88 @@
     }
   }
 
-  .banner {
-    display: grid;
-    grid-template-columns: auto min-content;
-    align-items: center;
-    padding-block-start: 1rem;
-    gap: 1rem;
-  }
+  @scope (.banner) {
+    :scope {
+      display: grid;
+      grid-template-columns: auto min-content;
+      align-items: center;
+      padding-block-start: 1rem;
+      gap: 1rem;
+    }
 
-  .banner-title {
-    font-family: "Bitter", system-ui, sans-serif;
-    font-size: 2rem;
-    line-height: 1;
+    .title {
+      font-family: "Bitter", system-ui, sans-serif;
+      font-size: 2rem;
+      line-height: 1;
 
-    a {
-      color: var(--text);
-      text-decoration: none;
-      font-weight: 800;
+      a {
+        color: var(--text);
+        text-decoration: none;
+        font-weight: 800;
+      }
     }
   }
 
-  .footer {
-    display: grid;
-    gap: 1.5rem 0;
-    align-content: center;
-    padding-block: 1rem;
-  }
+  @scope (.footer) {
+    :scope {
+      display: grid;
+      gap: 1.5rem 0;
+      align-content: center;
+      padding-block: 1rem;
+    }
 
-  .footer-list {
-    display: grid;
-    gap: 1rem 1rem;
-    grid-template-columns: max-content max-content max-content;
-    justify-content: space-between;
-    list-style: none;
-    margin-inline-start: 0;
-    padding-inline-start: 0;
-
-    @container (inline-size <= 30rem) {
-      display: flex;
-      flex-wrap: wrap;
+    .list {
+      display: grid;
+      gap: 1rem 1rem;
+      grid-template-columns: max-content max-content max-content;
       justify-content: space-between;
+      list-style: none;
+      margin-inline-start: 0;
+      padding-inline-start: 0;
+
+      @container (inline-size <= 30rem) {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+      }
+    }
+
+    .item {
+      display: grid;
+      align-content: center;
+      margin-inline-start: 0;
+      padding-inline-start: 0;
+      font-weight: 500;
+    }
+
+    .link {
+      text-decoration-thickness: 0.15em;
+      white-space: nowrap;
+    }
+
+    .rss {
+      display: grid;
+      gap: 0.5em;
+      aspect-ratio: 1;
+      inline-size: auto;
+      block-size: 1.25rem;
+      padding: 0.225rem;
+      border-radius: 0.25rem;
+      background: var(--accent);
+
+      svg {
+        fill: var(--background);
+      }
     }
   }
 
-  .footer-item {
-    display: grid;
-    align-content: center;
-    margin-inline-start: 0;
-    padding-inline-start: 0;
-    font-weight: 500;
-  }
-
-  .footer-link {
-    text-decoration-thickness: 0.15em;
-    white-space: nowrap;
-  }
-
-  .rss-link {
-    display: grid;
-    gap: 0.5em;
-    aspect-ratio: 1;
-    inline-size: auto;
-    block-size: 1.25rem;
-    padding: 0.225rem;
-    border-radius: 0.25rem;
-    background: var(--accent);
-
-    svg {
-      fill: var(--background);
+  @scope (.section) {
+    :scope {
+      display: grid;
     }
-  }
 
-  .section {
-    display: grid;
-  }
-
-  .section-list {
-    display: grid;
+    .list {
+      display: grid;
+    }
   }
 }

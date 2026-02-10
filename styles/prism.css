@@ -1,60 +1,58 @@
-@layer component {
-  .highlighted {
-    text-align: left;
-    white-space: pre;
-    word-spacing: normal;
-    word-break: normal;
-    word-wrap: normal;
-    line-height: 1.5;
-    tab-size: 4;
-    hyphens: none;
-  }
+.highlighted {
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.5;
+  tab-size: 4;
+  hyphens: none;
+}
 
-  .highlighted {
-    overflow: auto;
-  }
+.highlighted {
+  overflow: auto;
+}
 
-  .token.comment {
-    color: light-dark(
-      oklch(from antiquewhite 55% c h),
-      oklch(from antiquewhite 90% c h)
-    );
-  }
+.token.comment {
+  color: light-dark(
+    oklch(from antiquewhite 55% c h),
+    oklch(from antiquewhite 90% c h)
+  );
+}
 
-  .token.keyword,
-  .token.tag {
-    color: light-dark(oklch(from plum 55% c h), oklch(from gold 90% c h));
-  }
+.token.keyword,
+.token.tag {
+  color: light-dark(oklch(from plum 55% c h), oklch(from gold 90% c h));
+}
 
-  .token.constant,
-  .token.variable,
-  .token.attr-name,
-  .token.class-name,
-  .token.function,
-  .token.function-name,
-  .token.rule,
-  .token.selector,
-  .token.options,
-  .token.options * {
-    color: light-dark(
-      oklch(from skyblue 55% c h),
-      oklch(from darkorange 90% c h)
-    );
-  }
+.token.constant,
+.token.variable,
+.token.attr-name,
+.token.class-name,
+.token.function,
+.token.function-name,
+.token.rule,
+.token.selector,
+.token.options,
+.token.options * {
+  color: light-dark(
+    oklch(from skyblue 55% c h),
+    oklch(from darkorange 90% c h)
+  );
+}
 
-  .token.attr-value,
-  .token.builtin,
-  .token.char,
-  .token.regex,
-  .token.atrule,
-  .token.boolean,
-  .token.number,
-  .token.symbol,
-  .token.string {
-    color: light-dark(oklch(from seagreen 55% c h), oklch(from red 90% c h));
-  }
+.token.attr-value,
+.token.builtin,
+.token.char,
+.token.regex,
+.token.atrule,
+.token.boolean,
+.token.number,
+.token.symbol,
+.token.string {
+  color: light-dark(oklch(from seagreen 55% c h), oklch(from red 90% c h));
+}
 
-  .token.italic {
-    font-style: italic;
-  }
+.token.italic {
+  font-style: italic;
 }

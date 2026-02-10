@@ -17,7 +17,7 @@ export default async function () {
       when(() => posts.length > 0).show(() =>
         section.class("section")(
           h2("Posts"),
-          ol.class("section-list")(
+          ol.class("list")(
             posts.map((post) =>
               li(
                 a.class("title").href("/posts/" + post.slug + "/")(post.title),
@@ -30,7 +30,7 @@ export default async function () {
         section.class("section")(
           h2("Projects"),
           p("Some open-source projects."),
-          ul.class("section-list")(
+          ul.class("list")(
             each(site.projects).map(async (project) =>
               li(
                 a.class("title").href(project.href)(project.title),

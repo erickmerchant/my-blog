@@ -74,10 +74,10 @@ function timeline(
   { title, items }: { title: string; items: Array<ResumeItem> },
 ) {
   return section.class("timeline")(
-    div.class("timeline-header")(h2(title)),
-    ol.class("timeline-items")(
+    div.class("header")(h2(title)),
+    ol.class("items")(
       each(items).map(async (item) =>
-        li(
+        li.class("item")(
           div.class("details")(
             h3.class("title")(item.title),
             when(() => item.organization != null).show(() =>

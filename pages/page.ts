@@ -56,20 +56,20 @@ export default function (
     meta.name("description").content(site.description),
   );
   const baseNav = header.class("banner")(
-    bannerTitle.class("banner-title")(
+    bannerTitle.class("title")(
       a.href("/")(site.title),
     ),
   );
   const baseFooter = footer.class("footer")(
-    ul.class("footer-list")(
-      li.class("footer-item")("© " + site.author),
-      li.class("footer-item")(
-        a.class("footer-link").href("https://github.com/erickmerchant/my-blog")(
+    ul.class("list")(
+      li.class("item")("© " + site.author),
+      li.class("item")(
+        a.class("link").href("https://github.com/erickmerchant/my-blog")(
           "View Source",
         ),
       ),
-      li.class("footer-item")(
-        a.class("footer-link rss-link").href("/posts.rss")(
+      li.class("item")(
+        a.class("link rss").href("/posts.rss")(
           svg.viewBox("0 0 28 28")(
             svgTitle("RSS Feed"),
             path.d(
