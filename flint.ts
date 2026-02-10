@@ -16,9 +16,7 @@ const app = flint()
   .file(p`/*.woff2`)
   .file(p`/*.png`)
   .file("/robots.txt")
-  .file("/styles/page.css", css)
-  .file("/styles/post.css", css)
-  .file("/styles/resume.css", css);
+  .file(p`/styles/*.css`, css);
 
 export default app;
 

@@ -1,4 +1,4 @@
-@import "./prism.css" layer(component);
+@import "./includes/prism.css" layer(component);
 
 @layer sub-page {
   :not(pre) > code {
