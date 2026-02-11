@@ -12,10 +12,10 @@ const app = flint()
   .route(p`/posts/:slug/`, post, posts)
   .route("/resume/", resume)
   .route("/posts.rss", rss)
+  .route("/robots.txt")
   .route(notFound)
   .file(p`/*.woff2`)
   .file(p`/*.png`)
-  .file("/robots.txt")
   .file(p`/styles/:slug.css`, css);
 
 export default app;
