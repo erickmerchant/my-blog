@@ -1,5 +1,5 @@
 import type { FlintRouteContext } from "@flint/framework";
-import { fragment, h } from "@handcraft/lib";
+import { fragment as ƒ, h } from "@handcraft/lib";
 import { asLocalDate } from "../utils/dates.ts";
 import * as Markdown from "../utils/markdown.ts";
 import page from "./page.ts";
@@ -25,7 +25,7 @@ export default async function ({ params }: FlintRouteContext) {
               asLocalDate(post.datePublished as Temporal.PlainDate),
             ),
           ),
-          fragment.html(await Markdown.parse(post.content)),
+          ƒ.html(await Markdown.parse(post.content)),
         ),
       ],
     })

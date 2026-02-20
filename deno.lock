@@ -1,7 +1,8 @@
 {
   "version": "5",
   "specifiers": {
-    "jsr:@flint/framework@0.23": "0.23.0",
+    "jsr:@cfa/gitignore-parser@~0.1.4": "0.1.4",
+    "jsr:@flint/framework@0.24": "0.24.0",
     "jsr:@handcraft/lib@^1.15.0": "1.15.0",
     "jsr:@std/async@^1.2.0": "1.2.0",
     "jsr:@std/cli@^1.0.28": "1.0.28",
@@ -26,9 +27,13 @@
     "npm:prismjs@^1.30.0": "1.30.0"
   },
   "jsr": {
-    "@flint/framework@0.23.0": {
-      "integrity": "e2870ac7a968504e1b8c8c5084e089959488d8e53b51840d5a4c7c78f0e20135",
+    "@cfa/gitignore-parser@0.1.4": {
+      "integrity": "60d3563bbd7b8797f50c28585d7d74d231fbb56a1d9df7b0673c27cbdf60a23a"
+    },
+    "@flint/framework@0.24.0": {
+      "integrity": "cf4d23684b700682ca72ca828caa9d8199c3c1539878891f289642ebd1a0c713",
       "dependencies": [
+        "jsr:@cfa/gitignore-parser",
         "jsr:@std/async",
         "jsr:@std/cli",
         "jsr:@std/crypto",
@@ -246,7 +251,7 @@
   },
   "workspace": {
     "dependencies": [
-      "jsr:@flint/framework@0.23",
+      "jsr:@flint/framework@0.24",
       "jsr:@handcraft/lib@^1.15.0",
       "jsr:@std/cli@^1.0.28",
       "jsr:@std/fs@^1.0.23",

@@ -1,4 +1,4 @@
-import { each, fragment, h, when } from "@handcraft/lib";
+import { each, fragment as ƒ, h, when } from "@handcraft/lib";
 import page from "./page.ts";
 import * as Markdown from "../utils/markdown.ts";
 import { getSite } from "../models/site.ts";
@@ -34,7 +34,7 @@ export default async function () {
             each(site.projects).map(async (project) =>
               li(
                 a.class("title").href(project.href)(project.title),
-                fragment.html(await Markdown.parse(project.description)),
+                ƒ.html(await Markdown.parse(project.description)),
               )
             ),
           ),
@@ -42,7 +42,7 @@ export default async function () {
       ),
       aside.class("section")(
         h2("About"),
-        fragment.html(await Markdown.parse(site.bio)),
+        ƒ.html(await Markdown.parse(site.bio)),
       ),
     ],
   });
