@@ -38,7 +38,7 @@ export default async function () {
           .as("font")
           .type("font/woff2")
           .crossorigin(""),
-        link.href("/styles/resume.css").rel("stylesheet"),
+        link.href("/styles/resume.css?inline").rel("stylesheet"),
         favicons(),
         meta.name("description").content("My résumé"),
       ),
