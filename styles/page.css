@@ -167,7 +167,7 @@
     list-style-type: "- ";
     list-style-position: outside;
     padding-inline-start: 0.25rem;
-    margin-inline-start: 0.75rem;
+    margin-inline-start: 0.5rem;
 
     ::marker {
       font-size: 1.25em;
@@ -178,6 +178,12 @@
   .main {
     min-block-size: 100%;
     background-color: var(--background);
+    background-image: radial-gradient(
+      closest-side,
+      oklch(from var(--background) calc(l * 2) calc(c + 1) h / 0.125) 0 25%,
+      oklch(100% 0 0 / 0) 25%
+    );
+    background-size: 0.25rem 0.25rem;
     color: var(--text);
     container-type: inline-size;
     display: grid;
