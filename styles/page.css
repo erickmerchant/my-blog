@@ -180,7 +180,7 @@
     background-color: var(--background);
     background-image: radial-gradient(
       closest-side,
-      oklch(from var(--background) calc(l * 2) calc(c + 1) h / 0.125) 0 25%,
+      oklch(from var(--background) calc(l * 1.5) calc(c + 0.5) h / 0.125) 0 25%,
       oklch(100% 0 0 / 0) 25%
     );
     background-size: 0.25rem 0.25rem;
