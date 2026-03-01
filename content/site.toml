@@ -1,9 +1,9 @@
 title = "Erick Merchant"
 host = "https://erickmerchant.com"
 author = "Erick Merchant"
-description = "The personal home page of Erick Merchant"
+description = "The personal website of Erick Merchant"
 bio = """
-Hey there! I'm Erick. I've been making things for the web for 19 years. I love TypeScript, CSS, and Rust. I am currently looking for work, so if you're looking to hire check out my [résumé](/resume/) and let's connect.
+Hey there! I'm Erick. I've been making things for the web for 20 years. I write about Typescript, Rust, and CSS.
 """
 
 [[projects]]
