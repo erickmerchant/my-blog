@@ -19,7 +19,7 @@
     "jsr:@std/text@^1.0.17": "1.0.17",
     "jsr:@std/toml@^1.0.11": "1.0.11",
     "npm:@types/node@*": "22.15.15",
-    "npm:fast-xml-parser@^5.4.1": "5.4.1",
+    "npm:fast-xml-parser@^5.4.2": "5.4.2",
     "npm:html-rewriter-wasm@~0.4.1": "0.4.1",
     "npm:lightningcss@^1.31.1": "1.31.1",
     "npm:markdown-it-prism@^3.0.1": "3.0.1_markdown-it@14.1.1",
@@ -132,8 +132,8 @@
     "fast-xml-builder@1.0.0": {
       "integrity": "sha512-fpZuDogrAgnyt9oDDz+5DBz0zgPdPZz6D4IR7iESxRXElrlGTRkHJ9eEt+SACRJwT0FNFrt71DFQIUFBJfX/uQ=="
     },
-    "fast-xml-parser@5.4.1": {
-      "integrity": "sha512-BQ30U1mKkvXQXXkAGcuyUA/GA26oEB7NzOtsxCDtyu62sjGw5QraKFhx2Em3WQNjPw9PG6MQ9yuIIgkSDfGu5A==",
+    "fast-xml-parser@5.4.2": {
+      "integrity": "sha512-pw/6pIl4k0CSpElPEJhDppLzaixDEuWui2CUQQBH/ECDf7+y6YwA4Gf7Tyb0Rfe4DIMuZipYj4AEL0nACKglvQ==",
       "dependencies": [
         "fast-xml-builder",
         "strnum"
@@ -251,8 +251,8 @@
     "punycode.js@2.3.1": {
       "integrity": "sha512-uxFIHU0YlHYhDQtV4R9J6a52SLx28BCjT+4ieh7IGbgwVJWO+km431c4yRlREUAsAmt/uMjQUyQHNEPf0M39CA=="
     },
-    "strnum@2.1.2": {
-      "integrity": "sha512-l63NF9y/cLROq/yqKXSLtcMeeyOfnSQlfMSlzFt/K73oIaD8DGaQWd7Z34X9GPiKqP5rbSh84Hl4bOlLcjiSrQ=="
+    "strnum@2.2.0": {
+      "integrity": "sha512-Y7Bj8XyJxnPAORMZj/xltsfo55uOiyHcU2tnAVzHUnSJR/KsEX+9RoDeXEnsXtl/CX4fAcrt64gZ13aGaWPeBg=="
     },
     "uc.micro@2.1.0": {
       "integrity": "sha512-ARDJmphmdvUk6Glw7y9DQ2bFkKBHwQHLi2lsaH6PPmz/Ka9sFOBsBluozhDltWmnv9u/cF6Rt87znRTPV+yp/A=="
@@ -270,7 +270,7 @@
       "jsr:@std/path@^1.1.4",
       "jsr:@std/text@^1.0.17",
       "jsr:@std/toml@^1.0.11",
-      "npm:fast-xml-parser@^5.4.1",
+      "npm:fast-xml-parser@^5.4.2",
       "npm:markdown-it-prism@^3.0.1",
       "npm:markdown-it@^14.1.1",
       "npm:prismjs@^1.30.0"
