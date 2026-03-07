@@ -1,6 +1,11 @@
 import MarkdownIt from "markdown-it";
 
 export async function parse(markdown: string): Promise<string> {
+  // @ts-ignore annoying prism stuff
+  const Prism = globalThis.Prism ??= {};
+
+  Prism.disableWorkerMessageHandler = true;
+
   const { default: prism } = await import("markdown-it-prism");
 
   await import("prismjs/components/prism-clike.js");
