@@ -10,7 +10,7 @@ export default async function () {
   const site = await getSite();
   const posts = await getPublishedPosts();
 
-  return page({
+  return page(async () => ({
     site,
     bannerTitle: h1,
     mainContent: [
@@ -45,5 +45,5 @@ export default async function () {
         ƒ.html(await Markdown.parse(site.bio)),
       ),
     ],
-  });
+  }));
 }

@@ -8,10 +8,10 @@ const { link, article, h1 } = h.html;
 export default async function () {
   const site = await getSite();
 
-  return page({
+  return page(async () => ({
     site,
     pageTitle: "404 Not Found",
-    stylesheet: link.rel("stylesheet").href("/styles/post.css"),
+    stylesheet: link.rel("stylesheet").href("/styles/post.css?inline"),
     mainContent: [
       article.class("article")(
         h1("404 Not Found"),
@@ -22,5 +22,5 @@ export default async function () {
         ),
       ),
     ],
-  });
+  }));
 }

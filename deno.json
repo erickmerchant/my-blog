@@ -2,7 +2,7 @@
   "unstable": ["temporal"],
   "tasks": {
     "new:post": "deno run -A cli/new-post.ts",
-    "dev": "deno serve -A --port=4000 --watch-hmr flint.ts --dev",
+    "dev": "deno serve -A --port=4000 --parallel --watch-hmr flint.ts --dev",
     "build": "deno run -A flint.ts --build",
     "stage": {
       "command": "deno serve -A --port=4000 --parallel dist/serve.ts",
@@ -10,14 +10,14 @@
     }
   },
   "imports": {
-    "@flint/framework": "jsr:@flint/framework@^0.28.0",
-    "@handcraft/lib": "jsr:@handcraft/lib@^1.16.0",
+    "@feed/feed": "jsr:@feed/feed@^1.1.0",
+    "@flint/framework": "jsr:@flint/framework@^0.28.1",
+    "@handcraft/lib": "jsr:@handcraft/lib@^2.0.0",
     "@std/cli": "jsr:@std/cli@^1.0.28",
     "@std/fs": "jsr:@std/fs@^1.0.23",
     "@std/path": "jsr:@std/path@^1.1.4",
     "@std/text": "jsr:@std/text@^1.0.17",
     "@std/toml": "jsr:@std/toml@^1.0.11",
-    "fast-xml-parser": "npm:fast-xml-parser@^5.4.2",
     "markdown-it": "npm:markdown-it@^14.1.1",
     "markdown-it-prism": "npm:markdown-it-prism@^3.0.1",
     "prismjs": "npm:prismjs@^1.30.0"
