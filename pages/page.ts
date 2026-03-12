@@ -49,7 +49,7 @@ export default function (
         .as("font")
         .type("font/woff2")
         .crossorigin(""),
-      link.rel("stylesheet").href("/styles/page.css?inline"),
+      link.rel("stylesheet").href("/styles/page.css"),
       stylesheet ?? null,
       link
         .rel("alternate")
