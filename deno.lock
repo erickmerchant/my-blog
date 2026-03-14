@@ -3,8 +3,8 @@
   "specifiers": {
     "jsr:@cfa/gitignore-parser@~0.1.4": "0.1.4",
     "jsr:@feed/feed@^1.1.0": "1.1.0",
-    "jsr:@flint/framework@~0.28.1": "0.28.1",
-    "jsr:@handcraft/lib@2": "2.0.0",
+    "jsr:@flint/framework@0.29": "0.29.0",
+    "jsr:@handcraft/lib@^2.0.1": "2.0.1",
     "jsr:@std/async@^1.2.0": "1.2.0",
     "jsr:@std/cli@^1.0.28": "1.0.28",
     "jsr:@std/collections@^1.1.3": "1.1.3",
@@ -19,7 +19,7 @@
     "jsr:@std/regexp@^1.0.1": "1.0.1",
     "jsr:@std/text@^1.0.17": "1.0.17",
     "jsr:@std/toml@^1.0.11": "1.0.11",
-    "npm:@happy-dom/global-registrator@^20.8.3": "20.8.3",
+    "npm:@happy-dom/global-registrator@^20.8.4": "20.8.4",
     "npm:@types/node@*": "22.15.15",
     "npm:html-rewriter-wasm@~0.4.1": "0.4.1",
     "npm:lightningcss@^1.32.0": "1.32.0",
@@ -35,8 +35,8 @@
     "@feed/feed@1.1.0": {
       "integrity": "81c457f9e00d11bce9e52929155a391b8ad0f05c2ad39e3df943fd518e7d93ef"
     },
-    "@flint/framework@0.28.1": {
-      "integrity": "0dbb68aaa6e1ec04bd764a5cc6573aa49cf1d4366c0e3d451f19d122dd57f3c5",
+    "@flint/framework@0.29.0": {
+      "integrity": "a57e3015024dbb0a8d83bf39cf5cc8e16f7b4164594648db6430619b0fad6680",
       "dependencies": [
         "jsr:@cfa/gitignore-parser",
         "jsr:@std/async",
@@ -51,8 +51,8 @@
         "npm:lightningcss"
       ]
     },
-    "@handcraft/lib@2.0.0": {
-      "integrity": "83349db6c994a7d2c97364bbcd45d6259cebc2e76bbc98f01d2d7c7cca164833",
+    "@handcraft/lib@2.0.1": {
+      "integrity": "017f8980b8e3a8c9fee8f8d12e9503acef6e12d514aeefff34d4cffd94e8ba0e",
       "dependencies": [
         "npm:@happy-dom/global-registrator"
       ]
@@ -121,8 +121,8 @@
     }
   },
   "npm": {
-    "@happy-dom/global-registrator@20.8.3": {
-      "integrity": "sha512-9z6lLr6K6dIFLiB9jI0tKTlYzCComn5RL7L1mN3EdMSCyRQB8I6A0FO/On8yYKkXuunexzPDC98zDflvv2wDrQ==",
+    "@happy-dom/global-registrator@20.8.4": {
+      "integrity": "sha512-cXGYd3xIAcviiGO6lPXdG6Yg244xwRgtY2dicAQ6HiB87E2IL2ekgfR5QIos18UtjiAsnCpLS3m78JfDorJcYg==",
       "dependencies": [
         "@types/node",
         "happy-dom"
@@ -155,8 +155,8 @@
     "entities@7.0.1": {
       "integrity": "sha512-TWrgLOFUQTH994YUyl1yT4uyavY5nNB5muff+RtWaqNVCAK408b5ZnnbNAUEWLTCpum9w6arT70i1XdQ4UeOPA=="
     },
-    "happy-dom@20.8.3": {
-      "integrity": "sha512-lMHQRRwIPyJ70HV0kkFT7jH/gXzSI7yDkQFe07E2flwmNDFoWUTRMKpW2sglsnpeA7b6S2TJPp98EbQxai8eaQ==",
+    "happy-dom@20.8.4": {
+      "integrity": "sha512-GKhjq4OQCYB4VLFBzv8mmccUadwlAusOZOI7hC1D9xDIT5HhzkJK17c4el2f6R6C715P9xB4uiMxeKUa2nHMwQ==",
       "dependencies": [
         "@types/node",
         "@types/whatwg-mimetype",
@@ -293,8 +293,8 @@
   "workspace": {
     "dependencies": [
       "jsr:@feed/feed@^1.1.0",
-      "jsr:@flint/framework@~0.28.1",
-      "jsr:@handcraft/lib@2",
+      "jsr:@flint/framework@0.29",
+      "jsr:@handcraft/lib@^2.0.1",
       "jsr:@std/cli@^1.0.28",
       "jsr:@std/fs@^1.0.23",
       "jsr:@std/path@^1.1.4",
