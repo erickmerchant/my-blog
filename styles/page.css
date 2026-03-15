@@ -182,7 +182,6 @@
     container-type: inline-size;
     display: grid;
     grid-template-columns: 1fr min(100% - 2rem, 40rem) 1fr;
-    grid-template-rows: min-content 1fr min-content;
     row-gap: 1rem;
     align-items: start;
     align-content: start;
@@ -216,13 +215,19 @@
 
     .title {
       font-family: "Bitter", system-ui, sans-serif;
-      font-size: 2rem;
+      font-size: 3rem;
       line-height: 1;
 
       a {
-        color: var(--text);
+        text-shadow: -0.0625em -0.0625em 0 var(--accent);
+        letter-spacing: 0.125em;
+        color: oklch(from var(--text) l c h / 0.625);
         text-decoration: none;
         font-weight: 800;
+      }
+
+      @container (inline-size <= 30rem) {
+        font-size: 2rem;
       }
     }
   }
