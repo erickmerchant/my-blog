@@ -219,15 +219,25 @@
       line-height: 1;
 
       a {
-        text-shadow: -0.0625em -0.0625em 0 var(--accent);
+        text-shadow:
+          -0.025em -0.025em 0 oklch(from var(--text) l c h / 1),
+          0 0 0.025em oklch(from var(--background) l c h / 0.5),
+          0.025em 0.025em 0 oklch(from var(--accent) l c h / 1);
         letter-spacing: 0.125em;
-        color: oklch(from var(--text) l c h / 0.5);
+        color: oklch(0 0 0 / 0);
         text-decoration: none;
         font-weight: 800;
       }
 
       @container (inline-size <= 30rem) {
         font-size: 2rem;
+
+        a {
+          text-shadow:
+            -0.05em -0.05em 0 oklch(from var(--text) l c h / 1),
+            0 0 0.05em oklch(from var(--background) l c h / 0.5),
+            0.05em 0.05em 0 oklch(from var(--accent) l c h / 1);
+        }
       }
     }
   }
