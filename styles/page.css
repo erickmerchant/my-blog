@@ -217,12 +217,14 @@
       font-family: "Bitter", system-ui, sans-serif;
       font-size: 3rem;
       line-height: 1;
+      --shadow-size: 0.025em;
 
       a {
         text-shadow:
-          -0.025em -0.025em 0 oklch(from var(--text) l c h / 1),
-          0 0 0.025em oklch(from var(--background) l c h / 0.5),
-          0.025em 0.025em 0 oklch(from var(--accent) l c h / 1);
+          calc(var(--shadow-size) * -1) calc(var(--shadow-size) * -1) 0
+          var(--text),
+          0 0 var(--shadow-size) oklch(from var(--background) l c h / 0.5),
+          var(--shadow-size) var(--shadow-size) 0 var(--accent);
         letter-spacing: 0.125em;
         color: oklch(0 0 0 / 0);
         text-decoration: none;
@@ -231,13 +233,7 @@
 
       @container (inline-size <= 30rem) {
         font-size: 2rem;
-
-        a {
-          text-shadow:
-            -0.05em -0.05em 0 oklch(from var(--text) l c h / 1),
-            0 0 0.05em oklch(from var(--background) l c h / 0.5),
-            0.05em 0.05em 0 oklch(from var(--accent) l c h / 1);
-        }
+        --shadow-size: 0.05em;
       }
     }
   }

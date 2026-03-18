@@ -36,8 +36,13 @@
     scrollbar-color: currentColor
       oklch(from var(--background) l calc(c - 0.01) h);
     margin-inline: auto;
-    border-radius: 0.125rem;
     background-color: oklch(from var(--background) l calc(c / 1.5) h);
+    border: 0.03125rem solid var(--text);
+    box-shadow:
+      0 0 var(--shadow-size) oklch(from var(--background) l c h / 0.65),
+      var(--shadow-size) var(--shadow-size) 0 calc(var(--shadow-size) / 2)
+      oklch(from var(--text) l c h / 0.65);
+    --shadow-size: 0.25rem;
 
     code {
       padding: 1rem 1.5rem;
@@ -49,7 +54,6 @@
 
     @container (inline-size <= 41rem) {
       border-inline: none;
-      border-radius: 0;
       padding-inline: 0;
       inset-inline-start: -1rem;
       inline-size: calc(100% + 2rem);
@@ -65,6 +69,12 @@
     position: relative;
     font-style: italic;
     background-color: oklch(from var(--background) l calc(c * 1.5) h);
+    border: 0.03125rem solid var(--text);
+    box-shadow:
+      0 0 var(--shadow-size) oklch(from var(--background) l c h / 0.65),
+      var(--shadow-size) var(--shadow-size) 0 calc(var(--shadow-size) / 2)
+      oklch(from var(--text) l c h / 0.65);
+    --shadow-size: 0.25rem;
 
     > :not(:last-child) {
       margin-block-end: 1rem;
