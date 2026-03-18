@@ -1,8 +1,12 @@
 @import "./includes/prism.css" layer(component);
 
 @layer sub-page {
+  html {
+    --code-background: oklch(from var(--background) l calc(c / 2) h);
+  }
+
   :not(pre) > code {
-    background-color: oklch(from var(--background) l calc(c / 2) h);
+    background-color: var(--code-background);
     padding: 0.05rem 0.25rem;
     border-radius: 0.125rem;
     color: light-dark(
@@ -32,8 +36,8 @@
     max-inline-size: 40rem;
     justify-self: center;
     margin-inline: auto;
-    background-color: oklch(from var(--background) l calc(c / 2) h);
-    border: 0.1rem solid
+    background-color: var(--code-background);
+    border: 0.05rem solid
       color-mix(
         in oklch,
         var(--text) 30%,
@@ -72,7 +76,7 @@
     position: relative;
     font-style: italic;
     background-color: oklch(from var(--background) l calc(c * 1.5) h);
-    border: 0.1rem solid
+    border: 0.05rem solid
       color-mix(
         in oklch,
         var(--text) 30%,

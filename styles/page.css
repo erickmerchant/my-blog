@@ -195,11 +195,7 @@
       background-image: repeating-linear-gradient(
         90deg,
         transparent 0rem 0.25rem,
-        color-mix(
-          in oklch,
-          currentColor 50%,
-          var(--background)
-        ) 0.25rem 1.25rem,
+        currentColor 0.25rem 1.25rem,
         transparent 1.25rem 1.5rem
       );
       background-size: 1.25rem 0.1rem;
