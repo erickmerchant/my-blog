@@ -2,7 +2,7 @@
 
 @layer sub-page {
   :not(pre) > code {
-    background-color: oklch(from var(--background) l calc(c / 1.5) h);
+    background-color: oklch(from var(--background) l calc(c / 2) h);
     padding: 0.05rem 0.25rem;
     border-radius: 0.125rem;
     color: light-dark(
@@ -21,7 +21,6 @@
 
   pre {
     line-height: 1.5;
-    overflow-x: auto;
     overflow-y: hidden;
     overscroll-behavior-x: none;
     tab-size: 2;
@@ -32,20 +31,23 @@
     word-break: break-word;
     max-inline-size: 40rem;
     justify-self: center;
-    scrollbar-width: thin;
-    scrollbar-color: currentColor
-      oklch(from var(--background) l calc(c - 0.01) h);
     margin-inline: auto;
-    background-color: oklch(from var(--background) l calc(c / 1.5) h);
-    border: 0.03125rem solid var(--text);
-    box-shadow:
-      0 0 var(--shadow-size) oklch(from var(--background) l c h / 0.65),
-      var(--shadow-size) var(--shadow-size) 0 calc(var(--shadow-size) / 2)
-      oklch(from var(--text) l c h / 0.65);
-    --shadow-size: 0.25rem;
+    background-color: oklch(from var(--background) l calc(c / 2) h);
+    border: 0.1rem solid
+      color-mix(
+        in oklch,
+        var(--text) 30%,
+        var(--background)
+      );
+    border-radius: 0.5em;
+    corner-shape: bevel;
 
     code {
-      padding: 1rem 1.5rem;
+      margin: 1rem 1.5rem;
+      overflow-x: auto;
+      scrollbar-width: thin;
+      scrollbar-color: currentColor
+        oklch(from var(--background) l calc(c - 0.01) h);
 
       @container (inline-size <= 41rem) {
         padding-inline: 1rem;
@@ -54,6 +56,7 @@
 
     @container (inline-size <= 41rem) {
       border-inline: none;
+      border-radius: 0;
       padding-inline: 0;
       inset-inline-start: -1rem;
       inline-size: calc(100% + 2rem);
@@ -69,12 +72,19 @@
     position: relative;
     font-style: italic;
     background-color: oklch(from var(--background) l calc(c * 1.5) h);
-    border: 0.03125rem solid var(--text);
+    border: 0.1rem solid
+      color-mix(
+        in oklch,
+        var(--text) 30%,
+        var(--background)
+      );
+    border-radius: 0.5em;
+    corner-shape: bevel;
     box-shadow:
       0 0 var(--shadow-size) oklch(from var(--background) l c h / 0.65),
       var(--shadow-size) var(--shadow-size) 0 calc(var(--shadow-size) / 2)
       oklch(from var(--text) l c h / 0.65);
-    --shadow-size: 0.25rem;
+    --shadow-size: 0.125rem;
 
     > :not(:last-child) {
       margin-block-end: 1rem;
