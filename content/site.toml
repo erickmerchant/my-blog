@@ -5,17 +5,20 @@ description = "The personal website of Erick Merchant"
 bio = """
 Hey there! I'm Erick. I've been making things for the web for 20 years. I write about Typescript, Rust, and CSS.
 """
+unfound = """
+The page you're looking doesn't exist. Check the [home page](/) for currently supported pages.
+"""
 
 [[projects]]
 href = "https://github.com/erickmerchant/flint"
 title = "Flint"
-description = """
+content = """
 A static site generator / dynamic site server written for Deno.
 """
 
 [[projects]]
 href = "https://github.com/erickmerchant/handcraft"
 title = "Handcraft"
-description = """
+content = """
 A front-end framework using a fluent interface for creating reactive UI.
 """

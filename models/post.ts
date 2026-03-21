@@ -1,5 +1,6 @@
 import * as Toml from "@std/toml";
 import * as Fs from "@std/fs";
+import * as Markdown from "../utils/markdown.ts";
 
 export type Post = {
   slug: string;
@@ -59,7 +60,7 @@ export async function getPostBySlug(slug?: string) {
     }
   }
 
-  const content = md;
+  const content = await Markdown.parse(md);
   const post: Post = {
     slug,
     content,

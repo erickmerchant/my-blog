@@ -28,8 +28,8 @@ const {
 } = h.html;
 const { title: svgTitle, path, svg } = h.svg;
 
-export default async function (
-  config: () => Config | Promise<Config>,
+export default function (
+  config: () => Config,
 ) {
   const {
     site,
@@ -37,7 +37,7 @@ export default async function (
     stylesheet,
     bannerTitle = () => span,
     mainContent,
-  } = await config();
+  } = config();
   const baseHead = head(
     meta.charset("utf-8"),
     meta.name("viewport").content("width=device-width, initial-scale=1"),
