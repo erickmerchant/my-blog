@@ -1,6 +1,10 @@
-import type { HandcraftChildArg, HandcraftElement } from "@handcraft/lib";
-import type { Site } from "../models/site.ts";
-import { h, VNode } from "@handcraft/lib/templating";
+import { type Site } from "../models/site.ts";
+import {
+  h,
+  type HandcraftChildArg,
+  type HandcraftElement,
+  VNode,
+} from "@handcraft/lib/templating";
 import favicons from "./favicons.ts";
 
 type Config = {

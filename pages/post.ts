@@ -1,4 +1,4 @@
-import type { FlintRouteContext } from "@flint/framework";
+import { type FlintRouteContext } from "@flint/framework";
 import { fragment as ƒ, h } from "@handcraft/lib/templating";
 import { asLocalDate } from "../utils/dates.ts";
 import page from "./page.ts";
