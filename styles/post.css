@@ -43,8 +43,10 @@
         var(--text) 30%,
         var(--background)
       );
-    border-radius: 0.5em;
-    corner-shape: bevel;
+    border-top-left-radius: 1em;
+    border-bottom-right-radius: 1em;
+    corner-top-left-shape: bevel;
+    corner-bottom-right-shape: bevel;
 
     code {
       margin: 1rem 1.5rem;
@@ -82,8 +84,10 @@
         var(--text) 30%,
         var(--background)
       );
-    border-radius: 0.5em;
-    corner-shape: bevel;
+    border-top-left-radius: 1em;
+    border-bottom-right-radius: 1em;
+    corner-top-left-shape: bevel;
+    corner-bottom-right-shape: bevel;
     box-shadow:
       0 0 var(--shadow-size) var(--shadow-size)
       oklch(from var(--background) l c h / 0.5),
