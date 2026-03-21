@@ -1,5 +1,5 @@
 import type { FlintRouteContext } from "@flint/framework";
-import { fragment as ƒ, h } from "@handcraft/lib";
+import { fragment as ƒ, h } from "@handcraft/lib/templating";
 import { asLocalDate } from "../utils/dates.ts";
 import * as Markdown from "../utils/markdown.ts";
 import page from "./page.ts";

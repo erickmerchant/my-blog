@@ -1,7 +1,7 @@
-import { each, fragment as ƒ, h, when } from "@handcraft/lib";
+import { each, fragment as ƒ, h, when } from "@handcraft/lib/templating";
 import page from "./page.ts";
 import * as Markdown from "../utils/markdown.ts";
-import { getSite } from "../models/site.ts";
+import { getSite, Project } from "../models/site.ts";
 import { getPublishedPosts } from "../models/post.ts";
 
 const { section, h1, h2, p, ol, ul, li, a, aside } = h.html;
@@ -31,10 +31,10 @@ export default async function () {
           h2("Projects"),
           p("Some open-source projects."),
           ul.class("list")(
-            each(site.projects).map(async (project) =>
+            each<Project>(site.projects).map((project) =>
               li(
                 a.class("title").href(project.href)(project.title),
-                ƒ.html(await Markdown.parse(project.description)),
+                ƒ.html(project.description),
               )
             ),
           ),

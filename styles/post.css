@@ -85,9 +85,10 @@
     border-radius: 0.5em;
     corner-shape: bevel;
     box-shadow:
-      0 0 var(--shadow-size) oklch(from var(--background) l c h / 0.65),
-      var(--shadow-size) var(--shadow-size) 0 calc(var(--shadow-size) / 2)
-      oklch(from var(--text) l c h / 0.65);
+      0 0 var(--shadow-size) var(--shadow-size)
+      oklch(from var(--background) l c h / 0.5),
+      calc(1.5 * var(--shadow-size)) calc(1.5 * var(--shadow-size)) 0
+      var(--accent);
     --shadow-size: 0.125rem;
 
     > :not(:last-child) {

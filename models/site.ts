@@ -9,7 +9,7 @@ export type Site = {
   bio: string;
 };
 
-type Project = {
+export type Project = {
   href: string;
   title: string;
   description: string;

@@ -1,4 +1,4 @@
-import { fragment as ƒ, h } from "@handcraft/lib";
+import { fragment as ƒ, h } from "@handcraft/lib/templating";
 import { getSite } from "../models/site.ts";
 import page from "./page.ts";
 import * as Markdown from "../utils/markdown.ts";
