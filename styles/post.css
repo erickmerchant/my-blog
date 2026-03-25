@@ -43,10 +43,13 @@
         var(--text) 30%,
         var(--background)
       );
-    border-top-left-radius: 1em;
-    border-bottom-right-radius: 1em;
-    corner-top-left-shape: bevel;
-    corner-bottom-right-shape: bevel;
+
+    @supports (corner-shape: bevel) {
+      border-top-left-radius: 1em;
+      border-bottom-right-radius: 1em;
+      corner-top-left-shape: bevel;
+      corner-bottom-right-shape: bevel;
+    }
 
     code {
       margin: 1rem 1.5rem;
@@ -84,16 +87,19 @@
         var(--text) 30%,
         var(--background)
       );
-    border-top-left-radius: 1em;
-    border-bottom-right-radius: 1em;
-    corner-top-left-shape: bevel;
-    corner-bottom-right-shape: bevel;
     box-shadow:
       0 0 var(--shadow-size) var(--shadow-size)
       oklch(from var(--background) l c h / 0.5),
       calc(1.5 * var(--shadow-size)) calc(1.5 * var(--shadow-size)) 0
       var(--accent);
     --shadow-size: 0.125rem;
+
+    @supports (corner-shape: bevel) {
+      border-top-left-radius: 1em;
+      border-bottom-right-radius: 1em;
+      corner-top-left-shape: bevel;
+      corner-bottom-right-shape: bevel;
+    }
 
     > :not(:last-child) {
       margin-block-end: 1rem;
