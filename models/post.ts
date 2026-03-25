@@ -32,9 +32,7 @@ export async function getPublishedPosts(): Promise<Array<Post>> {
   return posts;
 }
 
-export async function getPostBySlug(slug?: string) {
-  if (!slug) return;
-
+export async function getPostBySlug(slug: string) {
   const path = `./content/posts/${slug}.md`;
   const text = await Deno.readTextFile(path);
   const [, toml, md] = text.split("+++\n");

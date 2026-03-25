@@ -1,4 +1,3 @@
-import { type FlintRouteContext } from "@flint/framework";
 import { fragment as ƒ, h } from "@handcraft/lib/templating";
 import { asLocalDate } from "../utils/dates.ts";
 import page from "./page.ts";
@@ -7,7 +6,9 @@ import { getPostBySlug } from "../models/post.ts";
 
 const { link, article, div, h1, time } = h.html;
 
-export default async function ({ params }: FlintRouteContext) {
+export default async function ({ params }: { params: { slug?: string } }) {
+  if (!params.slug) return new Response("", { status: 404 });
+
   const site = await getSite();
   const post = await getPostBySlug(params.slug);
 
