@@ -1,0 +1,70 @@
+@scope (.hljs) {
+  .doctag,
+  .keyword,
+  .meta .keyword,
+  .template-tag,
+  .template-variable,
+  .type,
+  .variable.language_ {
+    color: light-dark(
+      oklch(from deepskyblue 50% c h),
+      oklch(from darkorange 90% c h)
+    );
+  }
+
+  .title,
+  .title.class_,
+  .title.class_.inherited__,
+  .title.function_ {
+    color: light-dark(oklch(from plum 50% c h), oklch(from gold 90% c h));
+  }
+
+  .attr,
+  .attribute,
+  .literal,
+  .meta,
+  .number,
+  .operator,
+  .variable,
+  .selector-attr,
+  .selector-class,
+  .selector-id {
+    color: light-dark(
+      oklch(from aqua 50% c h),
+      oklch(from coral 90% c h)
+    );
+  }
+
+  .regexp, .string, .meta .string {
+    color: light-dark(
+      oklch(from forestgreen 50% c h),
+      oklch(from red 90% c h)
+    );
+  }
+
+  .built_in, .symbol {
+    color: oklch(from var(--text) l c h / 0.85);
+  }
+
+  .comment, .code, .formula {
+    color: light-dark(
+      oklch(from antiquewhite 50% c h),
+      oklch(from antiquewhite 90% c h)
+    );
+  }
+
+  .name, .quote, .selector-tag, .selector-pseudo {
+    color: light-dark(
+      oklch(from springgreen 50% c h),
+      oklch(from crimson 90% c h)
+    );
+  }
+
+  .emphasis {
+    font-style: italic;
+  }
+
+  .strong {
+    font-weight: 700;
+  }
+}

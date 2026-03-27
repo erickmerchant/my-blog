@@ -210,7 +210,7 @@ head().append(
     .attr("type", "application/rss+xml")
     .attr("title", "Posts")
     .attr("href", site.host + "/posts.rss"),
-  meta().attr("name", "description").atrr("content", site.description),
+  meta().attr("name", "description").attr("content", site.description),
 );
 ```
 

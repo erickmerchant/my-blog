@@ -11,16 +11,16 @@
   },
   "imports": {
     "@feed/feed": "jsr:@feed/feed@^1.1.0",
-    "@flint/framework": "jsr:@flint/framework@^0.33.0",
+    "@flint/framework": "jsr:@flint/framework@^0.34.0",
     "@handcraft/lib": "jsr:@handcraft/lib@^2.2.0",
     "@std/cli": "jsr:@std/cli@^1.0.28",
     "@std/fs": "jsr:@std/fs@^1.0.23",
     "@std/path": "jsr:@std/path@^1.1.4",
     "@std/text": "jsr:@std/text@^1.0.17",
     "@std/toml": "jsr:@std/toml@^1.0.11",
+    "highlight.js": "npm:highlight.js@^11.11.1",
     "markdown-it": "npm:markdown-it@^14.1.1",
-    "markdown-it-prism": "npm:markdown-it-prism@^3.0.1",
-    "prismjs": "npm:prismjs@^1.30.0"
+    "markdown-it-highlightjs": "npm:markdown-it-highlightjs@^4.3.0"
   },
   "compilerOptions": {
     "lib": [

@@ -9,7 +9,6 @@ import favicons from "./favicons.ts";
 type Config = {
   site: Site;
   pageTitle?: HandcraftTemplatingChild;
-  stylesheet?: HandcraftTemplatingChild;
   bannerTitle?: HandcraftTemplatingElement;
   mainContent: Array<HandcraftTemplatingChild>;
 };
@@ -32,15 +31,13 @@ const {
 const { title: svgTitle, path, svg } = h.svg;
 
 export default function (
-  config: () => Config,
-) {
-  const {
+  {
     site,
     pageTitle,
-    stylesheet,
-    bannerTitle = () => span,
+    bannerTitle,
     mainContent,
-  } = config();
+  }: Config,
+) {
   const baseHead = head(
     meta.charset("utf-8"),
     meta.name("viewport").content("width=device-width, initial-scale=1"),
@@ -50,8 +47,7 @@ export default function (
       .as("font")
       .type("font/woff2")
       .crossorigin(""),
-    link.rel("stylesheet").href("/styles/page.css"),
-    stylesheet ?? null,
+    link.rel("stylesheet").href("/styles/main.css"),
     link
       .rel("alternate")
       .type("application/rss+xml")
@@ -61,7 +57,7 @@ export default function (
     meta.name("description").content(site.description),
   );
   const baseNav = header.class("banner")(
-    bannerTitle().class("title")(
+    (bannerTitle ?? span)().class("title")(
       a.href("/")(site.title),
     ),
   );

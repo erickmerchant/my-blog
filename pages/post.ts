@@ -4,7 +4,7 @@ import page from "./page.ts";
 import { getSite } from "../models/site.ts";
 import { getPostBySlug } from "../models/post.ts";
 
-const { link, article, div, h1, time } = h.html;
+const { article, div, h1, time } = h.html;
 
 export default async function ({ params }: { params: { slug?: string } }) {
   if (!params.slug) return new Response("", { status: 404 });
@@ -12,22 +12,19 @@ export default async function ({ params }: { params: { slug?: string } }) {
   const site = await getSite();
   const post = await getPostBySlug(params.slug);
 
-  return post
-    ? page(() => ({
-      site,
-      pageTitle: post.title,
-      stylesheet: link.rel("stylesheet").href("/styles/post.css"),
-      mainContent: [
-        article.class("article")(
-          div(
-            h1(post.title),
-            time.class("status")(
-              asLocalDate(post.datePublished as Temporal.PlainDate),
-            ),
+  return page({
+    site,
+    pageTitle: post.title,
+    mainContent: [
+      article.class("article")(
+        div(
+          h1(post.title),
+          time.class("status")(
+            asLocalDate(post.datePublished as Temporal.PlainDate),
           ),
-          ƒ.html(post.content),
         ),
-      ],
-    }))
-    : "";
+        ƒ.html(post.content),
+      ),
+    ],
+  });
 }

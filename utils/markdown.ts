@@ -1,25 +1,13 @@
 import MarkdownIt from "markdown-it";
+import highlightjsPlugin from "markdown-it-highlightjs";
+import highlightjs from "highlight.js";
 
-export async function parse(markdown: string): Promise<string> {
-  // @ts-ignore annoying prism stuff
-  const Prism = globalThis.Prism ??= {};
+highlightjs.configure({ classPrefix: "" });
 
-  Prism.disableWorkerMessageHandler = true;
-
-  const { default: prism } = await import("markdown-it-prism");
-
-  await import("prismjs/components/prism-clike.js");
-  await import("prismjs/components/prism-markup.js");
-  await import("prismjs/components/prism-css.js");
-  await import("prismjs/components/prism-javascript.js");
-  await import("prismjs/components/prism-typescript.js");
-  await import("prismjs/components/prism-rust.js");
-  await import("prismjs/components/prism-docker.js");
-  await import("prismjs/components/prism-bash.js");
-
+export function parse(markdown: string): Promise<string> {
   const md = new MarkdownIt({ typographer: true });
 
-  md.use(prism, {});
+  md.use(highlightjsPlugin);
 
   return md.render(markdown);
 }
