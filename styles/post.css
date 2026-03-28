@@ -6,6 +6,7 @@ html {
   background-color: var(--code-background);
   padding: 0.05rem 0.25rem;
   border-radius: 0.125rem;
+  corner-shape: superellipse(1);
   color: light-dark(
     oklch(from seagreen 50% c h),
     oklch(from red 90% c h)
@@ -40,12 +41,13 @@ pre {
       var(--text) 30%,
       var(--background)
     );
+  border-radius: 0.125rem;
 
   @supports (corner-shape: bevel) {
-    border-top-left-radius: 1em;
-    border-bottom-right-radius: 1em;
-    corner-top-left-shape: bevel;
-    corner-bottom-right-shape: bevel;
+    border-radius: 1em;
+    corner-shape: superellipse(4);
+    corner-top-left-shape: superellipse(0.125);
+    corner-bottom-right-shape: superellipse(0.125);
   }
 
   code {
@@ -89,13 +91,14 @@ blockquote {
     oklch(from var(--background) l c h / 0.5),
     calc(1.5 * var(--shadow-size)) calc(1.5 * var(--shadow-size)) 0
     var(--accent);
+  border-radius: 0.125rem;
   --shadow-size: 0.125rem;
 
   @supports (corner-shape: bevel) {
-    border-top-left-radius: 1em;
-    border-bottom-right-radius: 1em;
-    corner-top-left-shape: bevel;
-    corner-bottom-right-shape: bevel;
+    border-radius: 1em;
+    corner-shape: superellipse(4);
+    corner-top-left-shape: superellipse(0.125);
+    corner-bottom-right-shape: superellipse(0.125);
   }
 
   > :not(:last-child) {

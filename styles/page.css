@@ -224,8 +224,9 @@ ol {
     aspect-ratio: 1;
     inline-size: auto;
     block-size: 1.25rem;
-    padding: 0.225rem;
+    padding: 0.1875rem;
     border-radius: 0.25rem;
+    corner-shape: superellipse(2);
     background: var(--accent);
 
     svg {
