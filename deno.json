@@ -10,7 +10,7 @@
     }
   },
   "imports": {
-    "@feed/feed": "jsr:@feed/feed@^1.1.0",
+    "@feed/feed": "jsr:@feed/feed@^1.3.0",
     "@flint/framework": "jsr:@flint/framework@^0.34.1",
     "@handcraft/lib": "jsr:@handcraft/lib@^2.2.2",
     "@std/cli": "jsr:@std/cli@^1.0.28",
