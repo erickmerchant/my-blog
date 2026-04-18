@@ -4,7 +4,7 @@
     "jsr:@cfa/gitignore-parser@~0.1.4": "0.1.4",
     "jsr:@feed/feed@^1.3.0": "1.3.0",
     "jsr:@flint/framework@~0.34.1": "0.34.1",
-    "jsr:@handcraft/lib@3": "3.0.0",
+    "jsr:@handcraft/lib@^3.1.0": "3.1.0",
     "jsr:@std/async@^1.2.0": "1.2.0",
     "jsr:@std/cli@^1.0.28": "1.0.28",
     "jsr:@std/collections@^1.1.3": "1.1.3",
@@ -50,8 +50,8 @@
         "npm:lightningcss"
       ]
     },
-    "@handcraft/lib@3.0.0": {
-      "integrity": "e03d1df79cb28c9e918f919925504b0c0ecc83cda2dd0615dee59dc8791e9e6c",
+    "@handcraft/lib@3.1.0": {
+      "integrity": "fa0e3f2a5047f4252884c36dfe52f9603a75a46ee3b14477d9e2e363c120f0b8",
       "dependencies": [
         "jsr:@std/html"
       ]
@@ -259,7 +259,7 @@
     "dependencies": [
       "jsr:@feed/feed@^1.3.0",
       "jsr:@flint/framework@~0.34.1",
-      "jsr:@handcraft/lib@3",
+      "jsr:@handcraft/lib@^3.1.0",
       "jsr:@std/cli@^1.0.28",
       "jsr:@std/fs@^1.0.23",
       "jsr:@std/path@^1.1.4",
