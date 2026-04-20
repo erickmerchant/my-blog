@@ -46,8 +46,8 @@ pre {
   @supports (corner-shape: bevel) {
     border-radius: 1em;
     corner-shape: superellipse(4);
-    corner-top-left-shape: superellipse(0.125);
-    corner-bottom-right-shape: superellipse(0.125);
+    corner-start-start-shape: superellipse(0.125);
+    corner-end-end-shape: superellipse(0.125);
   }
 
   code {
@@ -97,8 +97,8 @@ blockquote {
   @supports (corner-shape: bevel) {
     border-radius: 1em;
     corner-shape: superellipse(4);
-    corner-top-left-shape: superellipse(0.125);
-    corner-bottom-right-shape: superellipse(0.125);
+    corner-start-start-shape: superellipse(0.125);
+    corner-end-end-shape: superellipse(0.125);
   }
 
   > :not(:last-child) {

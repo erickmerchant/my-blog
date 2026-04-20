@@ -149,6 +149,7 @@ ol {
 
 @scope (.banner) {
   :scope {
+    view-transition-name: banner;
     display: grid;
     grid-template-columns: auto min-content;
     align-items: center;
@@ -183,6 +184,7 @@ ol {
 
 @scope (.footer) {
   :scope {
+    /*view-transition-name: footer;*/
     display: grid;
     gap: 1.5rem 0;
     align-content: center;

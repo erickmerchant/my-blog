@@ -55,3 +55,7 @@
   src: url(/fonts/OverpassMono-Regular-subset.woff2) format("woff2");
   unicode-range: U+20-7E;
 }
+
+@view-transition {
+  navigation: auto;
+}
