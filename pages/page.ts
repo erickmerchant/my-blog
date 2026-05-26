@@ -1,16 +1,12 @@
 import { type Site } from "../models/site.ts";
-import {
-  h,
-  type HandcraftTemplatingChild,
-  type HandcraftTemplatingElement,
-} from "@handcraft/lib/templating";
+import { h, type HandcraftChild, type HandcraftNode } from "@handcraft/lib";
 import favicons from "./favicons.ts";
 
 type Config = {
   site: Site;
-  pageTitle?: HandcraftTemplatingChild;
-  bannerTitle?: HandcraftTemplatingElement;
-  mainContent: Array<HandcraftTemplatingChild>;
+  pageTitle?: string;
+  bannerTitle?: HandcraftNode;
+  mainContent: Array<HandcraftChild>;
 };
 
 const {

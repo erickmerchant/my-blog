@@ -3,8 +3,8 @@
   "specifiers": {
     "jsr:@cfa/gitignore-parser@~0.1.4": "0.1.4",
     "jsr:@feed/feed@^1.3.0": "1.3.0",
-    "jsr:@flint/framework@~0.34.2": "0.34.2",
-    "jsr:@handcraft/lib@^3.2.0": "3.2.0",
+    "jsr:@flint/framework@~0.34.3": "0.34.3",
+    "jsr:@handcraft/lib@4": "4.0.0",
     "jsr:@std/async@^1.3.0": "1.3.0",
     "jsr:@std/cli@^1.0.29": "1.0.29",
     "jsr:@std/collections@^1.1.3": "1.1.7",
@@ -26,7 +26,8 @@
     "npm:html-rewriter-wasm@~0.4.1": "0.4.1",
     "npm:lightningcss@^1.32.0": "1.32.0",
     "npm:markdown-it-highlightjs@^4.3.0": "4.3.0",
-    "npm:markdown-it@^14.1.1": "14.1.1"
+    "npm:markdown-it@^14.2.0": "14.2.0",
+    "npm:parse5@^8.0.1": "8.0.1"
   },
   "jsr": {
     "@cfa/gitignore-parser@0.1.4": {
@@ -35,8 +36,8 @@
     "@feed/feed@1.3.0": {
       "integrity": "cc9b02b4050423532d333c13a37e7d4784b5132697e2cde2d1769e59da2f519c"
     },
-    "@flint/framework@0.34.2": {
-      "integrity": "eaf8c4042640182070c32e048c00ad074924fc819804c24fd3d1da4f06a09bb1",
+    "@flint/framework@0.34.3": {
+      "integrity": "c7a2b8e9c4fee5cca30a09680a0737e340f336cdf8e22532c2041a3a37b252b7",
       "dependencies": [
         "jsr:@cfa/gitignore-parser",
         "jsr:@std/async",
@@ -51,8 +52,8 @@
         "npm:lightningcss"
       ]
     },
-    "@handcraft/lib@3.2.0": {
-      "integrity": "2f01dda5ef00d60dab75ea32c39365d4597e941a4f7d67cb3d53f8bbe29e3fcd",
+    "@handcraft/lib@4.0.0": {
+      "integrity": "97b9e5ddbc1755f131eda722e0345da7385810cd8518107f63c000da2d093af4",
       "dependencies": [
         "jsr:@std/html"
       ]
@@ -145,6 +146,9 @@
     "entities@4.5.0": {
       "integrity": "sha512-V0hjH4dGPh9Ao5p0MoRY6BVqtwCjhz6vI5LT8AJ55H+4g9/4vbHx1I54fS0XuclLhDHArPQCiMjDxjaL8fPxhw=="
     },
+    "entities@8.0.0": {
+      "integrity": "sha512-zwfzJecQ/Uej6tusMqwAqU/6KL2XaB2VZ2Jg54Je6ahNBGNH6Ek6g3jjNCF0fG9EWQKGZNddNjU5F1ZQn/sBnA=="
+    },
     "highlight.js@11.11.1": {
       "integrity": "sha512-Xwwo44whKBVCYoliBQwaPvtd/2tYFkRQtXDWj1nackaV2JPXx3L0+Jvd8/qCJ2p+ML0/XVkJ2q+Mr+UVdpJK5w=="
     },
@@ -225,8 +229,8 @@
         "lightningcss-win32-x64-msvc"
       ]
     },
-    "linkify-it@5.0.0": {
-      "integrity": "sha512-5aHCbzQRADcdP+ATqnDuhhJ/MRIqDkZX5pyjFHRRysS8vZ5AbqGEoFIb6pYHPZ+L/OC2Lc+xT8uHVVR5CAK/wQ==",
+    "linkify-it@5.0.1": {
+      "integrity": "sha512-wVoTjP4Q6R0NW5hiZkVJaFZPWgtXfoGF+6LucL3/FtiNjmcHhYjEr5f1Kqjirc1nBW07J/ZuRFumqr2oqccEWg==",
       "dependencies": [
         "uc.micro"
       ]
@@ -237,11 +241,11 @@
         "highlight.js"
       ]
     },
-    "markdown-it@14.1.1": {
-      "integrity": "sha512-BuU2qnTti9YKgK5N+IeMubp14ZUKUUw7yeJbkjtosvHiP0AZ5c8IAgEMk79D0eC8F23r4Ac/q8cAIFdm2FtyoA==",
+    "markdown-it@14.2.0": {
+      "integrity": "sha512-1TGiQiJVRQ3NPmZH6sx5Cfnmg6GQm9jvC1ch4TK511NjSJvjzKLzn5pPfZRNZkRPZP0HqCioSndqH8v2nRaWVQ==",
       "dependencies": [
         "argparse",
-        "entities",
+        "entities@4.5.0",
         "linkify-it",
         "mdurl",
         "punycode.js",
@@ -251,6 +255,12 @@
     },
     "mdurl@2.0.0": {
       "integrity": "sha512-Lf+9+2r+Tdp5wXDXC4PcIBjTDtq4UKjCPMQhKIuzpJNW0b96kVqSwW0bT7FhRSfmAiFYgP+SCRvdrDozfh0U5w=="
+    },
+    "parse5@8.0.1": {
+      "integrity": "sha512-z1e/HMG90obSGeidlli3hj7cbocou0/wa5HacvI3ASx34PecNjNQeaHNo5WIZpWofN9kgkqV1q5YvXe3F0FoPw==",
+      "dependencies": [
+        "entities@8.0.0"
+      ]
     },
     "punycode.js@2.3.1": {
       "integrity": "sha512-uxFIHU0YlHYhDQtV4R9J6a52SLx28BCjT+4ieh7IGbgwVJWO+km431c4yRlREUAsAmt/uMjQUyQHNEPf0M39CA=="
@@ -265,8 +275,8 @@
   "workspace": {
     "dependencies": [
       "jsr:@feed/feed@^1.3.0",
-      "jsr:@flint/framework@~0.34.2",
-      "jsr:@handcraft/lib@^3.2.0",
+      "jsr:@flint/framework@~0.34.3",
+      "jsr:@handcraft/lib@4",
       "jsr:@std/cli@^1.0.29",
       "jsr:@std/fs@^1.0.23",
       "jsr:@std/path@^1.1.4",
@@ -274,7 +284,8 @@
       "jsr:@std/toml@^1.0.11",
       "npm:highlight.js@^11.11.1",
       "npm:markdown-it-highlightjs@^4.3.0",
-      "npm:markdown-it@^14.1.1"
+      "npm:markdown-it@^14.2.0",
+      "npm:parse5@^8.0.1"
     ]
   }
 }

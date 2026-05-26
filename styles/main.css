@@ -50,12 +50,20 @@
 }
 
 @font-face {
+  font-family: "Bitter Fallback";
+  src: local("Georgia");
+  ascent-override: 89.6395%;
+  descent-override: 25.4059%;
+  size-adjust: 104.3067%;
+}
+
+@font-face {
   font-family: "Overpass Mono";
   font-weight: 400;
   src: url(/fonts/OverpassMono-Regular-subset.woff2) format("woff2");
   unicode-range: U+20-7E;
 }
 
-@view-transition {
+/*@view-transition {
   navigation: auto;
-}
+}*/

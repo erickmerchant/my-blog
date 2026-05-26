@@ -1,4 +1,5 @@
-import { fragment as ƒ, h } from "@handcraft/lib/templating";
+import { h } from "@handcraft/lib";
+import { stringify } from "@handcraft/lib/stringify";
 import { asLocalDate } from "../utils/dates.ts";
 import page from "./page.ts";
 import { getSite } from "../models/site.ts";
@@ -12,19 +13,19 @@ export default async function ({ params }: { params: { slug?: string } }) {
   const site = await getSite();
   const post = await getPostBySlug(params.slug);
 
-  return page({
+  return stringify(page({
     site,
     pageTitle: post.title,
     mainContent: [
-      article.class("article")(
+      article.class("post")(
         div(
           h1(post.title),
           time.class("status")(
             asLocalDate(post.datePublished as Temporal.PlainDate),
           ),
         ),
-        ƒ.html(post.content),
+        ...post.content,
       ),
     ],
-  });
+  }));
 }

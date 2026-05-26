@@ -1,4 +1,4 @@
-import { h } from "@handcraft/lib/templating";
+import { h } from "@handcraft/lib";
 
 const { link } = h.html;
 

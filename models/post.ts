@@ -1,12 +1,13 @@
 import * as Toml from "@std/toml";
 import * as Fs from "@std/fs";
 import * as Markdown from "../utils/markdown.ts";
+import { type HandcraftNode } from "@handcraft/lib";
 
 export type Post = {
   slug: string;
   title: string;
   datePublished: Temporal.PlainDate;
-  content: string;
+  content: Array<HandcraftNode | string>;
 };
 
 export async function getPublishedPosts(): Promise<Array<Post>> {
@@ -58,7 +59,7 @@ export async function getPostBySlug(slug: string) {
     }
   }
 
-  const content = await Markdown.parse(md);
+  const content = Markdown.parse(md);
   const post: Post = {
     slug,
     content,

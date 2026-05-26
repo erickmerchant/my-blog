@@ -1,5 +1,6 @@
 import * as Toml from "@std/toml";
 import * as Markdown from "../utils/markdown.ts";
+import { type HandcraftNode } from "@handcraft/lib";
 
 export type Site = {
   host: string;
@@ -7,14 +8,14 @@ export type Site = {
   author: string;
   description: string;
   projects: Array<Project>;
-  bio: string;
-  unfound: string;
+  bio: Array<HandcraftNode | string>;
+  unfound: Array<HandcraftNode | string>;
 };
 
 export type Project = {
   href: string;
   title: string;
-  content: string;
+  content: Array<HandcraftNode | string>;
 };
 
 export async function getSite(): Promise<Site> {
@@ -22,11 +23,11 @@ export async function getSite(): Promise<Site> {
   const siteContent = await Deno.readTextFile("./content/site.toml");
   const site = Toml.parse(siteContent) as Site;
 
-  site.bio = await Markdown.parse(site.bio);
-  site.unfound = await Markdown.parse(site.unfound);
+  site.bio = Markdown.parse(site.bio as unknown as string);
+  site.unfound = Markdown.parse(site.unfound as unknown as string);
 
   for (const project of site.projects) {
-    project.content = await Markdown.parse(project.content);
+    project.content = Markdown.parse(project.content as unknown as string);
   }
 
   return site;

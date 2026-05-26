@@ -1,4 +1,5 @@
-import { each, fragment as ƒ, h, when } from "@handcraft/lib/templating";
+import { each, h, when } from "@handcraft/lib";
+import { stringify } from "@handcraft/lib/stringify";
 import page from "./page.ts";
 import { getSite, Project } from "../models/site.ts";
 import { getPublishedPosts } from "../models/post.ts";
@@ -9,7 +10,7 @@ export default async function () {
   const site = await getSite();
   const posts = await getPublishedPosts();
 
-  return page({
+  return stringify(page({
     site,
     bannerTitle: h1,
     mainContent: [
@@ -33,7 +34,7 @@ export default async function () {
             each<Project>(site.projects).map((project) =>
               li(
                 a.class("title").href(project.href)(project.title),
-                ƒ.html(project.content),
+                ...project.content,
               )
             ),
           ),
@@ -41,8 +42,8 @@ export default async function () {
       ),
       aside.class("section")(
         h2("About"),
-        ƒ.html(site.bio),
+        ...site.bio,
       ),
     ],
-  });
+  }));
 }
