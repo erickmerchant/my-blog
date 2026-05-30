@@ -1,5 +1,5 @@
 html {
-  --code-background: oklch(from var(--background) l calc(c / 1.25) h);
+  --code-background: oklch(from var(--background) l calc(c / 1.2) h);
 }
 
 @scope (.post) {
@@ -59,9 +59,7 @@ html {
 
     @supports (corner-shape: bevel) {
       border-radius: 1em;
-      corner-shape: superellipse(4);
-      corner-start-start-shape: superellipse(0.125);
-      corner-end-end-shape: superellipse(0.125);
+      corner-shape: superellipse(2);
     }
 
     code {
@@ -87,32 +85,18 @@ html {
 
   blockquote {
     inline-size: 100%;
-    padding: 1rem 2rem;
+    padding: 0.5rem 1.5rem;
     overflow-wrap: anywhere;
     hyphens: auto;
     justify-self: start;
     position: relative;
     font-style: italic;
-    background-color: oklch(from var(--background) l calc(c * 1.5) h);
-    border: 0.05rem solid
-      color-mix(
-        in oklch,
-        var(--text) 30%,
-        var(--background)
-      );
-    box-shadow:
-      0 0 var(--shadow-size) var(--shadow-size)
-      oklch(from var(--background) l c h / 0.5),
-      calc(1.5 * var(--shadow-size)) calc(1.5 * var(--shadow-size)) 0
-      var(--accent);
-    border-radius: 0.125rem;
+    border-inline-start: 0.1rem solid var(--accent);
+    font-weight: 200;
     --shadow-size: 0.125rem;
 
-    @supports (corner-shape: bevel) {
-      border-radius: 1em;
-      corner-shape: superellipse(4);
-      corner-start-start-shape: superellipse(0.125);
-      corner-end-end-shape: superellipse(0.125);
+    em {
+      font-weight: 300;
     }
 
     > :not(:last-child) {

@@ -27,18 +27,19 @@ export default async function () {
         )
       ),
       when(() => site.projects.length > 0).show(() =>
-        section.class("section")(
-          h2("Projects"),
-          p("Some open-source projects."),
-          ul.class("list")(
-            each<Project>(site.projects).map((project) =>
-              li(
-                a.class("title").href(project.href)(project.title),
-                ...project.content,
-              )
+        section
+          .class("section")(
+            h2("Projects"),
+            p("Some open-source projects."),
+            ul.class("list")(
+              each<Project>(site.projects).map((project) =>
+                li(
+                  a.class("title").href(project.href)(project.title),
+                  ...project.content,
+                )
+              ),
             ),
-          ),
-        )
+          )
       ),
       aside.class("section")(
         h2("About"),

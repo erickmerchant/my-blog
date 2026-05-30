@@ -38,7 +38,8 @@ export default function (
     meta.charset("utf-8"),
     meta.name("viewport").content("width=device-width, initial-scale=1"),
     title(pageTitle ? pageTitle + " - " + site.title : site.title),
-    link.rel("preload")
+    link
+      .rel("preload")
       .href("/fonts/Bitter-VariableFont_wght-subset.woff2")
       .as("font")
       .type("font/woff2")
@@ -61,19 +62,23 @@ export default function (
     ul.class("list")(
       li.class("item")("© " + site.author),
       li.class("item")(
-        a.class("link").href("https://github.com/erickmerchant/my-blog")(
-          "View Source",
-        ),
+        a
+          .class("link")
+          .href("https://github.com/erickmerchant/my-blog")(
+            "View Source",
+          ),
       ),
       li.class("item")(
-        a.class("link rss").href("/posts.rss")(
-          svg.viewBox("0 0 28 28")(
-            svgTitle("RSS Feed"),
-            path.d(
-              "M0 24 A4 4 0 1 1 8 24 A4 4 0 1 1 0 24 Z M0 11 Q0 10 1 10 Q18 10 18 27 Q18 28 17 28 H13 Q12 28 12 27 Q12 16 1 16 Q0 16 0 15 Z M0 1 Q0 0 1 0 Q28 0 28 27 Q28 28 27 28 H23 Q22 28 22 27 Q22 6 1 6 Q0 6 0 5 Z",
+        a
+          .class("link rss")
+          .href("/posts.rss")(
+            svg.viewBox("0 0 28 28")(
+              svgTitle("RSS Feed"),
+              path.d(
+                "M0 24 A4 4 0 1 1 8 24 A4 4 0 1 1 0 24 Z M0 11 Q0 10 1 10 Q18 10 18 27 Q18 28 17 28 H13 Q12 28 12 27 Q12 16 1 16 Q0 16 0 15 Z M0 1 Q0 0 1 0 Q28 0 28 27 Q28 28 27 28 H23 Q22 28 22 27 Q22 6 1 6 Q0 6 0 5 Z",
+              ),
             ),
           ),
-        ),
       ),
     ),
   );

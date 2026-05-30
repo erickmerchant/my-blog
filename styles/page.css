@@ -161,23 +161,16 @@ ol {
     font-family: "Bitter", "Bitter Fallback", system-ui, sans-serif;
     font-size: 3rem;
     line-height: 1;
-    --shadow-size: 0.025em;
 
     a {
-      text-shadow:
-        calc(var(--shadow-size) * -1) calc(var(--shadow-size) * -1) 0
-        var(--text),
-        0 0 var(--shadow-size) oklch(from var(--background) l c h / 0.5),
-        var(--shadow-size) var(--shadow-size) 0 var(--accent);
+      color: var(--text);
       letter-spacing: 0.125em;
-      color: oklch(0 0 0 / 0);
       text-decoration: none;
-      font-weight: 800;
+      font-weight: 900;
     }
 
     @container (inline-size <= 30rem) {
       font-size: 2rem;
-      --shadow-size: 0.05em;
     }
   }
 }
