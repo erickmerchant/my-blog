@@ -133,7 +133,7 @@ ol {
     grid-column: 2;
   }
 
-  > :nth-child(n+3) {
+  > :nth-child(n+2) {
     padding-block-start: 1rem;
     background-image: repeating-linear-gradient(
       90deg,
@@ -149,15 +149,11 @@ ol {
 
 @scope (.banner) {
   :scope {
-    /*view-transition-name: banner;*/
     display: grid;
     grid-template-columns: auto min-content;
     align-items: center;
     gap: 1rem;
-
-    @container (inline-size <= 42rem) {
-      margin-inline: -1rem;
-    }
+    margin-block-start: 1rem;
   }
 
   .title {
@@ -167,20 +163,11 @@ ol {
 
     a {
       display: inline-block;
-      color: var(--background);
+      color: oklch(from var(--text) l c h / 0.8);
+      text-shadow: 0.05em 0.05em 0.01em oklch(from var(--accent) l c h / 0.8);
       letter-spacing: 0.125em;
       text-decoration: none;
       font-weight: 900;
-      padding: 1rem;
-      background: var(--accent);
-      inline-size: calc(100% + 1rem);
-
-      @container (inline-size > 42rem) {
-        padding-inline: 2rem;
-        margin-block-start: 1rem;
-        border-radius: 1rem;
-        corner-shape: superellipse(2);
-      }
     }
 
     @container (inline-size <= 42rem) {
@@ -191,7 +178,6 @@ ol {
 
 @scope (.footer) {
   :scope {
-    /*view-transition-name: footer;*/
     display: grid;
     gap: 1.5rem 0;
     align-content: center;
