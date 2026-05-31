@@ -20,7 +20,7 @@ html {
     background-color: var(--code-background);
     padding: 0.05rem 0.25rem;
     border-radius: 0.125rem;
-    corner-shape: superellipse(1);
+    corner-shape: superellipse(2);
     color: light-dark(
       oklch(from seagreen 50% c h),
       oklch(from red 90% c h)
