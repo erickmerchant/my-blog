@@ -158,7 +158,7 @@ ol {
 
   .title {
     font-family: "Bitter", "Bitter Fallback", system-ui, sans-serif;
-    font-size: 3rem;
+    font-size: clamp(1.5rem, 6.4vi, 4.22rem);
     line-height: 1;
 
     a {
@@ -168,10 +168,6 @@ ol {
       letter-spacing: 0.125em;
       text-decoration: none;
       font-weight: 900;
-    }
-
-    @container (inline-size <= 42rem) {
-      font-size: 1.5rem;
     }
   }
 }

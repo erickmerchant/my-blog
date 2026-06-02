@@ -85,13 +85,13 @@ html {
 
   blockquote {
     inline-size: 100%;
-    padding: 0.5rem 1.5rem;
+    padding: 0.5rem 1.25rem;
     overflow-wrap: anywhere;
     hyphens: auto;
     justify-self: start;
     position: relative;
     font-style: italic;
-    border-inline-start: 0.1rem solid var(--accent);
+    border-inline-start: 0.15em solid var(--accent);
     font-weight: 200;
     --shadow-size: 0.125rem;
 
