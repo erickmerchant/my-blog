@@ -107,13 +107,13 @@ del {
 
 ul,
 ol {
-  list-style-type: "- ";
+  list-style-type: "⁃ ";
   list-style-position: outside;
   padding-inline-start: 0.25rem;
   margin-inline-start: 0.5rem;
 
   ::marker {
-    font-size: 1.25em;
+    font-size: 1em;
     font-weight: 500;
   }
 }
@@ -137,11 +137,11 @@ ol {
     padding-block-start: 1rem;
     background-image: repeating-linear-gradient(
       90deg,
-      transparent 0rem 0.25rem,
-      currentColor 0.25rem 1.25rem,
-      transparent 1.25rem 1.5rem
+      transparent 0rem 0.5rem,
+      currentColor 0.5rem 1.5rem,
+      transparent 1.5rem 2rem
     );
-    background-size: 1.25rem 0.1rem;
+    background-size: 1.25rem 0.05rem;
     background-repeat: space no-repeat;
     background-position: top center;
   }
@@ -233,5 +233,6 @@ ol {
 
   .list {
     display: grid;
+    gap: 0.25rem;
   }
 }
