@@ -1,0 +1,10 @@
+@scope (.section) {
+  :scope {
+    display: grid;
+  }
+
+  .list {
+    display: grid;
+    gap: 0.25rem;
+  }
+}

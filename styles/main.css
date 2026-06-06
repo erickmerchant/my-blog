@@ -1,6 +1,10 @@
-@import "./page.css" layer;
-@import "./post.css" layer;
-@import "./highlight.css" layer;
+@layer page, element;
+
+@import "./elements/banner.css" layer(element);
+@import "./elements/footer.css" layer(element);
+@import "./elements/highlight.css" layer(element);
+@import "./elements/post.css" layer(element);
+@import "./elements/section.css" layer(element);
 
 @font-face {
   font-family: "Bitter";
@@ -64,6 +68,172 @@
   unicode-range: U+20-7E;
 }
 
-/*@view-transition {
-  navigation: auto;
-}*/
+@layer page {
+  :not(svg) {
+    font: inherit;
+  }
+
+  *,
+  ::before,
+  ::after {
+    box-sizing: border-box;
+    color: inherit;
+    margin: 0;
+    padding: 0;
+    border: none;
+    -webkit-text-size-adjust: none;
+  }
+
+  html {
+    block-size: 100%;
+    color-scheme: light dark;
+    font-family: "Bitter", "Bitter Fallback", system-ui, sans-serif;
+    font-weight: 400;
+    font-size: clamp(75%, 3.5vi, 112.5%);
+    line-height: 1.75;
+    overflow-y: scroll;
+    overflow-x: auto;
+    scrollbar-gutter: stable;
+    overscroll-behavior: none;
+    scrollbar-color: currentColor var(--background);
+    color: var(--text);
+
+    --background: light-dark(
+      oklch(from oldlace 100% c h),
+      oklch(from darkslategray 30% c h)
+    );
+    --text: light-dark(oklch(30% 0 60), oklch(100% 0.075 60));
+    --accent: light-dark(
+      oklch(from deepskyblue 55% c h),
+      oklch(from orange 90% c h)
+    );
+  }
+
+  body {
+    block-size: 100%;
+  }
+
+  a {
+    color: currentColor;
+    text-decoration-thickness: 0.15em;
+    text-underline-offset: 0.15em;
+    text-decoration-color: var(--accent);
+  }
+
+  p {
+    text-wrap: pretty;
+
+    @container (inline-size <= 41rem) {
+      hyphens: auto;
+    }
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    text-wrap: balance;
+    font-weight: 600;
+    line-height: 1.5;
+
+    a {
+      text-decoration-thickness: 0.15em;
+    }
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  h2 {
+    font-size: 1.25rem;
+
+    :has(header h1) & {
+      font-size: 1.5rem;
+    }
+  }
+
+  code {
+    font-family: "Overpass Mono", ui-monospace, monospace;
+    font-weight: 400;
+    font-size: 0.875rem;
+  }
+
+  em {
+    font-style: italic;
+    font-weight: 400;
+  }
+
+  strong {
+    font-weight: 600;
+  }
+
+  del {
+    text-decoration: line-through;
+    text-decoration-thickness: 0.25em;
+    text-decoration-color: oklch(from currentColor l c h / 0.5);
+  }
+
+  ul,
+  ol {
+    list-style-type: "▪︎ ";
+    list-style-position: outside;
+    padding-inline-start: 0.25rem;
+    margin-inline-start: 0.5rem;
+
+    ::marker {
+      font-weight: 500;
+    }
+  }
+
+  .main {
+    min-block-size: 100%;
+    background-color: var(--background);
+    color: var(--text);
+    container-type: inline-size;
+    display: grid;
+    grid-template-columns: 1fr min(100% - 2rem, 40rem) 1fr;
+    row-gap: 1rem;
+    align-items: start;
+    align-content: start;
+
+    > * {
+      grid-column: 2;
+    }
+
+    > :first-child {
+      padding-block-start: 1rem;
+      padding-block-end: 2rem;
+      background-image:
+        linear-gradient(
+          90deg,
+          oklch(from var(--text) l c h / 0.7) 0 calc(100% - 0.2em),
+          transparent calc(100% - 0.2em)
+        ),
+        linear-gradient(
+        90deg,
+        transparent 0em 0.2em,
+        oklch(from var(--accent) l c h / 0.8) 0.2em 100%,
+        transparent 100%
+      );
+      background-size: 100% 0.5rem;
+      background-repeat: no-repeat;
+      background-position: bottom 0.25rem center, bottom center;
+    }
+
+    > :nth-child(n+3) {
+      padding-block-start: 1rem;
+      background-image: linear-gradient(
+        90deg,
+        transparent 0 0.1rem,
+        var(--text) 0.1rem calc(100% - 0.1rem),
+        transparent calc(100% - 0.1rem)
+      );
+      background-size: 100% 0.075rem;
+      background-repeat: no-repeat;
+      background-position: top center;
+    }
+  }
+}

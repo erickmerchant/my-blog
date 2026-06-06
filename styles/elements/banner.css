@@ -1,0 +1,25 @@
+@scope (.banner) {
+  :scope {
+    display: grid;
+    grid-template-columns: auto min-content;
+    align-items: center;
+    gap: 1rem;
+    margin-block-start: 1rem;
+    width: max-content;
+  }
+
+  .title {
+    font-family: "Bitter", "Bitter Fallback", system-ui, sans-serif;
+    font-size: clamp(2rem, 9.5vi, 4.22rem);
+    line-height: 1;
+
+    a {
+      display: inline-block;
+      color: oklch(from var(--text) l c h / 0.7);
+      text-shadow: 0.05em 0.05em 0.01em oklch(from var(--accent) l c h / 0.8);
+      letter-spacing: 0.125em;
+      text-decoration: none;
+      font-weight: 900;
+    }
+  }
+}

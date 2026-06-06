@@ -14,7 +14,7 @@ const app = flint()
   .route(notFound)
   .file(p`/*.woff2`)
   .file(p`/*.png`)
-  .file(p`/styles/main.css`, css);
+  .file("/styles/main.css", css);
 
 export default app;
 
