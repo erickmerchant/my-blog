@@ -37,7 +37,7 @@ function nodeify(
           ) => ["attr", [attr.name, attr.value]]),
           children: nodeify(element.childNodes ?? []),
         },
-      } as unknown as HandcraftNode);
+      } as HandcraftNode);
     }
   }
 
