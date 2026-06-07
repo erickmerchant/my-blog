@@ -1,7 +1,7 @@
 @layer base, page, feature;
 
-@import "./base.css" layer(base);
 @import "./fonts.css" layer(base);
+@import "./base.css" layer(base);
 @import "./features/banner.css" layer(feature);
 @import "./features/footer.css" layer(feature);
 @import "./features/highlight.css" layer(feature);
