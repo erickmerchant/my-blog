@@ -13,12 +13,19 @@ The page you're looking doesn't exist. Check the [home page](/) for currently su
 href = "https://github.com/erickmerchant/flint"
 title = "Flint"
 content = """
-A static site generator / dynamic site server written for Deno.
+A small back-end framework for Deno for building static sites, dynamic sites, and APIs. Written in TypeScript.
 """
 
 [[projects]]
 href = "https://github.com/erickmerchant/handcraft"
 title = "Handcraft"
 content = """
-A front-end framework using a fluent interface for creating reactive UI.
+A small front-end framework for constructing declarative / reactive UI. Written in TypeScript.
+"""
+
+[[projects]]
+href = "https://github.com/erickmerchant/coolstyleserver"
+title = "Cool Style Server"
+content = """
+A development server for when you're not using JavaScript. Essentially "hot module replacement" for CSS. Written in Rust.
 """
