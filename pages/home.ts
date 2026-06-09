@@ -1,5 +1,4 @@
 import { each, h, when } from "@handcraft/lib";
-import { stringify } from "@handcraft/lib/stringify";
 import page from "./page.ts";
 import { getSite, Project } from "../models/site.ts";
 import { getPublishedPosts } from "../models/post.ts";
@@ -10,7 +9,7 @@ export default async function () {
   const site = await getSite();
   const posts = await getPublishedPosts();
 
-  return stringify(page({
+  return page({
     site,
     bannerTitle: h1,
     mainContent: [
@@ -46,5 +45,5 @@ export default async function () {
         ...site.bio,
       ),
     ],
-  }));
+  });
 }

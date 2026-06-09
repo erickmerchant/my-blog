@@ -1,5 +1,4 @@
 import { h } from "@handcraft/lib";
-import { stringify } from "@handcraft/lib/stringify";
 import { getSite } from "../models/site.ts";
 import page from "./page.ts";
 
@@ -8,7 +7,7 @@ const { article, h1 } = h.html;
 export default async function () {
   const site = await getSite();
 
-  return stringify(page({
+  return page({
     site,
     pageTitle: "404 Not Found",
     mainContent: [
@@ -17,5 +16,5 @@ export default async function () {
         ...site.unfound,
       ),
     ],
-  }));
+  });
 }
