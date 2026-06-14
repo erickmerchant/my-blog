@@ -25,7 +25,7 @@
       ) 0.5rem calc(100% - 0.5rem),
       transparent calc(100% - 0.5rem)
     );
-    background-size: 100% 0.05rem;
+    background-size: min(100% - 2rem, 40rem) 0.05rem;
     background-repeat: no-repeat;
     background-position: top center;
   }

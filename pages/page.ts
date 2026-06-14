@@ -6,6 +6,7 @@ type Config = {
   site: Site;
   pageTitle?: string;
   bannerTitle?: HandcraftNode;
+  headElements?: Array<HandcraftChild>;
   mainContent: Array<HandcraftChild>;
 };
 
@@ -32,6 +33,7 @@ export default function (
     pageTitle,
     bannerTitle,
     mainContent,
+    headElements = [link.rel("stylesheet").href("/styles/main.css")],
   }: Config,
 ) {
   const baseHead = head(
@@ -44,7 +46,7 @@ export default function (
       .as("font")
       .type("font/woff2")
       .crossorigin(""),
-    link.rel("stylesheet").href("/styles/main.css"),
+    ...headElements,
     link
       .rel("alternate")
       .type("application/rss+xml")

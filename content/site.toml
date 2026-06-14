@@ -5,9 +5,6 @@ description = "The personal website of Erick Merchant"
 bio = """
 Hey there! I'm Erick. I've been making things for the web for 20 years. I write about Typescript, Rust, and CSS. I'm available for work. Check out my [résumé](https://resume.erickmerchant.com/).
 """
-unfound = """
-The page you're looking doesn't exist. Check the [home page](/) for currently supported pages.
-"""
 
 [[projects]]
 href = "https://github.com/erickmerchant/flint"

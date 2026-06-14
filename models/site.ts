@@ -9,7 +9,6 @@ export type Site = {
   description: string;
   projects: Array<Project>;
   bio: Array<HandcraftNode | string>;
-  unfound: Array<HandcraftNode | string>;
 };
 
 export type Project = {
@@ -24,7 +23,6 @@ export async function getSite(): Promise<Site> {
   const site = Toml.parse(siteContent) as Site;
 
   site.bio = Markdown.parse(site.bio as unknown as string);
-  site.unfound = Markdown.parse(site.unfound as unknown as string);
 
   for (const project of site.projects) {
     project.content = Markdown.parse(project.content as unknown as string);

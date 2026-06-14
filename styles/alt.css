@@ -1,0 +1,56 @@
+@import "./fonts.css";
+@import "./vars.css";
+@import "./base.css" layer;
+@import "./page.css" layer;
+@import "./features/banner.css" layer;
+@import "./features/footer.css" layer;
+@import "../elements/mine-sweeper.css" layer;
+
+@layer {
+  @scope (.unfound) {
+    :scope {
+      margin: 0.5rem 0;
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: row;
+      gap: 1rem;
+    }
+
+    & > div {
+      flex-basis: 13.5rem;
+      flex-grow: 1;
+    }
+
+    .content > * {
+      margin-block-end: 0.5rem;
+    }
+
+    mine-sweeper {
+      margin-inline: auto;
+    }
+  }
+
+  @scope (.mines) {
+    :scope {
+      grid-column: 1 / -1;
+      min-inline-size: min(100% - 2rem, 40rem);
+      display: grid;
+      grid-template-columns: subgrid;
+    }
+
+    .nav {
+      display: flex;
+      margin-block: 1rem;
+      gap: 1rem;
+    }
+
+    & > mine-sweeper {
+      grid-column: 1 / -1;
+      margin-inline: auto;
+    }
+
+    & > :not(mine-sweeper) {
+      grid-column: 2;
+    }
+  }
+}

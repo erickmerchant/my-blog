@@ -2,9 +2,10 @@
   "version": "5",
   "specifiers": {
     "jsr:@cfa/gitignore-parser@~0.1.4": "0.1.4",
+    "jsr:@erickmerchant/mine-sweeper@^1.0.1": "1.0.1",
     "jsr:@feed/feed@^1.3.0": "1.3.0",
     "jsr:@flint/framework@~0.36.1": "0.36.1",
-    "jsr:@handcraft/lib@^4.4.0": "4.4.0",
+    "jsr:@handcraft/lib@^4.4.1": "4.4.1",
     "jsr:@std/async@^1.4.0": "1.4.0",
     "jsr:@std/cli@^1.0.30": "1.0.30",
     "jsr:@std/collections@^1.1.3": "1.1.7",
@@ -20,7 +21,6 @@
     "jsr:@std/regexp@^1.0.2": "1.0.2",
     "jsr:@std/text@^1.0.19": "1.0.19",
     "jsr:@std/toml@^1.0.11": "1.0.11",
-    "npm:@types/node@*": "22.15.15",
     "npm:highlight.js@^11.11.1": "11.11.1",
     "npm:html-rewriter-wasm@~0.4.1": "0.4.1",
     "npm:lightningcss@^1.32.0": "1.32.0",
@@ -31,6 +31,12 @@
   "jsr": {
     "@cfa/gitignore-parser@0.1.4": {
       "integrity": "60d3563bbd7b8797f50c28585d7d74d231fbb56a1d9df7b0673c27cbdf60a23a"
+    },
+    "@erickmerchant/mine-sweeper@1.0.1": {
+      "integrity": "2b0de517db11b7ed620cbe929631b2bfb9d1c43d208e9412fcf4ad71e2bac2a9",
+      "dependencies": [
+        "jsr:@handcraft/lib"
+      ]
     },
     "@feed/feed@1.3.0": {
       "integrity": "cc9b02b4050423532d333c13a37e7d4784b5132697e2cde2d1769e59da2f519c"
@@ -51,8 +57,8 @@
         "npm:lightningcss"
       ]
     },
-    "@handcraft/lib@4.4.0": {
-      "integrity": "570d7915e540e32f008548785049044c1f56fd98a5f74924f89f05902c9c5e29",
+    "@handcraft/lib@4.4.1": {
+      "integrity": "bed99fdbc5625d4f0474abec2fffec07cab789b04fc4ce1a5f745166d099cc5f",
       "dependencies": [
         "jsr:@std/html"
       ]
@@ -66,9 +72,6 @@
         "jsr:@std/fmt",
         "jsr:@std/internal"
       ]
-    },
-    "@std/collections@1.1.3": {
-      "integrity": "bf8b0818886df6a32b64c7d3b037a425111f28278d69fd0995aeb62777c986b0"
     },
     "@std/collections@1.1.7": {
       "integrity": "56f659d011218a69740b12829cf5ea2c9b70bbed0af02597e27dc1eb5e69e208"
@@ -88,9 +91,6 @@
         "jsr:@std/internal",
         "jsr:@std/path"
       ]
-    },
-    "@std/html@1.0.5": {
-      "integrity": "4e2d693f474cae8c16a920fa5e15a3b72267b94b84667f11a50c6dd1cb18d35e"
     },
     "@std/html@1.0.7": {
       "integrity": "175c818905a6e75743c69c251395e273d82698e58cfe7dd76268d70e28b8d8fe"
@@ -130,12 +130,6 @@
     }
   },
   "npm": {
-    "@types/node@22.15.15": {
-      "integrity": "sha512-R5muMcZob3/Jjchn5LcO8jdKwSCbzqmPB6ruBxMcf9kbxtniZHP327s6C37iOfuw8mbKK3cAQa7sEl7afLrQ8A==",
-      "dependencies": [
-        "undici-types"
-      ]
-    },
     "argparse@2.0.1": {
       "integrity": "sha512-8+9WqebbFzpX9OR+Wa6O29asIogeRMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvurK3Q=="
     },
@@ -266,16 +260,14 @@
     },
     "uc.micro@2.1.0": {
       "integrity": "sha512-ARDJmphmdvUk6Glw7y9DQ2bFkKBHwQHLi2lsaH6PPmz/Ka9sFOBsBluozhDltWmnv9u/cF6Rt87znRTPV+yp/A=="
-    },
-    "undici-types@6.21.0": {
-      "integrity": "sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ=="
     }
   },
   "workspace": {
     "dependencies": [
+      "jsr:@erickmerchant/mine-sweeper@^1.0.1",
       "jsr:@feed/feed@^1.3.0",
       "jsr:@flint/framework@~0.36.1",
-      "jsr:@handcraft/lib@^4.4.0",
+      "jsr:@handcraft/lib@^4.4.1",
       "jsr:@std/cli@^1.0.30",
       "jsr:@std/fs@^1.0.24",
       "jsr:@std/path@^1.1.5",
