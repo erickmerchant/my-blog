@@ -7,14 +7,12 @@
 @import "../elements/mine-sweeper.css" layer;
 
 @layer {
-  @scope (.unfound) {
-    :scope {
-      margin: 0.5rem 0;
-      display: flex;
-      flex-wrap: wrap;
-      flex-direction: row;
-      gap: 1rem;
-    }
+  .unfound {
+    margin: 0.5rem 0;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    gap: 1rem;
 
     & > div {
       flex-basis: 13.5rem;
@@ -30,13 +28,11 @@
     }
   }
 
-  @scope (.mines) {
-    :scope {
-      grid-column: 1 / -1;
-      min-inline-size: min(100% - 2rem, 40rem);
-      display: grid;
-      grid-template-columns: subgrid;
-    }
+  .mines {
+    grid-column: 1 / -1;
+    min-inline-size: min(100% - 2rem, 40rem);
+    display: grid;
+    grid-template-columns: subgrid;
 
     .nav {
       display: flex;

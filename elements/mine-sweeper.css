@@ -1,27 +1,25 @@
-@scope (mine-sweeper) {
-  :scope {
-    max-inline-size: 100%;
-    box-sizing: border-box;
-    display: grid;
-    background-color: oklch(from var(--background) l calc(c * 2) h);
-    border: 2px solid
-      color-mix(
-        in oklch,
-        var(--text) 30%,
-        var(--background)
-      );
-    padding: 1rem;
-    border-radius: 0.25rem;
-    margin: 0;
-    place-items: center;
-    font-family: ui-monospace, monospace;
-    font-weight: bold;
-    font-size: 1rem;
-    inline-size: var(--w);
-    gap: 1px;
+mine-sweeper {
+  max-inline-size: 100%;
+  box-sizing: border-box;
+  display: grid;
+  background-color: oklch(from var(--background) l calc(c * 2) h);
+  border: 2px solid
+    color-mix(
+      in oklch,
+      var(--text) 30%,
+      var(--background)
+    );
+  padding: 1rem;
+  border-radius: 0.25rem;
+  margin: 0;
+  place-items: center;
+  font-family: ui-monospace, monospace;
+  font-weight: bold;
+  font-size: 1rem;
+  inline-size: var(--w);
+  gap: 1px;
 
-    --w: min(calc(100dvi - 2rem), calc(2.75rem * var(--width)));
-  }
+  --w: min(calc(100dvi - 2rem), calc(2.75rem * var(--width)));
 
   &::part(info-panel) {
     display: grid;
@@ -85,7 +83,7 @@
 
   &::part(revealed) {
     background-color: var(--background);
-    cursor: light-dark(oklch(90% 0 0); , oklch(90% 0 0));
+    cursor: light-dark(oklch(90% 0 0), oklch(90% 0 0));
   }
 
   &::part(armed-adjacent-count--1) {
@@ -105,11 +103,11 @@
   }
 
   &::part(armed-adjacent-count--5) {
-    color: light-dark(oklch(50% 0.4 80); , oklch(80% 0.4 80));
+    color: light-dark(oklch(50% 0.4 80), oklch(80% 0.4 80));
   }
 
   &::part(armed-adjacent-count--6) {
-    color: light-dark(oklch(50% 0.4 35); , oklch(80% 0.4 35));
+    color: light-dark(oklch(50% 0.4 35), oklch(80% 0.4 35));
   }
 
   &::part(armed-adjacent-count--7) {
