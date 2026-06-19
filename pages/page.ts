@@ -66,9 +66,7 @@ export default function (
       li.class("item")(
         a
           .class("link")
-          .href("https://github.com/erickmerchant/my-blog")(
-            "View Source",
-          ),
+          .href("https://github.com/erickmerchant/my-blog")("View Source"),
       ),
       li.class("item")(
         a

@@ -18,9 +18,7 @@ export default async function () {
           h2("Posts"),
           ol.class("list")(
             posts.map((post) =>
-              li(
-                a.class("title").href("/posts/" + post.slug + "/")(post.title),
-              )
+              li(a.class("title").href("/posts/" + post.slug + "/")(post.title))
             ),
           ),
         )
