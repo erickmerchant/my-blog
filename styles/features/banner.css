@@ -10,7 +10,7 @@
   }
 
   .title {
-    font-family: "Bitter", "Bitter Fallback", system-ui, sans-serif;
+    font-family: var(--bitter);
     font-size: clamp(2rem, 9.5vi, 4.22rem);
     line-height: 1;
 

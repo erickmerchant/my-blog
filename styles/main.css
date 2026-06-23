@@ -1,4 +1,5 @@
-@import "./fonts.css";
+@import "../fonts/bitter.css";
+@import "../fonts/overpass-mono.css";
 @import "./vars.css";
 @import "./base.css" layer;
 @import "./page.css" layer;

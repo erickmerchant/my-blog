@@ -16,7 +16,7 @@
 html {
   block-size: 100%;
   color-scheme: light dark;
-  font-family: "Bitter", "Bitter Fallback", system-ui, sans-serif;
+  font-family: var(--bitter);
   font-weight: 400;
   font-size: clamp(75%, 3.5vi, 112.5%);
   line-height: 1.75;

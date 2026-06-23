@@ -42,7 +42,7 @@ export default function (
     title(pageTitle ? pageTitle + " - " + site.title : site.title),
     link
       .rel("preload")
-      .href("/fonts/Bitter-VariableFont_wght-subset.woff2")
+      .href("/fonts/bitter-100-900-normal-latin.woff2")
       .as("font")
       .type("font/woff2")
       .crossorigin(""),
