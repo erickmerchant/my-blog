@@ -25,7 +25,6 @@ if (import.meta.main) {
     const frontmatter = Toml.stringify({
       title,
       datePublished: Temporal.Now.plainDateISO().toString(),
-      content: "",
     });
     const code = `+++\n${frontmatter}+++\n`;
     const path = `content/posts/${slug}.md`;

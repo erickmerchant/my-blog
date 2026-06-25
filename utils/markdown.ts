@@ -7,7 +7,7 @@ import { type HandcraftNode, NODE_STATE } from "@handcraft/lib";
 highlightjs.configure({ classPrefix: "" });
 
 export function parse(markdown: string): Array<HandcraftNode | string> {
-  const md = new MarkdownIt({ typographer: true });
+  const md = new MarkdownIt({ typographer: true, html: true });
 
   md.use(highlightjsPlugin);
 

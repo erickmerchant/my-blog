@@ -22,6 +22,7 @@ const app = flint()
   .route(view(notFound))
   .file(p`/*.woff2`)
   .file(p`/*.png`)
+  .file(p`/media/**/*`)
   .file("/styles/main.css", css)
   .file("/styles/alt.css", css)
   .file("/elements/mine-sweeper.js", js);
