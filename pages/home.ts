@@ -2,8 +2,9 @@ import { each, h, when } from "@handcraft/lib";
 import page from "./page.ts";
 import { getSite, Project } from "../models/site.ts";
 import { getPublishedPosts } from "../models/post.ts";
+import { asLocalShortDate } from "../utils/dates.ts";
 
-const { section, h1, h2, p, ol, ul, li, a, aside } = h.html;
+const { section, h1, h2, p, ol, ul, li, a, aside, span } = h.html;
 
 export default async function () {
   const site = await getSite();
@@ -18,7 +19,16 @@ export default async function () {
           h2("Posts"),
           ol.class("list")(
             posts.map((post) =>
-              li(a.class("title").href("/posts/" + post.slug + "/")(post.title))
+              li(
+                span(
+                  span.class("date")(
+                    asLocalShortDate(post.datePublished as Temporal.PlainDate),
+                  ),
+                  a.class("title").href("/posts/" + post.slug + "/")(
+                    post.title,
+                  ),
+                ),
+              )
             ),
           ),
         )

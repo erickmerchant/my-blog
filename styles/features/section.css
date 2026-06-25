@@ -7,4 +7,23 @@
     display: grid;
     gap: 0.25rem;
   }
+
+  li > span:has(.date) {
+    display: grid;
+    grid-template-columns: min-content 1fr;
+  }
+
+  .date {
+    font-variant-numeric: tabular-nums;
+
+    &::after {
+      content: "⋯" / "";
+      color: color-mix(
+        in oklch,
+        var(--text) 70%,
+        var(--background)
+      );
+      margin-inline: 0.25em;
+    }
+  }
 }
