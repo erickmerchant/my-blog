@@ -1,8 +1,7 @@
 @scope (.banner) {
   :scope {
-    padding-block: 0.5rem;
+    padding-block: 0.5rem 1.25rem;
     display: grid;
-    grid-template-columns: auto min-content;
     align-items: center;
     gap: 1rem;
     margin-block-start: 1rem;
