@@ -35,25 +35,33 @@
     );
   }
 
-  .regexp, .string, .meta .string {
+  .regexp,
+  .string,
+  .meta .string {
     color: light-dark(
       oklch(from forestgreen 50% c h),
       oklch(from red 90% c h)
     );
   }
 
-  .built_in, .symbol {
+  .built_in,
+  .symbol {
     color: oklch(from var(--text) l c h / 0.85);
   }
 
-  .comment, .code, .formula {
+  .comment,
+  .code,
+  .formula {
     color: light-dark(
       oklch(from antiquewhite 50% c h),
       oklch(from antiquewhite 90% c h)
     );
   }
 
-  .name, .quote, .selector-tag, .selector-pseudo {
+  .name,
+  .quote,
+  .selector-tag,
+  .selector-pseudo {
     color: light-dark(
       oklch(from springgreen 50% c h),
       oklch(from crimson 90% c h)

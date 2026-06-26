@@ -5,10 +5,10 @@ mine-sweeper {
   background-color: oklch(from var(--background) l calc(c * 2) h);
   border: 2px solid
     color-mix(
-      in oklch,
-      var(--text) 30%,
-      var(--background)
-    );
+    in oklch,
+    var(--text) 30%,
+    var(--background)
+  );
   padding: 1rem;
   border-radius: 0.25rem;
   margin: 0;
@@ -44,10 +44,10 @@ mine-sweeper {
     );
     border: 1px solid
       color-mix(
-        in oklch,
-        var(--text) 30%,
-        var(--background)
-      );
+      in oklch,
+      var(--text) 30%,
+      var(--background)
+    );
     border-radius: 0;
     overflow: hidden;
   }
@@ -119,6 +119,6 @@ mine-sweeper {
   }
 
   &:part(flagged revealed) {
-    --content: ;
+    --content:;
   }
 }

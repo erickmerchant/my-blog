@@ -49,10 +49,10 @@
     background-color: var(--code-background);
     border: 0.05rem solid
       color-mix(
-        in oklch,
-        var(--text) 30%,
-        var(--background)
-      );
+      in oklch,
+      var(--text) 30%,
+      var(--background)
+    );
     border-radius: 0.125rem;
 
     @supports (corner-shape: bevel) {

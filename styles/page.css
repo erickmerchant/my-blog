@@ -13,7 +13,8 @@
     grid-column: 2;
   }
 
-  > :nth-last-child(n+3), > :last-child {
+  > :nth-last-child(n+3),
+   > :last-child {
     background-image: linear-gradient(
       90deg,
       transparent 0 0.5rem,

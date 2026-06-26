@@ -12,24 +12,24 @@ could be useful.
 
 ```html
 <style>
-  p {
-    color: red;
+p {
+  color: red;
+}
+
+.large-blue {
+  container: blue large / inline-size;
+}
+
+* {
+  @container blue (min-width: 0) {
+    color: blue;
   }
 
-  .large-blue {
-    container: blue large / inline-size;
+  @container large (min-width: 0) {
+    font-weight: bold;
+    font-size: 2em;
   }
-
-  * {
-    @container blue (min-width: 0) {
-      color: blue;
-    }
-
-    @container large (min-width: 0) {
-      font-weight: bold;
-      font-size: 2em;
-    }
-  }
+}
 </style>
 
 <div>
