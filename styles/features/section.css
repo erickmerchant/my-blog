@@ -1,6 +1,7 @@
 @scope (.section) {
   :scope {
     display: grid;
+    gap: 1rem;
   }
 
   .list {
