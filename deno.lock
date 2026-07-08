@@ -4,7 +4,7 @@
     "jsr:@cfa/gitignore-parser@~0.1.4": "0.1.4",
     "jsr:@erickmerchant/mine-sweeper@^1.0.1": "1.0.1",
     "jsr:@feed/feed@^1.3.0": "1.3.0",
-    "jsr:@flint/framework@~0.36.6": "0.36.6",
+    "jsr:@flint/framework@0.37": "0.37.0",
     "jsr:@handcraft/lib@^4.4.1": "4.4.1",
     "jsr:@std/async@^1.5.0": "1.5.0",
     "jsr:@std/cli@^1.0.32": "1.0.32",
@@ -42,8 +42,8 @@
     "@feed/feed@1.3.0": {
       "integrity": "cc9b02b4050423532d333c13a37e7d4784b5132697e2cde2d1769e59da2f519c"
     },
-    "@flint/framework@0.36.6": {
-      "integrity": "b0eb5b3004d7a18a4618d14ccffc9102af7e383d0da14b29406c33fb00d704d3",
+    "@flint/framework@0.37.0": {
+      "integrity": "8867f7dd4cfe4a2f528f033597c89aa9e29d7c70f24f749cd96c58360d0c12f4",
       "dependencies": [
         "jsr:@cfa/gitignore-parser",
         "jsr:@std/async",
@@ -267,7 +267,7 @@
     "dependencies": [
       "jsr:@erickmerchant/mine-sweeper@^1.0.1",
       "jsr:@feed/feed@^1.3.0",
-      "jsr:@flint/framework@~0.36.6",
+      "jsr:@flint/framework@0.37",
       "jsr:@handcraft/lib@^4.4.1",
       "jsr:@std/cli@^1.0.32",
       "jsr:@std/fs@^1.0.24",
