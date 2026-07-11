@@ -75,7 +75,7 @@ h2 {
 }
 
 code {
-  font-family: "Overpass Mono", ui-monospace, monospace;
+  font-family: var(--overpass-mono);
   font-weight: 400;
   font-size: 0.875rem;
 }
