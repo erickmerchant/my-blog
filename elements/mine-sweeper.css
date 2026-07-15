@@ -122,3 +122,26 @@ mine-sweeper {
     --content:;
   }
 }
+
+.mines {
+  grid-column: 1 / -1;
+  min-inline-size: min(100% - 2rem, 40rem);
+  display: grid;
+  grid-template-columns: subgrid;
+  padding-block-end: 0.5rem;
+
+  .nav {
+    display: flex;
+    margin-block: 1rem;
+    gap: 1rem;
+  }
+
+  & > mine-sweeper {
+    grid-column: 1 / -1;
+    margin-inline: auto;
+  }
+
+  & > :not(mine-sweeper) {
+    grid-column: 2;
+  }
+}
