@@ -210,7 +210,9 @@ head().append(
     .attr("type", "application/rss+xml")
     .attr("title", "Posts")
     .attr("href", site.host + "/posts.rss"),
-  meta().attr("name", "description").attr("content", site.description),
+  meta()
+    .attr("name", "description")
+    .attr("content", site.description),
 );
 ```
 
@@ -219,7 +221,9 @@ Now it's the much more terse...
 ```javascript
 head(
   meta.charset("utf-8"),
-  meta.name("viewport").content("width=device-width, initial-scale=1"),
+  meta
+    .name("viewport")
+    .content("width=device-width, initial-scale=1"),
   title(site.title),
   link.rel("stylesheet").href("/page.css"),
   link

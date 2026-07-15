@@ -14,9 +14,11 @@ an example given was:
 ```javascript
 const styles = getComputedStyle($0);
 
-console.log(styles.fontSize); // 1rem;
+// 1rem;
+console.log(styles.fontSize);
 
-const fontSizeInPx = CSS.px(styles.fontSize); // 16px
+// 16px
+const fontSizeInPx = CSS.px(styles.fontSize);
 ```
 
 I didn't really get involved in the conversation, but immediately thought of
@@ -53,11 +55,13 @@ function getPropertyValueInUnits(el, prop, units, ns = "units") {
 
   el.style.removeProperty(name);
 
-  base = base.substring(0, base.length - 2); // remove px from the end
+  // remove px from the end
+  base = base.substring(0, base.length - 2);
 
   let val = computed.getPropertyValue(prop);
 
-  val = val.substring(0, val.length - 2); // remove px from the end
+  // remove px from the end
+  val = val.substring(0, val.length - 2);
 
   return val / base;
 }

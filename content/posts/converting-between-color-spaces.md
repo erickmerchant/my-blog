@@ -32,11 +32,15 @@ Let me highlight the relevant bits of js.
 ```javascript
 import { css, LitElement } from "https://esm.sh/lit";
 
+const name = "--color-input-value";
+
 export class ColorInput extends LitElement {
   static {
-    // This is important so that the value that we later set is cast to an actual color and not just stored as a string.
+    // This is important so that the value
+    // that we later set is cast to an actual
+    // color and not just stored as a string.
     window.CSS.registerProperty({
-      name: "--color-input-value",
+      name,
       syntax: "<color>",
       inherits: false,
       initialValue: "#000000",
@@ -61,16 +65,27 @@ export class ColorInput extends LitElement {
     });
 
     textInput.addEventListener("input", () => {
-      // This takes a string that is the input's value, and uses the color function in css to say take this value and convert it into srgb.
+      // This takes a string that is
+      // the input's value, and uses the
+      // color function in css to say
+      // take this value and convert it
+      // into srgb.
       textInput.style.setProperty(
-        "--color-input-value",
+        name,
         `color(from ${textInput.value} srgb r g b)`,
       );
 
       const style = window.getComputedStyle(textInput);
-      const value = style.getPropertyValue("--color-input-value");
+      const value = style.getPropertyValue(name);
 
-      // Now we have an rgb color. But it's not a hex and color inputs use hex, so now we have to grab the first three numbers out of that with a regex match — only three because color inputs don't support opacity — and use that to produce a hex value.
+      // Now we have an rgb color.
+      // But it's not a hex and color
+      // inputs use hex, so now we
+      // have to grab the first three
+      // numbers out of that with a regex
+      // match — only three because color
+      // inputs don't support opacity —
+      // and use that to produce a hex value.
       const numbers = value.match(/[0-9\.]+/g);
 
       colorInput.value = `#${

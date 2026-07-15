@@ -23,7 +23,8 @@ I wanted to truncate the file and write to it. So I had to do this:
 
 ```rust
 let mut file = File::options()
-	.read(true) // this is why I can't use File::create()
+	// this is why I can't use File::create()
+	.read(true)
 	.write(true)
 	.create(true)
 	.truncate(true)

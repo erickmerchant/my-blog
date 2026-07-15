@@ -64,13 +64,18 @@ them or make sure they are defined wherever you use JSX.
 function h(tag, props, ...children) {
   children = children.flat(Infinity);
 
-  if (typeof tag === "function") return tag({ ...props, children });
+  if (typeof tag === "function") {
+    return tag({ ...props, children });
+  }
 
   let node = document.createElement(tag);
 
   for (let [key, val] of Object.entries(props ?? {})) {
     if (key.startsWith("on")) {
-      node.addEventListener(key.substring(2).toLowerCase(), ...[].concat(val));
+      node.addEventListener(
+        key.substring(2).toLowerCase(),
+        ...[].concat(val),
+      );
     } else {
       node[key] = val;
     }
