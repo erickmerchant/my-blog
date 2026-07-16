@@ -7,7 +7,8 @@
     "stage": {
       "command": "deno serve -A --port=4000 --parallel dist/serve.ts",
       "dependencies": ["build"]
-    }
+    },
+    "fonts": "deno run -A jsr:@erickmerchant/fonts --family Bitter --weight '100 900' --fallback Georgia --fallback ui-serif --fallback serif && deno run -A jsr:@erickmerchant/fonts --family 'Overpass Mono' --weight 400 --style normal --fallback ui-monospace --fallback monospace"
   },
   "imports": {
     "@erickmerchant/mine-sweeper": "jsr:@erickmerchant/mine-sweeper@^1.0.1",
