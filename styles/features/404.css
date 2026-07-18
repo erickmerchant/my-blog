@@ -1,9 +1,11 @@
-.unfound {
-  margin: 0.5rem 0;
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
-  gap: 1rem;
+@scope (.unfound) {
+  :scope {
+    margin: 0.5rem 0;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    gap: 1rem;
+  }
 
   & > div {
     flex-basis: 13.5rem;
