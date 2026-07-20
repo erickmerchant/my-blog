@@ -2,7 +2,7 @@
   "version": "5",
   "specifiers": {
     "jsr:@cfa/gitignore-parser@~0.1.4": "0.1.4",
-    "jsr:@erickmerchant/mine-sweeper@^1.0.3": "1.0.3",
+    "jsr:@erickmerchant/mine-sweeper@^1.0.4": "1.0.4",
     "jsr:@feed/feed@^1.3.0": "1.3.0",
     "jsr:@flint/framework@0.37": "0.37.0",
     "jsr:@handcraft/lib@^4.4.1": "4.4.1",
@@ -33,8 +33,8 @@
     "@cfa/gitignore-parser@0.1.4": {
       "integrity": "60d3563bbd7b8797f50c28585d7d74d231fbb56a1d9df7b0673c27cbdf60a23a"
     },
-    "@erickmerchant/mine-sweeper@1.0.3": {
-      "integrity": "adf8cc5084374db1acac5f979ceecd516d57767333eef922d1d2c83e98535c45",
+    "@erickmerchant/mine-sweeper@1.0.4": {
+      "integrity": "a2891224ec02c7f10aaff6e9bbc3dcd54e0190fd5435d52b4512883f1fa17872",
       "dependencies": [
         "jsr:@handcraft/lib"
       ]
@@ -265,7 +265,7 @@
   },
   "workspace": {
     "dependencies": [
-      "jsr:@erickmerchant/mine-sweeper@^1.0.3",
+      "jsr:@erickmerchant/mine-sweeper@^1.0.4",
       "jsr:@feed/feed@^1.3.0",
       "jsr:@flint/framework@0.37",
       "jsr:@handcraft/lib@^4.4.1",
