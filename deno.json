@@ -11,6 +11,7 @@
     "fonts": "deno run -A jsr:@erickmerchant/fonts --family Bitter --weight '100 900' --fallback Georgia --fallback ui-serif --fallback serif && deno run -A jsr:@erickmerchant/fonts --family 'Overpass Mono' --weight 400 --style normal --fallback ui-monospace --fallback monospace"
   },
   "imports": {
+    "@erickmerchant/icons": "jsr:@erickmerchant/icons@^0.2.0",
     "@erickmerchant/mine-sweeper": "jsr:@erickmerchant/mine-sweeper@^1.0.4",
     "@feed/feed": "jsr:@feed/feed@^1.3.0",
     "@flint/framework": "jsr:@flint/framework@^0.37.0",
@@ -25,6 +26,7 @@
     "markdown-it-highlightjs": "npm:markdown-it-highlightjs@^4.3.0",
     "parse5": "npm:parse5@^8.0.1"
   },
+  "minimumDependencyAge": 0,
   "compilerOptions": {
     "lib": [
       "deno.ns",
