@@ -14,8 +14,8 @@
     "@erickmerchant/icons": "jsr:@erickmerchant/icons@^0.2.0",
     "@erickmerchant/mine-sweeper": "jsr:@erickmerchant/mine-sweeper@^1.0.4",
     "@feed/feed": "jsr:@feed/feed@^1.3.0",
-    "@flint/framework": "jsr:@flint/framework@^0.37.0",
-    "@handcraft/lib": "jsr:@handcraft/lib@^4.4.1",
+    "@flint/framework": "jsr:@flint/framework@^0.38.0",
+    "@handcraft/lib": "jsr:@handcraft/lib@^4.5.0",
     "@std/cli": "jsr:@std/cli@^1.0.32",
     "@std/fs": "jsr:@std/fs@^1.0.24",
     "@std/path": "jsr:@std/path@^1.1.6",
@@ -26,7 +26,6 @@
     "markdown-it-highlightjs": "npm:markdown-it-highlightjs@^4.3.0",
     "parse5": "npm:parse5@^8.0.1"
   },
-  "minimumDependencyAge": 0,
   "compilerOptions": {
     "lib": [
       "deno.ns",
