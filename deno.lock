@@ -5,7 +5,7 @@
     "jsr:@erickmerchant/icons@0.2": "0.2.0",
     "jsr:@erickmerchant/mine-sweeper@^1.0.4": "1.0.4",
     "jsr:@feed/feed@^1.3.0": "1.3.0",
-    "jsr:@flint/framework@~0.38.1": "0.38.1",
+    "jsr:@flint/framework@0.39": "0.39.0",
     "jsr:@handcraft/lib@^4.4.1": "4.5.0",
     "jsr:@handcraft/lib@^4.5.0": "4.5.0",
     "jsr:@std/async@^1.5.0": "1.5.0",
@@ -50,8 +50,8 @@
     "@feed/feed@1.3.0": {
       "integrity": "cc9b02b4050423532d333c13a37e7d4784b5132697e2cde2d1769e59da2f519c"
     },
-    "@flint/framework@0.38.1": {
-      "integrity": "c6067a411922422e56912f989b186948ec39b1bdf5f68fa2850b540eb188de40",
+    "@flint/framework@0.39.0": {
+      "integrity": "6fad0b1c3072d07b59ccda120679d6409d1459c424d7fd35535731eaec6c316a",
       "dependencies": [
         "jsr:@cfa/gitignore-parser",
         "jsr:@std/async",
@@ -276,7 +276,7 @@
       "jsr:@erickmerchant/icons@0.2",
       "jsr:@erickmerchant/mine-sweeper@^1.0.4",
       "jsr:@feed/feed@^1.3.0",
-      "jsr:@flint/framework@~0.38.1",
+      "jsr:@flint/framework@0.39",
       "jsr:@handcraft/lib@^4.5.0",
       "jsr:@std/cli@^1.0.32",
       "jsr:@std/fs@^1.0.24",
