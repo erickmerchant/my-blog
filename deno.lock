@@ -27,8 +27,8 @@
     "npm:highlight.js@^11.11.1": "11.11.1",
     "npm:html-rewriter-wasm@~0.4.1": "0.4.1",
     "npm:lightningcss@^1.33.0": "1.33.0",
-    "npm:markdown-it-highlightjs@^4.3.0": "4.3.0",
-    "npm:markdown-it@^14.3.0": "14.3.0",
+    "npm:marked-highlight@^2.2.4": "2.2.4_marked@18.0.7",
+    "npm:marked@^18.0.7": "18.0.7",
     "npm:parse5@^8.0.1": "8.0.1"
   },
   "jsr": {
@@ -139,14 +139,8 @@
     "@remix-run/mime@0.4.2": {
       "integrity": "sha512-KpZZxBYIrLsvUtt2ZdwK+E2ClVmyvW11Nej6fPgwJpohBMpbCHtR78wtCTv0vqvK5ckLZ7ks2q4pV5dMYFypiA=="
     },
-    "argparse@2.0.1": {
-      "integrity": "sha512-8+9WqebbFzpX9OR+Wa6O29asIogeRMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvurK3Q=="
-    },
     "detect-libc@2.1.2": {
       "integrity": "sha512-Btj2BOOO83o3WyH59e8MgXsxEQVcarkUOpEYrubB0urwnN10yQ364rsiByU11nZlqWYZm05i/of7io4mzihBtQ=="
-    },
-    "entities@4.5.0": {
-      "integrity": "sha512-V0hjH4dGPh9Ao5p0MoRY6BVqtwCjhz6vI5LT8AJ55H+4g9/4vbHx1I54fS0XuclLhDHArPQCiMjDxjaL8fPxhw=="
     },
     "entities@8.0.0": {
       "integrity": "sha512-zwfzJecQ/Uej6tusMqwAqU/6KL2XaB2VZ2Jg54Je6ahNBGNH6Ek6g3jjNCF0fG9EWQKGZNddNjU5F1ZQn/sBnA=="
@@ -231,44 +225,21 @@
         "lightningcss-win32-x64-msvc"
       ]
     },
-    "linkify-it@5.0.2": {
-      "integrity": "sha512-ONTm2jCMAVZjgQa/Fy1kScXsuOoF5NPTsoFBdE1KVIZ2vAh/r9+Bqo+0jINCBYnavTPQZz38QzFTme79ENoN3Q==",
+    "marked-highlight@2.2.4_marked@18.0.7": {
+      "integrity": "sha512-PZxisNMJDduSjc0q6uvjsnqqHCXc9s0eyzxDO9sB1eNGJnd/H1/Fu+z6g/liC1dfJdFW4SftMwMlLvsBhUPrqQ==",
       "dependencies": [
-        "uc.micro"
+        "marked"
       ]
     },
-    "markdown-it-highlightjs@4.3.0": {
-      "integrity": "sha512-dTEXpTV2J9WJiO8TA/FJ4DxidrYtTNcfBAdl+CLjQ3UFWj8s4dJyCPTcvoXNLmN5U5ZTCGu7TSkSvBvi4fUqkQ==",
-      "dependencies": [
-        "highlight.js"
-      ]
-    },
-    "markdown-it@14.3.0": {
-      "integrity": "sha512-RCEsPjR+sr0x+AuYp601tKTkgFG4YEPLCzHST3cQ/fhlJkqAkz1L2/Qbp1j9qw5SBwQHFBoW8+hoN5xssOF0Tw==",
-      "dependencies": [
-        "argparse",
-        "entities@4.5.0",
-        "linkify-it",
-        "mdurl",
-        "punycode.js",
-        "uc.micro"
-      ],
+    "marked@18.0.7": {
+      "integrity": "sha512-iDVQ5ldaiKXn6b2JroX5kgRfmwgqolW7NpaEzTl1k/2Zh1njIEN9yniyLV/mOvWwtsE8OGgkjsCYvijuPk1dtA==",
       "bin": true
-    },
-    "mdurl@2.0.0": {
-      "integrity": "sha512-Lf+9+2r+Tdp5wXDXC4PcIBjTDtq4UKjCPMQhKIuzpJNW0b96kVqSwW0bT7FhRSfmAiFYgP+SCRvdrDozfh0U5w=="
     },
     "parse5@8.0.1": {
       "integrity": "sha512-z1e/HMG90obSGeidlli3hj7cbocou0/wa5HacvI3ASx34PecNjNQeaHNo5WIZpWofN9kgkqV1q5YvXe3F0FoPw==",
       "dependencies": [
-        "entities@8.0.0"
+        "entities"
       ]
-    },
-    "punycode.js@2.3.1": {
-      "integrity": "sha512-uxFIHU0YlHYhDQtV4R9J6a52SLx28BCjT+4ieh7IGbgwVJWO+km431c4yRlREUAsAmt/uMjQUyQHNEPf0M39CA=="
-    },
-    "uc.micro@2.1.0": {
-      "integrity": "sha512-ARDJmphmdvUk6Glw7y9DQ2bFkKBHwQHLi2lsaH6PPmz/Ka9sFOBsBluozhDltWmnv9u/cF6Rt87znRTPV+yp/A=="
     }
   },
   "workspace": {
@@ -284,8 +255,8 @@
       "jsr:@std/text@^1.0.19",
       "jsr:@std/toml@^1.0.11",
       "npm:highlight.js@^11.11.1",
-      "npm:markdown-it-highlightjs@^4.3.0",
-      "npm:markdown-it@^14.3.0",
+      "npm:marked-highlight@^2.2.4",
+      "npm:marked@^18.0.7",
       "npm:parse5@^8.0.1"
     ]
   }

@@ -22,10 +22,12 @@ export async function getSite(): Promise<Site> {
   const siteContent = await Deno.readTextFile("./content/site.toml");
   const site = Toml.parse(siteContent) as Site;
 
-  site.bio = Markdown.parse(site.bio as unknown as string);
+  site.bio = await Markdown.parse(site.bio as unknown as string);
 
   for (const project of site.projects) {
-    project.content = Markdown.parse(project.content as unknown as string);
+    project.content = await Markdown.parse(
+      project.content as unknown as string,
+    );
   }
 
   return site;

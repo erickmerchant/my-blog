@@ -1,17 +1,26 @@
-import MarkdownIt from "markdown-it";
-import highlightjsPlugin from "markdown-it-highlightjs";
-import highlightjs from "highlight.js";
+import { Marked } from "marked";
+import { markedHighlight } from "marked-highlight";
+import hljs from "highlight.js";
 import * as parse5 from "parse5";
 import { type HandcraftNode, NODE_STATE } from "@handcraft/lib";
 
-highlightjs.configure({ classPrefix: "" });
+hljs.configure({ classPrefix: "" });
 
-export function parse(markdown: string): Array<HandcraftNode | string> {
-  const md = new MarkdownIt({ typographer: true, html: true });
+const marked = new Marked(
+  markedHighlight({
+    emptyLangClass: "",
+    langPrefix: "hljs ",
+    highlight(code, lang) {
+      const language = hljs.getLanguage(lang) ? lang : "plaintext";
+      return hljs.highlight(code, { language }).value;
+    },
+  }),
+);
 
-  md.use(highlightjsPlugin);
-
-  const html = md.render(markdown);
+export async function parse(
+  markdown: string,
+): Promise<Array<HandcraftNode | string>> {
+  const html = await marked.parse(markdown);
   const parsed = parse5.parseFragment(html);
 
   return nodeify(parsed.childNodes);

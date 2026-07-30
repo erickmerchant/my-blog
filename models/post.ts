@@ -59,7 +59,7 @@ export async function getPostBySlug(slug: string) {
     }
   }
 
-  const content = Markdown.parse(md);
+  const content = await Markdown.parse(md);
   const post: Post = {
     slug,
     content,
