@@ -27,8 +27,8 @@
     "npm:highlight.js@^11.11.1": "11.11.1",
     "npm:html-rewriter-wasm@~0.4.1": "0.4.1",
     "npm:lightningcss@^1.33.0": "1.33.0",
-    "npm:marked-highlight@^2.2.4": "2.2.4_marked@18.0.7",
-    "npm:marked@^18.0.7": "18.0.7",
+    "npm:marked-highlight@^2.2.4": "2.2.4_marked@18.0.9",
+    "npm:marked@^18.0.9": "18.0.9",
     "npm:parse5@^8.0.1": "8.0.1"
   },
   "jsr": {
@@ -225,14 +225,14 @@
         "lightningcss-win32-x64-msvc"
       ]
     },
-    "marked-highlight@2.2.4_marked@18.0.7": {
+    "marked-highlight@2.2.4_marked@18.0.9": {
       "integrity": "sha512-PZxisNMJDduSjc0q6uvjsnqqHCXc9s0eyzxDO9sB1eNGJnd/H1/Fu+z6g/liC1dfJdFW4SftMwMlLvsBhUPrqQ==",
       "dependencies": [
         "marked"
       ]
     },
-    "marked@18.0.7": {
-      "integrity": "sha512-iDVQ5ldaiKXn6b2JroX5kgRfmwgqolW7NpaEzTl1k/2Zh1njIEN9yniyLV/mOvWwtsE8OGgkjsCYvijuPk1dtA==",
+    "marked@18.0.9": {
+      "integrity": "sha512-/Sa4qiiHZxf0/FQdBBowr9q4r10krCwMvpK48FUBdXdUXScDxiQGR9zCPrFgRVR5LU3iySOiIjy09ZQvADir1w==",
       "bin": true
     },
     "parse5@8.0.1": {
@@ -256,7 +256,7 @@
       "jsr:@std/toml@^1.0.11",
       "npm:highlight.js@^11.11.1",
       "npm:marked-highlight@^2.2.4",
-      "npm:marked@^18.0.7",
+      "npm:marked@^18.0.9",
       "npm:parse5@^8.0.1"
     ]
   }
