@@ -6,8 +6,8 @@
     "jsr:@erickmerchant/mine-sweeper@^1.0.4": "1.0.4",
     "jsr:@feed/feed@^1.3.0": "1.3.0",
     "jsr:@flint/framework@~0.39.1": "0.39.1",
-    "jsr:@handcraft/lib@^4.4.1": "4.5.1",
-    "jsr:@handcraft/lib@^4.5.1": "4.5.1",
+    "jsr:@handcraft/lib@^4.4.1": "4.6.0",
+    "jsr:@handcraft/lib@^4.6.0": "4.6.0",
     "jsr:@std/async@^1.5.0": "1.5.0",
     "jsr:@std/cli@^1.0.32": "1.0.32",
     "jsr:@std/collections@^1.1.3": "1.1.7",
@@ -66,8 +66,8 @@
         "npm:lightningcss"
       ]
     },
-    "@handcraft/lib@4.5.1": {
-      "integrity": "ccc59637c4a2ef77632f6a52f4de0bb7cfb905081f454cfdb9240a917f0e7c65",
+    "@handcraft/lib@4.6.0": {
+      "integrity": "cdd34e6b89e651cc3ff46671c04d2e2d77923bdd5d88a6c65d4772c541565975",
       "dependencies": [
         "jsr:@std/html"
       ]
@@ -248,7 +248,7 @@
       "jsr:@erickmerchant/mine-sweeper@^1.0.4",
       "jsr:@feed/feed@^1.3.0",
       "jsr:@flint/framework@~0.39.1",
-      "jsr:@handcraft/lib@^4.5.1",
+      "jsr:@handcraft/lib@^4.6.0",
       "jsr:@std/cli@^1.0.32",
       "jsr:@std/fs@^1.0.24",
       "jsr:@std/path@^1.1.6",

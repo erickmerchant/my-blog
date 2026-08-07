@@ -7,6 +7,9 @@
   .list {
     display: grid;
     gap: 0.25rem;
+    list-style: none;
+    padding-inline-start: 0;
+    margin-inline-start: 0;
   }
 
   li > span:has(.date) {
