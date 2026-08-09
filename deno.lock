@@ -3,6 +3,7 @@
   "specifiers": {
     "jsr:@cfa/gitignore-parser@~0.1.4": "0.1.4",
     "jsr:@erickmerchant/icons@0.2": "0.2.0",
+    "jsr:@erickmerchant/markdown@0.1": "0.1.0",
     "jsr:@erickmerchant/mine-sweeper@^1.0.4": "1.0.4",
     "jsr:@feed/feed@^1.3.0": "1.3.0",
     "jsr:@flint/framework@~0.39.1": "0.39.1",
@@ -39,6 +40,16 @@
       "integrity": "dffde5a90e84c0a46078bf7eca2d7f454095334b7b279d0e6b624fea528f4bfa",
       "dependencies": [
         "jsr:@handcraft/lib@^4.4.1"
+      ]
+    },
+    "@erickmerchant/markdown@0.1.0": {
+      "integrity": "646d72f88d9655341b81f166fbab572bcc850c159d64a1d229d5f1f64cd07936",
+      "dependencies": [
+        "jsr:@handcraft/lib@^4.6.0",
+        "npm:highlight.js",
+        "npm:marked",
+        "npm:marked-highlight",
+        "npm:parse5"
       ]
     },
     "@erickmerchant/mine-sweeper@1.0.4": {
@@ -245,6 +256,7 @@
   "workspace": {
     "dependencies": [
       "jsr:@erickmerchant/icons@0.2",
+      "jsr:@erickmerchant/markdown@0.1",
       "jsr:@erickmerchant/mine-sweeper@^1.0.4",
       "jsr:@feed/feed@^1.3.0",
       "jsr:@flint/framework@~0.39.1",
@@ -253,11 +265,7 @@
       "jsr:@std/fs@^1.0.24",
       "jsr:@std/path@^1.1.6",
       "jsr:@std/text@^1.0.19",
-      "jsr:@std/toml@^1.0.11",
-      "npm:highlight.js@^11.11.1",
-      "npm:marked-highlight@^2.2.4",
-      "npm:marked@^18.0.9",
-      "npm:parse5@^8.0.1"
+      "jsr:@std/toml@^1.0.11"
     ]
   }
 }
