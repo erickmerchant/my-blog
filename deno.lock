@@ -2,14 +2,14 @@
   "version": "5",
   "specifiers": {
     "jsr:@cfa/gitignore-parser@~0.1.4": "0.1.4",
-    "jsr:@erickmerchant/fonts@~0.7.3": "0.7.3",
+    "jsr:@erickmerchant/fonts@~0.7.4": "0.7.4",
     "jsr:@erickmerchant/icons@0.2": "0.2.0",
-    "jsr:@erickmerchant/markdown@~0.1.1": "0.1.1",
+    "jsr:@erickmerchant/markdown@~0.1.2": "0.1.2",
     "jsr:@erickmerchant/mine-sweeper@^1.0.4": "1.0.4",
     "jsr:@feed/feed@^1.3.0": "1.3.0",
     "jsr:@flint/framework@~0.39.1": "0.39.1",
-    "jsr:@handcraft/lib@^4.4.1": "4.6.0",
-    "jsr:@handcraft/lib@^4.6.0": "4.6.0",
+    "jsr:@handcraft/lib@^4.4.1": "4.6.1",
+    "jsr:@handcraft/lib@^4.6.1": "4.6.1",
     "jsr:@std/async@^1.5.0": "1.5.0",
     "jsr:@std/cli@^1.0.32": "1.0.32",
     "jsr:@std/collections@^1.1.3": "1.1.7",
@@ -38,8 +38,8 @@
     "@cfa/gitignore-parser@0.1.4": {
       "integrity": "60d3563bbd7b8797f50c28585d7d74d231fbb56a1d9df7b0673c27cbdf60a23a"
     },
-    "@erickmerchant/fonts@0.7.3": {
-      "integrity": "d88c19baaf3cebf1264e3c992793075a93c33779aa687911aa1478238d25f06b",
+    "@erickmerchant/fonts@0.7.4": {
+      "integrity": "c005b0019a30c61e3f2d926e54a79a0e0ebb5d96d67df9da64f348919e446635",
       "dependencies": [
         "jsr:@std/cli",
         "jsr:@std/fs",
@@ -54,10 +54,10 @@
         "jsr:@handcraft/lib@^4.4.1"
       ]
     },
-    "@erickmerchant/markdown@0.1.1": {
-      "integrity": "9b87bc8fb91f9f23a0f7bcd5af75e459a05f796aff9add5e90e322b81a5a9d25",
+    "@erickmerchant/markdown@0.1.2": {
+      "integrity": "b57fb59d56d1560ec0d69c3d155b90b22dd4d65f63a0e2b79f823e21572ca793",
       "dependencies": [
-        "jsr:@handcraft/lib@^4.6.0",
+        "jsr:@handcraft/lib@^4.6.1",
         "npm:highlight.js",
         "npm:marked",
         "npm:marked-highlight",
@@ -89,8 +89,8 @@
         "npm:lightningcss"
       ]
     },
-    "@handcraft/lib@4.6.0": {
-      "integrity": "cdd34e6b89e651cc3ff46671c04d2e2d77923bdd5d88a6c65d4772c541565975",
+    "@handcraft/lib@4.6.1": {
+      "integrity": "895271ad05724d62a31e438a076a7d09f37f858f436ff00815d34386243bfef0",
       "dependencies": [
         "jsr:@std/html"
       ]
@@ -268,8 +268,8 @@
     "mdn-data@2.27.1": {
       "integrity": "sha512-9Yubnt3e8A0OKwxYSXyhLymGW4sCufcLG6VdiDdUGVkPhpqLxlvP5vl1983gQjJl3tqbrM731mjaZaP68AgosQ=="
     },
-    "ohash@2.0.11": {
-      "integrity": "sha512-RdR9FQrFwNBNXAr4GixM8YaRZRJ5PUWbKYbE5eOsrwAjJW0q2REGcf79oYPsLyskQCZG1PLN+S/K1V00joZAoQ=="
+    "ohash@2.0.12": {
+      "integrity": "sha512-65S/5gk9YSsaRjcyf7Nfa6h/d3E8/1gslpXfI4W7Dxn/oap8IKRuNT5VXkLQ1YFKIEg4apRY4Pj6aiwFzrDdmw=="
     },
     "parse5@8.0.1": {
       "integrity": "sha512-z1e/HMG90obSGeidlli3hj7cbocou0/wa5HacvI3ASx34PecNjNQeaHNo5WIZpWofN9kgkqV1q5YvXe3F0FoPw==",
@@ -294,13 +294,13 @@
   },
   "workspace": {
     "dependencies": [
-      "jsr:@erickmerchant/fonts@~0.7.3",
+      "jsr:@erickmerchant/fonts@~0.7.4",
       "jsr:@erickmerchant/icons@0.2",
-      "jsr:@erickmerchant/markdown@~0.1.1",
+      "jsr:@erickmerchant/markdown@~0.1.2",
       "jsr:@erickmerchant/mine-sweeper@^1.0.4",
       "jsr:@feed/feed@^1.3.0",
       "jsr:@flint/framework@~0.39.1",
-      "jsr:@handcraft/lib@^4.6.0",
+      "jsr:@handcraft/lib@^4.6.1",
       "jsr:@std/cli@^1.0.32",
       "jsr:@std/fs@^1.0.24",
       "jsr:@std/path@^1.1.6",
