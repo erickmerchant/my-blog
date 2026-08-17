@@ -5,7 +5,7 @@
   container-type: inline-size;
   display: grid;
   grid-template-columns: auto min-content auto;
-  row-gap: 1rem;
+  gap: 1rem;
   align-items: start;
   align-content: start;
 
@@ -18,11 +18,7 @@
     background-image: linear-gradient(
       90deg,
       transparent 0 0.5rem,
-      color-mix(
-        in oklch,
-        var(--text) 30%,
-        var(--background)
-      ) 0.5rem calc(100% - 0.5rem),
+      var(--text) 0.5rem calc(100% - 0.5rem),
       transparent calc(100% - 0.5rem)
     );
     background-size: min(100% - 2rem, 40rem) 0.05rem;

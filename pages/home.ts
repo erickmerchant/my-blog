@@ -4,7 +4,7 @@ import { getSite, Project } from "../models/site.ts";
 import { getPublishedPosts } from "../models/post.ts";
 import { asLocalShortDate } from "../utils/dates.ts";
 
-const { section, h1, h2, p, ol, ul, li, a, aside, span } = h.html;
+const { section, h1, h2, ol, ul, li, a, aside, span } = h.html;
 
 export default async function () {
   const site = await getSite();
@@ -37,7 +37,6 @@ export default async function () {
         section
           .class("section")(
             h2("Projects"),
-            p("Some open-source projects."),
             ul.class("list")(
               each<Project>(site.projects).map((project) =>
                 li(

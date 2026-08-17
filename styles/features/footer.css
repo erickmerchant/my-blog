@@ -1,17 +1,15 @@
 @scope (.footer) {
   :scope {
-    display: grid;
-    gap: 1.5rem 0;
-    align-content: center;
     padding-block-end: 1rem;
     margin-block-start: 0.5rem;
   }
 
   .list {
     display: grid;
-    gap: 1rem 1rem;
+    gap: 1rem;
     grid-template-columns: max-content max-content max-content;
     justify-content: space-between;
+    align-items: center;
     list-style: none;
     margin-inline-start: 0;
     padding-inline-start: 0;
@@ -24,8 +22,6 @@
   }
 
   .item {
-    display: grid;
-    align-content: center;
     margin-inline-start: 0;
     padding-inline-start: 0;
     font-weight: 500;
@@ -38,12 +34,11 @@
 
   .rss {
     display: grid;
-    gap: 0.5em;
     aspect-ratio: 1;
     inline-size: auto;
     block-size: 1.25rem;
     padding: 0.1875rem;
-    border-radius: 0.25rem;
+    border-radius: 0.125rem;
     corner-shape: superellipse(2);
     background: var(--accent);
 
