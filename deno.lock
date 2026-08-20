@@ -4,7 +4,7 @@
     "jsr:@cfa/gitignore-parser@~0.1.4": "0.1.4",
     "jsr:@erickmerchant/fonts@~0.7.4": "0.7.4",
     "jsr:@erickmerchant/icons@0.2": "0.2.0",
-    "jsr:@erickmerchant/markdown@~0.1.2": "0.1.2",
+    "jsr:@erickmerchant/markdown@~0.1.3": "0.1.3",
     "jsr:@erickmerchant/mine-sweeper@^1.0.4": "1.0.4",
     "jsr:@feed/feed@^1.3.0": "1.3.0",
     "jsr:@flint/framework@~0.39.1": "0.39.1",
@@ -29,8 +29,8 @@
     "npm:highlight.js@^11.12.0": "11.12.0",
     "npm:html-rewriter-wasm@~0.4.1": "0.4.1",
     "npm:lightningcss@^1.33.0": "1.33.0",
-    "npm:marked-highlight@^2.2.4": "2.2.4_marked@18.0.9",
-    "npm:marked@^18.0.9": "18.0.9",
+    "npm:marked-highlight@^2.2.4": "2.2.4_marked@18.0.10",
+    "npm:marked@^18.0.10": "18.0.10",
     "npm:parse5@^8.0.1": "8.0.1",
     "npm:unifont@~0.7.5": "0.7.5"
   },
@@ -54,8 +54,8 @@
         "jsr:@handcraft/lib@^4.4.1"
       ]
     },
-    "@erickmerchant/markdown@0.1.2": {
-      "integrity": "b57fb59d56d1560ec0d69c3d155b90b22dd4d65f63a0e2b79f823e21572ca793",
+    "@erickmerchant/markdown@0.1.3": {
+      "integrity": "8927c94c8101386b1d97f28de5ea0c56e90e0333e186591dc21ef7362b1d0241",
       "dependencies": [
         "jsr:@handcraft/lib@^4.6.1",
         "npm:highlight.js",
@@ -255,14 +255,14 @@
         "lightningcss-win32-x64-msvc"
       ]
     },
-    "marked-highlight@2.2.4_marked@18.0.9": {
+    "marked-highlight@2.2.4_marked@18.0.10": {
       "integrity": "sha512-PZxisNMJDduSjc0q6uvjsnqqHCXc9s0eyzxDO9sB1eNGJnd/H1/Fu+z6g/liC1dfJdFW4SftMwMlLvsBhUPrqQ==",
       "dependencies": [
         "marked"
       ]
     },
-    "marked@18.0.9": {
-      "integrity": "sha512-/Sa4qiiHZxf0/FQdBBowr9q4r10krCwMvpK48FUBdXdUXScDxiQGR9zCPrFgRVR5LU3iySOiIjy09ZQvADir1w==",
+    "marked@18.0.10": {
+      "integrity": "sha512-FJeH4bRpYoXiggcgriCGItKCSv3xkngJc4QCZ/rkQCogU3VYaLxYJoZl8Nw/b4+x7iij/pd+09mZ6A1dXzpL0A==",
       "bin": true
     },
     "mdn-data@2.27.1": {
@@ -296,7 +296,7 @@
     "dependencies": [
       "jsr:@erickmerchant/fonts@~0.7.4",
       "jsr:@erickmerchant/icons@0.2",
-      "jsr:@erickmerchant/markdown@~0.1.2",
+      "jsr:@erickmerchant/markdown@~0.1.3",
       "jsr:@erickmerchant/mine-sweeper@^1.0.4",
       "jsr:@feed/feed@^1.3.0",
       "jsr:@flint/framework@~0.39.1",
