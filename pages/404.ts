@@ -19,7 +19,7 @@ export default async function () {
       article.class("unfound")(
         div.class("content")(
           h1("404 Not Found"),
-          p("The page you're looking doesn't exist. For your trouble play some mine sweeper."),
+          p("The page you're looking doesn't exist. For your trouble, play some mine sweeper."),
           ul(
             li(a.href("/mine-sweeper/8/8/10/")("Easy")),
             li(a.href("/mine-sweeper/16/16/40/")("Intermediate")),

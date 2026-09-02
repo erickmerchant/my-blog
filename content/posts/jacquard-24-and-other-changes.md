@@ -202,7 +202,7 @@ head().append(
   meta().attr("charset", "utf-8"),
   meta()
     .attr("name", "viewport")
-    .attr("content", "width=device-width, initial-scale=1"),
+    .attr("content", "width=device-width"),
   title().text(site.title),
   link().attr("rel", "stylesheet").attr("href", "/page.css"),
   link()
@@ -223,7 +223,7 @@ head(
   meta.charset("utf-8"),
   meta
     .name("viewport")
-    .content("width=device-width, initial-scale=1"),
+    .content("width=device-width"),
   title(site.title),
   link.rel("stylesheet").href("/page.css"),
   link

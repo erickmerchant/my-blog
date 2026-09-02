@@ -1,7 +1,6 @@
+@import "@erickmerchant/mine-sweeper/elements/mine-sweeper.css";
+
 mine-sweeper {
-  max-inline-size: 100%;
-  box-sizing: border-box;
-  display: grid;
   background-color: oklch(from var(--background) l calc(c * 2) h);
   border: 2px solid
     color-mix(
@@ -11,32 +10,14 @@ mine-sweeper {
   );
   padding: 1rem;
   border-radius: 0.25rem;
-  margin: 0;
-  place-items: center;
-  font-family: ui-monospace, monospace;
-  font-weight: bold;
   font-size: 1rem;
-  inline-size: var(--w);
-  gap: 1px;
-
-  --w: min(calc(100dvi - 2rem), calc(2.75rem * var(--width)));
 
   &::part(info-panel) {
-    display: grid;
-    grid-template-columns: max-content auto max-content;
-    padding-block-end: 1rem;
+    padding-block: 0 1rem;
     padding-inline: 1rem;
-    gap: 1rem;
-    justify-content: space-between;
-    inline-size: 100%;
   }
 
   &::part(grid) {
-    display: grid;
-    grid-auto-rows: auto;
-    grid-template-columns: repeat(var(--width), 1fr);
-    gap: 1px;
-    inline-size: 100%;
     background-color: color-mix(
       in oklch,
       var(--text) 30%,
@@ -49,36 +30,13 @@ mine-sweeper {
       var(--background)
     );
     border-radius: 0;
-    overflow: hidden;
-  }
-
-  &::part(row) {
-    display: contents;
   }
 
   &::part(btn) {
-    font: inherit;
-    display: grid;
-    font-weight: bold;
-    aspect-ratio: 1;
-    block-size: 100%;
-    inline-size: 100%;
-    display: grid;
-    place-content: center;
-    aspect-ratio: 1;
-    block-size: 100%;
-    inline-size: 100%;
-    appearance: none;
     background-color: light-dark(
       oklch(from var(--background) calc(l * 0.95) c h),
       oklch(from var(--background) calc(l * 1.2) calc(c * 3) h)
     );
-    border: none;
-    padding: 0;
-    margin: 0;
-    cursor: pointer;
-    user-select: none;
-    -webkit-user-select: none;
   }
 
   &::part(revealed) {
@@ -116,10 +74,6 @@ mine-sweeper {
 
   &::part(armed-adjacent-count--8) {
     color: light-dark(oklch(50% 0.4 305), oklch(80% 0.4 305));
-  }
-
-  &:part(flagged revealed) {
-    --content:;
   }
 }
 
