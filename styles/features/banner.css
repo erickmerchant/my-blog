@@ -1,16 +1,14 @@
-@scope (.banner) {
-  :scope {
-    padding-block: 0.5rem 1.25rem;
-    margin-block-start: 1rem;
-    width: max-content;
-  }
+.banner {
+  padding-block: 0.5rem 1.25rem;
+  margin-block-start: 1rem;
+  width: max-content;
 
-  .title {
+  :where(.title) {
     font-family: var(--bitter);
     font-size: clamp(2rem, 9.5vi, 4.22rem);
     line-height: 1;
 
-    a {
+    :where(a) {
       display: inline-block;
       color: oklch(from var(--text) l c h / 0.7);
       text-shadow: 0.05em 0.05em 0.01em oklch(from var(--accent) l c h / 0.8);

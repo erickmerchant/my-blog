@@ -1,22 +1,20 @@
-@scope (.unfound) {
-  :scope {
-    margin: 0.5rem 0;
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-    gap: 1rem;
-  }
+.unfound {
+  margin: 0.5rem 0;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  gap: 1rem;
 
-  & > div {
+  > :where(div) {
     flex-basis: 13.5rem;
     flex-grow: 1;
   }
 
-  .content > * {
+  :where(.content) > * {
     margin-block-end: 0.5rem;
   }
 
-  mine-sweeper {
+  :where(mine-sweeper) {
     margin-inline: auto;
   }
 }

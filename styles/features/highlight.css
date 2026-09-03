@@ -1,4 +1,4 @@
-@scope (.hljs) {
+:where(.hljs) {
   .doctag,
   .keyword,
   .meta .keyword,

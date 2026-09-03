@@ -19,7 +19,7 @@ export default async function ({ params }: { params: { slug?: string } }) {
       article.class("post")(
         div(
           h1(post.title),
-          time.class("status")(
+          time.class("date")(
             asLocalDate(post.datePublished as Temporal.PlainDate),
           ),
         ),

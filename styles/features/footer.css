@@ -1,48 +1,44 @@
-@scope (.footer) {
-  :scope {
-    padding-block-end: 1rem;
-    margin-block-start: 0.5rem;
-  }
+.footer {
+  padding-block-end: 1rem;
+  margin-block-start: 0.5rem;
 
-  .list {
-    display: grid;
-    gap: 1rem;
-    grid-template-columns: max-content max-content max-content;
+  :where(.list) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
     justify-content: space-between;
     align-items: center;
     list-style: none;
     margin-inline-start: 0;
     padding-inline-start: 0;
-
-    @container (inline-size <= 30rem) {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-    }
   }
 
-  .item {
+  :where(.item) {
     margin-inline-start: 0;
     padding-inline-start: 0;
     font-weight: 500;
+    list-style: none;
   }
 
-  .link {
+  :where(.link) {
     text-decoration-thickness: 0.15em;
     white-space: nowrap;
   }
 
-  .rss {
-    display: grid;
-    aspect-ratio: 1;
-    inline-size: auto;
-    block-size: 1.25rem;
-    padding: 0.1875rem;
-    border-radius: 0.125rem;
-    corner-shape: superellipse(2);
-    background: var(--accent);
+  :where(.rss) {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
 
-    svg {
+    :where(svg) {
+      padding: 0.1875rem;
+      border-radius: 0.125rem;
+      corner-shape: superellipse(2);
+      background: var(--accent);
+      display: grid;
+      aspect-ratio: 1;
+      inline-size: auto;
+      block-size: 1.25rem;
       fill: var(--background);
     }
   }

@@ -71,7 +71,7 @@ export default function (
       li.class("item")(
         a
           .class("link rss")
-          .href("/posts.rss")(rssIcon()),
+          .href("/posts.rss")(rssIcon(), "RSS"),
       ),
     ),
   );

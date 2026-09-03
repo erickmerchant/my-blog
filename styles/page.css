@@ -1,20 +1,13 @@
 .main {
   min-block-size: 100%;
-  background-color: var(--background);
-  color: var(--text);
-  container-type: inline-size;
-  display: grid;
-  grid-template-columns: auto min-content auto;
-  gap: 1rem;
-  align-items: start;
-  align-content: start;
+  margin-inline: auto;
+  max-inline-size: 40rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-inline: 1rem;
 
-  > * {
-    grid-column: 2;
-  }
-
-  > :nth-last-child(n+3),
-   > :last-child {
+  > :where(:nth-last-child(n+2)) {
     background-image: linear-gradient(
       90deg,
       transparent 0 0.5rem,
@@ -23,15 +16,13 @@
     );
     background-size: min(100% - 2rem, 40rem) 0.05rem;
     background-repeat: no-repeat;
-  }
-
-  > :nth-last-child(n+3) {
-    padding-block-end: 1.5rem;
+    padding-block-end: 1rem;
     background-position: bottom center;
   }
+}
 
-  > :last-child {
-    padding-block-start: 1.5rem;
-    background-position: top center;
-  }
+.date {
+  font-variant-numeric: tabular-nums;
+  font-style: italic;
+  font-weight: 400;
 }

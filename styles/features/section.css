@@ -1,24 +1,15 @@
-@scope (.section) {
-  :scope {
-    display: grid;
-    gap: 0.5rem;
+.section {
+  > * {
+    margin-block: 0.5rem;
   }
 
-  .list {
-    display: grid;
-    gap: 0.5rem;
+  :where(.list) {
     list-style: none;
     padding-inline-start: 0;
     margin-inline-start: 0;
-  }
 
-  li > span:has(.date) {
-    display: grid;
-    grid-template-columns: max-content 1fr;
-    gap: 1rem;
-  }
-
-  .date {
-    font-variant-numeric: tabular-nums;
+    > * {
+      margin-block: 0.5rem;
+    }
   }
 }
