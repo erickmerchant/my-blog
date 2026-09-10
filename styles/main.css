@@ -8,3 +8,4 @@
 @import "./features/highlight.css" layer;
 @import "./features/post.css" layer;
 @import "./features/section.css" layer;
+@import "@erickmerchant/icons/rss.css"

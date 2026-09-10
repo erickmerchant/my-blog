@@ -1,7 +1,6 @@
 import { type Site } from "../models/site.ts";
 import { h, type HandcraftChild, type HandcraftNode } from "@handcraft/lib";
 import favicons from "./favicons.ts";
-import { icon as rssIcon } from "@erickmerchant/icons/rss";
 
 type Config = {
   site: Site;
@@ -71,7 +70,7 @@ export default function (
       li.class("item")(
         a
           .class("link rss")
-          .href("/posts.rss")(rssIcon(), "RSS"),
+          .href("/posts.rss")(span.class("icon-rss"), "RSS"),
       ),
     ),
   );

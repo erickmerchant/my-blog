@@ -30,15 +30,14 @@
     gap: 0.5rem;
     align-items: center;
 
-    :where(svg) {
-      padding: 0.1875rem;
+    :where(.icon-rss) {
+      display: block;
       border-radius: 0.125rem;
       corner-shape: superellipse(2);
       background: var(--accent);
       display: grid;
-      aspect-ratio: 1;
       inline-size: auto;
-      block-size: 1.25rem;
+      block-size: 1rem;
       fill: var(--background);
     }
   }
