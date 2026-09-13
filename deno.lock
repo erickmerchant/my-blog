@@ -4,7 +4,7 @@
     "jsr:@cfa/gitignore-parser@~0.1.4": "0.1.4",
     "jsr:@erickmerchant/fonts@~0.7.5": "0.7.5",
     "jsr:@erickmerchant/icons@0.3": "0.3.0",
-    "jsr:@erickmerchant/markdown@~0.1.5": "0.1.5",
+    "jsr:@erickmerchant/markdown@~0.1.6": "0.1.6",
     "jsr:@erickmerchant/mine-sweeper@^1.0.5": "1.0.5",
     "jsr:@feed/feed@^1.3.0": "1.3.0",
     "jsr:@flint/framework@~0.40.1": "0.40.1",
@@ -29,8 +29,8 @@
     "npm:highlight.js@^11.12.0": "11.12.0",
     "npm:html-rewriter-wasm@~0.4.1": "0.4.1",
     "npm:lightningcss@^1.33.0": "1.33.0",
-    "npm:marked-highlight@^2.2.4": "2.2.4_marked@18.0.12",
-    "npm:marked@^18.0.12": "18.0.12",
+    "npm:marked-highlight@^2.2.4": "2.2.4_marked@18.0.13",
+    "npm:marked@^18.0.13": "18.0.13",
     "npm:parse5@^8.0.1": "8.0.1",
     "npm:unifont@~0.8.3": "0.8.3"
   },
@@ -51,8 +51,8 @@
     "@erickmerchant/icons@0.3.0": {
       "integrity": "386ac000b0b6f920c1a6e13426cb06a392f30e21e4d44966f340dffc39963ebe"
     },
-    "@erickmerchant/markdown@0.1.5": {
-      "integrity": "42b0add041dcf3be5a65d216a58900397b425dc14cb900027e340f2bedc496db",
+    "@erickmerchant/markdown@0.1.6": {
+      "integrity": "94059acc24bb61f5ec5c2a01a5e6208fcd69c565cc3444e4ba212cb3d2f3f3f1",
       "dependencies": [
         "jsr:@handcraft/lib",
         "npm:highlight.js",
@@ -256,14 +256,14 @@
         "lightningcss-win32-x64-msvc"
       ]
     },
-    "marked-highlight@2.2.4_marked@18.0.12": {
+    "marked-highlight@2.2.4_marked@18.0.13": {
       "integrity": "sha512-PZxisNMJDduSjc0q6uvjsnqqHCXc9s0eyzxDO9sB1eNGJnd/H1/Fu+z6g/liC1dfJdFW4SftMwMlLvsBhUPrqQ==",
       "dependencies": [
         "marked"
       ]
     },
-    "marked@18.0.12": {
-      "integrity": "sha512-LEm4ga2YeI2T3GVHj9b0BaDPPk93LLTHMFeMyQbNIzPxc8vCI0y/scy0ZA6z6lXKyT9j9Nhl/OC6ZYKYGuFScA==",
+    "marked@18.0.13": {
+      "integrity": "sha512-xTxVzZsBFwunP6HDmtBkabUQEYArnP7/rMDGmPj9SlrKlQ4i8MdYVow+nJL0eOqwpUqhzBoTBRADGN6uYwPyOw==",
       "bin": true
     },
     "mdn-data@2.27.1": {
@@ -301,7 +301,7 @@
     "dependencies": [
       "jsr:@erickmerchant/fonts@~0.7.5",
       "jsr:@erickmerchant/icons@0.3",
-      "jsr:@erickmerchant/markdown@~0.1.5",
+      "jsr:@erickmerchant/markdown@~0.1.6",
       "jsr:@erickmerchant/mine-sweeper@^1.0.5",
       "jsr:@feed/feed@^1.3.0",
       "jsr:@flint/framework@~0.40.1",

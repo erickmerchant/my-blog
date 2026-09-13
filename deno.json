@@ -13,7 +13,7 @@
   "imports": {
     "@erickmerchant/fonts": "jsr:@erickmerchant/fonts@^0.7.5",
     "@erickmerchant/icons": "jsr:@erickmerchant/icons@^0.3.0",
-    "@erickmerchant/markdown": "jsr:@erickmerchant/markdown@^0.1.5",
+    "@erickmerchant/markdown": "jsr:@erickmerchant/markdown@^0.1.6",
     "@erickmerchant/mine-sweeper": "jsr:@erickmerchant/mine-sweeper@^1.0.5",
     "@feed/feed": "jsr:@feed/feed@^1.3.0",
     "@flint/framework": "jsr:@flint/framework@^0.40.1",
