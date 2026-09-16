@@ -3,13 +3,13 @@
   "specifiers": {
     "jsr:@cfa/gitignore-parser@~0.1.4": "0.1.4",
     "jsr:@erickmerchant/fonts@~0.7.5": "0.7.5",
-    "jsr:@erickmerchant/icons@0.3": "0.3.0",
-    "jsr:@erickmerchant/markdown@~0.1.6": "0.1.6",
+    "jsr:@erickmerchant/icons@~0.3.1": "0.3.1",
+    "jsr:@erickmerchant/markdown@~0.1.7": "0.1.7",
     "jsr:@erickmerchant/mine-sweeper@^1.0.5": "1.0.5",
     "jsr:@feed/feed@^1.3.0": "1.3.0",
     "jsr:@flint/framework@~0.40.1": "0.40.1",
-    "jsr:@handcraft/lib@^4.6.1": "4.7.0",
-    "jsr:@handcraft/lib@^4.7.0": "4.7.0",
+    "jsr:@handcraft/lib@^4.6.1": "4.7.1",
+    "jsr:@handcraft/lib@^4.7.1": "4.7.1",
     "jsr:@std/async@^1.5.0": "1.5.0",
     "jsr:@std/cli@^1.0.32": "1.0.32",
     "jsr:@std/collections@^1.1.3": "1.1.7",
@@ -49,13 +49,13 @@
         "npm:unifont"
       ]
     },
-    "@erickmerchant/icons@0.3.0": {
-      "integrity": "386ac000b0b6f920c1a6e13426cb06a392f30e21e4d44966f340dffc39963ebe"
+    "@erickmerchant/icons@0.3.1": {
+      "integrity": "c96c55063bbba389ce4aaa8fc685e4f26c2e43259661ef20675da5c02d5eaeb0"
     },
-    "@erickmerchant/markdown@0.1.6": {
-      "integrity": "94059acc24bb61f5ec5c2a01a5e6208fcd69c565cc3444e4ba212cb3d2f3f3f1",
+    "@erickmerchant/markdown@0.1.7": {
+      "integrity": "d60202d4fc566917fb7f1d2dc1e56e72a12fff1c09f8b153b0bc8f4adb612fdc",
       "dependencies": [
-        "jsr:@handcraft/lib@^4.6.1",
+        "jsr:@handcraft/lib@^4.7.1",
         "npm:highlight.js",
         "npm:marked",
         "npm:marked-highlight",
@@ -88,8 +88,8 @@
         "npm:lightningcss"
       ]
     },
-    "@handcraft/lib@4.7.0": {
-      "integrity": "4d9dfd1a82db920480a5d24c115125c47d669d35aee02820811530205c342238",
+    "@handcraft/lib@4.7.1": {
+      "integrity": "cfb602283b31322052233404f4b296f50fd69fdc28f22df34195e37672e84bb8",
       "dependencies": [
         "jsr:@std/html"
       ]
@@ -301,12 +301,12 @@
   "workspace": {
     "dependencies": [
       "jsr:@erickmerchant/fonts@~0.7.5",
-      "jsr:@erickmerchant/icons@0.3",
-      "jsr:@erickmerchant/markdown@~0.1.6",
+      "jsr:@erickmerchant/icons@~0.3.1",
+      "jsr:@erickmerchant/markdown@~0.1.7",
       "jsr:@erickmerchant/mine-sweeper@^1.0.5",
       "jsr:@feed/feed@^1.3.0",
       "jsr:@flint/framework@~0.40.1",
-      "jsr:@handcraft/lib@^4.7.0",
+      "jsr:@handcraft/lib@^4.7.1",
       "jsr:@std/cli@^1.0.32",
       "jsr:@std/fs@^1.0.24",
       "jsr:@std/path@^1.1.6",
