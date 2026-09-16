@@ -8,7 +8,8 @@
     "jsr:@erickmerchant/mine-sweeper@^1.0.5": "1.0.5",
     "jsr:@feed/feed@^1.3.0": "1.3.0",
     "jsr:@flint/framework@~0.40.1": "0.40.1",
-    "jsr:@handcraft/lib@^4.6.1": "4.6.1",
+    "jsr:@handcraft/lib@^4.6.1": "4.7.0",
+    "jsr:@handcraft/lib@^4.7.0": "4.7.0",
     "jsr:@std/async@^1.5.0": "1.5.0",
     "jsr:@std/cli@^1.0.32": "1.0.32",
     "jsr:@std/collections@^1.1.3": "1.1.7",
@@ -54,7 +55,7 @@
     "@erickmerchant/markdown@0.1.6": {
       "integrity": "94059acc24bb61f5ec5c2a01a5e6208fcd69c565cc3444e4ba212cb3d2f3f3f1",
       "dependencies": [
-        "jsr:@handcraft/lib",
+        "jsr:@handcraft/lib@^4.6.1",
         "npm:highlight.js",
         "npm:marked",
         "npm:marked-highlight",
@@ -64,7 +65,7 @@
     "@erickmerchant/mine-sweeper@1.0.5": {
       "integrity": "71975639845551dd47dfba1261504a766b38be320d32c878d1ae33109ccf8e98",
       "dependencies": [
-        "jsr:@handcraft/lib"
+        "jsr:@handcraft/lib@^4.6.1"
       ]
     },
     "@feed/feed@1.3.0": {
@@ -87,8 +88,8 @@
         "npm:lightningcss"
       ]
     },
-    "@handcraft/lib@4.6.1": {
-      "integrity": "895271ad05724d62a31e438a076a7d09f37f858f436ff00815d34386243bfef0",
+    "@handcraft/lib@4.7.0": {
+      "integrity": "4d9dfd1a82db920480a5d24c115125c47d669d35aee02820811530205c342238",
       "dependencies": [
         "jsr:@std/html"
       ]
@@ -305,7 +306,7 @@
       "jsr:@erickmerchant/mine-sweeper@^1.0.5",
       "jsr:@feed/feed@^1.3.0",
       "jsr:@flint/framework@~0.40.1",
-      "jsr:@handcraft/lib@^4.6.1",
+      "jsr:@handcraft/lib@^4.7.0",
       "jsr:@std/cli@^1.0.32",
       "jsr:@std/fs@^1.0.24",
       "jsr:@std/path@^1.1.6",
