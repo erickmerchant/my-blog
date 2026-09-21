@@ -25,9 +25,10 @@ export default async function (
           li(a.href("/mine-sweeper/16/16/40/")("Intermediate")),
           li(a.href("/mine-sweeper/20/20/62/")("Expert")),
         ),
-        mineSweeper.width(params.width).height(params.height).count(
-          params.count,
-        ),
+        mineSweeper
+          .width(params.width)
+          .height(params.height)
+          .count(params.count),
       ),
     ],
   });
