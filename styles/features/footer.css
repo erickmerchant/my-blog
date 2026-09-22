@@ -23,6 +23,8 @@
   :where(.link) {
     text-decoration-thickness: 0.15em;
     white-space: nowrap;
+    text-decoration: none;
+    color: var(--accent);
   }
 
   :where(.rss) {
@@ -32,13 +34,10 @@
 
     :where(.icon-rss) {
       display: block;
-      border-radius: 0.125rem;
-      corner-shape: superellipse(2);
-      background: var(--accent);
+      background: currentColor;
       display: grid;
       inline-size: auto;
-      block-size: 1rem;
-      fill: var(--background);
+      block-size: 1em;
     }
   }
 }
