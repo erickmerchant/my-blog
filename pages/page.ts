@@ -70,7 +70,7 @@ export default function (
       li.class("item")(
         a
           .class("link rss")
-          .href("/posts.rss")(span.class("icon-rss"), "RSS"),
+          .href("/posts.rss")(span.class("rss-icon"), "RSS"),
       ),
     ),
   );

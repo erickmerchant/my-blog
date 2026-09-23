@@ -3,11 +3,10 @@
   "specifiers": {
     "jsr:@cfa/gitignore-parser@~0.1.4": "0.1.4",
     "jsr:@erickmerchant/fonts@~0.7.6": "0.7.6",
-    "jsr:@erickmerchant/icons@~0.3.1": "0.3.1",
     "jsr:@erickmerchant/markdown@~0.1.8": "0.1.8",
     "jsr:@erickmerchant/mine-sweeper@^1.0.5": "1.0.5",
     "jsr:@feed/feed@^1.3.0": "1.3.0",
-    "jsr:@flint/framework@~0.40.1": "0.40.1",
+    "jsr:@flint/framework@0.41": "0.41.0",
     "jsr:@handcraft/lib@^4.6.1": "4.7.1",
     "jsr:@handcraft/lib@^4.7.1": "4.7.1",
     "jsr:@std/async@^1.5.0": "1.5.0",
@@ -23,7 +22,6 @@
     "jsr:@std/path@^1.1.5": "1.1.6",
     "jsr:@std/path@^1.1.6": "1.1.6",
     "jsr:@std/regexp@^1.0.2": "1.0.2",
-    "jsr:@std/semver@^1.0.8": "1.0.8",
     "jsr:@std/text@^1.0.19": "1.0.19",
     "jsr:@std/toml@^1.0.11": "1.0.11",
     "npm:@remix-run/mime@~0.4.2": "0.4.2",
@@ -49,9 +47,6 @@
         "npm:unifont"
       ]
     },
-    "@erickmerchant/icons@0.3.1": {
-      "integrity": "c96c55063bbba389ce4aaa8fc685e4f26c2e43259661ef20675da5c02d5eaeb0"
-    },
     "@erickmerchant/markdown@0.1.8": {
       "integrity": "25651a790078d2d5cb94408f2723aa5aa952f799578262f62063b829c6eeac24",
       "dependencies": [
@@ -71,8 +66,8 @@
     "@feed/feed@1.3.0": {
       "integrity": "cc9b02b4050423532d333c13a37e7d4784b5132697e2cde2d1769e59da2f519c"
     },
-    "@flint/framework@0.40.1": {
-      "integrity": "aa263751be9c17c8e96337ca0f451d67c819289bc281cec4e673348552b57100",
+    "@flint/framework@0.41.0": {
+      "integrity": "f6310fe2e8e46732a973bd244ee1480a23cd0b8b7c272378a52f25d8443d0165",
       "dependencies": [
         "jsr:@cfa/gitignore-parser",
         "jsr:@std/async",
@@ -82,7 +77,6 @@
         "jsr:@std/fs",
         "jsr:@std/http",
         "jsr:@std/path@^1.1.6",
-        "jsr:@std/semver",
         "npm:@remix-run/mime",
         "npm:html-rewriter-wasm",
         "npm:lightningcss"
@@ -143,9 +137,6 @@
     },
     "@std/regexp@1.0.2": {
       "integrity": "7493d47c077cfdb023e41a0b44fd608d87fe5b36fc3dc614261afc0f1452aabf"
-    },
-    "@std/semver@1.0.8": {
-      "integrity": "dc830e8b8b6a380c895d53fbfd1258dc253704ca57bbe1629ac65fd7830179b7"
     },
     "@std/text@1.0.19": {
       "integrity": "003a0e032d360e8c3a4e0410fb792c77a66bd6553fee9d60c6ec1bce30d29223",
@@ -301,11 +292,10 @@
   "workspace": {
     "dependencies": [
       "jsr:@erickmerchant/fonts@~0.7.6",
-      "jsr:@erickmerchant/icons@~0.3.1",
       "jsr:@erickmerchant/markdown@~0.1.8",
       "jsr:@erickmerchant/mine-sweeper@^1.0.5",
       "jsr:@feed/feed@^1.3.0",
-      "jsr:@flint/framework@~0.40.1",
+      "jsr:@flint/framework@0.41",
       "jsr:@handcraft/lib@^4.7.1",
       "jsr:@std/cli@^1.0.32",
       "jsr:@std/fs@^1.0.24",

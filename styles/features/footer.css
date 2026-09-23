@@ -32,12 +32,29 @@
     gap: 0.5rem;
     align-items: center;
 
-    :where(.icon-rss) {
+    :where(.rss-icon) {
       display: block;
       background: currentColor;
       display: grid;
       inline-size: auto;
       block-size: 1em;
+      aspect-ratio: 1;
+      clip-path: shape(
+        from 0% 0%,
+        curve to 100% 100% with 100% 0%,
+        line to 80% 100%,
+        curve to 0% 20% with 80% 20%,
+        close,
+        move to 0% 35%,
+        curve to 65% 100% with 65% 35%,
+        line to 45% 100%,
+        curve to 0% 55% with 45% 55%,
+        close,
+        move to 0% 85%,
+        arc to 30% 85% of 15% 15% cw large rotate 0deg,
+        arc to 0% 85% of 15% 15% cw large rotate 0deg,
+        close
+      );
     }
   }
 }
