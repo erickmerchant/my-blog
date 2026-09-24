@@ -6,15 +6,20 @@
   flex-direction: column;
   gap: 0.5rem;
   padding-inline: 1rem;
+  container-type: inline-size;
 
-  > :where(:nth-last-child(n+2)) {
+  > * {
+    font-size: clamp(100%, 3cqi, 112.5%);
+  }
+
+  > :where(:nth-child(n+2):not(:last-child)) {
     background-image: linear-gradient(
       90deg,
-      transparent 0 0.5rem,
-      var(--text) 0.5rem calc(100% - 0.5rem),
-      transparent calc(100% - 0.5rem)
+      transparent 0 0.125rem,
+      var(--text) 0.125rem calc(100% - 0.125rem),
+      transparent calc(100% - 0.125rem)
     );
-    background-size: min(100% - 2rem, 40rem) 0.05rem;
+    background-size: min(100% - 2rem, 40rem) 0.1rem;
     background-repeat: no-repeat;
     padding-block-end: 1rem;
     background-position: bottom center;

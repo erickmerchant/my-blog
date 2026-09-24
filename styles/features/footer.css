@@ -30,14 +30,14 @@
   :where(.rss) {
     display: flex;
     gap: 0.5rem;
-    align-items: center;
+    align-items: last baseline;
 
     :where(.rss-icon) {
       display: block;
       background: currentColor;
       display: grid;
       inline-size: auto;
-      block-size: 1em;
+      block-size: 1.2ch;
       aspect-ratio: 1;
       clip-path: shape(
         from 0% 0%,

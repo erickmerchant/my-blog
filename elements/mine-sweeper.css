@@ -1,4 +1,111 @@
-@import "@erickmerchant/mine-sweeper/elements/mine-sweeper.css";
+@layer {
+  mine-sweeper {
+    max-inline-size: 100%;
+    box-sizing: border-box;
+    display: grid;
+    background-color: oklch(95% 0 0);
+    padding: calc(var(--w) / 40);
+    border-radius: 0.75rem;
+    margin: 0;
+    place-items: center;
+    font-family: ui-monospace, monospace;
+    font-weight: bold;
+    font-size: calc(min(80cqmin, calc(50px * var(--width))) / 100 * 5);
+    inline-size: var(--w);
+    gap: 1px;
+
+    --w: min(calc(100dvi - 2rem), calc(2.75rem * var(--width)));
+
+    &::part(info-panel) {
+      display: grid;
+      grid-template-columns: max-content auto max-content;
+      padding-block: 1.25% 2.5%;
+      padding-inline: 5%;
+      gap: 1rem;
+      justify-content: space-between;
+      inline-size: 100%;
+    }
+
+    &::part(grid) {
+      display: grid;
+      grid-auto-rows: auto;
+      grid-template-columns: repeat(var(--width), 1fr);
+      gap: 1px;
+      inline-size: 100%;
+      background-color: oklch(60% 0 0);
+      border: 1px solid oklch(60% 0 0);
+      border-radius: 0.25rem;
+      overflow: hidden;
+    }
+
+    &::part(row) {
+      display: contents;
+    }
+
+    &::part(btn) {
+      font: inherit;
+      display: grid;
+      font-weight: bold;
+      aspect-ratio: 1;
+      block-size: 100%;
+      inline-size: 100%;
+      display: grid;
+      place-content: center;
+      aspect-ratio: 1;
+      block-size: 100%;
+      inline-size: 100%;
+      appearance: none;
+      background-color: oklch(85% 0 0);
+      border: none;
+      padding: 0;
+      margin: 0;
+      cursor: pointer;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    &::part(revealed) {
+      background-color: oklch(95% 0 0);
+      cursor: oklch(90% 0 0);
+    }
+
+    &::part(armed-adjacent-count--1) {
+      color: oklch(50% 0.4 260);
+    }
+
+    &::part(armed-adjacent-count--2) {
+      color: oklch(50% 0.4 215);
+    }
+
+    &::part(armed-adjacent-count--3) {
+      color: oklch(50% 0.4 170);
+    }
+
+    &::part(armed-adjacent-count--4) {
+      color: oklch(50% 0.4 125);
+    }
+
+    &::part(armed-adjacent-count--5) {
+      color: oklch(50% 0.4 80);
+    }
+
+    &::part(armed-adjacent-count--6) {
+      color: oklch(50% 0.4 35);
+    }
+
+    &::part(armed-adjacent-count--7) {
+      color: oklch(50% 0.4 350);
+    }
+
+    &::part(armed-adjacent-count--8) {
+      color: oklch(50% 0.4 305);
+    }
+
+    &:part(flagged revealed) {
+      --content:;
+    }
+  }
+}
 
 mine-sweeper {
   background-color: oklch(from var(--background) l calc(c * 2) h);

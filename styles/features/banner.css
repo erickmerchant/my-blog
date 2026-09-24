@@ -1,20 +1,18 @@
 .banner {
-  padding-block: 0.5rem 1.25rem;
-  margin-block-start: 1rem;
+  padding-block: 1.5rem 0.5rem;
   width: max-content;
 
   :where(.title) {
-    font-family: var(--bitter);
-    font-size: clamp(2rem, 9.5vi, 4.22rem);
+    font-family: var(--jacquard-24);
+    font-weight: 400;
+    font-size: clamp(3rem, 18cqi, 12rem);
     line-height: 1;
 
     :where(a) {
       display: inline-block;
       color: oklch(from var(--text) l c h / 0.7);
-      text-shadow: 0.05em 0.05em 0.01em oklch(from var(--accent) l c h / 0.8);
-      letter-spacing: 0.125em;
+      text-shadow: 0.03em 0.03em 0.01em oklch(from var(--accent) l c h / 0.8);
       text-decoration: none;
-      font-weight: 900;
     }
   }
 }

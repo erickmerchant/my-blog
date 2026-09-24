@@ -14,7 +14,6 @@ html {
   color-scheme: light dark;
   font-family: var(--bitter);
   font-weight: 400;
-  font-size: clamp(75%, 3.5vi, 112.5%);
   line-height: 1.75;
   overflow-y: scroll;
   overflow-x: auto;
@@ -58,21 +57,21 @@ h6 {
 }
 
 h1 {
-  font-size: 1.5rem;
+  font-size: 150%;
 }
 
 h2 {
-  font-size: 1.25rem;
+  font-size: 125%;
 
   :has(header h1) & {
-    font-size: 1.5rem;
+    font-size: 150%;
   }
 }
 
 code {
   font-family: var(--overpass-mono);
   font-weight: 400;
-  font-size: 0.875rem;
+  font-size: 87.5%;
 }
 
 em {

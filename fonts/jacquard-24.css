@@ -1,0 +1,12 @@
+:root {
+  --jacquard-24: "Jacquard 24",Georgia,ui-serif,serif;
+}
+
+@font-face {
+  font-family: "Jacquard 24";
+  src: url(/fonts/jacquard-24-400-normal-latin-RXJpY2sgTWVoYW50.woff2)
+    format("woff2");
+  unicode-range: U-69,U-114,U-105,U-99,U-107,U-32,U-77,U-101,U-104,U-97,U-110,U-116;
+  font-weight: 400;
+  font-style: normal;
+}
