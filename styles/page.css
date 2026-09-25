@@ -11,18 +11,6 @@
   > * {
     font-size: clamp(100%, 3cqi, 112.5%);
   }
-
-  > :where(:nth-child(n+1):not(:last-child)) {
-    background-image: linear-gradient(var(--background)), radial-gradient(
-      circle at 50%,
-      oklch(from var(--text) l c h / 0.5) 0 30%,
-      var(--background) 30%
-    );
-    background-position: bottom 0.5rem, bottom center;
-    background-size: 100% calc(100% - 0.5rem), 0.5rem 0.5rem;
-    background-repeat: no-repeat, space;
-    padding-block-end: 1rem;
-  }
 }
 
 .date {
