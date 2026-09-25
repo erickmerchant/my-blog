@@ -16,7 +16,7 @@
 html {
   block-size: 100%;
   color-scheme: light dark;
-  font-family: var(--bitter);
+  font-family: var(--figtree);
   font-weight: 400;
   line-height: 1.75;
   overflow-y: scroll;
@@ -57,7 +57,7 @@ h4,
 h5,
 h6 {
   text-wrap: balance;
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1.5;
 
   :where(a) {
@@ -89,7 +89,7 @@ em {
 }
 
 strong {
-  font-weight: 600;
+  font-weight: 700;
 }
 
 del {

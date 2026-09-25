@@ -8,7 +8,7 @@
       "command": "deno serve -A --port=4000 --parallel dist/serve.ts",
       "dependencies": ["build"]
     },
-    "fonts": "deno run -A @erickmerchant/fonts --family Bitter --weight '100 900' --fallback 'Georgia,ui-serif,serif' && deno run -A @erickmerchant/fonts --family 'Overpass Mono' --weight 400 --style normal --fallback 'ui-monospace,monospace'  && deno run -A @erickmerchant/fonts --family 'Jacquard 24' --weight 400 --style normal --fallback 'Georgia,ui-serif,serif' --text 'Erick Merchant'"
+    "fonts": "deno run -A @erickmerchant/fonts --family Figtree --weight '300 900' --fallback 'system-ui,sans-serif' && deno run -A @erickmerchant/fonts --family 'Overpass Mono' --weight 400 --style normal --fallback 'ui-monospace,monospace'  && deno run -A @erickmerchant/fonts --family 'Jacquard 24' --weight 400 --style normal --fallback 'Georgia,ui-serif,serif' --text 'Erick Merchant'"
   },
   "imports": {
     "@erickmerchant/fonts": "jsr:@erickmerchant/fonts@^0.8.1",

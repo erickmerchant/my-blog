@@ -3,11 +3,11 @@
   align-items: center;
   z-index: 1;
 
-  --code-background: oklch(from var(--background) l calc(c / 2) h);
+  --code-background: oklch(from var(--background) l calc(c / 1.5) h);
 
   > * {
     min-inline-size: 100%;
-    margin: 0.5rem 0;
+    margin: 1rem 0;
   }
 
   :where(:not(pre)) > :where(code) {
@@ -61,11 +61,11 @@
     position: relative;
     font-style: italic;
     border-inline-start: 0.15em solid var(--accent);
-    font-weight: 200;
+    font-weight: 300;
     margin-block: 1rem;
 
     :where(em) {
-      font-weight: 300;
+      font-weight: 400;
     }
 
     > :where(:not(:last-child)) {
@@ -84,6 +84,8 @@
   }
 
   :where(figure) {
+    margin-block: 1rem;
+
     :where(img) {
       border-radius: 0.25rem;
       max-inline-size: 100%;
