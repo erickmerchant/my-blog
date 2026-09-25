@@ -9,6 +9,10 @@
   -webkit-text-size-adjust: none;
 }
 
+:focus-visible {
+  outline-offset: 5px;
+}
+
 html {
   block-size: 100%;
   color-scheme: light dark;
@@ -33,7 +37,12 @@ a {
   color: currentColor;
   text-decoration-thickness: 0.15em;
   text-underline-offset: 0.15em;
-  text-decoration-color: var(--accent);
+  text-decoration-color: oklch(from var(--accent) l calc(c / 1.25) h);
+
+  &:hover,
+  &:focus-visible {
+    text-decoration-color: oklch(from var(--accent) l calc(c * 1.25) h);
+  }
 }
 
 p {

@@ -60,7 +60,7 @@ export default function (
     favicons(),
     meta.name("description").content(site.description),
   );
-  const baseNav = header.class("banner")(
+  const banner = header.class("banner")(
     (bannerTitle ?? span)().class("title")(
       a.href("/")(site.title),
     ),
@@ -81,7 +81,8 @@ export default function (
     ),
   );
   const baseBody = body(
-    main.class("main")(baseNav, ...mainContent, baseFooter),
+    banner,
+    main.class("main")(...mainContent, baseFooter),
   );
 
   return html.lang("en-US")(baseHead, baseBody);

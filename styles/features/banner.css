@@ -1,14 +1,29 @@
 .banner {
-  padding-block: 1.5rem 0.5rem;
-  width: max-content;
+  padding-block: 1rem;
+  margin-block-end: 1rem;
+  width: 100%;
+  background-image: radial-gradient(
+    circle at 50%,
+    var(--background) 0 70%,
+    oklch(from var(--accent) l c h / 0.2) 70%
+  );
+  background-size: 0.25rem 0.25rem;
+  background-repeat: repeat;
 
   :where(.title) {
+    display: block;
     font-family: var(--jacquard-24);
     font-weight: 400;
-    font-size: clamp(3rem, 18cqi, 12rem);
     line-height: 1;
+    max-inline-size: 40rem;
+    margin-inline: auto;
+    container-type: inline-size;
+    overflow: hidden;
 
     :where(a) {
+      white-space: nowrap;
+      font-size: clamp(2rem, 17cqi, 7rem);
+      padding-inline: 1rem;
       display: inline-block;
       color: oklch(from var(--text) l c h / 0.7);
       text-shadow: 0.03em 0.03em 0.01em oklch(from var(--accent) l c h / 0.8);
