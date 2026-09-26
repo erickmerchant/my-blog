@@ -19,7 +19,7 @@
     width: 100%;
     background-image: radial-gradient(
       circle at 50%,
-      oklch(from var(--text) l c h / 0.35) 0 30%,
+      oklch(from var(--text) l c h / 0.25) 0 30%,
       var(--background) 30%
     );
     background-size: 0.5rem 0.5rem;

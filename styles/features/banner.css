@@ -4,8 +4,8 @@
   width: 100%;
   background-image: radial-gradient(
     circle at 50%,
-    var(--background) 0 70%,
-    oklch(from var(--accent) l c h / 0.35) 70%
+    oklch(from var(--accent) l c h / 0.25) 0 50%,
+    var(--background) 50%
   );
   background-size: 0.25rem 0.25rem;
   background-repeat: repeat;
