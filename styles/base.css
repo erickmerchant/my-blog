@@ -99,7 +99,7 @@ del {
 }
 
 li {
-  list-style-type: "▪︎";
+  list-style-type: "•";
   list-style-position: outside;
   padding-inline-start: 0.5rem;
   margin-inline-start: 0.5rem;
