@@ -41,7 +41,7 @@ export default function (
     title(pageTitle ? pageTitle + " - " + site.title : site.title),
     link
       .rel("preload")
-      .href("/fonts/jacquard-24-400-normal-latin-RXJpY2sgTWVoYW50.woff2")
+      .href("/fonts/nunito-800-normal-latin-RXJpY2sgTWVoYW50.woff2")
       .as("font")
       .type("font/woff2")
       .crossorigin(""),

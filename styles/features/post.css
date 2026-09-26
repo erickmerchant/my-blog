@@ -44,7 +44,7 @@
     margin-block: 1rem;
 
     :where(code) {
-      padding: 1rem 1.5rem;
+      padding: 1.5rem;
       overflow-x: auto;
       scrollbar-width: thin;
       scrollbar-color: currentColor
