@@ -2,7 +2,7 @@
   "version": "5",
   "specifiers": {
     "jsr:@cfa/gitignore-parser@~0.1.4": "0.1.4",
-    "jsr:@erickmerchant/fonts@~0.8.1": "0.8.1",
+    "jsr:@erickmerchant/fonts@0.9": "0.9.0",
     "jsr:@erickmerchant/markdown@~0.1.8": "0.1.8",
     "jsr:@erickmerchant/mine-sweeper@^1.0.6": "1.0.6",
     "jsr:@feed/feed@^1.3.0": "1.3.0",
@@ -37,10 +37,12 @@
     "@cfa/gitignore-parser@0.1.4": {
       "integrity": "60d3563bbd7b8797f50c28585d7d74d231fbb56a1d9df7b0673c27cbdf60a23a"
     },
-    "@erickmerchant/fonts@0.8.1": {
-      "integrity": "08ff80edf80c6fafc4d85950b345004d96cab77b39abc63fe3ac6306e332f32b",
+    "@erickmerchant/fonts@0.9.0": {
+      "integrity": "c39f015a64aa2eb0c77c59532c9a804ba4a3963b0356662ea6811504dc343b99",
       "dependencies": [
         "jsr:@std/cli",
+        "jsr:@std/crypto",
+        "jsr:@std/encoding",
         "jsr:@std/fs",
         "jsr:@std/path@^1.1.6",
         "jsr:@std/text",
@@ -338,7 +340,7 @@
   },
   "workspace": {
     "dependencies": [
-      "jsr:@erickmerchant/fonts@~0.8.1",
+      "jsr:@erickmerchant/fonts@0.9",
       "jsr:@erickmerchant/markdown@~0.1.8",
       "jsr:@erickmerchant/mine-sweeper@^1.0.6",
       "jsr:@feed/feed@^1.3.0",

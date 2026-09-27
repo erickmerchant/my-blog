@@ -41,13 +41,13 @@ export default function (
     title(pageTitle ? pageTitle + " - " + site.title : site.title),
     link
       .rel("preload")
-      .href("/fonts/nunito-800-normal-latin-RXJpY2sgTWVoYW50.woff2")
+      .href("/fonts/nunito-800-normal-latin-0eaa4a42.woff2")
       .as("font")
       .type("font/woff2")
       .crossorigin(""),
     link
       .rel("preload")
-      .href("/fonts/figtree-300-900-normal-latin.woff2")
+      .href("/fonts/figtree-300-900-normal-latin-abff9c58.woff2")
       .as("font")
       .type("font/woff2")
       .crossorigin(""),

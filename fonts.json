@@ -1,0 +1,23 @@
+[
+  {
+    "family": "Nunito",
+    "style": ["normal"],
+    "weight": ["800"],
+    "fallback": "system-ui,sans-serif",
+    "text": "Erick Merchant"
+  },
+  {
+    "family": "Figtree",
+    "style": ["normal"],
+    "weight": ["300 900"],
+    "fallback": "system-ui,sans-serif",
+    "text": " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~©—"
+  },
+  {
+    "family": "Overpass Mono",
+    "style": ["normal"],
+    "weight": ["400"],
+    "fallback": "ui-monospace,monospace",
+    "text": " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"
+  }
+]
