@@ -27,8 +27,3 @@
     margin-block-start: 1rem;
   }
 }
-
-.date {
-  font-variant-numeric: tabular-nums;
-  font-style: italic;
-}

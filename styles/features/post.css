@@ -59,7 +59,6 @@
     hyphens: auto;
     justify-self: start;
     position: relative;
-    font-style: italic;
     border-inline-start: 0.15em solid var(--accent);
     font-weight: 300;
     margin-block: 1rem;
