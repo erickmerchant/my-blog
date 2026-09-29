@@ -10,11 +10,10 @@
     place-items: center;
     font-family: ui-monospace, monospace;
     font-weight: bold;
-    font-size: calc(min(80cqmin, calc(50px * var(--width))) / 100 * 5);
     inline-size: var(--w);
     gap: 1px;
 
-    --w: min(calc(100dvi - 2rem), calc(2.75rem * var(--width)));
+    --w: calc(2.5rem * var(--width));
 
     &::part(info-panel) {
       display: grid;
@@ -184,11 +183,29 @@ mine-sweeper {
   }
 }
 
+html:has(.mines) {
+  block-size: 100%;
+  overflow: scroll;
+}
+
+.main:has(.mines) {
+  block-size: auto;
+  max-inline-size: unset;
+  overflow: visible;
+
+  :where(.footer) {
+    inline-size: 100%;
+    max-inline-size: 40rem;
+    margin-inline: auto;
+  }
+}
+
 .mines {
-  min-inline-size: min(100% - 2rem, 40rem);
   display: flex;
   flex-direction: column;
-  padding-block-end: 2rem;
+  margin-inline: auto;
+  margin-block-end: 2rem;
+  padding-inline: 1rem;
 
   .nav {
     display: flex;
@@ -197,8 +214,7 @@ mine-sweeper {
   }
 
   & > mine-sweeper {
-    grid-column: 1 / -1;
-    margin-inline: auto;
+    grid-column: 1 / 3;
   }
 
   & > :not(mine-sweeper) {

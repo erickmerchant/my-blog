@@ -2,7 +2,7 @@
   {
     "family": "Nunito",
     "style": ["normal"],
-    "weight": ["800"],
+    "weight": ["900"],
     "fallback": "system-ui,sans-serif",
     "text": "Erick Merchant"
   },

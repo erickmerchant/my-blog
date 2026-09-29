@@ -13,20 +13,18 @@
   :where(.title) {
     display: block;
     font-family: var(--nunito);
-    font-weight: 800;
+    font-weight: 900;
     line-height: 1;
     max-inline-size: 40rem;
     margin-inline: auto;
     container-type: inline-size;
-    overflow: hidden;
 
     :where(a) {
       white-space: nowrap;
       font-size: clamp(2rem, 12cqi, 4rem);
-      padding-inline: 1rem;
-      display: inline-block;
-      color: oklch(from var(--text) l c h / 0.7);
-      text-shadow: 0.05em 0.05em 0.01em oklch(from var(--accent) l c h / 0.8);
+      margin-inline: 1rem;
+      display: inline;
+      color: var(--accent);
       text-decoration: none;
     }
   }

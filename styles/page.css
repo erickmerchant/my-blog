@@ -4,7 +4,6 @@
   max-inline-size: 40rem;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
   padding-inline: 1rem;
   container-type: inline-size;
 
@@ -12,7 +11,7 @@
     font-size: clamp(100%, 3cqi, 112.5%);
   }
 
-  > :where(:nth-child(n+1):not(:last-child))::after {
+  > :where(:nth-child(n+1):not(:first-child))::before {
     display: block;
     content: '';
     block-size: 0.5rem;
@@ -24,6 +23,6 @@
     );
     background-size: 0.5rem 0.5rem;
     background-repeat: round;
-    margin-block-start: 1rem;
+    margin-block: 1rem;
   }
 }

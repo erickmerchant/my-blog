@@ -1,11 +1,11 @@
 :root {
   --background: light-dark(
-    oklch(from oldlace 100% c h),
-    oklch(from darkslategray 30% c h)
+    oklch(from forestgreen 99% 0.005 h),
+    oklch(from forestgreen 30% 0.01 h)
   );
   --text: light-dark(oklch(30% 0 60), oklch(100% 0.075 60));
   --accent: light-dark(
-    oklch(from deepskyblue 55% c h),
-    oklch(from orange 90% c h)
+    oklch(from forestgreen 55% 0.125 h),
+    oklch(from forestgreen 100% 0.25 h)
   );
 }

@@ -3,15 +3,12 @@
   align-items: center;
   z-index: 1;
 
-  --code-background: oklch(from var(--background) l calc(c / 1.5) h);
-
   > * {
     min-inline-size: 100%;
     margin: 1rem 0;
   }
 
   :where(:not(pre)) > :where(code) {
-    background-color: var(--code-background);
     padding: 0.05rem 0.25rem;
     color: light-dark(
       oklch(from seagreen 50% c h),
@@ -39,9 +36,12 @@
     max-inline-size: 100%;
     justify-self: center;
     margin-inline: auto;
-    background-color: var(--code-background);
     border-radius: 0.25rem;
     margin-block: 1rem;
+    background: light-dark(
+      oklch(from dimgray 100% c h),
+      oklch(from dimgray 25% c h)
+    );
 
     :where(code) {
       padding: 1.5rem;

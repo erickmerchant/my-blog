@@ -47,7 +47,7 @@ a {
 
 p {
   text-wrap: pretty;
-  /*hyphens: auto;*/
+  hyphens: auto;
 }
 
 h1,
