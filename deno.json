@@ -1,5 +1,5 @@
 {
-  "unstable": ["temporal", "raw-imports", "bundle"],
+  "unstable": ["temporal", "bundle"],
   "tasks": {
     "new:post": "deno run -A cli/new-post.ts",
     "dev": "deno run -A --watch-hmr flint.ts --port=4000",
