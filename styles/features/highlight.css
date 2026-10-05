@@ -25,9 +25,7 @@
 
   .attr,
   .attribute,
-  .literal,
   .meta,
-  .number,
   .operator,
   .variable,
   .selector-attr,
@@ -36,10 +34,14 @@
     --color: coral;
   }
 
+  .number,
+  .literal {
+    --color: wheat;
+  }
+
   .regexp,
   .string,
   .meta .string {
-    --color: red;
     --color: red;
   }
 
