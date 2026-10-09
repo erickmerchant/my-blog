@@ -11,12 +11,12 @@
     "fonts": "deno run -A @erickmerchant/fonts --config fonts.json"
   },
   "imports": {
-    "@erickmerchant/fonts": "jsr:@erickmerchant/fonts@^0.9.0",
-    "@erickmerchant/markdown": "jsr:@erickmerchant/markdown@^0.1.9",
-    "@erickmerchant/mine-sweeper": "jsr:@erickmerchant/mine-sweeper@^1.0.6",
+    "@erickmerchant/fonts": "jsr:@erickmerchant/fonts@^0.9.1",
+    "@erickmerchant/markdown": "jsr:@erickmerchant/markdown@^0.1.11",
+    "@erickmerchant/mine-sweeper": "jsr:@erickmerchant/mine-sweeper@^1.0.8",
     "@feed/feed": "jsr:@feed/feed@^1.3.0",
-    "@flint/framework": "jsr:@flint/framework@^0.42.1",
-    "@handcraft/lib": "jsr:@handcraft/lib@^4.7.1",
+    "@flint/framework": "jsr:@flint/framework@^0.42.2",
+    "@handcraft/lib": "jsr:@handcraft/lib@^4.8.1",
     "@std/cli": "jsr:@std/cli@^1.0.32",
     "@std/fs": "jsr:@std/fs@^1.0.24",
     "@std/path": "jsr:@std/path@^1.1.6",

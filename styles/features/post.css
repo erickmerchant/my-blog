@@ -11,8 +11,8 @@
   :where(:not(pre)) > :where(code) {
     padding: 0.05rem 0.25rem;
     color: light-dark(
-      oklch(from seagreen 50% c h),
-      oklch(from red 90% c h)
+      oklch(from wheat 50% c h),
+      oklch(from wheat 80% c h)
     );
 
     /* Arc iOS bug fix */

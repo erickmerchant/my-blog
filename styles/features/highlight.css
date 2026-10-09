@@ -2,7 +2,7 @@
   * {
     color: light-dark(
       oklch(from var(--color) 50% c h),
-      oklch(from var(--color) 90% c h)
+      oklch(from var(--color) 80% c h)
     );
   }
 

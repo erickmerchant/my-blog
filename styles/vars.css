@@ -6,6 +6,6 @@
   --text: light-dark(oklch(30% 0 60), oklch(100% 0.075 60));
   --accent: light-dark(
     oklch(from deepskyblue 55% 0.125 h),
-    oklch(from deepskyblue 100% 0.25 h)
+    oklch(from deepskyblue 80% 0.25 h)
   );
 }
