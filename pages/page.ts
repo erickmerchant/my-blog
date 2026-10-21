@@ -1,30 +1,17 @@
+import type { HandcraftNode, HandcraftTag } from "@handcraft/lib";
+import { html } from "@handcraft/lib/h";
+import attr from "@handcraft/lib/attr";
+import text from "@handcraft/lib/text";
 import { type Site } from "../models/site.ts";
-import { h, type HandcraftChild, type HandcraftNode } from "@handcraft/lib";
 import favicons from "./favicons.ts";
 
 type Config = {
   site: Site;
   pageTitle?: string;
-  bannerTitle?: HandcraftNode;
-  headElements?: Array<HandcraftChild>;
-  mainContent: Array<HandcraftChild>;
+  bannerTitle?: HandcraftTag;
+  headElements?: Array<HandcraftNode>;
+  mainContent: Array<HandcraftNode>;
 };
-
-const {
-  head,
-  body,
-  meta,
-  title,
-  link,
-  header,
-  span,
-  a,
-  footer,
-  ul,
-  li,
-  html,
-  main,
-} = h.html;
 
 export default function (
   {
@@ -32,58 +19,74 @@ export default function (
     pageTitle,
     bannerTitle,
     mainContent,
-    headElements = [link.rel("stylesheet").href("/styles/main.css")],
+    headElements = [
+      html.link(attr.rel("stylesheet"), attr.href("/styles/main.css")),
+    ],
   }: Config,
 ) {
-  const baseHead = head(
-    meta.charset("utf-8"),
-    meta.name("viewport").content("width=device-width"),
-    title(pageTitle ? pageTitle + " - " + site.title : site.title),
-    link
-      .rel("preload")
-      .href("/fonts/nunito-900-normal-latin-0eaa4a42.woff2")
-      .as("font")
-      .type("font/woff2")
-      .crossorigin(""),
-    link
-      .rel("preload")
-      .href("/fonts/figtree-300-900-normal-latin-abff9c58.woff2")
-      .as("font")
-      .type("font/woff2")
-      .crossorigin(""),
+  const baseHead = html.head(
+    html.meta(attr.charset("utf-8")),
+    html.meta(attr.name("viewport"), attr.content("width=device-width")),
+    html.title(text(pageTitle ? pageTitle + " - " + site.title : site.title)),
+    html.link(
+      attr.rel("preload"),
+      attr.href("/fonts/nunito-900-normal-latin-0eaa4a42.woff2"),
+      attr.as("font"),
+      attr.type("font/woff2"),
+      attr.crossorigin(""),
+    ),
+    html.link(
+      attr.rel("preload"),
+      attr.href("/fonts/figtree-300-900-normal-latin-abff9c58.woff2"),
+      attr.as("font"),
+      attr.type("font/woff2"),
+      attr.crossorigin(""),
+    ),
     ...headElements,
-    link
-      .rel("alternate")
-      .type("application/rss+xml")
-      .title("Posts")
-      .href(site.host + "/posts.rss"),
-    favicons(),
-    meta.name("description").content(site.description),
+    html.link(
+      attr.rel("alternate"),
+      attr.type("application/rss+xml"),
+      attr.title("Posts"),
+      attr.href(site.host + "/posts.rss"),
+    ),
+    ...favicons(),
+    html.meta(attr.name("description"), attr.content(site.description)),
   );
-  const banner = header.class("banner")(
-    (bannerTitle ?? span)().class("title")(
-      a.href("/")(site.title),
+  const banner = html.header(
+    attr.class("banner"),
+    (bannerTitle ?? html.span)(
+      attr.class("title"),
+      html.a(attr.href("/"), text(site.title)),
     ),
   );
-  const baseFooter = footer.class("footer")(
-    ul.class("list")(
-      li.class("item")("© " + site.author),
-      li.class("item")(
-        a
-          .class("link")
-          .href("https://github.com/erickmerchant/my-blog")("View Source"),
+  const baseFooter = html.footer(
+    attr.class("footer"),
+    html.ul(
+      attr.class("list"),
+      html.li(attr.class("item"), text("© " + site.author)),
+      html.li(
+        attr.class("item"),
+        html.a(
+          attr.class("link"),
+          attr.href("https://github.com/erickmerchant/my-blog"),
+          text("View Source"),
+        ),
       ),
-      li.class("item")(
-        a
-          .class("link rss")
-          .href("/posts.rss")(span.class("rss-icon"), "RSS"),
+      html.li(
+        attr.class("item"),
+        html.a(
+          attr.class("link rss"),
+          attr.href("/posts.rss"),
+          html.span(attr.class("rss-icon")),
+          text("RSS"),
+        ),
       ),
     ),
   );
-  const baseBody = body(
+  const baseBody = html.body(
     banner,
-    main.class("main")(...mainContent, baseFooter),
+    html.main(attr.class("main"), ...mainContent, baseFooter),
   );
 
-  return html.lang("en-US")(baseHead, baseBody);
+  return html.html(attr.lang("en-US"), baseHead, baseBody);
 }

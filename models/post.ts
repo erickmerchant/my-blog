@@ -7,7 +7,7 @@ export type Post = {
   slug: string;
   title: string;
   datePublished: Temporal.PlainDate;
-  content: Array<HandcraftNode | string>;
+  content: Array<HandcraftNode>;
 };
 
 export async function getPublishedPosts(): Promise<Array<Post>> {

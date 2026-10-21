@@ -1,18 +1,19 @@
-import { h } from "@handcraft/lib";
-
-const { link } = h.html;
+import { html } from "@handcraft/lib/h";
+import attr from "@handcraft/lib/attr";
 
 export default function () {
   return [
-    link
-      .rel("icon")
-      .href("/favicon-light.png")
-      .type("image/svg+xml")
-      .media("(prefers-color-scheme: light)"),
-    link
-      .rel("icon")
-      .href("/favicon-dark.png")
-      .type("image/svg+xml")
-      .media("(prefers-color-scheme: dark)"),
+    html.link(
+      attr.rel("icon"),
+      attr.href("/favicon-light.png"),
+      attr.type("image/svg+xml"),
+      attr.media("(prefers-color-scheme: light)"),
+    ),
+    html.link(
+      attr.rel("icon"),
+      attr.href("/favicon-dark.png"),
+      attr.type("image/svg+xml"),
+      attr.media("(prefers-color-scheme: dark)"),
+    ),
   ];
 }

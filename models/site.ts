@@ -8,13 +8,13 @@ export type Site = {
   author: string;
   description: string;
   projects: Array<Project>;
-  bio: Array<HandcraftNode | string>;
+  bio: Array<HandcraftNode>;
 };
 
 export type Project = {
   href: string;
   title: string;
-  content: Array<HandcraftNode | string>;
+  content: Array<HandcraftNode>;
 };
 
 export async function getSite(): Promise<Site> {

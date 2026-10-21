@@ -26,7 +26,6 @@ html {
   scrollbar-color: currentColor var(--background);
   color: var(--text);
   background-color: var(--background);
-  color: var(--text);
 }
 
 body {
@@ -34,15 +33,9 @@ body {
 }
 
 a {
-  color: currentColor;
+  color: var(--accent);
   text-decoration-thickness: 0.15em;
   text-underline-offset: 0.15em;
-  text-decoration-color: oklch(from var(--accent) l calc(c / 1.25) h);
-
-  &:hover,
-  &:focus-visible {
-    text-decoration-color: oklch(from var(--accent) l calc(c * 1.25) h);
-  }
 }
 
 p {
@@ -85,7 +78,7 @@ code {
 }
 
 em {
-  font-weight: 800;
+  font-weight: 700;
   font-style: normal;
 }
 

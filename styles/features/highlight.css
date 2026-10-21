@@ -1,8 +1,8 @@
 :where(.hljs) {
   * {
     color: light-dark(
-      oklch(from var(--color) 50% c h),
-      oklch(from var(--color) 80% c h)
+      oklch(from var(--text) 40% var(--c) h),
+      oklch(from var(--text) 100% var(--c) h)
     );
   }
 
@@ -13,14 +13,14 @@
   .template-variable,
   .type,
   .variable.language_ {
-    --color: orange;
+    --c: 0.4;
   }
 
   .title,
   .title.class_,
   .title.class_.inherited__,
   .title.function_ {
-    --color: gold;
+    --c: 0.2;
   }
 
   .attr,
@@ -31,35 +31,30 @@
   .selector-attr,
   .selector-class,
   .selector-id {
-    --color: coral;
+    --c: 0.1;
   }
 
   .number,
   .literal {
-    --color: wheat;
+    --c: 0.05;
   }
 
   .regexp,
   .string,
   .meta .string {
-    --color: red;
-  }
-
-  .built_in,
-  .symbol {
-    color: oklch(from var(--text) l c h / 0.85);
+    --c: 0.15;
   }
 
   .comment,
   .code,
   .formula {
-    --color: antiquewhite;
+    --c: 0;
   }
 
   .name,
   .quote,
   .selector-tag,
   .selector-pseudo {
-    --color: crimson;
+    --c: 0.25;
   }
 }

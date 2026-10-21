@@ -203,9 +203,8 @@ html:has(.mines) {
 .mines {
   display: flex;
   flex-direction: column;
-  margin-inline: auto;
+  margin-inline-start: calc((100cqi - min(40rem, 100cqi)) / 2);
   margin-block-end: 2rem;
-  padding-inline: 1rem;
 
   .nav {
     display: flex;

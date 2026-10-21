@@ -1,10 +1,10 @@
-import { h } from "@handcraft/lib";
+import { html } from "@handcraft/lib/h";
+import attr from "@handcraft/lib/attr";
+import text from "@handcraft/lib/text";
 import { asLocalDate } from "../utils/dates.ts";
 import page from "./page.ts";
 import { getSite } from "../models/site.ts";
 import { getPostBySlug } from "../models/post.ts";
-
-const { article, div, h1, time } = h.html;
 
 export default async function ({ params }: { params: { slug?: string } }) {
   if (!params.slug) return new Response("", { status: 404 });
@@ -16,11 +16,13 @@ export default async function ({ params }: { params: { slug?: string } }) {
     site,
     pageTitle: post.title,
     mainContent: [
-      article.class("post")(
-        div(
-          h1(post.title),
-          time.class("date")(
-            asLocalDate(post.datePublished as Temporal.PlainDate),
+      html.article(
+        attr.class("post"),
+        html.div(
+          html.h1(text(post.title)),
+          html.time(
+            attr.class("date"),
+            text(asLocalDate(post.datePublished as Temporal.PlainDate)),
           ),
         ),
         ...post.content,

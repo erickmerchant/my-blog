@@ -14,10 +14,7 @@
 
   :where(:not(pre)) > :where(code) {
     padding: 0.05rem 0.25rem;
-    color: light-dark(
-      oklch(from wheat 50% c h),
-      oklch(from wheat 80% c h)
-    );
+    color: oklch(from var(--text) l 0.2 h);
 
     /* Arc iOS bug fix */
     :where(a) {
@@ -40,19 +37,15 @@
     max-inline-size: 100%;
     justify-self: center;
     margin-inline: auto;
-    border-radius: 0.25rem;
+    border-radius: 0 0.25rem 0.25rem 0.25rem;
     margin-block: 1rem;
-    background: light-dark(
-      oklch(from dimgray 100% c h),
-      oklch(from dimgray 25% c h)
-    );
+    box-shadow: 0.0375em 0.0375em 0.0375em 0.0375em var(--text);
 
     :where(code) {
       padding: 1.5rem;
       overflow-x: auto;
       scrollbar-width: thin;
-      scrollbar-color: currentColor
-        oklch(from var(--background) l calc(c - 0.01) h);
+      scrollbar-color: currentColor var(--background);
     }
   }
 

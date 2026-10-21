@@ -1,10 +1,12 @@
-import { each, h, when } from "@handcraft/lib";
+import { html } from "@handcraft/lib/h";
+import when from "@handcraft/lib/when";
+import each from "@handcraft/lib/each";
+import attr from "@handcraft/lib/attr";
+import text from "@handcraft/lib/text";
 import page from "./page.ts";
 import { getSite, Project } from "../models/site.ts";
 import { getPublishedPosts } from "../models/post.ts";
 import { asLocalDate } from "../utils/dates.ts";
-
-const { section, h1, h2, ol, ul, li, a, aside, p } = h.html;
 
 export default async function () {
   const site = await getSite();
@@ -12,21 +14,26 @@ export default async function () {
 
   return page({
     site,
-    bannerTitle: h1,
+    bannerTitle: html.h1,
     mainContent: [
       when(() => posts.length > 0).show(() =>
-        section.class("section")(
-          h2("Posts"),
-          ol.class("list")(
-            posts.map((post) =>
-              li(
-                p(
-                  a.class("title").href("/posts/" + post.slug + "/")(
-                    post.title,
+        html.section(
+          attr.class("section"),
+          html.h2(text("Posts")),
+          html.ol(
+            attr.class("list"),
+            ...posts.map((post) =>
+              html.li(
+                html.p(
+                  html.a(
+                    attr.class("title"),
+                    attr.href("/posts/" + post.slug + "/"),
+                    text(post.title),
                   ),
                 ),
-                p.class("date")(
-                  asLocalDate(post.datePublished as Temporal.PlainDate),
+                html.p(
+                  attr.class("date"),
+                  text(asLocalDate(post.datePublished as Temporal.PlainDate)),
                 ),
               )
             ),
@@ -34,23 +41,27 @@ export default async function () {
         )
       ),
       when(() => site.projects.length > 0).show(() =>
-        section
-          .class("section")(
-            h2("Projects"),
-            ul.class("list")(
-              each<Project>(site.projects).map((project) =>
-                li(
-                  p(a.class("title").href(project.href)(project.title)),
-                  ...project.content,
-                )
-              ),
+        html.section(
+          attr.class("section"),
+          html.h2(text("Projects")),
+          html.ul(
+            attr.class("list"),
+            each<Project>(site.projects).map((project) =>
+              html.li(
+                html.p(
+                  html.a(
+                    attr.class("title"),
+                    attr.href(project.href),
+                    text(project.title),
+                  ),
+                ),
+                ...project.content,
+              )
             ),
-          )
+          ),
+        )
       ),
-      aside.class("section")(
-        h2("About"),
-        ...site.bio,
-      ),
+      html.aside(attr.class("section"), html.h2(text("About")), ...site.bio),
     ],
   });
 }

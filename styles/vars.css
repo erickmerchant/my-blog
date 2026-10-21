@@ -1,11 +1,5 @@
 :root {
-  --background: light-dark(
-    oklch(from gray 98.5% 0 h),
-    oklch(from gray 30% 0 h)
-  );
-  --text: light-dark(oklch(30% 0 60), oklch(100% 0.075 60));
-  --accent: light-dark(
-    oklch(from deepskyblue 55% 0.125 h),
-    oklch(from deepskyblue 80% 0.25 h)
-  );
+  --background: light-dark(oklch(100% 0.0125 200), oklch(20% 0.0125 200));
+  --text: light-dark(oklch(30% 0 200), oklch(100% 0 200));
+  --accent: light-dark(oklch(40% 0.3 200), oklch(100% 0.3 200));
 }

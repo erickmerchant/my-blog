@@ -20,15 +20,7 @@
   }
 
   :where(.link) {
-    text-decoration-thickness: 0.15em;
     white-space: nowrap;
-    text-decoration: none;
-    color: oklch(from var(--accent) l calc(c / 1.25) h);
-
-    &:hover,
-    &:focus-visible {
-      color: oklch(from var(--accent) l calc(c * 1.25) h);
-    }
   }
 
   :where(.rss) {
