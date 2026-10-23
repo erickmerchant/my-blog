@@ -1,6 +1,6 @@
 import * as Toml from "@std/toml";
 import * as Markdown from "@erickmerchant/markdown";
-import { type HandcraftNode } from "@handcraft/lib";
+import type { HandcraftNode } from "@handcraft/lib";
 
 export type Site = {
   host: string;
