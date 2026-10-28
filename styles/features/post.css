@@ -92,4 +92,8 @@
       font-size: 75%;
     }
   }
+
+  :where(p, li, blockquote) {
+    text-align: justify;
+  }
 }
