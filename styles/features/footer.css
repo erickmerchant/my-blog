@@ -20,18 +20,17 @@
   }
 
   :where(.link) {
+    gap: 0 0.5rem;
+    align-items: baseline;
     white-space: nowrap;
   }
 
   :where(.rss) {
-    display: flex;
-    gap: 0.5rem;
-    align-items: last baseline;
-
-    :where(.rss-icon) {
-      display: block;
+    &::before {
+      display: inline-block;
+      margin-inline-end: 0.5rem;
+      content: " ";
       background: currentColor;
-      display: grid;
       inline-size: auto;
       block-size: 1.2ch;
       aspect-ratio: 1;

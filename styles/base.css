@@ -34,13 +34,17 @@ body {
 
 a {
   color: var(--accent);
-  text-decoration-thickness: 0.15em;
-  text-underline-offset: 0.15em;
+  text-decoration: none;
+  border-bottom: 0.15em solid currentColor;
 }
 
-p {
+p,
+blockquote,
+li {
   text-wrap: pretty;
-  /*hyphens: auto;*/
+  text-align: justify;
+  text-justify: inter-character;
+  text-align-last: start;
 }
 
 h1,

@@ -77,7 +77,6 @@ export default function (
         html.a(
           attr.class("link rss"),
           attr.href("/posts.rss"),
-          html.span(attr.class("rss-icon")),
           text("RSS"),
         ),
       ),
