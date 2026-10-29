@@ -43,8 +43,14 @@ blockquote,
 li {
   text-wrap: pretty;
   text-align: justify;
-  text-justify: inter-character;
+  text-justify: inter-word;
   text-align-last: start;
+  hyphens: auto;
+  word-break: break-word;
+}
+
+code {
+  hyphenate-character: "";
 }
 
 h1,

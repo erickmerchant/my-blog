@@ -12,8 +12,7 @@ custom property, but this time with colors. Again I got nerd-sniped by something
 posted in the Shoptalk Show Discord.
 
 > This isn't wildly interesting but it did seem like a good opportunity for a
-> micro web component
-> [https://codepen.io/chriscoyier/pen/ZYzdgNN?editors=1010](https://codepen.io/chriscoyier/pen/ZYzdgNN?editors=1010).
+> [micro web component](https://codepen.io/chriscoyier/pen/ZYzdgNN?editors=1010).
 > What I'd like to try is to have the text input accept input as well (in any
 > format) and reflect the color back into the color input. But that might
 > require color.js or something.
