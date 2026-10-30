@@ -8,7 +8,7 @@
       "command": "deno serve -A --port=4000 --parallel dist/serve.ts",
       "dependencies": ["build"]
     },
-    "fonts": "deno run -A @erickmerchant/fonts --config fonts.json"
+    "fonts": "deno run -A @erickmerchant/fonts --config fonts/fonts.json"
   },
   "imports": {
     "@erickmerchant/fonts": "jsr:@erickmerchant/fonts@^0.9.1",
