@@ -1,7 +1,7 @@
 import css from "@flint/framework/handlers/css";
 import js from "@flint/framework/handlers/js";
 import flint, { pattern as p } from "@flint/framework";
-import { view } from "@handcraft/lib/ssr";
+import view from "@handcraft/lib/ssr";
 import { getPostURLs as posts } from "./models/post.ts";
 import home from "./pages/home.ts";
 import post from "./pages/post.ts";

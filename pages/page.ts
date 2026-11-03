@@ -1,5 +1,5 @@
-import type { HandcraftNode, HandcraftTag } from "@handcraft/lib";
-import { html } from "@handcraft/lib/h";
+import type { HandcraftNode, HandcraftTag } from "@handcraft/lib/types";
+import html from "@handcraft/lib/html";
 import attr from "@handcraft/lib/attr";
 import text from "@handcraft/lib/text";
 import { type Site } from "../models/site.ts";

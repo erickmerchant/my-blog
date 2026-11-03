@@ -1,4 +1,4 @@
-import { html } from "@handcraft/lib/h";
+import html from "@handcraft/lib/html";
 import attr from "@handcraft/lib/attr";
 import text from "@handcraft/lib/text";
 import { getSite } from "../models/site.ts";

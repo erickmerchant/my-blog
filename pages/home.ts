@@ -1,4 +1,4 @@
-import { html } from "@handcraft/lib/h";
+import html from "@handcraft/lib/html";
 import when from "@handcraft/lib/when";
 import each from "@handcraft/lib/each";
 import attr from "@handcraft/lib/attr";

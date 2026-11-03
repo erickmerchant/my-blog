@@ -1,4 +1,4 @@
-import { html } from "@handcraft/lib/h";
+import html from "@handcraft/lib/html";
 import attr from "@handcraft/lib/attr";
 
 export default function () {

@@ -1,7 +1,7 @@
 import * as Toml from "@std/toml";
 import * as Fs from "@std/fs";
 import * as Markdown from "@erickmerchant/markdown";
-import type { HandcraftNode } from "@handcraft/lib";
+import type { HandcraftNode } from "@handcraft/lib/types";
 
 export type Post = {
   slug: string;

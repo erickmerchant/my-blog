@@ -1,6 +1,6 @@
 @layer {
   mine-sweeper {
-    max-inline-size: 100%;
+    /*max-inline-size: 100%;*/
     box-sizing: border-box;
     display: grid;
     background-color: oklch(95% 0 0);
