@@ -3,11 +3,11 @@
   "specifiers": {
     "jsr:@cfa/gitignore-parser@~0.1.4": "0.1.4",
     "jsr:@erickmerchant/fonts@~0.9.1": "0.9.1",
-    "jsr:@erickmerchant/markdown@0.3": "0.3.0",
-    "jsr:@erickmerchant/mine-sweeper@^2.1.0": "2.1.0",
+    "jsr:@erickmerchant/markdown@~0.3.1": "0.3.1",
+    "jsr:@erickmerchant/mine-sweeper@^2.1.1": "2.1.1",
     "jsr:@feed/feed@^1.3.0": "1.3.0",
     "jsr:@flint/framework@0.44": "0.44.0",
-    "jsr:@handcraft/lib@6": "6.0.0",
+    "jsr:@handcraft/lib@^6.1.2": "6.1.2",
     "jsr:@std/async@^1.5.1": "1.5.1",
     "jsr:@std/cli@^1.0.32": "1.0.32",
     "jsr:@std/collections@^1.1.3": "1.1.7",
@@ -27,9 +27,9 @@
     "npm:highlight.js@^11.12.0": "11.12.0",
     "npm:html-rewriter-wasm@~0.4.1": "0.4.1",
     "npm:lightningcss@^1.33.0": "1.33.0",
-    "npm:marked-highlight@^2.2.4": "2.2.4_marked@18.1.3",
-    "npm:marked@^18.1.3": "18.1.3",
-    "npm:parse5@^8.1.0": "8.1.0",
+    "npm:marked-highlight@^2.2.4": "2.2.4_marked@18.2.0",
+    "npm:marked@^18.2.0": "18.2.0",
+    "npm:parse5@^8.1.1": "8.1.1",
     "npm:subset-font@^2.9.0": "2.9.0",
     "npm:terser@^5.51.2": "5.51.2",
     "npm:unifont@^1.0.3": "1.0.3"
@@ -51,8 +51,8 @@
         "npm:unifont"
       ]
     },
-    "@erickmerchant/markdown@0.3.0": {
-      "integrity": "1034a36c64afb5126ac040b53cef029f7ffd12d7b8131fe02178c89e649468f4",
+    "@erickmerchant/markdown@0.3.1": {
+      "integrity": "221b96f613a68658fc4963ddb7358755fad9f6050f9660568fe312b4a86dbbc3",
       "dependencies": [
         "jsr:@handcraft/lib",
         "npm:highlight.js",
@@ -61,8 +61,8 @@
         "npm:parse5"
       ]
     },
-    "@erickmerchant/mine-sweeper@2.1.0": {
-      "integrity": "34b88e45bd9fe3dea25d28f8a980deede24b0d0ad912627e347676977db4e38b",
+    "@erickmerchant/mine-sweeper@2.1.1": {
+      "integrity": "92c40a0cac914d9744c95f236c8f99b13c4c2961bb723f3178cf2a47aea759ce",
       "dependencies": [
         "jsr:@handcraft/lib"
       ]
@@ -87,8 +87,8 @@
         "npm:terser"
       ]
     },
-    "@handcraft/lib@6.0.0": {
-      "integrity": "923fdd02be4c5a5198fea9a70126902a14a69de4a84639531eeae1bb7a7a32f7",
+    "@handcraft/lib@6.1.2": {
+      "integrity": "1a256f2a59cd075bc270d85f29fd8a0df974e4c79f87ff7512146e1999994570",
       "dependencies": [
         "jsr:@std/html"
       ]
@@ -223,8 +223,8 @@
         "woff2sfnt-sfnt2woff"
       ]
     },
-    "harfbuzzjs@1.6.3": {
-      "integrity": "sha512-R5Mfo1UUvQmZJmtScP7fBLKYKnYu82ZdtFT7WbQYeGb3Ut5PR3xfFCJ5/FjbcW5SAfb9cqCSny/KNjp+NJBx0w=="
+    "harfbuzzjs@1.6.4": {
+      "integrity": "sha512-T/PyfhVt1gGR2Tkf5KJUj1DQFkVBXHw552lS1iLEEDhV1Lukb3eq1pk2ov85kgbT2YUiZtJBTak9w+M7YgzUEQ=="
     },
     "highlight.js@11.12.0": {
       "integrity": "sha512-nbfWpyRMcMrPMmDwJB+dhX/eiaPKtc2RB+0QZskqJ3WjRA/FDS0e9hZrx8EC/lbEv8gXy98FcDbNa/dspAaJMg=="
@@ -306,14 +306,14 @@
         "lightningcss-win32-x64-msvc"
       ]
     },
-    "marked-highlight@2.2.4_marked@18.1.3": {
+    "marked-highlight@2.2.4_marked@18.2.0": {
       "integrity": "sha512-PZxisNMJDduSjc0q6uvjsnqqHCXc9s0eyzxDO9sB1eNGJnd/H1/Fu+z6g/liC1dfJdFW4SftMwMlLvsBhUPrqQ==",
       "dependencies": [
         "marked"
       ]
     },
-    "marked@18.1.3": {
-      "integrity": "sha512-9ChMH8EVVgjgID49nsL6IWxWk5c6GtAsq/xw7U1ggkjkU5AGuv68oLTVlFRtvcUYZtpbNyjyvGo3YDu0fGapiw==",
+    "marked@18.2.0": {
+      "integrity": "sha512-KaeL+tAbtvI930q7HE2PN5lYXYdT8EiSmxHlN6F3rsfb57wd5mp5W5TLazpdj4inTQBJdgjYwbs40W/0VUGU+Q==",
       "bin": true
     },
     "mdn-data@2.27.1": {
@@ -328,8 +328,8 @@
     "pako@1.0.11": {
       "integrity": "sha512-4hLB8Py4zZce5s4yd9XzopqwVv/yGNhV1Bl8NTmCq1763HeK2+EwVTv+leGeL13Dnh2wfbqowVPXCIO0z4taYw=="
     },
-    "parse5@8.1.0": {
-      "integrity": "sha512-sq3qBFpee5jeocbFbO48VHlGr8sT7mbXS0vxlKN6sottBtJzrOG3998sr0llSZcQAGgfpdmEYAIZE0P9z0dE8w==",
+    "parse5@8.1.1": {
+      "integrity": "sha512-EcR/6WDcU7b2N3vQSxKALCk9lXGtUMQxXio008OEMBE0kavu/7JLfBEeFPzi43nMqVDSbEn3QCK+BMCc9zO//w==",
       "dependencies": [
         "entities"
       ]
@@ -368,8 +368,8 @@
       ],
       "bin": true
     },
-    "undici@8.12.3": {
-      "integrity": "sha512-+fdndUTwBP86cVjihTp21hZHo7d6oj1c/47XPA3lL8mM0XHs+C4EkcjmgRsFnFk2f/UONGDy9ItBItmXsLOQHw=="
+    "undici@8.12.4": {
+      "integrity": "sha512-8Mx+uNKKER2bA4AdtedkqRbwUCIJFr2nJckXRe5yrDqzePqwLP7VNcctN8/XdmDSbF7mS+jJKIszlL+vbam1VA=="
     },
     "unifont@1.0.3": {
       "integrity": "sha512-XGnEwj5sWdCbiBX01mWLSBncS0yMRjnLygau3IfdOlfjMacNIQvTGW4VH7pWBq+gGWArfSef/CensMLjMmIr/A==",
@@ -400,11 +400,11 @@
   "workspace": {
     "dependencies": [
       "jsr:@erickmerchant/fonts@~0.9.1",
-      "jsr:@erickmerchant/markdown@0.3",
-      "jsr:@erickmerchant/mine-sweeper@^2.1.0",
+      "jsr:@erickmerchant/markdown@~0.3.1",
+      "jsr:@erickmerchant/mine-sweeper@^2.1.1",
       "jsr:@feed/feed@^1.3.0",
       "jsr:@flint/framework@0.44",
-      "jsr:@handcraft/lib@6",
+      "jsr:@handcraft/lib@^6.1.2",
       "jsr:@std/cli@^1.0.32",
       "jsr:@std/fs@^1.0.24",
       "jsr:@std/path@^1.1.6",
