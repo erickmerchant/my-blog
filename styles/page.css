@@ -4,7 +4,7 @@
   max-inline-size: 40rem;
   display: flex;
   flex-direction: column;
-  padding-inline: 1rem;
+  padding-inline: 0.5rem;
   container-type: inline-size;
 
   > * {

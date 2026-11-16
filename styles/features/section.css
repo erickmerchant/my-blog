@@ -1,8 +1,4 @@
 .section {
-  > * {
-    margin-block: 0.5rem;
-  }
-
   :where(.list) {
     list-style: none;
     padding-inline-start: 0;

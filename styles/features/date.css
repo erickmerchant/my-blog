@@ -1,4 +1,9 @@
 .date {
+  display: block;
   font-variant-numeric: tabular-nums;
   font-weight: 300;
+
+  :where(.post) & {
+    margin-block-end: 1rem;
+  }
 }
