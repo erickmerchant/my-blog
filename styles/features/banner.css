@@ -22,7 +22,7 @@
     :where(a) {
       white-space: nowrap;
       font-size: clamp(2rem, 12cqi, 4rem);
-      margin-inline: 1rem;
+      margin-inline: 0.4rem;
       display: inline;
       color: var(--accent);
       text-decoration: none;
