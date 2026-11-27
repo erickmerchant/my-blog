@@ -68,38 +68,6 @@
       cursor: oklch(90% 0 0);
     }
 
-    &::part(armed-adjacent-count--1) {
-      color: oklch(50% 0.4 260);
-    }
-
-    &::part(armed-adjacent-count--2) {
-      color: oklch(50% 0.4 215);
-    }
-
-    &::part(armed-adjacent-count--3) {
-      color: oklch(50% 0.4 170);
-    }
-
-    &::part(armed-adjacent-count--4) {
-      color: oklch(50% 0.4 125);
-    }
-
-    &::part(armed-adjacent-count--5) {
-      color: oklch(50% 0.4 80);
-    }
-
-    &::part(armed-adjacent-count--6) {
-      color: oklch(50% 0.4 35);
-    }
-
-    &::part(armed-adjacent-count--7) {
-      color: oklch(50% 0.4 350);
-    }
-
-    &::part(armed-adjacent-count--8) {
-      color: oklch(50% 0.4 305);
-    }
-
     &:part(flagged revealed) {
       --content:;
     }
@@ -143,43 +111,43 @@ mine-sweeper {
       oklch(from var(--background) calc(l * 0.95) c h),
       oklch(from var(--background) calc(l * 1.2) calc(c * 3) h)
     );
+
+    @container style(--armed-adjacent-count: 1) {
+      color: light-dark(oklch(50% 0.4 260), oklch(100% 0.4 260));
+    }
+
+    @container style(--armed-adjacent-count: 2) {
+      color: light-dark(oklch(50% 0.4 215), oklch(80% 0.4 215));
+    }
+
+    @container style(--armed-adjacent-count: 3) {
+      color: light-dark(oklch(50% 0.4 170), oklch(80% 0.4 170));
+    }
+
+    @container style(--armed-adjacent-count: 4) {
+      color: light-dark(oklch(50% 0.4 125), oklch(80% 0.4 125));
+    }
+
+    @container style(--armed-adjacent-count: 5) {
+      color: light-dark(oklch(50% 0.4 80), oklch(80% 0.4 80));
+    }
+
+    @container style(--armed-adjacent-count: 6) {
+      color: light-dark(oklch(50% 0.4 35), oklch(80% 0.4 35));
+    }
+
+    @container style(--armed-adjacent-count: 7) {
+      color: light-dark(oklch(50% 0.4 350), oklch(80% 0.4 350));
+    }
+
+    @container style(--armed-adjacent-count: 8) {
+      color: light-dark(oklch(50% 0.4 305), oklch(80% 0.4 305));
+    }
   }
 
   &::part(revealed) {
     background-color: var(--background);
     cursor: light-dark(oklch(90% 0 0), oklch(90% 0 0));
-  }
-
-  &::part(armed-adjacent-count--1) {
-    color: light-dark(oklch(50% 0.4 260), oklch(100% 0.4 260));
-  }
-
-  &::part(armed-adjacent-count--2) {
-    color: light-dark(oklch(50% 0.4 215), oklch(80% 0.4 215));
-  }
-
-  &::part(armed-adjacent-count--3) {
-    color: light-dark(oklch(50% 0.4 170), oklch(80% 0.4 170));
-  }
-
-  &::part(armed-adjacent-count--4) {
-    color: light-dark(oklch(50% 0.4 125), oklch(80% 0.4 125));
-  }
-
-  &::part(armed-adjacent-count--5) {
-    color: light-dark(oklch(50% 0.4 80), oklch(80% 0.4 80));
-  }
-
-  &::part(armed-adjacent-count--6) {
-    color: light-dark(oklch(50% 0.4 35), oklch(80% 0.4 35));
-  }
-
-  &::part(armed-adjacent-count--7) {
-    color: light-dark(oklch(50% 0.4 350), oklch(80% 0.4 350));
-  }
-
-  &::part(armed-adjacent-count--8) {
-    color: light-dark(oklch(50% 0.4 305), oklch(80% 0.4 305));
   }
 }
 
